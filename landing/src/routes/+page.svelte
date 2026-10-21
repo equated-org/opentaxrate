@@ -12,6 +12,7 @@
 	import Features from '$lib/landing/Features.svelte';
 	import Showcase from '$lib/landing/Showcase.svelte';
 	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
+	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
 	import Limited from '$lib/result/Limited.svelte';
 	import RateList from '$lib/result/RateList.svelte';
@@ -189,19 +190,7 @@
 			</section>
 		</main>
 
-		<footer class="mt-20 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-[var(--border)] px-5 py-8 text-[13px] text-[var(--text-muted)]">
-			<a class="hover:text-[var(--text)]" href="/sources">Sources</a>
-			<span aria-hidden="true">·</span>
-			<a class="hover:text-[var(--text)]" href="{GITHUB}#quick-start" target="_blank" rel="noopener">Run it yourself</a>
-			<span aria-hidden="true">·</span>
-			<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/docs/context/api.md" target="_blank" rel="noopener">API</a>
-			<span aria-hidden="true">·</span>
-			<a class="hover:text-[var(--text)]" href="{GITHUB}#coverage" target="_blank" rel="noopener">Coverage</a>
-			<span aria-hidden="true">·</span>
-			<a class="hover:text-[var(--text)]" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
-			<span aria-hidden="true">·</span>
-			<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/LICENSE" target="_blank" rel="noopener">Elastic License 2.0</a>
-		</footer>
+		<SiteFooter />
 	</div>
 {:else}
 	<div class="flex min-h-dvh flex-col">
