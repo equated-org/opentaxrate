@@ -10,7 +10,26 @@ import {
   timestamp,
   index,
   unique,
+  jsonb,
+  primaryKey,
 } from "drizzle-orm/pg-core";
+import type { SourcedPoint } from "../geocoding/types.js";
+
+/** Runtime-only tables: refresh never reads or replaces these rows. */
+export const geocodeResults = pgTable("geocode_results", {
+  addressKey: text("address_key").notNull(),
+  provider: text("provider").notNull(),
+  result: jsonb("result").$type<SourcedPoint | null>(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+}, t => [primaryKey({ columns: [t.addressKey, t.provider] }), index("idx_geocode_results_expiry").on(t.expiresAt)]);
+
+export const geocoderUsage = pgTable("geocoder_usage", {
+  provider: text("provider").notNull(),
+  day: date("day").notNull(),
+  calls: integer("calls").notNull(),
+  nextCallAt: timestamp("next_call_at", { withTimezone: true }).notNull(),
+}, t => [primaryKey({ columns: [t.provider, t.day] })]);
 
 /**
  * Equated's own copy of the states' sales tax rate and boundary data, which

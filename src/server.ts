@@ -5,7 +5,8 @@
  *   GET /v1/coverage                              each state's method and files
  *   GET /health                                   database reachable
  * A refusal is a 422 whose message names the candidate rates; missing data
- * is a 502. Read-only; loading data is the CLI's.
+ * is a 502. Runtime writes are limited to the geocoding cache and budgets;
+ * loading tax data is the CLI's.
  *
  * For a public deployment, each off unless set: CORS for the origins in
  * OPENTAXRATE_CORS_ORIGINS, a per-IP limit on /v1/rate
@@ -23,6 +24,7 @@ import { RateError } from "./errors.js";
 import { lookUpRate } from "./lookup.js";
 import { limitFromEnv } from "./limits.js";
 import { answerKey, cacheFromEnv } from "./cache.js";
+import { geocoderCoverage } from "./geocoding/registry.js";
 
 const query = z.object({
   state: z.string().trim().length(2),
@@ -78,6 +80,7 @@ app.get("/v1/coverage", async (c) => {
     ADDRESS_RATE_STATES.map((state) => ({
       state,
       method: addressRates.method(state),
+      geocoders: geocoderCoverage(),
       files: releases.filter((r) => r.state === state).map((r) => ({ kind: r.kind, file: r.file, rows: r.rows, loadedAt: r.loadedAt })),
     })),
   );

@@ -12,6 +12,10 @@
  * Rural addresses often have no ZIP+4 at all, and get no answer here.
  */
 
+import { geocoderProviders } from "../geocoding/registry.js";
+import { postgresGeocodeBudget } from "../geocoding/budget.js";
+import { GeocoderError } from "../geocoding/types.js";
+
 export interface AddressToStandardize {
   street: string;
   city: string;
@@ -44,6 +48,7 @@ const PLACED = ["rooftop", "point", "range_interpolation"];
 export function addressStandardizer(): Standardizer | undefined {
   const key = process.env.GEOCODIO_API_KEY;
   if (!key) return undefined;
+  const provider = geocoderProviders().find(p => p.id === "geocodio")!;
   return async (a) => {
     const url = new URL(GEOCODIO);
     url.search = new URLSearchParams({
@@ -56,10 +61,15 @@ export function addressStandardizer(): Standardizer | undefined {
       api_key: key,
     }).toString();
     try {
+      // Standardization uses the same vendor quota as forward geocoding.
+      if (!await postgresGeocodeBudget.reserve(provider)) return null;
       const response = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
-      if (!response.ok) return null;
-      return fromGeocodio(await response.json(), a.state);
-    } catch {
+      if (!response.ok) throw new GeocoderError(response.status);
+      const result = fromGeocodio(await response.json(), a.state);
+      postgresGeocodeBudget.success(provider);
+      return result;
+    } catch (error) {
+      postgresGeocodeBudget.failure(provider, error);
       return null;
     }
   };

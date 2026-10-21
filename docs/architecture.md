@@ -26,7 +26,7 @@ flowchart LR
   api -. California only .-> cdtfa[[CDTFA live lookup]]
 ```
 
-The API never writes and never downloads data. The refresh job never answers requests. They share only the database.
+The API never downloads tax datasets. It writes only the runtime geocoding cache and shared usage budgets; the refresh job owns tax data and never reads or replaces those runtime tables. Strict read-only deployments use cached geocodes only. The refresh job never answers requests. They share only the database.
 
 ## One lookup, three engines
 
@@ -60,7 +60,7 @@ Missouri publishes one total per jurisdiction code (place, county, district comb
 
 ### Map engine (everywhere else)
 
-1. **Locate.** Mapbox (if configured), the Census geocoder and Nominatim are asked at once. The most precise point wins; if they disagree, the margin around it widens to their spread; past 250 m the address isn't placed.
+1. **Locate.** The locator checks permitted cached results, then asks a cheap pair of enabled providers, preferring independent datasets. A unique largest pairwise-agreeing group is accepted, with disagreement widening its margin; tied groups are refused. One dataset alone requires a typed-city containment check. Photon supplies OSM results; Nominatim is not used. A deciding boundary triggers one refinement and a full rate recomputation at the corrected point.
 2. **Contain.** PostGIS finds the outlines near the point through a spatial index, and reports for each whether it holds the point and how far the point is from its edge, in metres on the spheroid. Outlines come from the state when it publishes them (Texas, Illinois, Arizona, New Mexico, Colorado, Alaska) and from Census TIGER otherwise.
 3. **Stack.** Every rate row has a type that says how it combines:
 
