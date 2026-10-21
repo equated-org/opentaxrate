@@ -1,0 +1,13 @@
+node_modules
+dist
+data
+.env
+*.log
+
+# Private development records stay outside the public repository.
+/docs/plans/
+/docs/research/
+/docs/accuracy-log.md
+/client/design-qa.md
+.claude/worktrees/
+__pycache__/
