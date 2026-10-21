@@ -36,7 +36,9 @@ export const newMexico: GeoState = {
       const seen = new Set<string>();
       for (const f of features) {
         const a = f.attributes;
-        const code = String(a.locat_cdr || a.locat_cd2 || a.locat_cd1 || "").trim();
+        // Unused code fields hold a space, not nothing: on tribal land the
+        // remainder code is " " and the two tribal codes follow.
+        const code = [a.locat_cdr, a.locat_cd2, a.locat_cd1].map((c) => String(c ?? "").trim()).find(Boolean) ?? "";
         const rate = Number(a.grt_rate) || Number(a.grt_rate2);
         if (!/^\d{2}-\d{3}$/.test(code) || !rate) continue;
         if (i === 0)

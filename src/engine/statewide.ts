@@ -31,12 +31,10 @@ const RATES: Record<string, DatedRate[]> = {
   ME: [{ rate: 0.055, from: "2013-10-01" }],
   MD: [{ rate: 0.06, from: "2008-01-03" }],
   MA: [{ rate: 0.0625, from: "2009-08-01" }],
-  // DC Office of Tax and Revenue: 6.5% from Oct 1 2025, 7% from Oct 1 2026.
-  DC: [
-    { rate: 0.07, from: "2026-10-01" },
-    { rate: 0.065, from: "2025-10-01" },
-    { rate: 0.06, from: "2013-10-01" },
-  ],
+  // DC Office of Tax and Revenue, notice of Oct 1 2025 tax changes: the
+  // general rate stays 6%; the rise to 7% once set for Oct 1 2026 has been
+  // postponed, and OTR now says 6% applies through Sept 30 2027.
+  DC: [{ rate: 0.06, from: "2013-10-01" }],
 };
 
 /** Montana Department of Revenue's resort areas, by the city an address in
@@ -53,6 +51,8 @@ const MONTANA_RESORT_AREAS = new Set([
   "ST REGIS",
   "SAINT REGIS",
   "WOLF CREEK",
+  // Cooke City's resort area takes in Silver Gate, which has its own ZIP.
+  "SILVER GATE",
 ]);
 
 export const STATEWIDE_STATES = Object.keys(RATES);

@@ -4,14 +4,16 @@
  * dates): 4% state, plus the county's rate, plus the city's inside its
  * limits.
  *
- * A county whose rate differs inside named cities is placed by those cities'
- * limits, where its codes name the cities (CITY_SPLITS): a "CL" code is the
- * county's rate inside them in place of its base rate, an "EXC" code its
- * added rate outside them. Two things the file
- * can't place without outlines it doesn't have are refused rather than
- * guessed:
- *   - a county whose rate also differs inside police jurisdictions or in
- *     cities its codes don't name;
+ * A county with more than one general code taxes differently inside named
+ * cities, outside them, and in their police jurisdictions. Where each code
+ * applies is from ALDOR's "City and County Rate and Code Explanations" page
+ * (COUNTY_RULES, by locality code): the county's rate outside every named
+ * city is its base (00) row; inside a named city, the difference from it
+ * (0c); and where a police jurisdiction's county rate differs, the city
+ * gets a police jurisdiction (pj) row, so an address within its reach is
+ * refused. A county with a code no rule names is refused outright ("no"),
+ * as is anything else the file can't place without outlines it doesn't
+ * have:
  *   - an address outside a city but within three miles of it, where the
  *     city's police jurisdiction may tax at half its rate.
  * Codes for abated businesses ("unabated") don't apply to general sales.
@@ -23,33 +25,130 @@ import { fetchText, isoDay, shiftDay } from "./sources.js";
 const FILE = "https://www.revenue.alabama.gov/wp-content/uploads/2024/03/taxrates.csv";
 const FROM = "2020-01-01";
 
-/** County codes that apply inside (CL) or outside (EXC) the cities they
- *  name, often abbreviated, by code name. */
-const CITY_SPLITS: Record<string, { inside: boolean; cities: string[] }> = {
-  "MOBILE COUNTY CL PRICH & MOBIL": { inside: true, cities: ["Prichard", "Mobile"] },
-  "LEE CO CL AUB & OPE & PHENIX": { inside: true, cities: ["Auburn", "Opelika", "Phenix City"] },
-  "DALE CO CL DALEVILLE & OZARK": { inside: true, cities: ["Daleville", "Ozark"] },
-  "ST CLAIR COUNTY CL PELL CITY": { inside: true, cities: ["Pell City"] },
-  "MARION COUNTY CL WINFIELD": { inside: true, cities: ["Winfield"] },
-  "PIKE COUNTY CL TROY": { inside: true, cities: ["Troy"] },
-  "PIKE COUNTY EXC CL TROY": { inside: false, cities: ["Troy"] },
-  "ELMORE COUNTY CL PRATTVILLE": { inside: true, cities: ["Prattville"] },
-  "MADISON CO EXC CL HUNTSVILLE": { inside: false, cities: ["Huntsville"] },
-  "LAUDERDALE COUNTY FLORENCE": { inside: true, cities: ["Florence"] },
+/** Cities named by a rule: a list, every city in the file ("any"), or every
+ *  city with a sales tax of its own ("levying"). For police jurisdictions,
+ *  "any" and "levying" mean the cities ALDOR files under the county. */
+type Cities = string[] | "any" | "levying";
+interface CountyRule {
+  /** Codes summed outside every named city and police jurisdiction. */
+  outside: string[];
+  /** Codes summed inside the corporate limits of each group's cities. */
+  inside: Array<{ cities: Cities; codes: string[] }>;
+  /** Codes summed outside the cities but inside their police jurisdiction. */
+  pj?: Array<{ cities: Cities; codes: string[] }>;
+  /** The outside codes are for unincorporated land, so a city ALDOR files
+   *  under the county that no rule names (one incorporated since the
+   *  explanations were written) is refused rather than given them. */
+  uninc?: boolean;
+}
+
+/** ALDOR's county code explanations, as read on 2026-10-21. */
+const COUNTY_RULES: Record<string, CountyRule> = {
+  CALHOUN: {
+    uninc: true,
+    outside: ["7008"],
+    inside: [{ cities: ["Oxford", "Anniston", "Ohatchee", "Jacksonville", "Piedmont", "Weaver", "Hobson City", "Glencoe", "Southside"], codes: ["7408"] }],
+    pj: [
+      { cities: ["Oxford", "Southside"], codes: ["7008"] },
+      { cities: ["Glencoe", "Hobson City", "Weaver"], codes: ["7108"] },
+      { cities: ["Anniston", "Jacksonville", "Piedmont"], codes: ["7208"] },
+      { cities: ["Ohatchee"], codes: ["7308"] },
+    ],
+  },
+  CHAMBERS: {
+    uninc: true,
+    outside: ["7109"],
+    inside: [{ cities: ["LaFayette", "Valley", "Lanett", "Waverly", "Five Points"], codes: ["7009"] }],
+    pj: [
+      { cities: ["Lanett"], codes: ["7209"] },
+      { cities: ["Valley"], codes: ["7309"] },
+      { cities: ["LaFayette"], codes: ["7409"] },
+      { cities: ["Waverly"], codes: ["7609"] },
+      { cities: ["Five Points"], codes: ["7070"] },
+      { cities: ["Wadley"], codes: ["7170"] },
+    ],
+  },
+  CHILTON: { outside: ["7011"], inside: [{ cities: ["Clanton", "Jemison", "Maplesville", "Thorsby"], codes: ["7711"] }] },
+  CULLMAN: { outside: ["7022"], inside: [{ cities: ["Arab"], codes: ["7122"] }], pj: [{ cities: ["Arab"], codes: ["7122"] }] },
+  DALE: { outside: ["7023"], inside: [{ cities: ["Daleville", "Ozark"], codes: ["7723"] }] },
+  ELMORE: {
+    uninc: true,
+    outside: ["7026", "7470"],
+    inside: [
+      { cities: ["Prattville"], codes: ["7726"] },
+      { cities: ["Wetumpka"], codes: ["7026", "7471"] },
+      { cities: ["Elmore"], codes: ["7026", "7478"] },
+      { cities: ["Deatsville"], codes: ["7026", "7480"] },
+      { cities: ["Eclectic", "Millbrook", "Tallassee", "Coosada"], codes: ["7026"] },
+    ],
+    pj: [
+      { cities: ["Eclectic"], codes: ["7026", "7473"] },
+      { cities: ["Elmore"], codes: ["7026", "7479"] },
+      { cities: ["Millbrook"], codes: ["7026", "7475"] },
+      { cities: ["Tallassee"], codes: ["7026", "7477"] },
+    ],
+  },
+  ESCAMBIA: {
+    outside: ["7727"],
+    inside: [{ cities: ["Atmore", "Brewton", "East Brewton", "Flomaton", "Pollard", "Riverview"], codes: ["7027"] }],
+    pj: [
+      { cities: ["Atmore", "Brewton", "East Brewton", "Flomaton"], codes: ["7127"] },
+      { cities: ["Riverview"], codes: ["7227"] },
+    ],
+  },
+  LAUDERDALE: { outside: ["7039"], inside: [{ cities: ["Florence"], codes: ["7739"] }] },
+  LEE: {
+    outside: ["7041"],
+    inside: [{ cities: ["Auburn", "Opelika", "Phenix City"], codes: ["7741"] }],
+    pj: [
+      { cities: ["Opelika"], codes: ["7141"] },
+      { cities: ["Phenix City"], codes: ["7241"] },
+    ],
+  },
+  MADISON: { outside: ["7045", "7745"], inside: [{ cities: ["Huntsville"], codes: ["7745"] }] },
+  MARION: { outside: ["7047"], inside: [{ cities: ["Winfield"], codes: ["7747"] }] },
+  MARSHALL: { outside: ["7048"], inside: [{ cities: ["Albertville", "Arab", "Boaz", "Guntersville"], codes: ["7748"] }] },
+  MOBILE: { outside: ["7049"], inside: [{ cities: ["Prichard", "Mobile"], codes: ["7749"] }] },
+  MORGAN: {
+    uninc: true,
+    outside: ["7052"],
+    inside: [
+      { cities: ["Priceville"], codes: ["7252"] },
+      { cities: ["Somerville"], codes: ["7352"] },
+      { cities: ["Eva"], codes: ["7452"] },
+      { cities: ["Decatur", "Hartselle", "Falkville", "Trinity"], codes: ["7752"] },
+    ],
+  },
+  PIKE: { outside: ["7055"], inside: [{ cities: ["Troy"], codes: ["7755"] }] },
+  RUSSELL: {
+    outside: ["7057"],
+    inside: [{ cities: ["Hurtsboro", "Phenix City"], codes: ["7757"] }],
+    pj: [{ cities: ["Hurtsboro", "Phenix City"], codes: ["7157"] }],
+  },
+  "ST CLAIR": { outside: ["7059"], inside: [{ cities: ["Pell City"], codes: ["7759"] }] },
+  TALLADEGA: { outside: ["7061"], inside: [{ cities: "any", codes: ["7761"] }], pj: [{ cities: "any", codes: ["7161"] }] },
+  TUSCALOOSA: { outside: ["7063"], inside: [{ cities: "levying", codes: ["7763"] }], pj: [{ cities: "levying", codes: ["7163"] }] },
 };
-/** A county police jurisdiction's own code; the police jurisdiction refusal
- *  already covers where it applies. */
-const PJ_CODE = /\bPJ\b/;
+
+/** A county code that applies across the whole county, beside its base. */
+const COUNTYWIDE = /^[A-Z .']+ (?:COUNTY|CO)(?: SPECIAL REVENUE| EDUCATION| COUNTY-WIDE TAX)?$/;
+
+interface Period {
+  rate: number;
+  from: string;
+  to?: string;
+}
 
 export const alabama = stateTable("AL", async (dir) => {
   const csv = await fetchText(FILE, dir, "taxrates.csv");
   const locals: LocalRate[] = [];
-  const split = new Set<string>();
-  const inside: Split[] = [];
-  const outsideOnly: Split[] = [];
-  const excluded = new Set<LocalRate>();
+  /** County codes by county, then by locality code. */
+  const countyCodes = new Map<string, Map<string, { name: string; periods: Period[] }>>();
+  /** Each city's name as its rows give it, with ALDOR's county number. */
+  const cities = new Map<string, { county: number; levies: boolean }>();
+  const countyNames = new Map<number, string>();
   for (const line of csv.replace(/^﻿/, "").split(/\r?\n/).slice(1)) {
-    const [code, name, , taxType, rateType, , active, inactive, rate, , pj, , pjRate] = line.split(",").map((c) => c.trim());
+    const [code, name, countyNo, taxType, rateType, , active, inactive, rate, , pj, , pjRate] = line.split(",").map((c) => c.trim());
     if (taxType !== "ST" || rateType !== "GENER" || !code || !name) continue;
     const from = isoDay(active);
     if (!from) continue;
@@ -60,20 +159,12 @@ export const alabama = stateTable("AL", async (dir) => {
     if (code.startsWith("7")) {
       const county = /^([A-Z .']+?) (?:COUNTY|CO)\b/.exec(name)?.[1];
       if (!county) continue;
-      const named = CITY_SPLITS[name];
-      const rateOf = Number(rate) / 100;
-      if (/^[A-Z .']+ COUNTY$/.test(name)) locals.push({ name: county, rate: rateOf, ...dated, type: "00" });
-      else if (named) {
-        if (named.inside) for (const city of named.cities) inside.push({ county, city, rate: rateOf, ...dated });
-        else {
-          const row: LocalRate = { name: county, rate: rateOf, ...dated, type: "00" };
-          locals.push(row);
-          excluded.add(row);
-          for (const city of named.cities) outsideOnly.push({ county, city, rate: rateOf, ...dated });
-        }
-      } else if (PJ_CODE.test(name) && !/\bCL\b|UNINC|EXC|CITIES/.test(name)) continue;
-      else if (/\bCL\b|\bEXC\b|UNINC|CITIES|\bCITY\b|&/.test(name)) split.add(county);
-      else locals.push({ name: county, rate: rateOf, ...dated, type: "00" });
+      countyNames.set(Number(countyNo), county);
+      const codes = countyCodes.get(county) ?? new Map();
+      countyCodes.set(county, codes);
+      const known = codes.get(code) ?? { name, periods: [] };
+      known.periods.push({ rate: Number(rate) / 100, ...dated });
+      codes.set(code, known);
     } else if (code.startsWith("9")) {
       // A district inside a town is listed like a town but has no outline.
       if (/ DIST$/.test(name)) continue;
@@ -81,55 +172,99 @@ export const alabama = stateTable("AL", async (dir) => {
       const within = / WITHIN ([A-Z ]+) CO$/.exec(name)?.[1];
       const inCounty = within ? titleCase(within) : undefined;
       const city = name.replace(/ (?:WITHIN [A-Z ]+ CO|S&U|SALES & USE|SALES)$/, "");
+      const seen = cities.get(city);
+      const levies = Number(rate) > 0 && (!to || to >= "2026-01-01");
+      cities.set(city, { county: Number(countyNo), levies: Boolean(seen?.levies) || levies });
       locals.push({ name: city, rate: Number(rate) / 100, ...dated, type: "01", inCounty });
       if (pj === "Y" && Number(pjRate) > 0)
         locals.push({ name: city, rate: Number(pjRate) / 100, ...dated, type: "pj", inCounty });
     }
   }
-  // A countywide add-on and a base rate for one county are separate rows
-  // under one code; they are summed by period.
-  const merged = sumByCode(locals);
-  merged.push(...cityDifferences(locals.filter((l) => !excluded.has(l)), inside, outsideOnly));
-  for (const county of split) merged.push({ name: county, rate: 0, from: FROM, type: "no" });
+
+  const counties: LocalRate[] = [];
+  for (const [county, codes] of countyCodes) {
+    const rule = COUNTY_RULES[county];
+    if (rule) {
+      const named = new Set([...rule.outside, ...rule.inside.flatMap((g) => g.codes), ...(rule.pj ?? []).flatMap((g) => g.codes)]);
+      const unnamed = [...codes].filter(([code, c]) => !named.has(code) && c.periods.some((p) => p.rate));
+      if (unnamed.length) {
+        console.warn(`AL: ${county} County has codes no rule names (${unnamed.map(([c]) => c).join(", ")}); refusing it`);
+        counties.push({ name: county, rate: 0, from: FROM, type: "no" });
+        continue;
+      }
+      counties.push(...ruleRows(county, rule, codes, cities, countyNames));
+      continue;
+    }
+    // Without a rule, every code must apply countywide; they add up.
+    if ([...codes.values()].every((c) => COUNTYWIDE.test(c.name)))
+      counties.push(...sumByCode([...codes.values()].flatMap((c) => c.periods.map((p) => ({ name: county, ...p, type: "00" as const })))));
+    else counties.push({ name: county, rate: 0, from: FROM, type: "no" });
+  }
   return {
     stateRates: [{ rate: 0.04, from: FROM }],
-    locals: merged,
+    // A city listed once per county it spans has one rate.
+    locals: sumByCode([...locals, ...counties]),
     source: "AL DOR local tax rates file",
     skipUnmatchedCities: true,
   };
 });
 
-interface Split {
-  county: string;
-  city: string;
-  rate: number;
-  from: string;
-  to?: string;
-}
-
-/** Each named city's county rate less the county's rate outside it, as a
- *  0c row: inside, its CL rate (or the base rate) stands where the base rate
- *  and any EXC rate would. `base` is the county's rows other than EXC ones. */
-function cityDifferences(locals: LocalRate[], inside: Split[], outsideOnly: Split[]): LocalRate[] {
+/** A county's rows from its rule: its base outside every named city, each
+ *  named city's difference from it, and a police jurisdiction row for each
+ *  city whose police jurisdiction changes the county's rate. */
+function ruleRows(
+  county: string,
+  rule: CountyRule,
+  codes: Map<string, { name: string; periods: Period[] }>,
+  cities: Map<string, { county: number; levies: boolean }>,
+  countyNames: Map<number, string>,
+): LocalRate[] {
+  const days = [
+    ...new Set([...codes.values()].flatMap((c) => c.periods.flatMap((p) => [p.from, p.to ? shiftDay(p.to, 1) : null])).filter(Boolean) as string[]),
+  ].sort();
+  /** The codes' summed rate on a day, or null when none is in effect. */
+  const rateOn = (list: string[], day: string) => {
+    const live = list.flatMap((code) => (codes.get(code)?.periods ?? []).filter((p) => p.from <= day && (!p.to || p.to >= day)));
+    return live.length ? Math.round(live.reduce((sum, p) => sum + p.rate, 0) * 1e6) / 1e6 : null;
+  };
+  const countyNo = [...countyNames].find(([, name]) => name === county)?.[0];
+  const named = (which: Cities, pj: boolean) =>
+    Array.isArray(which)
+      ? which
+      : [...cities]
+          .filter(([, c]) => (which === "any" || c.levies) && (!pj || c.county === countyNo))
+          .map(([name]) => name);
   const out: LocalRate[] = [];
-  const cities = new Map<string, string>();
-  for (const s of [...inside, ...outsideOnly]) cities.set(s.city, s.county);
-  for (const [city, county] of cities) {
-    const base = locals.filter((l) => l.type === "00" && l.name === county);
-    const exc = outsideOnly.filter((o) => o.county === county && o.city === city);
-    const cl = inside.filter((i) => i.county === county && i.city === city);
-    const days = [...new Set([...base, ...exc, ...cl].flatMap((r) => [r.from, r.to ? shiftDay(r.to, 1) : null]).filter(Boolean) as string[])].sort();
-    days.forEach((day, i) => {
-      const live = <T extends { from: string; to?: string }>(rows: T[]) => rows.filter((r) => r.from <= day && (!r.to || r.to >= day));
-      const baseRate = live(base).reduce((sum, r) => sum + r.rate, 0);
-      const excRate = live(exc).reduce((sum, r) => sum + r.rate, 0);
-      const clRows = live(cl);
-      const insideRate = clRows.length ? clRows.reduce((sum, r) => sum + r.rate, 0) : baseRate;
-      const rate = Math.round((insideRate - baseRate - excRate) * 1e6) / 1e6;
+  const span = (i: number) => (days[i + 1] ? shiftDay(days[i + 1], -1) : undefined);
+  days.forEach((day, i) => {
+    const outside = rateOn(rule.outside, day);
+    if (outside === null) return;
+    out.push({ name: county, rate: outside, from: day, to: span(i), type: "00" });
+    for (const group of rule.inside) {
+      const inside = rateOn(group.codes, day) ?? outside;
+      const rate = Math.round((inside - outside) * 1e6) / 1e6;
       if (rate)
-        out.push({ name: city, rate, from: day, to: days[i + 1] ? shiftDay(days[i + 1], -1) : undefined, type: "0c", inCounty: titleCase(county) });
-    });
-  }
+        for (const city of named(group.cities, false))
+          out.push({ name: city, rate, from: day, to: span(i), type: "0c", inCounty: titleCase(county) });
+    }
+    // An unnamed city in an "unincorporated areas" county: its rate could be
+    // the outside one or the first named group's.
+    if (rule.uninc && rule.inside.length) {
+      const listed = new Set(rule.inside.flatMap((g) => named(g.cities, false)));
+      const first = rateOn(rule.inside[0].codes, day) ?? outside;
+      for (const [city, c] of cities)
+        if (c.county === countyNo && !listed.has(city) && ![...listed].some((l) => l.toUpperCase() === city))
+          out.push({ name: city, rate: Math.round((first - outside) * 1e6) / 1e6 || 0, from: day, to: span(i), type: "maybe" });
+    }
+    for (const group of rule.pj ?? []) {
+      // A police jurisdiction code no longer in effect leaves the county's
+      // outside rate there.
+      const rate = Math.round(((rateOn(group.codes, day) ?? outside) - outside) * 1e6) / 1e6;
+      if (rate)
+        for (const city of named(group.cities, true))
+          out.push({ name: city, rate, from: day, to: span(i), type: "pj" });
+    }
+  });
   return out;
 }
 

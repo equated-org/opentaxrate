@@ -30,7 +30,7 @@ import {
 import { RateError } from "../errors.js";
 import { parseStreet, streetKeysOf, type StreetParts } from "./address.js";
 import { HISTORY_FROM, RANGE_FIPS } from "./sst-files.js";
-import { contains, metresToEdge } from "./tiger.js";
+import { shapesAround } from "./shapes.js";
 import { marginOf, type LocatedPoint, type RatePart } from "./types.js";
 
 export interface SstRate {
@@ -335,27 +335,11 @@ async function mapAreas(
       );
     if (outlined.length < candidatePlaces.length) return [];
   }
-  // Outlines whose box comes within ~300 m of the point.
-  const pad = 0.003;
-  const shapes = await db
-    .select()
-    .from(salesTaxShapes)
-    .where(
-      and(
-        eq(salesTaxShapes.state, state),
-        lte(salesTaxShapes.minLon, point.lon + pad),
-        gte(salesTaxShapes.maxLon, point.lon - pad),
-        lte(salesTaxShapes.minLat, point.lat + pad),
-        gte(salesTaxShapes.maxLat, point.lat - pad),
-      ),
-    );
-  const county = shapes.find((s) => s.kind === "county" && contains(s, point));
+  // Outlines within ~300 m of the point.
+  const shapes = await shapesAround(state, point, 0.003);
+  const county = shapes.find((s) => s.kind === "county" && s.inside);
   if (!county) return [];
-  const inside = new Set(
-    shapes
-      .filter((s) => s.kind !== "county" && contains(s, point))
-      .map((s) => s.fips),
-  );
+  const inside = new Set(shapes.filter((s) => s.kind !== "county" && s.inside).map((s) => s.fips));
 
   const deciding = new Set([
     ...areas.map((a) => `county:${a.county}`),
@@ -364,7 +348,7 @@ async function mapAreas(
   for (const s of shapes)
     if (
       deciding.has(`${s.kind === "county" ? "county" : "place"}:${s.fips}`) &&
-      metresToEdge(s, point) < marginOf(point)
+      s.edgeMetres < marginOf(point)
     )
       return "near_edge";
 

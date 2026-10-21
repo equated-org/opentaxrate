@@ -8,6 +8,20 @@
       "when": 1792589554004,
       "tag": "0000_equal_miss_america",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792591770806,
+      "tag": "0001_drop_shape_rings",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792591771185,
+      "tag": "0002_postgis_shape_geom",
+      "breakpoints": true
     }
   ]
 }

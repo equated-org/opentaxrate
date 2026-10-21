@@ -25,6 +25,31 @@ const QUARTERS = 8;
 
 const JURISDICTION = /\b(\d{5}-\d{3}-\d{3})\b/;
 
+/** Cities the DOR numbers differently from the Census, which outlines them
+ *  under its own place code (matched by name and county). Without the
+ *  Census code a split ZIP holding one of these can't be settled on the map.
+ *  The DOR's codes a few above a city's (31277, 31278 for Hazelwood) are
+ *  parts of that city with their own districts and stay as they are. */
+const CENSUS_PLACE: Record<string, string> = {
+  "04240": "04248", // Bellerive Acres
+  "16858": "16802", // Country Club
+  "19342": "19378", // De Witt
+  "24112": "24120", // Fidelity
+  "24670": "24688", // Flint Hill
+  "29098": "29116", // Green Castle
+  "29944": "29962", // Halfway
+  "35432": "35450", // Iron Mountain Lake
+  "40178": "40043", // Lake St. Louis
+  "41330": "41348", // Lee's Summit
+  "53444": "53454", // Norwood
+  "53606": "53650", // Oak Grove Village
+  "64352": "64180", // Ste. Genevieve
+  "64514": "64478", // St. John
+  "65054": "65034", // St. Mary
+  "73960": "73978", // Truesdale
+  "80908": "80767", // Wood Heights
+};
+
 export async function missouriFiles(dir?: string): Promise<StateFiles> {
   const quarters = recentQuarters(new Date(), QUARTERS + 2);
   const rateLines: string[] = [];
@@ -48,7 +73,7 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
     const [rows] = [...readXlsx(bytes).values()];
     const header = rows.findIndex((r) => r.some((c) => /jurisdiction code/i.test(c)));
     const codeAt = header < 0 ? -1 : rows[header].findIndex((c) => /jurisdiction code/i.test(c));
-    const salesAt = header < 0 ? -1 : rows[header].findIndex((c) => /^sales$/i.test(c.trim()));
+    const salesAt = header < 0 ? -1 : rows[header].findIndex((c) => /^sales( tax rate)?$/i.test(c.trim()));
     if (header < 0 || codeAt < 0 || salesAt < 0)
       throw new Error(`Missouri rate file q${q.quarter}-${q.year} has no jurisdiction code or sales column`);
     for (const row of rows.slice(header + 1)) {
@@ -91,7 +116,7 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
       return parseBoundaryLine(line).map(
         (row): BoundaryRow => ({
           ...row,
-          area: { county, place: place === "00000" ? null : place, districts: `${WHOLE_CODE_TYPE}:${code}` },
+          area: { county, place: place === "00000" ? null : (CENSUS_PLACE[place] ?? place), districts: `${WHOLE_CODE_TYPE}:${code}` },
         }),
       );
     },

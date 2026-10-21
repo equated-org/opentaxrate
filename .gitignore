@@ -3,6 +3,7 @@ dist
 data
 .env
 *.log
+artifacts
 
 # Private development records stay outside the public repository.
 /docs/plans/
