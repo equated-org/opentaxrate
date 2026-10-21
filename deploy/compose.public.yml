@@ -34,6 +34,9 @@ services:
 
   caddy:
     image: caddy:2
+    # The folder, not the file: a single bound file keeps its old copy when
+    # an edit replaces it, and a reload would read stale rules.
+    command: ["caddy", "run", "--config", "/etc/opentaxrate/Caddyfile", "--adapter", "caddyfile"]
     ports:
       - "80:80"
       - "443:443"
@@ -41,7 +44,7 @@ services:
       API_HOST: ${API_HOST:-api.opentaxrate.com}
       PROXY_SECRET: ${PROXY_SECRET:?set PROXY_SECRET in deploy/.env}
     volumes:
-      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./deploy:/etc/opentaxrate:ro
       - caddy_data:/data
     restart: unless-stopped
     depends_on: [api]
