@@ -1,6 +1,6 @@
 # API, CLI and errors
 
-Sources: `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts`, `src/limits.ts`, `src/cache.ts` (and `src/db/client.ts` for the pool)
+Sources: `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts`, `src/limits.ts`, `src/cache.ts`, `src/suggest.ts` (and `src/db/client.ts` for the pool)
 
 The outside of the service. The HTTP API and the CLI both turn a request into one call to `lookUpRate` (`src/lookup.ts`), which calls `addressRates.at` in the engine. Neither writes rate data; loading is the CLI's `refresh` command (see [refresh.md](refresh.md)).
 
@@ -12,6 +12,7 @@ The app is a Hono instance exported as `app`.
 |---|---|---|
 | `GET /health` | runs `select 1`, returns `{ "ok": true }` | 200, or 500 if the database fails |
 | `GET /v1/rate` | validates the query, returns an `AddressRate` (see [engine.md](engine.md)), plus `trace` when asked | 200, 400, 422, 429, 502, 504, 500 |
+| `GET /v1/suggest` | only with `OPENTAXRATE_PHOTON_URL`: `q` (1–200 chars), `limit` (1–10, default 5), `lang`, `bbox`, and repeated `layer` (only Photon's known layers pass) relayed to `<url>/api`; Photon's GeoJSON returned unchanged with `Cache-Control: public, max-age=300` | 200, 400, 429, 502, 504 |
 | `GET /v1/coverage` | for each of `ADDRESS_RATE_STATES`: `state`, `method` from `addressRates.method`, and its `files` from `sales_tax_data_releases` (`kind`, `file`, `rows`, `loadedAt`) | 200 |
 
 `/v1/rate` query, checked with zod:
@@ -43,7 +44,7 @@ Coordinates are rounded to 5 decimals, metres to 0.1. `outlines` is empty when n
 Each is off when its variable is unset, so a self-hosted API behaves as before.
 
 - **CORS.** `hono/cors` on every route for the origins in `OPENTAXRATE_CORS_ORIGINS`, methods `GET`, `HEAD`, `OPTIONS`, exposing `Retry-After`. Registered first, so a 429 carries the headers and a preflight is never counted.
-- **Per-IP limit** (`src/limits.ts`). `limitFromEnv()` reads `OPENTAXRATE_PUBLIC_LIMIT` (`parseLimits`: `count/unit` pairs, units `s`, `min`, `hour`, `day`, optionally `10/5min`; an unreadable value throws at start). Only `/v1/rate` is limited. The key is `CF-Connecting-IP` when `OPENTAXRATE_TRUST_CF=1`, else the socket address from `@hono/node-server`'s `getConnInfo` (`"unknown"` when there is no socket, as in `app.request` tests). `PerIpLimiter` keeps fixed windows in memory per process; a refused call isn't counted; windows that have all ended are swept at most once per shortest window, and past `MAX_KEYS` (100,000) the least recently seen address is dropped. Over any window: 429 `{ error: "Too many lookups from this address. Try again in N s.", code: "RATE_LIMITED" }` with `Retry-After: N`.
+- **Per-IP limit** (`src/limits.ts`). `limitFromEnv()` reads `OPENTAXRATE_PUBLIC_LIMIT` (`parseLimits`: `count/unit` pairs, units `s`, `min`, `hour`, `day`, optionally `10/5min`; an unreadable value throws at start). Only `/v1/rate` is limited. `limitFromEnv(env, name)` reads any such setting; `OPENTAXRATE_SUGGEST_LIMIT` limits `/v1/suggest` the same way. The key is the first address in the header `clientIpHeader()` names (`OPENTAXRATE_CLIENT_IP_HEADER`, else `CF-Connecting-IP` when `OPENTAXRATE_TRUST_CF=1`), else the socket address from `@hono/node-server`'s `getConnInfo` (`"unknown"` when there is no socket, as in `app.request` tests). `PerIpLimiter` keeps fixed windows in memory per process; a refused call isn't counted; windows that have all ended are swept at most once per shortest window, and past `MAX_KEYS` (100,000) the least recently seen address is dropped. Over any window: 429 `{ error: "Too many lookups from this address. Try again in N s.", code: "RATE_LIMITED" }` with `Retry-After: N`.
 - **Answer cache** (`src/cache.ts`). `cacheFromEnv()` reads `OPENTAXRATE_CACHE_HOURS`. An `AnswerCache` (LRU by last use, `MAX_ANSWERS` 5,000) holds successful answers, with their trace when asked, under `answerKey`: state, street, city upper-cased with dots, commas and extra spaces removed, the ZIP without its dash, the resolved date, and the includes. Refusals and errors are never cached. The limiter runs before the cache, so a cached answer still counts.
 
 ## Error responses
@@ -112,4 +113,7 @@ After any command but `serve`, the Postgres `client` is closed; a thrown error s
 | `OPENTAXRATE_CORS_ORIGINS` | unset (no CORS) | `server.ts` |
 | `OPENTAXRATE_PUBLIC_LIMIT` | unset (no limit) | `limits.ts`, via `server.ts` |
 | `OPENTAXRATE_TRUST_CF` | unset (socket address) | `limits.ts` |
+| `OPENTAXRATE_CLIENT_IP_HEADER` | unset | `limits.ts` (`clientIpHeader`) |
 | `OPENTAXRATE_CACHE_HOURS` | unset (no cache) | `cache.ts`, via `server.ts` |
+| `OPENTAXRATE_PHOTON_URL` | unset (`/v1/suggest` off) | `suggest.ts`, via `server.ts` |
+| `OPENTAXRATE_SUGGEST_LIMIT` | unset (no limit) | `limits.ts`, via `server.ts` |

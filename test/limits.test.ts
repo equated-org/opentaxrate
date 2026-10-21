@@ -4,7 +4,7 @@
  * No database: every request here is refused before a lookup would run.
  */
 import { describe, expect, it } from "vitest";
-import { parseLimits, PerIpLimiter } from "../src/limits.js";
+import { clientIpHeader, parseLimits, PerIpLimiter } from "../src/limits.js";
 
 const MIN = 60_000;
 const DAY = 86_400_000;
@@ -58,6 +58,14 @@ describe("the limiter", () => {
     now += MIN;
     limiter.take("10.1.0.1");
     expect(limiter.size).toBe(1);
+  });
+});
+
+describe("clientIpHeader", () => {
+  it("prefers the named header, falls back to CF-Connecting-IP, else none", () => {
+    expect(clientIpHeader({ OPENTAXRATE_CLIENT_IP_HEADER: "X-Client-IP", OPENTAXRATE_TRUST_CF: "1" })).toBe("X-Client-IP");
+    expect(clientIpHeader({ OPENTAXRATE_TRUST_CF: "1" })).toBe("CF-Connecting-IP");
+    expect(clientIpHeader({})).toBeUndefined();
   });
 });
 

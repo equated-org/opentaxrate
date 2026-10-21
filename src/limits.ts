@@ -3,9 +3,11 @@
  * OPENTAXRATE_PUBLIC_LIMIT="10/min,200/day" allows 10 a minute and 200 a day
  * from each address. Unset, there is no limit.
  *
- * The address is the socket's peer, or Cloudflare's CF-Connecting-IP header
- * when OPENTAXRATE_TRUST_CF=1 (only safe when the origin accepts nothing but
- * Cloudflare's ranges, since anyone else can send the header).
+ * The address is the socket's peer, or a header naming the visitor:
+ * OPENTAXRATE_CLIENT_IP_HEADER (e.g. X-Client-IP, set by a Worker that is the
+ * API's only caller), or CF-Connecting-IP when OPENTAXRATE_TRUST_CF=1. A
+ * header is only safe to trust when nothing but that proxy can reach the API,
+ * since anyone else can send it.
  *
  * Counts are fixed windows held in memory, one process's own. Windows that
  * have ended are swept out, and at most MAX_KEYS addresses are held, so
@@ -102,11 +104,11 @@ export class PerIpLimiter {
   }
 }
 
-/** The caller's address: CF-Connecting-IP when trusted, else the socket's. */
-export function clientAddress(c: Context, trustCf: boolean): string {
-  if (trustCf) {
-    const cf = c.req.header("CF-Connecting-IP")?.trim();
-    if (cf) return cf;
+/** The caller's address: the trusted header's when set, else the socket's. */
+export function clientAddress(c: Context, header?: string): string {
+  if (header) {
+    const named = c.req.header(header)?.split(",")[0].trim();
+    if (named) return named;
   }
   try {
     return getConnInfo(c).remote.address ?? "unknown";
@@ -118,18 +120,27 @@ export function clientAddress(c: Context, trustCf: boolean): string {
 
 /** Middleware answering 429 with Retry-After once an address is over any
  *  window. */
-export function perIpLimit(limiter: PerIpLimiter, trustCf: boolean): MiddlewareHandler {
+export function perIpLimit(limiter: PerIpLimiter, header?: string): MiddlewareHandler {
   return async (c, next) => {
-    const wait = limiter.take(clientAddress(c, trustCf));
+    const wait = limiter.take(clientAddress(c, header));
     if (wait === null) return next();
     c.header("Retry-After", String(wait));
     return c.json({ error: `Too many lookups from this address. Try again in ${wait} s.`, code: "RATE_LIMITED" }, 429);
   };
 }
 
-/** The limit the environment sets, or undefined when it sets none. */
-export function limitFromEnv(env: NodeJS.ProcessEnv = process.env): MiddlewareHandler | undefined {
-  const spec = env.OPENTAXRATE_PUBLIC_LIMIT?.trim();
+/** The header that names the visitor, if the environment trusts one. */
+export function clientIpHeader(env: NodeJS.ProcessEnv = process.env): string | undefined {
+  return env.OPENTAXRATE_CLIENT_IP_HEADER?.trim() || (env.OPENTAXRATE_TRUST_CF === "1" ? "CF-Connecting-IP" : undefined);
+}
+
+/** The limit the environment sets in `name` (OPENTAXRATE_PUBLIC_LIMIT for
+ *  lookups), or undefined when it sets none. */
+export function limitFromEnv(
+  env: NodeJS.ProcessEnv = process.env,
+  name = "OPENTAXRATE_PUBLIC_LIMIT",
+): MiddlewareHandler | undefined {
+  const spec = env[name]?.trim();
   if (!spec) return undefined;
-  return perIpLimit(new PerIpLimiter(parseLimits(spec)), env.OPENTAXRATE_TRUST_CF === "1");
+  return perIpLimit(new PerIpLimiter(parseLimits(spec)), clientIpHeader(env));
 }
