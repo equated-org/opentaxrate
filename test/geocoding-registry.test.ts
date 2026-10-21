@@ -1,25 +1,38 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { geocoderCoverage, geocoderProviders } from "../src/geocoding/registry.js";
 
-const variables = ["CENSUS_DISABLED", "PHOTON_URL", "PELIAS_URL", "GEOCODIO_API_KEY", "SMARTY_AUTH_ID", "SMARTY_AUTH_TOKEN",
+const variables = ["CENSUS_DISABLED", "NOMINATIM_DISABLED", "NOMINATIM_URL", "PHOTON_URL", "PELIAS_URL", "GEOCODIO_API_KEY", "SMARTY_AUTH_ID", "SMARTY_AUTH_TOKEN",
   "MAPBOX_ACCESS_TOKEN", "MAPBOX_PERMANENT", "HERE_API_KEY", "ARCGIS_API_KEY", "ARCGIS_FOR_STORAGE", "GOOGLE_MAPS_API_KEY"];
 beforeEach(() => { for (const name of variables) vi.stubEnv(name, ""); });
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 describe("enabled geocoders", () => {
-  it("enables only Census without keys or URLs", () => {
-    expect(geocoderProviders().map(p => p.id)).toEqual(["census"]);
+  it("enables Census and the public Nominatim without keys or URLs, two datasets to compare", () => {
+    const providers = geocoderProviders();
+    expect(providers.map(p => [p.id, p.sources[0]])).toEqual([["census", "tiger"], ["nominatim", "osm"]]);
+    // The public server's usage policy: one request a second.
+    expect(providers.find(p => p.id === "nominatim")?.ratePerSecond).toBe(1);
   });
-  it("can disable Census, and never registers Nominatim", () => {
-    vi.stubEnv("CENSUS_DISABLED", "true");
+  it("uses your own Nominatim when NOMINATIM_URL is set, faster", () => {
     vi.stubEnv("NOMINATIM_URL", "http://spark-3:8080");
+    expect(geocoderProviders().find(p => p.id === "nominatim")?.ratePerSecond).toBe(10);
+  });
+  it("can disable Census and Nominatim", () => {
+    vi.stubEnv("CENSUS_DISABLED", "true");
+    vi.stubEnv("NOMINATIM_DISABLED", "true");
     expect(geocoderProviders()).toEqual([]);
   });
+  it("ignores an invalid tuning value rather than failing every lookup", () => {
+    vi.stubEnv("GOOGLE_MAPS_API_KEY", "test");
+    vi.stubEnv("GOOGLE_DAILY_CAP", "1.5");
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(geocoderProviders().find(p => p.id === "google")?.dailyCap).toBe(300);
+  });
   it("registers configured providers in cost order without exposing credentials", () => {
-    for (const name of variables.filter(name => !["CENSUS_DISABLED", "MAPBOX_PERMANENT", "ARCGIS_FOR_STORAGE"].includes(name)))
+    for (const name of variables.filter(name => !["CENSUS_DISABLED", "NOMINATIM_DISABLED", "MAPBOX_PERMANENT", "ARCGIS_FOR_STORAGE"].includes(name)))
       vi.stubEnv(name, name.endsWith("_URL") ? "http://spark-3:2322" : "secret-test-key");
     const providers = geocoderProviders();
-    expect(providers).toHaveLength(9);
+    expect(providers).toHaveLength(10);
     expect(providers[0].costPerCall).toBe(0);
     expect(providers.at(-1)?.id).toBe("google");
     expect(JSON.stringify(geocoderCoverage())).not.toContain("secret-test-key");
@@ -59,6 +72,8 @@ const fixtures: [string, Record<string, string>, unknown][] = [
   ["google", { GOOGLE_MAPS_API_KEY: "test" }, { status: "OK", results: [{ geometry: { location_type: "ROOFTOP", location },
     address_components: [["street_number", "100"], ["route", "N Main St"], ["locality", "Austin"], ["administrative_area_level_1", "TX"], ["postal_code", "78701"], ["country", "US"]]
       .map(([type, text]) => ({ types: [type], long_name: text, short_name: text })) }] }],
+  ["nominatim", {}, [{ lat: "30.27", lon: "-97.74", address: { house_number: "100", road: "North Main Street",
+    city: "Austin", "ISO3166-2-lvl4": "US-TX", postcode: "78701", country_code: "us" } }]],
   ["mapbox", { MAPBOX_ACCESS_TOKEN: "test" }, { features: [{ properties: { coordinates: { longitude: -97.74, latitude: 30.27, accuracy: "rooftop" },
     context: { region: { region_code: "TX" } }, match_code: { confidence: "exact", address_number: "matched", street: "matched" } } }] }],
 ];

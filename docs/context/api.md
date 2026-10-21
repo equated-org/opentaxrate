@@ -31,7 +31,7 @@ Without it the response is exactly what it was before traces existed. With it, t
 
 | Field | Filled by | Holds |
 |---|---|---|
-| `geocoders` | `locateAddress` | each source's point: `source` (`census`, `nominatim`, `mapbox`), `lon`, `lat`, `accuracy` |
+| `geocoders` | `createLocator` | each provider's point: `source` (the provider id, e.g. `census`, `nominatim`, `mapbox`), `lon`, `lat`, `accuracy` |
 | `point` | `locateAddress` | the point used: `lon`, `lat`, `accuracy`, `source`, `marginMetres` (`marginOf`), `spreadMetres` |
 | `outlines` | `geoRateAt`, `mapAreas` | each outline `shapesAround` found: `kind`, `fips`, `name`, `inside`, `edgeMetres`, `foot`, `levies` (added a rate part), `geometry` |
 | `range` | `sstRateAt` | on a street match, the narrowest deciding row: `street`, `low`, `high`, `side` (`odd`, `even`, `both`), `zip`, `file` (the boundary file) |

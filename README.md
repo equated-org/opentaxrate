@@ -156,7 +156,7 @@ The 5 GB is almost all one thing: **15.4 million street house-number ranges** fr
 
 Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
 
-Geocoding reuses permitted cached results before asking providers. It starts with a cheap pair, preferring different datasets, and asks more only when it lacks independent agreement. The map and range engines request one refinement when a boundary prevents a rate decision. Refinement can move the point across the original line; all relevant outlines and rates are checked again. No Nominatim endpoint is used.
+Geocoding reuses permitted cached results before asking providers. It starts with a cheap pair, preferring different datasets, and asks more only when it lacks independent agreement. The map and range engines request one refinement when a boundary prevents a rate decision. Refinement can move the point across the original line; all relevant outlines and rates are checked again.
 
 Only `geocode_results` and `geocoder_usage` are written by runtime geocoding. Run `pnpm migrate` before starting the new API. Missing usage tables or failed reservations skip providers rather than bypassing quotas. Keep cap/rate configuration consistent across replicas; the quota covers calls routed through this application, not other applications sharing a vendor account. Cache failures do not disable budget enforcement. Expired cache rows may be removed periodically with `DELETE FROM geocode_results WHERE expires_at < now()`.
 
@@ -230,7 +230,7 @@ Adding a map-read state means writing an adapter in `src/ingest/states/` that re
 
 Rates and boundaries come from public sources: [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/), the [Census Bureau's TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), and each state's tax office (Texas Comptroller, Illinois IDOR, Arizona ADOR, New Mexico TRD, Virginia Tax, Missouri DOR, Alabama DOR, Florida DOR, New York DTF, Louisiana Remote Sellers Commission, Colorado DOR, the Alaska Remote Seller Sales Tax Commission). Colorado and Alaska are read from their official lookups' services, which aren't documented as bulk APIs; ask them before running it at scale.
 
-Geocoding uses the Census Bureau's free geocoder and, when `PHOTON_URL` is set, your internal [Photon](https://github.com/komoot/photon) service for OpenStreetMap addresses. Photon results must match the requested house number, street, state, city and supplied ZIP; street-only and ambiguous results are refused. There is no Nominatim or public Photon fallback. Mapbox is optional and under your own account's terms.
+Geocoding uses the Census Bureau's free geocoder and OpenStreetMap's [Nominatim](https://operations.osmfoundation.org/policies/nominatim/): the public server by default, whose policy allows one request a second (put your contact in `OPENTAXRATE_USER_AGENT`), or your own with `NOMINATIM_URL`. Your internal [Photon](https://github.com/komoot/photon) and Pelias are used when `PHOTON_URL` and `PELIAS_URL` are set. A provider's result must match the requested state, house number and street, and the typed city or ZIP; street-only and ambiguous results are refused. Mapbox is optional and under your own account's terms.
 
 **Not tax advice.** Rates are as published by the states and can be wrong or late; every answer names its source so you can check it.
 

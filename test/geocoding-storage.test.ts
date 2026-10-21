@@ -36,6 +36,18 @@ describe("shared geocoder quotas", () => {
     expect(await budget.reserve(p)).toBe(true);
     expect(await budget.reserve(p)).toBe(false);
   });
+  it("queues calls that arrive together instead of skipping the provider", async () => {
+    const p = provider("queue", { dailyCap: 100, ratePerSecond: 5 });
+    const started = Date.now();
+    const finished: number[] = [];
+    const reservations = await Promise.all([0, 1].map(async () => {
+      const ok = await budget.reserve(p);
+      finished.push(Date.now() - started);
+      return ok;
+    }));
+    expect(reservations).toEqual([true, true]);
+    expect(Math.max(...finished)).toBeGreaterThanOrEqual(150);
+  });
   it("does not send a first call when the cap is zero", async () => {
     expect(await budget.reserve(provider("zero", { dailyCap: 0 }))).toBe(false);
   });

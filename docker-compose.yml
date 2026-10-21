@@ -24,6 +24,8 @@ services:
     environment: &env
       DATABASE_URL: postgres://opentaxrate:opentaxrate@db:5432/opentaxrate
       MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN:-}
+      NOMINATIM_URL: ${NOMINATIM_URL:-}
+      NOMINATIM_DISABLED: ${NOMINATIM_DISABLED:-false}
       PHOTON_URL: ${PHOTON_URL:-}
       PELIAS_URL: ${PELIAS_URL:-}
       GEOCODIO_API_KEY: ${GEOCODIO_API_KEY:-}
