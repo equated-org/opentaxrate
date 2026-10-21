@@ -485,35 +485,6 @@ function splitStreet(input: string[]) {
   };
 }
 
-/** State names as nameKey's words spell them (directions already
- *  abbreviated: "NORTH CAROLINA" is "N CAROLINA"), and postal codes. */
-const STATE_NAMES = [
-  "ALABAMA", "ALASKA", "ARIZONA", "ARKANSAS", "CALIFORNIA", "COLORADO",
-  "CONNECTICUT", "DELAWARE", "FLORIDA", "GEORGIA", "HAWAII", "IDAHO",
-  "ILLINOIS", "INDIANA", "IOWA", "KANSAS", "KENTUCKY", "LOUISIANA", "MAINE",
-  "MARYLAND", "MASSACHUSETTS", "MICHIGAN", "MINNESOTA", "MISSISSIPPI",
-  "MISSOURI", "MONTANA", "NEBRASKA", "NEVADA", "NEW HAMPSHIRE", "NEW JERSEY",
-  "NEW MEXICO", "NEW YORK", "N CAROLINA", "N DAKOTA", "OHIO", "OKLAHOMA",
-  "OREGON", "PENNSYLVANIA", "RHODE IS", "S CAROLINA", "S DAKOTA", "TENNESSEE",
-  // "North Carolina Hwy 54" reaches here as "Carolina Hwy 54", its "North"
-  // read as the street's direction.
-  "CAROLINA", "DAKOTA", "TEXAS", "UTAH", "VERMONT", "VIRGINIA",
-  "WASHINGTON", "W VIRGINIA", "WISCONSIN", "WYOMING",
-];
-// Not "CO": "Co Hwy 5" is a county road.
-const STATE_CODES =
-  "AL AK AZ AR CA CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY";
-/** A state's name before a number, with or without a road word ("Ohio Hwy
- *  29", "Vermont Route 100", "Georgia 400"), or its postal code before a road
- *  word ("VT Route 100", "SD Highway 27"). A bare code before a number is
- *  left alone, as "NC 8068" is a Newton County road in Arkansas's file;
- *  Arkansas's own "AR 33" is the one exception. "Georgia Ave" and "Ohio St"
- *  are left alone too. */
-const STATE_ROAD = new RegExp(
-  ` (?:(?:${STATE_NAMES.join("|")}) (?=(?:(?:HWY|RTE) )?\\d)|(?:${STATE_CODES.split(" ").join("|")}) (?=(?:HWY|RTE) \\d)|AR (?=\\d))`,
-  "g",
-);
-
 /** Highways go by many names ("State Route 9", "SR 9", "Hwy 9", "US-9");
  *  one road in one ZIP rarely carries two of them, so they share a key and
  *  any real collision is caught by the areas disagreeing. County roads stay
@@ -525,15 +496,13 @@ function nameKey(tokens: string[]) {
     return NAME_WORDS[t] ?? DIRECTIONS[t] ?? SUFFIXES.get(t) ?? t;
   });
   const joined = ` ${words.join(" ")} `
-    // A state's own road named for the state ("Ohio Highway 29", "Vermont
-    // Route 100", "W Virginia Rte 2") is its state route.
-    .replace(STATE_ROAD, " STATE ")
     // Wisconsin's trunk highways: "CTH M" is County Highway M, "STH 19"
     // and "USH 10" are State and US Highways.
     .replace(/ (?:CTH|(?:COUNTY|CNTY|CO|CTY) TRUNK(?: HWY)?) /g, " CR ")
     .replace(/ (?:STH|USH|STHWY|(?:STATE|ST) TRUNK(?: HWY)?) (?=\d)/g, " HWY ")
     .replace(/ (?:COUNTY|CNTY|CO) (?:RD|HWY|RTE) /g, " CR ")
-    .replace(/ (?:US|U S|STATE|ST|SR|SH|SRTE|STHY) (?:HWY|RTE|RD)? ?(?=\d)/g, " HWY ")
+    // Arkansas files its state highways "AR 33" "Hwy".
+    .replace(/ (?:US|U S|STATE|ST|SR|SH|SRTE|STHY|AR) (?:HWY|RTE|RD)? ?(?=\d)/g, " HWY ")
     .replace(/ (?:HWY|RTE|SR|SH|US) (?=\d)/g, " HWY ")
     .replace(/ (?:INTERSTATE|I) (?=\d)/g, " I ");
   return joined.replace(/\s+/g, "");

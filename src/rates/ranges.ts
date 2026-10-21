@@ -141,14 +141,23 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     }
     // Street ranges are filed by the hundred-block, and a block can straddle
     // a city line; where the ZIP has more than one rate and the address can
-    // be placed, the outlines its point falls in must not say otherwise.
+    // be placed, the outlines its point falls in must not say otherwise. A
+    // point interpolated along the street is read from ranges like these,
+    // and often far off on rural roads, so it can't overrule them.
+    // An area of the ZIP the loaded rates don't cover can't speak either.
     if (byStreet && !zip4Areas.length && zip5 && input.locate) {
       const inZip = await zipAreas(input.state, zip5, date);
-      const zipRates = new Set((await rateAreas(input.state, fips, inZip, date)).map((a) => a.rate));
-      const point = zipRates.size > 1 ? await input.locate() : null;
-      const onMap = point ? (await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace)).areas : [];
+      const zipRates = await rateAreas(input.state, fips, inZip, date).then(
+        (rated) => new Set(rated.map((a) => a.rate)).size,
+        () => 2,
+      );
+      const point = zipRates > 1 ? await input.locate() : null;
+      const onMap =
+        point && point.accuracy !== "interpolated"
+          ? (await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace)).areas
+          : [];
       if (onMap !== "near_edge" && onMap.length) {
-        const byMap = await answer(onMap, "map");
+        const byMap = await answer(onMap, "map").catch(() => null);
         if (byMap && byMap.rate !== byStreet.rate)
           throw await refusal(
             input,

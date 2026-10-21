@@ -146,21 +146,16 @@ export function bestRows(
   fileSuffixes: string[],
 ): StreetRow[] {
   // The place must agree: the same ZIP, or failing that the same city (a
-  // typed ZIP is sometimes a neighbour's). Within the ZIP, the typed city's
-  // own ranges come first.
+  // typed ZIP is sometimes a neighbour's).
   let kept = zip5 ? rows.filter((r) => r.zip5 === zip5) : [];
-  const inCity = kept.filter((r) => normalizeCity(r.city) === city);
-  if (inCity.length) kept = inCity;
-  // A ZIP shared by two towns can have a street of the same name in each;
-  // when the typed town is one the ZIP's ranges name, a street filed only
-  // under the other town is not this address's.
-  else if (zipCities.includes(city)) kept = [];
-  // Otherwise the same number filed under the typed city in another ZIP
-  // counts too: a file that gives the two different rates can't say which
-  // the address is, so it is refused.
-  else if (kept.length)
-    kept = [...kept, ...rows.filter((r) => r.zip5 !== zip5 && normalizeCity(r.city) === city)];
   if (!kept.length) kept = rows.filter((r) => normalizeCity(r.city) === city);
+  // The same number filed under the typed city in another ZIP counts too,
+  // when the typed city is one of the ZIP's but the ZIP's own rows name
+  // another: a file that gives the two different rates can't say which the
+  // address is, so it is refused. A city the ZIP never names (a neighbour's
+  // or a mailing name) leaves the ZIP's rows to speak.
+  else if (zipCities.includes(city) && !kept.some((r) => normalizeCity(r.city) === city))
+    kept = [...kept, ...rows.filter((r) => r.zip5 !== zip5 && normalizeCity(r.city) === city)];
 
   // A type or direction both sides state must match; one side's silence
   // is allowed, but an exact match beats it. Directions compare as sets, so
