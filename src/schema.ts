@@ -1,0 +1,172 @@
+import {
+  pgTable,
+  serial,
+  text,
+  integer,
+  smallint,
+  numeric,
+  doublePrecision,
+  jsonb,
+  date,
+  timestamp,
+  index,
+  unique,
+} from "drizzle-orm/pg-core";
+
+/**
+ * Equated's own copy of the states' sales tax rate and boundary data, which
+ * turns a street address into the taxing areas around it and their rates on a
+ * date. No org owns these rows; a state's rows are replaced whole each time a
+ * newer release of its files is loaded.
+ *
+ *   street range or ZIP+4 → area (county, city, districts) → each one's dated rate
+ *
+ * An area is one combination of taxing jurisdictions; many address ranges
+ * share it, which keeps the range tables narrow. County and city outlines
+ * from the Census Bureau settle a ZIP the files split, by where the address
+ * falls.
+ */
+
+/** One state file Equated loaded, so every rate can name what it came from. */
+export const salesTaxDataReleases = pgTable(
+  "sales_tax_data_releases",
+  {
+    id: serial("id").primaryKey(),
+    state: text("state").notNull(),
+    kind: text("kind").$type<"rates" | "boundaries">().notNull(),
+    /** The publisher's file name, e.g. "OHB2026Q4SEP17". */
+    file: text("file").notNull(),
+    rows: integer("rows").notNull(),
+    loadedAt: timestamp("loaded_at").notNull().defaultNow(),
+  },
+  (t) => [unique("uq_sales_tax_data_releases_state_kind").on(t.state, t.kind)],
+);
+
+/** One combination of taxing jurisdictions an address can fall in. Its id is
+ *  given by the loader (state FIPS × 1,000,000 + a counter), so a state's
+ *  areas are replaced without a sequence to coordinate. */
+export const salesTaxAreas = pgTable(
+  "sales_tax_areas",
+  {
+    id: integer("id").primaryKey(),
+    state: text("state").notNull(),
+    /** County FIPS, three digits. */
+    county: text("county"),
+    /** Place (city) FIPS, five digits. */
+    place: text("place"),
+    /** Special districts as sorted "type:code" pairs joined by spaces, e.g.
+     *  "63:31000"; empty when there are none. */
+    districts: text("districts").notNull().default(""),
+  },
+  (t) => [
+    unique("uq_sales_tax_areas_state_jurisdictions").on(
+      t.state,
+      t.county,
+      t.place,
+      t.districts,
+    ),
+  ],
+);
+
+/** A run of house numbers on one street that falls in one area. */
+export const salesTaxStreetRanges = pgTable(
+  "sales_tax_street_ranges",
+  {
+    state: text("state").notNull(),
+    /** The street's name as matching compares it (see address.ts). */
+    streetKey: text("street_key").notNull(),
+    /** The street as the file writes it, e.g. "SW 17TH ST". */
+    street: text("street").notNull(),
+    preDirectional: text("pre_directional").notNull().default(""),
+    suffix: text("suffix").notNull().default(""),
+    postDirectional: text("post_directional").notNull().default(""),
+    /** Numeric house numbers; null when the range uses lettered numbers,
+     *  which then match `house_text` exactly. */
+    houseLow: integer("house_low"),
+    houseHigh: integer("house_high"),
+    houseText: text("house_text"),
+    /** O, E or B: which side of the street. */
+    parity: text("parity").notNull(),
+    /** Unit range for a range that covers only some units of a building. */
+    unitLow: text("unit_low"),
+    unitHigh: text("unit_high"),
+    city: text("city").notNull().default(""),
+    zip5: text("zip5").notNull().default(""),
+    plus4: text("plus4"),
+    startsOn: date("starts_on").notNull(),
+    endsOn: date("ends_on").notNull(),
+    areaId: integer("area_id").notNull(),
+  },
+  (t) => [
+    index("idx_sales_tax_street_ranges_street").on(t.state, t.streetKey),
+    index("idx_sales_tax_street_ranges_zip").on(t.state, t.zip5),
+  ],
+);
+
+/** A run of ZIP+4 codes (or a whole ZIP) within one ZIP that falls in one
+ *  area. A ZIP-wide row is the publisher's default, not an address match. */
+export const salesTaxZipRanges = pgTable(
+  "sales_tax_zip_ranges",
+  {
+    state: text("state").notNull(),
+    zip5: text("zip5").notNull(),
+    plus4Low: smallint("plus4_low").notNull(),
+    plus4High: smallint("plus4_high").notNull(),
+    kind: text("kind").$type<"zip4" | "zip5">().notNull(),
+    startsOn: date("starts_on").notNull(),
+    endsOn: date("ends_on").notNull(),
+    areaId: integer("area_id").notNull(),
+  },
+  (t) => [index("idx_sales_tax_zip_ranges_zip").on(t.state, t.zip5)],
+);
+
+/** One jurisdiction's general sales tax rate over a span of dates. */
+export const salesTaxJurisdictionRates = pgTable(
+  "sales_tax_jurisdiction_rates",
+  {
+    id: serial("id").primaryKey(),
+    state: text("state").notNull(),
+    /** The publisher's jurisdiction type: 45 state, 00 county, 01 city, any
+     *  other a special district. */
+    type: text("type").notNull(),
+    code: text("code").notNull(),
+    /** General rate on a sale delivered within the state, as a decimal. */
+    rate: numeric("rate", { precision: 8, scale: 6 }).notNull(),
+    startsOn: date("starts_on").notNull(),
+    endsOn: date("ends_on").notNull(),
+  },
+  (t) => [
+    index("idx_sales_tax_jurisdiction_rates_code").on(t.state, t.code),
+  ],
+);
+
+/** A county's, city's or town's outline from the Census Bureau's TIGER files,
+ *  or a special district's from its state, with its bounding box for finding
+ *  the outlines around a point. A town is a county subdivision, the unit
+ *  Wisconsin and Vermont tax by. */
+export const salesTaxShapes = pgTable(
+  "sales_tax_shapes",
+  {
+    state: text("state").notNull(),
+    kind: text("kind")
+      .$type<"county" | "place" | "cousub" | "district">()
+      .notNull(),
+    /** County FIPS (three digits), or place or county subdivision FIPS
+     *  (five), as the state's boundary files write them; for a special
+     *  district, the code its state's rate table uses. */
+    fips: text("fips").notNull(),
+    name: text("name").notNull(),
+    /** Rings of [longitude, latitude]; holes included. */
+    rings: jsonb("rings").$type<Array<Array<[number, number]>>>().notNull(),
+    minLon: doublePrecision("min_lon").notNull(),
+    minLat: doublePrecision("min_lat").notNull(),
+    maxLon: doublePrecision("max_lon").notNull(),
+    maxLat: doublePrecision("max_lat").notNull(),
+    /** The file it came from, e.g. "tl_2026_49_place". */
+    file: text("file").notNull(),
+  },
+  (t) => [
+    unique("uq_sales_tax_shapes_state_kind_fips").on(t.state, t.kind, t.fips),
+    index("idx_sales_tax_shapes_box").on(t.state, t.minLon, t.maxLon),
+  ],
+);

@@ -1,0 +1,37 @@
+{
+  "name": "opentaxrate",
+  "version": "0.1.0",
+  "description": "US sales tax rates by street address, from the states' own published data.",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.12.4",
+  "type": "module",
+  "bin": { "opentaxrate": "dist/cli.js" },
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx watch src/cli.ts serve",
+    "start": "node dist/cli.js serve",
+    "migrate": "tsx src/cli.ts migrate",
+    "refresh": "tsx src/cli.ts refresh",
+    "rate": "tsx src/cli.ts rate",
+    "check": "tsx src/cli.ts check",
+    "db:generate": "drizzle-kit generate",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "drizzle-orm": "^0.41.0",
+    "fflate": "^0.8.3",
+    "hono": "^4.7.0",
+    "postgres": "^3.4.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "drizzle-kit": "^0.31.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.18"
+  }
+}
