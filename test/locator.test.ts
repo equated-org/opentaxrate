@@ -161,8 +161,11 @@ describe("staged locator", () => {
 });
 
 describe("agreement", () => {
-  it("refuses tied groups and transitive chains", () => {
-    expect(agreeingGroup([point("a", "a", 0), point("b", "b", 30), point("c", "c", 60)])).toBeNull();
+  it("takes the most precise point with the sources that agree with it, past a lone outlier", () => {
+    expect(agreeingGroup([point("a", "a", 0), point("b", "b", 30), point("c", "c", 60)])!.map(p => p.provider)).toEqual(["a", "b"]);
+    expect(agreeingGroup([point("a", "a", 0, "rooftop"), point("b", "b", 500), point("c", "c", 510)])!.map(p => p.provider)).toEqual(["b", "c"]);
+  });
+  it("refuses when the sources agree on two places", () => {
     expect(agreeingGroup([point("a", "a"), point("b", "b"), point("c", "c", 1000), point("d", "d", 1000)])).toBeNull();
   });
   it("counts repeated data sources once", () => {

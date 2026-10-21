@@ -4,26 +4,25 @@ const order = (a: SourcedPoint, b: SourcedPoint) => marginOf(a) - marginOf(b) ||
 export const compatible = (a: LocatedPoint, b: LocatedPoint) =>
   metresBetween(a, b) <= Math.min(250, Math.max(marginOf(a), marginOf(b)));
 
-/** One representative per dataset; contradictory results remove that dataset.
- * Groups are pairwise-compatible cliques, never transitive chains. A tie refuses.
- * Unknown provenance cannot supply an independent vote. */
+/** The most precise dataset's point and every other dataset that agrees
+ * with it. One point per dataset; a dataset contradicting itself is dropped.
+ * A point with no independent support gives way to the next most precise.
+ * Refused when the datasets left out agree with each other: that is two
+ * places, not one. */
 export function agreeingGroup(points: SourcedPoint[]): SourcedPoint[] | null {
-  const sources = [...new Set(points.map(p => p.source))].filter(s => s !== "unknown");
-  const representatives = sources.flatMap(source => {
+  const representatives = [...new Set(points.map(p => p.source))].flatMap(source => {
     const members = points.filter(p => p.source === source).sort(order);
     if (members.some(a => members.some(b => !compatible(a, b)))) return [];
     const best = members[0];
     return [{ ...best, metres: Math.max(marginOf(best), ...members.map(p => metresBetween(best, p))) }];
-  });
-  let largest: SourcedPoint[][] = [];
-  for (let mask = 1; mask < 2 ** representatives.length; mask++) {
-    const group = representatives.filter((_, i) => mask & 2 ** i);
-    if (group.length < 2 || group.length < (largest[0]?.length ?? 0)) continue;
-    if (group.some(a => group.some(b => !compatible(a, b)))) continue;
-    if (group.length > (largest[0]?.length ?? 0)) largest = [];
-    largest.push(group);
+  }).sort(order);
+  for (const best of representatives) {
+    const group = representatives.filter(p => p === best || compatible(p, best));
+    if (group.length < 2) continue;
+    const rest = representatives.filter(p => !group.includes(p));
+    return rest.some(a => rest.some(b => a !== b && compatible(a, b))) ? null : group;
   }
-  return largest.length === 1 ? largest[0] : null;
+  return null;
 }
 
 export function placement(group: SourcedPoint[]): LocatedPoint {

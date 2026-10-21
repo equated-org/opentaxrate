@@ -41,12 +41,19 @@ describe("internal Photon address geocoding", () => {
   it.each([
     { housenumber: "700" }, { housenumber: "1100A" },
     { street: "South Congress Avenue" }, { street: "North Congress Street" },
-    { street: "North Main Avenue" }, { city: "Dallas" }, { state: "CA" },
-    { countrycode: "CA" }, { postcode: "78702" },
+    { street: "North Main Avenue" }, { city: "Dallas", postcode: "75201" }, { state: "CA" },
+    { countrycode: "CA" },
     { type: "street", housenumber: undefined }, { state: undefined },
   ])("rejects a mismatched or incomplete address: %j", async properties => {
     serve([feature(properties)]);
     expect(await ask(address)).toBeNull();
+  });
+
+  it("accepts a different city or a different ZIP, but not both", async () => {
+    serve([feature({ city: "Sunset Valley" })]);
+    expect(await ask(address)).not.toBeNull();
+    serve([feature({ postcode: "78702" })]);
+    expect(await ask(address)).not.toBeNull();
   });
 
   it("accepts state abbreviations and ZIP+4 input", async () => {

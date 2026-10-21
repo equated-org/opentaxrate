@@ -14,11 +14,8 @@ export async function geocodioPoint(a: AddressToLocate, signal: AbortSignal): Pr
       house: c.number, street: c.formatted_street, city: c.city,
       state: c.state_province ?? c.state, zip: c.postal_code ?? c.zip, country: c.country ?? "US",
     })) return [];
-    const sourceText = String(r.source ?? "").toLowerCase();
-    // County/municipal attribution is kept distinct; opaque provenance cannot vote.
-    const source = /tiger|census/.test(sourceText) ? "tiger" : /openstreetmap|\bosm\b/.test(sourceText) ? "osm"
-      : /openaddresses/.test(sourceText) ? "openaddresses" : /county|city of/.test(sourceText)
-        ? `local:${sourceText}` : "unknown";
+    // Geocodio's TIGER interpolation is the Census Bureau's data, not a second opinion.
+    const source = /tiger|census/i.test(String(r.source ?? "")) ? "tiger" : "geocodio";
     return [{ provider: "geocodio", source, accuracy, lon: r.location?.lng, lat: r.location?.lat }];
   });
   return matches.length === 1 ? matches[0] : null;
