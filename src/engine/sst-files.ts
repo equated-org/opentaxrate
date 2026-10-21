@@ -10,7 +10,7 @@
  * Rows that ended before HISTORY_FROM are dropped, which halves the tables;
  * set OPENTAXRATE_HISTORY_FROM to keep more.
  */
-import { readFileStreet } from "./address.js";
+import { letteredHouse, readFileStreet } from "./address.js";
 
 export const HISTORY_FROM = process.env.OPENTAXRATE_HISTORY_FROM || "2020-01-01";
 
@@ -129,6 +129,14 @@ export function parseBoundaryLine(line: string): BoundaryRow[] {
     const street = readFileStreet(c[6], c[7], c[8], c[9]);
     if (!street.streetKey) return [];
     const numeric = /^\d+$/.test(c[3]) && /^\d+$/.test(c[4]);
+    // A lettered range on one grid line ("W5300"-"W5399", "N77W7201"-
+    // "N77W7299") keeps its numbers, under the line's key ("W#", "N77W#").
+    const low = numeric ? null : letteredHouse(c[3]);
+    const high = numeric ? null : letteredHouse(c[4] || c[3]);
+    const lettered =
+      low && high && low.line === high.line
+        ? { line: low.line, low: Math.min(low.number, high.number), high: Math.max(low.number, high.number) }
+        : null;
     return [
       {
         kind: "street",
@@ -141,9 +149,9 @@ export function parseBoundaryLine(line: string): BoundaryRow[] {
           .join(" ")
           .replace(/\s+/g, " ")
           .toUpperCase(),
-        houseLow: numeric ? Number(c[3]) : null,
-        houseHigh: numeric ? Number(c[4]) : null,
-        houseText: numeric ? null : c[3].toUpperCase(),
+        houseLow: numeric ? Number(c[3]) : (lettered?.low ?? null),
+        houseHigh: numeric ? Number(c[4]) : (lettered?.high ?? null),
+        houseText: numeric ? null : (lettered?.line ?? c[3].toUpperCase()),
         parity: (c[5] || "B").toUpperCase(),
         unitLow: c[11] || null,
         unitHigh: c[12] || null,

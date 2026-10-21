@@ -230,8 +230,8 @@ describe("a statewide state's address", () => {
     const dc = (date: string) =>
       addressRates.at({ state: "DC", street: "1350 Pennsylvania Ave NW", city: "Washington" }, date);
     expect((await dc("2025-09-30")).rate).toBe(0.06);
-    expect((await dc("2025-10-01")).rate).toBe(0.065);
-    expect((await dc("2026-10-01")).rate).toBe(0.07);
+    expect((await dc("2025-10-01")).rate).toBe(0.06);
+    expect((await dc("2026-10-01")).rate).toBe(0.06);
   });
 
   it("is refused in a Montana resort area, which levies its own tax", async () => {

@@ -21,6 +21,11 @@ export interface StreetParts {
   suffix: string;
   postDirectional: string;
   unit: string | null;
+  /** Other ways a file may have written the name, tried when the street's
+   *  own key finds nothing: its words run together unabbreviated ("Oak
+   *  Hollow" as "OAKHOLLOW"), and a last word read as the type kept in the
+   *  name instead ("Oak Ridge" as "OAKRIDGE", any type). */
+  alternates?: { streetKey: string; suffix: string }[];
 }
 
 const DIRECTIONS: Record<string, string> = {
@@ -253,6 +258,8 @@ export function parseStreet(line: string): StreetParts | null {
       unit,
     };
 
+  // A grid number typed with a space ("N78 W7008 Oak St") is one number.
+  text = text.replace(/^([NSEW]\d+) ([NSEW]\d+) /, "$1$2 ");
   const [first, ...rest] = text.split(" ");
   // "123", "123A", "123-1/2"; or a lettered grid number ("W258S7120").
   const numbered = /^(\d+)(?:[A-Z]|-?\d+\/\d+)?$/.exec(first ?? "");
@@ -266,7 +273,48 @@ export function parseStreet(line: string): StreetParts | null {
     houseText: first,
     ...street,
     unit,
+    alternates: alternateSpellings(rest, street),
   };
+}
+
+function alternateSpellings(
+  input: string[],
+  street: { streetKey: string; suffix: string },
+) {
+  const tokens = input.filter(Boolean);
+  if (tokens.length > 1 && DIRECTIONS[tokens.at(-1)!]) tokens.pop();
+  const typeWord =
+    tokens.length > 1 && SUFFIXES.has(tokens.at(-1)!) ? tokens.pop()! : null;
+  if (tokens.length > 1 && DIRECTIONS[tokens[0]]) tokens.shift();
+  const raw = (words: string[]) =>
+    words.map((t) => /^(\d+)(?:ST|ND|RD|TH)$/.exec(t)?.[1] ?? t).join("");
+  const found = [
+    { streetKey: raw(tokens), suffix: street.suffix },
+    ...(typeWord && tokens.length
+      ? [
+          { streetKey: nameKey([...tokens, typeWord]), suffix: "" },
+          { streetKey: raw([...tokens, typeWord]), suffix: "" },
+        ]
+      : []),
+  ];
+  return found.filter(
+    (a, i) =>
+      a.streetKey &&
+      !/^\d+$/.test(a.streetKey) &&
+      !(a.streetKey === street.streetKey && a.suffix === street.suffix) &&
+      found.findIndex((b) => b.streetKey === a.streetKey && b.suffix === a.suffix) === i,
+  );
+}
+
+/** A lettered house number ("W5300", "N78W7008", "W258S7120") split into
+ *  the grid line it lies on and its number along the street, so a file's
+ *  range "W5300"-"W5399" can hold "W5350". Leading zeros are dropped
+ *  ("E0250" is "E250"). Null for anything else. */
+export function letteredHouse(text: string): { line: string; number: number } | null {
+  const m = /^([NSEW])(?:(\d+)([NSEW]))?(\d+)$/.exec(text.toUpperCase());
+  if (!m) return null;
+  const line = m[2] === undefined ? m[1] : `${m[1]}${Number(m[2])}${m[3]}`;
+  return { line: `${line}#`, number: Number(m[4]) };
 }
 
 /** A boundary file's street, read the same way a typed one is. */
@@ -276,7 +324,18 @@ export function readFileStreet(
   suffix: string,
   post: string,
 ) {
-  return splitStreet(clean(`${pre} ${name} ${suffix} ${post}`).split(" "));
+  // Some files repeat the type or direction in the name ("N" "N Edmonds
+  // Ave" "Ave", "Spruce St" "St").
+  const words = clean(name).split(" ");
+  const type = SUFFIXES.get(clean(suffix));
+  if (type && words.length > 1 && SUFFIXES.get(words.at(-1)!) === type)
+    words.pop();
+  const direction = DIRECTIONS[clean(pre)];
+  if (direction && words.length > 1 && DIRECTIONS[words[0]] === direction)
+    words.shift();
+  return splitStreet(
+    clean(`${pre} ${words.join(" ")} ${suffix} ${post}`).split(" "),
+  );
 }
 
 /** The keys a typed street might be filed under: its own, and for a name led
@@ -287,7 +346,27 @@ export function streetKeysOf(parts: StreetParts): string[] {
   const lead = /^([A-Z]+?)(\d+|[A-Z])$/.exec(parts.streetKey);
   // Not a numbered road ("Hwy 9" is no "9th St").
   if (lead && SUFFIXES.get(lead[1]) === lead[1] && !/^\d+$/.test(lead[2])) keys.push(lead[2]);
+  // A lettered route typed with the type after it ("K-18 Hwy") is filed as
+  // "Highway K18".
+  if (parts.suffix === "HWY" && /^[A-Z]{1,2}\d+$/.test(parts.streetKey)) keys.push(`HWY${parts.streetKey}`);
+  // A county's numbered road, typed "Columbia Road 161", filed "Columbia 161".
+  const road = /^([A-Z]{3,}?)(?:RD|CR)(\d+[A-Z]?)$/.exec(parts.streetKey);
+  if (road) keys.push(road[1] + road[2]);
   return keys;
+}
+
+/** The street as typed, then each other way a file may have filed it: the
+ *  other keys, the other spellings, and a one-letter grid number ("E10546
+ *  Old 56 Rd") as a direction and a plain number. */
+export function streetVariantsOf(parts: StreetParts): StreetParts[] {
+  const variants = streetKeysOf(parts).map((streetKey) => ({ ...parts, streetKey }));
+  for (const alt of parts.alternates ?? [])
+    if (!variants.some((v) => v.streetKey === alt.streetKey && v.suffix === alt.suffix))
+      variants.push({ ...parts, ...alt });
+  const grid = /^([NSEW])(\d+)$/.exec(parts.houseText);
+  if (grid && !parts.preDirectional)
+    variants.push({ ...parts, house: Number(grid[2]), houseText: String(Number(grid[2])), preDirectional: grid[1] });
+  return variants;
 }
 
 function clean(text: string) {
@@ -326,6 +405,35 @@ function splitStreet(input: string[]) {
   };
 }
 
+/** State names as nameKey's words spell them (directions already
+ *  abbreviated: "NORTH CAROLINA" is "N CAROLINA"), and postal codes. */
+const STATE_NAMES = [
+  "ALABAMA", "ALASKA", "ARIZONA", "ARKANSAS", "CALIFORNIA", "COLORADO",
+  "CONNECTICUT", "DELAWARE", "FLORIDA", "GEORGIA", "HAWAII", "IDAHO",
+  "ILLINOIS", "INDIANA", "IOWA", "KANSAS", "KENTUCKY", "LOUISIANA", "MAINE",
+  "MARYLAND", "MASSACHUSETTS", "MICHIGAN", "MINNESOTA", "MISSISSIPPI",
+  "MISSOURI", "MONTANA", "NEBRASKA", "NEVADA", "NEW HAMPSHIRE", "NEW JERSEY",
+  "NEW MEXICO", "NEW YORK", "N CAROLINA", "N DAKOTA", "OHIO", "OKLAHOMA",
+  "OREGON", "PENNSYLVANIA", "RHODE IS", "S CAROLINA", "S DAKOTA", "TENNESSEE",
+  // "North Carolina Hwy 54" reaches here as "Carolina Hwy 54", its "North"
+  // read as the street's direction.
+  "CAROLINA", "DAKOTA", "TEXAS", "UTAH", "VERMONT", "VIRGINIA",
+  "WASHINGTON", "W VIRGINIA", "WISCONSIN", "WYOMING",
+];
+// Not "CO": "Co Hwy 5" is a county road.
+const STATE_CODES =
+  "AL AK AZ AR CA CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY";
+/** A state's name before a number, with or without a road word ("Ohio Hwy
+ *  29", "Vermont Route 100", "Georgia 400"), or its postal code before a road
+ *  word ("VT Route 100", "SD Highway 27"). A bare code before a number is
+ *  left alone, as "NC 8068" is a Newton County road in Arkansas's file;
+ *  Arkansas's own "AR 33" is the one exception. "Georgia Ave" and "Ohio St"
+ *  are left alone too. */
+const STATE_ROAD = new RegExp(
+  ` (?:(?:${STATE_NAMES.join("|")}) (?=(?:(?:HWY|RTE) )?\\d)|(?:${STATE_CODES.split(" ").join("|")}) (?=(?:HWY|RTE) \\d)|AR (?=\\d))`,
+  "g",
+);
+
 /** Highways go by many names ("State Route 9", "SR 9", "Hwy 9", "US-9");
  *  one road in one ZIP rarely carries two of them, so they share a key and
  *  any real collision is caught by the areas disagreeing. County roads stay
@@ -337,6 +445,13 @@ function nameKey(tokens: string[]) {
     return NAME_WORDS[t] ?? DIRECTIONS[t] ?? SUFFIXES.get(t) ?? t;
   });
   const joined = ` ${words.join(" ")} `
+    // A state's own road named for the state ("Ohio Highway 29", "Vermont
+    // Route 100", "W Virginia Rte 2") is its state route.
+    .replace(STATE_ROAD, " STATE ")
+    // Wisconsin's trunk highways: "CTH M" is County Highway M, "STH 19"
+    // and "USH 10" are State and US Highways.
+    .replace(/ (?:CTH|(?:COUNTY|CNTY|CO|CTY) TRUNK(?: HWY)?) /g, " CR ")
+    .replace(/ (?:STH|USH|STHWY|(?:STATE|ST) TRUNK(?: HWY)?) (?=\d)/g, " HWY ")
     .replace(/ (?:COUNTY|CNTY|CO) (?:RD|HWY|RTE) /g, " CR ")
     .replace(/ (?:US|U S|STATE|ST|SR|SH|SRTE|STHY) (?:HWY|RTE|RD)? ?(?=\d)/g, " HWY ")
     .replace(/ (?:HWY|RTE|SR|SH|US) (?=\d)/g, " HWY ")

@@ -45,6 +45,17 @@ describe("boundary lines", () => {
     });
   });
 
+  it("keeps a lettered range's numbers under its grid line", () => {
+    const line = (low: string, high: string) =>
+      parseBoundaryLine(
+        `A,20201001,99991231,${low},${high},B,,OLD 56,RD,,,,,B,MUKWONAGO,53149,,,,,,,55,55,133,,,,,,,,,,`,
+      )[0];
+    expect(line("W5300", "W5399")).toMatchObject({ houseText: "W#", houseLow: 5300, houseHigh: 5399 });
+    expect(line("N77W7201", "N77W7299")).toMatchObject({ houseText: "N77W#", houseLow: 7201, houseHigh: 7299 });
+    // A range whose grid line changes along it keeps its first number.
+    expect(line("N77W7201", "N78W7299")).toMatchObject({ houseText: "N77W7201", houseLow: null });
+  });
+
   it("splits a ZIP+4 range that crosses ZIPs into one row per ZIP", () => {
     const rows = parseBoundaryLine(
       "4,20050101,29991231,,,,,,,,,,,,,,,46001,0,46003,4999,,18,18,,,,,,,,",
