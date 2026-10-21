@@ -130,7 +130,13 @@ const PROVIDERS: Record<string, Provider> = {
       const url = new URL(`https://${host}/api/v2/taxrates/byaddress`);
       url.search = new URLSearchParams({ line1: c.street, city: c.city, region: c.state, postalCode: c.zip, country: "US" }).toString();
       const auth = Buffer.from(`${env("AVALARA_ACCOUNT_ID")}:${env("AVALARA_LICENSE_KEY")}`).toString("base64");
-      const response = await fetch(url, { headers: { Authorization: `Basic ${auth}` } });
+      // AvaTax's rate lookup answers an intermittent 500 RemoteServerError
+      // that a retry a second later clears.
+      let response = await fetch(url, { headers: { Authorization: `Basic ${auth}` } });
+      for (let retry = 0; response.status >= 500 && retry < 3; retry++) {
+        await new Promise((r) => setTimeout(r, 1_000));
+        response = await fetch(url, { headers: { Authorization: `Basic ${auth}` } });
+      }
       const raw = await json(response);
       return response.ok && typeof raw?.totalRate === "number"
         ? { rate: round(raw.totalRate), raw }
@@ -151,9 +157,11 @@ const PROVIDERS: Record<string, Provider> = {
         : { refused: `${response.status} ${raw?.detail ?? raw?.error ?? ""}`, raw };
     },
   },
+  /** Zip-Tax allows 10 requests a minute, and the account's plan a fixed
+   *  number in all (see /account/v60/metrics). */
   ziptax: {
     needs: ["ZIPTAX_API_KEY"],
-    pauseMs: 500,
+    pauseMs: 6_500,
     async ask(c) {
       const url = new URL("https://api.zip-tax.com/request/v60");
       url.search = new URLSearchParams({ address: `${c.street}, ${c.city}, ${c.state} ${c.zip}` }).toString();
@@ -298,8 +306,13 @@ async function ask(provider: string, perState: number, budget: number, states?: 
   for (const c of todo.slice(0, budget)) {
     const answer = await p.ask(c).catch((e: Error) => ({ refused: `error: ${e.message}` }));
     // An account or service failure says nothing about the address: it is
-    // reported and asked again next run, and the run stops on the first.
+    // not kept, so it is asked again next run. An account failure (auth,
+    // rate limit) stops the run; a server error skips just that address.
     if (notAboutAddress(answer)) {
+      if (/^5\d\d /.test(answer.refused)) {
+        console.log(`${provider}: skipped ${c.state} ${c.street}, ${answer.refused.slice(0, 120)}`);
+        continue;
+      }
       console.log(`${provider}: stopped, ${answer.refused.slice(0, 200)}`);
       break;
     }
