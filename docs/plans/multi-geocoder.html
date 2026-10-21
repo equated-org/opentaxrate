@@ -222,7 +222,7 @@
   <p class="eyebrow">Design plan · proposed · branch animated-jaguar · 2026-10-21</p>
   <h1>Many geocoders, asked only when the answer needs them</h1>
   <p class="lede">Today every map lookup asks Mapbox, the Census Bureau and Nominatim at the same time, so adding a provider adds a call to every lookup. This plan turns each geocoder into a provider that is switched on by its API key. A lookup asks two of them, cheapest first. A precise (and usually paid) geocoder is asked only when the engine finds a city or district line that would change the rate and that a sharper point could settle. Results are cached in Postgres where the provider's terms allow it, and each provider gets a rate limit, a daily cap and a circuit breaker.</p>
-  <p class="meta">Traced from <code>src/engine/locate.ts</code>, <code>src/geocoders.ts</code>, <code>src/lookup.ts</code>, <code>src/engine/index.ts</code>, <code>src/engine/geo-lookup.ts</code>, <code>src/engine/sst-lookup.ts</code>, <code>src/engine/types.ts</code>, <code>scripts/bench.ts</code> at 8e7f871. Not yet implemented.</p>
+  <p class="meta">Traced from <code>src/geocoding/index.ts</code>, <code>src/geocoding/mapbox.ts</code>, <code>src/lookup.ts</code>, <code>src/rates/index.ts</code>, <code>src/rates/map.ts</code>, <code>src/rates/ranges.ts</code>, <code>src/geocoding/index.ts</code>, <code>scripts/bench.ts</code> at 8e7f871. Not yet implemented.</p>
 </header>
 
 <h2 id="why">Why change how addresses are placed</h2>
@@ -250,7 +250,7 @@
 </div>
 
 <h3 id="margins">A more precise point means a smaller margin</h3>
-<p>A geocoded point is the true location give or take some error. If a city line is closer than that error, the house could be on either side. <code>EDGE_METRES</code> in <code>src/engine/types.ts</code> sets the margin by how the geocoder placed the address:</p>
+<p>A geocoded point is the true location give or take some error. If a city line is closer than that error, the house could be on either side. <code>EDGE_METRES</code> in <code>src/geocoding/index.ts</code> sets the margin by how the geocoder placed the address:</p>
 <div class="scroll">
 <table class="grid-table">
   <thead><tr><th scope="col">Accuracy</th><th scope="col" class="num">Margin</th><th scope="col">How it's placed</th><th scope="col">What providers call it</th></tr></thead>
@@ -361,7 +361,7 @@ interface GeocoderProvider {
 <span class="n">// enabled = the provider's key or URL is set; there is no ENABLE_ flag</span>
 interface SourcedPoint extends LocatedPoint { provider: string; source: string }  <span class="n">// source: "tiger", "osm", "openaddresses", …</span>
 
-<span class="n">// src/engine/types.ts: the callback the engine already takes, given an argument</span>
+<span class="n">// src/geocoding/index.ts: the callback the engine already takes, given an argument</span>
 type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | null&gt;;</pre>
   </div>
 </details>
@@ -427,7 +427,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 └─ <span class="layer">app</span>lookUpRate(q)                              <span class="n">lookup.ts</span>
    ├─ <span class="layer">geo</span>geocoding.locator(address)              <span class="n">geocoding/locator.ts · new, memo per request</span>
    └─ <span class="layer">engine</span>addressRates.at({ …, locate })        <span class="n">engine/index.ts</span>
-      └─ <span class="layer">engine</span>geoRateAt(state, locate, date)     <span class="n">engine/geo-lookup.ts · takes locate, not a point</span>
+      └─ <span class="layer">engine</span>geoRateAt(state, locate, date)     <span class="n">rates/map.ts · takes locate, not a point</span>
          ├─ <span class="layer">geo</span>locate()                           <span class="n">stage 1</span>
          │  ├─ <span class="layer">sql</span>SELECT geocode_results WHERE key=…  <span class="n">miss</span>
          │  ├─ <span class="layer">geo</span>pickPair(registry)               <span class="n">cheapest two with different sources</span>
@@ -558,7 +558,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
   <tbody>
     <tr><th scope="row">HTTP</th><td><code>src/server.ts</code></td><td>query parsing, status codes</td><td>a <code>RateQuery</code> to <code>lookUpRate</code></td></tr>
     <tr><th scope="row">App</th><td><code>src/lookup.ts</code></td><td>wiring one lookup: a locator per request</td><td><code>locate</code> to the engine</td></tr>
-    <tr><th scope="row">Engine</th><td><code>src/engine/geo-lookup.ts</code>, <code>sst-lookup.ts</code></td><td>which lines decide the rate; when a sharper point is worth asking for</td><td><code>locate({ marginUnder })</code>; never names a provider</td></tr>
+    <tr><th scope="row">Engine</th><td><code>src/rates/map.ts</code>, <code>src/rates/ranges.ts</code></td><td>which lines decide the rate; when a sharper point is worth asking for</td><td><code>locate({ marginUnder })</code>; never names a provider</td></tr>
     <tr><th scope="row">Geocoding</th><td><code>src/geocoding/locator.ts</code></td><td>stages, agreement between sources, memo per request</td><td>a <code>LocatedPoint</code> or null</td></tr>
     <tr><th scope="row">Geocoding</th><td><code>src/geocoding/registry.ts</code>, <code>budget.ts</code></td><td>which providers are on; token buckets, breakers, daily caps</td><td>the available providers, in order</td></tr>
     <tr><th scope="row">Geocoding</th><td><code>src/geocoding/providers/*.ts</code></td><td>one vendor's request, its accuracy labels, its terms</td><td>a <code>SourcedPoint</code> or null</td></tr>
@@ -566,7 +566,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
   </tbody>
 </table>
 </div>
-<p><code>src/engine/locate.ts</code> and <code>src/geocoders.ts</code> are removed. The engine no longer imports any geocoder, which keeps the address → location → rate split clean: the engine starts from a location and asks for a better one only by margin.</p>
+<p><code>src/geocoding/index.ts</code> and <code>src/geocoding/mapbox.ts</code> are removed. The engine no longer imports any geocoder, which keeps the address → location → rate split clean: the engine starts from a location and asks for a better one only by margin.</p>
 
 <h2 id="phases">Phases</h2>
 <h3>Phase 1: tables and the provider registry</h3>
@@ -575,9 +575,9 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
   <summary>Files<span class="dim">phase 1</span></summary>
   <div class="inner">
 <pre class="calls"><span class="layer">sql</span>migrations/0004_geocoding.sql
-<span class="layer">sql</span>src/schema.ts                         <span class="n">geocodeResults, geocoderUsage</span>
+<span class="layer">sql</span>src/db/schema.ts                         <span class="n">geocodeResults, geocoderUsage</span>
 <span class="layer">geo</span>src/geocoding/types.ts, registry.ts
-<span class="layer">geo</span>src/geocoding/providers/census.ts, nominatim.ts, mapbox.ts   <span class="n">moved from locate.ts, geocoders.ts</span>
+<span class="layer">geo</span>src/geocoding/providers/census.ts, nominatim.ts, mapbox.ts   <span class="n">moved from geocoding/index.ts, mapbox.ts</span>
 <span class="layer">test</span>test/geocoding-registry.test.ts      <span class="n">env → enabled set</span></pre>
   </div>
 </details>
@@ -591,7 +591,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 <pre class="calls"><span class="layer">geo</span>src/geocoding/locator.ts, budget.ts, cache.ts
 <span class="layer">app</span>src/lookup.ts                         <span class="n">locator per request</span>
 <span class="layer">app</span>src/server.ts                         <span class="n">/v1/coverage geocoders key</span>
-<span class="layer">engine</span>src/engine/index.ts                <span class="n">drop locateAddress export</span>
+<span class="layer">engine</span>src/rates/index.ts                <span class="n">drop locateAddress export</span>
 <span class="layer">test</span>test/locator.test.ts                <span class="n">pair, outlier, one source, cap, breaker, cache hit</span></pre>
   </div>
 </details>
@@ -602,9 +602,9 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 <details class="more">
   <summary>Files<span class="dim">phase 3</span></summary>
   <div class="inner">
-<pre class="calls"><span class="layer">engine</span>src/engine/types.ts                <span class="n">Locate type</span>
-<span class="layer">engine</span>src/engine/geo-lookup.ts           <span class="n">takes locate; decidingEdges(); one retry</span>
-<span class="layer">engine</span>src/engine/sst-lookup.ts           <span class="n">near_edge → locate({ marginUnder })</span>
+<pre class="calls"><span class="layer">engine</span>src/geocoding/index.ts                <span class="n">Locate type</span>
+<span class="layer">engine</span>src/rates/map.ts           <span class="n">takes locate; decidingEdges(); one retry</span>
+<span class="layer">engine</span>src/rates/ranges.ts           <span class="n">near_edge → locate({ marginUnder })</span>
 <span class="layer">test</span>test/address-rates.test.ts          <span class="n">near-edge case settled by a sharper point; 10 m case still refused</span></pre>
   </div>
 </details>

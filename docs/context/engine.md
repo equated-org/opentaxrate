@@ -1,8 +1,8 @@
 # Engine dispatch, statewide states and California
 
-Sources: `src/engine/index.ts`, `src/engine/statewide.ts`, `src/engine/california.ts`
+Sources: `src/rates/index.ts`, `src/rates/statewide.ts`, `src/rates/california.ts`
 
-`addressRates` in `src/engine/index.ts` is the engine's one entry point. It picks a method by state, calls that method, and shapes the result as an `AddressRate`. The range and map engines have their own notes ([range-engine.md](range-engine.md), [map-engine.md](map-engine.md)).
+`addressRates` in `src/rates/index.ts` is the engine's one entry point. It picks a method by state, calls that method, and shapes the result as an `AddressRate`. The range and map engines have their own notes ([range-engine.md](range-engine.md), [map-engine.md](map-engine.md)).
 
 ## Dispatch
 
@@ -36,7 +36,7 @@ Note the map method always calls `query.locate()` up front; the range method pas
 
 The `source` match phrases come from `MATCH_NAMES`.
 
-## Statewide (`src/engine/statewide.ts`)
+## Statewide (`src/rates/statewide.ts`)
 
 `RATES` holds a newest-first list of `{ rate, from }` per state: DE, NH, OR, MT at 0; CT 6.35%; ME 5.5%; MD 6%; MA 6.25%; DC 6%. `STATEWIDE_STATES = Object.keys(RATES)`.
 
@@ -49,7 +49,7 @@ The `source` match phrases come from `MATCH_NAMES`.
 
 Invariants: rates are dated and a sale before the first date is refused, not given today's rate. Rates on particular goods (meals, IT services) are not the general rate and are not here. Streamlined members with one rate (IN, KY, MI, NJ, RI) come from their own files, not this table. Alaska is a map state, not statewide.
 
-## California (`src/engine/california.ts`, `california()` in `index.ts`)
+## California (`src/rates/california.ts`, `california()` in `index.ts`)
 
 California publishes no files to load, so it is read live from CDTFA's `GetRateByAddress` service, today's rate only.
 

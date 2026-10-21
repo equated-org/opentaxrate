@@ -15,11 +15,11 @@ Notes describe the code as it is. Plans for future work go in [../plans/](../pla
 | Note | Subsystem | Source files |
 |---|---|---|
 | [api.md](api.md) | HTTP API, CLI, the shared lookup, errors | `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts` |
-| [engine.md](engine.md) | Dispatch by state, the `AddressRate` answer, statewide states, California | `src/engine/index.ts`, `src/engine/statewide.ts`, `src/engine/california.ts` |
-| [range-engine.md](range-engine.md) | Streamlined states and Missouri: street, ZIP+4, ZIP, map | `src/engine/sst-lookup.ts`, `src/engine/sst-files.ts`, `src/engine/address.ts`, `src/engine/missouri.ts` |
-| [map-engine.md](map-engine.md) | Map-read states: outlines, levy types, edges, state adapters | `src/engine/geo-lookup.ts`, `src/engine/shapes.ts`, `src/engine/types.ts`, `src/engine/geo-states/*` |
-| [geocoding.md](geocoding.md) | Placing an address on the map | `src/engine/locate.ts`, `src/geocoders.ts`, `src/engine/types.ts` |
-| [refresh.md](refresh.md) | Downloading and loading data, the tables | `src/engine/refresh.ts`, `src/engine/load.ts`, `src/engine/downloads.ts`, `src/engine/tiger.ts`, `src/schema.ts` |
+| [engine.md](engine.md) | Dispatch by state, the `AddressRate` answer, statewide states, California | `src/rates/index.ts`, `src/rates/statewide.ts`, `src/rates/california.ts` |
+| [range-engine.md](range-engine.md) | Streamlined states and Missouri: street, ZIP+4, ZIP, map | `src/rates/ranges.ts`, `src/ingest/sst-files.ts`, `src/address.ts`, `src/ingest/missouri.ts` |
+| [map-engine.md](map-engine.md) | Map-read states: outlines, levy types, edges, state adapters | `src/rates/map.ts`, `src/rates/shapes.ts`, `src/rates/types.ts`, `src/ingest/states/*` |
+| [geocoding.md](geocoding.md) | Placing an address on the map | `src/geocoding/index.ts`, `src/geocoding/mapbox.ts`, `src/geocoding/index.ts` |
+| [refresh.md](refresh.md) | Downloading and loading data, the tables | `src/ingest/refresh.ts`, `src/ingest/load.ts`, `src/ingest/downloads.ts`, `src/ingest/tiger.ts`, `src/db/schema.ts` |
 
 ## Writing a note
 

@@ -1,10 +1,10 @@
 # Range engine (Streamlined states and Missouri)
 
-Sources: `src/engine/sst-lookup.ts`, `src/engine/sst-files.ts`, `src/engine/address.ts`, `src/engine/missouri.ts`
+Sources: `src/rates/ranges.ts`, `src/ingest/sst-files.ts`, `src/address.ts`, `src/ingest/missouri.ts`
 
 The 24 Streamlined Sales Tax (SST) members publish every street's house-number ranges, ZIP+4 ranges and ZIP rows, each tied to an area (county, city, districts). Missouri's DOR publishes the same boundary layout. `RANGE_FIPS` in `sst-files.ts` is `SST_FIPS` plus `MO: "29"`; it decides which states this engine serves.
 
-## Lookup order (`sstRateAt` in `sst-lookup.ts`)
+## Lookup order (`sstRateAt` in `rates/ranges.ts`)
 
 `sstRateAt(input, date)` returns `{ rate, byType, parts, match, locationCode, files }` or throws. `byType` is each part's interstate and food-and-drug rates (`byTypeOf`) added with `sumByType`; across several areas sharing one general rate, `agreedByType` keeps only the types they all agree on.
 

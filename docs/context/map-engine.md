@@ -1,6 +1,6 @@
 # Map engine
 
-Sources: `src/engine/geo-lookup.ts`, `src/engine/shapes.ts`, `src/engine/types.ts`, `src/engine/geo-states/index.ts`, `src/engine/geo-states/tables.ts`, `src/engine/geo-states/sources.ts`, `src/engine/geo-states/*.ts` (one adapter per state)
+Sources: `src/rates/map.ts`, `src/rates/shapes.ts`, `src/rates/types.ts`, `src/ingest/states/index.ts`, `src/ingest/states/tables.ts`, `src/ingest/states/sources.ts`, `src/ingest/states/*.ts` (one adapter per state)
 
 For states whose local taxes follow county, city and district lines (TX, FL, NY, VA, AZ, NM, IL, SC, CO, AL, LA, AK, PA, HI, MS, ID, the order of `GEO_STATES`). The address is placed on the map (see [geocoding.md](geocoding.md)), PostGIS finds the outlines around it, and each outline's dated rate row is stacked by its type.
 
@@ -38,7 +38,7 @@ Stacking in `rateOf`: if any `x` area holds the point, the smallest by `area` wi
 
 `locationCode` is the state code, then each part's code (without `@county`), joined by dashes.
 
-## Edges and margins (`types.ts`, end of `geoRateAt`)
+## Edges and margins (`geocoding/index.ts`, end of `geoRateAt`)
 
 `EDGE_METRES` by geocode accuracy: rooftop 15, parcel 25, point 40, interpolated 75. `marginOf(p)` is `p.metres` when set (geocoders disagreed, see [geocoding.md](geocoding.md)) else `EDGE_METRES[p.accuracy]`.
 
@@ -68,8 +68,8 @@ Helpers in `sources.ts`: `fetchFile` / `fetchText` (local copy in `dir` first, s
 
 ### Adding a state
 
-1. Write `src/engine/geo-states/<state>.ts` exporting a `GeoState`, with `stateTable` if its rates follow Census names or FIPS.
+1. Write `src/ingest/states/<state>.ts` exporting a `GeoState`, with `stateTable` if its rates follow Census names or FIPS.
 2. Give every row a type from the table above; dates as ISO, open end `9999-12-31`.
-3. Add it to `GEO_STATES` in `geo-states/index.ts`. That alone makes `addressRates` route it to the map, lists it in `/v1/coverage`, and makes `refreshAddressRates` load its data and its TIGER outlines.
+3. Add it to `GEO_STATES` in `ingest/states/index.ts`, which makes `refreshAddressRates` load its data and its TIGER outlines, and to `MAP_STATES` in `src/coverage.ts`, which makes `addressRates` route it to the map and lists it in `/v1/coverage`. `test/coverage.test.ts` fails if the two lists differ.
 4. Run `refresh <ST>` and check known addresses with `check --cases`.
 5. Update this note and [../state-coverage.html](../state-coverage.html).
