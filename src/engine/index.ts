@@ -23,12 +23,12 @@ import { RateError } from "../errors.js";
 import { statewideRate, STATEWIDE_STATES } from "./statewide.js";
 import { RANGE_FIPS } from "./sst-files.js";
 import { sstRateAt } from "./sst-lookup.js";
-import type { LocatedPoint, RatePart } from "./types.js";
+import { generalOnly, type LocatedPoint, type RatePart, type RatesByType } from "./types.js";
 import { geoRateAt } from "./geo-lookup.js";
 import { GEO_STATES, geoStateOf } from "./geo-states/index.js";
 import { californiaSalesTaxService } from "./california.js";
 
-export type { LocatedPoint, RatePart };
+export type { LocatedPoint, RatePart, RatesByType };
 export { STATEWIDE_STATES };
 export { locateAddress } from "./locate.js";
 
@@ -50,6 +50,10 @@ export interface AddressRate {
   rate: number;
   stateRate: number;
   localRate: number;
+  /** The combined rate for each kind of sale the state's files rate apart
+   *  (general from in or out of state, food and drugs from in or out of
+   *  state); only `general` outside the Streamlined states. */
+  byType: RatesByType;
   parts: RatePart[];
   /** How precisely the address was placed: one rate for the whole state, a
    *  street range, a ZIP+4 range, a ZIP whose ranges all share one rate, or
@@ -103,6 +107,7 @@ export const addressRates = {
         rate: statewide.rate,
         stateRate: statewide.rate,
         localRate: 0,
+        byType: generalOnly(statewide.rate),
         parts: [{ kind: "state", code: state, rate: statewide.rate }],
         match: "statewide",
         locationCode: state,
@@ -123,6 +128,7 @@ export const addressRates = {
         rate: found.rate,
         stateRate,
         localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
+        byType: generalOnly(found.rate),
         parts: found.parts,
         match: "map",
         locationCode: found.locationCode,
@@ -143,6 +149,7 @@ export const addressRates = {
       rate: found.rate,
       stateRate,
       localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
+      byType: found.byType,
       parts: found.parts,
       match: found.match,
       locationCode: found.locationCode,
@@ -163,6 +170,7 @@ async function california(query: AddressRateQuery, date: string): Promise<Addres
     rate: found.rate,
     stateRate: CA_STATE_RATE,
     localRate: Math.round((found.rate - CA_STATE_RATE) * 1e6) / 1e6,
+    byType: generalOnly(found.rate),
     parts: [
       { kind: "state", code: "CA", rate: CA_STATE_RATE },
       { kind: "district", code: `tac:${found.locationCode}`, rate: Math.round((found.rate - CA_STATE_RATE) * 1e6) / 1e6 },

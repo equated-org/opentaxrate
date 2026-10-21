@@ -81,12 +81,14 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
       const total = rate(row[salesAt]);
       if (!code || !JURISDICTION.test(code) || total === null) continue;
       const local = Math.round((total - STATE_RATE) * 1e6) / 1e6;
-      rateLines.push(`29,${WHOLE_CODE_TYPE},${code},${local},${local},${local},${local},${q.start.replaceAll("-", "")},${q.end.replaceAll("-", "")}`);
+      // The DOR publishes only the general total; Missouri's state food rate
+      // is lower, so the food and interstate columns are left blank.
+      rateLines.push(`29,${WHOLE_CODE_TYPE},${code},${local},,,,${q.start.replaceAll("-", "")},${q.end.replaceAll("-", "")}`);
     }
     if (loaded.length === QUARTERS) break;
   }
   if (!oldest || !newestBoundary) throw new Error("No Missouri rate file found");
-  rateLines.push(`29,45,29,${STATE_RATE},${STATE_RATE},${STATE_RATE},${STATE_RATE},${oldest.replaceAll("-", "")},99991231`);
+  rateLines.push(`29,45,29,${STATE_RATE},,,,${oldest.replaceAll("-", "")},99991231`);
   // The newest quarter's rates run on until the next file says otherwise.
   const newest = quarters.find((q) => `q${q.quarter}-${q.year}` === loaded[0])!;
   for (let i = 0; i < rateLines.length; i++)

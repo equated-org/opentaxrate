@@ -131,6 +131,15 @@ export const salesTaxJurisdictionRates = pgTable(
     code: text("code").notNull(),
     /** General rate on a sale delivered within the state, as a decimal. */
     rate: numeric("rate", { precision: 8, scale: 6 }).notNull(),
+    /** The Streamlined files' other rates: the general rate on a sale from
+     *  outside the state, and the rate on food and drugs a state taxes at
+     *  its food rate, from within and outside the state. Null where the
+     *  publisher gives none (map-read states, Missouri). A food rate is the
+     *  rate where food is taxed, not whether it is: Ohio's equals its
+     *  general rate though Ohio exempts groceries. */
+    rateInterstate: numeric("rate_interstate", { precision: 8, scale: 6 }),
+    foodDrugRate: numeric("food_drug_rate", { precision: 8, scale: 6 }),
+    foodDrugRateInterstate: numeric("food_drug_rate_interstate", { precision: 8, scale: 6 }),
     startsOn: date("starts_on").notNull(),
     endsOn: date("ends_on").notNull(),
   },

@@ -177,13 +177,16 @@ export async function loadSstState(files: StateFiles) {
           row.type,
           row.code,
           row.rate,
+          row.rateInterstate,
+          row.foodDrugRate,
+          row.foodDrugRateInterstate,
           row.startsOn,
           row.endsOn,
         ]);
       }
     };
     await copy(
-      await sql`COPY sales_tax_jurisdiction_rates (state, type, code, rate, starts_on, ends_on) FROM STDIN`.writable(),
+      await sql`COPY sales_tax_jurisdiction_rates (state, type, code, rate, rate_interstate, food_drug_rate, food_drug_rate_interstate, starts_on, ends_on) FROM STDIN`.writable(),
       rateRows(),
     );
 
