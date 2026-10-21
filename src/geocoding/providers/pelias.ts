@@ -12,7 +12,7 @@ export async function peliasPoint(a: AddressToLocate, signal: AbortSignal): Prom
     if (p.layer !== "address" || p.accuracy !== "point" || p.match_type !== "exact"
       || !matchesAddress(a, { house: p.housenumber, street: p.street, city: p.locality,
         state: p.region_a ?? p.region, zip: p.postalcode, country: p.country_a === "USA" ? "US" : p.country_a })) return [];
-    const source = p.source === "openstreetmap" ? "osm" : p.source === "openaddresses" ? "openaddresses" : "unknown";
+    const source = p.source === "openstreetmap" ? "osm" : p.source === "openaddresses" ? "openaddresses" : "pelias";
     return [{ provider: "pelias", source, accuracy: "point", lon: f.geometry?.coordinates?.[0], lat: f.geometry?.coordinates?.[1] }];
   });
   return matches.length === 1 ? matches[0] : null;

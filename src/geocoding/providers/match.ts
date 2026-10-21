@@ -30,8 +30,12 @@ export function matchesAddress(a: AddressToLocate, found: { street?: string; hou
   const state = normalized(a.state);
   const foundState = normalized(found.state ?? "");
   if (foundState !== state && foundState !== STATES[state]?.toUpperCase()) return false;
-  if (a.city && normalized(found.city ?? "") !== normalized(a.city)) return false;
-  if (a.zip && found.zip?.slice(0, 5) !== a.zip.slice(0, 5)) return false;
+  // The typed city or ZIP must agree, not both: a mailing city or a
+  // neighbouring ZIP is common, and independent providers still have to
+  // agree on the point.
+  const cityAgrees = !a.city || normalized(found.city ?? "") === normalized(a.city);
+  const zipAgrees = !a.zip || found.zip?.slice(0, 5) === a.zip.slice(0, 5);
+  if (!cityAgrees && !zipAgrees) return false;
   const line = `${found.house} ${found.street}`;
   const requested = parseStreet(a.street);
   const parsed = parseStreet(line);

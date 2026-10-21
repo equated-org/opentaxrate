@@ -47,7 +47,7 @@ const DEFINITIONS: Definition[] = [
     sources: ["osm", "openaddresses"], typicalAccuracy: "point", costPerCall: 0, dailyCap: 100_000, ratePerSecond: 10,
     storable: () => true, geocode: peliasPoint },
   { id: "geocodio", credential: () => env("GEOCODIO_API_KEY"), env: "GEOCODIO",
-    sources: ["unknown"], typicalAccuracy: "rooftop", costPerCall: 0.0005, dailyCap: 2500, ratePerSecond: 5,
+    sources: ["geocodio", "tiger"], typicalAccuracy: "rooftop", costPerCall: 0.0005, dailyCap: 2500, ratePerSecond: 5,
     storable: () => true, geocode: geocodioPoint },
   { id: "smarty", credential: () => (env("SMARTY_AUTH_ID") && env("SMARTY_AUTH_TOKEN") ? `${env("SMARTY_AUTH_ID")}:${env("SMARTY_AUTH_TOKEN")}` : undefined),
     env: "SMARTY", sources: ["smarty"], typicalAccuracy: "rooftop", costPerCall: 0.001, dailyCap: 100, ratePerSecond: 5,
