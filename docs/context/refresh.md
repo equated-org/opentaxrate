@@ -1,6 +1,6 @@
 # Refresh, loading and tables
 
-Sources: `src/engine/refresh.ts`, `src/engine/load.ts`, `src/engine/downloads.ts`, `src/engine/tiger.ts`, `src/schema.ts` (and `migrations/`)
+Sources: `src/ingest/refresh.ts`, `src/ingest/load.ts`, `src/ingest/downloads.ts`, `src/ingest/tiger.ts`, `src/db/schema.ts` (and `migrations/`)
 
 The refresh job downloads each publisher's newest files and replaces a state's rows. It is the only writer; the API only reads. Run with `opentaxrate refresh [STATE...] [--dir D] [--force]`, which calls `refreshAddressRates({ states, dir, force })`.
 

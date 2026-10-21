@@ -1,6 +1,6 @@
 # API, CLI and errors
 
-Sources: `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts` (and `src/db.ts` for the pool)
+Sources: `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts` (and `src/db/client.ts` for the pool)
 
 The outside of the service. The HTTP API and the CLI both turn a request into one call to `lookUpRate` (`src/lookup.ts`), which calls `addressRates.at` in the engine. Neither writes rate data; loading is the CLI's `refresh` command (see [refresh.md](refresh.md)).
 
@@ -84,4 +84,4 @@ After any command but `serve`, the Postgres `client` is closed; a thrown error s
 | `PORT` | `8080` | `cli.ts` |
 | `DATABASE_URL` | `postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate` | `db.ts` |
 | `DATABASE_POOL` | `10` | `db.ts` (pool size) |
-| `MAPBOX_ACCESS_TOKEN` | unset | `geocoders.ts`, via `lookUpRate` |
+| `MAPBOX_ACCESS_TOKEN` | unset | `geocoding/mapbox.ts`, via `lookUpRate` |

@@ -1,6 +1,6 @@
 # Geocoding
 
-Sources: `src/engine/locate.ts`, `src/geocoders.ts`, `src/engine/types.ts` (`LocatedPoint`, `EDGE_METRES`, `marginOf`), `src/lookup.ts` (wiring)
+Sources: `src/geocoding/index.ts`, `src/geocoding/mapbox.ts`, `src/geocoding/index.ts` (`LocatedPoint`, `EDGE_METRES`, `marginOf`), `src/lookup.ts` (wiring)
 
 Turns a street address into one `LocatedPoint { lon, lat, accuracy, metres? }`, or null. Used by the map engine for every lookup, and by the range engine only when a ZIP is split (see [engine.md](engine.md)). This note describes the code as it is today.
 
@@ -33,13 +33,13 @@ So agreement within the best point's own margin keeps it as is; a wider disagree
 
 ## Sources
 
-### Census (`censusPoint`, `locate.ts`)
+### Census (`censusPoint`, `geocoding/index.ts`)
 
 - `geocoding.geo.census.gov/geocoder/locations/onelineaddress`, benchmark `Public_AR_Current`, 6 s timeout (`TIMEOUT_MS`).
 - Keeps matches whose state is absent or equals the asked state.
 - **Exactly one match** or nothing. Accuracy is always `interpolated` (it places the number along the street's address range).
 
-### Nominatim (`nominatimPoint`, `locate.ts`)
+### Nominatim (`nominatimPoint`, `geocoding/index.ts`)
 
 - `nominatim.openstreetmap.org/search` with structured `street`, `city`, `state`, `postalcode` (five digits), `countrycodes=us`, `limit=2`, 6 s timeout.
 - Sends `User-Agent` from `OPENTAXRATE_USER_AGENT` (default `opentaxrate (+https://github.com/opentaxrate/opentaxrate)`).
@@ -47,7 +47,7 @@ So agreement within the best point's own margin keeps it as is; a wider disagree
 - Two results more than 50 m apart: null. Within 50 m (a node and a building for one house): the first. Accuracy `point`.
 - **Spacing**: a module variable `nominatimFree` holds the next free time; each call reserves one second past it and sleeps until its slot. This is one request per second **per process**, not across processes or replicas.
 
-### Mapbox (`mapboxGeocoder`, `src/geocoders.ts`)
+### Mapbox (`mapboxGeocoder`, `src/geocoding/mapbox.ts`)
 
 - Only when `MAPBOX_ACCESS_TOKEN` is set. Geocoding v6 forward, `types=address`, `country=us`, `autocomplete=false`, `limit=5`, 5 s timeout.
 - A feature is kept only if all hold:
