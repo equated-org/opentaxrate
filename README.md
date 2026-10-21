@@ -96,6 +96,7 @@ In Docker, each runs as `docker compose run --rm api <command>`; `refresh` has i
 | Endpoint | Returns |
 |---|---|
 | `GET /v1/rate?state=&street=&city=&zip=&date=` | the rate, its parts, match type and sources; `422` with candidates when it can't settle one; `400` (`BAD_REQUEST`) for a malformed query; `502` when the state isn't loaded; add `include=trace` for how the address was placed (geocoder points, outlines, the deciding street range) |
+| `GET /v1/suggest?q=` | address suggestions as you type, relayed to a Photon geocoder; only when `OPENTAXRATE_PHOTON_URL` is set |
 | `GET /v1/coverage` | every state, how it's placed, and the files loaded for it |
 | `GET /health` | `{ "ok": true }` once the database answers |
 
@@ -192,7 +193,16 @@ To measure coordinate error against benchmark CSV cases containing trusted `lon,
 | `OPENTAXRATE_CORS_ORIGINS` | unset | comma-separated origins allowed to call the API from a browser; unset sends no CORS headers |
 | `OPENTAXRATE_PUBLIC_LIMIT` | unset | per-IP limit on `/v1/rate`, e.g. `10/min,200/day`; over it is a `429` (`RATE_LIMITED`) with `Retry-After` |
 | `OPENTAXRATE_TRUST_CF` | unset | `1` counts the limit by Cloudflare's `CF-Connecting-IP` instead of the socket address |
+| `OPENTAXRATE_CLIENT_IP_HEADER` | unset | count the limits by this header (e.g. `X-Client-IP`) when the API's only caller is a proxy that sets it |
 | `OPENTAXRATE_CACHE_HOURS` | unset | keep successful `/v1/rate` answers in memory this long (up to 5,000) |
+| `OPENTAXRATE_PHOTON_URL` | unset | a Photon geocoder that `/v1/suggest` relays to, e.g. over Tailscale |
+| `OPENTAXRATE_SUGGEST_LIMIT` | unset | per-IP limit on `/v1/suggest`, like `OPENTAXRATE_PUBLIC_LIMIT` |
+
+For a public server, `deploy/compose.public.yml` layers these on the stack: the API on `127.0.0.1:8080` only, no published Postgres port, Postgres sized for 2 GB, the limits, the cache and the Photon relay (settings in `deploy/.env`; see `deploy/.env.example`):
+
+```bash
+docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml up -d
+```
 
 ---
 
