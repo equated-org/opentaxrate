@@ -1,16 +1,16 @@
 # Range engine (Streamlined states and Missouri)
 
-Sources: `src/rates/ranges.ts`, `src/ingest/sst-files.ts`, `src/address.ts`, `src/ingest/missouri.ts`
+Sources: `src/rates/ranges.ts`, `src/rates/streets/` (`findStreet`), `src/rates/places.ts`, `src/standardize/index.ts`, `src/ingest/sst-files.ts`, `src/address.ts`, `src/ingest/missouri.ts`
 
 The 24 Streamlined Sales Tax (SST) members publish every street's house-number ranges, ZIP+4 ranges and ZIP rows, each tied to an area (county, city, districts). Missouri's DOR publishes the same boundary layout. `RANGE_FIPS` in `sst-files.ts` is `SST_FIPS` plus `MO: "29"`; it decides which states this engine serves.
 
 ## Lookup order (`sstRateAt` in `rates/ranges.ts`)
 
-`sstRateAt(input, date)` returns `{ rate, byType, parts, match, locationCode, files }` or throws. `byType` is each part's interstate and food-and-drug rates (`byTypeOf`) added with `sumByType`; across several areas sharing one general rate, `agreedByType` keeps only the types they all agree on.
+`sstRateAt(input, date)` returns `{ rate, byType, parts, match, locationCode, files, note? }` or throws. `note` says how an address was found when not by its own typed street (a corrected name, listed neighbours, a standardized ZIP+4); `addressRates.at` appends it to `source`. `byType` is each part's interstate and food-and-drug rates (`byTypeOf`) added with `sumByType`; across several areas sharing one general rate, `agreedByType` keeps only the types they all agree on.
 
 Up front: 502 if fewer than two release files are loaded for the state; 422 if `date < HISTORY_FROM`.
 
-1. **Street.** `parseStreet` the typed line, then `streetMatch`. If a ZIP+4 was typed, its areas (`zipAreas` with `plus4`) must give the same rate or the address is refused. If no ZIP+4 but the ZIP has more than one rate and `locate` exists, the address is geocoded and `mapAreas` must not give a different rate (street ranges are filed by hundred-block, which can straddle a city line).
+1. **Street.** `findStreet` (below). If it finds nothing, no ZIP+4 was typed, and `input.standardize` exists, the address is standardized once: its ZIP+4 is used (only if its ZIP is the typed one, or none was typed), and `findStreet` is retried with the Postal Service's spelling of the street. If a ZIP+4 was typed, its areas (`zipAreas` with `plus4`) must give the same rate or the address is refused. If no ZIP+4 but the ZIP has more than one rate and `locate` exists, the address is geocoded and `mapAreas` must not give a different rate (street ranges are filed by hundred-block, which can straddle a city line).
 2. **ZIP+4.** When the street wasn't found, the ZIP+4 range's areas.
 3. **ZIP.** `zipAreas(state, zip5)` (every ZIP row and street range in the ZIP), only when `citiesInZip` names the typed city (or names none), and only if every area has one rate. No ZIP at this point is a 422.
 4. **Map.** When the ZIP is split, or its ranges don't name the city, call `locate()` and keep `mapAreas`. A point within `marginOf(point)` of a deciding county or city line is refused.
@@ -19,14 +19,21 @@ Anything left is a `refusal(...)`: a 422 listing up to six candidate rates with 
 
 `answer(areaIds, match)` is the core rule: rate every area with `rateAreas`; answer only if they all share one rate. `locationCode` is set only when one area remains.
 
-## Street matching
+## Street matching (`src/rates/streets/`)
 
-`streetMatch` tries each of `streetVariantsOf(street)` in order and stops at the first that finds rows:
+One call, `findStreet({ state, street, city, zip5, date })` → `{ areaIds, how, note? }` or null, tries three ways in turn and stops at the first that finds the address:
 
-- rows on `(state, street_key)` live on `date`, with the house inside `[house_low, house_high]` and parity `B` or matching odd/even; lettered numbers match `house_text` (see `letteredHouse`);
-- `bestRows` narrows: same ZIP (typed city's rows first), else same city; then type and directions (one side silent is allowed, exact preferred, directions compared as sets); then unit ranges.
-- A street type the file never uses for that name in the place is treated as a typo when the file has only one type (`suffixesOf`).
-- `CR<n>` with no match retries under each county's name the ZIP reaches (`countyRoadKeys`), keeping every county's match.
+1. **exact** (`exact.ts`, `exactAreas`): each of `streetVariantsOf(street)` in order, stopping at the first that finds rows:
+   - rows on `(state, street_key)` live on `date`, with the house inside `[house_low, house_high]` and parity `B` or matching odd/even; lettered numbers match `house_text` (see `letteredHouse`);
+   - `bestRows` narrows: same ZIP (typed city's rows first), else same city; then type and directions (one side silent is allowed, exact preferred, directions compared as sets); then unit ranges;
+   - a street type the file never uses for that name in the place is treated as a typo when the file has only one type (`suffixesOf`);
+   - `CR<n>` with no match retries under each county's name the ZIP reaches (`countyRoadKeys`), keeping every county's match.
+2. **between** (`between.ts`): for a file that lists houses one by one (Missouri), the nearest listed houses below and above on the same street, side (parity) and ZIP, filtered by `bestRows`. Used only when both exist, are at most `MAX_GAP` (200) apart, and every row at both neighbours is in one area.
+3. **corrected** (`correct.ts`): when the typed name isn't one of the ZIP's streets, read it as one: by trigram similarity of the parsed names (at least 0.45 and 0.08 ahead of the next), else by Jev (`jev.ts`, only with `TYPESAFE_API_KEY`) choosing among the ZIP's streets or NONE at confidence ≥ 0.5. The pick is only a name: 1 and 2 must still find the house on it. Jev failures are no answer.
+
+City names compare through `normalizeCity` (`places.ts`), which abbreviates Saint, Mount and Fort anywhere in the name ("Lake Saint Louis" = "LAKE ST LOUIS").
+
+`parseStreet` reads only the street out of a longer line: the comma-separated piece that starts with a house number, a unit piece just before or after it, a trailing state and ZIP with the city before them, a unit glued to its designator ("Apt4B"), a house number spelled out ("One"), and a street type one slip from its spelling ("Steet", "Bvld"; spelled-out types of five letters or more and four-letter abbreviations only, so "Broad" is never "Road"). None of this touches `readFileStreet`.
 
 ## Rates (`rateAreas`)
 

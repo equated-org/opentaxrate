@@ -26,6 +26,7 @@ import { MAP_STATES, RANGE_FIPS } from "../coverage.js";
 import { sstRateAt } from "./ranges.js";
 import { generalOnly, type RatePart, type RatesByType } from "./types.js";
 import type { LocatedPoint } from "../geocoding/index.js";
+import type { StandardAddress } from "../standardize/index.js";
 import { geoRateAt } from "./map.js";
 import { californiaSalesTaxService } from "./california.js";
 
@@ -42,6 +43,9 @@ export interface AddressRateQuery {
   /** Places the address on a map, for a ZIP the state's files split. Asked
    *  at most once, and only then. */
   locate?: () => Promise<LocatedPoint | null>;
+  /** The address in the Postal Service's form with its ZIP+4, for a range
+   *  state's address its typed street doesn't place. Asked at most once. */
+  standardize?: () => Promise<StandardAddress | null>;
 }
 
 export interface AddressRate {
@@ -153,7 +157,7 @@ export const addressRates = {
       parts: found.parts,
       match: found.match,
       locationCode: found.locationCode,
-      source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}`,
+      source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,
     };
   },
 };

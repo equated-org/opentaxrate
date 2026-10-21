@@ -19,7 +19,7 @@
  * to pick. Rates add up: state, then county, city and each special district
  * on the date asked.
  */
-import { and, eq, gte, inArray, isNull, lte, or, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { db } from "../db/client.js";
 import {
   salesTaxAreas,
@@ -27,10 +27,11 @@ import {
   salesTaxJurisdictionRates,
   salesTaxShapes,
   salesTaxStreetRanges,
-  salesTaxZipRanges,
 } from "../db/schema.js";
 import { RateError } from "../errors.js";
-import { letteredHouse, parseStreet, streetVariantsOf, type StreetParts } from "../address.js";
+import type { StandardAddress } from "../standardize/index.js";
+import { citiesInZip, normalizeCity, zipAreas } from "./places.js";
+import { findStreet } from "./streets/index.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { shapesAround } from "./shapes.js";
 import { agreedByType, sumByType, type RatePart, type RatesByType } from "./types.js";
@@ -47,6 +48,9 @@ export interface SstRate {
    *  share the rate and the address doesn't say which. */
   locationCode: string | null;
   files: string[];
+  /** How the address was found when not by its own typed street, e.g. "street
+   *  read as COFFEY RD (closest spelling in the ZIP)". */
+  note?: string;
 }
 
 interface Lookup {
@@ -56,9 +60,10 @@ interface Lookup {
   zip?: string | null;
   /** Places the address on a map; asked only when the ZIP alone can't say. */
   locate?: () => Promise<LocatedPoint | null>;
+  /** The address in the Postal Service's form with its ZIP+4; asked only
+   *  when the typed street isn't found and no ZIP+4 was typed. */
+  standardize?: () => Promise<StandardAddress | null>;
 }
-
-type StreetRow = typeof salesTaxStreetRanges.$inferSelect;
 
 export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   const fips = RANGE_FIPS[input.state];
@@ -73,14 +78,27 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       `This service keeps ${input.state}'s rates from ${HISTORY_FROM}. Enter the rate the sale charged.`,
       422,
     );
-  const zip5 = /^(\d{5})/.exec(input.zip ?? "")?.[1] ?? null;
-  const plus4 = /^\d{5}-?(\d{4})$/.exec(input.zip ?? "")?.[1] ?? null;
+  let zip5 = /^(\d{5})/.exec(input.zip ?? "")?.[1] ?? null;
+  let plus4 = /^\d{5}-?(\d{4})$/.exec(input.zip ?? "")?.[1] ?? null;
   const city = normalizeCity(input.city);
-  const street = parseStreet(input.street);
+  const notes: string[] = [];
 
-  const streetAreas = street
-    ? await streetMatch(input.state, street, zip5, city, date)
-    : [];
+  let found = await findStreet({ state: input.state, street: input.street, city: input.city, zip5, date });
+  // Off every street range with no ZIP+4 typed, the address's own ZIP+4, and
+  // its street as the Postal Service writes it, may still place it. A ZIP
+  // other than the typed one is a different address, not a correction.
+  if (!found && !plus4 && input.standardize) {
+    const standard = await input.standardize();
+    if (standard && (!zip5 || standard.zip5 === zip5)) {
+      zip5 = standard.zip5;
+      plus4 = standard.plus4;
+      notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}`);
+      found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date });
+      if (found) notes.push(`street as ${standard.source} writes it, ${standard.street}`);
+    }
+  }
+  if (found?.note) notes.push(found.note);
+  const streetAreas = found?.areaIds ?? [];
   const zip4Areas =
     zip5 && plus4 ? await zipAreas(input.state, zip5, date, Number(plus4)) : [];
 
@@ -98,6 +116,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       match,
       locationCode: rated.length === 1 ? rated[0].locationCode : null,
       files,
+      ...(notes.length ? { note: notes.join("; ") } : {}),
     };
   };
 
@@ -193,258 +212,6 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     fips,
     date,
   );
-}
-
-// ---------------------------------------------------------------------------
-// Street ranges
-// ---------------------------------------------------------------------------
-
-/** The areas of the ranges that best fit the address, or none. The street's
- *  own key is tried before any other spelling of it. */
-async function streetMatch(
-  state: string,
-  street: StreetParts,
-  zip5: string | null,
-  city: string,
-  date: string,
-): Promise<number[]> {
-  const zipCities = zip5 ? await citiesInZip(state, zip5, date) : [];
-  for (const variant of streetVariantsOf(street)) {
-    const key = variant.streetKey;
-    const rows = await db
-      .select()
-      .from(salesTaxStreetRanges)
-      .where(
-        and(
-          eq(salesTaxStreetRanges.state, state),
-          eq(salesTaxStreetRanges.streetKey, key),
-          lte(salesTaxStreetRanges.startsOn, date),
-          gte(salesTaxStreetRanges.endsOn, date),
-          variant.house === null
-            ? or(
-                eq(salesTaxStreetRanges.houseText, variant.houseText),
-                ...lettered(variant.houseText),
-              )
-            : or(
-                and(
-                  isNull(salesTaxStreetRanges.houseText),
-                  lte(salesTaxStreetRanges.houseLow, variant.house),
-                  gte(salesTaxStreetRanges.houseHigh, variant.house),
-                  inArray(salesTaxStreetRanges.parity, [
-                    "B",
-                    variant.house % 2 ? "O" : "E",
-                  ]),
-                ),
-                eq(salesTaxStreetRanges.houseText, variant.houseText),
-              ),
-        ),
-      );
-    const suffixes =
-      rows.length && variant.suffix
-        ? await suffixesOf(state, key, rows.some((r) => r.zip5 === zip5) ? zip5 : null, city, date)
-        : [];
-    const best = bestRows(rows, variant, zip5, city, zipCities, suffixes);
-    if (best.length) return [...new Set(best.map((r) => r.areaId))];
-  }
-  // A typed "County Road 932" may be filed under the county's name
-  // ("Craighead 932 Rd"): try each county the ZIP reaches, keeping every
-  // county's match so two counties' same-numbered roads can't pick one.
-  const countyRoad = /^CR(\d+[A-Z]?)$/.exec(street.streetKey)?.[1];
-  if (countyRoad && zip5) {
-    const found = new Set<number>();
-    for (const key of await countyRoadKeys(state, countyRoad, zip5, date))
-      for (const id of await streetMatch(state, { ...street, streetKey: key, alternates: [] }, zip5, city, date))
-        found.add(id);
-    return [...found];
-  }
-  return [];
-}
-
-/** A lettered number's place in the file's lettered ranges on its grid line. */
-function lettered(houseText: string) {
-  const house = letteredHouse(houseText);
-  if (!house) return [];
-  return [
-    and(
-      eq(salesTaxStreetRanges.houseText, house.line),
-      lte(salesTaxStreetRanges.houseLow, house.number),
-      gte(salesTaxStreetRanges.houseHigh, house.number),
-      inArray(salesTaxStreetRanges.parity, ["B", house.number % 2 ? "O" : "E"]),
-    ),
-  ];
-}
-
-/** The keys a county's numbered road is filed under when named for the
- *  county, for the counties a ZIP's ranges reach. */
-async function countyRoadKeys(state: string, road: string, zip5: string, date: string) {
-  const areaIds = await zipAreas(state, zip5, date);
-  if (!areaIds.length) return [];
-  const counties = await db
-    .selectDistinct({ name: salesTaxShapes.name })
-    .from(salesTaxShapes)
-    .innerJoin(
-      salesTaxAreas,
-      and(eq(salesTaxAreas.state, salesTaxShapes.state), eq(salesTaxAreas.county, salesTaxShapes.fips)),
-    )
-    .where(and(eq(salesTaxShapes.state, state), eq(salesTaxShapes.kind, "county"), inArray(salesTaxAreas.id, areaIds)));
-  return counties
-    .map((c) => parseStreet(`1 ${c.name} ${road}`)?.streetKey)
-    .filter((k): k is string => Boolean(k) && !/^CR\d/.test(k!));
-}
-
-/** The street types the files use for a street name in a ZIP (or, with no
- *  ZIP on file, a city). */
-async function suffixesOf(
-  state: string,
-  key: string,
-  zip5: string | null,
-  city: string,
-  date: string,
-): Promise<string[]> {
-  const rows = await db
-    .selectDistinct({ suffix: salesTaxStreetRanges.suffix, city: salesTaxStreetRanges.city })
-    .from(salesTaxStreetRanges)
-    .where(
-      and(
-        eq(salesTaxStreetRanges.state, state),
-        eq(salesTaxStreetRanges.streetKey, key),
-        zip5 ? eq(salesTaxStreetRanges.zip5, zip5) : undefined,
-        lte(salesTaxStreetRanges.startsOn, date),
-        gte(salesTaxStreetRanges.endsOn, date),
-      ),
-    );
-  return [
-    ...new Set(
-      rows
-        .filter((r) => zip5 || normalizeCity(r.city) === city)
-        .map((r) => r.suffix)
-        .filter(Boolean),
-    ),
-  ];
-}
-
-/** Narrows a street's ranges step by step, each step keeping the rows that
- *  fit best and never emptying the set on a detail the address leaves out. */
-function bestRows(
-  rows: StreetRow[],
-  street: StreetParts,
-  zip5: string | null,
-  city: string,
-  zipCities: string[],
-  fileSuffixes: string[],
-): StreetRow[] {
-  // The place must agree: the same ZIP, or failing that the same city (a
-  // typed ZIP is sometimes a neighbour's). Within the ZIP, the typed city's
-  // own ranges come first.
-  let kept = zip5 ? rows.filter((r) => r.zip5 === zip5) : [];
-  const inCity = kept.filter((r) => normalizeCity(r.city) === city);
-  if (inCity.length) kept = inCity;
-  // A ZIP shared by two towns can have a street of the same name in each;
-  // when the typed town is one the ZIP's ranges name, a street filed only
-  // under the other town is not this address's.
-  else if (zipCities.includes(city)) kept = [];
-  // Otherwise the same number filed under the typed city in another ZIP
-  // counts too: a file that gives the two different rates can't say which
-  // the address is, so it is refused.
-  else if (kept.length)
-    kept = [...kept, ...rows.filter((r) => r.zip5 !== zip5 && normalizeCity(r.city) === city)];
-  if (!kept.length) kept = rows.filter((r) => normalizeCity(r.city) === city);
-
-  // A type or direction both sides state must match; one side's silence
-  // is allowed, but an exact match beats it. Directions compare as sets, so
-  // a direction only one side states ("E Jackson Ave" filed as "E Jackson
-  // Ave N") is silence, not a clash.
-  const directions = (pre: string, post: string) =>
-    [pre, post].filter(Boolean).sort().join(" ");
-  const wanted = directions(street.preDirectional, street.postDirectional);
-  const within = (a: string, b: string) =>
-    a.split(" ").filter(Boolean).every((d) => b.split(" ").includes(d));
-  // A typed type the file never uses for this name in the place ("Martinson
-  // Ave" where the file has only "Martinson St", at any number) is taken as
-  // a mistyped type of that one street; with two or more types on file for
-  // the name it must match.
-  const typedSuffix =
-    street.suffix && fileSuffixes.length === 1 && fileSuffixes[0] !== street.suffix
-      ? ""
-      : street.suffix;
-  kept = kept.filter((r) => {
-    const filed = directions(r.preDirectional, r.postDirectional);
-    return (
-      (!typedSuffix || !r.suffix || r.suffix === typedSuffix) &&
-      (within(wanted, filed) || within(filed, wanted))
-    );
-  });
-  kept = preferring(kept, (r) => r.suffix === street.suffix);
-  kept = preferring(
-    kept,
-    (r) => directions(r.preDirectional, r.postDirectional) === wanted,
-  );
-
-  // A unit range speaks only for the units in it.
-  kept = kept.filter(
-    (r) => !r.unitLow || (street.unit && unitIn(street.unit, r)),
-  );
-  return preferring(kept, (r) =>
-    street.unit ? Boolean(r.unitLow) : !r.unitLow,
-  );
-}
-
-function preferring<T>(rows: T[], better: (row: T) => boolean): T[] {
-  const best = rows.filter(better);
-  return best.length ? best : rows;
-}
-
-function unitIn(unit: string, r: StreetRow) {
-  const low = r.unitLow ?? "";
-  const high = r.unitHigh || low;
-  if (/^\d+$/.test(unit) && /^\d+$/.test(low) && /^\d+$/.test(high))
-    return Number(low) <= Number(unit) && Number(unit) <= Number(high);
-  return unit === low.toUpperCase() || unit === high.toUpperCase();
-}
-
-// ---------------------------------------------------------------------------
-// ZIP ranges
-// ---------------------------------------------------------------------------
-
-/** The areas in a ZIP, or in one ZIP+4 of it: the ZIP+4 ranges covering it,
- *  or for a whole ZIP every ZIP and street range in it. */
-async function zipAreas(
-  state: string,
-  zip5: string,
-  date: string,
-  plus4?: number,
-): Promise<number[]> {
-  const zipRows = await db
-    .selectDistinct({ areaId: salesTaxZipRanges.areaId })
-    .from(salesTaxZipRanges)
-    .where(
-      and(
-        eq(salesTaxZipRanges.state, state),
-        eq(salesTaxZipRanges.zip5, zip5),
-        lte(salesTaxZipRanges.startsOn, date),
-        gte(salesTaxZipRanges.endsOn, date),
-        plus4 === undefined
-          ? undefined
-          : and(
-              eq(salesTaxZipRanges.kind, "zip4"),
-              lte(salesTaxZipRanges.plus4Low, plus4),
-              gte(salesTaxZipRanges.plus4High, plus4),
-            ),
-      ),
-    );
-  if (plus4 !== undefined) return zipRows.map((r) => r.areaId);
-  const streetRows = await db
-    .selectDistinct({ areaId: salesTaxStreetRanges.areaId })
-    .from(salesTaxStreetRanges)
-    .where(
-      and(
-        eq(salesTaxStreetRanges.state, state),
-        eq(salesTaxStreetRanges.zip5, zip5),
-        lte(salesTaxStreetRanges.startsOn, date),
-        gte(salesTaxStreetRanges.endsOn, date),
-      ),
-    );
-  return [...new Set([...zipRows, ...streetRows].map((r) => r.areaId))];
 }
 
 // ---------------------------------------------------------------------------
@@ -696,22 +463,6 @@ async function citiesOf(state: string, areaIds: number[]) {
   return cities;
 }
 
-async function citiesInZip(state: string, zip5: string, date: string) {
-  const rows = await db
-    .selectDistinct({ city: salesTaxStreetRanges.city })
-    .from(salesTaxStreetRanges)
-    .where(
-      and(
-        eq(salesTaxStreetRanges.state, state),
-        eq(salesTaxStreetRanges.zip5, zip5),
-        lte(salesTaxStreetRanges.startsOn, date),
-        gte(salesTaxStreetRanges.endsOn, date),
-        sql`${salesTaxStreetRanges.city} <> ''`,
-      ),
-    );
-  return rows.map((r) => normalizeCity(r.city));
-}
-
 async function releaseFiles(state: string) {
   const rows = await db
     .select({ file: salesTaxDataReleases.file })
@@ -719,17 +470,6 @@ async function releaseFiles(state: string) {
     .where(eq(salesTaxDataReleases.state, state))
     .orderBy(salesTaxDataReleases.kind);
   return rows.map((r) => r.file);
-}
-
-function normalizeCity(city: string) {
-  return city
-    .toUpperCase()
-    .replace(/[.,']/g, "")
-    .replace(/^SAINT /, "ST ")
-    .replace(/^MOUNT /, "MT ")
-    .replace(/^FORT /, "FT ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 const titleCase = (s: string) =>

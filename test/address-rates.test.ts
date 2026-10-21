@@ -13,7 +13,7 @@
  *     county; county 003 (lon 2..4) 1% only outside its cities; a transit
  *     district T1 (lon 0..0.5) 0.5%.
  */
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client.js";
 import {
@@ -89,6 +89,15 @@ const street = (houseLow: number, houseHigh: number, areaId: number, zip5 = "820
   areaId,
 });
 
+/** One house on Oak Dr, listed alone as Missouri's file lists addresses. */
+const listed = (house: number, areaId: number) => ({
+  ...street(house, house, areaId),
+  streetKey: "OAK",
+  street: "OAK DR",
+  suffix: "DR",
+  parity: house % 2 ? "O" : "E",
+});
+
 const COUNTY_AREA = 56_999_001;
 const CITY_AREA = 56_999_002;
 
@@ -124,6 +133,10 @@ beforeAll(async () => {
     street(100, 198, CITY_AREA, "82001", "1234"),
     street(200, 298, COUNTY_AREA),
     street(100, 198, COUNTY_AREA, "82009"),
+    // Oak Dr's odd side: 101 and 121 in Cheyenne, 141 past its line.
+    listed(101, CITY_AREA),
+    listed(121, CITY_AREA),
+    listed(141, COUNTY_AREA),
   ]);
   await db.insert(salesTaxZipRanges).values([
     { state: "WY", zip5: "82001", plus4Low: 1000, plus4High: 1999, kind: "zip4", startsOn: "2020-01-01", endsOn: "9999-12-31", areaId: CITY_AREA },
@@ -195,6 +208,53 @@ describe("a Streamlined state's address", () => {
     expect(await lookup(-104.2)).toMatchObject({ rate: 0.05, match: "map" });
     // 0.0005° of longitude is ~40 m: inside a rooftop's margin, not a street's.
     await expect(lookup(-104.5005, "interpolated")).rejects.toThrow(/within 75 m/);
+  });
+});
+
+describe("a Streamlined state's address its typed street doesn't find", () => {
+  const cheyenne = (street: string, extra: object = {}) =>
+    addressRates.at({ state: "WY", street, city: "Cheyenne", zip: "82001", ...extra }, ON);
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
+  it("takes its listed neighbours' area when both share one", async () => {
+    const found = await cheyenne("111 Oak Dr");
+    expect(found).toMatchObject({ rate: 0.07, match: "street" });
+    expect(found.source).toContain("between listed houses 101 and 121");
+  });
+
+  it("is refused when its neighbours straddle a line, or it has none on its side", async () => {
+    await expect(cheyenne("131 Oak Dr")).rejects.toThrow(/more than one rate/);
+    await expect(cheyenne("112 Oak Dr")).rejects.toThrow(/more than one rate/);
+  });
+
+  it("is read as the ZIP's street its misspelling clearly is", async () => {
+    const found = await cheyenne("150 Mainn St");
+    expect(found).toMatchObject({ rate: 0.07, match: "street" });
+    expect(found.source).toContain("street read as MAIN ST (closest spelling in the ZIP)");
+  });
+
+  it("asks Jev only when the spelling isn't clear, and takes only a confident pick", async () => {
+    vi.stubEnv("TYPESAFE_API_KEY", "test-key");
+    const jev = (confidence: number) =>
+      vi.fn(async () => new Response(JSON.stringify({ answers: { pick: { choice: "MAIN ST", confidence } } })));
+    vi.stubGlobal("fetch", jev(0.9));
+    const found = await cheyenne("150 Mian St");
+    expect(found).toMatchObject({ rate: 0.07, match: "street" });
+    expect(found.source).toContain("street read as MAIN ST (Jev, confidence 0.90)");
+    vi.stubGlobal("fetch", jev(0.3));
+    await expect(cheyenne("150 Mian St")).rejects.toThrow(/more than one rate/);
+  });
+
+  it("is placed by its standardized ZIP+4, but not one in another ZIP", async () => {
+    const standard = (zip5: string) => async () => ({ street: "9 Elm St", city: "Cheyenne", state: "WY", zip5, plus4: "1500", source: "Geocodio" });
+    const found = await cheyenne("9 Elm St", { standardize: standard("82001") });
+    expect(found).toMatchObject({ rate: 0.07, match: "zip4" });
+    expect(found.source).toContain("ZIP+4 82001-1500 from Geocodio");
+    await expect(cheyenne("9 Elm St", { standardize: standard("82009") })).rejects.toThrow(/more than one rate/);
   });
 });
 
