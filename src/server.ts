@@ -3,6 +3,7 @@
  *   GET /v1/rate?street=&city=&state=&zip=&date=  the rate at an address
  *       &include=trace                            ...and how it was placed
  *   GET /v1/coverage                              each state's method and files
+ *   GET /v1/suggest?q=                            address suggestions (suggest.ts)
  *   GET /health                                   database reachable
  * A refusal is a 422 whose message names the candidate rates; missing data
  * is a 502. Runtime writes are limited to the geocoding cache and budgets;
@@ -10,8 +11,9 @@
  *
  * For a public deployment, each off unless set: CORS for the origins in
  * OPENTAXRATE_CORS_ORIGINS, a per-IP limit on /v1/rate
- * (OPENTAXRATE_PUBLIC_LIMIT, limits.ts), and an answer cache
- * (OPENTAXRATE_CACHE_HOURS, cache.ts).
+ * (OPENTAXRATE_PUBLIC_LIMIT, limits.ts), an answer cache
+ * (OPENTAXRATE_CACHE_HOURS, cache.ts), and suggestions relayed to a Photon
+ * (OPENTAXRATE_PHOTON_URL, with OPENTAXRATE_SUGGEST_LIMIT).
  */
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -25,6 +27,7 @@ import { lookUpRate } from "./lookup.js";
 import { limitFromEnv } from "./limits.js";
 import { answerKey, cacheFromEnv } from "./cache.js";
 import { geocoderCoverage } from "./geocoding/registry.js";
+import { suggestFromEnv } from "./suggest.js";
 
 const query = z.object({
   state: z.string().trim().length(2),
@@ -44,6 +47,13 @@ if (origins.length)
 
 const limit = limitFromEnv();
 if (limit) app.use("/v1/rate", limit);
+
+const suggest = suggestFromEnv();
+if (suggest) {
+  const suggestLimit = limitFromEnv(process.env, "OPENTAXRATE_SUGGEST_LIMIT");
+  if (suggestLimit) app.use("/v1/suggest", suggestLimit);
+  app.get("/v1/suggest", suggest);
+}
 
 const answers = cacheFromEnv<AddressRate | (AddressRate & { trace: Trace })>();
 
