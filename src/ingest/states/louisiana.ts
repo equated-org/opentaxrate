@@ -25,7 +25,7 @@
 import https from "node:https";
 import tls from "node:tls";
 import { sql } from "drizzle-orm";
-import { db } from "../../db.js";
+import { db } from "../../db/client.js";
 import { latestTigerFiles } from "../downloads.js";
 import { readTigerZip, type Shape } from "../tiger.js";
 import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";

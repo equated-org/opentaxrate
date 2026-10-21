@@ -15,10 +15,11 @@
  * starts 2024-01-01.
  */
 import { latestTigerFiles } from "../downloads.js";
-import { contains, readTigerZip, STATE_FIPS } from "../tiger.js";
+import { contains, readTigerZip } from "../tiger.js";
+import { STATE_FIPS } from "../../coverage.js";
 import { eq } from "drizzle-orm";
-import { db } from "../../db.js";
-import { salesTaxJurisdictionRates } from "../../schema.js";
+import { db } from "../../db/client.js";
+import { salesTaxJurisdictionRates } from "../../db/schema.js";
 import { ringsOf, bboxOf, shiftDay } from "./sources.js";
 import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
 

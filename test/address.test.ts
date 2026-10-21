@@ -14,7 +14,7 @@ import {
   readFileStreet,
   streetKeysOf,
   streetVariantsOf,
-} from "../src/engine/address.js";
+} from "../src/address.js";
 
 describe("a typed street meets the file's spelling of it", () => {
   it.each([

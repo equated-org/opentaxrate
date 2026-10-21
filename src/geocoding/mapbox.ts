@@ -4,8 +4,7 @@
  * confident match in the state, with its house number placed on the street,
  * is used.
  */
-import type { AddressToLocate } from "./engine/locate.js";
-import type { LocatedPoint } from "./engine/types.js";
+import type { AddressToLocate, LocatedPoint } from "./index.js";
 
 const ACCURACIES = ["rooftop", "parcel", "point", "interpolated"] as const;
 

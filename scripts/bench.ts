@@ -76,7 +76,7 @@ const PROVIDERS: Record<string, Provider> = {
     pauseMs: 0,
     async ask(c) {
       if (c.lon === undefined || c.lat === undefined) return { refused: "no point in case" };
-      const { addressRates } = await import("../src/engine/index.js");
+      const { addressRates } = await import("../src/rates/index.js");
       const point = { lon: c.lon, lat: c.lat, accuracy: "rooftop" as const };
       return addressRates.at({ ...c, locate: async () => point }, c.date).then(
         (r) => ({ rate: r.rate, raw: { match: r.match, locationCode: r.locationCode } }),
@@ -331,7 +331,7 @@ if (command === "ask") {
     Number(flag("--budget") ?? Infinity),
     flag("--states")?.split(",").map((s) => s.toUpperCase()),
   );
-  const { client } = await import("../src/db.js");
+  const { client } = await import("../src/db/client.js");
   await client.end();
 } else if (command === "report") report();
 else console.log(fs.readFileSync(new URL(import.meta.url), "utf8").split("*/")[0]);

@@ -10,45 +10,8 @@
  * Rows that ended before HISTORY_FROM are dropped, which halves the tables;
  * set OPENTAXRATE_HISTORY_FROM to keep more.
  */
-import { letteredHouse, readFileStreet } from "./address.js";
-
-export const HISTORY_FROM = process.env.OPENTAXRATE_HISTORY_FROM || "2020-01-01";
-
-/** The member states, by the FIPS code their files use. */
-export const SST_STATES: Record<string, string> = {
-  "05": "AR",
-  "13": "GA",
-  "18": "IN",
-  "19": "IA",
-  "20": "KS",
-  "21": "KY",
-  "26": "MI",
-  "27": "MN",
-  "31": "NE",
-  "32": "NV",
-  "34": "NJ",
-  "37": "NC",
-  "38": "ND",
-  "39": "OH",
-  "40": "OK",
-  "44": "RI",
-  "46": "SD",
-  "47": "TN",
-  "49": "UT",
-  "50": "VT",
-  "53": "WA",
-  "54": "WV",
-  "55": "WI",
-  "56": "WY",
-};
-
-export const SST_FIPS = Object.fromEntries(
-  Object.entries(SST_STATES).map(([fips, state]) => [state, fips]),
-);
-
-/** States read from address-range files: the Streamlined members, and
- *  Missouri, whose Department of Revenue publishes the same layout. */
-export const RANGE_FIPS: Record<string, string> = { ...SST_FIPS, MO: "29" };
+import { letteredHouse, readFileStreet } from "../address.js";
+import { HISTORY_FROM } from "../coverage.js";
 
 export interface RateRow {
   type: string;

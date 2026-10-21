@@ -1,5 +1,5 @@
 /**
- * The states read from the map (see geo-lookup.ts): each one's adapter
+ * The states read from the map (see rates/map.ts): each one's adapter
  * fetches its official rate table, and any outlines its state publishes
  * itself (special districts the Census doesn't draw, or the state's own
  * city limits where they track annexations better), in the shape the loader
@@ -10,7 +10,7 @@ import type { Shape } from "../tiger.js";
 
 export interface GeoRateRow {
   /** 45 state, 00 county, 01 city, 01x city replacing its county, rc county
-   *  outside its cities, anything else a district (see geo-lookup.ts). */
+   *  outside its cities, anything else a district (see rates/map.ts). */
   type: string;
   code: string;
   rate: number;
@@ -72,6 +72,3 @@ export const GEO_STATES: GeoState[] = [
   mississippi,
   idaho,
 ];
-
-export const geoStateOf = (state: string) =>
-  GEO_STATES.find((g) => g.state === state) ?? null;

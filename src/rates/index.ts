@@ -3,12 +3,13 @@
  * states' own published data, loaded into Postgres. Covers:
  *   - states with one rate everywhere, or no sales tax (statewide.ts);
  *   - the 24 Streamlined Sales Tax member states, and Missouri, from their
- *     published rate and address-range files (sst-files.ts, missouri.ts,
- *     loaded by load.ts, read by sst-lookup.ts), with Census county and city
- *     outlines (tiger.ts) to settle a ZIP the files split;
+ *     published rate and address-range files (ingest/sst-files.ts,
+ *     ingest/missouri.ts, loaded by ingest/load.ts, read by ranges.ts), with
+ *     Census county and city outlines (ingest/tiger.ts) to settle a ZIP the
+ *     files split;
  *   - states whose local taxes follow county, city and district lines, from
- *     each state's own rate table (geo-states) and the address's place on
- *     the map (geo-lookup.ts, locate.ts);
+ *     each state's own rate table (ingest/states) and the address's place
+ *     on the map (map.ts, geocoding);
  *   - California, from the CDTFA's live address lookup (today's rate only;
  *     it publishes no files to load).
  * Any other state is refused as unsupported. An address the data can't place
@@ -21,16 +22,15 @@
  */
 import { RateError } from "../errors.js";
 import { statewideRate, STATEWIDE_STATES } from "./statewide.js";
-import { RANGE_FIPS } from "./sst-files.js";
-import { sstRateAt } from "./sst-lookup.js";
-import { generalOnly, type LocatedPoint, type RatePart, type RatesByType } from "./types.js";
-import { geoRateAt } from "./geo-lookup.js";
-import { GEO_STATES, geoStateOf } from "./geo-states/index.js";
+import { MAP_STATES, RANGE_FIPS } from "../coverage.js";
+import { sstRateAt } from "./ranges.js";
+import { generalOnly, type RatePart, type RatesByType } from "./types.js";
+import type { LocatedPoint } from "../geocoding/index.js";
+import { geoRateAt } from "./map.js";
 import { californiaSalesTaxService } from "./california.js";
 
 export type { LocatedPoint, RatePart, RatesByType };
 export { STATEWIDE_STATES };
-export { locateAddress } from "./locate.js";
 
 export interface AddressRateQuery {
   /** Two-letter state code. */
@@ -74,7 +74,7 @@ const MATCH_NAMES = {
 export const ADDRESS_RATE_STATES = [
   ...STATEWIDE_STATES,
   ...Object.keys(RANGE_FIPS),
-  ...GEO_STATES.map((g) => g.state),
+  ...MAP_STATES,
   "CA",
 ].sort();
 
@@ -90,7 +90,7 @@ export const addressRates = {
     if (s === "CA") return "authority";
     if (STATEWIDE_STATES.includes(s)) return "statewide";
     if (RANGE_FIPS[s]) return "ranges";
-    return geoStateOf(s) ? "map" : null;
+    return MAP_STATES.includes(s) ? "map" : null;
   },
 
   /** The rate at `query` on `date` (YYYY-MM-DD). Throws RateError: 422
@@ -115,7 +115,7 @@ export const addressRates = {
       };
     }
     if (state === "CA") return california(query, date);
-    if (geoStateOf(state)) {
+    if (MAP_STATES.includes(state)) {
       const found = await geoRateAt(
         state,
         query.locate ? await query.locate() : null,

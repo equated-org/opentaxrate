@@ -15,18 +15,18 @@
  */
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { client, db } from "../db.js";
+import { client, db } from "../db/client.js";
 import {
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
   salesTaxShapes,
-} from "../schema.js";
-import type { GeoStateData } from "./geo-states/index.js";
+} from "../db/schema.js";
+import type { GeoStateData } from "./states/index.js";
 import { and, eq, inArray, like, notLike, sql } from "drizzle-orm";
-import { geometryOf } from "./shapes.js";
-import { readTigerZip, STATE_FIPS, type Shape } from "./tiger.js";
+import { geometryOf } from "./geometry.js";
+import { RANGE_FIPS, STATE_FIPS } from "../coverage.js";
+import { readTigerZip, type Shape } from "./tiger.js";
 import {
-  RANGE_FIPS,
   parseBoundaryLine,
   parseRateLine,
   type Area,
@@ -43,7 +43,7 @@ export interface StateFiles {
 }
 
 /** Stores a map-read state's rates and own outlines in place of its last
- *  ones (see geo-states). Census outlines, loaded apart, are kept. */
+ *  ones (see ingest/states). Census outlines, loaded apart, are kept. */
 export async function loadGeoState(state: string, data: GeoStateData) {
   // A jurisdiction in several pieces may come as several features; it is one
   // outline.

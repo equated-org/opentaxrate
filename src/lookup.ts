@@ -2,8 +2,9 @@
  * One rate lookup as the API and the CLI ask it: the address placed on the
  * map (by every configured geocoder together) only when the engine needs it.
  */
-import { addressRates, locateAddress, type AddressRate } from "./engine/index.js";
-import { mapboxGeocoder } from "./geocoders.js";
+import { addressRates, type AddressRate } from "./rates/index.js";
+import { locateAddress } from "./geocoding/index.js";
+import { mapboxGeocoder } from "./geocoding/mapbox.js";
 
 export interface RateQuery {
   state: string;

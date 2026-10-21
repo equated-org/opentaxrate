@@ -8,14 +8,13 @@
  * A file already loaded is skipped unless `force`; a map-read state is
  * fetched again every run, since its sources don't name versions alike.
  */
-import { db } from "../db.js";
-import { salesTaxDataReleases, salesTaxShapes } from "../schema.js";
+import { db } from "../db/client.js";
+import { salesTaxDataReleases, salesTaxShapes } from "../db/schema.js";
 import { latestSstFiles, latestTigerFiles, sstFileLines } from "./downloads.js";
-import { GEO_STATES } from "./geo-states/index.js";
+import { GEO_STATES } from "./states/index.js";
 import { loadGeoState, loadSstState, loadTigerShapes } from "./load.js";
 import { missouriFiles } from "./missouri.js";
-import { RANGE_FIPS } from "./sst-files.js";
-import { STATE_FIPS } from "./tiger.js";
+import { RANGE_FIPS, STATE_FIPS } from "../coverage.js";
 
 export interface RefreshOptions {
   /** Two-letter codes; every state when empty. */

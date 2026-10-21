@@ -181,7 +181,7 @@ const MIN_KM2 = 1;
  * rates whose outlines hold it and the district's stay within the cap. Past
  * the cap the Comptroller would have drawn a combined area, and its lookup
  * gives no rate, so none is added. The row counts only inside the district's
- * outline (see geo-lookup.ts).
+ * outline (see rates/map.ts).
  */
 function districtsInCities(rates: GeoRateRow[], shapes: GeoStateData["shapes"]): GeoRateRow[] {
   const byId = new Map<string, GeoStateData["shapes"]>();

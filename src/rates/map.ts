@@ -43,15 +43,16 @@
  * refused, unless moving it across that edge would not change the rate.
  */
 import { and, eq, gte, lte } from "drizzle-orm";
-import { db } from "../db.js";
+import { db } from "../db/client.js";
 import {
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
-} from "../schema.js";
+} from "../db/schema.js";
 import { RateError } from "../errors.js";
-import { marginOf, type LocatedPoint, type RatePart } from "./types.js";
+import type { RatePart } from "./types.js";
+import { marginOf, type LocatedPoint } from "../geocoding/index.js";
 import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
-import { parseStreet } from "./address.js";
+import { parseStreet } from "../address.js";
 
 export interface GeoRate {
   rate: number;

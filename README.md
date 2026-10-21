@@ -182,7 +182,22 @@ DATABASE_URL=... pnpm test
 pnpm dev
 ```
 
-Adding a state means writing an adapter in `src/engine/geo-states/` that returns dated rate rows and, if the state publishes them, its own outlines; see `virginia.ts` (a workbook keyed by FIPS) or `texas.ts` (rates plus the Comptroller's GIS layers).
+The source follows the two jobs: `ingest/` fills Postgres, `rates/` answers from it, and neither imports the other.
+
+```
+src/
+  cli.ts server.ts lookup.ts   entry points; lookup.ts wires geocoding into rates
+  coverage.ts                  state FIPS codes and which method reads each state, shared by both sides
+  address.ts                   street parsing, for typed addresses and state files alike
+  db/                          client.ts, schema.ts
+  geocoding/                   index.ts (Census, Nominatim, agreement), mapbox.ts
+  rates/                       lookup: index.ts routes a state to statewide.ts, california.ts,
+                               ranges.ts (Streamlined + Missouri) or map.ts; shapes.ts queries PostGIS
+  ingest/                      refresh: refresh.ts, downloads.ts, sst-files.ts, missouri.ts, tiger.ts,
+                               load.ts, geometry.ts, and states/ (one adapter per map-read state)
+```
+
+Adding a map-read state means writing an adapter in `src/ingest/states/` that returns dated rate rows and, if the state publishes them, its own outlines, and adding it to `MAP_STATES` in `src/coverage.ts`; see `virginia.ts` (a workbook keyed by FIPS) or `texas.ts` (rates plus the Comptroller's GIS layers).
 
 ---
 
