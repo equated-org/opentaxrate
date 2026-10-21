@@ -17,6 +17,8 @@ Up front: 502 if fewer than two release files are loaded for the state; 422 if `
 
 Anything left is a `refusal(...)`: a 422 listing up to six candidate rates with up to three city names each.
 
+With `input.trace`: a street answer records `trace.range` (`rangeAt`: one extra query for the narrowest range on the matched street holding the house, in one of the deciding areas: its street as filed, house range, side and ZIP, and the boundary file; none when the street was found between listed houses or under a corrected name); `mapAreas` records each outline `shapesAround` found; a street or map answer marks an outline `levies` when its county or city is one of the answer's parts (`traced`). A ZIP+4 or ZIP answer records no range.
+
 `answer(areaIds, match)` is the core rule: rate every area with `rateAreas`; answer only if they all share one rate. `locationCode` is set only when one area remains.
 
 ## Street matching (`src/rates/streets/`)

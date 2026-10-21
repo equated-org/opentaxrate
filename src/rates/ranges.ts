@@ -28,13 +28,14 @@ import {
   salesTaxShapes,
   salesTaxStreetRanges,
 } from "../db/schema.js";
+import { parseStreet } from "../address.js";
 import { RateError } from "../errors.js";
 import type { StandardAddress } from "../standardize/index.js";
 import { citiesInZip, normalizeCity, zipAreas } from "./places.js";
 import { findStreet } from "./streets/index.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { shapesAround } from "./shapes.js";
-import { agreedByType, sumByType, type RatePart, type RatesByType } from "./types.js";
+import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { marginOf, type LocatedPoint } from "../geocoding/index.js";
 
 export interface SstRate {
@@ -63,11 +64,14 @@ interface Lookup {
   /** The address in the Postal Service's form with its ZIP+4; asked only
    *  when the typed street isn't found and no ZIP+4 was typed. */
   standardize?: () => Promise<StandardAddress | null>;
+  /** Records the deciding street range and the outlines around a map point. */
+  trace?: Trace;
 }
 
 export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   const fips = RANGE_FIPS[input.state];
-  const files = await releaseFiles(input.state);
+  const releases = await releaseFiles(input.state);
+  const files = releases.map((r) => r.file);
   if (!fips || files.length < 2)
     throw new RateError(
       `This service hasn't loaded ${input.state}'s rate and boundary files.`,
@@ -83,6 +87,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   const city = normalizeCity(input.city);
   const notes: string[] = [];
 
+  let foundStreet = input.street;
   let found = await findStreet({ state: input.state, street: input.street, city: input.city, zip5, date });
   // Off every street range with no ZIP+4 typed, the address's own ZIP+4, and
   // its street as the Postal Service writes it, may still place it. A ZIP
@@ -94,6 +99,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       plus4 = standard.plus4;
       notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}${standard.exact ? "" : " (the building's; no unit given)"}`);
       found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date });
+      if (found) foundStreet = standard.street;
       if (found) notes.push(`street as ${standard.source} writes it, ${standard.street}`);
     }
   }
@@ -140,7 +146,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       const inZip = await zipAreas(input.state, zip5, date);
       const zipRates = new Set((await rateAreas(input.state, fips, inZip, date)).map((a) => a.rate));
       const point = zipRates.size > 1 ? await input.locate() : null;
-      const onMap = point ? await mapAreas(input.state, inZip, point) : [];
+      const onMap = point ? await mapAreas(input.state, inZip, point, input.trace) : [];
       if (onMap !== "near_edge" && onMap.length) {
         const byMap = await answer(onMap, "map");
         if (byMap && byMap.rate !== byStreet.rate)
@@ -153,7 +159,10 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
           );
       }
     }
-    if (byStreet) return byStreet;
+    if (byStreet) {
+      if (input.trace) input.trace.range = await rangeAt(input.state, foundStreet, zip5, streetAreas, date, releases);
+      return traced(byStreet, input.trace);
+    }
     throw await refusal(
       input,
       `${input.state}'s files put this street address in more than one taxing area.`,
@@ -187,7 +196,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       ? await input.locate()
       : null;
   if (point) {
-    const onMap = await mapAreas(input.state, inZip, point);
+    const onMap = await mapAreas(input.state, inZip, point, input.trace);
     if (onMap === "near_edge")
       throw await refusal(
         input,
@@ -198,7 +207,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       );
     if (onMap.length) {
       const byMap = await answer(onMap, "map");
-      if (byMap) return byMap;
+      if (byMap) return traced(byMap, input.trace);
     }
   }
   throw await refusal(
@@ -225,6 +234,7 @@ async function mapAreas(
   state: string,
   areaIds: number[],
   point: LocatedPoint,
+  trace?: Trace,
 ): Promise<number[] | "near_edge"> {
   const areas = await db
     .select()
@@ -254,6 +264,7 @@ async function mapAreas(
   }
   // Outlines within ~300 m of the point.
   const shapes = await shapesAround(state, point, 0.003);
+  if (trace) for (const s of shapes) traceOutline(trace, s);
   const county = shapes.find((s) => s.kind === "county" && s.inside);
   if (!county) return [];
   const inside = new Set(shapes.filter((s) => s.kind !== "county" && s.inside).map((s) => s.fips));
@@ -464,12 +475,64 @@ async function citiesOf(state: string, areaIds: number[]) {
 }
 
 async function releaseFiles(state: string) {
-  const rows = await db
-    .select({ file: salesTaxDataReleases.file })
+  return db
+    .select({ kind: salesTaxDataReleases.kind, file: salesTaxDataReleases.file })
     .from(salesTaxDataReleases)
     .where(eq(salesTaxDataReleases.state, state))
     .orderBy(salesTaxDataReleases.kind);
-  return rows.map((r) => r.file);
+}
+
+/** The street range a trace shows for a street match: the narrowest range
+ *  on the matched street that holds the house and is in one of the areas
+ *  that decided. None when the address was found another way (between
+ *  listed houses, or under a corrected name the typed key doesn't share). */
+async function rangeAt(
+  state: string,
+  line: string,
+  zip5: string | null,
+  areaIds: number[],
+  date: string,
+  releases: Array<{ kind: string; file: string }>,
+): Promise<Trace["range"]> {
+  const street = parseStreet(line);
+  if (!street || street.house === null || !areaIds.length) return undefined;
+  const r = salesTaxStreetRanges;
+  const [row] = await db
+    .select()
+    .from(r)
+    .where(
+      and(
+        eq(r.state, state),
+        eq(r.streetKey, street.streetKey),
+        inArray(r.areaId, areaIds),
+        lte(r.startsOn, date),
+        gte(r.endsOn, date),
+        lte(r.houseLow, street.house),
+        gte(r.houseHigh, street.house),
+        zip5 ? eq(r.zip5, zip5) : undefined,
+      ),
+    )
+    .orderBy(sql`${r.houseHigh} - ${r.houseLow}`)
+    .limit(1);
+  if (!row) return undefined;
+  return {
+    street: row.street,
+    low: row.houseLow ?? street.house,
+    high: row.houseHigh ?? street.house,
+    side: row.parity === "O" ? "odd" : row.parity === "E" ? "even" : "both",
+    zip: row.zip5 || null,
+    file: releases.find((x) => x.kind === "boundaries")?.file ?? releases[0]?.file ?? "",
+  };
+}
+
+/** Marks the traced outlines whose county or city is one of the answer's
+ *  parts. */
+function traced(found: SstRate, trace?: Trace): SstRate {
+  for (const o of trace?.outlines ?? []) {
+    const kind = o.kind === "county" ? "county" : "city";
+    o.levies = found.parts.some((p) => p.kind === kind && p.code.split(":")[1] === o.fips);
+  }
+  return found;
 }
 
 const titleCase = (s: string) =>

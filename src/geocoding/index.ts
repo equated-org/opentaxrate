@@ -11,6 +11,7 @@
  * Nominatim's usage policy allows one request a second and asks for an
  * identifying user agent; requests here are spaced to match.
  */
+import type { Trace } from "../rates/types.js";
 
 /** Where a geocoder put an address, and how it got there. */
 export interface LocatedPoint {
@@ -33,6 +34,12 @@ export const EDGE_METRES: Record<LocatedPoint["accuracy"], number> = {
   interpolated: 75,
 };
 
+/** The geocoders a trace can name. */
+export type GeocoderName = "census" | "nominatim" | "mapbox";
+
+/** To 5 decimals, about a metre. */
+const round5 = (n: number) => Math.round(n * 1e5) / 1e5;
+
 /** Geocoders further apart than this leave the address unplaced. */
 const MAX_SPREAD_METRES = 250;
 const TIMEOUT_MS = 6_000;
@@ -54,29 +61,46 @@ const ACCURACY_ORDER: LocatedPoint["accuracy"][] = [
   "interpolated",
 ];
 
-/** The address's point, or null when no geocoder places it or they disagree. */
+/** The address's point, or null when no geocoder places it or they disagree.
+ *  `primary` is the caller's Mapbox geocoder. With a trace, each source's
+ *  point and the point chosen are recorded in it. */
 export async function locateAddress(
   address: AddressToLocate,
   primary?: Source,
+  trace?: Trace,
 ): Promise<LocatedPoint | null> {
-  const sources = [primary, censusPoint, nominatimPoint].filter(
-    (s): s is Source => Boolean(s),
+  const sources: Array<[GeocoderName, Source]> = [
+    ["mapbox", primary],
+    ["census", censusPoint],
+    ["nominatim", nominatimPoint],
+  ].filter((s): s is [GeocoderName, Source] => Boolean(s[1]));
+  const settled = await Promise.allSettled(sources.map(([, s]) => s(address)));
+  const points = settled.flatMap((r, i) =>
+    r.status === "fulfilled" && r.value ? [{ ...r.value, source: sources[i][0] }] : [],
   );
-  const settled = await Promise.allSettled(sources.map((s) => s(address)));
-  const points = settled.flatMap((r) =>
-    r.status === "fulfilled" && r.value ? [r.value] : [],
-  );
+  for (const p of points)
+    trace?.geocoders.push({ source: p.source, lon: round5(p.lon), lat: round5(p.lat), accuracy: p.accuracy });
   if (!points.length) return null;
   points.sort(
     (a, b) =>
       ACCURACY_ORDER.indexOf(a.accuracy) - ACCURACY_ORDER.indexOf(b.accuracy),
   );
-  const best = points[0];
+  const { source, ...best } = points[0];
   const spread = Math.max(...points.map((p) => metresBetween(best, p)));
   if (spread > MAX_SPREAD_METRES) return null;
   // Agreement within the best point's own margin keeps it; a wider spread
   // becomes the margin a line must be beyond.
-  return spread > EDGE_METRES[best.accuracy] ? { ...best, metres: Math.ceil(spread) } : best;
+  const chosen = spread > EDGE_METRES[best.accuracy] ? { ...best, metres: Math.ceil(spread) } : best;
+  if (trace)
+    trace.point = {
+      lon: round5(chosen.lon),
+      lat: round5(chosen.lat),
+      accuracy: chosen.accuracy,
+      source,
+      marginMetres: marginOf(chosen),
+      spreadMetres: Math.round(spread * 10) / 10,
+    };
+  return chosen;
 }
 
 /** The Census Bureau's match of the street's address range, if exactly one. */

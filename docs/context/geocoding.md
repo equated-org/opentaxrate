@@ -1,26 +1,27 @@
 # Geocoding
 
-Sources: `src/geocoding/index.ts`, `src/geocoding/mapbox.ts`, `src/geocoding/index.ts` (`LocatedPoint`, `EDGE_METRES`, `marginOf`), `src/lookup.ts` (wiring)
+Sources: `src/geocoding/index.ts` (`LocatedPoint`, `EDGE_METRES`, `marginOf`, `GeocoderName`), `src/geocoding/mapbox.ts`, `src/rates/types.ts` (`Trace`), `src/lookup.ts` (wiring)
 
 Turns a street address into one `LocatedPoint { lon, lat, accuracy, metres? }`, or null. Used by the map engine for every lookup, and by the range engine only when a ZIP is split (see [engine.md](engine.md)). This note describes the code as it is today.
 
 ## Wiring
 
-`lookUpRate` (`src/lookup.ts`) builds `primary = mapboxGeocoder()` once per request and hands the engine a `locate` closure calling `locateAddress(address, primary)`. Without `MAPBOX_ACCESS_TOKEN`, `primary` is undefined and only the two free sources run.
+`lookUpRate` (`src/lookup.ts`) builds `primary = mapboxGeocoder()` once per request and hands the engine a `locate` closure calling `locateAddress(address, primary, trace)`. Without `MAPBOX_ACCESS_TOKEN`, `primary` is undefined and only the two free sources run.
 
-## `locateAddress(address, primary?)`
+## `locateAddress(address, primary?, trace?)`
 
-1. Sources: `[primary, censusPoint, nominatimPoint]`, minus any undefined.
-2. All are called at once with `Promise.allSettled`. A source that throws, times out or returns null simply adds no point.
+1. Sources, each named: `mapbox` (`primary`), `census` (`censusPoint`), `nominatim` (`nominatimPoint`), minus any undefined.
+2. All are called at once with `Promise.allSettled`. A source that throws, times out or returns null simply adds no point. With a trace, every point returned goes into `trace.geocoders` with its source name.
 3. No points: return null.
 4. Sort by `ACCURACY_ORDER`: `rooftop`, `parcel`, `point`, `interpolated`. The first is `best`.
 5. `spread` is the largest distance from `best` to any other point (`metresBetween`, a flat-earth approximation).
 6. `spread > MAX_SPREAD_METRES` (250): return null; the address is not placed.
 7. `spread > EDGE_METRES[best.accuracy]`: return `best` with `metres: Math.ceil(spread)`. Otherwise return `best` unchanged.
+8. With a trace, the returned point is recorded as `trace.point`, with its source, `marginMetres` (`marginOf`) and `spreadMetres`. An unplaced address (steps 3 and 6) records no point.
 
 So agreement within the best point's own margin keeps it as is; a wider disagreement becomes the margin a line must be beyond. One source alone is accepted at its own accuracy.
 
-## Margins (`types.ts`)
+## Margins (`src/geocoding/index.ts`)
 
 | Accuracy | `EDGE_METRES` | Who returns it |
 |---|---:|---|
@@ -63,6 +64,7 @@ So agreement within the best point's own margin keeps it as is; a wider disagree
 - A source failing never fails the lookup; it only removes a vote.
 - Nothing is cached; each lookup that needs a point calls every configured source.
 - The margin only ever widens from disagreement, never narrows.
+- A trace only records; the point returned is the same with or without one.
 
 ## Planned
 

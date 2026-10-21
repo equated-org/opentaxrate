@@ -28,6 +28,7 @@ import { addressRates } from "../src/rates/index.js";
 import { geoRateAt } from "../src/rates/map.js";
 import { geometryOf } from "../src/ingest/geometry.js";
 import type { LocatedPoint } from "../src/geocoding/index.js";
+import { emptyTrace } from "../src/rates/types.js";
 
 const STATES = ["WY", "XT"];
 const ON = "2026-10-21";
@@ -282,6 +283,36 @@ describe("a map-read state's address", () => {
 
   it("is refused without a map point", async () => {
     await expect(geoRateAt("XT", null, ON)).rejects.toThrow(/couldn't be placed on the map/);
+  });
+});
+
+describe("a trace of how the address was placed", () => {
+  it("records a street match's range, and no point or outlines when none was used", async () => {
+    const trace = emptyTrace();
+    await addressRates.at({ state: "WY", street: "150 Main Street", city: "Cheyenne", zip: "82001", trace }, ON);
+    expect(trace).toEqual({
+      geocoders: [],
+      outlines: [],
+      range: { street: "MAIN ST", low: 100, high: 198, side: "both", zip: "82001", file: "WYB-fixture" },
+    });
+  });
+
+  it("records each outline around a map point and which ones levy", async () => {
+    const trace = emptyTrace();
+    await geoRateAt("XT", at(0.25), ON, undefined, trace);
+    const byKey = Object.fromEntries(trace.outlines.map((o) => [`${o.kind}:${o.fips}`, o]));
+    expect(byKey["county:001"]).toMatchObject({ inside: true, levies: true });
+    expect(byKey["place:10000"]).toMatchObject({ inside: true, levies: true });
+    expect(byKey["district:T1"]).toMatchObject({ name: "district T1", inside: true, levies: true });
+    // The district's sides at lon 0 and 0.5 are each ~21 km away.
+    expect(byKey["district:T1"].edgeMetres).toBeGreaterThan(20_000);
+    expect([0, 0.5]).toContain(byKey["district:T1"].foot.lon);
+  });
+
+  it("keeps the outlines on a refusal, so the line it was too close to can be shown", async () => {
+    const trace = emptyTrace();
+    await expect(geoRateAt("XT", at(0.5001), ON, undefined, trace)).rejects.toThrow(/within 15 m/);
+    expect(trace.outlines.find((o) => o.fips === "T1")?.edgeMetres).toBeLessThan(15);
   });
 });
 

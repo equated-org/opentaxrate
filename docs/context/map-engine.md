@@ -4,7 +4,7 @@ Sources: `src/rates/map.ts`, `src/rates/shapes.ts`, `src/rates/types.ts`, `src/i
 
 For states whose local taxes follow county, city and district lines (TX, FL, NY, VA, AZ, NM, IL, SC, CO, AL, LA, AK, PA, HI, MS, ID, the order of `GEO_STATES`). The address is placed on the map (see [geocoding.md](geocoding.md)), PostGIS finds the outlines around it, and each outline's dated rate row is stacked by its type.
 
-## `geoRateAt(state, point, date, street?)`
+## `geoRateAt(state, point, date, street?, trace?)`
 
 1. 502 if `sales_tax_data_releases` has nothing for the state; 422 if `point` is null.
 2. `shapesAround(state, point, pad)`: pad 0.003 degrees (about 300 m), or 0.06 when the state has any `pj` rows (`hasRows`).
@@ -12,6 +12,8 @@ For states whose local taxes follow county, city and district lines (TX, FL, NY,
 4. Refuse when: no county outline holds the point; the county has a `no` row; outside a rated city but within `PJ_METRES` (4,828 m) of a city with a `pj` row; inside a shape with a `maybe` row.
 5. `rateOf(...)` stacks the parts (below). No `45` row on the date is a 422.
 6. Edge check (below), then return `{ rate, parts, locationCode, files }`.
+
+With a trace, every shape from step 2 is recorded (`traceOutline`, `types.ts`) before any refusal in step 4, so a refused address still shows its lines. After step 5, `rateOf` collects in `levying` the shapes whose rows it added, and those outlines get `levies: true`. The trace never changes the answer.
 
 ## Levy types
 
@@ -51,6 +53,7 @@ For every levied shape whose `edgeMetres < margin`: `pointsAcross(point, foot, e
 | `shapesAround(state, p, padDegrees)` | `st_dwithin` on the GiST index; per shape: `inside` (`st_covers`), `edgeMetres` (distance to `st_boundary` on the spheroid), `foot` (`st_closestpoint`), `area` |
 | `shapesHolding(state, p)` | `kind:fips` of every shape covering a point |
 | `pointsAcross(...)` | flat-earth step past an edge (pure function) |
+| `outlineGeometry(state, outlines, p, metres)` | for display only (`include=trace`): each outline intersected with a square `metres` around the point, simplified to about 5 m (`DISPLAY_SIMPLIFY_DEGREES`), as GeoJSON with 5 decimals, keyed `kind:fips` |
 | `geometryOf(rings)` | SQL that turns rings into one valid multipolygon: polygonize the noded lines, keep faces inside an odd number of rings, dissolve seams, simplify to about 1 m (`SIMPLIFY_DEGREES`) |
 
 Invariant: each outline is stored as one dissolved multipolygon per `(state, kind, fips)`, so seams between pieces are never edges.
