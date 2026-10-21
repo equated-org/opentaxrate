@@ -1,8 +1,7 @@
 {
 	// The landing page on Cloudflare Workers, served at opentaxrate.com: the
-	// static build plus worker.js forwarding /v1 and /photon. Build in landing/
-	// (pnpm build), then from this folder:
-	//   wrangler deploy --var API_ORIGIN:https://api.example --var PHOTON_ORIGIN:https://photon.example
+	// static build plus worker.js forwarding /v1 and /photon to the API. Build
+	// in landing/ (pnpm build), then from this folder: wrangler deploy
 	// The account comes from CLOUDFLARE_ACCOUNT_ID, in the shell or in a
 	// git-ignored .env here (wrangler reads it from this folder; see
 	// .env.example). A fork changes the routes and CANONICAL_HOST to its domain.
