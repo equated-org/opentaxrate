@@ -1,0 +1,37 @@
+{
+	"name": "opentaxrate-landing",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@fontsource-variable/inter": "^5.3.0",
+		"maplibre-gl": "^6.15.0"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-static": "^3.0.10",
+		"@sveltejs/kit": "^2.70.3",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@tailwindcss/vite": "^4.1.18",
+		"@types/geojson": "^7946.0.16",
+		"svelte": "^5.49.2",
+		"svelte-check": "^4.3.6",
+		"tailwindcss": "^4.1.18",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"vitest": "^3.2.7"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	}
+}

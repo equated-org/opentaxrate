@@ -1,0 +1,44 @@
+{
+ "state": "OH",
+ "rate": 0.08,
+ "stateRate": 0.0575,
+ "localRate": 0.0225,
+ "byType": {
+  "general": 0.08,
+  "generalInterstate": null,
+  "foodDrug": null,
+  "foodDrugInterstate": null
+ },
+ "parts": [
+  {
+   "kind": "state",
+   "code": "45:39",
+   "rate": 0.0575
+  },
+  {
+   "kind": "county",
+   "code": "00:049",
+   "rate": 0.0125
+  },
+  {
+   "kind": "district",
+   "code": "63:25000",
+   "rate": 0.01
+  }
+ ],
+ "match": "street",
+ "locationCode": "39-049-00000-25000",
+ "source": "Streamlined Sales Tax files OHB2026Q4SEP17 + OHR2026Q4SEP17, street match on 2026-10-21",
+ "trace": {
+  "geocoders": [],
+  "outlines": [],
+  "range": {
+   "street": "W BROAD ST",
+   "low": 60,
+   "high": 98,
+   "side": "even",
+   "zip": "43215",
+   "file": "OHB2026Q4SEP17"
+  }
+ }
+}

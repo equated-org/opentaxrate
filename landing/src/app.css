@@ -1,0 +1,170 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@font-face {
+	font-family: 'Departure Mono';
+	src: url('/fonts/DepartureMono-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Tokens follow reference frontend; the part colours and the blue accent
+   follow the landing plan's figures. */
+:root {
+	--bg: #ffffff;
+	--bg-muted: #f5f5f4;
+	--card: #f6f6f6;
+	--border: #ebebeb;
+	--border-strong: #d4d4d4;
+	--text: #0a0a0a;
+	--text-2: #404040;
+	--text-muted: #6b7280;
+	--accent: #2563eb;
+	--accent-soft: #e7eef9;
+	--bg-translucent: rgba(255, 255, 255, 0.9);
+	--part-state: #111111;
+	--part-county: #2e6b3a;
+	--part-city: #29508a;
+	--part-district: #8c3441;
+	--warn: #a15c07;
+	--warn-soft: #fdf3e2;
+	--shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 28px -12px rgba(0, 0, 0, 0.18);
+}
+
+.dark {
+	--bg: #0a0a0a;
+	--bg-muted: #141414;
+	--card: #1a1a1a;
+	--border: #262626;
+	--border-strong: #3a3a3a;
+	--text: #f5f5f5;
+	--text-2: #d4d4d4;
+	--text-muted: #9ca3af;
+	--accent: #6ea8fe;
+	--accent-soft: #142034;
+	--bg-translucent: rgba(10, 10, 10, 0.9);
+	--part-state: #f2f2f2;
+	--part-county: #8fd19e;
+	--part-city: #9dbcf0;
+	--part-district: #f0a3ad;
+	--warn: #f5b454;
+	--warn-soft: #2a1f0e;
+	--shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 28px -12px rgba(0, 0, 0, 0.8);
+}
+
+@theme {
+	--font-sans: 'Inter Variable', Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+	--font-pixel: 'Departure Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+}
+
+html {
+	background: var(--bg);
+}
+
+body {
+	font-family: var(--font-sans);
+	background: var(--bg);
+	color: var(--text);
+	-webkit-font-smoothing: antialiased;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+	overflow-x: hidden;
+}
+
+/* The search input shows focus on its rounded box instead. */
+:focus-visible:not([role='combobox']) {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+/* Pixel art is drawn as SVG rects; keep the edges hard at any scale. */
+.pixelated {
+	image-rendering: pixelated;
+	shape-rendering: crispEdges;
+}
+
+.font-pixel {
+	font-family: var(--font-pixel);
+	font-feature-settings: 'liga' 0;
+}
+
+.link {
+	color: var(--text);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-decoration-color: color-mix(in srgb, var(--text) 30%, transparent);
+}
+.link:hover {
+	text-decoration-color: var(--text);
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	padding: 0.4rem 0.85rem;
+	font-size: 0.85rem;
+	color: var(--text-2);
+	background: var(--bg);
+	transition:
+		border-color 0.15s ease,
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+.chip:hover {
+	border-color: var(--border-strong);
+	color: var(--text);
+	background: var(--bg-muted);
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.45rem;
+	border: 1px solid var(--border);
+	border-radius: 0.6rem;
+	padding: 0.5rem 0.85rem;
+	font-size: 0.85rem;
+	color: var(--text-2);
+	background: var(--bg);
+	transition:
+		border-color 0.15s ease,
+		color 0.15s ease;
+}
+.btn:hover {
+	border-color: var(--border-strong);
+	color: var(--text);
+}
+
+/* MapLibre controls in the page's palette. */
+.maplibregl-ctrl-attrib {
+	font-family: var(--font-sans);
+	font-size: 11px !important;
+}
+.dark .maplibregl-ctrl-attrib {
+	background: rgba(20, 20, 20, 0.8) !important;
+	color: #a3a3a3;
+}
+.dark .maplibregl-ctrl-attrib a {
+	color: #d4d4d4;
+}
+.dark .maplibregl-ctrl-attrib-button {
+	filter: invert(1);
+}
+.dark .maplibregl-ctrl-group {
+	background: #1a1a1a;
+}
+.dark .maplibregl-ctrl-group button + button {
+	border-top-color: #333;
+}
+.dark .maplibregl-ctrl-group .maplibregl-ctrl-icon {
+	filter: invert(1);
+}
