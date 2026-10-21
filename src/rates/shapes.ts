@@ -2,17 +2,17 @@
  * Every question the engines ask of outlines, answered by PostGIS:
  *   - which outlines lie near a point, whether each holds it, and how far it
  *     is from each one's edge (shapesAround);
- *   - which outlines hold a point just across an edge (shapesHolding);
- *   - how a loader's rings become stored geometry (geometryOf).
+ *   - which outlines hold a point just across an edge (shapesHolding).
  * Outlines are found through the GiST index on geometry; distances are
  * measured on the spheroid in metres.
  */
-import { sql, type SQL } from "drizzle-orm";
-import { db } from "../db.js";
-import type { Point, Shape } from "./tiger.js";
+import { sql } from "drizzle-orm";
+import { db } from "../db/client.js";
+
+type Point = { lon: number; lat: number };
 
 export interface PlacedShape {
-  kind: Shape["kind"] | "district";
+  kind: "county" | "place" | "cousub" | "district";
   fips: string;
   name: string;
   /** Square degrees, only for ordering a nested outline before its outer one. */
@@ -23,9 +23,6 @@ export interface PlacedShape {
   /** The nearest point on that edge. */
   foot: Point;
 }
-
-/** Simplification tolerance in degrees, about a metre. */
-const SIMPLIFY_DEGREES = 0.00001;
 
 /** The outlines whose geometry comes within `padDegrees` of the point. */
 export async function shapesAround(state: string, p: Point, padDegrees: number): Promise<PlacedShape[]> {
@@ -84,30 +81,4 @@ export function pointsAcross(p: Point, foot: Point, edgeMetres: number, metres: 
   });
   if (edgeMetres > 0.01 && length > 0) return [step(dx / length, dy / length, foot)];
   return [step(1, 0, p), step(-1, 0, p), step(0, 1, p), step(0, -1, p)];
-}
-
-/** Rings (outer and holes, in any order) as stored geometry: the area inside
- *  an odd number of rings, with seams between pieces dissolved, simplified.
- *  Odd-count is the rule the rings were always read by, and the only one
- *  that holds for how states publish them: rings that cross or touch
- *  themselves (Texas), and pieces whose edges overlap or repeat (Illinois).
- *  Building areas straight from the rings fails or drops most of a Texas
- *  outline; building them from the noded lines merges repeated edges and
- *  turns holes into land. So the noded lines are cut into faces, and a face
- *  is kept when a point inside it is inside an odd number of rings. */
-export function geometryOf(rings: Array<Array<[number, number]>>): SQL {
-  const closed = rings.map((r) =>
-    r[0][0] === r.at(-1)![0] && r[0][1] === r.at(-1)![1] ? r : [...r, r[0]],
-  );
-  const lines = JSON.stringify({ type: "MultiLineString", coordinates: closed });
-  return sql`(
-    with l as (select st_setsrid(st_geomfromgeojson(${lines}), 4326) as g),
-    ring as (
-      select st_makevalid(st_makepolygon(d.geom)) as p
-      from l, st_dump(l.g) d where st_npoints(d.geom) >= 4),
-    face as (select (st_dump(st_polygonize(st_unaryunion(g)))).geom as f from l)
-    select st_multi(st_collectionextract(st_makevalid(st_simplifypreservetopology(
-      st_unaryunion(st_collect(f)), ${SIMPLIFY_DEGREES})), 3))
-    from face
-    where (select count(*) from ring where st_covers(p, st_pointonsurface(f))) % 2 = 1)`;
 }

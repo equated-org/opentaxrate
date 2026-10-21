@@ -6,7 +6,7 @@
  * Setup: none; each case is a line copied from a 2026 Q4 state file.
  */
 import { describe, expect, it } from "vitest";
-import { parseBoundaryLine, parseRateLine } from "../src/engine/sst-files.js";
+import { parseBoundaryLine, parseRateLine } from "../src/ingest/sst-files.js";
 
 describe("rate lines", () => {
   it("reads a rate across a state's padding, marks and open end date", () => {

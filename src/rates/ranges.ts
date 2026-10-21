@@ -1,6 +1,6 @@
 /**
  * Finds the rate at an address in a Streamlined member state from the
- * state's own files, as loaded by load.ts. Tries the most precise match the
+ * state's own files, as loaded by ingest/load.ts. Tries the most precise match the
  * address allows, and only answers where the state's data has one rate there:
  *
  *   1. Street: a house-number range on the address's street, narrowed by ZIP
@@ -20,7 +20,7 @@
  * on the date asked.
  */
 import { and, eq, gte, inArray, isNull, lte, or, sql } from "drizzle-orm";
-import { db } from "../db.js";
+import { db } from "../db/client.js";
 import {
   salesTaxAreas,
   salesTaxDataReleases,
@@ -28,12 +28,13 @@ import {
   salesTaxShapes,
   salesTaxStreetRanges,
   salesTaxZipRanges,
-} from "../schema.js";
+} from "../db/schema.js";
 import { RateError } from "../errors.js";
-import { letteredHouse, parseStreet, streetVariantsOf, type StreetParts } from "./address.js";
-import { HISTORY_FROM, RANGE_FIPS } from "./sst-files.js";
+import { letteredHouse, parseStreet, streetVariantsOf, type StreetParts } from "../address.js";
+import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { shapesAround } from "./shapes.js";
-import { agreedByType, marginOf, sumByType, type LocatedPoint, type RatePart, type RatesByType } from "./types.js";
+import { agreedByType, sumByType, type RatePart, type RatesByType } from "./types.js";
+import { marginOf, type LocatedPoint } from "../geocoding/index.js";
 
 export interface SstRate {
   rate: number;
@@ -526,10 +527,6 @@ async function mapAreas(
 // ---------------------------------------------------------------------------
 
 const NOT_DISTRICTS = ["00", "01", "45"];
-/** The type a state that publishes only whole-location rates (Missouri)
- *  files them under. */
-export const WHOLE_CODE_TYPE = "99";
-
 /** Each area's combined rate on `date`, with its parts. A jurisdiction with
  *  no rate on the date levies none. Some states file a place or district
  *  under a different type in the two files, so a code not found under its

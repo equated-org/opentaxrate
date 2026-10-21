@@ -16,7 +16,7 @@
  * location's two rates is the one a retailer liable for every local tax
  * charges, which is the general rate here.
  */
-import { parseStreet } from "../address.js";
+import { parseStreet } from "../../address.js";
 import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
 import { bboxOf, fetchLayer, fetchText, isoDay, shiftDay } from "./sources.js";
 

@@ -9,9 +9,9 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { sql } from "drizzle-orm";
-import { db } from "./db.js";
-import { salesTaxDataReleases } from "./schema.js";
-import { ADDRESS_RATE_STATES, addressRates } from "./engine/index.js";
+import { db } from "./db/client.js";
+import { salesTaxDataReleases } from "./db/schema.js";
+import { ADDRESS_RATE_STATES, addressRates } from "./rates/index.js";
 import { RateError } from "./errors.js";
 import { lookUpRate } from "./lookup.js";
 

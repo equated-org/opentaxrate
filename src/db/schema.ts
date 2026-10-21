@@ -72,7 +72,7 @@ export const salesTaxStreetRanges = pgTable(
   "sales_tax_street_ranges",
   {
     state: text("state").notNull(),
-    /** The street's name as matching compares it (see address.ts). */
+    /** The street's name as matching compares it (see src/address.ts). */
     streetKey: text("street_key").notNull(),
     /** The street as the file writes it, e.g. "SW 17TH ST". */
     street: text("street").notNull(),

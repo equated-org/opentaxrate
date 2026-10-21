@@ -14,9 +14,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseBoundaryLine, type BoundaryRow } from "./sst-files.js";
-import { fetchFile, readXlsx } from "./geo-states/sources.js";
+import { fetchFile, readXlsx } from "./states/sources.js";
 import { sstFileLines } from "./downloads.js";
-import { WHOLE_CODE_TYPE } from "./sst-lookup.js";
+import { WHOLE_CODE_TYPE } from "../coverage.js";
 import type { StateFiles } from "./load.js";
 
 const DOCUMENTS = "https://dor.mo.gov/taxation/business/tax-types/sales-use/documents";

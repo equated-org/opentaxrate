@@ -13,8 +13,8 @@
 import { readFileSync } from "node:fs";
 import { serve } from "@hono/node-server";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
-import { client, db } from "./db.js";
-import { refreshAddressRates } from "./engine/refresh.js";
+import { client, db } from "./db/client.js";
+import { refreshAddressRates } from "./ingest/refresh.js";
 import { lookUpRate } from "./lookup.js";
 
 const [command, ...args] = process.argv.slice(2);

@@ -11,7 +11,27 @@
  * Nominatim's usage policy allows one request a second and asks for an
  * identifying user agent; requests here are spaced to match.
  */
-import { EDGE_METRES, type LocatedPoint } from "./types.js";
+
+/** Where a geocoder put an address, and how it got there. */
+export interface LocatedPoint {
+  lon: number;
+  lat: number;
+  accuracy: "rooftop" | "parcel" | "point" | "interpolated";
+  /** A wider margin than the accuracy's, when geocoders placed it apart. */
+  metres?: number;
+}
+
+/** How near a line the point may be before it could be on either side. */
+export const marginOf = (p: LocatedPoint) => p.metres ?? EDGE_METRES[p.accuracy];
+
+/** How close to a county, city or district line a point may be before it
+ *  could be on either side, by how the geocoder placed it. */
+export const EDGE_METRES: Record<LocatedPoint["accuracy"], number> = {
+  rooftop: 15,
+  parcel: 25,
+  point: 40,
+  interpolated: 75,
+};
 
 /** Geocoders further apart than this leave the address unplaced. */
 const MAX_SPREAD_METRES = 250;

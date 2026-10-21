@@ -15,7 +15,7 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { inArray, sql } from "drizzle-orm";
-import { db } from "../src/db.js";
+import { db } from "../src/db/client.js";
 import {
   salesTaxAreas,
   salesTaxDataReleases,
@@ -23,11 +23,11 @@ import {
   salesTaxShapes,
   salesTaxStreetRanges,
   salesTaxZipRanges,
-} from "../src/schema.js";
-import { addressRates } from "../src/engine/index.js";
-import { geoRateAt } from "../src/engine/geo-lookup.js";
-import { geometryOf } from "../src/engine/shapes.js";
-import type { LocatedPoint } from "../src/engine/types.js";
+} from "../src/db/schema.js";
+import { addressRates } from "../src/rates/index.js";
+import { geoRateAt } from "../src/rates/map.js";
+import { geometryOf } from "../src/ingest/geometry.js";
+import type { LocatedPoint } from "../src/geocoding/index.js";
 
 const STATES = ["WY", "XT"];
 const ON = "2026-10-21";
