@@ -92,7 +92,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     if (standard && (!zip5 || standard.zip5 === zip5)) {
       zip5 = standard.zip5;
       plus4 = standard.plus4;
-      notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}`);
+      notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}${standard.exact ? "" : " (the building's; no unit given)"}`);
       found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date });
       if (found) notes.push(`street as ${standard.source} writes it, ${standard.street}`);
     }

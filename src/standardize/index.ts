@@ -6,7 +6,10 @@
  * The ZIP+4 is what matters: a state that publishes only ZIP+4 ranges (Utah)
  * can place an address by it, and in any range state it settles a ZIP the
  * typed street didn't. Only a single, confident, in-state match with exactly
- * one ZIP+4 is used; anything less is no answer, never a guess.
+ * one ZIP+4 is used; anything less is no answer, never a guess. A ZIP+4 the
+ * Postal Service marks inexact (a building's, when no unit was given) is
+ * used and said so: a building's units don't lie in different tax areas.
+ * Rural addresses often have no ZIP+4 at all, and get no answer here.
  */
 
 export interface AddressToStandardize {
@@ -23,13 +26,16 @@ export interface StandardAddress {
   state: string;
   zip5: string;
   plus4: string;
+  /** False when the ZIP+4 is the building's or block's rather than the
+   *  address's own (Geocodio's exact_match). */
+  exact: boolean;
   /** Who standardized it, for the answer's source. */
   source: string;
 }
 
 export type Standardizer = (a: AddressToStandardize) => Promise<StandardAddress | null>;
 
-const GEOCODIO = "https://api.geocod.io/v1.7/geocode";
+const GEOCODIO = "https://api.geocod.io/v2/geocode";
 const TIMEOUT_MS = 5_000;
 /** Geocodio's own score for the match, 0 to 1. */
 const MIN_ACCURACY = 0.9;
@@ -67,6 +73,9 @@ interface GeocodioResult {
     number?: string;
     formatted_street?: string;
     city?: string;
+    /** v2's names; v1 called them state and zip. */
+    state_province?: string;
+    postal_code?: string;
     state?: string;
     zip?: string;
   };
@@ -79,20 +88,22 @@ export function fromGeocodio(body: unknown, state: string): StandardAddress | nu
     (r) =>
       (r.accuracy ?? 0) >= MIN_ACCURACY &&
       PLACED.includes(r.accuracy_type ?? "") &&
-      r.address_components?.state?.toUpperCase() === state,
+      (r.address_components?.state_province ?? r.address_components?.state)?.toUpperCase() === state,
   );
   if (results.length !== 1) return null;
   const [r] = results;
   const c = r.address_components!;
+  const zip5 = c.postal_code ?? c.zip;
   const plus4 = r.fields?.zip4?.plus4 ?? [];
-  if (r.fields?.zip4?.exact_match === false || plus4.length !== 1 || !/^\d{4}$/.test(plus4[0])) return null;
-  if (!c.number || !c.formatted_street || !c.zip || !/^\d{5}$/.test(c.zip)) return null;
+  if (plus4.length !== 1 || !/^\d{4}$/.test(plus4[0])) return null;
+  if (!c.number || !c.formatted_street || !zip5 || !/^\d{5}$/.test(zip5)) return null;
   return {
     street: `${c.number} ${c.formatted_street}`,
     city: c.city ?? "",
     state,
-    zip5: c.zip,
+    zip5,
     plus4: plus4[0],
+    exact: r.fields?.zip4?.exact_match !== false,
     source: "Geocodio",
   };
 }
