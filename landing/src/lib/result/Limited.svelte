@@ -20,7 +20,7 @@
 			{#if left === null}
 				Too many lookups for now
 			{:else if left > 0}
-				Try again in <span class="font-pixel tabular-nums">{left}</span> s
+				Try again in <span class="font-num">{left}</span> s
 			{:else}
 				Ready to try again
 			{/if}

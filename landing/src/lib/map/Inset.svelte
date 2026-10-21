@@ -43,7 +43,7 @@
 </script>
 
 <figure class="inset" aria-label="Inset: the geocoders' points and the {distance(p.marginMetres)} margin at street scale">
-	<figcaption class="font-pixel">INSET · {across} M ACROSS</figcaption>
+	<figcaption class="font-num">INSET · {across} M ACROSS</figcaption>
 	<svg width={SIZE} height={SIZE} viewBox="0 0 {SIZE} {SIZE}" aria-hidden="true">
 		<defs>
 			<clipPath id="inset-clip"><rect width={SIZE} height={SIZE} /></clipPath>

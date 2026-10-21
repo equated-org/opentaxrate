@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/geist-mono';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -11,54 +12,65 @@
 	font-display: swap;
 }
 
-/* Tokens follow openfinance-landing; the part colours and the blue accent
-   follow the landing plan's figures. */
+/* A warm, paper-like ground (ivory in light, warm charcoal in dark) with the
+   blue accent kept for interactive bits; the part colours follow the
+   landing plan's figures. The theme follows the OS (app.html sets .dark). */
 :root {
-	--bg: #ffffff;
-	--bg-muted: #f5f5f4;
-	--card: #f6f6f6;
-	--border: #ebebeb;
-	--border-strong: #d4d4d4;
-	--text: #0a0a0a;
-	--text-2: #404040;
-	--text-muted: #6b7280;
+	--bg: #faf9f5;
+	--bg-muted: #f0eee6;
+	--surface: #ffffff;
+	--card: #ffffff;
+	--border: #e8e6dc;
+	--border-strong: #d6d3c8;
+	--text: #141413;
+	--text-2: #3d3d3a;
+	--text-muted: #6b6a63;
 	--accent: #2563eb;
-	--accent-soft: #e7eef9;
-	--bg-translucent: rgba(255, 255, 255, 0.9);
-	--part-state: #111111;
+	--accent-soft: #e2e9f7;
+	--bg-translucent: rgba(250, 249, 245, 0.9);
+	--clay: #e3c5b4;
+	--clay-ink: #8a5a43;
+	--part-state: #141413;
 	--part-county: #2e6b3a;
 	--part-city: #29508a;
 	--part-district: #8c3441;
 	--warn: #a15c07;
-	--warn-soft: #fdf3e2;
-	--shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 28px -12px rgba(0, 0, 0, 0.18);
+	--warn-soft: #f7ecd9;
+	--shadow: 0 1px 2px rgba(60, 45, 20, 0.05), 0 10px 30px -14px rgba(60, 45, 20, 0.22);
+	--radius-panel: 30px;
+	--radius-card: 18px;
+	color-scheme: light;
 }
 
 .dark {
-	--bg: #0a0a0a;
-	--bg-muted: #141414;
-	--card: #1a1a1a;
-	--border: #262626;
-	--border-strong: #3a3a3a;
-	--text: #f5f5f5;
-	--text-2: #d4d4d4;
-	--text-muted: #9ca3af;
+	--bg: #1f1e1d;
+	--bg-muted: #262624;
+	--surface: #262624;
+	--card: #262624;
+	--border: #34332f;
+	--border-strong: #47463f;
+	--text: #ecebe6;
+	--text-2: #d3d1c9;
+	--text-muted: #a3a197;
 	--accent: #6ea8fe;
-	--accent-soft: #142034;
-	--bg-translucent: rgba(10, 10, 10, 0.9);
-	--part-state: #f2f2f2;
+	--accent-soft: #1d2a40;
+	--bg-translucent: rgba(31, 30, 29, 0.9);
+	--clay: #4a3a31;
+	--clay-ink: #e3b9a2;
+	--part-state: #ece9e2;
 	--part-county: #8fd19e;
 	--part-city: #9dbcf0;
 	--part-district: #f0a3ad;
-	--warn: #f5b454;
-	--warn-soft: #2a1f0e;
-	--shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 28px -12px rgba(0, 0, 0, 0.8);
+	--warn: #f0b55e;
+	--warn-soft: #2e2416;
+	--shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+	color-scheme: dark;
 }
 
 @theme {
 	--font-sans: 'Inter Variable', Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 	--font-pixel: 'Departure Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+	--font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 }
 
 html {
@@ -70,9 +82,6 @@ body {
 	background: var(--bg);
 	color: var(--text);
 	-webkit-font-smoothing: antialiased;
-	transition:
-		background-color 0.2s ease,
-		color 0.2s ease;
 	overflow-x: hidden;
 }
 
@@ -91,6 +100,14 @@ body {
 .font-pixel {
 	font-family: var(--font-pixel);
 	font-feature-settings: 'liga' 0;
+}
+
+/* Numbers: a clean mono with even-width figures and a plain zero. The pixel
+   face is only for the wordmark. */
+.font-num {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'tnum' 1, 'zero' 0;
 }
 
 .link {
@@ -112,7 +129,7 @@ body {
 	padding: 0.4rem 0.85rem;
 	font-size: 0.85rem;
 	color: var(--text-2);
-	background: var(--bg);
+	background: var(--surface);
 	transition:
 		border-color 0.15s ease,
 		color 0.15s ease,
@@ -134,7 +151,7 @@ body {
 	padding: 0.5rem 0.85rem;
 	font-size: 0.85rem;
 	color: var(--text-2);
-	background: var(--bg);
+	background: var(--surface);
 	transition:
 		border-color 0.15s ease,
 		color 0.15s ease;

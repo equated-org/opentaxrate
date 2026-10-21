@@ -7,11 +7,12 @@
 	 */
 	import { page } from '$app/state';
 	import { pushState } from '$app/navigation';
-	import ThemeToggle from '../components/ThemeToggle.svelte';
 	import { lookUp, type LookupResult } from '$lib/api';
 	import { EXAMPLES, GITHUB } from '$lib/examples';
+	import Features from '$lib/landing/Features.svelte';
+	import Showcase from '$lib/landing/Showcase.svelte';
 	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
-	import Wordmark from '$lib/pixel/Wordmark.svelte';
+	import SiteNav from '$lib/landing/SiteNav.svelte';
 	import Limited from '$lib/result/Limited.svelte';
 	import RateList from '$lib/result/RateList.svelte';
 	import Refusal from '$lib/result/Refusal.svelte';
@@ -133,51 +134,64 @@
 
 {#if !inResult}
 	<div class="flex min-h-dvh flex-col">
-		<header class="flex items-center justify-between px-5 py-4 sm:px-8">
-			<a href="/" class="rounded" aria-label="OpenTaxRate home" onclick={home}><Wordmark /></a>
-			<nav class="flex items-center gap-4 text-sm text-[var(--text-muted)]">
-				<a class="hover:text-[var(--text)]" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
-				<ThemeToggle />
-			</nav>
-		</header>
+		<SiteNav onhome={home} />
 
-		<main class="flex flex-1 flex-col items-center px-5 pt-[8vh] pb-16">
-			<!-- 98×52 source pixels, drawn at 4× with no smoothing. -->
-			<img
-				src="/map-pixel.png"
-				alt=""
-				width="392"
-				height="208"
-				class="pixelated mb-6 h-auto w-full max-w-[392px] select-none"
-			/>
-			<h1 class="text-center text-[34px] leading-tight font-semibold tracking-[-0.02em] sm:text-[42px]">Sales tax for any US address</h1>
-			<p class="mt-3 text-center text-[16px] text-[var(--text-muted)]">
-				From the states' own files, with the lines that decided it. Source available · run it yourself.
-			</p>
+		<main class="flex flex-1 flex-col">
+			<section class="flex flex-col items-center px-5 pt-[4vh] pb-20 sm:pb-24">
+				<img
+					src="/hero-pin.webp"
+					alt=""
+					width="880"
+					height="714"
+					fetchpriority="high"
+					class="h-auto w-[min(72vw,330px)] select-none"
+				/>
+				<h1 class="mt-4 text-center text-[36px] leading-[1.1] font-semibold tracking-[-0.025em] text-balance sm:text-[48px]">
+					Sales tax for any US address
+				</h1>
+				<p class="mt-4 max-w-[44rem] text-center text-[17px] text-balance leading-relaxed text-[var(--text-muted)]">
+					Rates based on public data from state tax agencies.
+					<a
+						href="/sources"
+						class="underline underline-offset-4 hover:text-[var(--text)]"
+					>See sources</a>
+				</p>
 
-			<div class="mt-9 w-full max-w-[640px]">
-				<AddressSearch bind:value={text} onpick={go} onsubmit={submit} autofocus />
-				<div class="mt-4 h-[6px] px-6">
-					{#if loading}<ProgressStrip />{/if}
+				<div class="relative z-10 mt-10 w-full max-w-[640px]">
+					<AddressSearch bind:value={text} onpick={go} onsubmit={submit} autofocus />
+					<div class="mt-4 h-[6px] px-6">
+						{#if loading}<ProgressStrip />{/if}
+					</div>
+					{#if hint}<p class="mt-1 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
 				</div>
-				{#if hint}<p class="mt-1 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
-			</div>
 
-			<div class="mt-6 flex flex-col items-center gap-3">
-				<p class="text-sm text-[var(--text-muted)]">or try one</p>
-				<ul class="flex flex-wrap justify-center gap-2">
-					{#each EXAMPLES as e (e.name)}
-						<li>
-							<button type="button" class="chip" onclick={() => go(e.suggestion)} title={e.suggestion.label}>
-								{e.name}<span class="text-[var(--text-muted)]">· {e.note}</span>
-							</button>
-						</li>
-					{/each}
-				</ul>
-			</div>
+				<div class="mt-5 flex flex-col items-center gap-3">
+					<p class="text-sm text-[var(--text-muted)]">or try one</p>
+					<ul class="flex flex-wrap justify-center gap-2">
+						{#each EXAMPLES as e (e.name)}
+							<li>
+								<button type="button" class="chip" onclick={() => go(e.suggestion)} title={e.suggestion.label}>
+									{e.name}<span class="text-[var(--text-muted)]">· {e.note}</span>
+								</button>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			</section>
+
+			<section class="px-4 sm:px-8" aria-label="What a lookup shows">
+				<div class="relative mx-auto max-w-[1120px]">
+					<Showcase label={EXAMPLES[0].suggestion.label} href="/?q={encodeURIComponent(EXAMPLES[0].suggestion.label)}" onopen={() => go(EXAMPLES[0].suggestion)} />
+				</div>
+				<div class="mx-auto mt-12 max-w-[1000px] px-2 sm:px-6">
+					<Features />
+				</div>
+			</section>
 		</main>
 
-		<footer class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-5 py-6 text-[13px] text-[var(--text-muted)]">
+		<footer class="mt-20 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-[var(--border)] px-5 py-8 text-[13px] text-[var(--text-muted)]">
+			<a class="hover:text-[var(--text)]" href="/sources">Sources</a>
+			<span aria-hidden="true">·</span>
 			<a class="hover:text-[var(--text)]" href="{GITHUB}#quick-start" target="_blank" rel="noopener">Run it yourself</a>
 			<span aria-hidden="true">·</span>
 			<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/docs/context/api.md" target="_blank" rel="noopener">API</a>
@@ -191,22 +205,14 @@
 	</div>
 {:else}
 	<div class="flex min-h-dvh flex-col">
-		<header class="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg-translucent)] backdrop-blur">
-			<div class="flex items-center gap-3 px-4 py-3 sm:gap-5 sm:px-6">
-				<a href="/" class="shrink-0 rounded" aria-label="OpenTaxRate home" onclick={home}>
-					<span class="hidden sm:inline"><Wordmark /></span>
-					<span class="sm:hidden"><Wordmark size="sm" /></span>
-				</a>
-				<div class="mx-auto w-full max-w-[560px] min-w-0">
-					<AddressSearch bind:value={text} onpick={go} onsubmit={submit} size="sm" />
-				</div>
-				<nav class="flex shrink-0 items-center gap-4 text-sm text-[var(--text-muted)]">
-					<a class="hidden hover:text-[var(--text)] md:inline" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
-					<span class="hidden sm:block"><ThemeToggle /></span>
-				</nav>
-			</div>
-			<div class="h-[6px]">{#if loading}<ProgressStrip cells={64} />{/if}</div>
-		</header>
+		<SiteNav onhome={home}>
+			{#snippet center()}
+				<AddressSearch bind:value={text} onpick={go} onsubmit={submit} size="sm" />
+			{/snippet}
+			{#snippet below()}
+				<div class="h-[6px]">{#if loading}<ProgressStrip cells={64} />{/if}</div>
+			{/snippet}
+		</SiteNav>
 
 		{#if hint}<p class="px-6 pt-3 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
 

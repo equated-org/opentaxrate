@@ -57,9 +57,12 @@ export function parseColor(value: string): Rgba | null {
 	return null;
 }
 
+/** A warm grey of lightness `l`, toned to the page's ivory ground: a touch
+ *  more red than blue, so the map sits on the page instead of looking cold. */
 const grey = (l: number, a: number) => {
-	const c = Math.round(Math.max(0, Math.min(1, l)) * 255);
-	return a >= 1 ? `rgb(${c},${c},${c})` : `rgba(${c},${c},${c},${+a.toFixed(3)})`;
+	const ch = (k: number) => Math.round(Math.max(0, Math.min(1, l * k)) * 255);
+	const [r, g, b] = [ch(1.0), ch(0.985), ch(0.955)];
+	return a >= 1 ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${+a.toFixed(3)})`;
 };
 
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
@@ -136,7 +139,7 @@ export function blankStyle(theme: MapTheme): StyleSpecification {
 		version: 8,
 		glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
 		sources: {},
-		layers: [{ id: 'background', type: 'background', paint: { 'background-color': theme === 'dark' ? '#141414' : '#f6f6f5' } }]
+		layers: [{ id: 'background', type: 'background', paint: { 'background-color': theme === 'dark' ? '#1f1e1d' : '#faf9f5' } }]
 	};
 }
 
