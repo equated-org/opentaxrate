@@ -1,0 +1,29 @@
+{
+	// The landing page on Cloudflare Workers, served at opentaxrate.com: the
+	// static build plus worker.js forwarding /v1 and /photon. Build in landing/
+	// (pnpm build), then from this folder:
+	//   wrangler deploy --var API_ORIGIN:https://api.example --var PHOTON_ORIGIN:https://photon.example
+	// The account comes from CLOUDFLARE_ACCOUNT_ID, in the shell or in a
+	// git-ignored .env here (wrangler reads it from this folder; see
+	// .env.example). A fork changes the routes and CANONICAL_HOST to its domain.
+	"$schema": "../node_modules/wrangler/config-schema.json",
+	"name": "opentaxrate-landing",
+	"main": "worker.js",
+	"compatibility_date": "2026-10-01",
+	"routes": [
+		{ "pattern": "opentaxrate.com", "custom_domain": true },
+		{ "pattern": "www.opentaxrate.com", "custom_domain": true }
+	],
+	"vars": { "CANONICAL_HOST": "opentaxrate.com" },
+	"assets": {
+		"directory": "../build",
+		"binding": "ASSETS",
+		"html_handling": "auto-trailing-slash",
+		"run_worker_first": true
+	},
+	"ratelimits": [
+		// Per visitor IP, per minute, at the edge.
+		{ "name": "LOOKUPS", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } },
+		{ "name": "SUGGESTIONS", "namespace_id": "1002", "simple": { "limit": 120, "period": 60 } }
+	]
+}
