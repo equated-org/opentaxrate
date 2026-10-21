@@ -18,7 +18,7 @@ Notes describe the code as it is. Plans for future work go in ../plans/ (maintai
 | [engine.md](engine.md) | Dispatch by state, the `AddressRate` answer, statewide states, California | `src/rates/index.ts`, `src/rates/statewide.ts`, `src/rates/california.ts` |
 | [range-engine.md](range-engine.md) | Streamlined states and Missouri: street, ZIP+4, ZIP, map | `src/rates/ranges.ts`, `src/ingest/sst-files.ts`, `src/address.ts`, `src/ingest/missouri.ts` |
 | [map-engine.md](map-engine.md) | Map-read states: outlines, levy types, edges, state adapters | `src/rates/map.ts`, `src/rates/shapes.ts`, `src/rates/types.ts`, `src/ingest/states/*` |
-| [geocoding.md](geocoding.md) | Placing an address on the map | `src/geocoding/index.ts`, `src/geocoding/mapbox.ts`, `src/rates/types.ts` (`Trace`) |
+| [geocoding.md](geocoding.md) | Placing an address on the map | `src/geocoding/` (`locator.ts`, `registry.ts`, `providers/`), `src/rates/types.ts` (`Trace`) |
 | [refresh.md](refresh.md) | Downloading and loading data, the tables | `src/ingest/refresh.ts`, `src/ingest/load.ts`, `src/ingest/downloads.ts`, `src/ingest/tiger.ts`, `src/db/schema.ts` |
 
 ## Writing a note
