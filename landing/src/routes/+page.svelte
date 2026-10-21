@@ -141,7 +141,15 @@
 			</nav>
 		</header>
 
-		<main class="flex flex-1 flex-col items-center px-5 pt-[14vh] pb-16">
+		<main class="flex flex-1 flex-col items-center px-5 pt-[6vh] pb-16">
+			<!-- 180×102 source pixels, drawn at 3× with no smoothing. -->
+			<img
+				src="/usa-pixel.png"
+				alt=""
+				width="540"
+				height="306"
+				class="pixelated mb-8 h-auto w-full max-w-[540px] select-none"
+			/>
 			<h1 class="text-center text-[34px] leading-tight font-semibold tracking-[-0.02em] sm:text-[42px]">Sales tax for any US address</h1>
 			<p class="mt-3 text-center text-[16px] text-[var(--text-muted)]">
 				From the states' own files, with the lines that decided it. Source available · run it yourself.
