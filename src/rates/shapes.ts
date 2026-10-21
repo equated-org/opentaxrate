@@ -2,12 +2,14 @@
  * Every question the engines ask of outlines, answered by PostGIS:
  *   - which outlines lie near a point, whether each holds it, and how far it
  *     is from each one's edge (shapesAround);
- *   - which outlines hold a point just across an edge (shapesHolding).
+ *   - which outlines hold a point just across an edge (shapesHolding);
+ *   - what an outline looks like near a point, for drawing (outlineGeometry).
  * Outlines are found through the GiST index on geometry; distances are
  * measured on the spheroid in metres.
  */
 import { sql } from "drizzle-orm";
 import { db } from "../db/client.js";
+import type { OutlineGeometry } from "./types.js";
 
 type Point = { lon: number; lat: number };
 
@@ -65,6 +67,37 @@ export async function shapesHolding(state: string, p: Point): Promise<Set<string
     select kind, fips from sales_tax_shapes
     where state = ${state} and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))`);
   return new Set(rows.map((r) => `${r.kind}:${r.fips}`));
+}
+
+/** Display tolerance in degrees, about 5 m. */
+const DISPLAY_SIMPLIFY_DEGREES = 0.00005;
+
+/** Each outline's part within a square `metres` from the point on every
+ *  side, simplified to about 5 m, as GeoJSON with 5 decimals; keyed
+ *  "kind:fips". An outline with nothing in the square is left out. For
+ *  display only: no engine reads it. */
+export async function outlineGeometry(
+  state: string,
+  outlines: Array<{ kind: string; fips: string }>,
+  p: Point,
+  metres: number,
+): Promise<Map<string, OutlineGeometry>> {
+  if (!outlines.length) return new Map();
+  const keys = outlines.map((o) => `${o.kind}:${o.fips}`);
+  const rows = await db.execute<{ kind: string; fips: string; geojson: string }>(sql`
+    with box as (
+      select st_envelope(st_buffer(st_setsrid(st_point(${p.lon}, ${p.lat}), 4326)::geography, ${metres})::geometry) as g)
+    select s.kind, s.fips, st_asgeojson(c.g, 5) as geojson
+    from sales_tax_shapes s
+    cross join box
+    cross join lateral (
+      select st_collectionextract(st_makevalid(st_simplifypreservetopology(
+        st_intersection(s.geom, box.g), ${DISPLAY_SIMPLIFY_DEGREES})), 3) as g) c
+    where s.state = ${state}
+      and s.kind || ':' || s.fips in (${sql.join(keys.map((k) => sql`${k}`), sql`, `)})
+      and s.geom && box.g
+      and not st_isempty(c.g)`);
+  return new Map(rows.map((r) => [`${r.kind}:${r.fips}`, JSON.parse(r.geojson) as OutlineGeometry]));
 }
 
 /** Points `metres` past an edge from `p`, on its other side. On the edge

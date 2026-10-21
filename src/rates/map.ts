@@ -49,7 +49,7 @@ import {
   salesTaxJurisdictionRates,
 } from "../db/schema.js";
 import { RateError } from "../errors.js";
-import type { RatePart } from "./types.js";
+import { traceOutline, type RatePart, type Trace, type TracedOutline } from "./types.js";
 import { marginOf, type LocatedPoint } from "../geocoding/index.js";
 import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet } from "../address.js";
@@ -74,6 +74,7 @@ export async function geoRateAt(
   point: LocatedPoint | null,
   date: string,
   street?: string,
+  trace?: Trace,
 ): Promise<GeoRate> {
   const files = await releaseFiles(state);
   if (!files.length)
@@ -107,6 +108,9 @@ export async function geoRateAt(
   const levied = shapes.filter(
     (s) => leviesOf(s, rates).length || keptCodes.has(s.fips),
   );
+  // Recorded before any refusal, so a refused address still shows its lines.
+  const traced = new Map<Shape, TracedOutline>();
+  if (trace) for (const s of shapes) traced.set(s, traceOutline(trace, s));
 
   if (!shapes.some((s) => s.kind === "county" && s.inside))
     throw new RateError(
@@ -135,7 +139,12 @@ export async function geoRateAt(
     }
   const parsed = street ? parseStreet(street) : null;
   const addressKey = parsed ? `${parsed.house ?? parsed.houseText}|${parsed.streetKey}` : null;
-  const answer = rateOf(state, inside, rates, addressKey);
+  const levying = new Set<Shape>();
+  const answer = rateOf(state, inside, rates, addressKey, levying);
+  for (const s of levying) {
+    const outline = traced.get(s);
+    if (outline) outline.levies = true;
+  }
   for (const s of inside) {
     const maybe = rates.get(`maybe:${s.fips}`);
     // A county's unmapped district matters only outside its rated cities.
@@ -217,6 +226,8 @@ function rateOf(
   inside: Set<Shape>,
   rates: Map<string, RateRow>,
   addressKey: string | null,
+  /** Collects the shapes whose rows were added. */
+  levying?: Set<Shape>,
 ) {
   const stateRow = [...rates.values()].find((r) => r.type === "45");
   if (!stateRow)
@@ -234,6 +245,7 @@ function rateOf(
     const code = `${row.type}:${row.code}`;
     if (parts.some((p) => p.code === code)) return;
     parts.push({ kind: kindOf(s), code, rate });
+    levying?.add(s);
   };
   const sorted = [...inside].sort(byKind);
 
