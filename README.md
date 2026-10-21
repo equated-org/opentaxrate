@@ -165,6 +165,8 @@ Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve
 | `DATABASE_URL` | `postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate` | Postgres |
 | `PORT` | `8080` | API port |
 | `MAPBOX_ACCESS_TOKEN` | unset | a third geocoder beside Census and OpenStreetMap; places more addresses |
+| `GEOCODIO_API_KEY` | unset | standardizes a range state's address its street doesn't place, for its ZIP+4 |
+| `TYPESAFE_API_KEY` | unset | Jev picks the ZIP's street a misspelled one is, when spelling alone can't |
 | `OPENTAXRATE_USER_AGENT` | `opentaxrate (+https://github.com/opentaxrate/opentaxrate)` | sent to tax offices and Nominatim; put your contact here |
 | `OPENTAXRATE_HISTORY_FROM` | `2020-01-01` | Streamlined and Missouri rows that ended before this date aren't loaded |
 | `DATABASE_POOL` | `10` | Postgres connections per process |

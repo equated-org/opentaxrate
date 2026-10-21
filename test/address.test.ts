@@ -15,6 +15,7 @@ import {
   streetKeysOf,
   streetVariantsOf,
 } from "../src/address.js";
+import { normalizeCity } from "../src/rates/places.js";
 
 describe("a typed street meets the file's spelling of it", () => {
   it.each([
@@ -136,5 +137,52 @@ describe("other spellings a file may use", () => {
 
   it("tries the street's own spelling first", () => {
     expect(keys("905 Oak Hollow Rd")[0]).toEqual(["OAKHOLW", "RD"]);
+  });
+});
+
+describe("a line that carries more than the street", () => {
+  it.each([
+    ["Apt 4B, 90 W Broad St", "90 W Broad St", "4B"],
+    ["unit 12, 400 S Main Street", "400 S Main St", "12"],
+    ["c/o Jane Smith, 90 W Broad St", "90 W Broad St", null],
+    ["ATTN: Billing, 22 Elm Ct", "22 Elm Ct", null],
+    ["2nd Floor, 100 Main St", "100 Main St", null],
+    ["123 Main St, Apt 4", "123 Main St", "4"],
+    ["90 W Broad St, Columbus, OH 43215", "90 W Broad St", null],
+    ["90 W Broad St Columbus OH 43215", "90 W Broad St", null],
+    ["15 Ocean Pkwy Apt 3C Brooklyn NY 11218", "15 Ocean Pkwy", "3C"],
+    ["90 W Broad St Apt4B", "90 W Broad St", "4B"],
+  ])("%s", (typed, street, unit) => {
+    const parts = parseStreet(typed)!;
+    const plain = parseStreet(street)!;
+    expect([parts.houseText, parts.preDirectional, parts.streetKey, parts.suffix, parts.postDirectional]).toEqual([
+      plain.houseText, plain.preDirectional, plain.streetKey, plain.suffix, plain.postDirectional,
+    ]);
+    expect(parts.unit).toBe(unit);
+  });
+
+  it("reads a house number spelled out", () => {
+    expect(parseStreet("One Main Street")).toMatchObject({ house: 1, streetKey: "MAIN", suffix: "ST" });
+    expect(parseStreet("Three Lakeview Ave")).toMatchObject({ house: 3, streetKey: "LAKEVIEW" });
+  });
+
+  it("reads a street type one slip from its spelling", () => {
+    for (const [typed, suffix] of [["90 W Broad Steet", "ST"], ["910 Sunset Bvld", "BLVD"], ["8 Main Stret Apt 2", "ST"], ["5 Oak Avenu N", "AVE"]] as const)
+      expect(parseStreet(typed)).toMatchObject({ suffix });
+  });
+
+  it("never reads a short name as a type it is one slip from", () => {
+    expect(parseStreet("100 Broad")).toMatchObject({ streetKey: "BROAD", suffix: "" });
+    expect(parseStreet("100 Lanes")).toMatchObject({ streetKey: "LANES" });
+  });
+});
+
+describe("city names", () => {
+  it("abbreviates Saint, Mount and Fort wherever they stand", () => {
+    expect(normalizeCity("Lake Saint Louis")).toBe("LAKE ST LOUIS");
+    expect(normalizeCity("Saint Louis")).toBe("ST LOUIS");
+    expect(normalizeCity("Port Fort Myers")).toBe("PORT FT MYERS");
+    expect(normalizeCity("Mount Vernon")).toBe("MT VERNON");
+    expect(normalizeCity("Fortuna")).toBe("FORTUNA");
   });
 });

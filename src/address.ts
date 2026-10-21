@@ -235,16 +235,39 @@ const NAME_WORDS: Record<string, string> = {
 const UNIT =
   /\s(?:(?:APT|APARTMENT|STE|SUITE|UNIT|BLDG|BUILDING|FL|FLOOR|RM|ROOM|LOT|SPC|SPACE|TRLR|DEPT|OFC|OFFICE|PH)(?:\s+|\s*#\s*)|#\s*)([A-Z0-9-]+)$/;
 
-/** Reads a typed street line, or null when it has no house number. */
+const DESIGNATORS = "APT|APARTMENT|STE|SUITE|UNIT|BLDG|BUILDING|FL|FLOOR|RM|ROOM|LOT|SPC|SPACE|TRLR|DEPT|OFC|OFFICE|PH";
+/** A comma-separated piece that is only a unit ("Apt 4B", "Suite #200"). */
+const UNIT_PIECE = new RegExp(`^(?:(?:${DESIGNATORS})\\.?\\s*#?\\s*|#\\s*)([A-Z0-9-]+)$`, "i");
+/** A unit followed by more words, read once a trailing state and ZIP show
+ *  the line runs on into its city ("Apt 3C Brooklyn"). */
+const UNIT_THEN_CITY = new RegExp(`\\s(?:(?:${DESIGNATORS})(?:\\s+|\\s*#\\s*)|#\\s*)([A-Z0-9-]+)(?:\\s.*)?$`);
+const STATE_ZIP_TAIL = /\s[A-Z]{2}\s\d{5}(?:-?\d{4})?$/;
+const NUMBER_WORDS: Record<string, string> = Object.fromEntries(
+  "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY"
+    .split(" ")
+    .map((word, i) => [word, String(i + 1)]),
+);
+const HOUSE = /^(?:\d+(?:[A-Z]|-?\d+\/\d+)?|[NSEW]\d+[NSEW]?\d*)$/i;
+
+/** Reads a typed street line, or null when it has no house number. A line
+ *  may carry more than the street: a unit or care-of name before it, a unit
+ *  or the city, state and ZIP after it, as commas or a trailing ZIP show. */
 export function parseStreet(line: string): StreetParts | null {
-  let text = ` ${clean(line)}`;
-  let unit: string | null = null;
-  const unitMatch = UNIT.exec(text);
+  const piece = streetPiece(line);
+  let text = ` ${clean(piece.street)}`;
+  let unit: string | null = piece.unit;
+  // "Apt4B" is "Apt 4B"; only as the line's last word, where a unit stands.
+  text = text.replace(new RegExp(`\\s(${DESIGNATORS})(\\d[A-Z0-9-]*)$`), " $1 $2");
+  const tail = STATE_ZIP_TAIL.exec(text);
+  if (tail) text = text.slice(0, tail.index);
+  const unitMatch = (tail ? UNIT_THEN_CITY : UNIT).exec(text);
   if (unitMatch) {
     unit = unitMatch[1];
     text = text.slice(0, unitMatch.index);
-  }
+  } else if (tail) text = withoutCity(text);
   text = text.trim();
+  const words = text.split(" ");
+  if (NUMBER_WORDS[words[0]]) text = [NUMBER_WORDS[words[0]], ...words.slice(1)].join(" ");
 
   const box = /^(?:P ?O|POST OFFICE) ?BOX (\d+)$/.exec(text);
   if (box)
@@ -266,6 +289,7 @@ export function parseStreet(line: string): StreetParts | null {
   const lettered = /^[NSEW]\d+[NSEW]?\d*$/.test(first ?? "");
   if ((!numbered && !lettered) || rest.length === 0) return null;
   if (rest[0] && /^\d+\/\d+$/.test(rest[0])) rest.shift();
+  mendType(rest);
   const street = splitStreet(rest);
   if (!street.streetKey) return null;
   return {
@@ -275,6 +299,62 @@ export function parseStreet(line: string): StreetParts | null {
     unit,
     alternates: alternateSpellings(rest, street),
   };
+}
+
+/** The comma-separated piece that is the street (the first to start with a
+ *  house number), and a unit standing on its own just before or after it. */
+function streetPiece(line: string): { street: string; unit: string | null } {
+  const pieces = line.split(",").map((p) => p.trim()).filter(Boolean);
+  if (pieces.length < 2) return { street: line, unit: null };
+  const at = pieces.findIndex((p) => {
+    const [first, second] = p.toUpperCase().split(/\s+/);
+    return Boolean(second) && (HOUSE.test(first) || Boolean(NUMBER_WORDS[first]));
+  });
+  if (at < 0) return { street: line, unit: null };
+  const unitPiece = [pieces[at - 1], pieces[at + 1]].find((p) => p && UNIT_PIECE.test(p));
+  return { street: pieces[at], unit: unitPiece ? UNIT_PIECE.exec(unitPiece)![1].toUpperCase() : null };
+}
+
+/** A line whose state and ZIP were cut off still ends in its city: keep the
+ *  words up to the last street type (and a direction after it). */
+function withoutCity(text: string) {
+  const words = text.trim().split(" ");
+  let end = -1;
+  for (let i = 2; i < words.length; i++) if (SUFFIXES.has(words[i])) end = i;
+  if (end < 0) return text;
+  if (DIRECTIONS[words[end + 1]]) end++;
+  return words.slice(0, end + 1).join(" ");
+}
+
+/** A misspelled street type after the name ("Steet", "Bvld", "Boulevrd") is
+ *  read as the type it is one slip from: a letter missing, extra, wrong, or
+ *  two letters swapped. Only spelled-out types of five letters or more and
+ *  four-letter abbreviations count, so a short name ("Broad") is never
+ *  taken for one ("Road"). */
+function mendType(words: string[]) {
+  let at = words.length - 1;
+  if (at > 1 && DIRECTIONS[words[at]]) at--;
+  const word = words[at];
+  if (at < 1 || !word || word.length < 4 || SUFFIXES.has(word) || DIRECTIONS[word] || /\d/.test(word)) return;
+  const near = TYPE_SPELLINGS.filter(([spelling]) => oneSlip(word, spelling));
+  const types = new Set(near.map(([, type]) => type));
+  if (types.size === 1) words[at] = [...types][0];
+}
+
+const TYPE_SPELLINGS = [...SUFFIXES].filter(
+  ([spelling, type]) => spelling.length >= 5 || (spelling === type && spelling.length === 4),
+);
+
+/** Whether a and b differ by one edit or one swap of neighbouring letters. */
+function oneSlip(a: string, b: string) {
+  if (a === b || Math.abs(a.length - b.length) > 1) return false;
+  if (a.length === b.length) {
+    const diff = [...a].flatMap((c, i) => (c === b[i] ? [] : [i]));
+    return diff.length === 1 || (diff.length === 2 && diff[1] === diff[0] + 1 && a[diff[0]] === b[diff[1]] && a[diff[1]] === b[diff[0]]);
+  }
+  const [long, short] = a.length > b.length ? [a, b] : [b, a];
+  for (let i = 0; i < long.length; i++) if (long.slice(0, i) + long.slice(i + 1) === short) return true;
+  return false;
 }
 
 function alternateSpellings(
