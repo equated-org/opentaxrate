@@ -46,9 +46,10 @@ const MIN_ACCURACY = 0.9;
 const PLACED = ["rooftop", "point", "range_interpolation"];
 
 export function addressStandardizer(): Standardizer | undefined {
-  const key = process.env.GEOCODIO_API_KEY;
-  if (!key) return undefined;
-  const provider = geocoderProviders().find(p => p.id === "geocodio")!;
+  // The registry decides whether Geocodio is configured (a blank key is not).
+  const provider = geocoderProviders().find(p => p.id === "geocodio");
+  if (!provider) return undefined;
+  const key = process.env.GEOCODIO_API_KEY!.trim();
   return async (a) => {
     const url = new URL(GEOCODIO);
     url.search = new URLSearchParams({

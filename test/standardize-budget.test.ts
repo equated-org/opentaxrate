@@ -9,6 +9,10 @@ vi.mock("../src/geocoding/budget.js", () => ({ postgresGeocodeBudget: {
 const address = { street: "100 Main St", city: "Austin", state: "TX", zip: "78701" };
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.resetAllMocks(); });
 describe("Geocodio standardization shares the geocoding quota", () => {
+  it("is off, rather than broken, with a blank key", () => {
+    vi.stubEnv("GEOCODIO_API_KEY", "   ");
+    expect(addressStandardizer()).toBeUndefined();
+  });
   it("does not call the vendor without a reservation", async () => {
     vi.stubEnv("GEOCODIO_API_KEY", "test");
     vi.mocked(budget.reserve).mockResolvedValue(false);
