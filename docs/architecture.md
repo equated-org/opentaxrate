@@ -2,6 +2,8 @@
 
 OpenTaxRate answers one question: **what is the general sales tax rate at this US street address on this date?** It answers from the states' own published files, loaded into Postgres, and refuses (naming the candidate rates) whenever those files can't settle a single rate.
 
+Per-subsystem design notes, each citing the source files it describes, are in [docs/context/](context/README.md).
+
 ## Containers
 
 ```mermaid
@@ -16,7 +18,7 @@ flowchart LR
   end
 
   api -->|reads| db
-  refresh -->|COPY, one transaction per state| db
+  refresh -->|one transaction per state| db
   migrate -->|creates tables| db
 
   refresh -. downloads .-> sources[[State tax offices<br/>Streamlined Sales Tax<br/>Census TIGER]]
@@ -37,6 +39,7 @@ flowchart TD
   route -->|CA| ca[CDTFA passthrough<br/>today's rate]
 
   rg --> s1[1 street range] -->|not found| s2[2 ZIP+4 range] -->|no ZIP+4| s3[3 ZIP with one rate] -->|split| s4[4 map point vs Census outlines]
+  s1 -.->|no ZIP+4, ZIP has several rates| s4
   mp --> g1[geocode with every geocoder<br/>keep only where they agree] --> g2[outlines holding the point] --> g3[stack each one's dated rate]
 
   s1 & s2 & s3 & s4 & g3 --> edge{near a line?}
@@ -51,6 +54,7 @@ These states publish every street's house-number ranges with the county, city an
 1. The typed street is reduced to a **key**: type, directions, spacing and ordinals removed, highway names folded together. The state's file is read through the same function, so `3330 W McCollister Drive` and the file's `W | MCCOLLISTER | Dr` meet on `MCCOLLISTER`.
 2. Ranges holding the house number on the right side of the street are narrowed by ZIP (or city), then type, direction and unit. One area means one answer.
 3. Otherwise: the ZIP+4's ranges; then the ZIP, only if every range in it has one rate and the city matches; then the map.
+4. A street match is also checked on the map when there is no ZIP+4 and the ZIP has more than one rate, because ranges are filed by the hundred-block and a block can straddle a city line. If the map gives a different rate, the address is refused.
 
 Missouri publishes one total per jurisdiction code (place, county, district combination) because its parts don't always add up; that total is used as one rate.
 
@@ -139,7 +143,7 @@ erDiagram
 
 ## Refresh
 
-`cli.js refresh [STATE...]` finds each state's newest files, skips ones already loaded, and replaces a state's rows in one transaction, so a lookup never sees half a release. Street ranges stream through Postgres `COPY`; a failure mid-file rolls the state back.
+`cli.js refresh [STATE...]` finds each state's newest files and replaces a state's rows in one transaction, so a lookup never sees half a release. Streamlined files and Census TIGER files already loaded are skipped; Missouri and the map states are downloaded and reloaded on every run. Streamlined and Missouri street ranges stream through Postgres `COPY`, and a failure mid-file rolls the state back; map-state rates go in as batched inserts. TIGER outlines are replaced one file per transaction, and the county file covers every state.
 
 | Kind of source | States | Cadence |
 |---|---|---|

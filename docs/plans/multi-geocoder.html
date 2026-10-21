@@ -1,0 +1,716 @@
+<title>Many geocoders, asked only when the answer needs them</title>
+<meta name="description" content="Plan: geocoding providers switched on by API key, a two-source default, sharper points bought only when a line decides the rate, with a cache, caps and breakers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (~/.claude/skills/html-plan/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why change how addresses are placed</a></li>
+    <li><a class="sub" href="#margins">A more precise point means a smaller margin</a></li>
+    <li><a class="sub" href="#review">What changes from the proposal</a></li>
+    <li><a href="#model">Model: today and proposed</a></li>
+    <li><a class="sub" href="#providers">The providers</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#workflows">Workflows</a></li>
+    <li><a class="sub" href="#w1">1. An address far from any line</a></li>
+    <li><a class="sub" href="#w2">2. The same address again</a></li>
+    <li><a class="sub" href="#w3">3. An address near a line</a></li>
+    <li><a class="sub" href="#w4">4. Geocoders that disagree</a></li>
+    <li><a class="sub" href="#w5">5. A provider at its cap or failing</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases</a></li>
+    <li><a href="#questions">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Design plan · proposed · branch animated-jaguar · 2026-10-21</p>
+  <h1>Many geocoders, asked only when the answer needs them</h1>
+  <p class="lede">Today every map lookup asks Mapbox, the Census Bureau and Nominatim at the same time, so adding a provider adds a call to every lookup. This plan turns each geocoder into a provider that is switched on by its API key. A lookup asks two of them, cheapest first. A precise (and usually paid) geocoder is asked only when the engine finds a city or district line that would change the rate and that a sharper point could settle. Results are cached in Postgres where the provider's terms allow it, and each provider gets a rate limit, a daily cap and a circuit breaker.</p>
+  <p class="meta">Traced from <code>src/engine/locate.ts</code>, <code>src/geocoders.ts</code>, <code>src/lookup.ts</code>, <code>src/engine/index.ts</code>, <code>src/engine/geo-lookup.ts</code>, <code>src/engine/sst-lookup.ts</code>, <code>src/engine/types.ts</code>, <code>scripts/bench.ts</code> at 8e7f871. Not yet implemented.</p>
+</header>
+
+<h2 id="why">Why change how addresses are placed</h2>
+<p>The map engine covers 16 states: TX, FL, NY, PA, IL, VA, AZ, NM, CO, AK, AL, LA, SC, MS, ID and HI. Its rate is only as good as the point the address is placed at. The range engine also needs a point when a ZIP is split between rates. Today <code>locateAddress()</code> sends every configured geocoder the address at once, keeps the most precise point, and gives up when the points are more than 250 m apart. That was fine with three free or cheap geocoders. It does not scale to ten:</p>
+<ul>
+  <li><em>Every lookup pays for every provider.</em> A Google or HERE key would be called for an address in the middle of Austin that the free Census point already settles.</li>
+  <li><em>Nominatim's queue slows everything down.</em> The public server allows one request a second. The spacing lives in a variable in one process (<code>nominatimFree</code>), so lookups queue behind it, and several API containers would each send one a second.</li>
+  <li><em>Nothing is remembered.</em> Repeat customers' addresses are geocoded again on every order.</li>
+  <li><em>Geocoders that read the same data count as two votes.</em> Pelias and Nominatim both read OpenStreetMap, so their agreeing proves less than Census and OpenStreetMap agreeing.</li>
+</ul>
+<p><strong>The decision:</strong> a geocoding module outside the engine holds a registry of providers. It answers the engine's request "place this address" by asking two providers that use different data. It answers the follow-up "place it with a margin under <var>d</var> metres" by asking only providers precise enough to settle that. The engine keeps deciding which lines matter; the geocoding module decides who to ask. <strong>Out of scope:</strong> self-hosting Pelias or Nominatim (the registry only takes a URL), batch geocoding during refresh, and showing the point to callers.</p>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col"></th><th scope="col">Today</th><th scope="col">Proposed</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Who is asked</th><td>Every configured geocoder, every time</td><td>A cheap pair with different data; more only on disagreement or a deciding line</td></tr>
+    <tr><th scope="row">Turning a provider on</th><td>Mapbox only, by <code>MAPBOX_ACCESS_TOKEN</code></td><td>Any provider, by its key or URL being set</td></tr>
+    <tr><th scope="row">One geocoder answers</th><td>Its point is used</td><td>Another provider is asked; one point alone is used only if it passes the city check (<a href="#questions">open question 1</a>)</td></tr>
+    <tr><th scope="row">Points far apart</th><td>Over 250 m, the address is not placed</td><td>A third provider is asked; the largest group that agrees wins if it spans two data sources</td></tr>
+    <tr><th scope="row">Near a line that changes the rate</th><td>Refused with both rates</td><td>A sharper point is bought if one could settle it; refused only if not</td></tr>
+    <tr><th scope="row">Rate limits</th><td>Nominatim spaced 1 s apart within one process</td><td>A token bucket per provider, a daily cap in Postgres, a circuit breaker</td></tr>
+    <tr><th scope="row">Storage</th><td>None; the API never writes</td><td>Two tables, <code>geocode_results</code> and <code>geocoder_usage</code>; the API writes only these</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="margins">A more precise point means a smaller margin</h3>
+<p>A geocoded point is the true location give or take some error. If a city line is closer than that error, the house could be on either side. <code>EDGE_METRES</code> in <code>src/engine/types.ts</code> sets the margin by how the geocoder placed the address:</p>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Accuracy</th><th scope="col" class="num">Margin</th><th scope="col">How it's placed</th><th scope="col">What providers call it</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><code>rooftop</code></th><td class="num">15 m</td><td>on the building</td><td>Google <code>ROOFTOP</code>, Geocodio <code>rooftop</code>, Smarty <code>Rooftop</code>, Mapbox <code>rooftop</code></td></tr>
+    <tr><th scope="row"><code>parcel</code></th><td class="num">25 m</td><td>the middle of the lot</td><td>Smarty <code>Parcel</code>, Mapbox <code>parcel</code></td></tr>
+    <tr><th scope="row"><code>point</code></th><td class="num">40 m</td><td>an address point, such as one from OSM</td><td>Nominatim with a house number, Pelias <code>point</code>, HERE <code>houseNumberType: PA</code>, Geocodio <code>point</code></td></tr>
+    <tr><th scope="row"><code>interpolated</code></th><td class="num">75 m</td><td>estimated along the street's range of house numbers</td><td>Census, Google <code>RANGE_INTERPOLATED</code>, Geocodio <code>range_interpolation</code>, HERE <code>interpolated</code></td></tr>
+  </tbody>
+</table>
+</div>
+<p>If an outline's edge falls inside the margin, the engine also prices a point 2 m across the line, and refuses only if the rate there differs. A smaller margin puts fewer addresses near any edge, so there are fewer refusals. These margins are the code's own assumptions, not vendor guarantees, and "rooftop" means different things at different vendors. The <code>lon,lat</code> columns in the bench cases (<code>artifacts/bench/cases</code>) give true points, so phase 4 measures each provider's distance from them and sets its margin from that.</p>
+<ul>
+  <li><em>Each provider maps its own labels, cautiously.</em> A label it doesn't recognise, or a centroid such as Google <code>GEOMETRIC_CENTER</code> or Smarty <code>Zip9</code>, is not a point and the provider returns nothing.</li>
+</ul>
+
+<h3 id="review">What changes from the proposal</h3>
+<p>Most of the proposal stays: providers switched on by API key, at least two sources, rooftop calls only near lines, an order by tier and cost, a limiter and breaker per provider, and a <code>storable</code> flag. Four parts change, each to spend fewer calls or refuse fewer good addresses.</p>
+<ol>
+  <li><strong>Escalate on a deciding line, not on any line within 75 m.</strong> Many lines near a point don't change the rate: county lines between counties with no sales tax, district seams, and city lines where a Texas combined area keeps the same total. <code>geoRateAt()</code> already works out the rate 2 m across each nearby edge. It escalates only when that rate differs, and it passes the distance <var>d</var> to the nearest such edge.</li>
+  <li><strong>Ask only providers that can settle it.</strong> <code>locate({ marginUnder: d })</code> asks only providers whose accuracy has a margin under <var>d</var>. For an edge 31 m away that means parcel (25 m) or rooftop (15 m). For an edge 10 m away nothing can settle it, so no call is spent and the address is refused at once.</li>
+  <li><strong>The engine asks; it does not hand over a predicate.</strong> The proposal had the locator take an <code>escalate</code> callback that would need the engine's edges. Instead the engine calls the same lazy <code>locate</code> callback a second time with the margin it needs. Each module keeps its own knowledge, and the callback stays one function.</li>
+  <li><strong>Count data sources, not providers.</strong> Each point carries its data source, such as <code>tiger</code>, <code>osm</code>, <code>openaddresses</code>, <code>here</code> or <code>google</code>. Pelias and Geocodio report a source for each result, so it is set per point, not per provider. Two points agree only if they come from different sources. With three or more points, the largest group that agrees wins, so one outlier no longer sinks an address the others agree on.</li>
+</ol>
+<p>The proposal's step "escalate when the point is within 75 m of a line" goes away, because 75 m was just the coarsest margin. Its step "escalate when one fails" stays, as "ask the next provider when fewer than two sources have placed it".</p>
+
+<h2 id="model">Model: today and proposed</h2>
+<p>Figure 1 shows the change. Today the engine gets one point from a call that goes to every provider. Under the proposal it gets a placement from a locator that remembers what it has asked, so a second call costs only the extra providers.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 900px">
+    <p class="fig-title">The engine keeps the edge check; the locator decides who is asked</p>
+    <svg viewBox="0 0 1000 430" role="img" aria-label="Today, locateAddress asks Mapbox, Census and Nominatim at once. Proposed, a per-request locator reads the cache, asks a pair, and asks precise providers only when the engine calls again with a margin.">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker>
+        <marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+      </defs>
+      <!-- Today -->
+      <rect class="d-group g3" x="10" y="12" width="330" height="406" rx="10"/>
+      <text class="d-group-label g3" x="26" y="38">Today</text>
+      <rect class="d-box" x="30" y="56" width="290" height="58" rx="8"/>
+      <text class="d-t" x="46" y="80">Map engine</text>
+      <text class="d-m" x="46" y="100">geoRateAt(state, point)</text>
+      <rect class="d-box" x="30" y="160" width="290" height="58" rx="8"/>
+      <text class="d-t" x="46" y="184">Every geocoder at once</text>
+      <text class="d-m" x="46" y="204">locateAddress(address, primary)</text>
+      <path class="d-edge" d="M175,160 L175,116" marker-end="url(#ah)"/>
+      <text class="d-el" x="175" y="142" text-anchor="middle">one point</text>
+      <rect class="d-box" x="30" y="268" width="88" height="48" rx="8"/><text class="d-t" x="46" y="297">Mapbox</text>
+      <rect class="d-box" x="130" y="268" width="88" height="48" rx="8"/><text class="d-t" x="146" y="297">Census</text>
+      <rect class="d-box" x="230" y="268" width="90" height="48" rx="8"/><text class="d-t" x="240" y="297">Nominatim</text>
+      <path class="d-edge" d="M120,218 L74,266" marker-end="url(#ah)"/>
+      <path class="d-edge" d="M175,218 L175,266" marker-end="url(#ah)"/>
+      <path class="d-edge" d="M230,218 L275,266" marker-end="url(#ah)"/>
+      <text class="d-s" x="30" y="350">Every lookup that needs a point calls all three.</text>
+      <text class="d-s" x="30" y="370">Nominatim spaced 1 s apart, per process.</text>
+      <text class="d-s" x="30" y="390">Nothing cached.</text>
+
+      <!-- Proposed -->
+      <rect class="d-group g2" x="360" y="12" width="630" height="406" rx="10"/>
+      <text class="d-group-label g2" x="376" y="38">Proposed</text>
+      <rect class="d-box" x="380" y="56" width="280" height="58" rx="8"/>
+      <text class="d-t" x="396" y="80">Map or range engine</text>
+      <text class="d-m" x="396" y="100">geoRateAt(state, locate, …)</text>
+      <rect class="d-box acc" x="380" y="160" width="280" height="70" rx="8"/>
+      <text class="d-t" x="396" y="184">Locator for this address</text>
+      <text class="d-m" x="396" y="204">geocoding.locator(address)</text>
+      <text class="d-s" x="396" y="221">remembers points it has asked for</text>
+      <path class="d-edge" d="M420,160 L420,116" marker-end="url(#ah)"/>
+      <text class="d-el" x="428" y="142">placement</text>
+      <path class="d-edge acc" d="M640,116 L640,158" marker-end="url(#aha)"/>
+      <text class="d-el" x="632" y="142" text-anchor="end">locate({ marginUnder: 31 })</text>
+      <rect class="d-box" x="700" y="56" width="270" height="58" rx="8"/>
+      <text class="d-t" x="716" y="80">Cache</text>
+      <text class="d-m" x="716" y="100">geocode_results</text>
+      <path class="d-edge" d="M660,182 L698,96" marker-end="url(#ah)"/>
+      <rect class="d-box" x="700" y="160" width="270" height="70" rx="8"/>
+      <text class="d-t" x="716" y="184">Registry</text>
+      <text class="d-m" x="716" y="204">providers(env): key set → on</text>
+      <text class="d-s" x="716" y="221">limiter · breaker · daily cap</text>
+      <path class="d-edge" d="M660,195 L698,195" marker-end="url(#ah)"/>
+      <rect class="d-box" x="380" y="282" width="280" height="62" rx="8"/>
+      <text class="d-t" x="396" y="306">Stage 1: a free pair</text>
+      <text class="d-s" x="396" y="326">Census (tiger) + Nominatim or Pelias (osm)</text>
+      <rect class="d-box acc" x="690" y="282" width="280" height="62" rx="8"/>
+      <text class="d-t" x="706" y="306">Stage 2: only if a line decides</text>
+      <text class="d-s" x="706" y="326">providers with margin under d, cheapest</text>
+      <path class="d-edge" d="M520,232 L520,280" marker-end="url(#ah)"/>
+      <path class="d-edge acc" d="M640,232 L760,280" marker-end="url(#aha)"/>
+      <text class="d-s" x="380" y="380">A typical lookup ends at stage 1, or at the cache.</text>
+      <text class="d-s" x="380" y="400">Usage counted in geocoder_usage, shared by every API container.</text>
+    </svg>
+  </div>
+  <figcaption>Blue marks what's new: the per-request locator and the second call, which the engine makes only when it finds a line that changes the rate within the point's margin. The engine never learns which provider answered, only the point and its margin.</figcaption>
+</figure>
+<details class="more">
+  <summary>Interfaces<span class="dim">types the plan adds</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="n">// src/geocoding/types.ts</span>
+interface GeocoderProvider {
+  id: "census" | "nominatim" | "pelias" | "mapbox" | "geocodio" | "smarty" | "here" | "google" | "esri";
+  typicalAccuracy: LocatedPoint["accuracy"];   <span class="n">// best it returns; used to pick stage 2</span>
+  costPerCall: number;                         <span class="n">// USD past the free tier; 0 for Census or a self-hosted server</span>
+  ratePerSecond: number;                       <span class="n">// token bucket size: Nominatim 1, Census 10, Google 50</span>
+  dailyCap: number;                            <span class="n">// from &lt;ID&gt;_DAILY_CAP, default its free tier spread over a month</span>
+  storable: boolean;                           <span class="n">// its terms allow keeping results</span>
+  geocode(a: AddressToLocate, signal: AbortSignal): Promise&lt;SourcedPoint | null&gt;;
+}
+<span class="n">// enabled = the provider's key or URL is set; there is no ENABLE_ flag</span>
+interface SourcedPoint extends LocatedPoint { provider: string; source: string }  <span class="n">// source: "tiger", "osm", "openaddresses", …</span>
+
+<span class="n">// src/engine/types.ts: the callback the engine already takes, given an argument</span>
+type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | null&gt;;</pre>
+  </div>
+</details>
+
+<h3 id="providers">The providers</h3>
+<p>Each provider is one file in <code>src/geocoding/providers/</code>. It's switched on when its environment variable is set, except Census, which needs no key and is always on. Prices and free tiers below are the figures listed in this conversation on 2026-10-21. Check each against the vendor's current page before relying on it, because <code>dailyCap</code> defaults are based on them.</p>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Provider</th><th scope="col">Turned on by</th><th scope="col">Data source</th><th scope="col">Best accuracy</th><th scope="col">Free tier</th><th scope="col">Results may be cached</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Census Bureau</th><td>always</td><td><code>tiger</code></td><td>interpolated</td><td>free</td><td>yes, public domain</td></tr>
+    <tr><th scope="row">Nominatim</th><td><code>NOMINATIM_URL</code>, or the public server when <code>OPENTAXRATE_USER_AGENT</code> has a contact</td><td><code>osm</code></td><td>point</td><td>public server 1 request a second; your own server has no limit</td><td>yes, with ODbL attribution</td></tr>
+    <tr><th scope="row">Pelias</th><td><code>PELIAS_URL</code></td><td><code>osm</code> or <code>openaddresses</code>, per result</td><td>point</td><td>self-hosted</td><td>yes</td></tr>
+    <tr><th scope="row">Geocodio</th><td><code>GEOCODIO_API_KEY</code></td><td>per result: county data, <code>openaddresses</code>, <code>tiger</code></td><td>rooftop</td><td>2,500 a day</td><td>yes</td></tr>
+    <tr><th scope="row">Smarty</th><td><code>SMARTY_AUTH_ID</code> + <code>SMARTY_AUTH_TOKEN</code></td><td><code>smarty</code></td><td>rooftop</td><td>trial only</td><td>check the terms</td></tr>
+    <tr><th scope="row">Mapbox</th><td><code>MAPBOX_ACCESS_TOKEN</code></td><td><code>mapbox</code></td><td>rooftop</td><td>a monthly free allowance</td><td>only with <code>permanent=true</code>, which is paid</td></tr>
+    <tr><th scope="row">HERE</th><td><code>HERE_API_KEY</code></td><td><code>here</code></td><td>point</td><td>about 30k a month</td><td>limited; check the terms</td></tr>
+    <tr><th scope="row">Esri ArcGIS</th><td><code>ARCGIS_API_KEY</code></td><td><code>esri</code></td><td>rooftop</td><td>about 20k a month</td><td>only with <code>forStorage=true</code>, which is paid</td></tr>
+    <tr><th scope="row">Google</th><td><code>GOOGLE_MAPS_API_KEY</code></td><td><code>google</code></td><td>rooftop</td><td>about 10k a month, then about $5 per 1k</td><td>no (place IDs only); its terms also limit use away from a Google map</td></tr>
+  </tbody>
+</table>
+</div>
+<p>LocationIQ and OpenCage are left out on purpose. Both serve OpenStreetMap data, so they add a quota but no independent vote; add one only as a second <code>osm</code> source when Nominatim's limit binds. TomTom has its own data and can be added later the same way as HERE.</p>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>Two different data sources, or a checked single.</em> A point is used when two points from different sources fall within the coarser one's margin of each other. A point from one source alone is used only if it lies inside the typed city's outline (see <a href="#questions">open question 1</a>).</li>
+  <li><em>The engine decides when a sharper point is worth buying.</em> The locator never escalates by itself after stage 1. It asks stage 2 providers only when <code>locate({ marginUnder })</code> is called, and then only providers whose <code>EDGE_METRES</code> is below that number.</li>
+  <li><em>At most one sharpening per lookup.</em> The engine calls <code>locate</code> at most twice. A sharper point that still leaves a deciding line within its margin is refused as today, naming both rates.</li>
+  <li><em>A sharper point must agree with the pair.</em> It's used only if it lies within the pair's margin, so a precise wrong match cannot override two coarse right ones.</li>
+  <li><em>Only storable results are cached.</em> A provider marked <code>storable: false</code> is remembered for the request and then dropped. "No match" answers are cached for 30 days so a bad address isn't asked about again on every order; points are cached for a year.</li>
+  <li><em>Caps are never exceeded.</em> A call takes a slot from <code>geocoder_usage</code> before it's sent. A provider at its cap, out of tokens, or with an open breaker is skipped, never queued.</li>
+  <li><em>Missing data is never a point.</em> Timeouts, errors and skipped providers count as "didn't place it", and they're logged on the lookup so a refusal can say "Census and OpenStreetMap disagree; no third geocoder was available".</li>
+</ul>
+
+<h2 id="workflows">Workflows</h2>
+<p>Each step follows one checkout in Texas, a map state, with both free providers on (Census and the public Nominatim) and a Geocodio key set. Rates are Austin's 8.25%: 6.25% state, 1% city and 1% Capital Metro. Distances in steps 3 and 4 are illustrative, not measured.</p>
+
+<h3 id="w1">1. An address far from any line</h3>
+<p>A shop calls <code>GET /v1/rate?state=TX&amp;street=1100 Congress Ave&amp;city=Austin&amp;zip=78701</code>.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Two free calls, two cache rows, no escalation</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">request</span><span class="id">TX|1100|CONGRESS|78701</span><span class="field">cache key: state|house|street key|ZIP</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · census</span><span class="field">interpolated · source tiger</span></div></li>
+            <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · nominatim</span><span class="field">point · source osm · 22 m from Census</span></div></li>
+            <li><div class="obj changed"><span class="kind">changed</span><span class="id">geocoder_usage</span><span class="field">census +1 · nominatim +1</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Blue boxes are created by this step; the black box is changed. The two points are 22 m apart, under the coarser 75 m margin, and come from different sources, so the more precise Nominatim point is used with its 40 m margin.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 1</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">http</span>GET /v1/rate                                   <span class="n">server.ts</span>
+└─ <span class="layer">app</span>lookUpRate(q)                              <span class="n">lookup.ts</span>
+   ├─ <span class="layer">geo</span>geocoding.locator(address)              <span class="n">geocoding/locator.ts · new, memo per request</span>
+   └─ <span class="layer">engine</span>addressRates.at({ …, locate })        <span class="n">engine/index.ts</span>
+      └─ <span class="layer">engine</span>geoRateAt(state, locate, date)     <span class="n">engine/geo-lookup.ts · takes locate, not a point</span>
+         ├─ <span class="layer">geo</span>locate()                           <span class="n">stage 1</span>
+         │  ├─ <span class="layer">sql</span>SELECT geocode_results WHERE key=…  <span class="n">miss</span>
+         │  ├─ <span class="layer">geo</span>pickPair(registry)               <span class="n">cheapest two with different sources</span>
+         │  ├─ <span class="layer">sql</span>UPDATE geocoder_usage … RETURNING   <span class="n">take a slot each</span>
+         │  ├─ <span class="layer">geo</span>census.geocode() ∥ nominatim.geocode()
+         │  ├─ <span class="layer">geo</span>agree(points)                    <span class="n">22 m &lt; 75 m, tiger ≠ osm → ok</span>
+         │  └─ <span class="layer">sql</span>INSERT geocode_results ×2
+         ├─ <span class="layer">sql</span>shapesAround(), rates               <span class="n">as today</span>
+         └─ <span class="layer">engine</span>edge check: nearest deciding edge 410 m &gt; 40 m → answer</pre>
+    <div class="scroll"><table class="grid-table">
+      <thead><tr><th scope="col">geocode_results.key</th><th scope="col">provider</th><th scope="col">source</th><th scope="col">accuracy</th><th scope="col">expires</th></tr></thead>
+      <tbody>
+        <tr><td><code>TX|1100|CONGRESS|78701</code></td><td>census</td><td>tiger</td><td>interpolated</td><td>2027-10-21</td></tr>
+        <tr><td><code>TX|1100|CONGRESS|78701</code></td><td>nominatim</td><td>osm</td><td>point</td><td>2027-10-21</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<p>The shop gets 8.25% with <code>match: "map"</code>. The lookup made two free calls and no paid ones.</p>
+
+<h3 id="w2">2. The same address again</h3>
+<p>The same customer orders again the next week.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Cache hit: no geocoder is called</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">request</span><span class="id">TX|1100|CONGRESS|78701</span><span class="field">two rows, not expired</span></div>
+          <ul><li><div class="obj"><span class="kind">read</span><span class="id">geocode_results ×2</span><span class="field">agree as before</span></div></li></ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Nothing is created. The locator runs the same agreement check on the cached points, so changing the rules later applies to cached rows too.</figcaption>
+</figure>
+<p>Same answer, no outside calls. The key is built from <code>parseStreet()</code>, so "1100 Congress Avenue" and "1100 CONGRESS AVE" share a row.</p>
+
+<h3 id="w3">3. An address near a line</h3>
+<p>The next order is on Bee Caves Road, 31 m from the West Lake Hills city line, where the rate differs from Austin's.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">One rooftop call settles an address that today is refused</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">stage 1</span><span class="id">census + nominatim</span><span class="field">agree within 30 m · margin 40 m</span></div>
+          <ul>
+            <li><div class="obj"><span class="kind">engine</span><span class="id">deciding edge at 31 m</span><span class="field">31 &lt; 40 → would refuse</span>
+              </div>
+              <ul>
+                <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · geocodio</span><span class="field">rooftop · 15 m margin · 29 m from line</span></div></li>
+                <li><div class="obj changed"><span class="kind">changed</span><span class="id">geocoder_usage</span><span class="field">geocodio +1 (of 2,500 today)</span></div></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>The engine asks again with <code>marginUnder: 31</code>. Only parcel and rooftop providers qualify; Geocodio is the cheapest. Its point lies within the pair's margin and 29 m from the line, more than its 15 m margin, so the rate is settled.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 3</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">engine</span>geoRateAt(state, locate, date)
+├─ <span class="layer">geo</span>locate()                                <span class="n">stage 1, as step 1</span>
+├─ <span class="layer">engine</span>decidingEdges(point)                 <span class="n">today's loop, collecting instead of throwing</span>
+│  └─ <span class="layer">sql</span>shapesHolding(beyond)                  <span class="n">rate across differs at 31 m</span>
+├─ <span class="layer">geo</span>locate({ marginUnder: 31 })             <span class="n">stage 2</span>
+│  ├─ <span class="layer">geo</span>candidates: EDGE_METRES[typicalAccuracy] &lt; 31, sorted by cost
+│  ├─ <span class="layer">sql</span>UPDATE geocoder_usage … RETURNING        <span class="n">slot taken</span>
+│  ├─ <span class="layer">geo</span>geocodio.geocode()                     <span class="n">rooftop</span>
+│  ├─ <span class="layer">geo</span>agree(sharp, pair)                     <span class="n">within 40 m of the pair</span>
+│  └─ <span class="layer">sql</span>INSERT geocode_results
+└─ <span class="layer">engine</span>geoRateAt body again with the sharp point  <span class="n">edges re-checked at 15 m</span></pre>
+  </div>
+</details>
+<p>The shop gets Austin's 8.25% where today it would get a 422. Had the line been 10 m away, no provider's margin would be under 10 m, so the locator would make no call and the address would be refused as today.</p>
+
+<h3 id="w4">4. Geocoders that disagree</h3>
+<p>An order for "100 Main St, Round Rock". Nominatim matches a Main Street in another town 6 km away.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">A third source breaks the tie instead of refusing</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">stage 1</span><span class="id">census ≠ nominatim</span><span class="field">6 km apart</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · geocodio</span><span class="field">source openaddresses · 12 m from Census</span></div></li>
+            <li><div class="obj"><span class="kind">result</span><span class="id">group {census, geocodio}</span><span class="field">two sources agree · nominatim dropped</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Fewer than two sources agree, so the locator asks the next provider whose source differs from both. The largest agreeing group is used. Had Geocodio sided with neither, the address would be unplaced and refused, as today past 250 m.</figcaption>
+</figure>
+<p>The shop gets the Round Rock rate. The refusal message, when there is one, names which geocoders disagreed.</p>
+
+<h3 id="w5">5. A provider at its cap or failing</h3>
+<p>Late in the day Geocodio has used all 2,500 of its daily calls, and Census is returning 503s.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Skipped providers are skipped, not waited on</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">registry</span><span class="id">available()</span><span class="field">filters before any call</span></div>
+          <ul>
+            <li><div class="obj gone"><span class="kind">skipped</span><span class="id">geocodio</span><span class="field">geocoder_usage 2,500 / 2,500</span></div></li>
+            <li><div class="obj gone"><span class="kind">skipped</span><span class="id">census</span><span class="field">breaker open after 5 errors · retry in 60 s</span></div></li>
+            <li><div class="obj"><span class="kind">asked</span><span class="id">nominatim + here</span><span class="field">next cheapest pair, osm ≠ here</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Dashed boxes are providers left out of this lookup. If no two sources are left, stage 1 settles for one point and applies the single-source rule.</figcaption>
+</figure>
+<p>The shop still gets an answer. The breaker and the usage counters are visible at <code>GET /v1/coverage</code> under a new <code>geocoders</code> key.</p>
+
+<h2 id="boundaries">Boundaries</h2>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">HTTP</th><td><code>src/server.ts</code></td><td>query parsing, status codes</td><td>a <code>RateQuery</code> to <code>lookUpRate</code></td></tr>
+    <tr><th scope="row">App</th><td><code>src/lookup.ts</code></td><td>wiring one lookup: a locator per request</td><td><code>locate</code> to the engine</td></tr>
+    <tr><th scope="row">Engine</th><td><code>src/engine/geo-lookup.ts</code>, <code>sst-lookup.ts</code></td><td>which lines decide the rate; when a sharper point is worth asking for</td><td><code>locate({ marginUnder })</code>; never names a provider</td></tr>
+    <tr><th scope="row">Geocoding</th><td><code>src/geocoding/locator.ts</code></td><td>stages, agreement between sources, memo per request</td><td>a <code>LocatedPoint</code> or null</td></tr>
+    <tr><th scope="row">Geocoding</th><td><code>src/geocoding/registry.ts</code>, <code>budget.ts</code></td><td>which providers are on; token buckets, breakers, daily caps</td><td>the available providers, in order</td></tr>
+    <tr><th scope="row">Geocoding</th><td><code>src/geocoding/providers/*.ts</code></td><td>one vendor's request, its accuracy labels, its terms</td><td>a <code>SourcedPoint</code> or null</td></tr>
+    <tr><th scope="row">Storage</th><td><code>src/geocoding/cache.ts</code>, <code>schema.ts</code></td><td><code>geocode_results</code>, <code>geocoder_usage</code></td><td>rows; refresh never touches them</td></tr>
+  </tbody>
+</table>
+</div>
+<p><code>src/engine/locate.ts</code> and <code>src/geocoders.ts</code> are removed. The engine no longer imports any geocoder, which keeps the address → location → rate split clean: the engine starts from a location and asks for a better one only by margin.</p>
+
+<h2 id="phases">Phases</h2>
+<h3>Phase 1: tables and the provider registry</h3>
+<p>Adds <code>geocode_results</code> and <code>geocoder_usage</code>, and moves the three current geocoders behind <code>GeocoderProvider</code> with no change in behaviour: still all at once.</p>
+<details class="more">
+  <summary>Files<span class="dim">phase 1</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">sql</span>migrations/0004_geocoding.sql
+<span class="layer">sql</span>src/schema.ts                         <span class="n">geocodeResults, geocoderUsage</span>
+<span class="layer">geo</span>src/geocoding/types.ts, registry.ts
+<span class="layer">geo</span>src/geocoding/providers/census.ts, nominatim.ts, mapbox.ts   <span class="n">moved from locate.ts, geocoders.ts</span>
+<span class="layer">test</span>test/geocoding-registry.test.ts      <span class="n">env → enabled set</span></pre>
+  </div>
+</details>
+<p><strong>Done when</strong> <code>pnpm test</code> and <code>pnpm typecheck</code> pass, and <code>bench.ts report</code> shows the same results for opentaxrate as before.</p>
+
+<h3>Phase 2: staged locator, cache and budgets</h3>
+<p>Adds the stage 1 pair, agreement between data sources, the cache, token buckets, daily caps and breakers.</p>
+<details class="more">
+  <summary>Files<span class="dim">phase 2</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">geo</span>src/geocoding/locator.ts, budget.ts, cache.ts
+<span class="layer">app</span>src/lookup.ts                         <span class="n">locator per request</span>
+<span class="layer">app</span>src/server.ts                         <span class="n">/v1/coverage geocoders key</span>
+<span class="layer">engine</span>src/engine/index.ts                <span class="n">drop locateAddress export</span>
+<span class="layer">test</span>test/locator.test.ts                <span class="n">pair, outlier, one source, cap, breaker, cache hit</span></pre>
+  </div>
+</details>
+<p><strong>Done when</strong> the tests pass, a repeat lookup makes zero outside calls, and the bench's refusal rate in the map states is no higher than in phase 1.</p>
+
+<h3>Phase 3: the engine asks for a sharper point</h3>
+<p>Changes <code>locate</code> to take <code>{ marginUnder }</code>, and makes <code>geoRateAt</code> and <code>mapAreas</code> call it once on a deciding line.</p>
+<details class="more">
+  <summary>Files<span class="dim">phase 3</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">engine</span>src/engine/types.ts                <span class="n">Locate type</span>
+<span class="layer">engine</span>src/engine/geo-lookup.ts           <span class="n">takes locate; decidingEdges(); one retry</span>
+<span class="layer">engine</span>src/engine/sst-lookup.ts           <span class="n">near_edge → locate({ marginUnder })</span>
+<span class="layer">test</span>test/address-rates.test.ts          <span class="n">near-edge case settled by a sharper point; 10 m case still refused</span></pre>
+  </div>
+</details>
+<p><strong>Done when</strong> the tests pass and the bench shows fewer refusals in TX and IL with no new wrong answers.</p>
+
+<h3>Phase 4: precise providers and measured margins</h3>
+<p>Adds Geocodio, Smarty, HERE, Esri, Google and Pelias, adds each to <code>scripts/bench.ts</code>, and sets margins from measured distances to the bench's true points.</p>
+<details class="more">
+  <summary>Files<span class="dim">phase 4</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">geo</span>src/geocoding/providers/geocodio.ts, smarty.ts, here.ts, esri.ts, google.ts, pelias.ts
+<span class="layer">script</span>scripts/bench.ts                   <span class="n">geocode-only mode: distance to case lon,lat by provider and accuracy</span>
+<span class="layer">docs</span>README.md, .env.example, docs/context/geocoding.md</pre>
+  </div>
+</details>
+<p><strong>Done when</strong> each provider's 95th percentile distance is under its accuracy's margin on the bench, or its margin is raised to match.</p>
+
+<h2 id="questions">Open questions</h2>
+<ol>
+  <li><strong>Should one geocoder alone ever be enough?</strong> Requiring two would refuse addresses that OpenStreetMap has no house number for, and US house-number coverage in OSM is patchy. Recommended: accept one point when no second source is available, but only if it falls inside the outline of the city the customer typed (or the county of the typed ZIP). That catches the "same street in the next town" error that a margin can't. Measure the refusal and error rates on the bench before and after.</li>
+  <li><strong>Is the API allowed to write?</strong> <code>docs/architecture.md</code> says the API never writes. Recommended: allow writes to the two geocoding tables only, which refresh never reads, and add <code>OPENTAXRATE_GEOCODE_CACHE=off</code> for read-only deployments.</li>
+  <li><strong>Should Google be offered at all?</strong> Its terms limit storing results and using them away from a Google map. Recommended: ship the provider, mark it <code>storable: false</code>, and note the terms in the README, so the person running it decides with their own key.</li>
+  <li><strong>Should the per-second limit be shared across containers?</strong> Recommended: no. Keep the token bucket in memory and divide the rate by <code>OPENTAXRATE_API_REPLICAS</code>. The daily cap, the limit that costs money, is shared through Postgres.</li>
+  <li><strong>Should the answer say which geocoders placed it?</strong> Recommended: yes, in <code>source</code>, e.g. "placed by Census and OpenStreetMap, then Geocodio rooftop". It costs nothing and helps when someone disputes a rate.</li>
+</ol>
+
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-margin">Margin</h3>
+    <p>How close to a line a point may be before it could be on either side. A deciding edge closer than the margin means the engine can't tell which rate applies.</p>
+<pre class="snip">marginOf(p) = p.metres ?? EDGE_METRES[p.accuracy]
+rooftop 15 · parcel 25 · point 40 · interpolated 75</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-deciding">Deciding edge</h3>
+    <p>An outline edge within the margin where the rate 2 m across differs from the rate at the point. Edges with the same rate on both sides are ignored.</p>
+<pre class="snip">edge 31 m, rate here 8.25%, rate across differs → deciding
+edge 12 m, rate across 8.25% → ignored</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-source">Data source</h3>
+    <p>Where a point's data came from, independent of who served it. Agreement counts only between different sources.</p>
+<pre class="snip">census → tiger · nominatim → osm
+pelias → osm | openaddresses (per result)
+nominatim + pelias(osm) = one source</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-bucket">Token bucket</h3>
+    <p>A rate limiter: a provider's bucket refills at its allowed rate, and a call needs a token. With no token left the provider is skipped for this lookup.</p>
+<pre class="snip">nominatim: 1 token/s, size 1
+t=0.0 call ok · t=0.4 skipped · t=1.0 call ok</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-breaker">Circuit breaker</h3>
+    <p>After repeated failures a provider is skipped for a while instead of being waited on, then tried once to see if it has recovered.</p>
+<pre class="snip">5 errors or one 429 → open for 60 s
+then one trial call: ok → closed, fail → open again</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-usage">Daily cap slot</h3>
+    <p>One atomic update both counts the call and refuses it at the cap, so several containers share one budget.</p>
+<pre class="snip">INSERT INTO geocoder_usage (provider, day, calls)
+VALUES ('geocodio', current_date, 1)
+ON CONFLICT (provider, day) DO UPDATE
+  SET calls = geocoder_usage.calls + 1
+  WHERE geocoder_usage.calls &lt; 2500
+RETURNING calls;   -- no row → at cap, skip</pre>
+  </section>
+</div>
+
+<details class="more">
+  <summary>Sources<span class="dim">what this page was traced from</span></summary>
+  <div class="inner"><ul class="sources">
+    <li>Code at 8e7f871: <code>src/engine/locate.ts</code>, <code>src/geocoders.ts</code>, <code>src/lookup.ts</code>, <code>src/engine/index.ts</code>, <code>src/engine/geo-lookup.ts</code> (near-edge loop), <code>src/engine/sst-lookup.ts</code> (<code>mapAreas</code>, <code>near_edge</code>), <code>src/engine/types.ts</code> (<code>EDGE_METRES</code>), <code>scripts/bench.ts</code>.</li>
+    <li>Provider free tiers and prices: as listed by the user on 2026-10-21; not re-checked against vendor pages.</li>
+    <li>Caching terms (Google, Mapbox <code>permanent</code>, Esri <code>forStorage</code>, HERE): from general knowledge of the vendors' terms; verify before phase 4.</li>
+    <li>Nominatim usage policy: operations.osmfoundation.org/policies/nominatim (1 request a second, identifying user agent), as cited in the README.</li>
+  </ul></div>
+</details>
+
+</article>
+</div>
+
+<script>
+(() => {
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+})();
+</script>
