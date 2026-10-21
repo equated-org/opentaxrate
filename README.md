@@ -27,7 +27,7 @@ It reads what states already publish for free: the Streamlined Sales Tax rate an
 
 ```bash
 git clone https://github.com/opentaxrate/opentaxrate && cd opentaxrate
-cp .env.example .env              # optional: MAPBOX_ACCESS_TOKEN, contact for Nominatim
+cp .env.example .env              # optional: PHOTON_URL, MAPBOX_ACCESS_TOKEN, contact
 docker compose up -d              # Postgres, migrations, API on :8080
 docker compose run --rm refresh   # download and load every state (~45 min the first time)
 ```
@@ -156,6 +156,14 @@ The 5 GB is almost all one thing: **15.4 million street house-number ranges** fr
 
 Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
 
+Geocoding reuses permitted cached results before asking providers. It starts with a cheap pair, preferring different datasets, and asks more only when it lacks independent agreement. The map and range engines request one refinement when a boundary prevents a rate decision. Refinement can move the point across the original line; all relevant outlines and rates are checked again. No Nominatim endpoint is used.
+
+Only `geocode_results` and `geocoder_usage` are written by runtime geocoding. Run `pnpm migrate` before starting the new API. Missing usage tables or failed reservations skip providers rather than bypassing quotas. Keep cap/rate configuration consistent across replicas; the quota covers calls routed through this application, not other applications sharing a vendor account. Cache failures do not disable budget enforcement. Expired cache rows may be removed periodically with `DELETE FROM geocode_results WHERE expires_at < now()`.
+
+Provider IDs are `CENSUS`, `PHOTON`, `PELIAS`, `GEOCODIO`, `SMARTY`, `MAPBOX`, `HERE`, `GOOGLE`; Esri uses `ARCGIS`. A zero cap or rate prevents external calls. Default caps are conservative application budgets, not promises about vendor free tiers. Google, HERE and Smarty results stay in request memory; operators must use providers under their account's applicable terms. Mapbox and Esri caching require their explicit storage modes.
+
+To measure coordinate error against benchmark CSV cases containing trusted `lon,lat`, run `pnpm exec tsx scripts/bench.ts geocode --provider photon --per-state 20 --budget 100`. It prints p95 error by provider and accuracy and never writes returned coordinates to benchmark files. Baseline margins remain rooftop 15 m, parcel 25 m, point 40 m and interpolated 75 m until a representative dataset supports changing them.
+
 ---
 
 ## Configuration
@@ -164,10 +172,21 @@ Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve
 |---|---|---|
 | `DATABASE_URL` | `postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate` | Postgres |
 | `PORT` | `8080` | API port |
-| `MAPBOX_ACCESS_TOKEN` | unset | a third geocoder beside Census and OpenStreetMap; places more addresses |
-| `GEOCODIO_API_KEY` | unset | standardizes a range state's address its street doesn't place, for its ZIP+4 |
+| `MAPBOX_ACCESS_TOKEN` | unset | optional precise provider after cheaper providers |
+| `PHOTON_URL` | unset | internal Photon base URL, e.g. `http://spark-3:2322`; enables OSM address geocoding |
+| `PELIAS_URL` | unset | optional internal Pelias base URL, e.g. `http://spark-3:4000` |
+| `SMARTY_AUTH_ID`, `SMARTY_AUTH_TOKEN` | unset | enable Smarty together |
+| `HERE_API_KEY`, `ARCGIS_API_KEY`, `GOOGLE_MAPS_API_KEY` | unset | enable the respective provider |
+| `MAPBOX_PERMANENT`, `ARCGIS_FOR_STORAGE` | `false` | request paid storage rights and enable caching for that provider |
+| `OPENTAXRATE_GEOCODE_CACHE` | `on` | `off` disables result cache reads/writes; shared budget reservations remain required |
+| `OPENTAXRATE_GEOCODE_READ_ONLY` | `false` | `true` uses cache only, without geocoding or budget writes |
+| `CENSUS_DISABLED` | `false` | disable Census |
+| `<ID>_DAILY_CAP` | see `.env.example` | atomic shared daily request cap, resetting at UTC midnight; includes Geocodio standardization |
+| `<ID>_RATE_PER_SECOND` | Census/Photon/Pelias: `10`; others: `5` | shared minimum spacing; unavailable slots are skipped |
+| `<ID>_COST_PER_CALL` | provider ordering estimate | override call order; internal services and Census default to zero |
+| `GEOCODIO_API_KEY` | unset | enables precise geocoding and ZIP+4 standardization, sharing one request budget |
 | `TYPESAFE_API_KEY` | unset | Jev picks the ZIP's street a misspelled one is, when spelling alone can't |
-| `OPENTAXRATE_USER_AGENT` | `opentaxrate (+https://github.com/opentaxrate/opentaxrate)` | sent to tax offices and Nominatim; put your contact here |
+| `OPENTAXRATE_USER_AGENT` | `opentaxrate (+https://github.com/opentaxrate/opentaxrate)` | sent to tax offices; put your contact here |
 | `OPENTAXRATE_HISTORY_FROM` | `2020-01-01` | Streamlined and Missouri rows that ended before this date aren't loaded |
 | `DATABASE_POOL` | `10` | Postgres connections per process |
 | `OPENTAXRATE_CORS_ORIGINS` | unset | comma-separated origins allowed to call the API from a browser; unset sends no CORS headers |
@@ -196,7 +215,7 @@ src/
   coverage.ts                  state FIPS codes and which method reads each state, shared by both sides
   address.ts                   street parsing, for typed addresses and state files alike
   db/                          client.ts, schema.ts
-  geocoding/                   index.ts (Census, Nominatim, agreement), mapbox.ts
+  geocoding/                   types.ts, locator.ts, registry.ts, cache.ts, budget.ts, providers/
   rates/                       lookup: index.ts routes a state to statewide.ts, california.ts,
                                ranges.ts (Streamlined + Missouri) or map.ts; shapes.ts queries PostGIS
   ingest/                      refresh: refresh.ts, downloads.ts, sst-files.ts, missouri.ts, tiger.ts,
@@ -211,7 +230,7 @@ Adding a map-read state means writing an adapter in `src/ingest/states/` that re
 
 Rates and boundaries come from public sources: [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/), the [Census Bureau's TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), and each state's tax office (Texas Comptroller, Illinois IDOR, Arizona ADOR, New Mexico TRD, Virginia Tax, Missouri DOR, Alabama DOR, Florida DOR, New York DTF, Louisiana Remote Sellers Commission, Colorado DOR, the Alaska Remote Seller Sales Tax Commission). Colorado and Alaska are read from their official lookups' services, which aren't documented as bulk APIs; ask them before running it at scale.
 
-Geocoding uses the Census Bureau's free geocoder and OpenStreetMap's [Nominatim](https://operations.osmfoundation.org/policies/nominatim/), whose usage policy limits the public server to light use; run your own for volume. Mapbox is optional and under your own account's terms.
+Geocoding uses the Census Bureau's free geocoder and, when `PHOTON_URL` is set, your internal [Photon](https://github.com/komoot/photon) service for OpenStreetMap addresses. Photon results must match the requested house number, street, state, city and supplied ZIP; street-only and ambiguous results are refused. There is no Nominatim or public Photon fallback. Mapbox is optional and under your own account's terms.
 
 **Not tax advice.** Rates are as published by the states and can be wrong or late; every answer names its source so you can check it.
 

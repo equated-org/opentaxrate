@@ -4,14 +4,14 @@
  * confident match in the state, with its house number placed on the street,
  * is used.
  */
-import type { AddressToLocate, LocatedPoint } from "./index.js";
+import { geocoderJson, GeocoderError, type AddressToLocate, type LocatedPoint } from "./types.js";
 
 const ACCURACIES = ["rooftop", "parcel", "point", "interpolated"] as const;
 
 export function mapboxGeocoder() {
   const token = process.env.MAPBOX_ACCESS_TOKEN;
   if (!token) return undefined;
-  return async (a: AddressToLocate): Promise<LocatedPoint | null> => {
+  return async (a: AddressToLocate, signal = AbortSignal.timeout(5_000)): Promise<LocatedPoint | null> => {
     const url = new URL("https://api.mapbox.com/search/geocode/v6/forward");
     url.search = new URLSearchParams({
       q: [a.street, a.city, `${a.state} ${a.zip ?? ""}`.trim()].join(", "),
@@ -20,10 +20,9 @@ export function mapboxGeocoder() {
       autocomplete: "false",
       limit: "5",
       access_token: token,
+      ...(process.env.MAPBOX_PERMANENT === "true" ? { permanent: "true" } : {}),
     }).toString();
-    const response = await fetch(url, { signal: AbortSignal.timeout(5_000) });
-    if (!response.ok) return null;
-    const body = (await response.json()) as {
+    const body = (await geocoderJson(url, signal)) as {
       features?: Array<{
         properties?: {
           coordinates?: { longitude: number; latitude: number; accuracy?: string };
@@ -32,6 +31,7 @@ export function mapboxGeocoder() {
         };
       }>;
     };
+    if (!Array.isArray(body.features)) throw new GeocoderError();
     const matches = (body.features ?? []).flatMap(({ properties: p }) => {
       const accuracy = ACCURACIES.find((x) => x === p?.coordinates?.accuracy);
       const confident = ["exact", "high"].includes(p?.match_code?.confidence ?? "");

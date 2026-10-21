@@ -219,11 +219,13 @@
 <article>
 
 <header class="page-head">
-  <p class="eyebrow">Design plan · proposed · branch animated-jaguar · 2026-10-21</p>
+  <p class="eyebrow">Design plan · implemented with review corrections · 2026-10-21</p>
   <h1>Many geocoders, asked only when the answer needs them</h1>
   <p class="lede">Today every map lookup asks Mapbox, the Census Bureau and Nominatim at the same time, so adding a provider adds a call to every lookup. This plan turns each geocoder into a provider that is switched on by its API key. A lookup asks two of them, cheapest first. A precise (and usually paid) geocoder is asked only when the engine finds a city or district line that would change the rate and that a sharper point could settle. Results are cached in Postgres where the provider's terms allow it, and each provider gets a rate limit, a daily cap and a circuit breaker.</p>
   <p class="meta">Traced from <code>src/geocoding/index.ts</code>, <code>src/geocoding/mapbox.ts</code>, <code>src/lookup.ts</code>, <code>src/rates/index.ts</code>, <code>src/rates/map.ts</code>, <code>src/rates/ranges.ts</code>, <code>src/geocoding/index.ts</code>, <code>scripts/bench.ts</code> at 8e7f871. Not yet implemented.</p>
 </header>
+
+<p><strong>Implementation status:</strong> registry, staged locator, permitted cache, atomic shared budgets, circuit breakers, map/range refinement and geocode-only benchmark mode are implemented. Photon supplies OSM lookups; Nominatim is excluded. The historical baseline and illustrative diagrams below describe the original proposal. The rules and operational decisions record the review corrections. Provider margin calibration and real-world refusal/error comparisons still require representative benchmark cases with trusted coordinates.</p>
 
 <h2 id="why">Why change how addresses are placed</h2>
 <p>The map engine covers 16 states: TX, FL, NY, PA, IL, VA, AZ, NM, CO, AK, AL, LA, SC, MS, ID and HI. Its rate is only as good as the point the address is placed at. The range engine also needs a point when a ZIP is split between rates. Today <code>locateAddress()</code> sends every configured geocoder the address at once, keeps the most precise point, and gives up when the points are more than 250 m apart. That was fine with three free or cheap geocoders. It does not scale to ten:</p>
@@ -350,7 +352,7 @@
   <div class="inner">
 <pre class="calls"><span class="n">// src/geocoding/types.ts</span>
 interface GeocoderProvider {
-  id: "census" | "nominatim" | "pelias" | "mapbox" | "geocodio" | "smarty" | "here" | "google" | "esri";
+  id: "census" | "photon" | "pelias" | "mapbox" | "geocodio" | "smarty" | "here" | "google" | "esri";
   typicalAccuracy: LocatedPoint["accuracy"];   <span class="n">// best it returns; used to pick stage 2</span>
   costPerCall: number;                         <span class="n">// USD past the free tier; 0 for Census or a self-hosted server</span>
   ratePerSecond: number;                       <span class="n">// token bucket size: Nominatim 1, Census 10, Google 50</span>
@@ -373,7 +375,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
   <thead><tr><th scope="col">Provider</th><th scope="col">Turned on by</th><th scope="col">Data source</th><th scope="col">Best accuracy</th><th scope="col">Free tier</th><th scope="col">Results may be cached</th></tr></thead>
   <tbody>
     <tr><th scope="row">Census Bureau</th><td>always</td><td><code>tiger</code></td><td>interpolated</td><td>free</td><td>yes, public domain</td></tr>
-    <tr><th scope="row">Nominatim</th><td><code>NOMINATIM_URL</code>, or the public server when <code>OPENTAXRATE_USER_AGENT</code> has a contact</td><td><code>osm</code></td><td>point</td><td>public server 1 request a second; your own server has no limit</td><td>yes, with ODbL attribution</td></tr>
+    <tr><th scope="row">Photon</th><td><code>PHOTON_URL</code></td><td><code>osm</code></td><td>point, only for an address-level match</td><td>self-hosted; configure a capacity limit</td><td>yes, with ODbL attribution</td></tr>
     <tr><th scope="row">Pelias</th><td><code>PELIAS_URL</code></td><td><code>osm</code> or <code>openaddresses</code>, per result</td><td>point</td><td>self-hosted</td><td>yes</td></tr>
     <tr><th scope="row">Geocodio</th><td><code>GEOCODIO_API_KEY</code></td><td>per result: county data, <code>openaddresses</code>, <code>tiger</code></td><td>rooftop</td><td>2,500 a day</td><td>yes</td></tr>
     <tr><th scope="row">Smarty</th><td><code>SMARTY_AUTH_ID</code> + <code>SMARTY_AUTH_TOKEN</code></td><td><code>smarty</code></td><td>rooftop</td><td>trial only</td><td>check the terms</td></tr>
@@ -386,19 +388,23 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 </div>
 <p>LocationIQ and OpenCage are left out on purpose. Both serve OpenStreetMap data, so they add a quota but no independent vote; add one only as a second <code>osm</code> source when Nominatim's limit binds. TomTom has its own data and can be added later the same way as HERE.</p>
 
+<p>Use the internal services below. Each is enabled only when its URL is set; do not fall back to a public endpoint. Photon serves autocomplete and can supply a selected address's coordinates. Nominatim is excluded from runtime lookups. Photon and any Pelias OSM results count as one data source. Pelias results also count as OSM when that is their underlying source.</p>
+<pre class="snip">PHOTON_URL=http://spark-3:2322
+PELIAS_URL=http://spark-3:4000</pre>
+
 <h2 id="rules">Rules</h2>
 <ul>
-  <li><em>Two different data sources, or a checked single.</em> A point is used when two points from different sources fall within the coarser one's margin of each other. A point from one source alone is used only if it lies inside the typed city's outline (see <a href="#questions">open question 1</a>).</li>
-  <li><em>The engine decides when a sharper point is worth buying.</em> The locator never escalates by itself after stage 1. It asks stage 2 providers only when <code>locate({ marginUnder })</code> is called, and then only providers whose <code>EDGE_METRES</code> is below that number.</li>
+  <li><em>Two different data sources, or a checked single.</em> Repeated dataset results count once; contradictory results from one dataset remove that dataset. Unknown provenance supplies no independent vote. Groups are pairwise-compatible cliques within the coarser margin and at most 250 m apart. Only a unique largest group of at least two datasets wins; ties refuse. The chosen point uses the most precise representative, and its margin widens to the accepted spread. A point from one source alone is used only if it lies inside the typed city's outline (see <a href="#questions">operational decisions</a>).</li>
+  <li><em>The engine decides when a sharper point is worth buying.</em> The locator never escalates by itself after stage 1. It asks stage 2 providers only when <code>locate({ marginUnder })</code> is called, and then only providers capable of improving the current placement. The old boundary distance is advisory; the corrected point may move away from or across it.</li>
   <li><em>At most one sharpening per lookup.</em> The engine calls <code>locate</code> at most twice. A sharper point that still leaves a deciding line within its margin is refused as today, naming both rates.</li>
   <li><em>A sharper point must agree with the pair.</em> It's used only if it lies within the pair's margin, so a precise wrong match cannot override two coarse right ones.</li>
-  <li><em>Only storable results are cached.</em> A provider marked <code>storable: false</code> is remembered for the request and then dropped. "No match" answers are cached for 30 days so a bad address isn't asked about again on every order; points are cached for a year.</li>
+  <li><em>Only storable results are cached.</em> A provider marked <code>storable: false</code> is remembered for the request and then dropped. Only confirmed "no match" answers are cached for 30 days; errors, malformed responses and skipped calls are never negative-cache entries. Points are retained for a year. Negative entries obey the same storage permissions.</li>
   <li><em>Caps are never exceeded.</em> A call takes a slot from <code>geocoder_usage</code> before it's sent. A provider at its cap, out of tokens, or with an open breaker is skipped, never queued.</li>
   <li><em>Missing data is never a point.</em> Timeouts, errors and skipped providers count as "didn't place it", and they're logged on the lookup so a refusal can say "Census and OpenStreetMap disagree; no third geocoder was available".</li>
 </ul>
 
 <h2 id="workflows">Workflows</h2>
-<p>Each step follows one checkout in Texas, a map state, with both free providers on (Census and the public Nominatim) and a Geocodio key set. Rates are Austin's 8.25%: 6.25% state, 1% city and 1% Capital Metro. Distances in steps 3 and 4 are illustrative, not measured.</p>
+<p>Each step follows one checkout in Texas, a map state, with both free providers on (Census and internal Photon) and a Geocodio key set. Rates are Austin's 8.25%: 6.25% state, 1% city and 1% Capital Metro. Distances in steps 3 and 4 are illustrative, not measured.</p>
 
 <h3 id="w1">1. An address far from any line</h3>
 <p>A shop calls <code>GET /v1/rate?state=TX&amp;street=1100 Congress Ave&amp;city=Austin&amp;zip=78701</code>.</p>
@@ -408,17 +414,17 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
     <div class="objgraph">
       <ul class="tree">
         <li>
-          <div class="obj"><span class="kind">request</span><span class="id">TX|1100|CONGRESS|78701</span><span class="field">cache key: state|house|street key|ZIP</span></div>
+          <div class="obj"><span class="kind">request</span><span class="id">TX|1100|CONGRESS|78701</span><span class="field">cache key: hash(version, state, city, full normalized street including house text, directions, suffix and unit, ZIP); scoped by provider endpoint/credential/storage mode</span></div>
           <ul>
             <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · census</span><span class="field">interpolated · source tiger</span></div></li>
-            <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · nominatim</span><span class="field">point · source osm · 22 m from Census</span></div></li>
-            <li><div class="obj changed"><span class="kind">changed</span><span class="id">geocoder_usage</span><span class="field">census +1 · nominatim +1</span></div></li>
+            <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · photon</span><span class="field">point · source osm · 22 m from Census</span></div></li>
+            <li><div class="obj changed"><span class="kind">changed</span><span class="id">geocoder_usage</span><span class="field">census +1 · photon +1</span></div></li>
           </ul>
         </li>
       </ul>
     </div>
   </div>
-  <figcaption>Blue boxes are created by this step; the black box is changed. The two points are 22 m apart, under the coarser 75 m margin, and come from different sources, so the more precise Nominatim point is used with its 40 m margin.</figcaption>
+  <figcaption>Blue boxes are created by this step; the black box is changed. The two points are 22 m apart, under the coarser 75 m margin, and come from different sources, so the more precise Photon point is used with its 40 m margin.</figcaption>
 </figure>
 <details class="more">
   <summary>Calls and state<span class="dim">step 1</span></summary>
@@ -432,7 +438,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
          │  ├─ <span class="layer">sql</span>SELECT geocode_results WHERE key=…  <span class="n">miss</span>
          │  ├─ <span class="layer">geo</span>pickPair(registry)               <span class="n">cheapest two with different sources</span>
          │  ├─ <span class="layer">sql</span>UPDATE geocoder_usage … RETURNING   <span class="n">take a slot each</span>
-         │  ├─ <span class="layer">geo</span>census.geocode() ∥ nominatim.geocode()
+         │  ├─ <span class="layer">geo</span>census.geocode() ∥ photon.geocode()
          │  ├─ <span class="layer">geo</span>agree(points)                    <span class="n">22 m &lt; 75 m, tiger ≠ osm → ok</span>
          │  └─ <span class="layer">sql</span>INSERT geocode_results ×2
          ├─ <span class="layer">sql</span>shapesAround(), rates               <span class="n">as today</span>
@@ -441,7 +447,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
       <thead><tr><th scope="col">geocode_results.key</th><th scope="col">provider</th><th scope="col">source</th><th scope="col">accuracy</th><th scope="col">expires</th></tr></thead>
       <tbody>
         <tr><td><code>TX|1100|CONGRESS|78701</code></td><td>census</td><td>tiger</td><td>interpolated</td><td>2027-10-21</td></tr>
-        <tr><td><code>TX|1100|CONGRESS|78701</code></td><td>nominatim</td><td>osm</td><td>point</td><td>2027-10-21</td></tr>
+        <tr><td><code>TX|1100|CONGRESS|78701</code></td><td>photon</td><td>osm</td><td>point</td><td>2027-10-21</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -464,7 +470,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
   </div>
   <figcaption>Nothing is created. The locator runs the same agreement check on the cached points, so changing the rules later applies to cached rows too.</figcaption>
 </figure>
-<p>Same answer, no outside calls. The key is built from <code>parseStreet()</code>, so "1100 Congress Avenue" and "1100 CONGRESS AVE" share a row.</p>
+<p>Same answer, no outside calls. The key preserves the complete normalized address identity, with conservative spelling aliases, so "1100 Congress Avenue" and "1100 CONGRESS AVE" share a row.</p>
 
 <h3 id="w3">3. An address near a line</h3>
 <p>The next order is on Bee Caves Road, 31 m from the West Lake Hills city line, where the rate differs from Austin's.</p>
@@ -474,7 +480,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
     <div class="objgraph">
       <ul class="tree">
         <li>
-          <div class="obj"><span class="kind">stage 1</span><span class="id">census + nominatim</span><span class="field">agree within 30 m · margin 40 m</span></div>
+          <div class="obj"><span class="kind">stage 1</span><span class="id">census + photon</span><span class="field">agree within 30 m · margin 40 m</span></div>
           <ul>
             <li><div class="obj"><span class="kind">engine</span><span class="id">deciding edge at 31 m</span><span class="field">31 &lt; 40 → would refuse</span>
               </div>
@@ -488,7 +494,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
       </ul>
     </div>
   </div>
-  <figcaption>The engine asks again with <code>marginUnder: 31</code>. Only parcel and rooftop providers qualify; Geocodio is the cheapest. Its point lies within the pair's margin and 29 m from the line, more than its 15 m margin, so the rate is settled.</figcaption>
+  <figcaption>The engine asks again with <code>marginUnder: 31</code>. Providers capable of improving the current margin qualify; Geocodio is the cheapest in this example. Its point lies within the pair's margin and 29 m from the line, more than its 15 m margin, so the rate is settled.</figcaption>
 </figure>
 <details class="more">
   <summary>Calls and state<span class="dim">step 3</span></summary>
@@ -498,7 +504,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 ├─ <span class="layer">engine</span>decidingEdges(point)                 <span class="n">today's loop, collecting instead of throwing</span>
 │  └─ <span class="layer">sql</span>shapesHolding(beyond)                  <span class="n">rate across differs at 31 m</span>
 ├─ <span class="layer">geo</span>locate({ marginUnder: 31 })             <span class="n">stage 2</span>
-│  ├─ <span class="layer">geo</span>candidates: EDGE_METRES[typicalAccuracy] &lt; 31, sorted by cost
+│  ├─ <span class="layer">geo</span>candidates: capable of improving the current margin, sorted by cost
 │  ├─ <span class="layer">sql</span>UPDATE geocoder_usage … RETURNING        <span class="n">slot taken</span>
 │  ├─ <span class="layer">geo</span>geocodio.geocode()                     <span class="n">rooftop</span>
 │  ├─ <span class="layer">geo</span>agree(sharp, pair)                     <span class="n">within 40 m of the pair</span>
@@ -506,20 +512,20 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 └─ <span class="layer">engine</span>geoRateAt body again with the sharp point  <span class="n">edges re-checked at 15 m</span></pre>
   </div>
 </details>
-<p>The shop gets Austin's 8.25% where today it would get a 422. Had the line been 10 m away, no provider's margin would be under 10 m, so the locator would make no call and the address would be refused as today.</p>
+<p>The shop gets Austin's 8.25% where today it would get a 422. Had the old line been 10 m away, a rooftop provider could still be asked: its corrected point might move farther from the line. The engine recomputes all relevant outlines and rates at that new point and refuses only if the result remains ambiguous.</p>
 
 <h3 id="w4">4. Geocoders that disagree</h3>
-<p>An order for "100 Main St, Round Rock". Nominatim matches a Main Street in another town 6 km away.</p>
+<p>An order for "100 Main St, Round Rock". Photon matches a Main Street in another town 6 km away.</p>
 <figure class="fig">
   <div class="panel">
     <p class="fig-title">A third source breaks the tie instead of refusing</p>
     <div class="objgraph">
       <ul class="tree">
         <li>
-          <div class="obj"><span class="kind">stage 1</span><span class="id">census ≠ nominatim</span><span class="field">6 km apart</span></div>
+          <div class="obj"><span class="kind">stage 1</span><span class="id">census ≠ photon</span><span class="field">6 km apart</span></div>
           <ul>
             <li><div class="obj new"><span class="kind">created</span><span class="id">geocode_results · geocodio</span><span class="field">source openaddresses · 12 m from Census</span></div></li>
-            <li><div class="obj"><span class="kind">result</span><span class="id">group {census, geocodio}</span><span class="field">two sources agree · nominatim dropped</span></div></li>
+            <li><div class="obj"><span class="kind">result</span><span class="id">group {census, geocodio}</span><span class="field">two sources agree · photon dropped</span></div></li>
           </ul>
         </li>
       </ul>
@@ -541,7 +547,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
           <ul>
             <li><div class="obj gone"><span class="kind">skipped</span><span class="id">geocodio</span><span class="field">geocoder_usage 2,500 / 2,500</span></div></li>
             <li><div class="obj gone"><span class="kind">skipped</span><span class="id">census</span><span class="field">breaker open after 5 errors · retry in 60 s</span></div></li>
-            <li><div class="obj"><span class="kind">asked</span><span class="id">nominatim + here</span><span class="field">next cheapest pair, osm ≠ here</span></div></li>
+            <li><div class="obj"><span class="kind">asked</span><span class="id">photon + here</span><span class="field">next cheapest pair, osm ≠ here</span></div></li>
           </ul>
         </li>
       </ul>
@@ -566,7 +572,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
   </tbody>
 </table>
 </div>
-<p><code>src/geocoding/index.ts</code> and <code>src/geocoding/mapbox.ts</code> are removed. The engine no longer imports any geocoder, which keeps the address → location → rate split clean: the engine starts from a location and asks for a better one only by margin.</p>
+<p><code>src/geocoding/index.ts</code> re-exports contracts and the locator. Photon and Mapbox adapters are retained; additional providers live under <code>src/geocoding/providers/</code>. The engine no longer imports any geocoder, which keeps the address → location → rate split clean: the engine starts from a location and asks for a better one only by margin.</p>
 
 <h2 id="phases">Phases</h2>
 <h3>Phase 1: tables and the provider registry</h3>
@@ -577,7 +583,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 <pre class="calls"><span class="layer">sql</span>migrations/0004_geocoding.sql
 <span class="layer">sql</span>src/db/schema.ts                         <span class="n">geocodeResults, geocoderUsage</span>
 <span class="layer">geo</span>src/geocoding/types.ts, registry.ts
-<span class="layer">geo</span>src/geocoding/providers/census.ts, nominatim.ts, mapbox.ts   <span class="n">moved from geocoding/index.ts, mapbox.ts</span>
+<span class="layer">geo</span>src/geocoding/providers/census.ts, photon.ts, mapbox.ts   <span class="n">moved from geocoding/index.ts, mapbox.ts</span>
 <span class="layer">test</span>test/geocoding-registry.test.ts      <span class="n">env → enabled set</span></pre>
   </div>
 </details>
@@ -605,7 +611,7 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 <pre class="calls"><span class="layer">engine</span>src/geocoding/index.ts                <span class="n">Locate type</span>
 <span class="layer">engine</span>src/rates/map.ts           <span class="n">takes locate; decidingEdges(); one retry</span>
 <span class="layer">engine</span>src/rates/ranges.ts           <span class="n">near_edge → locate({ marginUnder })</span>
-<span class="layer">test</span>test/address-rates.test.ts          <span class="n">near-edge case settled by a sharper point; 10 m case still refused</span></pre>
+<span class="layer">test</span>test/address-rates.test.ts          <span class="n">near-edge case settled by a sharper point; 10 m case may move and settle; still-ambiguous refinement refuses</span></pre>
   </div>
 </details>
 <p><strong>Done when</strong> the tests pass and the bench shows fewer refusals in TX and IL with no new wrong answers.</p>
@@ -622,13 +628,13 @@ type Locate = (need?: { marginUnder: number }) =&gt; Promise&lt;LocatedPoint | n
 </details>
 <p><strong>Done when</strong> each provider's 95th percentile distance is under its accuracy's margin on the bench, or its margin is raised to match.</p>
 
-<h2 id="questions">Open questions</h2>
+<h2 id="questions">Operational decisions</h2>
 <ol>
-  <li><strong>Should one geocoder alone ever be enough?</strong> Requiring two would refuse addresses that OpenStreetMap has no house number for, and US house-number coverage in OSM is patchy. Recommended: accept one point when no second source is available, but only if it falls inside the outline of the city the customer typed (or the county of the typed ZIP). That catches the "same street in the next town" error that a margin can't. Measure the refusal and error rates on the bench before and after.</li>
-  <li><strong>Is the API allowed to write?</strong> <code>docs/architecture.md</code> says the API never writes. Recommended: allow writes to the two geocoding tables only, which refresh never reads, and add <code>OPENTAXRATE_GEOCODE_CACHE=off</code> for read-only deployments.</li>
-  <li><strong>Should Google be offered at all?</strong> Its terms limit storing results and using them away from a Google map. Recommended: ship the provider, mark it <code>storable: false</code>, and note the terms in the README, so the person running it decides with their own key.</li>
-  <li><strong>Should the per-second limit be shared across containers?</strong> Recommended: no. Keep the token bucket in memory and divide the rate by <code>OPENTAXRATE_API_REPLICAS</code>. The daily cap, the limit that costs money, is shared through Postgres.</li>
-  <li><strong>Should the answer say which geocoders placed it?</strong> Recommended: yes, in <code>source</code>, e.g. "placed by Census and OpenStreetMap, then Geocodio rooftop". It costs nothing and helps when someone disputes a rate.</li>
+  <li><strong>One dataset alone:</strong> accept only after containment in a loaded outline matching the typed city. Missing city outlines and contradictory independent results refuse. No county-of-ZIP shortcut is used.</li>
+  <li><strong>Runtime writes:</strong> allow only <code>geocode_results</code> and <code>geocoder_usage</code>. <code>OPENTAXRATE_GEOCODE_CACHE=off</code> disables result caching but retains quota writes. <code>OPENTAXRATE_GEOCODE_READ_ONLY=true</code> uses existing permitted cache rows only, without external calls or runtime writes. A failed quota reservation skips the provider.</li>
+  <li><strong>Storage rights:</strong> Google, HERE and Smarty results are not persisted. Mapbox and Esri require explicit paid permanent/storage modes. Only storable provider results, including negatives, enter the cache.</li>
+  <li><strong>Shared limits:</strong> daily caps and request spacing are atomic in Postgres, scoped to provider credentials/endpoints. Geocodio standardization shares its geocoding quota. Unavailable slots are skipped, never queued. Circuit breakers are per process. Keep settings consistent across replicas; unrelated applications using the same credentials are outside these counters.</li>
+  <li><strong>Provenance:</strong> map answers name supporting providers and datasets in <code>source</code>. Refusals include provider outcomes; coverage exposes enabled-provider metadata without credentials.</li>
 </ol>
 
 <h2 id="appendix">Appendix: words and concepts this page assumes</h2>
