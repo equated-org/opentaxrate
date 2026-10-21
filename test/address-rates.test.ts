@@ -250,7 +250,7 @@ describe("a Streamlined state's address its typed street doesn't find", () => {
   });
 
   it("is placed by its standardized ZIP+4, but not one in another ZIP", async () => {
-    const standard = (zip5: string) => async () => ({ street: "9 Elm St", city: "Cheyenne", state: "WY", zip5, plus4: "1500", source: "Geocodio" });
+    const standard = (zip5: string) => async () => ({ street: "9 Elm St", city: "Cheyenne", state: "WY", zip5, plus4: "1500", exact: true, source: "Geocodio" });
     const found = await cheyenne("9 Elm St", { standardize: standard("82001") });
     expect(found).toMatchObject({ rate: 0.07, match: "zip4" });
     expect(found.source).toContain("ZIP+4 82001-1500 from Geocodio");
