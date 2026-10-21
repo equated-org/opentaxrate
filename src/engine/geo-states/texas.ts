@@ -19,6 +19,7 @@
  */
 import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
 import { bboxOf, fetchFile, fetchLayer, fetchText, readXlsx, shiftDay } from "./sources.js";
+import { contains, type Point } from "../tiger.js";
 
 const COMPTROLLER = "https://comptroller.texas.gov";
 const LAYERS =
@@ -30,7 +31,7 @@ const TAID = /^\d{7}$/;
 export const texas: GeoState = {
   state: "TX",
   async fetch(dir) {
-    const quarters = await quarterLines(dir);
+    const { quarters, leadByName } = await quarterLines(dir);
     const sheet = readXlsx(
       await fetchFile(`${COMPTROLLER}/taxes/sales/docs/city-rates.xlsx`, dir),
     );
@@ -47,7 +48,9 @@ export const texas: GeoState = {
       for (const [id, rate] of line) before.set(`${lead}>${id}`, rate);
     }
     const lines: Line[] = [];
+    const names: string[] = [];
     for (const row of rows.slice(1)) {
+      names.push(row[0].trim());
       let ids: Line = [];
       for (let i = 1; i + 1 < row.length && i < 21; i += 3) {
         const id = row[i].trim();
@@ -92,11 +95,26 @@ export const texas: GeoState = {
     add(transits, "district", "transit", (a) => String(a.Transit_Name));
     add(spds, "district", "spd", (a) => String(a.SPD_Name));
 
+    // A sheet row whose city's TAID has no outline is mistyped where the
+    // newest EDI file has a line of the same name under a TAID that has one
+    // (the Q4 2026 sheet gives Pine Island 2237067; its outline, its EDI
+    // lines and the Comptroller's lookup all have 2237069).
+    lines.forEach((line, i) => {
+      const lead = line[0]?.[0];
+      if (!lead || !/^[26]/.test(lead) || typeOf.has(lead) || !names[i]) return;
+      const known = leadByName.get(names[i].toLowerCase());
+      if (!known || !typeOf.has(known)) return;
+      console.warn(`TX: ${names[i]} is ${lead} in the city rate sheet but ${known} in its outline and the EDI file; ${known} used`);
+      line[0] = [known, line[0][1]];
+    });
+
+    const rates = spans(quarters, typeOf);
     return {
       rates: [
         // Coverage starts with the first quarter's file.
         { type: "45", code: "48", rate: 0.0625, startsOn: quarterStart(FIRST_QUARTER.year, FIRST_QUARTER.quarter), endsOn: "9999-12-31" },
-        ...spans(quarters, typeOf),
+        ...rates,
+        ...districtsInCities(rates, shapes),
       ],
       shapes,
       files: {
@@ -132,7 +150,92 @@ async function quarterLines(dir?: string) {
   const latest = await fetchText(`${COMPTROLLER}/data/edi/sales-tax/taxrates.txt`, dir);
   const header = /^\d+\t(\d{4})(\d)\t/.exec(latest);
   if (header) quarters.set(quarterStart(Number(header[1]), Number(header[2])), ediLines(latest));
-  return quarters;
+  // Each city's or combined area's TAID by the name its line leads with.
+  const leadByName = new Map<string, string>();
+  for (const line of latest.split(/\r?\n/)) {
+    const c = line.split("\t");
+    const id = c[1]?.trim();
+    if (id && TAID.test(id) && /^[26]/.test(id)) leadByName.set(c[0].trim().toLowerCase(), id);
+  }
+  return { quarters, leadByName };
+}
+
+/** The local tax cap: a city's, county's, transit authority's and
+ *  districts' rates together. */
+const CAP = 0.02;
+/** Points a side of the grid that looks for where a city and a district
+ *  overlap. */
+const GRID = 16;
+/** The least overlap, in square kilometres, taken as a district inside a
+ *  city rather than outlines that disagree along an edge. */
+const MIN_KM2 = 1;
+
+/**
+ * Kept rows for districts drawn inside a city that its rate file line
+ * doesn't list. Each city has one line, so a district covering only part of
+ * it is in none (El Paso County ESD 2 across Fort Bliss, inside El Paso but
+ * outside its transit authority), yet the Comptroller's lookup adds every
+ * TAID whose outline holds the point. A row is added, at the district's rate
+ * outside cities, where a grid over the two outlines finds them overlapping
+ * across at least a square kilometre, and at every point of it the city's rate, the kept
+ * rates whose outlines hold it and the district's stay within the cap. Past
+ * the cap the Comptroller would have drawn a combined area, and its lookup
+ * gives no rate, so none is added. The row counts only inside the district's
+ * outline (see geo-lookup.ts).
+ */
+function districtsInCities(rates: GeoRateRow[], shapes: GeoStateData["shapes"]): GeoRateRow[] {
+  const byId = new Map<string, GeoStateData["shapes"]>();
+  for (const s of shapes) byId.set(s.fips, [...(byId.get(s.fips) ?? []), s]);
+  const boxOf = (id: string) => {
+    const all = byId.get(id) ?? [];
+    if (!all.length) return null;
+    return all.reduce<[number, number, number, number]>(
+      (b, s) => [Math.min(b[0], s.bbox[0]), Math.min(b[1], s.bbox[1]), Math.max(b[2], s.bbox[2]), Math.max(b[3], s.bbox[3])],
+      [Infinity, Infinity, -Infinity, -Infinity],
+    );
+  };
+  const holds = (id: string, p: Point) =>
+    (byId.get(id) ?? []).some((s) => p.lon >= s.bbox[0] && p.lon <= s.bbox[2] && p.lat >= s.bbox[1] && p.lat <= s.bbox[3] && contains(s, p));
+  const kept = new Map<string, GeoRateRow[]>();
+  for (const r of rates) if (r.type === "kx") kept.set(r.code.split(">")[0], [...(kept.get(r.code.split(">")[0]) ?? []), r]);
+  const overlap = (a: GeoRateRow, b: GeoRateRow) => a.startsOn <= b.endsOn && b.startsOn <= a.endsOn;
+  const rows: GeoRateRow[] = [];
+  const cities = rates.filter((r) => r.type === "x" && r.code.startsWith("2"));
+  const districts = rates.filter((r) => r.type === "spd");
+  for (const city of cities) {
+    const c = boxOf(city.code);
+    if (!c) continue;
+    for (const spd of districts) {
+      const d = boxOf(spd.code);
+      if (!d || !overlap(city, spd) || c[0] > d[2] || d[0] > c[2] || c[1] > d[3] || d[1] > c[3]) continue;
+      const own = (kept.get(city.code) ?? []).filter((k) => overlap(k, city) && overlap(k, spd));
+      if (own.some((k) => k.code.endsWith(`>${spd.code}`))) continue;
+      if (city.rate + spd.rate > CAP + 1e-9) continue;
+      const [w, s, e, n] = [Math.max(c[0], d[0]), Math.max(c[1], d[1]), Math.min(c[2], d[2]), Math.min(c[3], d[3])];
+      let shared = 0;
+      let overCap = false;
+      for (let i = 0; i < GRID && !overCap; i++)
+        for (let j = 0; j < GRID && !overCap; j++) {
+          const p = { lon: w + ((i + 0.5) * (e - w)) / GRID, lat: s + ((j + 0.5) * (n - s)) / GRID };
+          if (!holds(spd.code, p) || !holds(city.code, p)) continue;
+          shared++;
+          const local = city.rate + spd.rate + own.filter((k) => holds(k.code.split(">")[1], p)).reduce((sum, k) => sum + k.rate, 0);
+          if (local > CAP + 1e-9) overCap = true;
+        }
+      // A sliver where two outlines' edges disagree isn't a district inside
+      // the city; the Comptroller's lookup adds nothing there.
+      const km2 = ((e - w) * 111.32 * Math.cos((((s + n) / 2) * Math.PI) / 180) * (n - s) * 110.54 * shared) / GRID ** 2;
+      if (overCap || shared < 2 || km2 < MIN_KM2) continue;
+      rows.push({
+        type: "kx",
+        code: `${city.code}>${spd.code}`,
+        rate: spd.rate,
+        startsOn: city.startsOn > spd.startsOn ? city.startsOn : spd.startsOn,
+        endsOn: city.endsOn < spd.endsOn ? city.endsOn : spd.endsOn,
+      });
+    }
+  }
+  return rows;
 }
 
 function ediLines(text: string): Line[] {

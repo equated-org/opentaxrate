@@ -5,8 +5,7 @@ import {
   integer,
   smallint,
   numeric,
-  doublePrecision,
-  jsonb,
+  customType,
   date,
   timestamp,
   index,
@@ -140,10 +139,16 @@ export const salesTaxJurisdictionRates = pgTable(
   ],
 );
 
+/** A PostGIS multipolygon in WGS84 longitude and latitude. NAD83, which the
+ *  Census files use, is within a metre or two of it across the US. */
+const multiPolygon = customType<{ data: string }>({
+  dataType: () => "geometry(MultiPolygon, 4326)",
+});
+
 /** A county's, city's or town's outline from the Census Bureau's TIGER files,
- *  or a special district's from its state, with its bounding box for finding
- *  the outlines around a point. A town is a county subdivision, the unit
- *  Wisconsin and Vermont tax by. */
+ *  or a special district's from its state, repaired, with seams between its
+ *  pieces dissolved, and simplified to about a metre. A town is a county
+ *  subdivision, the unit Wisconsin and Vermont tax by. */
 export const salesTaxShapes = pgTable(
   "sales_tax_shapes",
   {
@@ -156,17 +161,12 @@ export const salesTaxShapes = pgTable(
      *  district, the code its state's rate table uses. */
     fips: text("fips").notNull(),
     name: text("name").notNull(),
-    /** Rings of [longitude, latitude]; holes included. */
-    rings: jsonb("rings").$type<Array<Array<[number, number]>>>().notNull(),
-    minLon: doublePrecision("min_lon").notNull(),
-    minLat: doublePrecision("min_lat").notNull(),
-    maxLon: doublePrecision("max_lon").notNull(),
-    maxLat: doublePrecision("max_lat").notNull(),
+    geom: multiPolygon("geom").notNull(),
     /** The file it came from, e.g. "tl_2026_49_place". */
     file: text("file").notNull(),
   },
   (t) => [
     unique("uq_sales_tax_shapes_state_kind_fips").on(t.state, t.kind, t.fips),
-    index("idx_sales_tax_shapes_box").on(t.state, t.minLon, t.maxLon),
+    index("idx_sales_tax_shapes_geom").using("gist", t.geom),
   ],
 );

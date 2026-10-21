@@ -22,7 +22,8 @@ import {
   salesTaxShapes,
 } from "../schema.js";
 import type { GeoStateData } from "./geo-states/index.js";
-import { and, eq, inArray, like, notLike } from "drizzle-orm";
+import { and, eq, inArray, like, notLike, sql } from "drizzle-orm";
+import { geometryOf } from "./shapes.js";
 import { readTigerZip, STATE_FIPS, type Shape } from "./tiger.js";
 import {
   RANGE_FIPS,
@@ -80,18 +81,14 @@ export async function loadGeoState(state: string, data: GeoStateData) {
     await tx
       .delete(salesTaxShapes)
       .where(and(eq(salesTaxShapes.state, state), notLike(salesTaxShapes.file, "tl\\_%")));
-    for (let i = 0; i < shapes.length; i += 50)
+    for (let i = 0; i < shapes.length; i += 20)
       await tx.insert(salesTaxShapes).values(
-        shapes.slice(i, i + 50).map((d) => ({
+        shapes.slice(i, i + 20).map((d) => ({
           state,
           kind: d.kind,
           fips: d.fips,
           name: d.name,
-          rings: d.rings,
-          minLon: d.bbox[0],
-          minLat: d.bbox[1],
-          maxLon: d.bbox[2],
-          maxLat: d.bbox[3],
+          geom: geometryOf(d.rings),
           file: data.files.boundaries ?? data.files.rates,
         })),
       );
@@ -108,13 +105,19 @@ export async function loadGeoState(state: string, data: GeoStateData) {
   return { rates: data.rates.length, shapes: shapes.length };
 }
 
-/** Loads one TIGER county or place zip's outlines for the given states. */
+/** Loads one TIGER county, place or county subdivision zip's outlines for
+ *  the given states. Every county loads; a city or town loads only where a
+ *  rate row or an address-range area names it, which leaves out most of the
+ *  Census's places. */
 export async function loadTigerShapes(
   file: { kind: Shape["kind"]; name: string; bytes: Uint8Array },
   states: string[],
 ) {
   const fipsToState = new Map(states.map((s) => [STATE_FIPS[s], s]));
-  const shapes = readTigerZip(file.bytes, file.kind, new Set(fipsToState.keys()));
+  const named = file.kind === "county" ? null : await namedPlaces(states);
+  const shapes = readTigerZip(file.bytes, file.kind, new Set(fipsToState.keys())).filter(
+    (s) => !named || named.has(`${fipsToState.get(s.stateFips)}:${s.fips}`),
+  );
   await db.transaction(async (tx) => {
     await tx
       .delete(salesTaxShapes)
@@ -125,23 +128,29 @@ export async function loadTigerShapes(
           inArray(salesTaxShapes.state, [...new Set(shapes.map((s) => fipsToState.get(s.stateFips)!))]),
         ),
       );
-    for (let i = 0; i < shapes.length; i += 200)
+    for (let i = 0; i < shapes.length; i += 20)
       await tx.insert(salesTaxShapes).values(
-        shapes.slice(i, i + 200).map((s) => ({
+        shapes.slice(i, i + 20).map((s) => ({
           state: fipsToState.get(s.stateFips)!,
           kind: s.kind,
           fips: s.fips,
           name: s.name,
-          rings: s.rings,
-          minLon: s.bbox[0],
-          minLat: s.bbox[1],
-          maxLon: s.bbox[2],
-          maxLat: s.bbox[3],
+          geom: geometryOf(s.rings),
           file: file.name,
         })),
       );
   });
   return shapes.length;
+}
+
+/** "ST:fips" for every city or town a state's rates or areas name. */
+async function namedPlaces(states: string[]) {
+  const rows = await db.execute<{ state: string; code: string }>(sql`
+    select state, split_part(split_part(code, '@', 1), '>', 1) as code
+      from sales_tax_jurisdiction_rates where state in ${states}
+    union
+    select state, place from sales_tax_areas where place is not null and state in ${states}`);
+  return new Set(rows.map((r) => `${r.state}:${r.code}`));
 }
 
 export async function loadSstState(files: StateFiles) {

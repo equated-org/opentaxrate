@@ -47,11 +47,10 @@ import { db } from "../db.js";
 import {
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
-  salesTaxShapes,
 } from "../schema.js";
 import { RateError } from "../errors.js";
 import { marginOf, type LocatedPoint, type RatePart } from "./types.js";
-import { acrossEdge, contains, metresToEdge } from "./tiger.js";
+import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet } from "./address.js";
 
 export interface GeoRate {
@@ -66,7 +65,7 @@ export interface GeoRate {
 /** How far a police jurisdiction can reach past its city's limits. */
 const PJ_METRES = 4_828;
 
-type Shape = typeof salesTaxShapes.$inferSelect;
+type Shape = PlacedShape;
 type RateRow = typeof salesTaxJurisdictionRates.$inferSelect;
 
 export async function geoRateAt(
@@ -84,22 +83,10 @@ export async function geoRateAt(
       422,
     );
 
-  // Outlines whose box comes within ~300 m of the point, or three miles where
-  // a police jurisdiction could reach it.
+  // Outlines within ~300 m of the point, or three miles where a police
+  // jurisdiction could reach it.
   const pjState = await hasRows(state, "pj");
-  const pad = pjState ? 0.06 : 0.003;
-  const shapes = await db
-    .select()
-    .from(salesTaxShapes)
-    .where(
-      and(
-        eq(salesTaxShapes.state, state),
-        lte(salesTaxShapes.minLon, point.lon + pad),
-        gte(salesTaxShapes.maxLon, point.lon - pad),
-        lte(salesTaxShapes.minLat, point.lat + pad),
-        gte(salesTaxShapes.maxLat, point.lat - pad),
-      ),
-    );
+  const shapes = await shapesAround(state, point, pjState ? 0.06 : 0.003);
   const rows = await db
     .select()
     .from(salesTaxJurisdictionRates)
@@ -120,14 +107,14 @@ export async function geoRateAt(
     (s) => leviesOf(s, rates).length || keptCodes.has(s.fips),
   );
 
-  if (!shapes.some((s) => s.kind === "county" && contains(s, point)))
+  if (!shapes.some((s) => s.kind === "county" && s.inside))
     throw new RateError(
       `This address's map point isn't inside any ${state} county this service has an outline for. Verify the address.`,
       422,
     );
-  const inside = new Set(levied.filter((s) => contains(s, point)));
+  const inside = new Set(levied.filter((s) => s.inside));
   for (const s of shapes) {
-    if (s.kind !== "county" || !rates.has(`no:${s.fips}`) || !contains(s, point)) continue;
+    if (s.kind !== "county" || !rates.has(`no:${s.fips}`) || !s.inside) continue;
     throw new RateError(
       `${s.name} County's ${state} rates depend on city limits and police jurisdictions no one publishes outlines for. Confirm the rate with the county.`,
       422,
@@ -138,8 +125,8 @@ export async function geoRateAt(
   if (pjState && !inRatedCity(inside, rates))
     for (const s of shapes) {
       const pj = rates.get(`pj:${s.fips}`) ?? [...rates.entries()].find(([k]) => k.startsWith(`pj:${s.fips}@`))?.[1];
-      if (!pj || s.kind === "county" || inside.has(s) || contains(s, point)) continue;
-      if (metresToEdge(s, point) < PJ_METRES)
+      if (!pj || s.kind === "county" || s.inside) continue;
+      if (s.edgeMetres < PJ_METRES)
         throw new RateError(
           `This address is outside ${s.name} but within three miles of it, where its police jurisdiction may add ${+(Number(pj.rate) * 100).toFixed(4)}%. Confirm the rate with the city.`,
           422,
@@ -163,10 +150,11 @@ export async function geoRateAt(
   // past the edge, so every outline that changes there is counted.
   const margin = marginOf(point);
   for (const s of levied) {
-    if (metresToEdge(s, point) >= margin) continue;
+    if (s.edgeMetres >= margin) continue;
     // Two metres over, so a narrow outline just past the line isn't skipped.
-    const beyond = acrossEdge(s, point, 2);
-    const across = new Set(levied.filter((l) => contains(l, beyond)));
+    for (const beyond of pointsAcross(point, s.foot, s.edgeMetres, 2)) {
+      const holding = await shapesHolding(state, beyond);
+      const across = new Set(levied.filter((l) => holding.has(`${l.kind}:${l.fips}`)));
     // Across the line may be no rated area at all, which is a different rate.
     let other: { rate: number };
     try {
@@ -180,6 +168,7 @@ export async function geoRateAt(
         `This address is within ${margin} m of the ${s.name} line, too close to tell from the map whether it is ${pct(answer.rate)}${Number.isNaN(other.rate) ? " or another rate" : ` or ${pct(other.rate)}`}. Confirm the rate with the address's city or county.`,
         422,
       );
+    }
   }
   return { ...answer, files };
 }
@@ -250,7 +239,7 @@ function rateOf(
   // Inside an exclusive area, only it and what it keeps apply, at its rates.
   // One drawn inside another (a combined area within its city) stands in
   // for the outer one.
-  const area = (s: Shape) => (s.maxLon - s.minLon) * (s.maxLat - s.minLat);
+  const area = (s: Shape) => s.area;
   const exclusive = sorted
     .flatMap((s) =>
       leviesOf(s, rates)

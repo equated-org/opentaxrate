@@ -14,7 +14,7 @@
  *     district T1 (lon 0..0.5) 0.5%.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { inArray } from "drizzle-orm";
+import { inArray, sql } from "drizzle-orm";
 import { db } from "../src/db.js";
 import {
   salesTaxAreas,
@@ -26,6 +26,7 @@ import {
 } from "../src/schema.js";
 import { addressRates } from "../src/engine/index.js";
 import { geoRateAt } from "../src/engine/geo-lookup.js";
+import { geometryOf } from "../src/engine/shapes.js";
 import type { LocatedPoint } from "../src/engine/types.js";
 
 const STATES = ["WY", "XT"];
@@ -58,11 +59,7 @@ function shape(
     kind,
     fips,
     name: `${kind} ${fips}`,
-    rings: square(lon0, lon1),
-    minLon: lon0,
-    minLat: 41,
-    maxLon: lon1,
-    maxLat: 42,
+    geom: geometryOf(square(lon0, lon1)),
     file: "fixture",
   };
 }
@@ -108,6 +105,11 @@ async function clear() {
 }
 
 beforeAll(async () => {
+  // The fixtures replace every Wyoming row; on a loaded database that would
+  // wipe the real state.
+  const [{ name }] = await db.execute<{ name: string }>(sql`select current_database() as name`);
+  if (!name.endsWith("_test"))
+    throw new Error(`These tests replace Wyoming's rows; run them on a *_test database, not ${name}.`);
   await clear();
   await db.insert(salesTaxDataReleases).values([
     { state: "WY", kind: "rates", file: "WYR-fixture", rows: 3 },

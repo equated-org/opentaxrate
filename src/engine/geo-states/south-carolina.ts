@@ -5,12 +5,21 @@
  * tax inside its city limits. From the Department of Revenue's ST-500,
  * effective 2026-05-01, which is where coverage starts.
  *
+ * Myrtle Beach's limits are the Revenue and Fiscal Affairs Office's
+ * municipal outline, the one SCDOR's address lookup reads, which RFA keeps
+ * up with annexations; the Census's lags it.
+ *
  * Sales on the Catawba Indian Reservation and taxes counties or cities
  * collect themselves aren't in it.
  */
+import type { GeoState } from "./index.js";
+import { bboxOf, fetchLayer } from "./sources.js";
 import { stateTable, type LocalRate } from "./tables.js";
 
 const FROM = "2026-05-01";
+const MUNICIPALITIES = "https://gis.state.sc.us/arcgis/rest/services/Boundaries_Districts/Municipalities/FeatureServer/0";
+/** Myrtle Beach's tourism development tax, keyed to RFA's outline. */
+const MYRTLE_BEACH = { type: "td", code: "MB", name: "MYRTLE BEACH", rate: 0.01 };
 
 /** County totals, state's 6% included. */
 const COUNTIES: Record<string, number> = {
@@ -25,7 +34,7 @@ const COUNTIES: Record<string, number> = {
   Sumter: 8, Union: 7, Williamsburg: 8, York: 7,
 };
 
-export const southCarolina = stateTable("SC", () => ({
+const counties = stateTable("SC", () => ({
   stateRates: [{ rate: 0.06, from: FROM }],
   locals: [
     ...Object.entries(COUNTIES).map(
@@ -36,7 +45,19 @@ export const southCarolina = stateTable("SC", () => ({
         type: "00",
       }),
     ),
-    { name: "Myrtle Beach", rate: 0.01, from: FROM, type: "01" },
   ],
   source: "SC DOR ST-500 (effective 2026-05-01)",
 }));
+
+export const southCarolina: GeoState = {
+  state: "SC",
+  async fetch(dir) {
+    const data = await counties.fetch(dir);
+    const outline = await fetchLayer(MUNICIPALITIES, { where: `CITY_NAME = '${MYRTLE_BEACH.name}'` });
+    if (!outline.length) throw new Error("SC RFA has no Myrtle Beach outline");
+    data.rates.push({ type: MYRTLE_BEACH.type, code: MYRTLE_BEACH.code, rate: MYRTLE_BEACH.rate, startsOn: FROM, endsOn: "9999-12-31" });
+    data.shapes = outline.map((f) => ({ kind: "district" as const, fips: MYRTLE_BEACH.code, name: "Myrtle Beach", rings: f.rings, bbox: bboxOf(f.rings) }));
+    data.files.boundaries = "SC RFA municipal limits (Myrtle Beach)";
+    return data;
+  },
+};

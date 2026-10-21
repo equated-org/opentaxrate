@@ -12,7 +12,7 @@ flowchart LR
     api[api<br/><code>cli.js serve</code><br/>Hono HTTP]
     refresh[refresh<br/><code>cli.js refresh</code><br/>run quarterly]
     migrate[migrate<br/><code>cli.js migrate</code>]
-    db[(Postgres 17<br/>~5 GB with every state)]
+    db[(Postgres 17 + PostGIS<br/>~5 GB with every state)]
   end
 
   api -->|reads| db
@@ -57,7 +57,7 @@ Missouri publishes one total per jurisdiction code (place, county, district comb
 ### Map engine (everywhere else)
 
 1. **Locate.** Mapbox (if configured), the Census geocoder and Nominatim are asked at once. The most precise point wins; if they disagree, the margin around it widens to their spread; past 250 m the address isn't placed.
-2. **Contain.** Outlines whose bounding box is near the point are tested with point-in-polygon. Outlines come from the state when it publishes them (Texas, Illinois, Arizona, New Mexico, Colorado, Alaska) and from Census TIGER otherwise.
+2. **Contain.** PostGIS finds the outlines near the point through a spatial index, and reports for each whether it holds the point and how far the point is from its edge, in metres on the spheroid. Outlines come from the state when it publishes them (Texas, Illinois, Arizona, New Mexico, Colorado, Alaska) and from Census TIGER otherwise.
 3. **Stack.** Every rate row has a type that says how it combines:
 
 | Type | Meaning | Used by |
@@ -74,7 +74,7 @@ Missouri publishes one total per jurisdiction code (place, county, district comb
 
 ### Near a line
 
-For each outline whose edge is closer than the point's margin, the engine reads the rate 2 m across that edge. Only if it differs is the address refused, with both rates in the message. Seams between pieces of one outline aren't edges.
+For each outline whose edge is closer than the point's margin, the engine reads the rate 2 m across that edge, at the nearest point on it. Only if it differs is the address refused, with both rates in the message. Seams between pieces of one outline aren't edges: loading dissolves them, so each outline is one repaired multipolygon.
 
 ## Tables
 
@@ -119,9 +119,7 @@ erDiagram
     text state
     text kind
     text fips
-    jsonb rings
-    float min_lon
-    float max_lat
+    geometry geom
   }
   sales_tax_data_releases {
     text state

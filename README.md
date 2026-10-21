@@ -4,13 +4,13 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge" alt="License: Apache 2.0"></a>
   <img src="https://img.shields.io/badge/States-50%20%2B%20DC-2ea44f?style=for-the-badge" alt="50 states + DC">
   <img src="https://img.shields.io/badge/Node-22-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node 22">
-  <img src="https://img.shields.io/badge/Postgres-17-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres 17">
+  <img src="https://img.shields.io/badge/Postgres-17%20%2B%20PostGIS-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres 17 + PostGIS">
   <img src="https://img.shields.io/badge/docker%20compose-up-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="docker compose">
 </p>
 
 **US sales tax rates by street address, from the states' own data.** Give it an address and a date; it returns the combined general sales tax rate, every jurisdiction in it, how the address was placed, and the published file each rate came from. When the data can't settle one rate, it says so and names the rates it could be. No API keys, no per-call fees, no guessing.
 
-It reads what states already publish for free: the Streamlined Sales Tax rate and boundary files, each tax office's own rate tables and GIS layers, and Census county and city outlines. A refresh job loads them into Postgres; the API answers from there in milliseconds.
+It reads what states already publish for free: the Streamlined Sales Tax rate and boundary files, each tax office's own rate tables and GIS layers, and Census county and city outlines. A refresh job loads them into Postgres with PostGIS; the API answers from there in milliseconds.
 
 <table>
 <tr><td><b>Address-level, not ZIP-level</b></td><td>Street house-number ranges for the 24 Streamlined states and Missouri; county, city and district outlines for the rest. A ZIP that crosses a city line isn't averaged or rounded down; the street decides.</td></tr>
@@ -18,7 +18,7 @@ It reads what states already publish for free: the Streamlined Sales Tax rate an
 <tr><td><b>Refuses instead of guessing</b></td><td>Near a city line, in a district no one publishes an outline for, or when geocoders disagree, it returns <code>422</code> with the candidate rates. Missing data is never read as zero.</td></tr>
 <tr><td><b>Explains itself</b></td><td>Each answer lists the state, county, city and district parts, the match type (<code>street</code>, <code>zip4</code>, <code>zip5</code>, <code>map</code>, <code>statewide</code>, <code>authority</code>) and the source files.</td></tr>
 <tr><td><b>Checked against the states</b></td><td>40/40 Washington addresses match WA DOR; 289/291 Texas points match the Comptroller; 211/213 Illinois addresses match IDOR's address file.</td></tr>
-<tr><td><b>Runs anywhere</b></td><td><code>docker compose up</code>: one Postgres, one API container, one refresh job. About 5 GB of data with every state, or 570 MB as a compressed snapshot.</td></tr>
+<tr><td><b>Runs anywhere</b></td><td><code>docker compose up</code>: one Postgres with PostGIS, one API container, one refresh job. About 5 GB of data with every state, or 570 MB as a compressed snapshot.</td></tr>
 </table>
 
 ---
@@ -118,7 +118,7 @@ flowchart LR
 
 1. **Statewide.** States with no sales tax or one rate everywhere are a dated table; no lookup needed.
 2. **Ranges.** In Streamlined states and Missouri the street is matched to its house-number range, then its ZIP+4, then its ZIP if the whole ZIP has one rate, then its point on the map.
-3. **Map.** Elsewhere the address is geocoded by every configured geocoder at once (kept only where they agree), tested against county, city and district outlines, and each outline's dated rate is stacked by that state's rules: a city in place of its county, a parish only outside towns, a Texas combined area that keeps only some districts, an Illinois business district at listed addresses.
+3. **Map.** Elsewhere the address is geocoded by every configured geocoder at once (kept only where they agree), tested against county, city and district outlines in PostGIS, and each outline's dated rate is stacked by that state's rules: a city in place of its county, a parish only outside towns, a Texas combined area that keeps only some districts, an Illinois business district at listed addresses.
 4. **Edges.** Near a line, the rate a few metres across is computed too; only if it differs is the address refused.
 
 The full design, with the stacking rules and tables: **[docs/architecture.md](docs/architecture.md)**.

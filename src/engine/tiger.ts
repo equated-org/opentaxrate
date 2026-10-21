@@ -1,7 +1,8 @@
 /**
  * County, city and town outlines from the Census Bureau's TIGER/Line files,
- * read from their shapefiles, and the geometry the lookup asks of them: which
- * outline holds a point, and how far the point is from its edge.
+ * read from their shapefiles, for loading into PostGIS (shapes.ts answers the
+ * lookups' questions of them). `contains` stays for testing points against
+ * outlines still in memory, before any are loaded.
  *
  * States tax by different units: most by city (a Census place), some by town
  * or township (a Census county subdivision, as in Wisconsin and Vermont).
@@ -90,74 +91,6 @@ export function contains(shape: Pick<Shape, "rings">, p: Point) {
         inside = !inside;
     }
   return inside;
-}
-
-/** Metres from the point to the shape's nearest edge, flat-earth, which is
- *  close enough at the few-hundred-metre scale it is asked about. A seam
- *  between two pieces of one shape (an outline split by township lines) is
- *  inside it, not an edge. */
-export function metresToEdge(shape: Pick<Shape, "rings">, p: Point) {
-  return nearestEdge(shape, p).metres;
-}
-
-/** The point `metres` past the shape's nearest edge from `p`: on the edge's
- *  other side, whichever side `p` is on. */
-export function acrossEdge(shape: Pick<Shape, "rings">, p: Point, metres: number): Point {
-  const { foot, along } = nearestEdge(shape, p);
-  const kx = 111_320 * Math.cos((p.lat * Math.PI) / 180);
-  const ky = 110_540;
-  let dx = (foot.lon - p.lon) * kx;
-  let dy = (foot.lat - p.lat) * ky;
-  let length = Math.hypot(dx, dy);
-  // On the edge itself, step at right angles to it.
-  if (length < 1e-6) [dx, dy, length] = [-along[1], along[0], Math.hypot(along[0], along[1]) || 1];
-  return {
-    lon: foot.lon + ((dx / length) * metres) / kx,
-    lat: foot.lat + ((dy / length) * metres) / ky,
-  };
-}
-
-function nearestEdge(shape: Pick<Shape, "rings">, p: Point) {
-  const kx = 111_320 * Math.cos((p.lat * Math.PI) / 180);
-  const ky = 110_540;
-  const seams = shape.rings.length > 1 ? sharedSegments(shape.rings) : null;
-  let best = { metres: Infinity, foot: p, along: [1, 0] as [number, number] };
-  for (const ring of shape.rings)
-    for (let i = 1; i < ring.length; i++) {
-      if (seams?.has(segmentKey(ring[i - 1], ring[i]))) continue;
-      const ax = (ring[i - 1][0] - p.lon) * kx;
-      const ay = (ring[i - 1][1] - p.lat) * ky;
-      const bx = (ring[i][0] - p.lon) * kx;
-      const by = (ring[i][1] - p.lat) * ky;
-      const dx = bx - ax;
-      const dy = by - ay;
-      const length = dx * dx + dy * dy;
-      const t = length ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / length)) : 0;
-      const metres = Math.hypot(ax + t * dx, ay + t * dy);
-      if (metres < best.metres)
-        best = {
-          metres,
-          foot: { lon: p.lon + (ax + t * dx) / kx, lat: p.lat + (ay + t * dy) / ky },
-          along: [dx, dy],
-        };
-    }
-  return best;
-}
-
-const segmentKey = (a: [number, number], b: [number, number]) =>
-  a[0] < b[0] || (a[0] === b[0] && a[1] < b[1]) ? `${a}|${b}` : `${b}|${a}`;
-
-/** Segments drawn by two of a shape's rings. */
-function sharedSegments(rings: Shape["rings"]) {
-  const seen = new Set<string>();
-  const shared = new Set<string>();
-  for (const ring of rings)
-    for (let i = 1; i < ring.length; i++) {
-      const key = segmentKey(ring[i - 1], ring[i]);
-      if (seen.has(key)) shared.add(key);
-      else seen.add(key);
-    }
-  return shared;
 }
 
 function bboxOf(rings: Shape["rings"]): Shape["bbox"] {

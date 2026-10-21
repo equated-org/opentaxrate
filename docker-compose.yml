@@ -3,7 +3,8 @@
 # docker compose run --rm refresh OH TX   just some states
 services:
   db:
-    image: postgres:17
+    build: ./db
+    image: opentaxrate-db:17-postgis
     environment:
       POSTGRES_USER: opentaxrate
       POSTGRES_PASSWORD: opentaxrate

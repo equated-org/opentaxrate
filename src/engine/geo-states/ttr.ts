@@ -19,16 +19,21 @@ import { contains, readTigerZip, STATE_FIPS } from "../tiger.js";
 import { eq } from "drizzle-orm";
 import { db } from "../../db.js";
 import { salesTaxJurisdictionRates } from "../../schema.js";
-import { ringsOf, bboxOf } from "./sources.js";
+import { ringsOf, bboxOf, shiftDay } from "./sources.js";
 import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
 
 const FIRST = "2024-01-01";
 /** The service's place ids are plain numbers, which could equal a Census
  *  FIPS code; prefixed, they can't be mistaken for one. */
 const CODE_PREFIX = "ttr";
+/** Degrees from a state's bounding box within which a point may find a
+ *  neighbouring state's districts. */
+const BORDER = 0.1;
 
 interface Service {
   state: string;
+  /** The state's name as the service writes its state-wide rate. */
+  name: string;
   host: string;
   /** Ids known to be the state's, found even where the grids miss. */
   knownIds: number[];
@@ -46,6 +51,7 @@ const TYPES: Record<string, string> = { "2": "45", "3": "00", "4": "01", "5": "d
  *  facilities district. Its first 555 place ids are its own. */
 export const colorado = ttrState({
   state: "CO",
+  name: "Colorado",
   host: "https://salestaxlookup.colorado.gov",
   knownIds: Array.from({ length: 555 }, (_, i) => i + 1),
   bounds: { west: -109.06, east: -102.04, south: 36.99, north: 41.01 },
@@ -57,6 +63,7 @@ export const colorado = ttrState({
  *  service dates. Only the Commission's member jurisdictions are in it. */
 export const alaska = ttrState({
   state: "AK",
+  name: "Alaska",
   host: "https://alaska.atr.avalara.com",
   knownIds: [],
   bounds: { west: -179.2, east: -129.9, south: 51.2, north: 71.4 },
@@ -78,11 +85,12 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
       .selectDistinct({ code: salesTaxJurisdictionRates.code })
       .from(salesTaxJurisdictionRates)
       .where(eq(salesTaxJurisdictionRates.state, service.state));
+    const discovered = await discoverIds(service, today, dir);
     const placeIds = [
       ...new Set([
         ...service.knownIds,
         ...stored.map((r) => Number(r.code.replace(CODE_PREFIX, ""))).filter(Number.isInteger),
-        ...(await discoverIds(service, today, dir)),
+        ...discovered.ids,
       ]),
     ];
     const dates = [today];
@@ -91,7 +99,8 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
 
     const found = new Map<string, GeoRateRow>();
     const kindOf = new Map<string, string>();
-    for (const date of dates) {
+    const nameOf = new Map<string, string>();
+    const read = async (date: string) => {
       const body = (await post("rates.byPlace", { placeIds, date, taxTypeFilter: 2, taxTypeIds: [1] })) as {
         places: Record<string, { rates: Array<{ placeId: string; name: string; placeTypeId: string; value: number; effDate: string; endDate: string }> }>;
       };
@@ -99,7 +108,11 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
         for (const r of rates) {
           const type = TYPES[r.placeTypeId];
           if (!type) continue;
+          // Points near a border find the neighbouring member state too; its
+          // state-wide rate is not this state's.
+          if (type === "45" && r.name !== service.name) continue;
           kindOf.set(r.placeId, r.placeTypeId);
+          nameOf.set(r.placeId, r.name);
           found.set(`${r.placeId}|${r.effDate}|${r.value}`, {
             type,
             code: type === "45" ? r.placeId : `${CODE_PREFIX}${r.placeId}`,
@@ -108,6 +121,25 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
             endsOn: r.endDate,
           });
         }
+    };
+    for (const date of dates) await read(date);
+    // A rate that held only between two of those days (Skagway's 3% for
+    // March 2024, between joining and its summer rate) is found by reading
+    // the day after each one ends, until no gap is left.
+    const asked = new Set(dates);
+    for (let round = 0; round < 4; round++) {
+      const gaps = new Set<string>();
+      for (const r of found.values()) {
+        const next = shiftDay(r.endsOn, 1);
+        if (next > today || next < FIRST || asked.has(next)) continue;
+        const id = r.code;
+        if (![...found.values()].some((o) => o.code === id && o.startsOn === next)) gaps.add(next);
+      }
+      if (!gaps.size) break;
+      for (const date of gaps) {
+        asked.add(date);
+        await read(date);
+      }
     }
     // The state's own rate starts coverage on the first day read.
     const rates = [...found.values()].map((r) =>
@@ -133,10 +165,25 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
         if (!geojson) continue;
         const rings = ringsOf(JSON.parse(geojson));
         if (!rings.length) continue;
-        shapes.push({ kind: KINDS[kindOf.get(id)!], fips: `${CODE_PREFIX}${id}`, name: id, rings, bbox: bboxOf(rings) });
+        shapes.push({ kind: KINDS[kindOf.get(id)!], fips: `${CODE_PREFIX}${id}`, name: nameOf.get(id) ?? id, rings, bbox: bboxOf(rings) });
       }
     };
     for (let i = 0; i < ids.length; i += 15) await outlines(ids.slice(i, i + 15));
+    // A district the service rates but can't draw would otherwise be left
+    // out without a word (Upper Pine River Fire Protection District, 1% in
+    // and around Bayfield from July 2026). Each county and city it was found
+    // with marks it as maybe there, so an address in them is refused with
+    // both rates rather than given the lower one.
+    const drawn = new Set(shapes.map((s) => s.fips));
+    for (const [id, kind] of kindOf) {
+      if (kind !== "5" || drawn.has(`${CODE_PREFIX}${id}`)) continue;
+      for (const near of discovered.near.get(Number(id)) ?? []) {
+        if (!drawn.has(`${CODE_PREFIX}${near}`) || !["3", "4"].includes(kindOf.get(String(near)) ?? "")) continue;
+        for (const r of [...rates])
+          if (r.code === `${CODE_PREFIX}${id}` && r.rate > 0)
+            rates.push({ ...r, type: "maybe", code: `${CODE_PREFIX}${near}` });
+      }
+    }
     if (!rates.some((r) => r.type === "45"))
       rates.push({ type: "45", code: service.state, rate: 0, startsOn: FIRST, endsOn: "9999-12-31" });
     return {
@@ -177,8 +224,10 @@ async function discoverIds(service: Service, snapshot: string, dir?: string) {
   // A point outside every state fails its whole batch, so a failing batch
   // is split until the point is found and dropped.
   const ids = new Set<number>();
+  // The places each one was found with, for a district with no outline.
+  const near = new Map<number, Set<number>>();
   const ask = async (batch: Array<[number, number]>): Promise<void> => {
-    let body: { places: Array<{ results?: Array<{ placeId: string }> }> };
+    let body: { places: Array<{ pinpoint?: { lat: number; lng: number }; results?: Array<{ placeId: string; name: string; type: string }> }> };
     try {
       body = (await request(host, "places.pinpoints", {
         queries: batch.map(([lat, lng]) => `${lat}, ${lng}`),
@@ -200,7 +249,26 @@ async function discoverIds(service: Service, snapshot: string, dir?: string) {
       await ask(batch.slice(half));
       return;
     }
-    for (const place of body.places) for (const r of place.results ?? []) ids.add(Number(r.placeId));
+    for (const place of body.places) {
+      const found = (place.results ?? []).map((r) => Number(r.placeId));
+      // Only a point in this state alone, and away from its border, says
+      // which of its places a district lies in; near a border the service
+      // finds the neighbour's districts too (New Mexico's remainder of San
+      // Juan County along Colorado's southern line).
+      const states = (place.results ?? []).filter((r) => r.type === "State").map((r) => r.name);
+      const at = place.pinpoint;
+      const inland =
+        !at ||
+        (at.lat - bounds.south > BORDER && bounds.north - at.lat > BORDER && at.lng - bounds.west > BORDER && bounds.east - at.lng > BORDER);
+      const ours = states.length === 1 && states[0] === service.name && inland;
+      for (const id of found) {
+        ids.add(id);
+        if (!ours) continue;
+        const with_ = near.get(id) ?? new Set<number>();
+        for (const other of found) if (other !== id) with_.add(other);
+        near.set(id, with_);
+      }
+    }
   };
   const batches: Array<Array<[number, number]>> = [];
   for (let i = 0; i < points.length; i += 50) batches.push(points.slice(i, i + 50));
@@ -208,7 +276,7 @@ async function discoverIds(service: Service, snapshot: string, dir?: string) {
     for (let batch = batches.shift(); batch; batch = batches.shift()) await ask(batch);
   });
   await Promise.all(workers);
-  return ids;
+  return { ids, near };
 }
 
 /** One call to the service, tried three times when its gateway times out

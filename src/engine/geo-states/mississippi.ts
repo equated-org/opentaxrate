@@ -8,11 +8,12 @@
 import { stateTable } from "./tables.js";
 
 export const mississippi = stateTable("MS", () => ({
-  // Covered from 2025: when Tupelo's tax began isn't on the DOR's list.
-  stateRates: [{ rate: 0.07, from: "2025-01-01" }],
+  // Covered from Jackson's tax's start; Tupelo's began on 1989-02-01 and
+  // the state's general rate has been 7% throughout.
+  stateRates: [{ rate: 0.07, from: "2014-03-01" }],
   locals: [
     { name: "Jackson", rate: 0.01, from: "2014-03-01", to: "2035-06-30", type: "01" },
-    { name: "Tupelo", rate: 0.0025, from: "2025-01-01", type: "01" },
+    { name: "Tupelo", rate: 0.0025, from: "1989-02-01", type: "01" },
   ],
   source: "MS DOR tourism and economic development taxes",
 }));

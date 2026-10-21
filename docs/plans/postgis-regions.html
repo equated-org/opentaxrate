@@ -1,0 +1,787 @@
+<title>Precomputed tax regions in PostGIS</title>
+<meta name="description" content="Plan: move OpenTaxRate geometry to PostGIS with precomputed, dated tax regions, own geocoding, and a clean release.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  /* Timeline of statements */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; max-width: none; }
+  .timeline li { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); gap: 0 12px; padding-bottom: 18px; margin: 0; }
+  .tl-when { font-family: var(--mono); font-size: 0.82rem; color: var(--text-3); text-align: right; padding-top: 3px; }
+  .tl-mark { position: relative; }
+  .tl-mark::before { content: ""; position: absolute; left: 11px; top: 0; bottom: -18px; border-left: 1px solid var(--edge); }
+  .timeline li:last-child .tl-mark::before { display: none; }
+  .tl-mark::after { content: ""; position: absolute; left: 5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--edge); }
+  .timeline li.you .tl-mark::after { background: var(--ink); border-color: var(--ink); }
+  .timeline li.note .tl-mark::after { border-radius: 3px; background: var(--accent); border-color: var(--accent); }
+  .timeline li.ship .tl-mark::after { border-radius: 3px; border: 1.5px solid var(--ink); }
+  .tl-body { min-width: 0; }
+  .tl-who { font-size: 0.82rem; font-weight: 600; color: var(--text-2); }
+  .tl-quote { margin: 0; max-width: 80ch; }
+
+  /* Axis map (explainers with an overloaded term) */
+  .axismap { display: grid; gap: 14px; }
+  .map-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button { font: inherit; font-size: 0.86rem; font-weight: 500; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--box); color: var(--text-2); cursor: pointer; }
+  .presets button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .map-controls label { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; color: var(--text-2); }
+  .map-controls select { font: inherit; font-size: 0.86rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--box); color: var(--ink); }
+  .map-wrap { overflow-x: auto; }
+  .map-wrap svg { display: block; width: 100%; height: auto; min-width: 880px; }
+  .m-row, .m-row.alt { fill: none; stroke: var(--line); stroke-width: 1; }
+  .m-vline { stroke: var(--line); stroke-width: 1; }
+  .m-frame { fill: none; stroke: var(--edge); }
+  .m-bin { font: 12px var(--sans); fill: var(--text-2); }
+  .m-axis { font: 600 12.5px var(--sans); fill: var(--ink); }
+  .m-chip { cursor: pointer; transition: transform 460ms var(--ease); outline: none; }
+  .m-chip rect { fill: var(--box); stroke: var(--edge); stroke-width: 1; }
+  .m-chip text { font: 500 11.5px var(--sans); fill: var(--ink); pointer-events: none; }
+  .m-chip.mem rect { stroke: var(--accent); stroke-width: 1.8; }
+  .m-chip.mem text { fill: var(--accent-ink); }
+  .m-chip.off rect { stroke-dasharray: 4 3; }
+  .m-chip:hover rect { stroke: var(--ink); }
+  .m-chip:focus-visible rect { stroke: var(--accent); stroke-width: 2.6; }
+  .m-chip.on rect { stroke: var(--ink); stroke-width: 2.2; }
+  .map.settling .m-chip { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .m-chip { transition: none; } }
+  .map-detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 760px) { .map-detail { grid-template-columns: minmax(0, 1fr); } }
+  .map-detail .who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .map-detail h3 { margin: 0; font-size: 1.05rem; }
+  .map-detail .left { display: grid; gap: 6px; align-content: start; color: var(--text-2); }
+  .map-detail .left p { margin: 0; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; background: var(--code); color: var(--text-2); }
+  .tag.mem { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .axes-dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.88rem; }
+  .axes-dl dt { color: var(--text-3); }
+  .axes-dl dd { margin: 0; color: var(--text-2); }
+  .axes-dl .plotted { color: var(--ink); font-weight: 600; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--text-2); }
+  .legend .chipk { display: inline-block; width: 22px; height: 11px; border-radius: 3px; border: 1px solid var(--edge); vertical-align: -1px; margin-right: 7px; }
+  .legend .chipk.mem { border: 1.8px solid var(--accent); }
+  .legend .chipk.off { border-style: dashed; }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#learned">What Stripe and TaxJar teach</a></li>
+    <li><a href="#model">Model</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#workflows">Workflows</a></li>
+    <li><a class="sub" href="#w-refresh">Refresh builds regions</a></li>
+    <li><a class="sub" href="#w-lookup">A lookup reads one region</a></li>
+    <li><a class="sub" href="#w-release">A release ships the data</a></li>
+    <li><a href="#geocoding">Geocoding without the public services</a></li>
+    <li><a href="#terms">Settling Colorado, Alaska and Nominatim</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases</a></li>
+    <li><a href="#questions">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+<article>
+<header class="page-head">
+  <p class="eyebrow">Design plan · proposed · equated-org/opentaxrate main · 2026-10-21</p>
+  <h1>Precomputed tax regions in PostGIS</h1>
+  <p class="lede">Move every outline into PostGIS and, at refresh time, cut each state into non-overlapping tax regions, one per unique set of jurisdictions, each dated and indexed. A lookup then becomes one indexed point-in-polygon query and one rate join, instead of fetching megabytes of JSON and stacking outlines in Node. The same change cleans the data enough to publish as a release asset, and replaces the geocoding and data sources whose terms block an open release.</p>
+  <p class="meta">Traced from <code>src/engine/geo-lookup.ts</code>, <code>sst-lookup.ts</code>, <code>tiger.ts</code>, <code>load.ts</code> and <code>refresh.ts</code> at commit 5b1d798, with timings and row counts from a database loaded with every state on 2026-10-21. Research on Stripe, TaxJar, geocoders, publishing and state terms done the same day.</p>
+</header>
+
+<h2 id="why">Why</h2>
+<p>Today an address in a map state is placed by asking three outside geocoders, pulling every outline whose box is near the point out of Postgres as JSON, and testing them in TypeScript. For 901 Bagby St in Houston that is 977 ms of geocoding and about 320 ms of outline work over 2.5 MB of rings. The stacking rules (a city in place of its county, a Texas combined area that keeps some districts, an Alabama county's share inside a named city) all run per request, and a boundary edge check runs per request too.</p>
+<p>The decision is to do that work once per release. When a state refreshes, its county, city and district outlines are overlaid into regions that each hold exactly one set of jurisdictions, its rate stack is resolved per date, and the result is stored as PostGIS geometry with a GiST index. A lookup is <code>ST_Covers</code> on that index and a join to the region's dated rates.</p>
+<ul>
+  <li><em>It's the shape Stripe built.</em> Stripe Tax's jurisdiction resolution precomputes about 16,000 non-overlapping "places of taxation" in an R-tree and answers in a few milliseconds (Stripe engineering, 2025-07-10).</li>
+  <li><em>It moves 0.3 s to milliseconds.</em> The index replaces the box query and the ray casting; the region carries its rate stack, so no stacking runs at lookup.</li>
+  <li><em>It makes the edge check exact.</em> Distance to a region's boundary is one <code>ST_Distance</code> on geography, and the other side is simply the neighboring region.</li>
+  <li><em>It shrinks the data.</em> 52,258 of 63,804 Census outlines are towns no rate refers to and disappear; outlines are simplified once; the shipped artifact is regions, not raw layers.</li>
+</ul>
+<p>Out of scope: taxability, sourcing and product rules; replacing the street-range engine (the Streamlined states' own files stay authoritative there); a public hosted service.</p>
+<table class="grid-table">
+  <thead><tr><th scope="col">Concern</th><th scope="col">Today</th><th scope="col">Proposed</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Outline storage</th><td><code>jsonb</code> rings, float box columns</td><td>PostGIS <code>geometry(MultiPolygon, 4269)</code>, GiST</td></tr>
+    <tr><th scope="row">Stacking</th><td>Per request, in Node</td><td>Once per refresh, into regions</td></tr>
+    <tr><th scope="row">Lookup</th><td>Box query, fetch, parse, ray cast (~320 ms)</td><td><code>ST_Covers</code> + rate join (target under 10 ms)</td></tr>
+    <tr><th scope="row">Edge check</th><td>Flat-earth distance, step 2 m across</td><td><code>ST_Distance</code> on geography, neighbor region</td></tr>
+    <tr><th scope="row">Default geocoder</th><td>Mapbox + Census + public Nominatim</td><td>Own address points, then TIGER, then Census; keys optional</td></tr>
+    <tr><th scope="row">Precision in the answer</th><td><code>match</code> only</td><td><code>precision</code> ladder plus what to collect to improve it</td></tr>
+  </tbody>
+</table>
+
+<h2 id="learned">What Stripe and TaxJar teach</h2>
+<p>Stripe's engineering post and TaxJar's API reference are the only detailed public accounts; Avalara publishes a precision scale and little else, and Anrok, Numeral and Kintsugi describe nothing. What carries over:</p>
+<ul>
+  <li><em>Precompute regions with time tags (Stripe, stated).</em> Regions are recomputed per state when a boundary changes; old ones are kept and tagged so past transactions can be recalculated. Disjoint regions are split into parts ("Charleston alone consists of 73 disjoint areas").</li>
+  <li><em>Check topology (Stripe, stated).</em> Boundaries "must be consistent with one another, meaning they border gaplessly and without overlaps." A load should fail on slivers and gaps.</li>
+  <li><em>Report precision, not just a rate (Stripe, stated).</em> Stripe's address resolution returns <code>address</code> &gt; <code>street</code> &gt; <code>postal_code</code> &gt; … plus the fields to collect for better precision; "street precision with no issues means every address on that street has the same tax rate."</li>
+  <li><em>Don't fall back silently (both).</em> Stripe uses a ZIP centroid when it can't match; that's an approximation. OpenTaxRate refuses instead, and where a Streamlined state defines a fallback (North Carolina: the lowest combined rate in the ZIP+4), uses the state's own rule, because that is what its hold-harmless law protects.</li>
+  <li><em>Publish a support matrix (TaxJar, stated).</em> TaxJar's changelog shows street-level accuracy arriving state by state in 2018 and lists the states where a street helps; Stripe lists 19 states where ZIP is unsafe. OpenTaxRate should publish, per state, its method, source and dates.</li>
+  <li><em>Measure accuracy and say how.</em> Every vendor claims "rooftop" or "99.999%" without a method. OpenTaxRate's agreement checks against state lookups are the method; publish them per release.</li>
+  <li><em>Neither discloses near-boundary handling or which geocoder they use.</em> The edge refusal has no public precedent; keep it, and document it.</li>
+</ul>
+
+<h2 id="model">Model</h2>
+<p>Figure 1 sets today's tables beside the proposal. Raw layers (counties, cities, districts) stay as inputs; a new region table is built from them per state and release, and lookups read only regions and their rates.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 940px">
+    <p class="fig-title">Lookups read regions; raw outlines become build inputs</p>
+    <svg viewBox="0 0 1000 360" role="img" aria-label="Today, lookups read shapes and rates and stack them. Proposed, refresh overlays layers into regions with a rate stack per date, and lookups read regions only.">
+      <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-group g3" x="10" y="16" width="400" height="330" rx="10"/><text class="d-group-label g3" x="26" y="40">Today</text>
+      <rect class="d-box" x="30" y="60" width="170" height="64" rx="8"/><text class="d-t" x="46" y="86">shapes</text><text class="d-m" x="46" y="106">rings jsonb, bbox floats</text>
+      <rect class="d-box" x="220" y="60" width="170" height="64" rx="8"/><text class="d-t" x="236" y="86">jurisdiction rates</text><text class="d-m" x="236" y="106">type, code, dated</text>
+      <rect class="d-box" x="30" y="200" width="360" height="80" rx="8"/><text class="d-t" x="46" y="228">Lookup stacks per request</text><text class="d-s" x="46" y="250">contain, 01x / rc / x+kx / 0c rules, edge step</text>
+      <path class="d-edge" d="M115,124 L180,198" marker-end="url(#m1)"/><path class="d-edge" d="M305,124 L250,198" marker-end="url(#m1)"/>
+      <rect class="d-group g1" x="440" y="16" width="550" height="330" rx="10"/><text class="d-group-label g1" x="456" y="40">Proposed</text>
+      <rect class="d-box" x="460" y="60" width="150" height="64" rx="8"/><text class="d-t" x="476" y="86">layers</text><text class="d-m" x="476" y="106">geom, GiST · inputs</text>
+      <rect class="d-box" x="630" y="60" width="150" height="64" rx="8"/><text class="d-t" x="646" y="86">jurisdiction rates</text><text class="d-m" x="646" y="106">unchanged</text>
+      <rect class="d-box acc" x="460" y="190" width="200" height="78" rx="8"/><text class="d-t" x="476" y="216">tax regions</text><text class="d-m" x="476" y="236">geom, GiST, valid_from/to</text><text class="d-s" x="476" y="254">one set of jurisdictions</text>
+      <rect class="d-box acc" x="690" y="190" width="200" height="78" rx="8"/><text class="d-t" x="706" y="216">region rates</text><text class="d-m" x="706" y="236">region, parts, dated</text><text class="d-s" x="706" y="254">stack resolved at build</text>
+      <rect class="d-box" x="800" y="60" width="170" height="64" rx="8"/><text class="d-t" x="816" y="86">address points</text><text class="d-m" x="816" y="106">NAD + OpenAddresses</text>
+      <path class="d-edge acc" d="M535,124 L555,188" marker-end="url(#m1)"/><path class="d-edge acc" d="M705,124 L770,188" marker-end="url(#m1)"/><path class="d-edge acc" d="M660,229 L688,229" marker-end="url(#m1)"/>
+      <path class="d-edge dash" d="M885,124 L620,188" marker-end="url(#m1)"/><text class="d-el" x="770" y="160" text-anchor="middle">precomputed region</text>
+      <text class="d-s" x="460" y="310">Street ranges, ZIP ranges and areas stay as they are for the Streamlined states and Missouri.</text>
+    </svg>
+  </div>
+  <figcaption>Figure 1. In accent, the two new tables lookups read. Address points can carry their region ahead of time, so most lookups skip geometry entirely.</figcaption>
+</figure>
+<details class="more">
+  <summary>Proposed tables<span class="dim">columns that matter</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">table</span>sales_tax_layers          state, kind, code, name, geom MultiPolygon 4269, valid_from, valid_to, file   <span class="n">GiST(geom)</span>
+<span class="layer">table</span>sales_tax_regions         id, state, jurisdictions text[], geom, valid_from, valid_to, release        <span class="n">GiST(geom), (state, valid_from)</span>
+<span class="layer">table</span>sales_tax_region_rates    region_id, rate, parts jsonb, starts_on, ends_on                         <span class="n">(region_id, starts_on)</span>
+<span class="layer">table</span>sales_tax_address_points  state, house, street_key, unit, city, zip5, geom Point, region_id, source  <span class="n">(state, street_key, house), GiST</span>
+<span class="layer">kept</span> sales_tax_jurisdiction_rates, sales_tax_areas, sales_tax_street_ranges, sales_tax_zip_ranges, sales_tax_data_releases
+<span class="layer">dropped</span> sales_tax_shapes (replaced by layers)</pre>
+  </div>
+</details>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>Regions never overlap.</em> Within a state and a validity span, every point is in at most one region; a load that produces overlaps or slivers above a set area fails.</li>
+  <li><em>A region is one set of jurisdictions.</em> Two regions with the same set and touching are merged; a region in several pieces is one row, subdivided for the index.</li>
+  <li><em>Nothing is deleted.</em> A boundary change ends the old regions (<code>valid_to</code>) and starts new ones, so any past date still resolves.</li>
+  <li><em>The state's own file wins.</em> In the Streamlined states and Missouri, the address-range answer is authoritative; a region disagreeing with it is logged, not used.</li>
+  <li><em>Precision is part of the answer.</em> Every response says <code>address</code>, <code>street</code>, <code>zip4</code>, <code>postal_code</code> or <code>region</code>, and, when refused, which input would settle it.</li>
+  <li><em>No default depends on someone else's goodwill.</em> No public Nominatim, no undocumented state backend, no paid key is needed to run.</li>
+</ul>
+
+<h2 id="workflows">Workflows</h2>
+
+<h3 id="w-refresh">Refresh builds regions</h3>
+<p>The operator runs <code>docker compose run --rm refresh TX</code>. Texas's rates and the Comptroller's layers load as today, then the overlay builds Texas's regions for each span its rates and layers cover.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Refreshing Texas, 2026 Q4</p>
+    <div class="objgraph"><ul class="tree">
+      <li><div class="obj"><span class="kind">loaded</span><span class="id">release TX 2026Q4</span><span class="field">EDI files + Sales_Tax_Boundaries</span></div>
+        <ul>
+          <li><div class="obj new"><span class="kind">created</span><span class="id">layers</span><span class="field">1,933 outlines · simplified 1 m · GiST</span></div></li>
+          <li><div class="obj new"><span class="kind">created</span><span class="id">regions</span><span class="field">e.g. R-TX-0412: {2101017 Houston, 3101990 METRO}</span></div>
+            <ul><li><div class="obj new"><span class="kind">created</span><span class="id">region rate</span><span class="field">R-TX-0412 · 8.25% · 2026-10-01 → open</span></div></li></ul></li>
+          <li><div class="obj gone"><span class="kind">ended</span><span class="id">regions 2026Q3</span><span class="field">valid_to 2026-09-30, kept</span></div></li>
+        </ul></li>
+    </ul></div>
+  </div>
+  <figcaption>Figure 2. Regions from the last release are ended, not deleted, so a lookup dated 2026-09-15 still finds its region.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and SQL<span class="dim">refresh, map states</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">cli</span>refresh TX
+└─ <span class="layer">engine</span>refreshAddressRates()
+   ├─ geo.fetch()                                 <span class="n">unchanged adapters</span>
+   ├─ loadGeoState()  → INSERT layers (ST_SimplifyPreserveTopology, ST_MakeValid)
+   └─ <span class="layer">added</span>buildRegions(state)
+      ├─ ST_Union(ST_Boundary(geom)) → ST_Polygonize      <span class="n">non-overlapping faces</span>
+      ├─ per face: point-on-surface → which layers hold it → jurisdictions[]
+      ├─ merge touching faces with equal sets; ST_Subdivide large ones
+      ├─ resolve rate stack per date span with today's rules  <span class="n">rateOf() moves here</span>
+      ├─ topology check: overlaps, gaps over 1 m², else fail
+      └─ end previous release's regions, INSERT new ones + region rates</pre>
+  </div>
+</details>
+<p>The operator sees one line per state with its region count and any topology failures.</p>
+
+<h3 id="w-lookup">A lookup reads one region</h3>
+<p>An app calls <code>GET /v1/rate</code> for 901 Bagby St, Houston, 2026-10-21.</p>
+<ol>
+  <li><strong>Address point.</strong> If the normalized address is in the address-point table, its precomputed region answers with <code>precision: address</code> and no geometry at all.</li>
+  <li><strong>Geocode.</strong> Otherwise the point comes from TIGER interpolation in PostGIS, then the Census geocoder, then any configured key (Geocodio).</li>
+  <li><strong>Region.</strong> <code>ST_Covers</code> on the regions index for the date; the region's rate is joined.</li>
+  <li><strong>Edge.</strong> If <code>ST_Distance</code> to the region's boundary is inside the point's margin and the neighbor region's rate differs, refuse with both.</li>
+</ol>
+<details class="more">
+  <summary>The query<span class="dim">replaces geoRateAt's fetch and stacking</span></summary>
+  <div class="inner">
+<pre class="snip">select r.id, rr.rate, rr.parts,
+       st_distance(st_boundary(r.geom)::geography, p::geography) as edge_m
+from sales_tax_regions r
+join sales_tax_region_rates rr on rr.region_id = r.id
+  and $date between rr.starts_on and rr.ends_on
+where r.state = 'TX' and $date between r.valid_from and r.valid_to
+  and st_covers(r.geom, p)            -- p = st_setsrid(st_point(-95.3694, 29.7602), 4269)</pre>
+  </div>
+</details>
+<p>The app gets 8.25% with <code>precision: address</code> and region R-TX-0412 as the location code.</p>
+
+<h3 id="w-release">A release ships the data</h3>
+<p>Each quarter the maintainer tags a release. One export writes a Postgres dump for self-hosters and GeoParquet per table for analysts, plus a diff of changed rows.</p>
+<ul>
+  <li><em>Where.</em> GitHub Releases (files under 2 GiB, no bandwidth limit) with an R2 mirror ($0 egress); a Zenodo copy per quarter for a citable DOI.</li>
+  <li><em>What's cleaned first.</em> Census outlines no rate refers to (52,258 of 63,804) dropped; layers simplified and made valid; 1.31 million street ranges identical except dates merged; rows before the history floor dropped; Colorado and Alaska excluded until their terms are settled.</li>
+  <li><em>Not Dolt, for now.</em> Dolt (Liquidata Inc. renamed to DoltHub in 2020) versions SQL tables with row diffs, but its Postgres flavor, Doltgres 1.0 (August 2026), has no PostGIS; the shipped diff files cover the same need.</li>
+</ul>
+<details class="more">
+  <summary>Release layout<span class="dim">per quarter</span></summary>
+  <div class="inner">
+<pre class="snip">release/2026-Q4/
+  postgres/opentaxrate.dump          pg_dump -Fc, PostGIS 3.5 pinned
+  parquet/regions/state=TX/*.parquet GeoParquet 1.1, WKB + bbox, Hilbert-sorted
+  parquet/street_ranges/state=OH/*.parquet
+  parquet/region_rates/*.parquet
+  diff/region_rates.parquet          added, ended, changed
+  manifest.json                      sources, files, row counts, checks
+  SHA256SUMS</pre>
+  </div>
+</details>
+
+<h2 id="geocoding">Geocoding without the public services</h2>
+<p>Today's defaults break two providers' terms: the public Nominatim server's policy caps use at one request a second and says geocoding services must run their own; Mapbox's free results are "temporary" and can't be cached. The proposal makes the default self-contained and the keys optional.</p>
+<ol>
+  <li><strong>Own address points.</strong> The US DOT's National Address Database (about 90 million public-domain points from contributing states) and OpenAddresses where each source's license allows, normalized and matched in SQL like street ranges, each carrying its region.</li>
+  <li><strong>TIGER interpolation.</strong> The Census Bureau's address ranges in PostGIS (the TIGER geocoder extension, or the ranges loaded directly) for addresses the points miss.</li>
+  <li><strong>Census geocoder.</strong> Free and keyless, as a tie-breaker; it also returns county and place codes to cross-check the region.</li>
+  <li><strong>Optional key: Geocodio.</strong> 2,500 a day free, then $1 per 1,000; results may be stored; returns rooftop versus interpolated and county and place FIPS. Geocode Earth (hosted Pelias, storable with attribution) is the second choice. Mapbox only with <code>permanent=true</code>. Nominatim only at an endpoint the operator sets, never the public one by default.</li>
+</ol>
+<details class="more">
+  <summary>Every geocoder compared<span class="dim">pricing and terms pages, 2026-10-21</span></summary>
+  <div class="inner"><div class="scroll"><table class="grid-table">
+    <thead><tr><th scope="col">Provider</th><th scope="col">Free</th><th scope="col">Per 1,000</th><th scope="col">May store results</th><th scope="col">Says rooftop vs interpolated</th><th scope="col">FIPS</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Geocodio</th><td>2,500 a day</td><td>$1.00</td><td>Yes, permanently</td><td>Yes (<code>accuracy_type</code>)</td><td>County and place</td></tr>
+      <tr><th scope="row">Geocode Earth</th><td>Trial</td><td>~$0.67 ($100 / 150k)</td><td>Yes, with attribution</td><td>Yes (Pelias <code>match_type</code>)</td><td>No</td></tr>
+      <tr><th scope="row">Stadia Maps</th><td>Non-commercial only</td><td>~$0.21 on Standard</td><td>Only on paid plans</td><td>Yes</td><td>No</td></tr>
+      <tr><th scope="row">Smarty</th><td>Trial</td><td>From $125 a month</td><td>Internal use; delete after term</td><td>Yes, best rooftop</td><td>County</td></tr>
+      <tr><th scope="row">Mapbox</th><td>Temporary 100k a month</td><td>$5.00 permanent</td><td>Only permanent mode</td><td>Yes</td><td>No</td></tr>
+      <tr><th scope="row">Esri</th><td>20k a month, not stored</td><td>$4.00 stored</td><td>Paid stored mode</td><td>Yes</td><td>No</td></tr>
+      <tr><th scope="row">HERE, Google, TomTom, Radar</th><td>10k–30k a month</td><td>$0.75–5.00</td><td>Capped at about 30 days</td><td>Yes</td><td>No</td></tr>
+      <tr><th scope="row">OpenCage, LocationIQ</th><td>Trial / 5,000 a day</td><td>~$0.11–0.17</td><td>Yes / unclear</td><td>No</td><td>County (OpenCage)</td></tr>
+      <tr><th scope="row">Census geocoder</th><td>Free</td><td>$0</td><td>Public domain</td><td>Interpolated only</td><td>County, place, tract</td></tr>
+    </tbody></table></div></div>
+</details>
+
+<h2 id="terms">Settling Colorado, Alaska and Nominatim</h2>
+<ul>
+  <li><em>Colorado rates: replace now.</em> The Department of Revenue publishes a half-yearly workbook of every jurisdiction's code and rate, home-rule cities included (<code>Colorado_Jurisdiction_Codes_Rates_July-Dec2026.xlsx</code>, archives to 2020). It replaces the lookup service's rate calls.</li>
+  <li><em>Colorado boundaries: ask, and rebuild meanwhile.</em> The authoritative layer is the department's own GIS, with no download; the state just paused bulk lookups because they cost it $1.275 million a year. Email DOR_LocationFilers@state.co.us for a bulk export and redistribution terms, file an open-records (CORA) request for the layer, and meanwhile rebuild from DOLA municipal and special-district boundaries, counties, the RTD layer and the workbook's split codes, labeled approximate.</li>
+  <li><em>Alaska: rates from the Commission, boundaries from the state.</em> The Remote Seller Sales Tax Commission's monthly workbooks give rates; the state's community boundaries (DCRA) plus Census boroughs give outlines. Email amstp@akml.org for its boundary records or how to become a certified database under its code's section 240.</li>
+  <li><em>Nominatim: no default.</em> Require an endpoint; refuse to start against the public server without a contact in the User-Agent; throttle to one a second; cache; attribute OpenStreetMap.</li>
+</ul>
+<details class="more">
+  <summary>Draft emails<span class="dim">to send before publishing</span></summary>
+  <div class="inner">
+<pre class="snip">To: DOR_LocationFilers@state.co.us
+Subject: Redistribution terms for sales tax GIS boundaries (open-source project)
+
+I maintain OpenTaxRate, a free open-source tool that returns US sales tax rates
+by address. For Colorado we use your Jurisdiction Codes & Rates workbook, and we
+want to use the boundaries behind the SUTS GIS properly rather than through the
+lookup site's backend, especially given the bulk lookup pause.
+1. Is a bulk export of the boundary layer available, and may it be redistributed
+   with attribution?
+2. May a GIS API key be used by a free public service, or only by a registered
+   seller's own systems?
+3. How is third-party data verified to "reflect the latest GIS information"
+   under C.R.S. 39-26-105.2(3)?
+We have stopped calling salestaxlookup.colorado.gov until we hear back.
+
+To: amstp@akml.org
+Subject: Boundary records and rate sheets for an open-source rate lookup
+
+I maintain OpenTaxRate, a free open-source tool that returns US sales tax rates
+by address. For Alaska we would like to use the Commission's rate sheets and its
+member boundaries.
+1. May we redistribute the rate sheet data with attribution?
+2. Could we receive the boundary records the Commission provides to compliance
+   software, and on what terms, or how does a provider apply under Section 240?
+3. May we query alaska.atr.avalara.com programmatically? We have stopped until
+   we hear back.</pre>
+  </div>
+</details>
+
+<h2 id="boundaries">Boundaries</h2>
+<table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Adapters</th><td><code>engine/geo-states/*</code></td><td>Fetching and parsing each state's files</td><td>Rate rows and raw layers</td></tr>
+    <tr><th scope="row">Build</th><td><code>engine/regions.ts</code> (new)</td><td>Overlay, stacking rules, topology checks, region dating</td><td>Regions and region rates</td></tr>
+    <tr><th scope="row">Geocoding</th><td><code>engine/locate.ts</code>, <code>engine/points.ts</code> (new)</td><td>Address points, TIGER, Census, optional keys</td><td>A point and its precision</td></tr>
+    <tr><th scope="row">Lookup</th><td><code>engine/index.ts</code>, <code>sst-lookup.ts</code></td><td>Choosing the path, the edge check, refusals</td><td>Rate, parts, precision, source</td></tr>
+    <tr><th scope="row">Release</th><td><code>scripts/release.ts</code> (new)</td><td>Cleaning, dump, GeoParquet, diffs, manifest</td><td>Files for GitHub, R2, Zenodo</td></tr>
+  </tbody>
+</table>
+
+<h2 id="phases">Phases</h2>
+<ol>
+  <li><strong>PostGIS and layers.</strong> Switch the image to <code>postgis/postgis:17-3.5</code>; add <code>sales_tax_layers</code> with geometry and GiST; load layers through <code>ST_MakeValid</code> and <code>ST_SimplifyPreserveTopology</code>; drop unreferenced Census outlines. <em>Done when</em> every map state reloads, and the Texas oracle check and the 29 tests still pass with lookups reading layers through <code>ST_Covers</code>.</li>
+  <li><strong>Regions.</strong> Add <code>buildRegions()</code>, region tables and the topology check; move the stacking rules from request time to build time; lookups read regions. <em>Done when</em> the Texas, Illinois and city checks agree as before, lookups are under 10 ms at p95, and no state has overlaps.</li>
+  <li><strong>Precision contract.</strong> Return <code>precision</code> and, on refusal, the input that would settle it; publish the per-state support matrix. <em>Done when</em> the API docs and coverage endpoint show both.</li>
+  <li><strong>Own geocoding.</strong> Load NAD (then licensed OpenAddresses) into address points with their region; add TIGER interpolation; make Nominatim opt-in and Geocodio the optional key. <em>Done when</em> the Illinois public-file check places at least as many addresses with no keys set as today with Mapbox.</li>
+  <li><strong>Terms and sources.</strong> Colorado rates from the workbook; Colorado and Alaska boundaries rebuilt from DOLA and DCRA; emails sent. <em>Done when</em> no adapter calls an undocumented backend.</li>
+  <li><strong>Release.</strong> <code>scripts/release.ts</code> cleans and exports dump, GeoParquet, diffs and manifest; CI runs the checks on the release. <em>Done when</em> a fresh <code>restore.sh</code> of the release answers the city checks.</li>
+</ol>
+<details class="more">
+  <summary>Files by phase<span class="dim">paths in the opentaxrate repo</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">1</span>docker-compose.yml, src/schema.ts, migrations/0001_*, src/engine/load.ts, src/engine/geo-lookup.ts, src/engine/tiger.ts (geometry helpers removed)
+<span class="layer">2</span>src/engine/regions.ts (new), src/engine/geo-lookup.ts, src/engine/sst-lookup.ts (map step), test/regions.test.ts (new)
+<span class="layer">3</span>src/engine/index.ts, src/server.ts, README.md, docs/architecture.md
+<span class="layer">4</span>src/engine/points.ts (new), src/engine/locate.ts, src/geocoders.ts, .env.example
+<span class="layer">5</span>src/engine/geo-states/colorado.ts (new), alaska.ts (new), ttr.ts (removed)
+<span class="layer">6</span>scripts/release.ts (new), .github/workflows/release.yml (new)</pre>
+  </div>
+</details>
+
+<h2 id="questions">Open questions</h2>
+<ul>
+  <li><em>Overlay in SQL or in a build step?</em> Recommended: in PostGIS (<code>ST_Polygonize</code> over unioned boundaries), so the build needs nothing beyond the database; fall back to GEOS in a worker only if a state is too slow.</li>
+  <li><em>Simplification tolerance?</em> Recommended: 1 m, with the edge margin enlarged by the tolerance, so no answer changes by simplifying.</li>
+  <li><em>Keep raw layers in the release?</em> Recommended: yes in GeoParquet for analysts, no in the dump, which needs only regions.</li>
+  <li><em>Streamlined states into regions too?</em> Recommended: not now; their address files are authoritative and already fast, and regions there would only back the map step.</li>
+  <li><em>Public now or after phase 5?</em> Recommended: after phase 5, when nothing depends on terms we haven't settled.</li>
+</ul>
+
+<h2 id="appendix">Appendix: terms</h2>
+<div class="glossary">
+  <section class="term"><h3>Tax region</h3><p>A piece of a state where every point owes the same set of jurisdictions; Stripe calls these places of taxation.</p>
+<pre class="snip">R-TX-0412 = {state 48, City of Houston 2101017, METRO 3101990}
+→ 6.25% + 1% + 1% = 8.25%</pre></section>
+  <section class="term"><h3>PostGIS and GiST</h3><p>The spatial extension for Postgres and its tree index for shapes.</p>
+<pre class="snip">create index on sales_tax_regions using gist (geom);
+select id from sales_tax_regions where st_covers(geom, st_setsrid(st_point(-95.37, 29.76), 4269));</pre></section>
+  <section class="term"><h3>Overlay</h3><p>Cutting overlapping outlines into faces that don't overlap, then labeling each face with the outlines it lies in.</p>
+<pre class="snip">faces = st_polygonize(st_union(st_boundary(geom)))
+face.jurisdictions = layers where st_covers(layer.geom, st_pointonsurface(face))</pre></section>
+  <section class="term"><h3>Geocodio</h3><p>A US/Canada geocoding company whose terms let you store results; it says whether each point is rooftop or interpolated and can return county and place FIPS.</p>
+<pre class="snip">GET api.geocod.io/v1.9/geocode?q=901 Bagby St, Houston TX&fields=census
+→ accuracy_type "rooftop", county_fips "48201"</pre></section>
+  <section class="term"><h3>Nominatim</h3><p>OpenStreetMap's open-source geocoder. Anyone can run it; the public server at nominatim.openstreetmap.org is for light use only.</p>
+<pre class="snip">policy: ≤ 1 request/second, identify your app,
+cache results, no bulk, geocoding services run their own</pre></section>
+  <section class="term"><h3>NAD</h3><p>The US Department of Transportation's National Address Database: public-domain address points contributed by states and counties, about 90 million in release 19.</p>
+<pre class="snip">AddNo_Full "901", StNam_Full "Bagby Street", Zip_Code "77002",
+Longitude -95.3694, Latitude 29.7602, Placement "Rooftop"</pre></section>
+  <section class="term"><h3>Precision</h3><p>How exactly the answer is placed, so a caller knows whether to trust or ask.</p>
+<pre class="snip">address > street > zip4 > postal_code > region > refused
+refused → { needs: ["line1"] }</pre></section>
+  <section class="term"><h3>Hold harmless</h3><p>State law protecting a seller who relied on the state's own rate and boundary data from penalties for its errors.</p>
+<pre class="snip">NC G.S. 105-164.42L: not liable for underpayments from erroneous information
+in the Secretary's databases until 10 business days after notice</pre></section>
+</div>
+</article>
+</div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+  // Axis map: every kind is a chip placed in the cell of its two plotted bins.
+  const NS = "http://www.w3.org/2000/svg";
+  const CHIP_H = 24, CHIP_GAP = 6;
+  const svgEl = (tag, attrs, parent) => {
+    const node = document.createElementNS(NS, tag);
+    for (const key in attrs) node.setAttribute(key, attrs[key]);
+    if (parent) parent.appendChild(node);
+    return node;
+  };
+  // Split a long bin label at the space nearest its middle.
+  const wrap = (label, max) => {
+    if (label.length <= max) return [label];
+    let best = -1;
+    for (let i = 0; i < label.length; i++) {
+      if (label[i] === " " && (best < 0 || Math.abs(i - label.length / 2) < Math.abs(best - label.length / 2))) best = i;
+    }
+    return best < 0 ? [label] : [label.slice(0, best), label.slice(best + 1)];
+  };
+
+  for (const root of document.querySelectorAll(".axismap")) {
+    const data = JSON.parse(root.querySelector('script[type="application/json"]').textContent);
+    const svg = root.querySelector("svg.map");
+    const selX = root.querySelector('select[data-axis="x"]');
+    const selY = root.querySelector('select[data-axis="y"]');
+    const presets = [...root.querySelectorAll("[data-preset]")];
+    const detail = root.querySelector(".map-detail");
+    const matrix = root.dataset.matrix ? document.querySelector(root.dataset.matrix) : null;
+    const axisKeys = Object.keys(data.axes);
+    let [x, y] = data.view;
+    let selected = data.selected;
+
+    for (const key of axisKeys) {
+      selX.add(new Option(data.axes[key].label, key));
+      selY.add(new Option(data.axes[key].label, key));
+    }
+
+    const grid = svgEl("g", {}, svg);
+    const chipLayer = svgEl("g", {}, svg);
+    const chips = new Map();
+    for (const kind of data.kinds) {
+      const g = svgEl("g", { class: "m-chip " + (kind.tone || ""), tabindex: "0", role: "button", "aria-label": kind.label }, chipLayer);
+      svgEl("title", {}, g).textContent = kind.label + ": " + kind.where;
+      svgEl("rect", { rx: 5, height: CHIP_H, width: 100 }, g);
+      svgEl("text", { x: 10, y: CHIP_H / 2 + 4 }, g).textContent = kind.label;
+      g.addEventListener("click", () => select(kind.id));
+      g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(kind.id); } });
+      chips.set(kind.id, g);
+    }
+
+    function layout() {
+      const ax = data.axes[x], ay = data.axes[y];
+      const nx = ax.bins.length, ny = ay.bins.length;
+      const W = 1000, LEFT = 212, TOP = 10, BOTTOM = 70, RIGHT = 8;
+      const plotW = W - LEFT - RIGHT, cellW = plotW / nx;
+      const cells = new Map();
+      for (const kind of data.kinds) {
+        const key = kind.v[x] + "," + kind.v[y];
+        if (!cells.has(key)) cells.set(key, []);
+        cells.get(key).push(kind);
+      }
+      const rowCount = Array.from({ length: ny }, (_, j) =>
+        Math.max(1, ...Array.from({ length: nx }, (_, i) => (cells.get(i + "," + j) || []).length)));
+      const rowH = rowCount.map((n) => n * (CHIP_H + CHIP_GAP) - CHIP_GAP + 22);
+      const plotH = rowH.reduce((a, b) => a + b, 0);
+      const H = TOP + plotH + BOTTOM;
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      svg.setAttribute("aria-label", `${data.kinds.length} items, placed by ${ax.label.toLowerCase()} (across) and ${ay.label.toLowerCase()} (up).`);
+
+      // The first bin sits at the bottom, so "up" reads as more of the axis.
+      const rowTop = [];
+      let acc = TOP;
+      for (let j = ny - 1; j >= 0; j--) { rowTop[j] = acc; acc += rowH[j]; }
+
+      grid.replaceChildren();
+      for (let j = 0; j < ny; j++) {
+        svgEl("rect", { x: LEFT, y: rowTop[j], width: plotW, height: rowH[j], class: j % 2 ? "m-row alt" : "m-row" }, grid);
+        const lines = wrap(ay.bins[j], 26);
+        lines.forEach((line, li) => {
+          svgEl("text", { x: LEFT - 12, y: rowTop[j] + rowH[j] / 2 + 4 + (li - (lines.length - 1) / 2) * 14, class: "m-bin", "text-anchor": "end" }, grid).textContent = line;
+        });
+      }
+      for (let i = 1; i < nx; i++) {
+        svgEl("line", { x1: LEFT + cellW * i, x2: LEFT + cellW * i, y1: TOP, y2: TOP + plotH, class: "m-vline" }, grid);
+      }
+      svgEl("rect", { x: LEFT, y: TOP, width: plotW, height: plotH, class: "m-frame" }, grid);
+      for (let i = 0; i < nx; i++) {
+        wrap(ax.bins[i], 22).forEach((line, li) => {
+          svgEl("text", { x: LEFT + cellW * (i + 0.5), y: TOP + plotH + 20 + li * 14, class: "m-bin", "text-anchor": "middle" }, grid).textContent = line;
+        });
+      }
+      svgEl("text", { x: LEFT + plotW / 2, y: H - 8, class: "m-axis", "text-anchor": "middle" }, grid).textContent = ax.label + "  →";
+      svgEl("text", { x: 0, y: 0, class: "m-axis", "text-anchor": "middle", transform: `translate(16 ${TOP + plotH / 2}) rotate(-90)` }, grid).textContent = ay.label + "  →";
+
+      for (const [key, list] of cells) {
+        const [i, j] = key.split(",").map(Number);
+        list.forEach((kind, n) => {
+          const g = chips.get(kind.id);
+          g.querySelector("rect").setAttribute("width", cellW - 16);
+          g.style.transform = `translate(${LEFT + cellW * i + 8}px, ${rowTop[j] + 11 + n * (CHIP_H + CHIP_GAP)}px)`;
+        });
+      }
+      selX.value = x;
+      selY.value = y;
+      for (const b of presets) b.setAttribute("aria-pressed", String(b.dataset.x === x && b.dataset.y === y));
+      renderDetail();
+    }
+
+    function select(id) {
+      selected = id;
+      renderDetail();
+    }
+
+    function renderDetail() {
+      const kind = data.kinds.find((k) => k.id === selected);
+      for (const [id, g] of chips) g.classList.toggle("on", id === selected);
+      if (matrix) for (const tr of matrix.querySelectorAll("tr[data-kind]")) tr.classList.toggle("on", tr.dataset.kind === selected);
+      detail.replaceChildren();
+      const left = document.createElement("div");
+      left.className = "left";
+      const who = document.createElement("div");
+      who.className = "who";
+      const h = document.createElement("h3");
+      h.textContent = kind.label;
+      const tag = document.createElement("span");
+      tag.className = "tag" + (kind.group === "mem" ? " mem" : "");
+      tag.textContent = data.groups[kind.group];
+      who.append(h, tag);
+      const note = document.createElement("p");
+      note.textContent = kind.note;
+      const where = document.createElement("p");
+      where.className = "small muted";
+      const code = document.createElement("code");
+      code.textContent = kind.where;
+      where.append("Lives in ", code);
+      left.append(who, note, where);
+      const dl = document.createElement("dl");
+      dl.className = "axes-dl";
+      for (const key of axisKeys) {
+        const dt = document.createElement("dt");
+        dt.textContent = data.axes[key].label;
+        const dd = document.createElement("dd");
+        dd.textContent = data.axes[key].bins[kind.v[key]];
+        if (key === x || key === y) dd.className = "plotted";
+        dl.append(dt, dd);
+      }
+      detail.append(left, dl);
+    }
+
+    if (matrix) {
+      const head = matrix.createTHead().insertRow();
+      for (const label of [data.itemLabel || "Option", ...axisKeys.map((k) => data.axes[k].label), "Lives in"]) {
+        const th = document.createElement("th");
+        th.scope = "col";
+        th.textContent = label;
+        head.appendChild(th);
+      }
+      const body = matrix.createTBody();
+      for (const kind of data.kinds) {
+        const tr = body.insertRow();
+        tr.dataset.kind = kind.id;
+        tr.tabIndex = 0;
+        const th = document.createElement("th");
+        th.scope = "row";
+        th.textContent = kind.label;
+        tr.appendChild(th);
+        for (const key of axisKeys) tr.insertCell().textContent = data.axes[key].bins[kind.v[key]];
+        const where = tr.insertCell();
+        where.className = "where";
+        where.textContent = kind.where;
+        tr.addEventListener("click", () => select(kind.id));
+        tr.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(kind.id); } });
+      }
+    }
+
+    selX.addEventListener("change", () => { x = selX.value; layout(); });
+    selY.addEventListener("change", () => { y = selY.value; layout(); });
+    for (const b of presets) b.addEventListener("click", () => { x = b.dataset.x; y = b.dataset.y; layout(); });
+    // Place chips without animating on load; later axis changes glide.
+    svg.classList.add("settling");
+    layout();
+    requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.remove("settling")));
+  }
+})();
+</script>
