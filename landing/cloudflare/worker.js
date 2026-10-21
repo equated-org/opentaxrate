@@ -6,7 +6,8 @@
  * The API is reached through the API binding (a Workers VPC service: a
  * private tunnel, no public hostname) when there is one, else API_ORIGIN.
  * Each visitor IP gets its own budget per minute for each kind of call, and
- * is passed on as X-Client-IP for the API's own per-IP limit.
+ * is passed on as X-Client-IP for the API's own per-IP limit, with
+ * X-Proxy-Secret (the PROXY_SECRET secret) so the API's front trusts it.
  */
 export default {
 	async fetch(request, env) {
@@ -32,12 +33,14 @@ export default {
 				{ status: 429, headers: { 'Retry-After': '60' } },
 			);
 
-		const init = { headers: { accept: request.headers.get('accept') ?? '*/*', 'x-client-ip': ip } };
+		const headers = { accept: request.headers.get('accept') ?? '*/*', 'x-client-ip': ip };
+		if (env.PROXY_SECRET) headers['x-proxy-secret'] = env.PROXY_SECRET;
+		const init = { headers };
 		const response = env.API
 			? await env.API.fetch(new Request(`http://api${route.path}${url.search}`, init))
 			: await fetch(new URL(route.path + url.search, env.API_ORIGIN), init);
-		const headers = new Headers(response.headers);
-		headers.delete('set-cookie');
-		return new Response(response.body, { status: response.status, headers });
+		const out = new Headers(response.headers);
+		out.delete('set-cookie');
+		return new Response(response.body, { status: response.status, headers: out });
 	},
 };

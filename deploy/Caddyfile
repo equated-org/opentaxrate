@@ -1,0 +1,30 @@
+# The API's public face: HTTPS for {$API_HOST} (a Let's Encrypt certificate,
+# issued through Cloudflare's proxy), accepting connections only from
+# Cloudflare's ranges (https://www.cloudflare.com/ips/, 2026-10-21).
+#
+# Each request reaches the API with X-Client-IP naming the visitor, which the
+# API's per-IP limits count by:
+#   - from the opentaxrate.com Worker (it sends X-Proxy-Secret), the visitor
+#     IP the Worker passed on;
+#   - from anyone else, Cloudflare's CF-Connecting-IP, so it can't be faked.
+{
+	servers {
+		trusted_proxies static 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+		client_ip_headers CF-Connecting-IP
+	}
+}
+
+{$API_HOST} {
+	@outside not remote_ip 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+	abort @outside
+
+	@worker header X-Proxy-Secret {$PROXY_SECRET}
+	handle @worker {
+		reverse_proxy api:8080
+	}
+	handle {
+		reverse_proxy api:8080 {
+			header_up X-Client-IP {client_ip}
+		}
+	}
+}
