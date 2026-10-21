@@ -69,7 +69,8 @@ export async function shapesHolding(state: string, p: Point): Promise<Set<string
   return new Set(rows.map((r) => `${r.kind}:${r.fips}`));
 }
 
-/** Display tolerance in degrees, about 5 m. */
+/** Display tolerance in degrees, about 5 m for a 3 km square, coarser in
+ *  step with a wider one so the response stays small. */
 const DISPLAY_SIMPLIFY_DEGREES = 0.00005;
 
 /** Each outline's part within a square `metres` from the point on every
@@ -92,7 +93,7 @@ export async function outlineGeometry(
     cross join box
     cross join lateral (
       select st_collectionextract(st_makevalid(st_simplifypreservetopology(
-        st_intersection(s.geom, box.g), ${DISPLAY_SIMPLIFY_DEGREES})), 3) as g) c
+        st_intersection(s.geom, box.g), ${DISPLAY_SIMPLIFY_DEGREES * Math.max(1, metres / 3_000)})), 3) as g) c
     where s.state = ${state}
       and s.kind || ':' || s.fips in (${sql.join(keys.map((k) => sql`${k}`), sql`, `)})
       and s.geom && box.g

@@ -19,8 +19,10 @@ export interface RateQuery {
   date?: string;
 }
 
-/** How far around the point a traced outline is drawn. */
-const TRACE_CLIP_METRES = 3_000;
+/** How far around the point a traced outline is drawn: at least 3 km, and
+ *  far enough to include the nearest edge of an outline that levies, so the
+ *  line that settled the rate is on the map, up to 20 km. */
+const TRACE_CLIP_METRES = { min: 3_000, max: 20_000 };
 
 export async function lookUpRate(q: RateQuery, options: { trace?: Trace } = {}): Promise<AddressRate> {
   const { trace } = options;
@@ -53,7 +55,9 @@ export async function lookUpRate(q: RateQuery, options: { trace?: Trace } = {}):
 async function drawOutlines(state: string, trace: Trace) {
   if (!trace.point || !trace.outlines.length) return;
   try {
-    const shapes = await outlineGeometry(state, trace.outlines, trace.point, TRACE_CLIP_METRES);
+    const nearest = Math.min(...trace.outlines.filter((o) => o.levies).map((o) => o.edgeMetres));
+    const metres = Math.min(TRACE_CLIP_METRES.max, Math.max(TRACE_CLIP_METRES.min, nearest * 1.25 + 500));
+    const shapes = await outlineGeometry(state, trace.outlines, trace.point, metres);
     for (const o of trace.outlines) {
       const geometry = shapes.get(`${o.kind}:${o.fips}`);
       if (geometry) o.geometry = geometry;
