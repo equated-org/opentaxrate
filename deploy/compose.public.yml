@@ -1,9 +1,9 @@
 # The public deployment, layered on docker-compose.yml:
-#   docker compose -f docker-compose.yml -f deploy/compose.public.yml up -d
-# Nothing listens publicly. The API is on 127.0.0.1:8080, reached only by
-# cloudflared (a Cloudflare Tunnel the opentaxrate.com Worker calls through a
-# Workers VPC service), so the X-Client-IP header it sets can be trusted.
-# Postgres has no published port and is sized for a 2 GB server.
+#   docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml up -d
+# Only Caddy listens publicly (80/443, Cloudflare's ranges only; see
+# deploy/Caddyfile); it sets the X-Client-IP the API's limits count by. The
+# API is also on 127.0.0.1:8080 for checks on the server. Postgres has no
+# published port and is sized for a 2 GB server.
 # Settings come from deploy/.env (git-ignored; see deploy/.env.example).
 services:
   db:
@@ -31,3 +31,20 @@ services:
       OPENTAXRATE_SUGGEST_LIMIT: ${OPENTAXRATE_SUGGEST_LIMIT:-120/min}
       OPENTAXRATE_CLIENT_IP_HEADER: X-Client-IP
       OPENTAXRATE_PHOTON_URL: ${OPENTAXRATE_PHOTON_URL:-}
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      API_HOST: ${API_HOST:-api.opentaxrate.com}
+      PROXY_SECRET: ${PROXY_SECRET:?set PROXY_SECRET in deploy/.env}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    restart: unless-stopped
+    depends_on: [api]
+
+volumes:
+  caddy_data:
