@@ -169,7 +169,7 @@
 
 <div class="relative w-full">
 	<div
-		class="flex items-center gap-3 border bg-[var(--bg)] transition-[box-shadow,border-color] duration-150
+		class="flex items-center gap-3 border bg-[var(--surface)] transition-[box-shadow,border-color] duration-150
 			{lg ? 'h-14 rounded-full px-5 shadow-[var(--shadow)]' : 'h-11 rounded-full px-4'}
 			border-[var(--border-strong)] focus-within:border-[var(--text-muted)] focus-within:ring-2 focus-within:ring-[color-mix(in_srgb,var(--accent)_25%,transparent)]"
 	>
@@ -217,7 +217,7 @@
 		id="{id}-list"
 		role="listbox"
 		aria-label="Address suggestions"
-		class="absolute right-0 left-0 z-30 mt-2 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg)] py-1.5 shadow-[var(--shadow)]
+		class="absolute right-0 left-0 z-30 mt-2 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] py-1.5 shadow-[var(--shadow)]
 			{showList ? '' : 'hidden'}"
 	>
 		{#each items as s, i (s.label + i)}
@@ -232,13 +232,21 @@
 				onmousedown={(e) => e.preventDefault()}
 				onclick={() => pick(s)}
 				onmousemove={() => (active = i)}
-				class="mx-1.5 flex cursor-pointer items-baseline justify-between gap-3 rounded-xl px-3 py-2.5 text-left
+				class="mx-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left
 					{i === active ? 'bg-[var(--bg-muted)]' : ''}
 					{ok ? 'text-[var(--text)]' : 'cursor-not-allowed text-[var(--text-muted)]'}"
 			>
 				<span class="truncate text-[15px]">{s.label}</span>
 				{#if !ok}<span class="shrink-0 text-xs">add a house number</span>
-				{:else if s.from === 'street'}<span class="shrink-0 text-xs text-[var(--text-muted)]">from the street</span>{/if}
+				{:else if s.from === 'street'}
+					{@const number = s.street.split(' ')[0]}
+					<span
+						class="shrink-0 rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] text-[var(--text-muted)]"
+						title="OpenStreetMap has this street but not house {number}; the rate is looked up for the number you typed."
+						>street match</span
+					>
+					<span class="sr-only">OpenStreetMap has this street but not house {number}; the rate is looked up for the number you typed.</span>
+				{/if}
 			</li>
 		{/each}
 		{#if failed}

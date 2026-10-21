@@ -16,7 +16,7 @@ export const MAP_COLORS = {
 	light: {
 		ink: '#1f1f1f',
 		muted: '#767676',
-		bg: '#ffffff',
+		bg: '#faf9f5',
 		accent: '#2563eb',
 		city: '#29508a',
 		district: '#8c3441',
@@ -26,7 +26,7 @@ export const MAP_COLORS = {
 	dark: {
 		ink: '#e6e6e6',
 		muted: '#9a9a9a',
-		bg: '#141414',
+		bg: '#1f1e1d',
 		accent: '#6ea8fe',
 		city: '#9dbcf0',
 		district: '#f0a3ad',

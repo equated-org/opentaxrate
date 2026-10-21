@@ -180,7 +180,7 @@
 
 	const note = $derived.by(() => {
 		if (trace?.point) return null;
-		const where = fallback?.from === 'street' ? ' (on the street; OpenStreetMap lacks the house)' : '';
+		const where = fallback?.from === 'street' ? ' (on the street: OpenStreetMap has the street but not this house number)' : '';
 		if (!fallback) return 'The outlines the engine tested. It sent no point to show.';
 		switch (match) {
 			case 'street':
