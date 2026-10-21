@@ -2,7 +2,7 @@
  * The shapes every address-rate engine shares: a rate's parts, and its
  * rates by type of sale.
  */
-import type { GeocoderName, LocatedPoint } from "../geocoding/index.js";
+import type { LocatedPoint } from "../geocoding/types.js";
 
 export interface RatePart {
   kind: "state" | "county" | "city" | "district";
@@ -91,7 +91,7 @@ export interface TracedOutline {
  *  decimals (about a metre). */
 export interface Trace {
   /** Every point a geocoder returned. */
-  geocoders: Array<{ source: GeocoderName; lon: number; lat: number; accuracy: LocatedPoint["accuracy"] }>;
+  geocoders: Array<{ source: string; lon: number; lat: number; accuracy: LocatedPoint["accuracy"] }>;
   /** The point the engine used, and the margin a line must be beyond. */
   point?: {
     lon: number;
@@ -99,7 +99,7 @@ export interface Trace {
     accuracy: LocatedPoint["accuracy"];
     source: string;
     marginMetres: number;
-    /** The largest distance from it to another geocoder's point. */
+    /** The largest distance from it to an agreeing geocoder's point. */
     spreadMetres: number;
   };
   /** The outlines around the point; empty when no point was used. */

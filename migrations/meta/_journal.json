@@ -29,6 +29,13 @@
       "when": 1792615628809,
       "tag": "0003_rate_types",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792615628810,
+      "tag": "0004_geocoding",
+      "breakpoints": true
     }
   ]
 }

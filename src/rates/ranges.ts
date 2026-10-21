@@ -34,9 +34,9 @@ import type { StandardAddress } from "../standardize/index.js";
 import { citiesInZip, normalizeCity, zipAreas } from "./places.js";
 import { findStreet } from "./streets/index.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
-import { shapesAround } from "./shapes.js";
+import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
 import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
-import { marginOf, type LocatedPoint } from "../geocoding/index.js";
+import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 
 export interface SstRate {
   rate: number;
@@ -60,7 +60,7 @@ interface Lookup {
   city: string;
   zip?: string | null;
   /** Places the address on a map; asked only when the ZIP alone can't say. */
-  locate?: () => Promise<LocatedPoint | null>;
+  locate?: Locate;
   /** The address in the Postal Service's form with its ZIP+4; asked only
    *  when the typed street isn't found and no ZIP+4 was typed. */
   standardize?: () => Promise<StandardAddress | null>;
@@ -146,7 +146,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       const inZip = await zipAreas(input.state, zip5, date);
       const zipRates = new Set((await rateAreas(input.state, fips, inZip, date)).map((a) => a.rate));
       const point = zipRates.size > 1 ? await input.locate() : null;
-      const onMap = point ? await mapAreas(input.state, inZip, point, input.trace) : [];
+      const onMap = point ? (await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace)).areas : [];
       if (onMap !== "near_edge" && onMap.length) {
         const byMap = await answer(onMap, "map");
         if (byMap && byMap.rate !== byStreet.rate)
@@ -191,12 +191,14 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   }
   // A ZIP split between rates, or one whose ranges don't name the typed city,
   // is settled on the map: the point must fall in an area's county and city.
-  const point =
+  let point =
     (inZip.length > 1 || (inZip.length === 1 && !cityNamed)) && input.locate
       ? await input.locate()
       : null;
   if (point) {
-    const onMap = await mapAreas(input.state, inZip, point, input.trace);
+    const mapped = await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace);
+    const onMap = mapped.areas;
+    point = mapped.point;
     if (onMap === "near_edge")
       throw await refusal(
         input,
@@ -206,6 +208,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
         date,
       );
     if (onMap.length) {
+      if (point.placedBy?.length) notes.push(`placed by ${point.placedBy.join(", ")}`);
       const byMap = await answer(onMap, "map");
       if (byMap) return traced(byMap, input.trace);
     }
@@ -227,6 +230,18 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
 // Map
 // ---------------------------------------------------------------------------
 
+async function mapWithRefinement(state: string, areaIds: number[], point: LocatedPoint, date: string, locate?: Locate, trace?: Trace) {
+  let areas = await mapAreas(state, areaIds, point, date, trace);
+  if (areas === "near_edge" && locate) {
+    const sharper = await locate({ marginUnder: marginOf(point) });
+    if (sharper) {
+      point = sharper;
+      areas = await mapAreas(state, areaIds, point, date, trace);
+    }
+  }
+  return { areas, point };
+}
+
 /** The candidate areas whose county and city (or town) hold the point. An
  *  area with no city fits a point outside every candidate city, since the
  *  files leave out cities that levy nothing. */
@@ -234,6 +249,7 @@ async function mapAreas(
   state: string,
   areaIds: number[],
   point: LocatedPoint,
+  date: string,
   trace?: Trace,
 ): Promise<number[] | "near_edge"> {
   const areas = await db
@@ -263,41 +279,39 @@ async function mapAreas(
     unoutlined = new Set(candidatePlaces.filter((p) => !have.has(p)));
   }
   // Outlines within ~300 m of the point.
-  const shapes = await shapesAround(state, point, 0.003);
+  const pad = Math.max(0.003, marginOf(point) / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
+  const shapes = await shapesAround(state, point, pad);
   if (trace) for (const s of shapes) traceOutline(trace, s);
-  const county = shapes.find((s) => s.kind === "county" && s.inside);
-  if (!county) return [];
-  const inside = new Set(shapes.filter((s) => s.kind !== "county" && s.inside).map((s) => s.fips));
+  const holding = new Set(shapes.filter(s => s.inside).map(s => `${s.kind}:${s.fips}`));
+  const candidateCounties = new Set(areas.map(a => a.county).filter(Boolean));
+  const candidatesAt = (holding: Set<string>) => {
+    const counties = [...holding].filter(key => key.startsWith("county:")).map(key => key.slice(7));
+    if (!counties.length) return [];
+    const inside = (place: string) => holding.has(`place:${place}`) || holding.has(`cousub:${place}`);
+    return areas.filter(a =>
+      (a.county ? counties.includes(a.county) : Boolean(a.place) || !counties.some(c => candidateCounties.has(c)))
+      && (a.place ? inside(a.place) || unoutlined.has(a.place) : !candidatePlaces.some(inside)),
+    ).map(a => a.id);
+  };
+  const here = candidatesAt(holding);
+  if (![...holding].some(key => key.startsWith("county:"))) return [];
+  const nearby = shapes.filter(s => s.edgeMetres < marginOf(point)
+    && (s.kind === "county" ? candidateCounties.has(s.fips)
+      : (s.kind === "place" || s.kind === "cousub") && candidatePlaces.includes(s.fips)));
+  if (!nearby.length) return here;
 
-  const deciding = new Set([
-    ...areas.map((a) => `county:${a.county}`),
-    ...candidatePlaces.map((p) => `place:${p}`),
-  ]);
-  // A county line matters only toward another candidate county: the edge of
-  // the county holding the point may be the state line, with no rate across.
-  for (const s of shapes)
-    if (
-      deciding.has(`${s.kind === "county" ? "county" : "place"}:${s.fips}`) &&
-      !(s.kind === "county" && s.inside) &&
-      s.edgeMetres < marginOf(point)
-    )
-      return "near_edge";
-
-  // Likewise an area with no county and no city fits only a point in a
-  // county no candidate names: some files leave out counties that levy
-  // nothing (Minnesota), and a ZIP-wide default may list the state alone.
-  const candidateCounties = new Set(areas.map((a) => a.county).filter(Boolean));
-  return areas
-    .filter(
-      (a) =>
-        (a.county
-          ? a.county === county.fips
-          : Boolean(a.place) || !candidateCounties.has(county.fips)) &&
-        (a.place
-          ? inside.has(a.place) || unoutlined.has(a.place)
-          : !candidatePlaces.some((p) => inside.has(p))),
-    )
-    .map((a) => a.id);
+  const rated = await rateAreas(state, RANGE_FIPS[state], areaIds, date);
+  const totals = new Map(rated.map(a => [a.areaId, a.rate]));
+  const signature = (ids: number[]) => [...new Set(ids.map(id => totals.get(id)))].sort().join("|");
+  const hereRate = signature(here);
+  for (const shape of nearby)
+    for (const beyond of pointsAcross(point, shape.foot, shape.edgeMetres, 2)) {
+      const across = await shapesHolding(state, beyond);
+      // Outside the requested state's county outlines is not another candidate rate.
+      if (![...across].some(key => key.startsWith("county:"))) continue;
+      if (signature(candidatesAt(across)) !== hereRate) return "near_edge";
+    }
+  return here;
 }
 
 // ---------------------------------------------------------------------------

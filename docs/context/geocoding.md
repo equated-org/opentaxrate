@@ -1,71 +1,43 @@
 # Geocoding
 
-Sources: `src/geocoding/index.ts` (`LocatedPoint`, `EDGE_METRES`, `marginOf`, `GeocoderName`), `src/geocoding/mapbox.ts`, `src/rates/types.ts` (`Trace`), `src/lookup.ts` (wiring)
+Sources: `src/geocoding/types.ts`, `locator.ts`, `registry.ts`, `agreement.ts`, `cache.ts`, `budget.ts`, `providers/`, `src/lookup.ts`, `src/rates/map.ts`, `src/rates/ranges.ts`.
 
-Turns a street address into one `LocatedPoint { lon, lat, accuracy, metres? }`, or null. Used by the map engine for every lookup, and by the range engine only when a ZIP is split (see [engine.md](engine.md)). This note describes the code as it is today.
+## Wiring and stages
 
-## Wiring
+`lookUpRate()` creates one lazy locator per request. The rate engines use it only when published street/ZIP data or statewide rates cannot settle the lookup. `Locate` returns `{ lon, lat, accuracy, metres?, placedBy? }` or null. `index.ts` re-exports the contracts; it no longer implements an all-provider fanout.
 
-`lookUpRate` (`src/lookup.ts`) builds `primary = mapboxGeocoder()` once per request and hands the engine a `locate` closure calling `locateAddress(address, primary, trace)`. Without `MAPBOX_ACCESS_TOKEN`, `primary` is undefined and only the two free sources run.
+1. Read permitted cached results for every enabled provider. Cache keys include the full address identity (state, city, complete street including house letters/fractions, directions, suffix, unit and ZIP), a normalization version, and a fingerprint of provider credentials/endpoint and storage mode. Conservative spelling aliases share rows; fuzzy street-range keys are never used as address identity.
+2. If cached points do not agree, ask a cheap pair, preferring different potential datasets. Census is enabled unless `CENSUS_DISABLED=true`; every other provider requires its key/URL. Photon is the OSM provider. Nominatim is not registered and no public OSM endpoint is used. Further providers are asked in cost order only until agreement is established or the enabled list is exhausted.
+3. Collapse repeated dataset results to one representative, widening its margin to their spread. Contradictory results from one dataset remove that dataset. Unknown provenance supplies no independent vote. Enumerate pairwise-compatible groups (not transitive chains): every pair must be within the coarser margin and no more than 250 m apart. Select the unique largest group; tied groups refuse. The most precise representative supplies the point, with its margin widened to accepted spread.
+4. One dataset alone is accepted only if its points agree and its placement is inside a loaded outline whose name matches the typed city. No city/outline means refusal. Conflicting independent sources cannot fall back to a single.
+5. A deciding boundary lets the engine call `locate({ marginUnder })` once. This distance is advisory: candidates qualify by whether they can improve the current placement, not whether their margin beats the old edge distance. A more precise point must remain within the previous placement's margin and compatible with every accepted representative. Its own margin replaces the coarse margin; provider provenance is retained. All outlines and rates are recomputed at the new point, which can move across the original line. A still-ambiguous point is refused.
 
-## `locateAddress(address, primary?, trace?)`
+Initial and refinement calls are memoized separately. Concurrent matching requests in one process share in-flight provider work; non-storable results are discarded when those requests finish.
 
-1. Sources, each named: `mapbox` (`primary`), `census` (`censusPoint`), `nominatim` (`nominatimPoint`), minus any undefined.
-2. All are called at once with `Promise.allSettled`. A source that throws, times out or returns null simply adds no point. With a trace, every point returned goes into `trace.geocoders` with its source name.
-3. No points: return null.
-4. Sort by `ACCURACY_ORDER`: `rooftop`, `parcel`, `point`, `interpolated`. The first is `best`.
-5. `spread` is the largest distance from `best` to any other point (`metresBetween`, a flat-earth approximation).
-6. `spread > MAX_SPREAD_METRES` (250): return null; the address is not placed.
-7. `spread > EDGE_METRES[best.accuracy]`: return `best` with `metres: Math.ceil(spread)`. Otherwise return `best` unchanged.
-8. With a trace, the returned point is recorded as `trace.point`, with its source, `marginMetres` (`marginOf`) and `spreadMetres`. An unplaced address (steps 3 and 6) records no point.
+## Providers and validation
 
-So agreement within the best point's own margin keeps it as is; a wider disagreement becomes the margin a line must be beyond. One source alone is accepted at its own accuracy.
+The registry supports Census, Photon, Pelias, Geocodio, Smarty, Mapbox, HERE, Esri and Google. Disabled providers are never called. Exact/high-confidence address matches only: street/city centroids and ambiguous candidates are refused. Vendor adapters validate returned address components and normalize accuracy labels. Photon accepts house-level points only and requires matching house number, street, directions, suffix, state, city and supplied ZIP. Nearby duplicate OSM features are allowed within 50 m, with their spread preserved; distant ones refuse.
 
-## Margins (`src/geocoding/index.ts`)
+Pelias records use their returned dataset (`osm` or `openaddresses`). Geocodio TIGER/OSM/OpenAddresses/local-government attribution is distinguished when recognized; otherwise provenance is unknown. The registry's vendor identities describe the plan's independence assumptions, not a guarantee that proprietary vendors never share upstream data.
 
-| Accuracy | `EDGE_METRES` | Who returns it |
-|---|---:|---|
-| `rooftop` | 15 | Mapbox |
-| `parcel` | 25 | Mapbox |
-| `point` | 40 | Mapbox, Nominatim |
-| `interpolated` | 75 | Mapbox, Census |
+## Storage and quotas
 
-`marginOf(p) = p.metres ?? EDGE_METRES[p.accuracy]`. Both engines refuse a point whose deciding line is closer than this (map engine only if the rate across differs).
+Migration `0004_geocoding.sql` adds runtime tables `geocode_results` and `geocoder_usage`. Refresh never reads or replaces them. Storable points expire after a year; confirmed negative results after 30 days. HTTP errors, timeouts, malformed responses, budget skips and breaker skips are not negative results and are never cached.
 
-## Sources
+Census, Photon, Pelias and Geocodio results can be cached. Mapbox needs `MAPBOX_PERMANENT=true` (request includes `permanent=true`); Esri needs `ARCGIS_FOR_STORAGE=true` (request includes `forStorage=true`). Google, HERE and Smarty are non-storable. Storage permissions also apply to negative results.
 
-### Census (`censusPoint`, `geocoding/index.ts`)
+Before any provider request, a single Postgres upsert reserves a daily call and its next allowed request time. Caps and request spacing are shared by all containers using that provider credential/endpoint fingerprint. Slots are never refunded after timeouts because a vendor may have billed the call. Missing tables, read-only permissions and database errors skip the provider; quotas are never replaced by an uncapped in-memory fallback. Geocodio standardization reserves from the same budget. Separate applications sharing the credentials are outside this counter.
 
-- `geocoding.geo.census.gov/geocoder/locations/onelineaddress`, benchmark `Public_AR_Current`, 6 s timeout (`TIMEOUT_MS`).
-- Keeps matches whose state is absent or equals the asked state.
-- **Exactly one match** or nothing. Accuracy is always `interpolated` (it places the number along the street's address range).
+`<ID>_DAILY_CAP`, `<ID>_RATE_PER_SECOND` and `<ID>_COST_PER_CALL` configure limits/order (`ARCGIS_` for Esri). Defaults are application budgets, not current vendor free-tier claims. Rate spacing has no queue: unavailable providers are skipped. Daily dates use UTC. Keep configuration consistent across replicas. A process-local breaker opens for 60 seconds after five errors or one HTTP 429, then admits one trial request. Success closes it; failure reopens it.
 
-### Nominatim (`nominatimPoint`, `geocoding/index.ts`)
+`OPENTAXRATE_GEOCODE_CACHE=off` disables result-cache reads/writes only; quota writes still apply. `OPENTAXRATE_GEOCODE_READ_ONLY=true` disables all external calls and runtime writes, but can use existing permitted cache entries. Runtime writes are limited to the two geocoding tables. Expired rows can be pruned separately.
 
-- `nominatim.openstreetmap.org/search` with structured `street`, `city`, `state`, `postalcode` (five digits), `countrycodes=us`, `limit=2`, 6 s timeout.
-- Sends `User-Agent` from `OPENTAXRATE_USER_AGENT` (default `opentaxrate (+https://github.com/opentaxrate/opentaxrate)`).
-- Keeps results with a `house_number` and `ISO3166-2-lvl4` equal to `US-<state>`; nothing coarser than a house.
-- Two results more than 50 m apart: null. Within 50 m (a node and a building for one house): the first. Accuracy `point`.
-- **Spacing**: a module variable `nominatimFree` holds the next free time; each call reserves one second past it and sleeps until its slot. This is one request per second **per process**, not across processes or replicas.
+## Margins and evidence
 
-### Mapbox (`mapboxGeocoder`, `src/geocoding/mapbox.ts`)
+`marginOf(p)` is at least `EDGE_METRES[p.accuracy]`: rooftop 15 m, parcel 25 m, point 40 m, interpolated 75 m. These are operational margins, not proof of physical accuracy. Agreement only widens a placement's margin. An explicitly validated refinement can replace a coarse placement with a sharper one.
 
-- Only when `MAPBOX_ACCESS_TOKEN` is set. Geocoding v6 forward, `types=address`, `country=us`, `autocomplete=false`, `limit=5`, 5 s timeout.
-- A feature is kept only if all hold:
-  - `coordinates.accuracy` is one of `rooftop`, `parcel`, `point`, `interpolated`;
-  - `match_code.confidence` is `exact` or `high`;
-  - `match_code.address_number` and `match_code.street` are both `matched`;
-  - `context.region.region_code` equals the asked state.
-- **Exactly one** kept feature or null. Its accuracy is Mapbox's own.
+`scripts/bench.ts geocode --provider photon --budget 100` measures p95 distance to benchmark cases with trusted `lon,lat`, grouped by provider and accuracy. It uses the same cache and budgets and prints aggregate measurements without persisting returned coordinates. Representative coordinate fixtures and enabled vendor credentials are required before claiming calibrated margins or improved real-world refusal/error rates.
 
-## Invariants
+Provider metadata is included in `/v1/coverage`. Successful map placements name supporting providers/datasets in `source`. Credentials and raw vendor responses are not exposed.
 
-- No point is better than a wrong point: every source returns null rather than a coarse or ambiguous answer, and disagreement past 250 m returns null.
-- A source failing never fails the lookup; it only removes a vote.
-- Nothing is cached; each lookup that needs a point calls every configured source.
-- The margin only ever widens from disagreement, never narrows.
-- A trace only records; the point returned is the same with or without one.
-
-## Planned
-
-See ../plans/multi-geocoder.html (maintained privately). The plan enables each provider only when its API key is set, asks two sources by default instead of all at once, and escalates to more providers only when an edge actually decides the rate. Results a provider's terms allow storing, and each provider's daily quota use, go in a Postgres cache, and a circuit breaker per provider stops calling one that keeps failing. None of this exists in the code yet.
+With a trace (`createLocator(address, { trace })`), every provider's point is recorded in `trace.geocoders` and the placement in `trace.point` (`source` lists the agreeing providers, `spreadMetres` their widest spread). A trace only records; the point is the same with or without one.

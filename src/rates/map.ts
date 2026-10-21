@@ -50,11 +50,12 @@ import {
 } from "../db/schema.js";
 import { RateError } from "../errors.js";
 import { traceOutline, type RatePart, type Trace, type TracedOutline } from "./types.js";
-import { marginOf, type LocatedPoint } from "../geocoding/index.js";
+import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet } from "../address.js";
 
 export interface GeoRate {
+  placedBy?: string[];
   rate: number;
   parts: RatePart[];
   /** The state's code, then each county, city and district code whose rate
@@ -71,11 +72,13 @@ type RateRow = typeof salesTaxJurisdictionRates.$inferSelect;
 
 export async function geoRateAt(
   state: string,
-  point: LocatedPoint | null,
+  pointOrLocate: LocatedPoint | Locate | null,
   date: string,
   street?: string,
   trace?: Trace,
 ): Promise<GeoRate> {
+  const locate = typeof pointOrLocate === "function" ? pointOrLocate : undefined;
+  const point = locate ? await locate() : pointOrLocate as LocatedPoint | null;
   const files = await releaseFiles(state);
   if (!files.length)
     throw new RateError(`This service hasn't loaded ${state}'s rate data.`, 502);
@@ -88,7 +91,8 @@ export async function geoRateAt(
   // Outlines within ~300 m of the point, or three miles where a police
   // jurisdiction could reach it.
   const pjState = await hasRows(state, "pj");
-  const shapes = await shapesAround(state, point, pjState ? 0.06 : 0.003);
+  const pad = Math.max(0.003, marginOf(point) / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
+  const shapes = await shapesAround(state, point, pjState ? Math.max(0.06, pad) : pad);
   const rows = await db
     .select()
     .from(salesTaxJurisdictionRates)
@@ -173,14 +177,20 @@ export async function geoRateAt(
       if (!(error instanceof RateError)) throw error;
       other = { rate: NaN };
     }
-    if (other.rate !== answer.rate)
+    if (other.rate !== answer.rate) {
+      if (locate) {
+        const sharper = await locate({ marginUnder: s.edgeMetres });
+        // Re-evaluate every outline, rate and deciding edge at the new point.
+        if (sharper) return geoRateAt(state, sharper, date, street, trace);
+      }
       throw new RateError(
         `This address is within ${margin} m of the ${s.name} line, too close to tell from the map whether it is ${pct(answer.rate)}${Number.isNaN(other.rate) ? " or another rate" : ` or ${pct(other.rate)}`}. Confirm the rate with the address's city or county.`,
         422,
       );
     }
+    }
   }
-  return { ...answer, files };
+  return { ...answer, files, placedBy: point.placedBy };
 }
 
 /** Whether the point is inside a city with its own rate. */

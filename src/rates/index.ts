@@ -25,7 +25,7 @@ import { statewideRate, STATEWIDE_STATES } from "./statewide.js";
 import { MAP_STATES, RANGE_FIPS } from "../coverage.js";
 import { sstRateAt } from "./ranges.js";
 import { generalOnly, type RatePart, type RatesByType, type Trace } from "./types.js";
-import type { LocatedPoint } from "../geocoding/index.js";
+import type { LocatedPoint, Locate } from "../geocoding/types.js";
 import type { StandardAddress } from "../standardize/index.js";
 import { geoRateAt } from "./map.js";
 import { californiaSalesTaxService } from "./california.js";
@@ -42,8 +42,8 @@ export interface AddressRateQuery {
   /** Five digits, or ZIP+4. */
   zip?: string | null;
   /** Places the address on a map, for a ZIP the state's files split. Asked
-   *  at most once, and only then. */
-  locate?: () => Promise<LocatedPoint | null>;
+   *  again only to refine a point near a deciding boundary. */
+  locate?: Locate;
   /** The address in the Postal Service's form with its ZIP+4, for a range
    *  state's address its typed street doesn't place. Asked at most once. */
   standardize?: () => Promise<StandardAddress | null>;
@@ -127,7 +127,7 @@ export const addressRates = {
     if (MAP_STATES.includes(state)) {
       const found = await geoRateAt(
         state,
-        query.locate ? await query.locate() : null,
+        query.locate ?? null,
         date,
         query.street,
         query.trace,
@@ -142,7 +142,7 @@ export const addressRates = {
         parts: found.parts,
         match: "map",
         locationCode: found.locationCode,
-        source: `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}`,
+        source: `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
       };
     }
     if (!RANGE_FIPS[state])

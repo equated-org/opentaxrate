@@ -259,6 +259,26 @@ describe("a Streamlined state's address its typed street doesn't find", () => {
   });
 });
 
+describe("boundary refinement", () => {
+  it.each([[0.5004, 0.08], [0.4996, 0.085]])("recomputes the map rate at the refined point %s", async (lon, rate) => {
+    const locate = vi.fn(async (need?: { marginUnder: number }) => need ? at(lon) : at(0.5001, "point"));
+    expect((await geoRateAt("XT", locate, ON)).rate).toBe(rate);
+    expect(locate).toHaveBeenCalledTimes(2);
+    expect(locate.mock.calls[1][0]?.marginUnder).toBeLessThan(10);
+  });
+  it("refuses after one refinement when the new point is still near an edge", async () => {
+    const locate = vi.fn(async (need?: { marginUnder: number }) => at(0.5001, need ? "rooftop" : "point"));
+    await expect(geoRateAt("XT", locate, ON)).rejects.toThrow(/within 15 m/);
+    expect(locate).toHaveBeenCalledTimes(2);
+  });
+  it("rechecks candidate areas in a split ZIP at the new point", async () => {
+    const locate = vi.fn(async (need?: { marginUnder: number }) => need ? at(-104.4996) : at(-104.5001, "point"));
+    const found = await addressRates.at({ state: "WY", street: "9 Elm St", city: "Cheyenne", zip: "82001", locate }, ON);
+    expect(found).toMatchObject({ rate: 0.05, match: "map" });
+    expect(locate).toHaveBeenCalledTimes(2);
+  });
+});
+
 describe("a map-read state's address", () => {
   it("adds each outline's rate it falls in", async () => {
     // County 2% + city 1% + transit 0.5%.

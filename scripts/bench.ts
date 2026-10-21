@@ -4,6 +4,7 @@
  *
  *   tsx scripts/bench.ts ask <provider> [--per-state N] [--budget N] [--states TX,WA]
  *   tsx scripts/bench.ts report
+ *   tsx scripts/bench.ts geocode [--provider ID] [--per-state N] [--budget N]
  *
  * Cases are the CSVs in artifacts/bench/cases (state,street,city,zip,date,
  * expected,source[,lon,lat,notes]); `expected` is the state's own answer.
@@ -319,6 +320,44 @@ function report() {
     );
 }
 
+/** Measure actual coordinate errors, rather than treating vendor labels as
+ * evidence of precision. Non-storable responses stay in request memory only;
+ * this command prints aggregate errors and never writes provider coordinates. */
+async function geocodeBench(providerId: string | undefined, perState: number, budget: number, states?: string[]) {
+  if (!Number.isSafeInteger(perState) || perState < 1 || !Number.isSafeInteger(budget) || budget < 0)
+    throw new Error("Geocoding benchmark requires positive --per-state and nonnegative integer --budget");
+  const { geocoderProviders } = await import("../src/geocoding/registry.js");
+  const { createLocator } = await import("../src/geocoding/locator.js");
+  const { EDGE_METRES, metresBetween } = await import("../src/geocoding/types.js");
+  const providers = geocoderProviders().filter(p => !providerId || p.id === providerId);
+  if (!providers.length) throw new Error("No requested geocoder is enabled");
+  const cases = sample(loadCases().filter(c => Number.isFinite(c.lon) && Number.isFinite(c.lat)), perState, states);
+  if (!cases.length) throw new Error("Geocoding benchmark needs cases with known lon and lat");
+  const rows: { provider: string; accuracy: string; n: number; p95: number; margin: number; overMargin: number }[] = [];
+  for (const provider of providers) {
+    const distances = new Map<string, number[]>();
+    let attempted = 0, placed = 0;
+    for (const c of cases.slice(0, budget)) {
+      attempted++;
+      const point = await createLocator(c, { providers: [provider], checkSingle: async () => true })();
+      if (!point) continue;
+      placed++;
+      const errors = distances.get(point.accuracy) ?? [];
+      errors.push(metresBetween(point, { ...point, lon: c.lon!, lat: c.lat! }));
+      distances.set(point.accuracy, errors);
+    }
+    for (const [accuracy, errors] of distances) {
+      errors.sort((a, b) => a - b);
+      const margin = EDGE_METRES[accuracy as keyof typeof EDGE_METRES];
+      rows.push({ provider: provider.id, accuracy, n: errors.length,
+        p95: Math.ceil(errors[Math.ceil(errors.length * 0.95) - 1]), margin,
+        overMargin: errors.filter(d => d > margin).length });
+    }
+    console.log(`${provider.id}: placed ${placed}/${attempted}; quota, rate limits and breakers apply`);
+  }
+  console.table(rows);
+}
+
 const [command, ...args] = process.argv.slice(2);
 const flag = (name: string) => {
   const at = args.indexOf(name);
@@ -333,5 +372,13 @@ if (command === "ask") {
   );
   const { client } = await import("../src/db/client.js");
   await client.end();
+} else if (command === "geocode") {
+  try {
+    await geocodeBench(flag("--provider"), Number(flag("--per-state") ?? 20), Number(flag("--budget") ?? 100),
+      flag("--states")?.split(",").map(s => s.toUpperCase()));
+  } finally {
+    const { client } = await import("../src/db/client.js");
+    await client.end();
+  }
 } else if (command === "report") report();
 else console.log(fs.readFileSync(new URL(import.meta.url), "utf8").split("*/")[0]);
