@@ -59,15 +59,22 @@ async function json(response: Response) {
 }
 
 const PROVIDERS: Record<string, Provider> = {
-  /** The full pipeline: geocoders, then the engine. */
+  /** The full pipeline: every configured geocoder, then the engine. The
+   *  bench measures accuracy, not quota, so geocoder calls are neither
+   *  rationed nor cached in the database it reads. */
   opentaxrate: {
     needs: [],
     pauseMs: 0,
     async ask(c) {
-      const { lookUpRate } = await import("../src/lookup.js");
-      return lookUpRate(c).then(
-        (r) => ({ rate: r.rate, raw: { match: r.match, locationCode: r.locationCode } }),
-        (e: Error) => ({ refused: e.message }),
+      const { addressRates } = await import("../src/rates/index.js");
+      const { createLocator } = await import("../src/geocoding/locator.js");
+      const locate = createLocator(c, {
+        budget: { reserve: async () => true, success: () => {}, failure: () => {} },
+        cache: { get: async () => undefined, put: async () => {} },
+      });
+      return addressRates.at({ ...c, locate }, c.date).then(
+        (r) => ({ rate: r.rate, raw: { match: r.match, locationCode: r.locationCode, source: r.source, geocoders: locate.trace } }),
+        (e: Error) => ({ refused: e.message, raw: { geocoders: locate.trace } }),
       );
     },
   },
@@ -159,6 +166,29 @@ const PROVIDERS: Record<string, Provider> = {
       return response.ok && Number.isFinite(rate)
         ? { rate: round(rate), raw }
         : { refused: `${response.status} ${raw?.metadata?.response?.message ?? ""}`, raw };
+    },
+  },
+  /** Lovat takes a ZIP, not a street. A seller in the same ZIP makes the
+   *  sale domestic, so the answer is that ZIP's rate (a seller elsewhere
+   *  gets 0% where it has no nexus). */
+  lovat: {
+    needs: ["LOVAT_API_KEY"],
+    pauseMs: 300,
+    async ask(c) {
+      const zip = c.zip.slice(0, 5);
+      const response = await fetch(`https://merchant.vatcompliance.co/api/1/tax_rate/${env("LOVAT_API_KEY")}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          transaction_id: c.id, currency: "USD", transaction_sum: 100,
+          arrival_country: "USA", arrival_state: c.state, arrival_zip: zip,
+          departure_country: "USA", departure_state: c.state, departure_zip: zip,
+        }),
+      });
+      const raw = await json(response);
+      return response.ok && typeof raw?.tax_rate === "number"
+        ? { rate: round(raw.tax_rate / 100), raw }
+        : { refused: `${response.status} ${raw?.error ?? ""}`, raw };
     },
   },
   /** Stripe Tax in test mode; needs Tax turned on for the account. */
