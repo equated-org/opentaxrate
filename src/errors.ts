@@ -4,12 +4,15 @@
  *   - 422: the address can't be placed in one rate (the message names the
  *     candidates), or the state or date isn't covered;
  *   - 502 or 504: data isn't loaded, or an outside service failed.
+ * RATE_LIMITED is the per-IP limiter's 429 (limits.ts), written by the
+ * HTTP layer rather than thrown, listed here so clients see every code.
  */
 export const RATE_ERROR_CODES = [
   "UNSUPPORTED_STATE",
   "ADDRESS_NEEDS_CONFIRMATION",
   "UPSTREAM_UNAVAILABLE",
   "UPSTREAM_TIMEOUT",
+  "RATE_LIMITED",
 ] as const;
 
 export type RateErrorCode = (typeof RATE_ERROR_CODES)[number];

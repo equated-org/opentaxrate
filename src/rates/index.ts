@@ -24,13 +24,14 @@ import { RateError } from "../errors.js";
 import { statewideRate, STATEWIDE_STATES } from "./statewide.js";
 import { MAP_STATES, RANGE_FIPS } from "../coverage.js";
 import { sstRateAt } from "./ranges.js";
-import { generalOnly, type RatePart, type RatesByType } from "./types.js";
+import { generalOnly, type RatePart, type RatesByType, type Trace } from "./types.js";
 import type { LocatedPoint } from "../geocoding/index.js";
 import type { StandardAddress } from "../standardize/index.js";
 import { geoRateAt } from "./map.js";
 import { californiaSalesTaxService } from "./california.js";
 
-export type { LocatedPoint, RatePart, RatesByType };
+export type { LocatedPoint, RatePart, RatesByType, Trace };
+export { emptyTrace } from "./types.js";
 export { STATEWIDE_STATES };
 
 export interface AddressRateQuery {
@@ -46,6 +47,10 @@ export interface AddressRateQuery {
   /** The address in the Postal Service's form with its ZIP+4, for a range
    *  state's address its typed street doesn't place. Asked at most once. */
   standardize?: () => Promise<StandardAddress | null>;
+  /** Collects how the address was placed (geocoder points, the outlines
+   *  tested, the deciding street range), for display. Never changes the
+   *  answer. */
+  trace?: Trace;
 }
 
 export interface AddressRate {
@@ -125,6 +130,7 @@ export const addressRates = {
         query.locate ? await query.locate() : null,
         date,
         query.street,
+        query.trace,
       );
       const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
       return {

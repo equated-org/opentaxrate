@@ -2,6 +2,7 @@
  * The shapes every address-rate engine shares: a rate's parts, and its
  * rates by type of sale.
  */
+import type { GeocoderName, LocatedPoint } from "../geocoding/index.js";
 
 export interface RatePart {
   kind: "state" | "county" | "city" | "district";
@@ -61,3 +62,74 @@ export function agreedByType(rates: RatesByType[]): RatesByType {
   return agreed;
 }
 
+/** A polygon outline as GeoJSON, for drawing. */
+export interface OutlineGeometry {
+  type: "Polygon" | "MultiPolygon";
+  coordinates: number[][][] | number[][][][];
+}
+
+/** One outline the map test looked at, as a trace records it. */
+export interface TracedOutline {
+  kind: "county" | "place" | "cousub" | "district";
+  fips: string;
+  name: string;
+  inside: boolean;
+  /** Metres from the point to the outline's nearest edge. */
+  edgeMetres: number;
+  /** The nearest point on that edge. */
+  foot: { lon: number; lat: number };
+  /** Whether the outline added a part to the rate. */
+  levies: boolean;
+  /** The outline near the point, clipped and simplified for display; added
+   *  by the HTTP layer, never read by an engine. */
+  geometry?: OutlineGeometry;
+}
+
+/** How a lookup placed the address, for showing on a map. An engine given
+ *  one pushes into it as it goes; nothing reads it back, so a lookup
+ *  without one answers exactly the same. Coordinates are rounded to 5
+ *  decimals (about a metre). */
+export interface Trace {
+  /** Every point a geocoder returned. */
+  geocoders: Array<{ source: GeocoderName; lon: number; lat: number; accuracy: LocatedPoint["accuracy"] }>;
+  /** The point the engine used, and the margin a line must be beyond. */
+  point?: {
+    lon: number;
+    lat: number;
+    accuracy: LocatedPoint["accuracy"];
+    source: string;
+    marginMetres: number;
+    /** The largest distance from it to another geocoder's point. */
+    spreadMetres: number;
+  };
+  /** The outlines around the point; empty when no point was used. */
+  outlines: TracedOutline[];
+  /** Range engine: the street range row that decided, when one did. */
+  range?: { street: string; low: number; high: number; side: "odd" | "even" | "both"; zip: string | null; file: string };
+}
+
+export const emptyTrace = (): Trace => ({ geocoders: [], outlines: [] });
+
+/** To 5 decimals, about a metre. */
+export const roundCoord = (n: number) => Math.round(n * 1e5) / 1e5;
+
+/** An outline as a trace records it; `levies` is set once the rate is known.
+ *  Recording the same outline twice keeps the later one. */
+export function traceOutline(
+  trace: Trace,
+  s: { kind: TracedOutline["kind"]; fips: string; name: string; inside: boolean; edgeMetres: number; foot: { lon: number; lat: number } },
+): TracedOutline {
+  const outline: TracedOutline = {
+    kind: s.kind,
+    fips: s.fips,
+    name: s.name,
+    inside: s.inside,
+    edgeMetres: Math.round(s.edgeMetres * 10) / 10,
+    foot: { lon: roundCoord(s.foot.lon), lat: roundCoord(s.foot.lat) },
+    levies: false,
+  };
+  const at = trace.outlines.findIndex((o) => o.kind === s.kind && o.fips === s.fips);
+  if (at >= 0) trace.outlines[at] = outline;
+  else trace.outlines.push(outline);
+  return outline;
+}

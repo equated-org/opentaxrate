@@ -12,13 +12,15 @@ Sources: `src/rates/index.ts`, `src/rates/statewide.ts`, `src/rates/california.t
 |---|---|---|---|
 | 1 | `statewideRate(state, date, city)` returns non-null | `statewide` | nothing else |
 | 2 | `state === "CA"` | `authority` | `california(query, date)` |
-| 3 | `geoStateOf(state)` | `map` | `geoRateAt(state, await query.locate(), date, street)` |
+| 3 | `geoStateOf(state)` | `map` | `geoRateAt(state, await query.locate(), date, street, query.trace)` |
 | 4 | `RANGE_FIPS[state]` | `ranges` | `sstRateAt({ ...query, state }, date)` |
 | 5 | none | | `RateError(..., 422, undefined, "UNSUPPORTED_STATE")` |
 
 `addressRates.method(state)` returns the same names for `/v1/coverage`, or null. `addressRates.covers(state)` checks `ADDRESS_RATE_STATES`, which is `STATEWIDE_STATES` + `Object.keys(RANGE_FIPS)` + `GEO_STATES` + `"CA"`, sorted.
 
 Note the map method always calls `query.locate()` up front; the range method passes `locate` down and calls it only when needed.
+
+`AddressRateQuery.trace` is an optional `Trace` (`types.ts`) the map and range engines push into (see [api.md](api.md) for its fields). Statewide and California answers leave it empty. It never changes the `AddressRate` returned.
 
 ## `AddressRate`
 
