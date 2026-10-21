@@ -1,6 +1,8 @@
 /**
  * The geocoders this deployment can ask: each provider's defaults, enabled
- * only when its credential or URL is set (Census needs none). Read per
+ * only when its credential or URL is set. Census and OpenStreetMap's public
+ * Nominatim need none, so a deployment with no keys still has two datasets
+ * to compare; NOMINATIM_URL points at your own Nominatim instead. Read per
  * lookup, so a changed environment takes effect without a restart.
  */
 import { createHash } from "node:crypto";
@@ -10,6 +12,7 @@ import { geocodioPoint } from "./providers/geocodio.js";
 import { googlePoint } from "./providers/google.js";
 import { herePoint } from "./providers/here.js";
 import { mapboxPoint } from "./providers/mapbox.js";
+import { nominatimPoint, PUBLIC_NOMINATIM } from "./providers/nominatim.js";
 import { peliasPoint } from "./providers/pelias.js";
 import { photonPoint } from "./providers/photon.js";
 import { smartyPoint } from "./providers/smarty.js";
@@ -27,7 +30,8 @@ interface Definition {
   typicalAccuracy: LocatedPoint["accuracy"];
   costPerCall: number;
   dailyCap: number;
-  ratePerSecond: number;
+  /** Calls a second, or a function of the configuration. */
+  ratePerSecond: number | (() => number);
   /** Whether its terms allow caching results; a mode that changes this keys its own cache. */
   storable: () => boolean;
   geocode: GeocoderProvider["geocode"];
@@ -40,6 +44,10 @@ const DEFINITIONS: Definition[] = [
   { id: "census", credential: () => (flag("CENSUS_DISABLED") ? undefined : "Public_AR_Current"), env: "CENSUS",
     sources: ["tiger"], typicalAccuracy: "interpolated", costPerCall: 0, dailyCap: 100_000, ratePerSecond: 10,
     storable: () => true, geocode: censusPoint },
+  { id: "nominatim", credential: () => (flag("NOMINATIM_DISABLED") ? undefined : env("NOMINATIM_URL") ?? PUBLIC_NOMINATIM),
+    env: "NOMINATIM", sources: ["osm"], typicalAccuracy: "point", costPerCall: 0, dailyCap: 100_000,
+    // The public server's usage policy: one request a second.
+    ratePerSecond: () => (env("NOMINATIM_URL") ? 10 : 1), storable: () => true, geocode: nominatimPoint },
   { id: "photon", credential: () => env("PHOTON_URL"), env: "PHOTON",
     sources: ["osm"], typicalAccuracy: "point", costPerCall: 0, dailyCap: 100_000, ratePerSecond: 10,
     storable: () => true, geocode: photonPoint },
@@ -66,10 +74,14 @@ const DEFINITIONS: Definition[] = [
     storable: () => false, geocode: googlePoint },
 ];
 
+/** An override from the environment, or the default when unset or invalid:
+ *  a mistyped setting must not stop every lookup. */
 function setting(name: string, fallback: number, integer = false) {
-  const value = Number(process.env[name] ?? fallback);
-  if (!Number.isFinite(value) || value < 0 || (integer && !Number.isSafeInteger(value))) throw new Error(`Invalid ${name}`);
-  return value;
+  if (process.env[name] === undefined || process.env[name] === "") return fallback;
+  const value = Number(process.env[name]);
+  if (Number.isFinite(value) && value >= 0 && (!integer || Number.isSafeInteger(value))) return value;
+  console.warn(`Ignoring invalid ${name}=${process.env[name]}; using ${fallback}.`);
+  return fallback;
 }
 
 /** The enabled providers, cheapest first. */
@@ -89,7 +101,7 @@ export function geocoderProviders(): GeocoderProvider[] {
       geocode: d.geocode,
       costPerCall: setting(`${d.env}_COST_PER_CALL`, d.costPerCall),
       dailyCap: setting(`${d.env}_DAILY_CAP`, d.dailyCap, true),
-      ratePerSecond: setting(`${d.env}_RATE_PER_SECOND`, d.ratePerSecond),
+      ratePerSecond: setting(`${d.env}_RATE_PER_SECOND`, typeof d.ratePerSecond === "function" ? d.ratePerSecond() : d.ratePerSecond),
     }];
   }).sort((a, b) => a.costPerCall - b.costPerCall || a.id.localeCompare(b.id));
 }

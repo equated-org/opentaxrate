@@ -60,7 +60,7 @@ Missouri publishes one total per jurisdiction code (place, county, district comb
 
 ### Map engine (everywhere else)
 
-1. **Locate.** The locator checks permitted cached results, then asks a cheap pair of enabled providers, preferring independent datasets. A unique largest pairwise-agreeing group is accepted, with disagreement widening its margin; tied groups are refused. One dataset alone requires a typed-city containment check. Photon supplies OSM results; Nominatim is not used. A deciding boundary triggers one refinement and a full rate recomputation at the corrected point.
+1. **Locate.** The locator checks permitted cached results, then asks a cheap pair of enabled providers, preferring independent datasets. The most precise dataset's point is accepted with every dataset that agrees with it, its margin widened to their spread; refused when the rest agree on another place. One dataset alone requires a typed-city containment check. Nominatim (public by default, or your own), Photon and Pelias supply OSM results. A deciding boundary triggers one refinement and a full rate recomputation at the corrected point.
 2. **Contain.** PostGIS finds the outlines near the point through a spatial index, and reports for each whether it holds the point and how far the point is from its edge, in metres on the spheroid. Outlines come from the state when it publishes them (Texas, Illinois, Arizona, New Mexico, Colorado, Alaska) and from Census TIGER otherwise.
 3. **Stack.** Every rate row has a type that says how it combines:
 
