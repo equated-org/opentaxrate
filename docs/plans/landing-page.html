@@ -1,0 +1,944 @@
+<title>Landing page: search an address, see its rate and where it fell</title>
+<meta name="description" content="Design plan for a static OpenTaxRate landing page with address autocomplete, a formatted rate, a map of how the address was placed, and per-IP limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  /* Timeline of statements */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; max-width: none; }
+  .timeline li { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); gap: 0 12px; padding-bottom: 18px; margin: 0; }
+  .tl-when { font-family: var(--mono); font-size: 0.82rem; color: var(--text-3); text-align: right; padding-top: 3px; }
+  .tl-mark { position: relative; }
+  .tl-mark::before { content: ""; position: absolute; left: 11px; top: 0; bottom: -18px; border-left: 1px solid var(--edge); }
+  .timeline li:last-child .tl-mark::before { display: none; }
+  .tl-mark::after { content: ""; position: absolute; left: 5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--edge); }
+  .timeline li.you .tl-mark::after { background: var(--ink); border-color: var(--ink); }
+  .timeline li.note .tl-mark::after { border-radius: 3px; background: var(--accent); border-color: var(--accent); }
+  .timeline li.ship .tl-mark::after { border-radius: 3px; border: 1.5px solid var(--ink); }
+  .tl-body { min-width: 0; }
+  .tl-who { font-size: 0.82rem; font-weight: 600; color: var(--text-2); }
+  .tl-quote { margin: 0; max-width: 80ch; }
+
+  /* Axis map (explainers with an overloaded term) */
+  .axismap { display: grid; gap: 14px; }
+  .map-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button { font: inherit; font-size: 0.86rem; font-weight: 500; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--box); color: var(--text-2); cursor: pointer; }
+  .presets button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .map-controls label { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; color: var(--text-2); }
+  .map-controls select { font: inherit; font-size: 0.86rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--box); color: var(--ink); }
+  .map-wrap { overflow-x: auto; }
+  .map-wrap svg { display: block; width: 100%; height: auto; min-width: 880px; }
+  .m-row, .m-row.alt { fill: none; stroke: var(--line); stroke-width: 1; }
+  .m-vline { stroke: var(--line); stroke-width: 1; }
+  .m-frame { fill: none; stroke: var(--edge); }
+  .m-bin { font: 12px var(--sans); fill: var(--text-2); }
+  .m-axis { font: 600 12.5px var(--sans); fill: var(--ink); }
+  .m-chip { cursor: pointer; transition: transform 460ms var(--ease); outline: none; }
+  .m-chip rect { fill: var(--box); stroke: var(--edge); stroke-width: 1; }
+  .m-chip text { font: 500 11.5px var(--sans); fill: var(--ink); pointer-events: none; }
+  .m-chip.mem rect { stroke: var(--accent); stroke-width: 1.8; }
+  .m-chip.mem text { fill: var(--accent-ink); }
+  .m-chip.off rect { stroke-dasharray: 4 3; }
+  .m-chip:hover rect { stroke: var(--ink); }
+  .m-chip:focus-visible rect { stroke: var(--accent); stroke-width: 2.6; }
+  .m-chip.on rect { stroke: var(--ink); stroke-width: 2.2; }
+  .map.settling .m-chip { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .m-chip { transition: none; } }
+  .map-detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 760px) { .map-detail { grid-template-columns: minmax(0, 1fr); } }
+  .map-detail .who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .map-detail h3 { margin: 0; font-size: 1.05rem; }
+  .map-detail .left { display: grid; gap: 6px; align-content: start; color: var(--text-2); }
+  .map-detail .left p { margin: 0; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; background: var(--code); color: var(--text-2); }
+  .tag.mem { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .axes-dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.88rem; }
+  .axes-dl dt { color: var(--text-3); }
+  .axes-dl dd { margin: 0; color: var(--text-2); }
+  .axes-dl .plotted { color: var(--ink); font-weight: 600; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--text-2); }
+  .legend .chipk { display: inline-block; width: 22px; height: 11px; border-radius: 3px; border: 1px solid var(--edge); vertical-align: -1px; margin-right: 7px; }
+  .legend .chipk.mem { border: 1.8px solid var(--accent); }
+  .legend .chipk.off { border-style: dashed; }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+  /* Plan-specific: UI mock and map figure */
+  .u-frame { fill: var(--bg); stroke: var(--edge); stroke-width: 1; }
+  .u-soft { fill: var(--panel); stroke: var(--line); stroke-width: 1; }
+  .u-input { fill: var(--box); stroke: var(--stroke); stroke-width: 1.2; }
+  .u-h { font: 600 17px var(--sans); fill: var(--ink); letter-spacing: -0.01em; }
+  .u-big { font: 600 34px var(--mono); fill: var(--ink); letter-spacing: -0.02em; }
+  .u-px { fill: var(--ink); }
+  .u-px-acc { fill: var(--accent); }
+  .u-hole { fill: var(--bg); }
+  .u-road { stroke: var(--line); stroke-width: 6; fill: none; }
+  .u-road-s { stroke: var(--line); stroke-width: 2.5; fill: none; }
+  .u-city { fill: url(#dither); stroke: var(--stroke); stroke-width: 1.4; }
+  .u-dist { fill: none; stroke: var(--g3-ink); stroke-width: 1.4; stroke-dasharray: 6 4; }
+  .u-county { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 2 3; }
+  .dz { fill: var(--g2-ink); opacity: 0.22; }
+  .u-margin { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .u-dot { fill: var(--box); stroke: var(--ink); stroke-width: 1.6; }
+  .u-dot-best { fill: var(--accent); stroke: var(--accent); }
+  .u-bar-state { fill: var(--ink); } .u-bar-city { fill: var(--g2-ink); } .u-bar-dist { fill: var(--g3-ink); }
+  .u-key { fill: var(--g2); } .u-key-r { fill: var(--g3); }
+</style>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why a landing page, and why this shape</a></li>
+    <li><a class="sub" href="#answers">Short answers to the questions</a></li>
+    <li><a href="#look">What it looks like</a></li>
+    <li><a href="#model">Model: three places code runs</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#workflows">Workflows</a></li>
+    <li><a class="sub" href="#w-type">1. Type an address</a></li>
+    <li><a class="sub" href="#w-pick">2. Pick a suggestion</a></li>
+    <li><a class="sub" href="#w-list">3. Read the rate</a></li>
+    <li><a class="sub" href="#w-map">4. See where it fell</a></li>
+    <li><a class="sub" href="#w-no">5. A refusal or a limit</a></li>
+    <li><a href="#limits">Rate limiting</a></li>
+    <li><a href="#cost">What it costs to run</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases</a></li>
+    <li><a href="#questions">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Design plan · proposed · branch frantic-yak · 2026-10-21</p>
+  <h1>Landing page: search an address, see its rate and where it fell</h1>
+  <p class="lede">A one-page site under <code>landing/</code>: a search box with address autocomplete, the rate broken into its parts, and a map that draws the exact points, outlines and margin the engine used to decide. It's a static build with no sign-in and no server of its own, so Vercel, Cloudflare Pages or any file host can serve it. The API it calls sits behind Cloudflare, which limits each IP before a request costs anything.</p>
+  <p class="meta">Traced from <code>src/server.ts</code>, <code>src/lookup.ts</code>, <code>src/engine/index.ts</code>, <code>locate.ts</code>, <code>geo-lookup.ts</code>, <code>shapes.ts</code>, and <code>~/code/openfinance-landing</code> (SvelteKit 2, Svelte 5, Tailwind 4). Prices fetched 2026-10-21. The Austin coordinates, distances and jurisdiction codes in the running example are illustrative until phase 1 runs it against the loaded data.</p>
+</header>
+
+<h2 id="why">Why a landing page, and why this shape</h2>
+<p>Today the only way to see OpenTaxRate work is to clone it, load data for 45 minutes and <code>curl</code> it. A page where someone types an address and sees 8.25%, split into state, city and transit district, with the street and the city line drawn on a map, shows what the README claims in about five seconds. It also shows what sets the project apart: it explains each answer and refuses when it can't be sure.</p>
+<p>The decision is to build a static SvelteKit site, styled like <code>openfinance-landing</code> with pixel-art accents. The browser calls three services directly: an OpenStreetMap-based autocomplete (Geoapify to start), OpenFreeMap tiles drawn by MapLibre, and our API. The API gets one addition, an opt-in <code>trace</code> on the response that carries the geocoder points, the margin and the outlines, so the map draws what the engine used.</p>
+<ul>
+  <li><em>Static, not SvelteKit-on-a-server.</em> With <code>adapter-static</code> the build is plain files. Vercel's Hobby plan, Cloudflare Pages and Netlify serve that for free, and there's no function to meter or rate limit on the landing host.</li>
+  <li><em>OpenStreetMap data end to end, not Mapbox.</em> Mapbox's terms appear to require that Mapbox search results are drawn on a Mapbox map. Pairing Mapbox autocomplete with a free basemap would break that, and pairing it with Mapbox GL means paying for map loads too. OSM-based autocomplete and tiles can be drawn anywhere with attribution.</li>
+  <li><em>The trace comes from the engine, not from the browser.</em> The map shows the Census and Nominatim points the API actually compared, the margin it actually used, and the outlines it actually tested, not a pin from the search box.</li>
+  <li><em>Rate limits live in front of the API.</em> The landing page has nothing to protect. The API is what spends geocoder quota and database time, so it sits behind Cloudflare, with a per-IP limit inside it as well.</li>
+</ul>
+<p>Out of scope: accounts, API keys for the public, a docs site (the README stays the docs for now), batch upload, and hosting the API itself, which the open questions cover.</p>
+
+<h3 id="answers">Short answers to the questions</h3>
+<ul>
+  <li><em>Autocomplete: Mapbox free tier?</em> It works, but it's the expensive choice. Search Box gives 500 free sessions a month, then $3 per 1,000 at its introductory price, or $11.50 per 1,000 after 2,500 free at its listed standard price. It also commits the map to Mapbox. Start with Geoapify's free plan (3,000 requests a day, hard-stopped, no card), and move to a self-hosted Photon when traffic passes about 15,000 lookups a month. Pelias is heavier than we need: it wants Elasticsearch and several importers, whereas Photon is one Java process over a prebuilt OSM index.</li>
+  <li><em>Can the map show exactly how the address was placed, without Mapbox?</em> Yes. MapLibre GL JS (open source) draws OpenFreeMap's vector tiles, which are free with no key and no cap. On top go three layers from the API's trace: each geocoder's point, the margin circle, and the county, city and district outlines with the distance to the nearest edge. The pixel touches (a pin, dithered fills) are just MapLibre layer styles.</li>
+  <li><em>Rate limiting: per IP, or let Cloudflare do it?</em> Both. Cloudflare doesn't rate limit on its own. It absorbs floods for free, but a per-IP limit needs a rule, and the free plan includes one. Put the API's hostname behind Cloudflare with one rule for bursts, and keep a per-IP minute and day count inside the API, keyed by <code>CF-Connecting-IP</code>.</li>
+  <li><em>Is it expensive?</em> No, if we skip Mapbox. At 10,000 lookups a month the recommended stack costs about $15, and that's the server the API already needs. With Mapbox search and maps it's about $50, and at 100,000 lookups it's about $45 against $620 or more. The <a href="#cost">cost table</a> has the arithmetic.</li>
+</ul>
+
+<h2 id="look">What it looks like</h2>
+<p>The page starts as nearly nothing: a small pixel wordmark, one sentence, and a wide rounded search box, like Google's or Claude's new-chat screen. Under the box sit three example addresses, one per engine (a Texas map lookup, an Ohio street-range lookup, an Oregon no-sales-tax address), so a visitor can see a result without typing. Once a lookup returns, the search box moves to the top, the rate shows on the left, and the map fills the right.</p>
+<p>The pixel art stays small and in a few fixed places: the wordmark in a pixel face (Departure Mono, open-licensed), a pixel map pin, a pixel bar that splits the rate into its parts, a dithered fill for the city outline, and a pixel progress strip while the lookup runs. Everything else uses Inter on white, with the same tokens and dark mode as <code>openfinance-landing</code>.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 900px">
+    <p class="fig-title">The empty page is one search box; a result splits into the rate and the map</p>
+    <svg viewBox="0 0 1000 600" role="img" aria-label="Left: the empty page with a wordmark, a headline, a search box with three suggestions and example addresses. Right: the result page with 8.25% split into state, city and transit district, and a map with the pin and outlines.">
+      <defs>
+        <pattern id="dither" width="6" height="6" patternUnits="userSpaceOnUse"><rect class="dz" width="3" height="3"/><rect class="dz" x="3" y="3" width="3" height="3"/></pattern>
+        <symbol id="pin" viewBox="0 0 9 12"><rect x="2" y="0" width="5" height="1"/><rect x="1" y="1" width="7" height="1"/><rect x="0" y="2" width="9" height="4"/><rect x="1" y="6" width="7" height="1"/><rect x="2" y="7" width="5" height="1"/><rect x="3" y="8" width="3" height="1"/><rect x="4" y="9" width="1" height="2"/><rect class="u-hole" x="3" y="3" width="3" height="2"/></symbol>
+        <symbol id="logo" viewBox="0 0 6 6"><rect x="0" y="0" width="2" height="2"/><rect x="2" y="2" width="2" height="2"/><rect x="4" y="4" width="2" height="2"/><rect x="4" y="0" width="2" height="2"/><rect x="0" y="4" width="2" height="2"/></symbol>
+      </defs>
+      <!-- Empty page -->
+      <text class="d-bound-label" x="14" y="12">BEFORE A SEARCH</text>
+      <rect class="u-frame" x="12" y="20" width="320" height="566" rx="10"/>
+      <use href="#logo" class="u-px" x="28" y="38" width="12" height="12"/>
+      <text class="d-tm" x="46" y="49">opentaxrate</text>
+      <text class="d-s" x="268" y="49">GitHub</text>
+      <text class="u-h" x="172" y="196" text-anchor="middle">Sales tax for any US address</text>
+      <text class="d-s" x="172" y="218" text-anchor="middle">From the states' own files. Open source.</text>
+      <rect class="u-input" x="36" y="240" width="272" height="42" rx="21"/>
+      <g class="u-px" transform="translate(52 254)"><rect x="2" y="0" width="6" height="2"/><rect x="0" y="2" width="2" height="6"/><rect x="8" y="2" width="2" height="6"/><rect x="2" y="8" width="6" height="2"/><rect x="10" y="10" width="2" height="2"/><rect x="12" y="12" width="2" height="2"/></g>
+      <text class="d-s" x="76" y="265" style="fill: var(--ink)">1100 Congress|</text>
+      <rect class="u-soft" x="36" y="290" width="272" height="96" rx="10"/>
+      <rect class="u-key" x="42" y="296" width="260" height="28" rx="6"/>
+      <text class="d-s" x="54" y="314" style="fill: var(--ink)">1100 Congress Ave, Austin, TX 78701</text>
+      <text class="d-s" x="54" y="344">1100 Congress St, Houston, TX 77002</text>
+      <text class="d-s" x="54" y="372">1100 Congress Ave, Kansas City, KS</text>
+      <text class="d-s" x="172" y="420" text-anchor="middle">or try one</text>
+      <rect class="u-soft" x="30" y="432" width="92" height="26" rx="13"/><text class="d-s" x="76" y="449" text-anchor="middle">Austin, TX</text>
+      <rect class="u-soft" x="128" y="432" width="96" height="26" rx="13"/><text class="d-s" x="176" y="449" text-anchor="middle">Columbus, OH</text>
+      <rect class="u-soft" x="230" y="432" width="86" height="26" rx="13"/><text class="d-s" x="273" y="449" text-anchor="middle">Portland, OR</text>
+      <text class="d-s" x="172" y="566" text-anchor="middle">API · Coverage · GitHub · Apache 2.0</text>
+
+      <!-- Result page -->
+      <text class="d-bound-label" x="354" y="12">AFTER A LOOKUP</text>
+      <rect class="u-frame" x="352" y="20" width="636" height="566" rx="10"/>
+      <use href="#logo" class="u-px" x="368" y="38" width="12" height="12"/>
+      <rect class="u-input" x="480" y="30" width="380" height="30" rx="15"/>
+      <text class="d-s" x="500" y="50" style="fill: var(--ink)">1100 Congress Ave, Austin, TX 78701</text>
+      <text class="d-s" x="930" y="49">GitHub</text>
+      <!-- progress strip, done -->
+      <g class="u-px-acc"><rect x="352" y="70" width="636" height="3"/></g>
+
+      <text class="d-s" x="372" y="104">Combined sales tax rate</text>
+      <text class="u-big" x="372" y="146">8.25%</text>
+      <text class="d-s" x="372" y="168">on 2026-10-21 · placed on the map</text>
+      <g transform="translate(372 182)">
+        <rect class="u-bar-state" x="0" y="0" width="190" height="12"/>
+        <rect class="u-bar-city" x="192" y="0" width="30" height="12"/>
+        <rect class="u-bar-dist" x="224" y="0" width="30" height="12"/>
+        <!-- pixel teeth on the bar's top edge -->
+        <g class="u-hole"><rect x="0" y="0" width="3" height="3"/><rect x="251" y="9" width="3" height="3"/></g>
+      </g>
+      <line class="d-rule" x1="372" y1="212" x2="632" y2="212"/>
+      <rect class="u-bar-state" x="372" y="226" width="8" height="8"/><text class="d-s" x="388" y="234" style="fill: var(--ink)">State of Texas</text><text class="d-tm" x="632" y="234" text-anchor="end">6.25%</text>
+      <rect class="u-bar-city" x="372" y="252" width="8" height="8"/><text class="d-s" x="388" y="260" style="fill: var(--ink)">City of Austin</text><text class="d-tm" x="632" y="260" text-anchor="end">1.00%</text>
+      <rect class="u-bar-dist" x="372" y="278" width="8" height="8"/><text class="d-s" x="388" y="286" style="fill: var(--ink)">Capital Metro transit</text><text class="d-tm" x="632" y="286" text-anchor="end">1.00%</text>
+      <text class="d-s" x="388" y="312">Travis County levies none</text><text class="d-m" x="632" y="312" text-anchor="end">0.00%</text>
+      <line class="d-rule" x1="372" y1="328" x2="632" y2="328"/>
+      <text class="d-t" x="372" y="354">How it was placed</text>
+      <text class="d-s" x="372" y="376">Census and OpenStreetMap agree within 14 m.</text>
+      <text class="d-s" x="372" y="394">No city or district line within the 40 m margin;</text>
+      <text class="d-s" x="372" y="412">the nearest, Austin's, is 2.1 km away.</text>
+      <text class="d-t" x="372" y="446">Source</text>
+      <text class="d-s" x="372" y="468">Texas Comptroller rate table and outlines,</text>
+      <text class="d-s" x="372" y="486">2026 Q4 release</text>
+      <rect class="u-soft" x="372" y="512" width="120" height="28" rx="6"/><text class="d-s" x="432" y="530" text-anchor="middle">Copy as curl</text>
+      <rect class="u-soft" x="500" y="512" width="132" height="28" rx="6"/><text class="d-s" x="566" y="530" text-anchor="middle">Raw JSON</text>
+
+      <!-- map -->
+      <rect class="u-soft" x="652" y="88" width="320" height="482" rx="8"/>
+      <path class="u-road" d="M652,330 L972,310"/>
+      <path class="u-road" d="M800,88 L812,570"/>
+      <path class="u-road-s" d="M652,200 L972,190 M652,440 L972,430 M720,88 L730,570 M900,88 L905,570"/>
+      <path class="u-city" d="M668,112 L948,104 L956,300 L934,420 L960,552 L700,556 L690,430 L664,380 Z"/>
+      <path class="u-dist" d="M660,96 L966,96 L966,562 L660,562 Z"/>
+      <path class="u-county" d="M652,520 L972,500"/>
+      <circle class="u-margin" cx="808" cy="320" r="16"/>
+      <use href="#pin" class="u-px-acc" x="799" y="290" width="18" height="24"/>
+      <rect x="664" y="526" width="96" height="34" rx="4" style="fill: var(--box); stroke: var(--line)"/>
+      <text class="d-m" x="672" y="540">Austin city</text>
+      <text class="d-m" x="672" y="554" style="fill: var(--g3-ink)">Capital Metro</text>
+      <text class="d-m" x="962" y="494" text-anchor="end">Travis County line</text>
+    </svg>
+  </div>
+  <figcaption>The pixel pieces are the wordmark, the search icon, the pin, the rate bar and the dithered city fill; everything else is plain Inter on white. The parts list, the "how it was placed" text and every mark on the map come from one API response.</figcaption>
+</figure>
+
+<h2 id="model">Model: three places code runs</h2>
+<p>Figure 2 shows where each piece runs. The browser loads a static bundle from the landing host, then talks to three services directly: the autocomplete provider while the visitor types, the tile server while the map draws, and our API once per lookup. Only the API is ours to pay for and protect. It already exists. This plan adds CORS, a limiter, a short cache and the trace.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 900px">
+    <p class="fig-title">The landing page is files; only the API does work, and Cloudflare stands in front of it</p>
+    <svg viewBox="0 0 1000 400" role="img" aria-label="The browser loads static files from Vercel, asks Geoapify for suggestions and OpenFreeMap for tiles, and calls the API through Cloudflare. The API reads Postgres and asks the Census and Nominatim geocoders.">
+      <defs><marker id="m-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-group g2" x="12" y="16" width="290" height="368" rx="10"/>
+      <text class="d-group-label g2" x="28" y="42">Visitor's browser</text>
+      <rect class="d-box" x="32" y="62" width="250" height="66" rx="8"/>
+      <text class="d-t" x="48" y="90">Landing page</text>
+      <text class="d-m" x="48" y="110">landing/build · adapter-static</text>
+      <rect class="d-box" x="32" y="150" width="250" height="66" rx="8"/>
+      <text class="d-t" x="48" y="178">Search box</text>
+      <text class="d-m" x="48" y="198">AddressSearch.svelte</text>
+      <rect class="d-box" x="32" y="238" width="250" height="66" rx="8"/>
+      <text class="d-t" x="48" y="266">Rate list and map</text>
+      <text class="d-m" x="48" y="286">RateList · TaxMap (MapLibre)</text>
+      <text class="d-s" x="32" y="336">No cookies, no sign-in, no state</text>
+      <text class="d-s" x="32" y="354">beyond the URL (?q=… is shareable)</text>
+
+      <rect class="d-box ghost" x="352" y="40" width="250" height="60" rx="8"/>
+      <text class="d-t" x="368" y="66">Static host</text>
+      <text class="d-s" x="368" y="86">Vercel Hobby, or Cloudflare Pages</text>
+      <rect class="d-box" x="352" y="150" width="250" height="60" rx="8"/>
+      <text class="d-t" x="368" y="176">Autocomplete</text>
+      <text class="d-s" x="368" y="196">Geoapify, later self-hosted Photon</text>
+      <rect class="d-box" x="352" y="240" width="250" height="60" rx="8"/>
+      <text class="d-t" x="368" y="266">Map tiles</text>
+      <text class="d-s" x="368" y="286">OpenFreeMap, no key</text>
+      <path class="d-edge" d="M282,95 L350,72" marker-end="url(#m-ah)"/><text class="d-el" x="316" y="74" text-anchor="middle">files</text>
+      <path class="d-edge" d="M282,183 L350,180" marker-end="url(#m-ah)"/><text class="d-el" x="316" y="172" text-anchor="middle">text</text>
+      <path class="d-edge" d="M282,271 L350,270" marker-end="url(#m-ah)"/><text class="d-el" x="316" y="262" text-anchor="middle">tiles</text>
+
+      <rect class="d-group g1" x="652" y="16" width="336" height="368" rx="10"/>
+      <text class="d-group-label g1" x="668" y="42">Ours</text>
+      <rect class="d-box" x="672" y="62" width="296" height="60" rx="8"/>
+      <text class="d-t" x="688" y="88">Cloudflare edge</text>
+      <text class="d-s" x="688" y="108">proxied DNS · one rate-limit rule</text>
+      <rect class="d-box acc" x="672" y="150" width="296" height="92" rx="8"/>
+      <text class="d-t" x="688" y="176">API container</text>
+      <text class="d-m" x="688" y="196">server.ts · cors · perIpLimit · cache</text>
+      <text class="d-m" x="688" y="214">lookUpRate(q, { trace })</text>
+      <text class="d-s" x="688" y="232">adds: CORS, limiter, cache, trace</text>
+      <rect class="d-box" x="672" y="270" width="140" height="60" rx="8"/>
+      <text class="d-t" x="688" y="296">Postgres</text>
+      <text class="d-s" x="688" y="316">PostGIS, ~5 GB</text>
+      <rect class="d-box ghost" x="828" y="270" width="140" height="60" rx="8"/>
+      <text class="d-t" x="844" y="296">Geocoders</text>
+      <text class="d-s" x="844" y="316">Census, Nominatim</text>
+      <path class="d-edge acc" d="M282,292 L320,292 L320,334 L628,334 L628,92 L670,92" marker-end="url(#m-ah)"/>
+      <text class="d-el" x="474" y="352" text-anchor="middle">GET /v1/rate?…&amp;include=trace</text>
+      <path class="d-edge" d="M820,122 L820,148" marker-end="url(#m-ah)"/>
+      <path class="d-edge" d="M742,242 L742,268" marker-end="url(#m-ah)"/>
+      <path class="d-edge dash" d="M898,242 L898,268" marker-end="url(#m-ah)"/>
+      <text class="d-s" x="672" y="364">The Census and Nominatim calls happen only when the</text>
+      <text class="d-s" x="672" y="380">state's engine needs a map point.</text>
+    </svg>
+  </div>
+  <figcaption>The blue box is the only component that changes in this repo outside <code>landing/</code>. Dashed boxes are external and swappable: any static host, and the geocoders the API already uses.</figcaption>
+</figure>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>The landing page builds and deploys alone.</em> <code>landing/</code> has its own <code>package.json</code> and lockfile and imports nothing from <code>src/</code>. Vercel's root directory is <code>landing</code>. The API's Dockerfile and <code>tsconfig</code> ignore it.</li>
+  <li><em>The map draws only what the engine used.</em> Every mark on the map comes from the response's <code>trace</code>. The autocomplete's coordinate is used only to center the map when there's no trace point, as in a street-range answer, and it's labeled that way.</li>
+  <li><em>Draw a provider's coordinates only where its terms allow.</em> Census and Nominatim points can go on any map. The public demo API runs without <code>MAPBOX_ACCESS_TOKEN</code>, so it never returns a Mapbox point to draw on a non-Mapbox map.</li>
+  <li><em>A refusal is a result, not an error.</em> A 422 shows its message and the candidate rates with the same care as a rate, and the map shows the line the address was too close to.</li>
+  <li><em>One lookup per pick.</em> Typing calls only the autocomplete, with a 250 ms debounce and at least 4 characters. The API is called when a suggestion is picked or an example is clicked, never per keystroke.</li>
+  <li><em><code>trace</code> is opt-in.</em> Without <code>include=trace</code>, <code>/v1/rate</code> returns exactly what it returns today. Self-hosters see no change and no added queries.</li>
+  <li><em>Keys in the bundle are public and restricted.</em> The Geoapify key is limited to the landing's origins in Geoapify's console. Its free plan stops at its daily cap, so a stolen key causes an outage, not a bill.</li>
+</ul>
+
+<h2 id="workflows">Workflows</h2>
+<p>The running example is a visitor who opens the page, types <code>1100 Congress</code>, picks the Texas Capitol's address in Austin, reads 8.25%, and looks at the map to see why.</p>
+
+<h3 id="w-type">1. Type an address</h3>
+<p>The visitor types into the search box. After 250 ms without a keystroke, and with at least 4 characters, the box asks the autocomplete for US addresses and shows up to five.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 1: typing produces suggestions, each already split into the API's fields</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">input</span><span class="id">"1100 Congress"</span><span class="field">debounced 250 ms</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">request</span><span class="id">suggest()</span><span class="field">geoapify · type=street-address · US · limit 5</span></div>
+              <ul>
+                <li><div class="obj new"><span class="kind">suggestion</span><span class="id">s1</span><span class="field">1100 Congress Ave · Austin · TX · 78701</span><span class="field">lon -97.7404 · lat 30.2747</span></div></li>
+                <li><div class="obj new"><span class="kind">suggestion</span><span class="id">s2</span><span class="field">1100 Congress St · Houston · TX · 77002</span></div></li>
+                <li><div class="obj new"><span class="kind">suggestion</span><span class="id">s3</span><span class="field">1100 Congress Ave · Kansas City · KS</span></div></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Blue boxes are created in this step, in the browser only. Each suggestion carries street, city, state and ZIP separately, the four fields <code>/v1/rate</code> asks for, so nothing has to be re-parsed.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 1</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">ui</span>AddressSearch.svelte  oninput → debounce(250)       <span class="n">landing/src/lib/search/AddressSearch.svelte</span>
+└─ <span class="layer">client</span>suggest(text, signal): Promise&lt;Suggestion[]&gt;  <span class="n">landing/src/lib/search/suggest.ts</span>
+   ├─ <span class="layer">client</span>geoapify(text)  GET api.geoapify.com/v1/geocode/autocomplete
+   │                    ?text=…&amp;filter=countrycode:us&amp;type=street&amp;limit=5&amp;apiKey=PUBLIC
+   └─ <span class="layer">client</span>photon(text)    GET {PHOTON_URL}/api?q=…&amp;bbox=US&amp;layer=house   <span class="n">later, same Suggestion shape</span></pre>
+    <div class="scroll"><table class="grid-table">
+      <thead><tr><th scope="col">Field</th><th scope="col">Suggestion s1</th><th scope="col">Goes to</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>street</code></th><td>1100 Congress Ave</td><td><code>/v1/rate?street=</code></td></tr>
+        <tr><th scope="row"><code>city</code></th><td>Austin</td><td><code>city=</code></td></tr>
+        <tr><th scope="row"><code>state</code></th><td>TX</td><td><code>state=</code></td></tr>
+        <tr><th scope="row"><code>zip</code></th><td>78701</td><td><code>zip=</code></td></tr>
+        <tr><th scope="row"><code>lon</code>, <code>lat</code></th><td>-97.7404, 30.2747</td><td>map center only, until the trace arrives</td></tr>
+      </tbody>
+    </table></div>
+    <p>A suggestion without a house number (a street or a city) is shown greyed out with "add a house number", since the range engine needs one.</p>
+  </div>
+</details>
+<p>The visitor sees three addresses under the box and moves to the first with the arrow keys.</p>
+
+<h3 id="w-pick">2. Pick a suggestion</h3>
+<p>Picking s1 writes <code>?q=1100+Congress+Ave,+Austin,+TX+78701</code> into the URL so the result can be shared, starts the pixel progress strip, and calls the API once with <code>include=trace</code>.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 2: one request passes the edge rule, the per-IP count and the cache, then returns a rate with its trace</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">exists</span><span class="id">s1</span><span class="field">picked suggestion</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">request</span><span class="id">GET /v1/rate</span><span class="field">state=TX · street=1100 Congress Ave</span><span class="field">city=Austin · zip=78701 · include=trace</span></div>
+              <ul>
+                <li><div class="obj changed"><span class="kind">counter</span><span class="id">ip 203.0.113.7</span><span class="field">minute 3/10 · day 3/200</span></div></li>
+                <li><div class="obj new"><span class="kind">AddressRate</span><span class="id">rate 0.0825</span><span class="field">match map · 3 parts</span>
+                  </div>
+                  <ul>
+                    <li><div class="obj new"><span class="kind">trace</span><span class="id">geocoders[2]</span><span class="field">census 30.27471,-97.74036 interpolated</span><span class="field">nominatim 30.27459,-97.74028 point</span></div></li>
+                    <li><div class="obj new"><span class="kind">trace</span><span class="id">point + margin</span><span class="field">nominatim's · spread 14 m · margin 40 m</span></div></li>
+                    <li><div class="obj new"><span class="kind">trace</span><span class="id">outlines[3]</span><span class="field">place Austin · district Capital Metro</span><span class="field">county Travis · GeoJSON clipped to 3 km</span></div></li>
+                  </ul>
+                </li>
+                <li><div class="obj new"><span class="kind">cache entry</span><span class="id">TX|1100 CONGRESS AVE|…</span><span class="field">24 h · same answer for the next visitor</span></div></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>The black box is a counter that already existed and changed. Everything the map needs arrives in this one response; the browser makes no second call to the API.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 2, with the new API code</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">client</span>lookUp(s1)  fetch(PUBLIC_API_URL + /v1/rate?…&amp;include=trace)   <span class="n">landing/src/lib/api.ts</span>
+└─ <span class="layer">edge</span>Cloudflare rule: /v1/rate, &gt;20 per 10 s per IP → block 10 s
+   └─ <span class="layer">http</span>cors({ origin: OPENTAXRATE_CORS_ORIGINS })           <span class="n">src/server.ts (added)</span>
+      └─ <span class="layer">http</span>perIpLimit(c)  key CF-Connecting-IP, 10/min, 200/day  <span class="n">src/limits.ts (new)</span>
+         └─ <span class="layer">http</span>answers.get(key) ?? lookUpRate(q, { trace })        <span class="n">src/cache.ts (new), src/lookup.ts</span>
+            └─ <span class="layer">engine</span>addressRates.at({ …, trace }, date)            <span class="n">src/engine/index.ts</span>
+               └─ <span class="layer">engine</span>geoRateAt(state, await locate(), date, street, trace)
+                  ├─ <span class="layer">engine</span>locateAddress(a, primary, trace)          <span class="n">locate.ts: records each source's point</span>
+                  │  ├─ censusPoint(a)     → interpolated
+                  │  └─ nominatimPoint(a)  → point
+                  └─ <span class="layer">sql</span>shapesAround(state, point, pad)              <span class="n">shapes.ts: trace.outlines ← kind, fips, inside, edgeMetres, foot</span>
+            └─ <span class="layer">sql</span>outlineGeometry(state, keys, point, 3000)          <span class="n">shapes.ts (new), only when include=trace</span>
+                 select kind, fips, st_asgeojson(st_simplifypreservetopology(
+                   st_intersection(geom, st_expand(p::geography, 3000)::geometry), 0.00005), 6)</pre>
+<pre class="calls">// src/engine/types.ts (added)
+export interface Trace {
+  geocoders: Array&lt;LocatedPoint &amp; { source: "census" | "nominatim" | "mapbox" }&gt;;
+  /** The point the engine used and the margin a line must be beyond. */
+  point?: LocatedPoint &amp; { marginMetres: number; spreadMetres: number };
+  outlines: Array&lt;{ kind: string; fips: string; name: string; inside: boolean;
+                    edgeMetres: number; foot: Point; levies: boolean; geometry?: GeoJSON.MultiPolygon }&gt;;
+  /** Range engine: the street range row that decided, when no map point was used. */
+  range?: { street: string; low: number; high: number; side: "odd" | "even" | "both"; zip: string; file: string };
+}</pre>
+    <p>The engines take an optional <code>trace</code> object and push into it. Their return types don't change, so the CLI, the tests and every caller that omits <code>trace</code> behave as they do today. Coordinates are rounded to 5 decimals (about 1 m) and outlines to about 5 m, which keeps a typical response under 40 KB.</p>
+  </div>
+</details>
+<p>The progress strip fills, the search box slides to the top, and the result appears, typically within a second for a cached or range answer and about 2 seconds for a map answer that waits on the geocoders.</p>
+
+<h3 id="w-list">3. Read the rate</h3>
+<p>The left column formats the <code>AddressRate</code>: the combined rate in large type, a pixel bar split by part, one row per part with its name and rate, how the address was placed, and the source line as returned.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 3: each field of the response becomes one line of the list</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">AddressRate</span><span class="id">rate 0.0825</span><span class="field">stateRate 0.0625 · localRate 0.02</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">headline</span><span class="id">8.25%</span><span class="field">on 2026-10-21 · placed on the map</span></div></li>
+            <li><div class="obj new"><span class="kind">part rows</span><span class="id">3 rows + 1 dim</span><span class="field">State of Texas 6.25% · City of Austin 1.00%</span><span class="field">Capital Metro 1.00% · Travis County none</span></div></li>
+            <li><div class="obj new"><span class="kind">how placed</span><span class="id">match "map"</span><span class="field">from trace: 2 geocoders, 14 m, 40 m margin</span></div></li>
+            <li><div class="obj new"><span class="kind">source</span><span class="id">source string</span><span class="field">shown verbatim, plus "copy as curl"</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Names like "City of Austin" come from the trace's outline names. Without a trace (a statewide or California answer), a row shows its kind and code, which is all the API has.</figcaption>
+</figure>
+<details class="more">
+  <summary>How each match type reads<span class="dim">the "how placed" line</span></summary>
+  <div class="inner"><div class="scroll"><table class="grid-table">
+    <thead><tr><th scope="col"><code>match</code></th><th scope="col">Line shown</th><th scope="col">Map shows</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>street</code></th><td>Matched 100–198 W Broad St, even side, in Ohio's address file</td><td>Outlines near the search box's point, marked "for context; the street range decided"</td></tr>
+      <tr><th scope="row"><code>zip4</code></th><td>Matched ZIP+4 43215-1234's range</td><td>Same as street</td></tr>
+      <tr><th scope="row"><code>zip5</code></th><td>Every range in ZIP 43215 has this rate</td><td>Same as street</td></tr>
+      <tr><th scope="row"><code>map</code></th><td>N geocoders agree within S m; no line within the M m margin</td><td>Geocoder points, margin circle, outlines, nearest-edge line</td></tr>
+      <tr><th scope="row"><code>statewide</code></th><td>One rate across the state</td><td>The state, zoomed out, no pin detail</td></tr>
+      <tr><th scope="row"><code>authority</code></th><td>California's tax office's live lookup, tax area N</td><td>The search box's point only</td></tr>
+    </tbody>
+  </table></div></div>
+</details>
+<p>The visitor reads 8.25% and sees that two of the points are local, without opening anything.</p>
+
+<h3 id="w-map">4. See where it fell</h3>
+<p>The map is the part the user asked to show exactly. It draws the engine's own geometry over a muted OpenFreeMap basemap: the outlines it tested (city with a dithered fill, district dashed, county dotted), each geocoder's point, the chosen point as a pixel pin, the margin as a dashed circle, and a thin line to the nearest edge with its distance. A small zoomed inset shows the points and the margin at street scale, where the agreement is visible.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 900px">
+    <p class="fig-title">Step 4: two geocoders 14 m apart, a 40 m margin, and no line inside it, so one rate</p>
+    <svg viewBox="0 0 1000 440" role="img" aria-label="Left: a 3 km map of central Austin with the city outline dithered, the Capital Metro district dashed, the county line dotted, and a pin at the Capitol with a line 2.1 km to the nearest city edge. Right: a 150 m inset with the Census and Nominatim points 14 m apart inside a 40 m margin circle.">
+      <defs>
+        <pattern id="dither2" width="6" height="6" patternUnits="userSpaceOnUse"><rect class="dz" width="3" height="3"/><rect class="dz" x="3" y="3" width="3" height="3"/></pattern>
+        <marker id="w-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker>
+      </defs>
+      <text class="d-bound-label" x="14" y="14">MAP · ABOUT 3 KM ACROSS</text>
+      <rect class="u-soft" x="12" y="22" width="580" height="400" rx="8"/>
+      <path class="u-road" d="M12,250 L592,236"/>
+      <path class="u-road" d="M300,22 L312,422"/>
+      <path class="u-road-s" d="M12,120 L592,112 M12,350 L592,340 M160,22 L166,422 M450,22 L456,422"/>
+      <path d="M40,46 L560,40 L572,190 L540,300 L566,404 L80,408 L70,300 L36,250 Z" style="fill: url(#dither2); stroke: var(--stroke); stroke-width: 1.4"/>
+      <path class="u-dist" d="M24,32 L584,32 L584,414 L24,414 Z"/>
+      <path class="u-county" d="M12,392 L592,372"/>
+      <path class="d-edge dash" d="M306,244 L38,252"/>
+      <text class="d-el" x="170" y="242" text-anchor="middle">nearest city edge 2.1 km</text>
+      <circle class="u-margin" cx="306" cy="244" r="6"/>
+      <use href="#pin" class="u-px-acc" x="297" y="214" width="18" height="24"/>
+      <text class="d-m" x="60" y="70">Austin city · inside · levies 1%</text>
+      <text class="d-m" x="60" y="88" style="fill: var(--g3-ink)">Capital Metro · inside · levies 1%</text>
+      <text class="d-m" x="580" y="366" text-anchor="end">Travis County · inside · levies none</text>
+      <rect class="d-box acc" x="288" y="222" width="36" height="36" rx="2" style="fill: none"/>
+      <path class="d-edge acc" d="M324,230 L618,120" marker-end="url(#w-ah)"/>
+
+      <text class="d-bound-label" x="622" y="14">INSET · ABOUT 150 M ACROSS</text>
+      <rect class="u-soft" x="620" y="22" width="368" height="400" rx="8"/>
+      <rect x="700" y="120" width="210" height="190" rx="4" style="fill: var(--box); stroke: var(--line)"/>
+      <text class="d-s" x="708" y="140">Capitol</text>
+      <circle class="u-margin" cx="800" cy="220" r="88"/>
+      <text class="d-el" x="800" y="106" text-anchor="middle" style="fill: var(--accent-ink)">40 m margin (Nominatim "point")</text>
+      <circle class="u-dot" cx="826" cy="200" r="6"/>
+      <text class="d-el" x="838" y="196">Census, interpolated</text>
+      <path d="M800,220 L826,200" style="stroke: var(--text-2); stroke-width: 1.2"/>
+      <text class="d-el" x="812" y="232">14 m</text>
+      <use href="#pin" class="u-px-acc" x="791" y="196" width="18" height="24"/>
+      <text class="d-el" x="800" y="290" text-anchor="middle">Nominatim, point (used)</text>
+      <text class="d-s" x="636" y="350">No outline edge falls inside the circle, so the</text>
+      <text class="d-s" x="636" y="368">address can't be on the other side of a line, and</text>
+      <text class="d-s" x="636" y="386">the engine returns one rate instead of a 422.</text>
+    </svg>
+  </div>
+  <figcaption>The blue marks are the engine's decision: the point it used and the margin it applied. Had an Austin line crossed the circle with a different rate on the other side, the API would have refused, and the map would draw that line in blue.</figcaption>
+</figure>
+<details class="more">
+  <summary>Layers and calls<span class="dim">MapLibre sources and layers</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">ui</span>TaxMap.svelte  onMount → import("maplibre-gl")             <span class="n">lazy: ~220 KB gzip, loads after the first result</span>
+├─ <span class="layer">ui</span>new Map({ style: openFreeMapStyle(theme) })            <span class="n">landing/src/lib/map/style.ts: positron, greyed, labels kept</span>
+├─ <span class="layer">ui</span>addSource("outlines", geojson(trace.outlines))
+│  ├─ layer "city-fill"      fill-pattern: dither-4px     <span class="n">pixel checker, added with map.addImage()</span>
+│  ├─ layer "outline-line"   line-dasharray by kind       <span class="n">place solid · district dashed · county dotted</span>
+│  └─ layer "outline-label"  symbol: name · levies %
+├─ <span class="layer">ui</span>addSource("points", geojson(trace.geocoders))     → circle layer, label by source
+├─ <span class="layer">ui</span>addSource("margin", circle(trace.point, marginMetres)) → dashed line, accent
+├─ <span class="layer">ui</span>addSource("edge", line(trace.point, nearest.foot))    → dashed line + "2.1 km" label
+├─ <span class="layer">ui</span>new Marker({ element: PixelPin })                      <span class="n">landing/src/lib/pixel/PixelPin.svelte, image-rendering: pixelated</span>
+└─ <span class="layer">ui</span>fitBounds(margin ∪ nearest edge, padding 40)</pre>
+    <p>A no-library fallback is possible: draw the trace's GeoJSON as SVG with a Web Mercator projection and no basemap, an all-pixel "blueprint" view. It's cheaper to ship, but without streets a visitor can't recognize the place. It's worth keeping as the loading state, the outlines drawn before the tiles arrive.</p>
+  </div>
+</details>
+<p>The visitor sees the pin on the Capitol, the city's dithered fill around it, and "nearest city edge 2.1 km", which is why the answer is certain.</p>
+
+<h3 id="w-no">5. A refusal or a limit</h3>
+<p>Some lookups don't end in a rate. A 422 shows the API's message and its candidate rates, with the map drawing the line that was too close. A 429 says how long to wait, and a 502 or 504 says a data source is down.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 5: a refusal shows its line; a limit shows its wait</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">request</span><span class="id">GET /v1/rate</span><span class="field">an address 12 m from a city line</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">422</span><span class="id">ADDRESS_NEEDS_CONFIRMATION</span><span class="field">"within 40 m of the Sunset Valley line…</span><span class="field">8.25% or 6.75%…" + trace</span></div>
+              <ul><li><div class="obj new"><span class="kind">ui</span><span class="id">refusal card</span><span class="field">message · both rates · map with the line in blue</span></div></li></ul>
+            </li>
+            <li><div class="obj new"><span class="kind">429</span><span class="id">RATE_LIMITED</span><span class="field">Retry-After: 42</span></div>
+              <ul><li><div class="obj new"><span class="kind">ui</span><span class="id">pixel hourglass</span><span class="field">"Try again in 42 s, or run your own"</span></div></li></ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>A 422 still carries the trace, since a refusal is where the map matters most. The 429 message links to the README's <code>docker compose up</code>, which turns a limit into an invitation to self-host.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 5</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">http</span>perIpLimit(c)  over 10/min or 200/day                  <span class="n">src/limits.ts</span>
+└─ c.json({ error: "Too many lookups from this address. Try again in 42 s.", code: "RATE_LIMITED" }, 429)
+   + Retry-After: 42
+<span class="layer">http</span>app.get("/v1/rate") catch RateError                     <span class="n">src/server.ts</span>
+└─ c.json({ error, code, trace? }, error.status)               <span class="n">trace included when asked for and recorded</span></pre>
+    <p><code>RATE_LIMITED</code> joins <code>RATE_ERROR_CODES</code> in <code>src/errors.ts</code> so clients can branch on it.</p>
+  </div>
+</details>
+<p>The visitor reads why there's no single answer, sees the line, and knows what to confirm.</p>
+
+<h2 id="limits">Rate limiting</h2>
+<p>The direct answer: limit per IP, in two layers, both in front of the API, because the landing page has nothing to protect. Cloudflare doesn't rate limit automatically. Its DDoS protection is automatic and free, but a per-IP limit is a rule you write, and the free plan includes one. A Vercel firewall rule wouldn't help either, since it only guards what Vercel serves, and the API isn't there.</p>
+<ol>
+  <li><strong>Edge rule, at Cloudflare.</strong> The API's hostname (say <code>api.opentaxrate.com</code>) is a proxied DNS record. One rule blocks an IP for 10 seconds after 20 requests to <code>/v1/rate</code> in 10 seconds. That stops scripts before they reach the server, at no cost.</li>
+  <li><strong>Per-IP counts, in the API.</strong> <code>src/limits.ts</code> keeps a minute and a day counter per IP in memory: 10 lookups a minute and 200 a day, set by <code>OPENTAXRATE_PUBLIC_LIMIT=10/min,200/day</code>. It's off when unset, so self-hosters are unaffected. The key is <code>CF-Connecting-IP</code>, trusted only when <code>OPENTAXRATE_TRUST_CF=1</code>, and the origin's firewall accepts only Cloudflare's IP ranges, so the header can't be forged. One container means memory is enough, with no Redis.</li>
+  <li><strong>A 24-hour answer cache.</strong> A repeated address (every example chip, every shared link) is answered from memory without touching Nominatim. That also keeps us inside Nominatim's 1-request-a-second policy, which the engine already spaces to.</li>
+  <li><strong>Autocomplete limits itself.</strong> The Geoapify key is restricted to our origins, and the free plan's daily cap is a hard stop, not overage.</li>
+</ol>
+<p>If bots get past this, add Cloudflare Turnstile, a free invisible challenge, on the first lookup of a session. That's left out of v1 because it adds a script and a token round-trip for every visitor.</p>
+
+<h2 id="cost">What it costs to run</h2>
+<p>A lookup here means one search that ends in a result. The estimates assume 1.2 autocomplete sessions per lookup (some people give up) and 6 suggestion requests per session after the debounce. The API server is counted in both stacks because it has to exist anyway. Its price is an estimate for a 4-vCPU, 8 GB VPS, which fits the 5 GB database, so check it against your provider. All other prices were fetched 2026-10-21.</p>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Monthly</th><th scope="col" class="num">1,000 lookups</th><th scope="col" class="num">10,000</th><th scope="col" class="num">100,000</th><th scope="col">Basis</th></tr></thead>
+  <tbody>
+    <tr><th scope="row" colspan="5">Recommended: Geoapify, then Photon · OpenFreeMap · static host · Cloudflare free</th></tr>
+    <tr><td>Landing hosting</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="dim">Static files on Vercel Hobby or Cloudflare Pages</td></tr>
+    <tr><td>Map tiles</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="dim">OpenFreeMap: no key, no limits, donation-funded</td></tr>
+    <tr><td>Autocomplete</td><td class="num">$0</td><td class="num">$0</td><td class="num">~$30</td><td class="dim">7.2k and 72k requests fit Geoapify's 3,000 a day free. 720k doesn't, so self-host Photon (16 GB VPS, estimate)</td></tr>
+    <tr><td>Rate limiting</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="dim">Cloudflare free plan, one rule</td></tr>
+    <tr><td>API server</td><td class="num">~$15</td><td class="num">~$15</td><td class="num">~$15</td><td class="dim">Already needed. Census and Nominatim are free</td></tr>
+    <tr><th scope="row">Total</th><td class="num"><strong>~$15</strong></td><td class="num"><strong>~$15</strong></td><td class="num"><strong>~$45</strong></td><td></td></tr>
+    <tr><th scope="row" colspan="5">For comparison: Mapbox Search Box + Mapbox GL map</th></tr>
+    <tr><td>Search sessions</td><td class="num">$2</td><td class="num">$35</td><td class="num">$359</td><td class="dim">1.2k, 12k, 120k sessions: 500 free, then $3 per 1,000 (introductory price)</td></tr>
+    <tr><td>Map loads</td><td class="num">$0</td><td class="num">$0</td><td class="num">$250</td><td class="dim">50,000 free, then $5 per 1,000</td></tr>
+    <tr><td>API server</td><td class="num">~$15</td><td class="num">~$15</td><td class="num">~$15</td><td class="dim">Same</td></tr>
+    <tr><th scope="row">Total</th><td class="num"><strong>~$17</strong></td><td class="num"><strong>~$50</strong></td><td class="num"><strong>~$624</strong></td><td class="dim">At the listed standard session price ($11.50 per 1,000 after 2,500 free), search alone at 100k is about $1,320</td></tr>
+  </tbody>
+</table></div>
+<ul>
+  <li><em>Autocomplete is the only cost that grows with traffic.</em> Everything else is flat or free, which is why the provider choice matters more than the host.</li>
+  <li><em>Mapbox has no hard spending cap.</em> A scraped public token bills you. Geoapify's free plan just stops, which is the safer failure for a public demo.</li>
+  <li><em>If the landing counts as commercial,</em> Vercel's Hobby plan doesn't allow it, and Pro is $20 a month. Cloudflare Pages is free either way, and it's what <code>openfinance-landing</code> uses, so the static build is meant to move between the two without changes.</li>
+</ul>
+
+<h2 id="boundaries">Boundaries</h2>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Page</th><td><code>landing/src/routes/+page.svelte</code></td><td>Layout, the empty and result states, <code>?q=</code> in the URL, examples</td><td>Text to the search box; a picked suggestion to <code>lookUp</code></td></tr>
+    <tr><th scope="row">Search</th><td><code>landing/src/lib/search/</code></td><td>Debounce, keyboard navigation, provider adapters (<code>geoapify</code>, <code>photon</code>) behind one <code>suggest()</code></td><td><code>Suggestion { street, city, state, zip, lon, lat }</code></td></tr>
+    <tr><th scope="row">API client</th><td><code>landing/src/lib/api.ts</code></td><td>Building the query, reading 200, 422, 429 and 5xx into one result type</td><td><code>LookupResult</code> to the list and the map</td></tr>
+    <tr><th scope="row">Result</th><td><code>landing/src/lib/result/</code></td><td>Formatting parts, match lines, the pixel bar; the MapLibre map and its layers</td><td>Nothing; it's the end of the line</td></tr>
+    <tr><th scope="row">Edge</th><td>Cloudflare dashboard</td><td>Proxy, TLS, the burst rule</td><td>Requests with <code>CF-Connecting-IP</code></td></tr>
+    <tr><th scope="row">HTTP</th><td><code>src/server.ts</code>, <code>src/limits.ts</code>, <code>src/cache.ts</code></td><td>CORS, per-IP counts, the answer cache, <code>include=trace</code></td><td><code>RateQuery</code> and an empty <code>Trace</code> to <code>lookUpRate</code></td></tr>
+    <tr><th scope="row">Engine</th><td><code>src/engine/</code></td><td>The rate, as today; recording points, outlines and ranges into a trace it's given</td><td><code>AddressRate</code>, a filled <code>Trace</code></td></tr>
+    <tr><th scope="row">SQL</th><td><code>src/engine/shapes.ts</code></td><td>Outline geometry clipped and simplified for display</td><td>GeoJSON per outline</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="phases">Phases</h2>
+<p>There's no data model or migration. The trace reads tables that already exist. So the order is: the API change, then the page, then the map, then deploy.</p>
+
+<h3 id="p1">Phase 1: the API explains itself (one PR)</h3>
+<p>This phase adds <code>include=trace</code>, CORS, the per-IP limiter and the answer cache to the API, all off by default.</p>
+<details class="more">
+  <summary>Files<span class="dim">engine, http, tests</span></summary>
+  <div class="inner"><ul>
+    <li><strong>Engine:</strong> <code>src/engine/types.ts</code> (<code>Trace</code>), <code>locate.ts</code> (name each source, record points, spread and margin), <code>geo-lookup.ts</code> and <code>sst-lookup.ts</code> (record outlines and the deciding range), <code>index.ts</code> (pass <code>trace</code> through), <code>shapes.ts</code> (<code>outlineGeometry</code>).</li>
+    <li><strong>HTTP:</strong> <code>src/server.ts</code> (<code>include</code> param, <code>hono/cors</code>, trace on 422), <code>src/limits.ts</code>, <code>src/cache.ts</code>, <code>src/errors.ts</code> (<code>RATE_LIMITED</code>), <code>src/lookup.ts</code>, <code>.env.example</code>.</li>
+    <li><strong>Tests:</strong> <code>test/trace.test.ts</code> (the Austin address returns 2 geocoders, a 40 m margin and 3 outlines; an Ohio street match returns <code>range</code> and no point), <code>test/limits.test.ts</code> (the 11th call in a minute is a 429 with <code>Retry-After</code>).</li>
+  </ul></div>
+</details>
+<p><em>Done when</em> <code>pnpm typecheck</code> and <code>pnpm test</code> pass, <code>/v1/rate</code> without <code>include</code> is byte-identical to <code>main</code> for the README's examples, and the traced Austin response is under 40 KB.</p>
+
+<h3 id="p2">Phase 2: the page and the search (one PR)</h3>
+<p>This phase scaffolds <code>landing/</code> from <code>openfinance-landing</code>'s setup, swapping the Cloudflare adapter for <code>adapter-static</code>, and adds the search box, examples, rate list and refusal card, with the map area as a placeholder.</p>
+<details class="more">
+  <summary>Files<span class="dim">config, ui, client</span></summary>
+  <div class="inner"><ul>
+    <li><strong>Config:</strong> <code>landing/package.json</code>, <code>svelte.config.js</code> (<code>adapter-static</code>, <code>prerender = true</code>), <code>vite.config.ts</code>, <code>tsconfig.json</code>, <code>.env.example</code> (<code>PUBLIC_API_URL</code>, <code>PUBLIC_GEOAPIFY_KEY</code>), <code>README.md</code> (deploy to Vercel or Pages). Repo root: <code>.dockerignore</code> adds <code>landing</code>.</li>
+    <li><strong>UI:</strong> <code>src/app.html</code>, <code>src/app.css</code> (tokens from openfinance-landing, Inter, Departure Mono for the wordmark and rate), <code>src/routes/+layout.svelte</code>, <code>+page.svelte</code>, <code>src/components/ThemeToggle.svelte</code>, <code>src/lib/pixel/</code> (logo, pin, magnifier, progress strip, hourglass as SVG rects).</li>
+    <li><strong>Client:</strong> <code>src/lib/search/AddressSearch.svelte</code>, <code>suggest.ts</code>, <code>src/lib/api.ts</code>, <code>src/lib/result/RateList.svelte</code>, <code>Refusal.svelte</code>.</li>
+  </ul></div>
+</details>
+<p><em>Done when</em> <code>pnpm check</code> and <code>pnpm build</code> pass in <code>landing/</code>, the three example chips return a rate, a refusal and a statewide answer against a local API, and the page works with the keyboard alone.</p>
+
+<h3 id="p3">Phase 3: the map (one PR)</h3>
+<p>This phase adds MapLibre with an OpenFreeMap style in light and dark, the trace layers, the pixel pin, the dithered fill and the inset.</p>
+<details class="more">
+  <summary>Files<span class="dim">map</span></summary>
+  <div class="inner"><ul>
+    <li><code>landing/src/lib/result/TaxMap.svelte</code>, <code>landing/src/lib/map/style.ts</code>, <code>landing/src/lib/map/layers.ts</code> (trace → sources and layers), <code>landing/src/lib/map/circle.ts</code> (a metre-radius polygon), <code>landing/src/lib/pixel/PixelPin.svelte</code>.</li>
+  </ul></div>
+</details>
+<p><em>Done when</em> the Austin, Columbus and refusal examples each render the layers in the step 3 table in both themes, MapLibre loads only after the first result, and the empty page's JavaScript stays under 60 KB gzip.</p>
+
+<h3 id="p4">Phase 4: deploy (one PR, mostly settings)</h3>
+<p>This phase creates the Vercel project with root <code>landing</code>, points the API's DNS at Cloudflare with the burst rule, firewalls the origin to Cloudflare's ranges, sets the API's env vars (<code>OPENTAXRATE_CORS_ORIGINS</code>, <code>OPENTAXRATE_PUBLIC_LIMIT</code>, <code>OPENTAXRATE_TRUST_CF</code>, no Mapbox token), and restricts the Geoapify key to the landing's origins.</p>
+<p><em>Done when</em> 30 quick requests from one machine get 429s after the 10th, a request straight to the origin IP is refused, and a shared <code>?q=</code> link opens on a result.</p>
+
+<h3 id="p5">Later: self-host Photon</h3>
+<p>When lookups pass about 15,000 a month, or Geoapify's free cap blocks visitors on busy days, run Photon with the US extract on its own VPS and set <code>PUBLIC_SUGGEST=photon</code>. <code>suggest.ts</code> already has the adapter.</p>
+
+<h2 id="questions">Open questions</h2>
+<ul>
+  <li><em>Where does the public API run?</em> Recommended: one small VPS running the existing <code>docker compose</code>, restored from the release snapshot, with Cloudflare in front. Vercel can't run it, because it needs Postgres with PostGIS and a long-lived process.</li>
+  <li><em>Drop Mapbox from the demo API?</em> Recommended: yes. Without the token, the map draws every point the engine used, and the cost is zero. The cost is that some map-engine addresses that only Mapbox could place come back as "couldn't be placed". Measure how many on the Texas check set before deciding. If it's more than 1 to 2%, keep Mapbox in the API and show "Mapbox agreed within N m" as text, without its dot.</li>
+  <li><em>Geoapify or Photon from day one?</em> Recommended: Geoapify. Self-hosting Photon is a second server to run before anyone has visited. Its US address coverage is the same OSM data, so switching later changes nothing for visitors.</li>
+  <li><em>Vercel or Cloudflare Pages for the landing?</em> Recommended: either works, since the build is static. Pick Vercel if the project is non-commercial or you'll pay for Pro anyway. Pick Pages if you want the API's DNS, rules and site in one dashboard, as <code>openfinance-landing</code> does.</li>
+  <li><em>Which domain?</em> Recommended: <code>opentaxrate.com</code> for the page and <code>api.opentaxrate.com</code> for the API, so CORS allows exactly one origin plus preview URLs.</li>
+</ul>
+
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-session">Autocomplete session</h3>
+    <p>The run of suggestion requests one person makes while typing one address, billed as a unit by Mapbox (up to 50 suggests and 1 retrieve, ending after 2 minutes idle). Geoapify bills each request instead.</p>
+<pre class="snip">"1"  "11"  "110" (min 4 chars: no call)
+"1100" → suggest   "1100 Cong" → suggest   pick → retrieve
+Mapbox: 1 session    Geoapify: 2 requests</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-margin">Margin</h3>
+    <p>How far a line must be from the point before the engine trusts which side it's on. It's set by the geocoder's accuracy, or by the spread between geocoders when that's wider (<code>EDGE_METRES</code> in <code>types.ts</code>).</p>
+<pre class="snip">EDGE_METRES = { rooftop: 15, parcel: 25, point: 40, interpolated: 75 }
+best = nominatim (point), spread 14 m &lt; 40 m → margin 40 m
+spread &gt; 250 m → address not placed (MAX_SPREAD_METRES)</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-maplibre">MapLibre GL JS</h3>
+    <p>The open-source fork of Mapbox GL JS (BSD license). It draws vector tiles from any server with WebGL, with no key and no per-load fee.</p>
+<pre class="snip">new maplibregl.Map({ container, style: "https://tiles.openfreemap.org/styles/positron" })
+map.addSource("outlines", { type: "geojson", data: trace.outlines })</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-ofm">OpenFreeMap</h3>
+    <p>A free public host for OpenStreetMap vector tiles and styles, with no key, no registration and no request cap, funded by donations. Commercial use is allowed. It can be self-hosted if it ever goes away.</p>
+<pre class="snip">style: https://tiles.openfreemap.org/styles/positron
+attribution: © OpenMapTiles © OpenStreetMap contributors</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-photon">Photon</h3>
+    <p>An open-source, search-as-you-type geocoder over OpenStreetMap, one Java process over a prebuilt index that GraphHopper publishes weekly, including per-country extracts. Pelias does the same with Elasticsearch and several importers, so it has more to run.</p>
+<pre class="snip">java -jar photon.jar -data-dir ./photon_data   # US extract
+GET /api?q=1100+congress&amp;layer=house&amp;bbox=-125,24,-66,50</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-cf-ip">CF-Connecting-IP</h3>
+    <p>The header Cloudflare adds with the visitor's real IP when it proxies a request. It's only trustworthy when the origin refuses connections that don't come from Cloudflare.</p>
+<pre class="snip">key = env.OPENTAXRATE_TRUST_CF ? req.header("cf-connecting-ip") : socket.remoteAddress
+bucket[key].minute += 1  → 11 &gt; 10 → 429, Retry-After = seconds left in minute</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-static">adapter-static</h3>
+    <p>The SvelteKit adapter that prerenders every route to HTML, JS and CSS files at build time, so any static host can serve the site and no server code runs per request.</p>
+<pre class="snip">// svelte.config.js
+import adapter from "@sveltejs/adapter-static";
+export default { kit: { adapter: adapter() } };
+// src/routes/+layout.ts
+export const prerender = true;</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-cors">CORS</h3>
+    <p>The browser rule that a page on one origin may read responses from another only if that server allows it. The landing on <code>opentaxrate.com</code> needs the API on <code>api.opentaxrate.com</code> to say so.</p>
+<pre class="snip">GET /v1/rate  Origin: https://opentaxrate.com
+← Access-Control-Allow-Origin: https://opentaxrate.com</pre>
+  </section>
+</div>
+
+<details class="more">
+  <summary>Sources<span class="dim">what this page was traced from</span></summary>
+  <div class="inner"><ul class="sources">
+    <li>Repo at <code>8e7f871</code>: <code>src/server.ts</code>, <code>src/lookup.ts</code>, <code>src/geocoders.ts</code>, <code>src/errors.ts</code>, <code>src/engine/index.ts</code>, <code>types.ts</code>, <code>locate.ts</code>, <code>geo-lookup.ts</code>, <code>shapes.ts</code>, <code>src/schema.ts</code>, <code>docs/architecture.md</code>.</li>
+    <li><code>~/code/openfinance-landing</code>: <code>package.json</code>, <code>svelte.config.js</code>, <code>wrangler.jsonc</code>, <code>src/app.css</code>, <code>src/routes/+page.svelte</code>.</li>
+    <li><a href="https://www.mapbox.com/pricing">Mapbox pricing</a>, fetched 2026-10-21: Search Box sessions, Address Autofill, temporary geocoding, GL JS map loads.</li>
+    <li><a href="https://docs.mapbox.com/mapbox-search-js/api/core/geocoding/">Mapbox Search JS docs</a> and <a href="https://www.geocod.io/geocodio-vs-mapbox-geocoding-comparison/">Geocodio's comparison</a>: Mapbox results to be shown on Mapbox maps. This is secondhand, so confirm it against Mapbox's current terms.</li>
+    <li><a href="https://geoapify.com/pricing">Geoapify pricing</a>: 3,000 credits a day free, $59 a month for 10,000 a day.</li>
+    <li><a href="https://openfreemap.org">OpenFreeMap</a>: free, no keys, no limits, commercial use allowed.</li>
+    <li><a href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare Workers pricing</a> and <a href="https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/">rate limit binding</a>. The one free WAF rate-limit rule is from Cloudflare's plan page, so confirm it in the dashboard.</li>
+    <li><a href="https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting">Vercel WAF rate limiting</a>: Hobby is personal, non-commercial.</li>
+    <li><a href="https://github.com/komoot/photon">Photon</a> and <a href="https://nominatim.org/2020/10/21/photon-country-extracts.html">its country extracts</a>. The US extract's size and the VPS price are estimates, not measured.</li>
+  </ul></div>
+</details>
+
+</article>
+</div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+})();
+</script>
