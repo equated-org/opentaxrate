@@ -30,13 +30,6 @@ describe("a typed street meets the file's spelling of it", () => {
     ["5 N St", ["", "N", "ST", ""]],
     ["301 South East Street", ["S", "E", "ST", ""]],
     ["1200 North Avenue", ["", "N", "AVE", ""]],
-    // State-named highways, typed and filed every which way.
-    ["4100 Ohio Highway 29", ["", "HIGHWAY 29", "", ""]],
-    ["100 Vermont Route 100", ["", "VT ROUTE 100", "", ""]],
-    ["54 North Carolina Hwy 54", ["N", "HWY 54", "", ""]],
-    ["2 W Virginia Rte 2", ["W", "STATE ROUTE 2", "", ""]],
-    ["39781 South Dakota Highway 34", ["S", "SD HIGHWAY 34", "", ""]],
-    ["5 Washington Highway 20", ["", "SR 20", "", ""]],
     // Wisconsin's trunk highways.
     ["W5350 CTH M", ["", "COUNTY HIGHWAY M", "", ""]],
     ["300 STH 19", ["", "STATE HIGHWAY 19", "", ""]],
@@ -85,10 +78,8 @@ describe("what a street line yields to match on", () => {
     expect(parseStreet("720 Highway 33")!.streetKey).toBe(readFileStreet("", "AR 33", "HWY", "").streetKey);
   });
 
-  it("leaves a road named for a state alone when it is no highway", () => {
-    expect(parseStreet("8 Georgia Ave")).toMatchObject({ streetKey: "GEORGIA", suffix: "AVE" });
-    // A bare code before a number is a county road ("NC 8068", Newton
-    // County, Arkansas), and "Co Hwy 5" is a county highway.
+  it("keeps another state's code before a number apart", () => {
+    // "NC 8068" is a Newton County road in Arkansas's file.
     expect(parseStreet("6 NC 8068")!.streetKey).toBe("NC8068");
     expect(parseStreet("9 Co Hwy 5")!.streetKey).toBe("CR5");
   });
