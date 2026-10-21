@@ -36,7 +36,7 @@ Without it the response is exactly what it was before traces existed. With it, t
 | `outlines` | `geoRateAt`, `mapAreas` | each outline `shapesAround` found: `kind`, `fips`, `name`, `inside`, `edgeMetres`, `foot`, `levies` (added a rate part), `geometry` |
 | `range` | `sstRateAt` | on a street match, the narrowest deciding row: `street`, `low`, `high`, `side` (`odd`, `even`, `both`), `zip`, `file` (the boundary file) |
 
-Coordinates are rounded to 5 decimals, metres to 0.1. `outlines` is empty when no point was used (a street or ZIP match never geocodes for display). After the engine returns or throws, `lookUpRate` adds `geometry` with `outlineGeometry` (`src/rates/shapes.ts`): each outline clipped to a square 3 km (`TRACE_CLIP_METRES`) around `point` and simplified to about 5 m, as GeoJSON; an outline with nothing in the square gets none. A geometry query that fails is logged and only leaves the shapes out.
+Coordinates are rounded to 5 decimals, metres to 0.1. `outlines` is empty when no point was used (a street or ZIP match never geocodes for display). After the engine returns or throws, `lookUpRate` adds `geometry` with `outlineGeometry` (`src/rates/shapes.ts`): each outline clipped to a square around `point` reaching 3 km, or 1.25 × the nearest levying edge + 500 m when that is further, up to 20 km (`TRACE_CLIP_METRES`), and simplified to about 5 m per 3 km of reach, as GeoJSON; an outline with nothing in the square gets none. A geometry query that fails is logged and only leaves the shapes out.
 
 ## Public deployment
 
