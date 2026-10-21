@@ -4,7 +4,15 @@
 	import Actions from './Actions.svelte';
 	import { howPlaced, MATCH_SHORT, partRows, pct } from './format';
 
-	let { rate, trace, url, raw }: { rate: AddressRate; trace: Trace | null; url: string; raw: unknown } = $props();
+	interface Props {
+		rate: AddressRate;
+		trace: Trace | null;
+		url: string;
+		raw: unknown;
+		/** A picture of a result (the landing's showcase): no buttons, no ids. */
+		preview?: boolean;
+	}
+	let { rate, trace, url, raw, preview = false }: Props = $props();
 
 	const rows = $derived(partRows(rate, trace));
 	const lines = $derived(howPlaced(rate, trace));
@@ -23,10 +31,10 @@
 	});
 </script>
 
-<section aria-labelledby="rate-heading" class="flex flex-col gap-6">
+<section aria-labelledby={preview ? undefined : 'rate-heading'} class="flex flex-col gap-6">
 	<div>
-		<h2 id="rate-heading" class="text-sm text-[var(--text-muted)]">Combined sales tax rate</h2>
-		<p class="font-pixel mt-1 text-[55px] leading-none tracking-tight text-[var(--text)]">{pct(rate.rate)}</p>
+		<h2 id={preview ? undefined : 'rate-heading'} class="text-sm text-[var(--text-muted)]">Combined sales tax rate</h2>
+		<p class="rate-big font-num mt-1 text-[52px] leading-none font-semibold tracking-[-0.04em] text-[var(--text)]">{pct(rate.rate)}</p>
 		<p class="mt-2 text-sm text-[var(--text-muted)]">on {date} · {MATCH_SHORT[rate.match] ?? rate.match}</p>
 	</div>
 
@@ -40,9 +48,9 @@
 				<span class="pixelated mt-0.5 inline-block h-2.5 w-2.5 shrink-0 self-center" style="background: {row.color}"></span>
 				<span class="min-w-0 flex-1">
 					{row.name}
-					{#if row.code}<span class="ml-1 font-mono text-[11px] text-[var(--text-muted)]">{row.code}</span>{/if}
+					{#if row.code}<span class="part-code font-num ml-1.5 text-[10.5px] text-[var(--text-muted)] opacity-70">{row.code}</span>{/if}
 				</span>
-				<span class="font-pixel text-[15px] tabular-nums">{pct(row.rate)}</span>
+				<span class="font-num text-[14.5px] font-medium">{pct(row.rate)}</span>
 			</li>
 		{/each}
 	</ul>
@@ -50,7 +58,7 @@
 	{#if otherRates.length}
 		<div class="text-sm text-[var(--text-muted)]">
 			{#each otherRates as [label, value] (label)}
-				<p>{label}: <span class="font-pixel text-[var(--text)]">{pct(value)}</span></p>
+				<p>{label}: <span class="font-num font-medium text-[var(--text)]">{pct(value)}</span></p>
 			{/each}
 		</div>
 	{/if}
@@ -67,5 +75,9 @@
 		<p class="mt-1 text-sm leading-relaxed break-words text-[var(--text-2)]">{rate.source}</p>
 	</div>
 
-	<Actions {url} {raw} />
+	{#if preview}
+		<div class="flex gap-2" aria-hidden="true"><span class="btn">Copy as curl</span><span class="btn">Raw JSON</span></div>
+	{:else}
+		<Actions {url} {raw} />
+	{/if}
 </section>

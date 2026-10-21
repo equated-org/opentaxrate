@@ -4,8 +4,8 @@ A one-page site: type a US address, see its sales tax rate split into state,
 county, city and district parts, and a map of the points and outlines the
 engine used to decide. It's a static SvelteKit build (adapter-static,
 prerendered), so any static host can serve it. There's no server code, no
-sign-in, no cookies and no analytics. The theme choice is kept in
-localStorage.
+sign-in, no cookies and no analytics. The theme follows the OS
+(prefers-color-scheme).
 
 The browser talks to three services directly:
 
@@ -122,12 +122,16 @@ src/lib/api.ts                 /v1/rate call → LookupResult (rate | refusal | 
 src/lib/result/                RateList, Refusal, Limited, format.ts, TaxMap (lazy)
 src/lib/map/                   muted OpenFreeMap style, trace layers, circle, inset
 src/lib/pixel/                 the pixel art: wordmark, magnifier, pin, bar, progress, hourglass
-static/fonts/                  Departure Mono (SIL OFL 1.1, license alongside)
+static/fonts/                  Departure Mono for the wordmark (SIL OFL 1.1, license alongside)
+static/hero-pin.webp           the hero image
+static/showcase-map*.webp      saved map of the Austin result for the showcase (light, dark)
+src/lib/landing/               the empty page's showcase panel, contours and feature points
 ```
 
 ## Credits
 
-Departure Mono by Helena Zhang, under the SIL Open Font License. Inter by
-Rasmus Andersson, under the SIL Open Font License, via Fontsource. Map data
+Departure Mono (the wordmark) by Helena Zhang, Inter by Rasmus Andersson and
+Geist Mono (the numbers) by Vercel, all under the SIL Open Font License; Inter
+and Geist Mono via Fontsource. Map data
 © OpenStreetMap contributors, tiles by OpenFreeMap and OpenMapTiles, and
 rendering by MapLibre GL JS (BSD-3-Clause).

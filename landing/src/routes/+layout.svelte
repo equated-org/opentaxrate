@@ -12,7 +12,7 @@
 	<title>OpenTaxRate · Sales tax for any US address</title>
 	<meta
 		name="description"
-		content="Type a US address and see its sales tax rate, split into state, county, city and district, with the outlines and points that decided it. From the states' own files."
+		content="Look up sales tax for a US address, split into state, county, city and district. Rates based on public data from state tax agencies."
 	/>
 </svelte:head>
 

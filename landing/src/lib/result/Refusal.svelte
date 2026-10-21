@@ -31,7 +31,7 @@
 			<div class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-2">
 				{#each candidates as c, i (c)}
 					{#if i > 0}<span class="text-sm text-[var(--text-muted)]">or</span>{/if}
-					<span class="font-pixel rounded-lg border border-[var(--border)] px-3 py-1.5 text-[22px]">{c}</span>
+					<span class="font-num rounded-lg border border-[var(--border)] px-3 py-1.5 text-[22px] font-semibold tracking-[-0.03em]">{c}</span>
 				{/each}
 			</div>
 		</div>
