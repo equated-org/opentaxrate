@@ -1,0 +1,5 @@
+{
+ "error": "Too many lookups from this address. Try again in 42 s.",
+ "code": "RATE_LIMITED",
+ "retryAfter": 42
+}

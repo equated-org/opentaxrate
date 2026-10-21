@@ -1,0 +1,252 @@
+<script lang="ts">
+	/**
+	 * The one page. Empty, it's a search box and three examples; after a
+	 * lookup the box moves up, the rate list sits left and the map right.
+	 * The only state beyond the screen is ?q= in the URL, so a result can be
+	 * shared; loading a URL with ?q= runs that search.
+	 */
+	import { page } from '$app/state';
+	import { pushState } from '$app/navigation';
+	import ThemeToggle from '../components/ThemeToggle.svelte';
+	import { lookUp, type LookupResult } from '$lib/api';
+	import { EXAMPLES, GITHUB } from '$lib/examples';
+	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
+	import Wordmark from '$lib/pixel/Wordmark.svelte';
+	import Limited from '$lib/result/Limited.svelte';
+	import RateList from '$lib/result/RateList.svelte';
+	import Refusal from '$lib/result/Refusal.svelte';
+	import AddressSearch from '$lib/search/AddressSearch.svelte';
+	import { PARSE_HINT } from '$lib/search/parse';
+	import { resolve, type Suggestion } from '$lib/search/suggest';
+	import { stateName } from '$lib/states';
+	import { theme } from '$lib/theme.svelte';
+
+	let text = $state('');
+	let loading = $state(false);
+	let result = $state<LookupResult | null>(null);
+	let shown = $state<Suggestion | null>(null);
+	let hint = $state('');
+	/** The ?q= this page last acted on, so its own pushState isn't re-run. */
+	let activeQ: string | null = null;
+	let controller: AbortController | undefined;
+	let mapModule = $state.raw<Promise<typeof import('$lib/result/TaxMap.svelte')>>();
+
+	const fixture = () => (import.meta.env.DEV ? page.url.searchParams.get('fixture') : null);
+
+	async function run(s: Suggestion | (() => Promise<Suggestion | null>)) {
+		controller?.abort();
+		const c = new AbortController();
+		controller = c;
+		loading = true;
+		hint = '';
+		// The map's code starts loading with the first lookup, in parallel
+		// with the API call; the empty page never fetches it.
+		mapModule ??= import('$lib/result/TaxMap.svelte');
+		try {
+			const target = typeof s === 'function' ? await s() : s;
+			if (c.signal.aborted) return;
+			if (!target) {
+				loading = false;
+				return;
+			}
+			const r = await lookUp(
+				{ state: target.state, street: target.street, city: target.city, zip: target.zip },
+				c.signal,
+				fixture()
+			);
+			if (c.signal.aborted) return;
+			result = r;
+			shown = target;
+		} catch (error) {
+			if (!c.signal.aborted) console.error(error);
+		} finally {
+			if (controller === c) loading = false;
+		}
+	}
+
+	function go(s: Suggestion) {
+		text = s.label;
+		activeQ = s.label;
+		const url = new URL(page.url);
+		url.searchParams.set('q', s.label);
+		pushState(url, {});
+		run(s);
+	}
+
+	function fromText(q: string) {
+		text = q;
+		activeQ = q;
+		const example = EXAMPLES.find((e) => e.suggestion.label.toLowerCase() === q.trim().toLowerCase());
+		if (example) return run(example.suggestion);
+		run(async () => {
+			const found = await resolve(q, controller!.signal);
+			if (found.ok) return found.suggestion;
+			hint = PARSE_HINT[found.reason];
+			return null;
+		});
+	}
+
+	function submit(q: string) {
+		const url = new URL(page.url);
+		url.searchParams.set('q', q);
+		pushState(url, {});
+		fromText(q);
+	}
+
+	function reset() {
+		controller?.abort();
+		loading = false;
+		result = null;
+		shown = null;
+		text = '';
+		hint = '';
+		activeQ = null;
+	}
+
+	// Loading a shared link, and back/forward between lookups.
+	$effect(() => {
+		const q = page.url.searchParams.get('q');
+		if (q === activeQ) return;
+		if (!q) return reset();
+		fromText(q);
+	});
+
+	function home(event: MouseEvent) {
+		event.preventDefault();
+		const url = new URL(page.url);
+		url.searchParams.delete('q');
+		pushState(url, {});
+		reset();
+	}
+
+	const trace = $derived(result && (result.kind === 'rate' || result.kind === 'refusal') ? result.trace : null);
+	const fallback = $derived(
+		shown && Number.isFinite(shown.lon) && Number.isFinite(shown.lat) ? { lon: shown.lon, lat: shown.lat, from: shown.from } : null
+	);
+	const showMap = $derived(
+		!!result &&
+			(result.kind === 'rate' || result.kind === 'refusal') &&
+			(!!fallback || !!trace?.point || !!trace?.outlines.some((o) => o.geometry))
+	);
+	const inResult = $derived(result !== null);
+</script>
+
+{#if !inResult}
+	<div class="flex min-h-dvh flex-col">
+		<header class="flex items-center justify-between px-5 py-4 sm:px-8">
+			<a href="/" class="rounded" aria-label="OpenTaxRate home" onclick={home}><Wordmark /></a>
+			<nav class="flex items-center gap-4 text-sm text-[var(--text-muted)]">
+				<a class="hover:text-[var(--text)]" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
+				<ThemeToggle />
+			</nav>
+		</header>
+
+		<main class="flex flex-1 flex-col items-center px-5 pt-[14vh] pb-16">
+			<h1 class="text-center text-[34px] leading-tight font-semibold tracking-[-0.02em] sm:text-[42px]">Sales tax for any US address</h1>
+			<p class="mt-3 text-center text-[16px] text-[var(--text-muted)]">
+				From the states' own files, with the lines that decided it. Source available · run it yourself.
+			</p>
+
+			<div class="mt-9 w-full max-w-[640px]">
+				<AddressSearch bind:value={text} onpick={go} onsubmit={submit} autofocus />
+				<div class="mt-4 h-[6px] px-6">
+					{#if loading}<ProgressStrip />{/if}
+				</div>
+				{#if hint}<p class="mt-1 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
+			</div>
+
+			<div class="mt-6 flex flex-col items-center gap-3">
+				<p class="text-sm text-[var(--text-muted)]">or try one</p>
+				<ul class="flex flex-wrap justify-center gap-2">
+					{#each EXAMPLES as e (e.name)}
+						<li>
+							<button type="button" class="chip" onclick={() => go(e.suggestion)} title={e.suggestion.label}>
+								{e.name}<span class="text-[var(--text-muted)]">· {e.note}</span>
+							</button>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		</main>
+
+		<footer class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-5 py-6 text-[13px] text-[var(--text-muted)]">
+			<a class="hover:text-[var(--text)]" href="{GITHUB}#quick-start" target="_blank" rel="noopener">Run it yourself</a>
+			<span aria-hidden="true">·</span>
+			<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/docs/context/api.md" target="_blank" rel="noopener">API</a>
+			<span aria-hidden="true">·</span>
+			<a class="hover:text-[var(--text)]" href="{GITHUB}#coverage" target="_blank" rel="noopener">Coverage</a>
+			<span aria-hidden="true">·</span>
+			<a class="hover:text-[var(--text)]" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
+			<span aria-hidden="true">·</span>
+			<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/LICENSE" target="_blank" rel="noopener">Elastic License 2.0</a>
+		</footer>
+	</div>
+{:else}
+	<div class="flex min-h-dvh flex-col">
+		<header class="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg-translucent)] backdrop-blur">
+			<div class="flex items-center gap-3 px-4 py-3 sm:gap-5 sm:px-6">
+				<a href="/" class="shrink-0 rounded" aria-label="OpenTaxRate home" onclick={home}>
+					<span class="hidden sm:inline"><Wordmark /></span>
+					<span class="sm:hidden"><Wordmark size="sm" /></span>
+				</a>
+				<div class="mx-auto w-full max-w-[560px] min-w-0">
+					<AddressSearch bind:value={text} onpick={go} onsubmit={submit} size="sm" />
+				</div>
+				<nav class="flex shrink-0 items-center gap-4 text-sm text-[var(--text-muted)]">
+					<a class="hidden hover:text-[var(--text)] md:inline" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
+					<span class="hidden sm:block"><ThemeToggle /></span>
+				</nav>
+			</div>
+			<div class="h-[6px]">{#if loading}<ProgressStrip cells={64} />{/if}</div>
+		</header>
+
+		{#if hint}<p class="px-6 pt-3 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
+
+		<main
+			class="grid flex-1 gap-6 px-4 py-6 transition-opacity sm:px-6 {loading ? 'opacity-60' : ''}
+				{showMap ? 'lg:grid-cols-[minmax(340px,420px)_minmax(0,1fr)]' : 'mx-auto w-full max-w-[560px]'}"
+			aria-busy={loading}
+		>
+			<div class="min-w-0">
+				{#if shown}<p class="mb-5 text-sm break-words text-[var(--text-muted)]">{shown.label}</p>{/if}
+				{#if result?.kind === 'rate'}
+					<RateList rate={result.rate} trace={result.trace} url={result.url} raw={result.raw} />
+				{:else if result?.kind === 'refusal'}
+					<Refusal message={result.message} code={result.code} trace={result.trace} url={result.url} raw={result.raw} />
+				{:else if result?.kind === 'limited'}
+					<Limited message={result.message} retryAfter={result.retryAfter} onretry={() => shown && run(shown)} />
+				{:else if result?.kind === 'failed'}
+					<section class="flex flex-col gap-3">
+						<h2 class="text-[17px] font-semibold">
+							{result.status === 502 || result.status === 504 ? 'A data source is down' : "Couldn't get a rate"}
+						</h2>
+						<p class="text-sm leading-relaxed text-[var(--text-2)]">{result.message}</p>
+						<div><button type="button" class="btn" onclick={() => shown && run(shown)}>Try again</button></div>
+					</section>
+				{/if}
+			</div>
+
+			{#if showMap && mapModule && result && (result.kind === 'rate' || result.kind === 'refusal')}
+				<div class="h-[420px] min-w-0 lg:sticky lg:top-[88px] lg:h-[calc(100dvh-112px)]">
+					{#await mapModule}
+						<div class="h-full w-full rounded-2xl border border-[var(--border)] bg-[var(--bg-muted)]"></div>
+					{:then { default: TaxMap }}
+						<TaxMap
+							{trace}
+							parts={result.kind === 'rate' ? result.rate.parts : []}
+							refused={result.kind === 'refusal'}
+							match={result.kind === 'rate' ? result.rate.match : null}
+							stateName={stateName(result.query.state)}
+							{fallback}
+							theme={theme.resolved}
+						/>
+					{:catch}
+						<div class="grid h-full place-items-center rounded-2xl border border-[var(--border)] text-sm text-[var(--text-muted)]">
+							The map couldn't load.
+						</div>
+					{/await}
+				</div>
+			{/if}
+		</main>
+	</div>
+{/if}
