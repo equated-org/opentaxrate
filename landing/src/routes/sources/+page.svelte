@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { GITHUB } from '$lib/examples';
 	import StateSources from '$lib/landing/StateSources.svelte';
+	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
 </script>
 
@@ -81,6 +82,8 @@
 			<StateSources />
 		</article>
 	</main>
+
+	<SiteFooter />
 </div>
 
 <style>
