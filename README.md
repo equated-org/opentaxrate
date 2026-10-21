@@ -1,7 +1,7 @@
 # OpenTaxRate
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge" alt="License: Apache 2.0"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Elastic%202.0-blue?style=for-the-badge" alt="License: Elastic 2.0"></a>
   <img src="https://img.shields.io/badge/States-50%20%2B%20DC-2ea44f?style=for-the-badge" alt="50 states + DC">
   <img src="https://img.shields.io/badge/Node-22-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node 22">
   <img src="https://img.shields.io/badge/Postgres-17%20%2B%20PostGIS-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres 17 + PostGIS">
@@ -86,7 +86,7 @@ A refusal:
 ```bash
 opentaxrate serve                          # HTTP API on $PORT (8080)
 opentaxrate migrate                        # create or update the tables
-opentaxrate refresh [STATE...] [--force]   # download and load each state's newest data
+opentaxrate refresh [STATE...] [--dir D] [--force]   # download and load each state's newest data
 opentaxrate rate OH "90 W Broad St" Columbus 43215 [2025-06-01]
 opentaxrate check --cases cases.csv        # state,street,city,zip,date,expected
 ```
@@ -95,7 +95,7 @@ In Docker, each runs as `docker compose run --rm api <command>`; `refresh` has i
 
 | Endpoint | Returns |
 |---|---|
-| `GET /v1/rate?state=&street=&city=&zip=&date=` | the rate, its parts, match type and sources; `422` with candidates when it can't settle one; `502` when the state isn't loaded |
+| `GET /v1/rate?state=&street=&city=&zip=&date=` | the rate, its parts, match type and sources; `422` with candidates when it can't settle one; `400` (`BAD_REQUEST`) for a malformed query; `502` when the state isn't loaded |
 | `GET /v1/coverage` | every state, how it's placed, and the files loaded for it |
 | `GET /health` | `{ "ok": true }` once the database answers |
 
@@ -154,7 +154,7 @@ The 5 GB is almost all one thing: **15.4 million street house-number ranges** fr
 
 **Nothing is committed to this repo.** The data changes every quarter, several files are over GitHub's 100 MB limit, and each state should be fetched from its source so you know where every rate came from. `refresh` downloads straight from the publishers; `scripts/snapshot.sh` writes a compressed dump (about 570 MB) for a release download, and `scripts/restore.sh` loads one.
 
-Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges.
+Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
 
 ---
 
@@ -166,7 +166,8 @@ Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve
 | `PORT` | `8080` | API port |
 | `MAPBOX_ACCESS_TOKEN` | unset | a third geocoder beside Census and OpenStreetMap; places more addresses |
 | `OPENTAXRATE_USER_AGENT` | `opentaxrate (+https://github.com/opentaxrate/opentaxrate)` | sent to tax offices and Nominatim; put your contact here |
-| `OPENTAXRATE_HISTORY_FROM` | `2020-01-01` | oldest rows kept when loading |
+| `OPENTAXRATE_HISTORY_FROM` | `2020-01-01` | Streamlined and Missouri rows that ended before this date aren't loaded |
+| `DATABASE_POOL` | `10` | Postgres connections per process |
 
 ---
 
@@ -195,4 +196,4 @@ Geocoding uses the Census Bureau's free geocoder and OpenStreetMap's [Nominatim]
 
 ## License
 
-[Apache 2.0](LICENSE).
+[Elastic License 2.0](LICENSE). Use it, change it, and run it for your own business, including behind your own checkout, ERP or product. You may not offer OpenTaxRate itself to others as a hosted or managed service, such as a public tax rate API built on it. This is source-available, not an OSI open source license. For a hosting license, open an issue.

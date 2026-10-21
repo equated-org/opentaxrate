@@ -2,7 +2,7 @@
   "name": "opentaxrate",
   "version": "0.1.0",
   "description": "US sales tax rates by street address, from the states' own published data.",
-  "license": "Apache-2.0",
+  "license": "Elastic-2.0",
   "packageManager": "pnpm@10.12.4",
   "type": "module",
   "bin": { "opentaxrate": "dist/cli.js" },
