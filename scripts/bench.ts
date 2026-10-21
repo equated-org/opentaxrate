@@ -2,7 +2,8 @@
  * Accuracy comparison: the same addresses, asked of opentaxrate and of other
  * rate services, judged by each state's official answer.
  *
- *   tsx scripts/bench.ts ask <provider> [--per-state N] [--budget N] [--states TX,WA]
+ *   tsx scripts/bench.ts ask <provider> [--budget N] [--pick disputed|sample]
+ *                            [--per-state N] [--states TX,WA] [--ids a,b]
  *   tsx scripts/bench.ts report
  *   tsx scripts/bench.ts geocode [--provider ID] [--per-state N] [--budget N]
  *
@@ -14,6 +15,11 @@
  * asked again, so a free plan's calls are spent once and kept for later
  * cross-checks. Keys come from the environment (run under `infisical run`);
  * they are never written out.
+ *
+ * Paid services are asked at most PAID_CALLS_PER_RUN addresses a run, so
+ * spend them where they settle something: `--pick disputed` asks first about
+ * addresses where the answers kept so far disagree with the state's or with
+ * each other. Every run's spend is logged to artifacts/bench/usage.jsonl.
  */
 import { createHash } from "node:crypto";
 import fs from "node:fs";
@@ -22,6 +28,11 @@ import path from "node:path";
 const ROOT = new URL("../artifacts/bench/", import.meta.url).pathname;
 const CASES = path.join(ROOT, "cases");
 const ANSWERS = path.join(ROOT, "answers");
+const USAGE = path.join(ROOT, "usage.jsonl");
+const PAID_CALLS_PER_RUN = 10;
+/** Rates within half a hundredth of a percent agree: some services round
+ *  New Mexico's 6.4375% to 6.438%. */
+const SAME_RATE = 5e-5;
 
 interface Case {
   id: string;
@@ -44,6 +55,8 @@ interface Provider {
   needs: string[];
   /** Pause between calls, for the service's rate limit. */
   pauseMs: number;
+  /** Asked again every run: opentaxrate's own answers change with its code. */
+  fresh?: boolean;
   ask(c: Case): Promise<Answer>;
 }
 
@@ -65,6 +78,7 @@ const PROVIDERS: Record<string, Provider> = {
   opentaxrate: {
     needs: [],
     pauseMs: 0,
+    fresh: true,
     async ask(c) {
       const { addressRates } = await import("../src/rates/index.js");
       const { createLocator } = await import("../src/geocoding/locator.js");
@@ -82,6 +96,7 @@ const PROVIDERS: Record<string, Provider> = {
   "opentaxrate-point": {
     needs: [],
     pauseMs: 0,
+    fresh: true,
     async ask(c) {
       if (c.lon === undefined || c.lat === undefined) return { refused: "no point in case" };
       const { addressRates } = await import("../src/rates/index.js");
@@ -93,12 +108,12 @@ const PROVIDERS: Record<string, Provider> = {
     },
   },
   taxcloud: {
-    needs: ["TAXCLOUD_API_KEY", "TAXCLOUD_ACCOUNT_ID"],
+    needs: ["TAXCLOUD_API_KEY", "TAXCLOUD_CONNECTION_ID"],
     pauseMs: 300,
     async ask(c) {
       const address = { line1: c.street, city: c.city, state: c.state, zip: c.zip, countryCode: "US" };
       const response = await fetch(
-        `https://api.v3.taxcloud.com/tax/connections/${env("TAXCLOUD_ACCOUNT_ID")}/carts`,
+        `https://api.v3.taxcloud.com/tax/connections/${env("TAXCLOUD_CONNECTION_ID")}/carts`,
         {
           method: "POST",
           headers: { "X-API-KEY": env("TAXCLOUD_API_KEY"), "Content-Type": "application/json" },
@@ -124,7 +139,7 @@ const PROVIDERS: Record<string, Provider> = {
   },
   avalara: {
     needs: ["AVALARA_ACCOUNT_ID", "AVALARA_LICENSE_KEY"],
-    pauseMs: 300,
+    pauseMs: 1_000,
     async ask(c) {
       const host = env("AVALARA_SANDBOX") ? "sandbox-rest.avatax.com" : "rest.avatax.com";
       const url = new URL(`https://${host}/api/v2/taxrates/byaddress`);
@@ -236,7 +251,7 @@ const PROVIDERS: Record<string, Provider> = {
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
 const notAboutAddress = (a: Answer): a is { refused: string } =>
-  "refused" in a && /^(error:|40[13] |429 |5\d\d )|isn’t active|not active/i.test(a.refused);
+  "refused" in a && /^(error:|40[13] |429 |5\d\d )|isn’t active|not active|not collecting/i.test(a.refused);
 
 // ---------------------------------------------------------------------------
 
@@ -293,18 +308,60 @@ function loadAnswers(provider: string): Map<string, Answer & { at: string }> {
   );
 }
 
-async function ask(provider: string, perState: number, budget: number, states?: string[]) {
+/** Addresses whose kept answers disagree with the state's or with each
+ *  other first, those with the most disagreeing answers earliest. */
+function disputedFirst(cases: Case[]) {
+  const kept = Object.keys(PROVIDERS).map((p) => loadAnswers(p));
+  const disputes = (c: Case) => {
+    const rates = kept.flatMap((answers) => {
+      const a = answers.get(c.id);
+      return a && "rate" in a ? [a.rate] : [];
+    });
+    return rates.filter((r) => Math.abs(r - c.expected) >= SAME_RATE).length +
+      (rates.some((r) => rates.some((s) => Math.abs(r - s) >= SAME_RATE)) ? 1 : 0);
+  };
+  return cases
+    .map((c) => ({ c, d: disputes(c) }))
+    .filter((x) => x.d > 0)
+    .sort((a, b) => b.d - a.d || a.c.id.localeCompare(b.c.id))
+    .map((x) => x.c);
+}
+
+interface AskOptions {
+  budget: number;
+  pick: "disputed" | "sample";
+  perState: number;
+  states?: string[];
+  ids?: string[];
+}
+
+async function ask(provider: string, o: AskOptions) {
+  const { perState, states } = o;
   const p = PROVIDERS[provider];
   if (!p) throw new Error(`unknown provider ${provider}; one of ${Object.keys(PROVIDERS).join(", ")}`);
   const missing = p.needs.filter((k) => !process.env[k]);
   if (missing.length) throw new Error(`${provider} needs ${missing.join(", ")}`);
   fs.mkdirSync(ANSWERS, { recursive: true });
+  if (p.fresh && !states) fs.rmSync(path.join(ANSWERS, `${provider}.jsonl`), { force: true });
   const done = loadAnswers(provider);
-  const todo = sample(loadCases(), perState, states).filter((c) => !done.has(c.id));
+  const all = loadCases().filter((c) => !states || states.includes(c.state));
+  const candidates = o.ids
+    ? all.filter((c) => o.ids!.includes(c.id))
+    : o.pick === "disputed"
+      ? disputedFirst(all)
+      : sample(all, perState, states);
+  const todo = candidates.filter((c) => !done.has(c.id));
+  const budget = p.fresh ? o.budget : Math.min(o.budget, PAID_CALLS_PER_RUN);
   const out = fs.createWriteStream(path.join(ANSWERS, `${provider}.jsonl`), { flags: "a" });
   let asked = 0;
   for (const c of todo.slice(0, budget)) {
-    const answer = await p.ask(c).catch((e: Error) => ({ refused: `error: ${e.message}` }));
+    // A busy or rate-limited service is asked again, waiting longer each time.
+    let answer: Answer = { refused: "" };
+    for (let attempt = 0; attempt < 5; attempt++) {
+      answer = await p.ask(c).catch((e: Error) => ({ refused: `error: ${e.message}` }));
+      if (!("refused" in answer) || !/^(429|5\d\d) /.test(answer.refused)) break;
+      await new Promise((r) => setTimeout(r, 5_000 * 2 ** attempt));
+    }
     // An account or service failure says nothing about the address: it is
     // not kept, so it is asked again next run. An account failure (auth,
     // rate limit) stops the run; a server error skips just that address.
@@ -322,11 +379,13 @@ async function ask(provider: string, perState: number, budget: number, states?: 
     if (p.pauseMs) await new Promise((r) => setTimeout(r, p.pauseMs));
   }
   out.end();
+  if (!p.fresh)
+    fs.appendFileSync(USAGE, `${JSON.stringify({ provider, at: new Date().toISOString(), asked, pick: o.ids ? "ids" : o.pick })}\n`);
   console.log(`${provider}: asked ${asked}, ${todo.length - asked} left in the sample, ${done.size + asked} kept`);
 }
 
 /** Per state and provider: of the sampled cases it was asked, the share it
- *  got right, and the share it refused. Right is within 1e-6 of the state's. */
+ *  got right, and the share it refused. Right is within SAME_RATE of the state's. */
 function report() {
   const cases = new Map(loadCases().map((c) => [c.id, c]));
   const providers = Object.keys(PROVIDERS).filter((p) => fs.existsSync(path.join(ANSWERS, `${p}.jsonl`)));
@@ -340,7 +399,7 @@ function report() {
         const cell = (row[p] ??= { n: 0, right: 0, refused: 0 });
         cell.n++;
         if ("refused" in a) cell.refused++;
-        else if (Math.abs(a.rate - c.expected) < 1e-6) cell.right++;
+        else if (Math.abs(a.rate - c.expected) < SAME_RATE) cell.right++;
         rows.set(key, row);
       }
     }
@@ -407,12 +466,13 @@ const flag = (name: string) => {
   return at >= 0 ? args[at + 1] : undefined;
 };
 if (command === "ask") {
-  await ask(
-    args[0],
-    Number(flag("--per-state") ?? 20),
-    Number(flag("--budget") ?? Infinity),
-    flag("--states")?.split(",").map((s) => s.toUpperCase()),
-  );
+  await ask(args[0], {
+    budget: Number(flag("--budget") ?? PAID_CALLS_PER_RUN),
+    pick: flag("--pick") === "disputed" ? "disputed" : "sample",
+    perState: Number(flag("--per-state") ?? 20),
+    states: flag("--states")?.split(",").map((s) => s.toUpperCase()),
+    ids: flag("--ids")?.split(","),
+  });
   const { client } = await import("../src/db/client.js");
   await client.end();
 } else if (command === "geocode") {
