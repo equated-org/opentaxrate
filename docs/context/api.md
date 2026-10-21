@@ -81,7 +81,7 @@ Invariants:
 `lookUpRate(q: RateQuery, options?: { trace?: Trace }): Promise<AddressRate>`
 
 - Upper-cases `state`, defaults `date` to today's UTC date.
-- Builds `primary = mapboxGeocoder()` (undefined without `MAPBOX_ACCESS_TOKEN`).
+- Builds a staged locator, `createLocator(address, { trace })`; Mapbox is one of its providers when `MAPBOX_ACCESS_TOKEN` is set.
 - Passes a `locate` closure that calls `locateAddress({ street, city, state, zip }, primary, trace)`. The engine decides whether to call it, so the address is geocoded only when needed (see [geocoding.md](geocoding.md)).
 - Passes `trace` in the query; with one, adds outline geometry once the engine is done (`drawOutlines`). Without one, nothing extra runs.
 
@@ -108,7 +108,7 @@ After any command but `serve`, the Postgres `client` is closed; a thrown error s
 | `PORT` | `8080` | `cli.ts` |
 | `DATABASE_URL` | `postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate` | `db.ts` |
 | `DATABASE_POOL` | `10` | `db.ts` (pool size) |
-| `MAPBOX_ACCESS_TOKEN` | unset | `geocoding/mapbox.ts`, via `lookUpRate` |
+| `MAPBOX_ACCESS_TOKEN` | unset | `geocoding/providers/mapbox.ts`, via the registry |
 | `OPENTAXRATE_CORS_ORIGINS` | unset (no CORS) | `server.ts` |
 | `OPENTAXRATE_PUBLIC_LIMIT` | unset (no limit) | `limits.ts`, via `server.ts` |
 | `OPENTAXRATE_TRUST_CF` | unset (socket address) | `limits.ts` |

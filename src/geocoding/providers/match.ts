@@ -1,5 +1,5 @@
-import { parseStreet } from "../address.js";
-import type { AddressToLocate } from "./types.js";
+import { parseStreet } from "../../address.js";
+import type { AddressToLocate } from "../types.js";
 
 // Photon deployments return either state names or postal abbreviations.
 export const STATES = Object.fromEntries([

@@ -1,4 +1,4 @@
-import { matchesAddress } from "../address.js";
+import { matchesAddress } from "./match.js";
 import { geocoderJson, GeocoderError, type AddressToLocate, type SourcedPoint } from "../types.js";
 
 export async function googlePoint(a: AddressToLocate, signal: AbortSignal): Promise<SourcedPoint | null> {
