@@ -1,0 +1,33 @@
+# The public deployment, layered on docker-compose.yml:
+#   docker compose -f docker-compose.yml -f deploy/compose.public.yml up -d
+# Nothing listens publicly. The API is on 127.0.0.1:8080, reached only by
+# cloudflared (a Cloudflare Tunnel the opentaxrate.com Worker calls through a
+# Workers VPC service), so the X-Client-IP header it sets can be trusted.
+# Postgres has no published port and is sized for a 2 GB server.
+# Settings come from deploy/.env (git-ignored; see deploy/.env.example).
+services:
+  db:
+    ports: !reset []
+    command:
+      - postgres
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - effective_cache_size=1GB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=128MB
+      - -c
+      - max_connections=30
+    restart: unless-stopped
+
+  api:
+    ports: !override
+      - "127.0.0.1:8080:8080"
+    environment:
+      OPENTAXRATE_CACHE_HOURS: "6"
+      OPENTAXRATE_PUBLIC_LIMIT: ${OPENTAXRATE_PUBLIC_LIMIT:-10/min,300/day}
+      OPENTAXRATE_SUGGEST_LIMIT: ${OPENTAXRATE_SUGGEST_LIMIT:-120/min}
+      OPENTAXRATE_CLIENT_IP_HEADER: X-Client-IP
+      OPENTAXRATE_PHOTON_URL: ${OPENTAXRATE_PHOTON_URL:-}
