@@ -53,7 +53,12 @@ export const RANGE_FIPS: Record<string, string> = { ...SST_FIPS, MO: "29" };
 export interface RateRow {
   type: string;
   code: string;
+  /** General intrastate rate. */
   rate: number;
+  /** The file's other columns; null where a publisher leaves one blank. */
+  rateInterstate: number | null;
+  foodDrugRate: number | null;
+  foodDrugRateInterstate: number | null;
   startsOn: string;
   endsOn: string;
 }
@@ -105,7 +110,23 @@ export function parseRateLine(line: string): RateRow | null {
   const endsOn = isoDate(c[8]);
   if (!Number.isFinite(rate) || !startsOn || !endsOn) return null;
   if (endsOn < HISTORY_FROM) return null;
-  return { type: jurisdictionType(c[1]), code: c[2], rate, startsOn, endsOn };
+  return {
+    type: jurisdictionType(c[1]),
+    code: c[2],
+    rate,
+    rateInterstate: optionalRate(c[4]),
+    foodDrugRate: optionalRate(c[5]),
+    foodDrugRateInterstate: optionalRate(c[6]),
+    startsOn,
+    endsOn,
+  };
+}
+
+/** A rate column that may be blank, which is no rate rather than zero. */
+function optionalRate(cell: string | undefined) {
+  if (!cell?.trim()) return null;
+  const rate = Number(cell);
+  return Number.isFinite(rate) ? rate : null;
 }
 
 /** The rows one boundary line stands for: none for a line that ended before

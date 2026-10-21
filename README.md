@@ -58,6 +58,7 @@ curl -G localhost:8080/v1/rate \
   "rate": 0.08,
   "stateRate": 0.0575,
   "localRate": 0.0225,
+  "byType": { "general": 0.08, "generalInterstate": 0.08, "foodDrug": 0.08, "foodDrugInterstate": 0.08 },
   "parts": [
     { "kind": "state", "code": "45:39", "rate": 0.0575 },
     { "kind": "county", "code": "00:049", "rate": 0.0125 },
@@ -136,7 +137,7 @@ State-by-state sources, lookup methods, and limitations: **[State coverage](docs
 | Map | TX, FL, NY, PA, IL, VA, AZ, NM, CO, AK, AL, LA, SC, MS, ID, HI | geocoded point in outlines | 2022–2026, by state |
 | Authority | CA | CDTFA's live lookup | today only |
 
-**Known gaps, refused with candidates:** Alabama police jurisdictions and 13 split counties, Louisiana economic development districts, Illinois business districts off IDOR's address list, Missouri transportation districts in split ZIPs. **Not covered at all:** taxability, exemptions, single-item caps (Florida's $5,000, Tennessee's), sourcing rules, and tribal taxes. This is the general rate.
+**Known gaps, refused with candidates:** Alabama police jurisdictions and 13 split counties, Louisiana economic development districts, Illinois business districts off IDOR's address list, Missouri transportation districts in split ZIPs. **Rates by type of sale:** in the Streamlined states, `byType` (on the answer and on each part) also gives the files' interstate and food-and-drug rates, e.g. Tennessee's 4% state food rate. A food rate is the rate where a state taxes food at that rate, not whether it does: Ohio's equals its general rate though Ohio exempts groceries. Elsewhere only `general` is filled. **Not covered at all:** taxability, exemptions, single-item caps (Florida's $5,000, Tennessee's), sourcing rules, and tribal taxes. This is the general rate.
 
 ---
 

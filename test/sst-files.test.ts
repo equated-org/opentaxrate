@@ -16,9 +16,24 @@ describe("rate lines", () => {
       type: "01",
       code: "42850",
       rate: 0.01,
+      rateInterstate: 0.01,
+      foodDrugRate: 0.01,
+      foodDrugRateInterstate: 0.01,
       startsOn: "2023-01-01",
       endsOn: "9999-12-31",
     });
+  });
+
+  it("keeps a state's lower food and drug rate apart from its general rate", () => {
+    expect(
+      parseRateLine("47,45,47,0.07,0.07,0.04,0.04,20170701,29991231"),
+    ).toMatchObject({ rate: 0.07, rateInterstate: 0.07, foodDrugRate: 0.04, foodDrugRateInterstate: 0.04 });
+  });
+
+  it("reads a blank rate column as no rate, not zero", () => {
+    expect(
+      parseRateLine("29,99,12345-678-000,0.04,,,,20260101,99991231"),
+    ).toMatchObject({ rate: 0.04, rateInterstate: null, foodDrugRate: null, foodDrugRateInterstate: null });
   });
 
   it("drops a rate that ended before the books the service keeps", () => {

@@ -33,10 +33,13 @@ import { RateError } from "../errors.js";
 import { letteredHouse, parseStreet, streetVariantsOf, type StreetParts } from "./address.js";
 import { HISTORY_FROM, RANGE_FIPS } from "./sst-files.js";
 import { shapesAround } from "./shapes.js";
-import { marginOf, type LocatedPoint, type RatePart } from "./types.js";
+import { agreedByType, marginOf, sumByType, type LocatedPoint, type RatePart, type RatesByType } from "./types.js";
 
 export interface SstRate {
   rate: number;
+  /** The combined rate for each kind of sale. Where the matched areas share
+   *  a general rate but not another, that one is null. */
+  byType: RatesByType;
   parts: RatePart[];
   match: "street" | "zip4" | "zip5" | "map";
   /** "state-county-place[-district...]" FIPS codes; null when several areas
@@ -89,6 +92,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     if (rates.size !== 1) return null;
     return {
       rate: rated[0].rate,
+      byType: agreedByType(rated.map((a) => a.byType)),
       parts: rated[0].parts,
       match,
       locationCode: rated.length === 1 ? rated[0].locationCode : null,
@@ -576,7 +580,7 @@ async function rateAreas(
     );
   return areas.map((a) => {
     const parts: RatePart[] = [
-      { kind: "state", code: `45:${fips}`, rate: Number(stateRate.rate) },
+      { kind: "state", code: `45:${fips}`, rate: Number(stateRate.rate), byType: byTypeOf(stateRate) },
     ];
     const districts = districtsOf(a.districts);
     const add = (kind: RatePart["kind"], type: string, code: string) => {
@@ -588,7 +592,7 @@ async function rateAreas(
           : (rates.get(`${type}:${code}`) ??
             (kind === "city" && districts.some((d) => d.code === code) ? undefined : find(type, code)));
       if (row && !parts.some((p) => p.code === `${row.type}:${code}`))
-        parts.push({ kind, code: `${row.type}:${code}`, rate: Number(row.rate) });
+        parts.push({ kind, code: `${row.type}:${code}`, rate: Number(row.rate), byType: byTypeOf(row) });
       // A Missouri code is the address's whole local rate; none on the date
       // is missing data, not no tax.
       else if (!row && type === WHOLE_CODE_TYPE)
@@ -603,6 +607,7 @@ async function rateAreas(
     return {
       areaId: a.id,
       rate: round(parts.reduce((sum, p) => sum + p.rate, 0)),
+      byType: sumByType(parts.map((p) => p.byType!)),
       parts,
       locationCode: [
         fips,
@@ -612,6 +617,16 @@ async function rateAreas(
       ].join("-"),
     };
   });
+}
+
+function byTypeOf(row: typeof salesTaxJurisdictionRates.$inferSelect): RatesByType {
+  const optional = (r: string | null) => (r === null ? null : Number(r));
+  return {
+    general: Number(row.rate),
+    generalInterstate: optional(row.rateInterstate),
+    foodDrug: optional(row.foodDrugRate),
+    foodDrugInterstate: optional(row.foodDrugRateInterstate),
+  };
 }
 
 function districtsOf(districts: string) {
