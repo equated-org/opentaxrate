@@ -1,0 +1,52 @@
+# docker compose up -d                 Postgres + the API on :8080
+# docker compose run --rm refresh      download and load every state (~45 min first time)
+# docker compose run --rm refresh OH TX   just some states
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: opentaxrate
+      POSTGRES_PASSWORD: opentaxrate
+      POSTGRES_DB: opentaxrate
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U opentaxrate"]
+      interval: 5s
+      retries: 20
+
+  migrate:
+    build: .
+    command: ["migrate"]
+    environment: &env
+      DATABASE_URL: postgres://opentaxrate:opentaxrate@db:5432/opentaxrate
+      MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN:-}
+      OPENTAXRATE_USER_AGENT: ${OPENTAXRATE_USER_AGENT:-}
+    depends_on:
+      db: { condition: service_healthy }
+
+  api:
+    build: .
+    command: ["serve"]
+    environment: *env
+    ports:
+      - "${PORT:-8080}:8080"
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+
+  refresh:
+    build: .
+    entrypoint: ["node", "dist/cli.js", "refresh"]
+    command: []
+    environment: *env
+    volumes:
+      - ./data:/data
+    profiles: ["tools"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+
+volumes:
+  pgdata:
