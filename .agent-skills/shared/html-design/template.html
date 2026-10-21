@@ -1,0 +1,655 @@
+<title>Page Title</title>
+<meta name="description" content="One sentence: what this page explains.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  /* Timeline of statements */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; max-width: none; }
+  .timeline li { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); gap: 0 12px; padding-bottom: 18px; margin: 0; }
+  .tl-when { font-family: var(--mono); font-size: 0.82rem; color: var(--text-3); text-align: right; padding-top: 3px; }
+  .tl-mark { position: relative; }
+  .tl-mark::before { content: ""; position: absolute; left: 11px; top: 0; bottom: -18px; border-left: 1px solid var(--edge); }
+  .timeline li:last-child .tl-mark::before { display: none; }
+  .tl-mark::after { content: ""; position: absolute; left: 5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--edge); }
+  .timeline li.you .tl-mark::after { background: var(--ink); border-color: var(--ink); }
+  .timeline li.note .tl-mark::after { border-radius: 3px; background: var(--accent); border-color: var(--accent); }
+  .timeline li.ship .tl-mark::after { border-radius: 3px; border: 1.5px solid var(--ink); }
+  .tl-body { min-width: 0; }
+  .tl-who { font-size: 0.82rem; font-weight: 600; color: var(--text-2); }
+  .tl-quote { margin: 0; max-width: 80ch; }
+
+  /* Axis map (explainers with an overloaded term) */
+  .axismap { display: grid; gap: 14px; }
+  .map-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button { font: inherit; font-size: 0.86rem; font-weight: 500; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--box); color: var(--text-2); cursor: pointer; }
+  .presets button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .map-controls label { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; color: var(--text-2); }
+  .map-controls select { font: inherit; font-size: 0.86rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--box); color: var(--ink); }
+  .map-wrap { overflow-x: auto; }
+  .map-wrap svg { display: block; width: 100%; height: auto; min-width: 880px; }
+  .m-row, .m-row.alt { fill: none; stroke: var(--line); stroke-width: 1; }
+  .m-vline { stroke: var(--line); stroke-width: 1; }
+  .m-frame { fill: none; stroke: var(--edge); }
+  .m-bin { font: 12px var(--sans); fill: var(--text-2); }
+  .m-axis { font: 600 12.5px var(--sans); fill: var(--ink); }
+  .m-chip { cursor: pointer; transition: transform 460ms var(--ease); outline: none; }
+  .m-chip rect { fill: var(--box); stroke: var(--edge); stroke-width: 1; }
+  .m-chip text { font: 500 11.5px var(--sans); fill: var(--ink); pointer-events: none; }
+  .m-chip.mem rect { stroke: var(--accent); stroke-width: 1.8; }
+  .m-chip.mem text { fill: var(--accent-ink); }
+  .m-chip.off rect { stroke-dasharray: 4 3; }
+  .m-chip:hover rect { stroke: var(--ink); }
+  .m-chip:focus-visible rect { stroke: var(--accent); stroke-width: 2.6; }
+  .m-chip.on rect { stroke: var(--ink); stroke-width: 2.2; }
+  .map.settling .m-chip { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .m-chip { transition: none; } }
+  .map-detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 760px) { .map-detail { grid-template-columns: minmax(0, 1fr); } }
+  .map-detail .who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .map-detail h3 { margin: 0; font-size: 1.05rem; }
+  .map-detail .left { display: grid; gap: 6px; align-content: start; color: var(--text-2); }
+  .map-detail .left p { margin: 0; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; background: var(--code); color: var(--text-2); }
+  .tag.mem { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .axes-dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.88rem; }
+  .axes-dl dt { color: var(--text-3); }
+  .axes-dl dd { margin: 0; color: var(--text-2); }
+  .axes-dl .plotted { color: var(--ink); font-weight: 600; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--text-2); }
+  .legend .chipk { display: inline-block; width: 22px; height: 11px; border-radius: 3px; border: 1px solid var(--edge); vertical-align: -1px; margin-right: 7px; }
+  .legend .chipk.mem { border: 1.8px solid var(--accent); }
+  .legend .chipk.off { border-style: dashed; }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#section-one">Section heading</a></li>
+    <li><a class="sub" href="#subsection">Subsection heading</a></li>
+    <li><a href="#figures">A figure that shows the mechanism</a></li>
+    <li><a href="#walkthrough">A step in a workflow</a></li>
+    <li><a href="#optional">Optional components</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Explainer or Design plan · subject and version · YYYY-MM-DD</p>
+  <h1>Title: a short noun phrase, or the question the page answers</h1>
+  <p class="lede">Two or three sentences: what this is, the one mechanism or decision that matters, and what the page covers. Write it for someone who reads nothing else.</p>
+  <p class="meta">What was traced (source files, live queries), and the status or branch for a plan.</p>
+</header>
+
+<h2 id="section-one">A section heading names the topic or states the claim</h2>
+<p>One to three short paragraphs. Say what happens first, then why. Define every term the first time it appears, and use a real example from the reader's work, with real ids and numbers inside the sentences that explain them.</p>
+<ul>
+  <li><em>An italic lead-in phrase.</em> Then what it means, in a sentence or two. Use this form for takeaways.</li>
+  <li><em>Another takeaway.</em> Keep each bullet to one idea.</li>
+</ul>
+
+<h3 id="subsection">A subsection heading</h3>
+<p>For anything done in order, use a numbered list with bold lead-ins:</p>
+<ol>
+  <li><strong>First step.</strong> What happens, and the function or command that does it, like <code>entryPoint()</code>.</li>
+  <li><strong>Second step.</strong> What it hands to the next step.</li>
+</ol>
+
+<h2 id="figures">A figure shows one mechanism</h2>
+<p>Introduce the figure in the prose (“Figure 1 shows…”), then let the figure carry the detail.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 820px">
+    <p class="fig-title">The figure's title states what it shows</p>
+    <svg viewBox="0 0 1000 300" role="img" aria-label="Same claim as the caption, for screen readers.">
+      <defs>
+        <marker id="t-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker>
+      </defs>
+      <rect class="d-group g1" x="12" y="16" width="300" height="268" rx="10"/>
+      <text class="d-group-label g1" x="28" y="42">Group one</text>
+      <rect class="d-box" x="32" y="62" width="260" height="70" rx="8"/>
+      <text class="d-t" x="48" y="90">Human name first</text>
+      <text class="d-m" x="48" y="110">module.functionName()</text>
+      <rect class="d-box" x="32" y="176" width="260" height="70" rx="8"/>
+      <text class="d-t" x="48" y="204">Another part</text>
+      <text class="d-m" x="48" y="224">other.ts</text>
+      <path class="d-edge" d="M162,132 L162,174" marker-end="url(#t-ah)"/>
+      <rect class="d-group g2" x="352" y="16" width="300" height="268" rx="10"/>
+      <text class="d-group-label g2" x="368" y="42">Group two</text>
+      <rect class="d-box acc" x="372" y="114" width="260" height="80" rx="8"/>
+      <text class="d-t" x="388" y="146">The element to watch</text>
+      <text class="d-s" x="388" y="168">the one accent in the figure</text>
+      <path class="d-edge acc" d="M292,211 L370,165" marker-end="url(#t-ah)"/>
+      <text class="d-el" x="331" y="178" text-anchor="middle">writes</text>
+      <rect class="d-box ghost" x="712" y="114" width="270" height="80" rx="8"/>
+      <text class="d-t" x="728" y="146">Optional part</text>
+      <text class="d-s" x="728" y="168">dashed when it may not run</text>
+      <path class="d-edge dash" d="M632,154 L710,154" marker-end="url(#t-ah)"/>
+      <g><circle class="d-badge" cx="671" cy="154" r="10"/><text class="d-badge-t" x="671" y="158" text-anchor="middle">1</text></g>
+    </svg>
+  </div>
+  <figcaption>One to three italic sentences on what to notice. Say what the accent marks and what the groups are.</figcaption>
+</figure>
+<details class="more">
+  <summary>A drawer for detail<span class="dim">full tables, call trees, signatures</span></summary>
+  <div class="inner">
+    <div class="scroll">
+      <table class="grid-table">
+        <thead><tr><th scope="col">Column</th><th scope="col">Column</th><th scope="col" class="num">Number</th></tr></thead>
+        <tbody><tr><th scope="row">Row</th><td>Value</td><td class="num">1,234</td></tr></tbody>
+      </table>
+    </div>
+<pre class="calls"><span class="layer">entry</span>entryPoint(args)                 <span class="n">module.ts</span>
+└─ <span class="layer">service</span>decide()                    <span class="n">what it decides</span>
+   └─ <span class="layer">sql</span>INSERT table                 <span class="n">what lands</span></pre>
+  </div>
+</details>
+
+<h2 id="walkthrough">A step in a workflow</h2>
+<p>Plans walk one running example through each user action. For each step, write one sentence on what the user does, draw the objects it creates, then put the calls and the resulting state in a drawer.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 1: what the user does</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">exists</span><span class="id">t1</span><span class="field">HOME DEPOT #7011 · 150.00</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">created</span><span class="id">JE 88120</span><span class="field">draft · bank feed</span></div></li>
+            <li><div class="obj gone"><span class="kind">removed</span><span class="id">JE 88119</span><span class="field">superseded</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Blue boxes are created in this step; dashed boxes are removed.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 1</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">action</span>SomeAction.mutate(inputs)
+└─ <span class="layer">service</span>journalEntryService.insertEntry()
+   └─ <span class="layer">sql</span>INSERT journal_entries, postings</pre>
+  </div>
+</details>
+
+<h2 id="optional">Optional components</h2>
+<p>A timeline, for statements or decisions that changed over time:</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">What was said, in order</p>
+    <ol class="timeline">
+      <li class="agent"><span class="tl-when">16:14</span><span class="tl-mark"></span><div class="tl-body"><span class="tl-who">Agent</span><p class="tl-quote">“The first decision.”</p></div></li>
+      <li class="you"><span class="tl-when">17:11</span><span class="tl-mark"></span><div class="tl-body"><span class="tl-who">You</span><p class="tl-quote">“The reversal.”</p></div></li>
+      <li class="note"><span class="tl-when">18:03</span><span class="tl-mark"></span><div class="tl-body"><span class="tl-who">Note</span><p class="tl-quote">“The settled version.”</p></div></li>
+    </ol>
+  </div>
+  <figcaption>What to notice about the order.</figcaption>
+</figure>
+<p>An axis map, when a term means several things. The chips and axes come from the JSON; the matrix fills itself.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">The meanings of one word</p>
+    <div class="axismap" data-matrix="#matrix">
+      <div class="map-controls">
+        <div class="presets" role="group" aria-label="Preset views">
+          <button type="button" data-preset data-x="arrives" data-y="kept" aria-pressed="true">How it arrives × what's kept</button>
+        </div>
+        <label for="map-x">Across <select id="map-x" data-axis="x"></select></label>
+        <label for="map-y">Up <select id="map-y" data-axis="y"></select></label>
+      </div>
+      <div class="map-wrap"><svg class="map" role="img" aria-label="Options plotted on two axes"></svg></div>
+      <div class="legend"><span><span class="chipk mem"></span>The subject</span><span><span class="chipk"></span>Something else with the same name</span><span><span class="chipk off"></span>Present but off</span></div>
+      <div class="map-detail" aria-live="polite"></div>
+      <script type="application/json">
+{
+  "view": ["arrives", "kept"],
+  "itemLabel": "Option",
+  "selected": "subject",
+  "groups": { "subject": "The subject", "other": "Elsewhere" },
+  "axes": {
+    "arrives": { "label": "How it arrives", "bins": ["Always there", "Loaded at start", "Asked for"] },
+    "kept":    { "label": "What's kept", "bins": ["Everything", "A summary"] },
+    "lasts":   { "label": "How long it lasts", "bins": ["One session", "Forever"] }
+  },
+  "kinds": [
+    { "id": "subject", "label": "The subject", "group": "subject", "tone": "mem", "v": { "arrives": 2, "kept": 0, "lasts": 1 }, "where": "where it lives", "note": "One sentence a reader needs about it." },
+    { "id": "other", "label": "A lookalike", "group": "other", "v": { "arrives": 0, "kept": 1, "lasts": 0 }, "where": "where it lives", "note": "Why people confuse it with the subject." },
+    { "id": "off", "label": "Switched off", "group": "subject", "tone": "mem off", "v": { "arrives": 1, "kept": 0, "lasts": 1 }, "where": "where it lives", "note": "Stored but unused in this setup." }
+  ]
+}
+      </script>
+    </div>
+  </div>
+  <figcaption>What the map shows at a glance.</figcaption>
+</figure>
+<details class="more">
+  <summary>Every axis in one table<span class="dim">filled from the map's data</span></summary>
+  <div class="inner"><div class="scroll"><table class="grid-table matrix" id="matrix"></table></div></div>
+</details>
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<p>Every term the page used without defining, each with a snippet that shows exactly how it works, using real values where there are any.</p>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-term">Term</h3>
+    <p>What it means here, in one or two sentences.</p>
+<pre class="snip">the formula, query, command or tiny worked example
+that shows exactly how it works</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-term-2">Another term</h3>
+    <p>Keep each entry short; the snippet carries the precision.</p>
+<pre class="snip">rrf = Σ 1 / (60 + rank)
+rank 7 + rank 36 → 1/67 + 1/96 = 0.0253</pre>
+  </section>
+</div>
+
+<details class="more">
+  <summary>Sources<span class="dim">what this page was traced from</span></summary>
+  <div class="inner"><ul class="sources"><li>Files read, with the version.</li><li>Queries run, read-only, with the date.</li><li>External docs, with the date fetched.</li></ul></div>
+</details>
+
+</article>
+</div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+  // Axis map: every kind is a chip placed in the cell of its two plotted bins.
+  const NS = "http://www.w3.org/2000/svg";
+  const CHIP_H = 24, CHIP_GAP = 6;
+  const svgEl = (tag, attrs, parent) => {
+    const node = document.createElementNS(NS, tag);
+    for (const key in attrs) node.setAttribute(key, attrs[key]);
+    if (parent) parent.appendChild(node);
+    return node;
+  };
+  // Split a long bin label at the space nearest its middle.
+  const wrap = (label, max) => {
+    if (label.length <= max) return [label];
+    let best = -1;
+    for (let i = 0; i < label.length; i++) {
+      if (label[i] === " " && (best < 0 || Math.abs(i - label.length / 2) < Math.abs(best - label.length / 2))) best = i;
+    }
+    return best < 0 ? [label] : [label.slice(0, best), label.slice(best + 1)];
+  };
+
+  for (const root of document.querySelectorAll(".axismap")) {
+    const data = JSON.parse(root.querySelector('script[type="application/json"]').textContent);
+    const svg = root.querySelector("svg.map");
+    const selX = root.querySelector('select[data-axis="x"]');
+    const selY = root.querySelector('select[data-axis="y"]');
+    const presets = [...root.querySelectorAll("[data-preset]")];
+    const detail = root.querySelector(".map-detail");
+    const matrix = root.dataset.matrix ? document.querySelector(root.dataset.matrix) : null;
+    const axisKeys = Object.keys(data.axes);
+    let [x, y] = data.view;
+    let selected = data.selected;
+
+    for (const key of axisKeys) {
+      selX.add(new Option(data.axes[key].label, key));
+      selY.add(new Option(data.axes[key].label, key));
+    }
+
+    const grid = svgEl("g", {}, svg);
+    const chipLayer = svgEl("g", {}, svg);
+    const chips = new Map();
+    for (const kind of data.kinds) {
+      const g = svgEl("g", { class: "m-chip " + (kind.tone || ""), tabindex: "0", role: "button", "aria-label": kind.label }, chipLayer);
+      svgEl("title", {}, g).textContent = kind.label + ": " + kind.where;
+      svgEl("rect", { rx: 5, height: CHIP_H, width: 100 }, g);
+      svgEl("text", { x: 10, y: CHIP_H / 2 + 4 }, g).textContent = kind.label;
+      g.addEventListener("click", () => select(kind.id));
+      g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(kind.id); } });
+      chips.set(kind.id, g);
+    }
+
+    function layout() {
+      const ax = data.axes[x], ay = data.axes[y];
+      const nx = ax.bins.length, ny = ay.bins.length;
+      const W = 1000, LEFT = 212, TOP = 10, BOTTOM = 70, RIGHT = 8;
+      const plotW = W - LEFT - RIGHT, cellW = plotW / nx;
+      const cells = new Map();
+      for (const kind of data.kinds) {
+        const key = kind.v[x] + "," + kind.v[y];
+        if (!cells.has(key)) cells.set(key, []);
+        cells.get(key).push(kind);
+      }
+      const rowCount = Array.from({ length: ny }, (_, j) =>
+        Math.max(1, ...Array.from({ length: nx }, (_, i) => (cells.get(i + "," + j) || []).length)));
+      const rowH = rowCount.map((n) => n * (CHIP_H + CHIP_GAP) - CHIP_GAP + 22);
+      const plotH = rowH.reduce((a, b) => a + b, 0);
+      const H = TOP + plotH + BOTTOM;
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      svg.setAttribute("aria-label", `${data.kinds.length} items, placed by ${ax.label.toLowerCase()} (across) and ${ay.label.toLowerCase()} (up).`);
+
+      // The first bin sits at the bottom, so "up" reads as more of the axis.
+      const rowTop = [];
+      let acc = TOP;
+      for (let j = ny - 1; j >= 0; j--) { rowTop[j] = acc; acc += rowH[j]; }
+
+      grid.replaceChildren();
+      for (let j = 0; j < ny; j++) {
+        svgEl("rect", { x: LEFT, y: rowTop[j], width: plotW, height: rowH[j], class: j % 2 ? "m-row alt" : "m-row" }, grid);
+        const lines = wrap(ay.bins[j], 26);
+        lines.forEach((line, li) => {
+          svgEl("text", { x: LEFT - 12, y: rowTop[j] + rowH[j] / 2 + 4 + (li - (lines.length - 1) / 2) * 14, class: "m-bin", "text-anchor": "end" }, grid).textContent = line;
+        });
+      }
+      for (let i = 1; i < nx; i++) {
+        svgEl("line", { x1: LEFT + cellW * i, x2: LEFT + cellW * i, y1: TOP, y2: TOP + plotH, class: "m-vline" }, grid);
+      }
+      svgEl("rect", { x: LEFT, y: TOP, width: plotW, height: plotH, class: "m-frame" }, grid);
+      for (let i = 0; i < nx; i++) {
+        wrap(ax.bins[i], 22).forEach((line, li) => {
+          svgEl("text", { x: LEFT + cellW * (i + 0.5), y: TOP + plotH + 20 + li * 14, class: "m-bin", "text-anchor": "middle" }, grid).textContent = line;
+        });
+      }
+      svgEl("text", { x: LEFT + plotW / 2, y: H - 8, class: "m-axis", "text-anchor": "middle" }, grid).textContent = ax.label + "  →";
+      svgEl("text", { x: 0, y: 0, class: "m-axis", "text-anchor": "middle", transform: `translate(16 ${TOP + plotH / 2}) rotate(-90)` }, grid).textContent = ay.label + "  →";
+
+      for (const [key, list] of cells) {
+        const [i, j] = key.split(",").map(Number);
+        list.forEach((kind, n) => {
+          const g = chips.get(kind.id);
+          g.querySelector("rect").setAttribute("width", cellW - 16);
+          g.style.transform = `translate(${LEFT + cellW * i + 8}px, ${rowTop[j] + 11 + n * (CHIP_H + CHIP_GAP)}px)`;
+        });
+      }
+      selX.value = x;
+      selY.value = y;
+      for (const b of presets) b.setAttribute("aria-pressed", String(b.dataset.x === x && b.dataset.y === y));
+      renderDetail();
+    }
+
+    function select(id) {
+      selected = id;
+      renderDetail();
+    }
+
+    function renderDetail() {
+      const kind = data.kinds.find((k) => k.id === selected);
+      for (const [id, g] of chips) g.classList.toggle("on", id === selected);
+      if (matrix) for (const tr of matrix.querySelectorAll("tr[data-kind]")) tr.classList.toggle("on", tr.dataset.kind === selected);
+      detail.replaceChildren();
+      const left = document.createElement("div");
+      left.className = "left";
+      const who = document.createElement("div");
+      who.className = "who";
+      const h = document.createElement("h3");
+      h.textContent = kind.label;
+      const tag = document.createElement("span");
+      tag.className = "tag" + (kind.group === "mem" ? " mem" : "");
+      tag.textContent = data.groups[kind.group];
+      who.append(h, tag);
+      const note = document.createElement("p");
+      note.textContent = kind.note;
+      const where = document.createElement("p");
+      where.className = "small muted";
+      const code = document.createElement("code");
+      code.textContent = kind.where;
+      where.append("Lives in ", code);
+      left.append(who, note, where);
+      const dl = document.createElement("dl");
+      dl.className = "axes-dl";
+      for (const key of axisKeys) {
+        const dt = document.createElement("dt");
+        dt.textContent = data.axes[key].label;
+        const dd = document.createElement("dd");
+        dd.textContent = data.axes[key].bins[kind.v[key]];
+        if (key === x || key === y) dd.className = "plotted";
+        dl.append(dt, dd);
+      }
+      detail.append(left, dl);
+    }
+
+    if (matrix) {
+      const head = matrix.createTHead().insertRow();
+      for (const label of [data.itemLabel || "Option", ...axisKeys.map((k) => data.axes[k].label), "Lives in"]) {
+        const th = document.createElement("th");
+        th.scope = "col";
+        th.textContent = label;
+        head.appendChild(th);
+      }
+      const body = matrix.createTBody();
+      for (const kind of data.kinds) {
+        const tr = body.insertRow();
+        tr.dataset.kind = kind.id;
+        tr.tabIndex = 0;
+        const th = document.createElement("th");
+        th.scope = "row";
+        th.textContent = kind.label;
+        tr.appendChild(th);
+        for (const key of axisKeys) tr.insertCell().textContent = data.axes[key].bins[kind.v[key]];
+        const where = tr.insertCell();
+        where.className = "where";
+        where.textContent = kind.where;
+        tr.addEventListener("click", () => select(kind.id));
+        tr.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(kind.id); } });
+      }
+    }
+
+    selX.addEventListener("change", () => { x = selX.value; layout(); });
+    selY.addEventListener("change", () => { y = selY.value; layout(); });
+    for (const b of presets) b.addEventListener("click", () => { x = b.dataset.x; y = b.dataset.y; layout(); });
+    // Place chips without animating on load; later axis changes glide.
+    svg.classList.add("settling");
+    layout();
+    requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.remove("settling")));
+  }
+})();
+</script>

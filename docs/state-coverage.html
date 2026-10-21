@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State coverage · OpenTaxRate</title>
+<meta name="description" content="How OpenTaxRate finds rates in all 50 states and DC: sources, lookup methods, and limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+
+  .scroll { margin: 24px 0; }
+  .grid-table { min-width: 560px; }
+  .grid-table td { color: var(--text-2); }
+  .state-code { color: var(--text-3); font-size: .8em; font-family: var(--mono); }
+  .inner p { max-width: 76ch; }
+  .source-links { font-size: .85rem; overflow-wrap: anywhere; }
+  .source-links a { display: inline-block; margin: 0 12px 6px 0; }
+  .page-foot { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--text-3); font-size: .85rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 20px; top: 12px; background: var(--bg); padding: 10px; }
+  @media print { .toc, .skip { display: none; } .layout { display: block; padding: 0; } details.more > .inner { display: block; } h2 { margin-top: 32px; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><p class="toc-title">State coverage</p><ol>
+<li><a href="#methods">Four lookup methods</a></li>
+<li><a href="#ranges">Address ranges</a></li>
+<li><a href="#geographic">Geographic lookup</a></li>
+<li><a href="#statewide">Statewide tables</a></li>
+<li><a href="#california">California</a></li>
+<li><a href="#limits">Limits and maintenance</a></li>
+<li><a href="#terms">Terms</a></li>
+</ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
+<article id="content">
+<header class="page-head"><p class="eyebrow">OpenTaxRate · Implementation reference</p><h1>State coverage</h1>
+<p class="lede">How an address becomes a tax rate in all 50 states and DC. Most requests use published data loaded into our database; California calls the state’s live service.</p>
+<p class="meta">Code reviewed 2026-10-21 · <a href="architecture.md">Architecture</a> · <a href="../README.md">README</a></p></header>
+<h2 id="methods">Four lookup methods</h2>
+<p>The state selects the lookup method. Address ranges assign house numbers directly to tax areas. Geographic lookup places an address on a map, then finds the jurisdictions around it. Both read dated rates and apply state-specific rules.</p>
+<div class="scroll"><table class="grid-table"><caption>Methods configured in the repository, reviewed 2026-10-21.</caption><thead><tr><th scope="col">Method</th><th scope="col">Coverage</th><th scope="col">Geocoding</th></tr></thead><tbody>
+<tr><th scope="row"><a href="#ranges">Address ranges</a></th><td>25 states: 24 SST members + Missouri</td><td>Fallback and split-ZIP checks</td></tr>
+<tr><th scope="row"><a href="#geographic">Geographic lookup</a></th><td>16 states</td><td>At the start of each lookup</td></tr>
+<tr><th scope="row"><a href="#statewide">Statewide tables</a></th><td>8 states + DC</td><td>Not needed</td></tr>
+<tr><th scope="row"><a href="#california">Live authority API</a></th><td>California</td><td>Handled by CDTFA</td></tr>
+</tbody></table></div>
+<p>Geocoding uses Census and OpenStreetMap Nominatim, plus Mapbox when configured. The code compares their results and keeps an uncertainty margin. PostGIS then searches downloaded polygons. These are separate steps: geocoders find coordinates; PostGIS finds jurisdictions; the tax engine calculates the rate.</p>
+<h2 id="ranges">Address ranges: 25 states</h2>
+<p><strong>Streamlined Sales Tax (SST)</strong> provides a common file format for 24 states. Each boundary row assigns a street’s house-number range, ZIP+4 range, or ZIP to a combination of taxing jurisdictions. A separate rate file gives those jurisdictions’ dated rates.</p>
+<p>A house number must fall inside the published range and match its odd/even side, rather than equal a listed endpoint. The engine also checks street spelling, direction, ZIP/city, units, and dates. SST rows stay as database ranges; they are never converted to polygons.</p>
+<p>The engine tries street ranges, ZIP+4, and an unambiguous ZIP. If those cannot settle the rate, it may geocode the address and use separately downloaded Census outlines to narrow the ZIP’s candidate areas. A street match without ZIP+4 can also be cross-checked on the map when the ZIP contains different rates. Conflicting evidence can produce a refusal.</p>
+
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">State</th><th scope="col">Source</th><th scope="col">Handling</th></tr></thead><tbody>
+<tr id="ar" data-state="AR"><th scope="row">Arkansas <span class="state-code">AR</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="ga" data-state="GA"><th scope="row">Georgia <span class="state-code">GA</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="in" data-state="IN"><th scope="row">Indiana <span class="state-code">IN</span></th><td>SST files</td><td>Uses the shared range engine even with a uniform general rate.</td></tr>
+<tr id="ia" data-state="IA"><th scope="row">Iowa <span class="state-code">IA</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="ks" data-state="KS"><th scope="row">Kansas <span class="state-code">KS</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="ky" data-state="KY"><th scope="row">Kentucky <span class="state-code">KY</span></th><td>SST files</td><td>Uses the shared range engine even with a uniform general rate.</td></tr>
+<tr id="mi" data-state="MI"><th scope="row">Michigan <span class="state-code">MI</span></th><td>SST files</td><td>Uses the shared range engine even with a uniform general rate.</td></tr>
+<tr id="mn" data-state="MN"><th scope="row">Minnesota <span class="state-code">MN</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="mo" data-state="MO"><th scope="row">Missouri <span class="state-code">MO</span></th><td>Missouri DOR</td><td>Similar address-range CSV plus quarterly workbooks; use published jurisdiction totals.</td></tr>
+<tr id="ne" data-state="NE"><th scope="row">Nebraska <span class="state-code">NE</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="nv" data-state="NV"><th scope="row">Nevada <span class="state-code">NV</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="nj" data-state="NJ"><th scope="row">New Jersey <span class="state-code">NJ</span></th><td>SST files</td><td>Uses the shared range engine even with a uniform general rate.</td></tr>
+<tr id="nc" data-state="NC"><th scope="row">North Carolina <span class="state-code">NC</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="nd" data-state="ND"><th scope="row">North Dakota <span class="state-code">ND</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="oh" data-state="OH"><th scope="row">Ohio <span class="state-code">OH</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="ok" data-state="OK"><th scope="row">Oklahoma <span class="state-code">OK</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="ri" data-state="RI"><th scope="row">Rhode Island <span class="state-code">RI</span></th><td>SST files</td><td>Uses the shared range engine even with a uniform general rate.</td></tr>
+<tr id="sd" data-state="SD"><th scope="row">South Dakota <span class="state-code">SD</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="tn" data-state="TN"><th scope="row">Tennessee <span class="state-code">TN</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="ut" data-state="UT"><th scope="row">Utah <span class="state-code">UT</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="vt" data-state="VT"><th scope="row">Vermont <span class="state-code">VT</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="wa" data-state="WA"><th scope="row">Washington <span class="state-code">WA</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="wv" data-state="WV"><th scope="row">West Virginia <span class="state-code">WV</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="wi" data-state="WI"><th scope="row">Wisconsin <span class="state-code">WI</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+<tr id="wy" data-state="WY"><th scope="row">Wyoming <span class="state-code">WY</span></th><td>SST files</td><td>Shared street/ZIP matching and geographic fallback.</td></tr>
+</tbody></table></div>
+<details class="more"><summary>Refresh, history, and code</summary><div class="inner">
+<p>SST refresh discovers each state’s newest rate and boundary files and skips already loaded releases unless <code>--force</code> is used. Boundary data streams into Postgres; repeated jurisdiction combinations share one area record. History is filtered by <code>OPENTAXRATE_HISTORY_FROM</code>, defaulting to 2020-01-01, and depends on what the files contain.</p>
+<p>Missouri loads up to eight quarterly rate workbooks and its newest available boundary file. Its available history depends on those workbooks. Small special districts can remain ambiguous in map fallback.</p>
+<p class="source-links"><a href="../src/engine/sst-files.ts">SST parser</a><a href="../src/engine/sst-lookup.ts">Range lookup</a><a href="../src/engine/load.ts">Database loader</a><a href="../src/engine/missouri.ts">Missouri adapter</a><a href="https://www.streamlinedsalestax.org/ratesandboundry">SST downloads</a></p>
+</div></details>
+<h2 id="geographic">Geographic lookup: 16 states</h2>
+<p>These states geocode first. PostGIS finds containing county, city, and district outlines; the engine combines their dated rates using each state’s rules. Close to a boundary, the engine checks whether crossing it could change the rate.</p>
+<p>Some adapters download rate files, some collect data from services during refresh, and others load tables maintained in code. A service used during refresh is separate from a live tax lookup.</p>
+
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">State</th><th scope="col">Sources</th><th scope="col">Main complexity</th></tr></thead><tbody>
+<tr id="al" data-state="AL"><th scope="row">Alabama <span class="state-code">AL</span></th><td>DOR CSV + Census outlines</td><td>County rules change inside cities; police jurisdictions extend outside them.</td></tr>
+<tr id="ak" data-state="AK"><th scope="row">Alaska <span class="state-code">AK</span></th><td>Commission rate/map service</td><td>Member jurisdictions only; seasonal rates and discovery of small districts.</td></tr>
+<tr id="az" data-state="AZ"><th scope="row">Arizona <span class="state-code">AZ</span></th><td>Monthly DOR CSVs + official GIS</td><td>Region codes, annexations, and retail TPT rules.</td></tr>
+<tr id="co" data-state="CO"><th scope="row">Colorado <span class="state-code">CO</span></th><td>State rate/map service</td><td>Home-rule cities and overlapping districts; discovery uses geographic sampling.</td></tr>
+<tr id="fl" data-state="FL"><th scope="row">Florida <span class="state-code">FL</span></th><td>DR-15DSS rates maintained in code + Census</td><td>Dated county surtaxes; the caller applies transaction caps.</td></tr>
+<tr id="hi" data-state="HI"><th scope="row">Hawaii <span class="state-code">HI</span></th><td>GET surcharge table maintained in code + Census</td><td>GET tax rate differs from the maximum amount passed on to a customer.</td></tr>
+<tr id="id" data-state="ID"><th scope="row">Idaho <span class="state-code">ID</span></th><td>City ordinances maintained in code + Census</td><td>Resort-city renewals, expirations, and product exemptions.</td></tr>
+<tr id="il" data-state="IL"><th scope="row">Illinois <span class="state-code">IL</span></th><td>IDOR location/address files + official GIS</td><td>Business districts can depend on the exact street address.</td></tr>
+<tr id="la" data-state="LA"><th scope="row">Louisiana <span class="state-code">LA</span></th><td>Commission lookup website + Census/local GIS</td><td>Parish/city replacements and districts with missing or disputed outlines.</td></tr>
+<tr id="ms" data-state="MS"><th scope="row">Mississippi <span class="state-code">MS</span></th><td>DOR rates maintained in code + Census</td><td>General retail additions in Jackson and Tupelo; sourcing remains the caller’s responsibility.</td></tr>
+<tr id="nm" data-state="NM"><th scope="row">New Mexico <span class="state-code">NM</span></th><td>TRD location GIS with combined rates</td><td>Each location carries a combined total; overlapping totals must not be added.</td></tr>
+<tr id="ny" data-state="NY"><th scope="row">New York <span class="state-code">NY</span></th><td>Publication 718 maintained in code + Census</td><td>Some cities replace county tax; commuter-district tax is included in the table.</td></tr>
+<tr id="pa" data-state="PA"><th scope="row">Pennsylvania <span class="state-code">PA</span></th><td>DOR rates maintained in code + Census</td><td>Local additions in Allegheny County and Philadelphia.</td></tr>
+<tr id="sc" data-state="SC"><th scope="row">South Carolina <span class="state-code">SC</span></th><td>ST-500 maintained in code + Census/state GIS</td><td>Myrtle Beach’s extra tax follows state-published city limits.</td></tr>
+<tr id="tx" data-state="TX"><th scope="row">Texas <span class="state-code">TX</span></th><td>Comptroller files, workbook, webpage + official GIS</td><td>Combined areas determine which district components apply inside cities.</td></tr>
+<tr id="va" data-state="VA"><th scope="row">Virginia <span class="state-code">VA</span></th><td>Historical Tax Department workbook + Census</td><td>Independent cities and regional additions are represented by locality totals.</td></tr>
+</tbody></table></div>
+<details class="more"><summary>Alabama<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Refresh downloads the CSV again; county interpretations require code maintenance. The adapter starts its retained rate processing at 2020-01-01.</p><p>Police jurisdictions can reach outside city boundaries. Multiple county codes can apply in different cities or unincorporated areas; a rate file alone does not explain their geography.</p><p class="source-links"><a href="../src/engine/geo-states/alabama.ts">alabama.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://www.revenue.alabama.gov/wp-content/uploads/2024/03/taxrates.csv">DOR rate CSV</a></p></div></details>
+<details class="more"><summary>Alaska<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Discover IDs with a statewide grid and points inside Census places, combine them with stored IDs, and fetch rate snapshots at half-year dates since 2024-01-01 plus today.</p><p>The source covers Commission member jurisdictions. Geographic sampling can miss small districts, and seasonal rate changes require careful date handling; this is not proof of complete local-tax coverage.</p><p class="source-links"><a href="../src/engine/geo-states/ttr.ts">ttr.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://alaska.atr.avalara.com">Commission hosted lookup</a></p></div></details>
+<details class="more"><summary>Arizona<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Refresh merges monthly CSVs from August 2025 onward and retrieves current GIS layers. The adapter includes an explicit region-code translation.</p><p>TPT is a business tax; some cities have price tiers outside this engine. Current city outlines may differ from past boundaries.</p><p class="source-links"><a href="../src/engine/geo-states/arizona.ts">arizona.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://azdor.gov">Arizona DOR</a><a href="https://services6.arcgis.com/clPWQMwZfdWn4MQZ/ArcGIS/rest/services">GIS service root</a></p></div></details>
+<details class="more"><summary>Colorado<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Use known IDs, previously stored IDs, and geographic discovery. Fetch snapshots at half-year dates since 2024-01-01 plus today, then load service polygons.</p><p>Home-rule tax bases differ, and overlapping districts need complete discovery. Grid sampling and snapshot collection are implementation strategies, not guarantees of exhaustive historical coverage.</p><p class="source-links"><a href="../src/engine/geo-states/ttr.ts">ttr.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://salestaxlookup.colorado.gov">Colorado hosted lookup</a></p></div></details>
+<details class="more"><summary>Florida<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Refresh loads the embedded table and Census data; it does not download or parse a new DR-15DSS form. Configured coverage is 2025-01-01 through 2026-12-31.</p><p>Individual surtaxes have effective and expiration dates. The single-item surtax cap is a transaction calculation the caller must apply.</p><p class="source-links"><a href="../src/engine/geo-states/florida.ts">florida.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a></p></div></details>
+<details class="more"><summary>Hawaii<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Refresh loads the embedded entries; new surcharge dates or rates require code updates. County entries have separate effective dates and configured end dates.</p><p>The result is the tax rate for activity taxed at the general GET rate, not the higher maximum visible pass-on amount. Kalawao has no surcharge entry.</p><p class="source-links"><a href="../src/engine/geo-states/hawaii.ts">hawaii.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a></p></div></details>
+<details class="more"><summary>Idaho<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Configured state coverage begins in 2025. Entries include renewal gaps, 2026 starts, and some explicit expiration dates. Refresh does not read new ordinances.</p><p>City-specific exemptions and purchase thresholds are outside the general rate. Ballot renewals and expiring ordinances require manual upkeep.</p><p class="source-links"><a href="../src/engine/geo-states/idaho.ts">idaho.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a></p></div></details>
+<details class="more"><summary>Illinois<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Read current and two configured prior editions, merge current/prior periods, and retrieve current location polygons. Available history depends on those editions.</p><p>A city can span counties and reporting locations. Business districts use address lists rather than complete district outlines; the adapter chooses the higher listed general rate for its configured retailer assumption.</p><p class="source-links"><a href="../src/engine/geo-states/illinois.ts">illinois.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://tax.illinois.gov/content/dam/soi/en/web/tax/research/taxrates/documents/salestaxrates">IDOR rate-file directory</a><a href="https://aglomaps.revenue.illinois.gov/arcgis/rest/services/CityCountyTwpDD/MapServer/1">IDOR location polygons</a></p></div></details>
+<details class="more"><summary>Louisiana<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Read the lookup for the current month and rebuild the state’s loaded data. Rates start at that month’s first day; the adapter does not preserve a full historical archive across refreshes.</p><p>Domicile names do not reliably define their boundaries. EDD outlines are often missing; the French Quarter has a special conservative refusal zone, and some local polygons disagree with authority lookup results.</p><p class="source-links"><a href="../src/engine/geo-states/louisiana.ts">louisiana.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://remotesellersfiling.louisiana.gov/lookup/lookup.aspx">Remote Sellers Commission lookup</a><a href="https://maps.brla.gov/gis/rest/services/Governmental_Units/Sales_Tax_Domicile/MapServer/0">East Baton Rouge domicile layer</a></p></div></details>
+<details class="more"><summary>Mississippi<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Configured state coverage starts at 2014-03-01. Refresh loads the embedded table; published changes require code updates.</p><p>Jackson’s sourcing depends on the seller’s location, which the caller must handle. An address rate alone cannot determine transaction sourcing.</p><p class="source-links"><a href="../src/engine/geo-states/mississippi.ts">mississippi.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a></p></div></details>
+<details class="more"><summary>New Mexico<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Load the current July–June period and the preceding one. Rates come from both periods; polygons come from the current period.</p><p>City remainders, tax increment districts, and pueblos have location codes. Tribal-area entries reflect the adapter’s non-member-sales assumption; current polygons do not reconstruct historical borders.</p><p class="source-links"><a href="../src/engine/geo-states/new-mexico.ts">new-mexico.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://services5.arcgis.com/f4lpEvI6fkgVYigk/arcgis/rest/services">TRD GIS service root</a></p></div></details>
+<details class="more"><summary>New York<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Refresh loads the embedded table. Earlier Publication 718-A history is not implemented by this adapter; new publications need code changes.</p><p>Own-rate cities must replace rather than double-count county tax. NYC spans five counties, and Yonkers differs from the surrounding county rate.</p><p class="source-links"><a href="../src/engine/geo-states/new-york.ts">new-york.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a></p></div></details>
+<details class="more"><summary>Pennsylvania<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Embedded state coverage begins in 2000; Philadelphia’s local change is dated in 2009. Refresh does not fetch a new rate publication.</p><p>Geographic placement still matters near county lines, even though the rate table itself is small.</p><p class="source-links"><a href="../src/engine/geo-states/pennsylvania.ts">pennsylvania.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a></p></div></details>
+<details class="more"><summary>South Carolina<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Refresh reloads the table and fetches Myrtle Beach geometry. New ST-500 rates require code changes. Configured rate coverage starts 2026-05-01.</p><p>Annexations can outpace Census geography. The adapter excludes Catawba reservation sales and taxes collected separately by localities.</p><p class="source-links"><a href="../src/engine/geo-states/south-carolina.ts">south-carolina.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://gis.state.sc.us/arcgis/rest/services/Boundaries_Districts/Municipalities/FeatureServer/0">RFA municipality layer</a></p></div></details>
+<details class="more"><summary>Texas<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Merge quarterly files from 2022 Q3, prefer current workbook data where appropriate, and fetch current GIS. Cross-check inconsistent workbook totals and authority IDs against other source data.</p><p>The local cap produces combined areas and different district rates inside cities. Source spreadsheets can contain inconsistent totals or mistyped IDs; simple polygon addition would overcount.</p><p class="source-links"><a href="../src/engine/geo-states/texas.ts">texas.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://comptroller.texas.gov">Comptroller</a><a href="https://services.arcgis.com/8BKVd7DzccTE7TwW/arcgis/rest/services/Sales_Tax_Boundaries/FeatureServer">Official boundary service</a></p></div></details>
+<details class="more"><summary>Virginia<span class="dim">refresh, history, and code</span></summary><div class="inner"><p>Download and parse the workbook during refresh. History follows the periods actually present; the adapter reads period labels inside sheets rather than trusting sheet names.</p><p>Independent cities are county equivalents. Regional additions are included in locality totals, and workbook sheet names can contain typos.</p><p class="source-links"><a href="../src/engine/geo-states/virginia.ts">virginia.ts</a><a href="../src/engine/geo-lookup.ts">geo-lookup.ts</a><a href="../src/engine/shapes.ts">shapes.ts</a><a href="https://www.tax.virginia.gov/sites/default/files/inline-files/sales-and-use-tax-rates-by-locality-by-date.xlsx">Official historical workbook</a></p></div></details>
+<h2 id="statewide">Statewide tables: 8 states and DC</h2>
+<p>These routes select a dated entry maintained in code. They need no address-range dataset or geocoding. Refresh does not update the table; a rate change needs a code change.</p>
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">State / jurisdiction</th><th scope="col">Earliest configured date</th><th scope="col">Handling</th></tr></thead><tbody>
+<tr id="ct" data-state="CT"><th scope="row">Connecticut <span class="state-code">CT</span></th><td>2011-07-01</td><td>Statewide general-rate table. Product-specific rates are outside this calculation.</td></tr>
+<tr id="de" data-state="DE"><th scope="row">Delaware <span class="state-code">DE</span></th><td>2000-01-01</td><td>Zero general sales-tax entry. This does not calculate other kinds of business taxes.</td></tr>
+<tr id="dc" data-state="DC"><th scope="row">District of Columbia <span class="state-code">DC</span></th><td>2013-10-01</td><td>Dated general-rate entry maintained in code; category-specific rates are outside scope.</td></tr>
+<tr id="me" data-state="ME"><th scope="row">Maine <span class="state-code">ME</span></th><td>2013-10-01</td><td>Statewide general-rate table. Special product and service rates are outside scope.</td></tr>
+<tr id="md" data-state="MD"><th scope="row">Maryland <span class="state-code">MD</span></th><td>2008-01-03</td><td>Statewide general-rate table. Category-specific taxes are outside scope.</td></tr>
+<tr id="ma" data-state="MA"><th scope="row">Massachusetts <span class="state-code">MA</span></th><td>2009-08-01</td><td>Statewide general-rate table. Local meals taxes are outside the general-rate calculation.</td></tr>
+<tr id="mt" data-state="MT"><th scope="row">Montana <span class="state-code">MT</span></th><td>2000-01-01</td><td>Zero general-rate entry, with a city-name list that refuses named resort areas. This is a name check, not a mapped resort-tax boundary check.</td></tr>
+<tr id="nh" data-state="NH"><th scope="row">New Hampshire <span class="state-code">NH</span></th><td>2000-01-01</td><td>Zero general sales-tax entry. Specialized taxes are outside scope.</td></tr>
+<tr id="or" data-state="OR"><th scope="row">Oregon <span class="state-code">OR</span></th><td>2000-01-01</td><td>Zero general sales-tax entry. Specialized taxes are outside scope.</td></tr>
+</tbody></table></div>
+<p class="source-links"><a href="../src/engine/statewide.ts">Statewide table and Montana resort-area checks</a></p>
+<h2 id="california">California: live authority lookup</h2>
+<p id="ca" data-state="CA">California sends the street, city, and required ZIP to CDTFA’s live API. The response supplies the combined rate and tax-area code; our engine separates the configured state component from the local remainder.</p>
+<p>The API supplies today’s rate. A request for a different date still returns today’s rate, with that limitation stated in the source string. No California rate dataset is loaded by refresh.</p>
+<p class="source-links"><a href="../src/engine/california.ts">CDTFA client</a><a href="../src/engine/index.ts">State routing and response</a><a href="https://services.maps.cdtfa.ca.gov/api/taxrate/GetRateByAddress">CDTFA endpoint</a></p>
+<h2 id="limits">Limits and maintenance</h2>
+<ul><li><em>Coverage means an implemented method.</em> It does not guarantee that every address or special district can be resolved. Alaska’s source covers Commission members; geographic discovery can miss small districts.</li>
+<li><em>Rates and borders have different histories.</em> Dated rate records do not recreate past annexations. Geographic adapters commonly use current outlines.</li>
+<li><em>Refresh needs an operator.</em> Run or schedule the refresh command. Tables maintained in code and manually interpreted county rules need separate review.</li>
+<li><em>Ambiguity is explicit.</em> Conflicting ranges, missing outlines, or uncertain placement can return 422. Required state data that has not been loaded returns 502.</li>
+<li><em>The scope is the general rate.</em> Product taxability, exemptions, transaction sourcing, single-item caps, and comprehensive tribal treatment remain outside the engine.</li></ul>
+<details class="more"><summary>Commands and coverage checks</summary><div class="inner"><p><code>pnpm refresh TX WA</code> loads selected states; <code>pnpm refresh</code> selects all adapters. Apply migrations first. <code>GET /v1/coverage</code> lists methods and loaded releases, but does not verify complete district coverage or static-table freshness.</p><p><code>pnpm check --cases path/to/cases.csv</code> compares expected rates through the normal lookup. Passing sampled cases establishes accuracy for those cases, rather than every address nationwide.</p><p class="source-links"><a href="../src/engine/refresh.ts">Refresh orchestration</a><a href="../src/lookup.ts">Shared lookup</a><a href="../src/engine/locate.ts">Geocoding</a><a href="../src/engine/shapes.ts">PostGIS queries</a><a href="../src/schema.ts">Database tables</a></p></div></details>
+<h2 id="terms">Terms</h2>
+<div class="glossary">
+<section class="term"><h3>Address range</h3><p>A span of house numbers assigned to a tax area. Matching can also depend on street side, unit, and dates.</p><pre class="snip">146 Main St → even range 100–198 → tax area</pre></section>
+<section class="term"><h3>Geocoding</h3><p>Converting an address into a coordinate, with an accuracy estimate.</p><pre class="snip">Address → longitude, latitude, uncertainty</pre></section>
+<section class="term"><h3>Polygon and PostGIS</h3><p>A polygon is a coordinate outline. PostGIS is the database extension that checks which outlines contain a point.</p><pre class="snip">Coordinate → containing county / city / districts</pre></section>
+<section class="term"><h3>Tax area</h3><p>A combination of taxing jurisdictions shared by many addresses. Its applicable rate depends on the requested date.</p><pre class="snip">State + county + city + districts → dated rate</pre></section>
+</div>
+<p class="page-foot">Repository behavior reviewed 2026-10-21. Source endpoints identify the implementation’s inputs; they were not independently revalidated for this documentation edit. Territories are not implemented.</p>
+</article></div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
+</body>
+</html>

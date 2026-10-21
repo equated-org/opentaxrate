@@ -123,6 +123,8 @@ flowchart LR
 
 The full design, with the stacking rules and tables: **[docs/architecture.md](docs/architecture.md)**.
 
+State-by-state sources, lookup methods, and limitations: **[State coverage](docs/state-coverage.html)**.
+
 ---
 
 ## Coverage
