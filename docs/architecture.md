@@ -1,0 +1,153 @@
+# Architecture
+
+OpenTaxRate answers one question: **what is the general sales tax rate at this US street address on this date?** It answers from the states' own published files, loaded into Postgres, and refuses (naming the candidate rates) whenever those files can't settle a single rate.
+
+## Containers
+
+```mermaid
+flowchart LR
+  client([Your app]) -->|GET /v1/rate| api
+
+  subgraph compose[docker compose]
+    api[api<br/><code>cli.js serve</code><br/>Hono HTTP]
+    refresh[refresh<br/><code>cli.js refresh</code><br/>run quarterly]
+    migrate[migrate<br/><code>cli.js migrate</code>]
+    db[(Postgres 17<br/>~5 GB with every state)]
+  end
+
+  api -->|reads| db
+  refresh -->|COPY, one transaction per state| db
+  migrate -->|creates tables| db
+
+  refresh -. downloads .-> sources[[State tax offices<br/>Streamlined Sales Tax<br/>Census TIGER]]
+  api -. only when an address must be placed on the map .-> geo[[Geocoders<br/>Census · OpenStreetMap · Mapbox optional]]
+  api -. California only .-> cdtfa[[CDTFA live lookup]]
+```
+
+The API never writes and never downloads data. The refresh job never answers requests. They share only the database.
+
+## One lookup, three engines
+
+```mermaid
+flowchart TD
+  q["GET /v1/rate<br/>state, street, city, zip, date"] --> route{state}
+  route -->|DE NH OR MT CT ME MD MA DC| sw[Statewide table<br/>dated rates in code]
+  route -->|24 SST states + MO| rg[Range engine]
+  route -->|TX FL NY PA IL VA AZ NM CO AK AL LA SC MS ID HI| mp[Map engine]
+  route -->|CA| ca[CDTFA passthrough<br/>today's rate]
+
+  rg --> s1[1 street range] -->|not found| s2[2 ZIP+4 range] -->|no ZIP+4| s3[3 ZIP with one rate] -->|split| s4[4 map point vs Census outlines]
+  mp --> g1[geocode with every geocoder<br/>keep only where they agree] --> g2[outlines holding the point] --> g3[stack each one's dated rate]
+
+  s1 & s2 & s3 & s4 & g3 --> edge{near a line?}
+  edge -->|rate same across it| ok([rate, parts, match, source])
+  edge -->|rate differs| no([422: names both rates])
+```
+
+### Range engine (Streamlined states, Missouri)
+
+These states publish every street's house-number ranges with the county, city and districts each falls in.
+
+1. The typed street is reduced to a **key**: type, directions, spacing and ordinals removed, highway names folded together. The state's file is read through the same function, so `3330 W McCollister Drive` and the file's `W | MCCOLLISTER | Dr` meet on `MCCOLLISTER`.
+2. Ranges holding the house number on the right side of the street are narrowed by ZIP (or city), then type, direction and unit. One area means one answer.
+3. Otherwise: the ZIP+4's ranges; then the ZIP, only if every range in it has one rate and the city matches; then the map.
+
+Missouri publishes one total per jurisdiction code (place, county, district combination) because its parts don't always add up; that total is used as one rate.
+
+### Map engine (everywhere else)
+
+1. **Locate.** Mapbox (if configured), the Census geocoder and Nominatim are asked at once. The most precise point wins; if they disagree, the margin around it widens to their spread; past 250 m the address isn't placed.
+2. **Contain.** Outlines whose bounding box is near the point are tested with point-in-polygon. Outlines come from the state when it publishes them (Texas, Illinois, Arizona, New Mexico, Colorado, Alaska) and from Census TIGER otherwise.
+3. **Stack.** Every rate row has a type that says how it combines:
+
+| Type | Meaning | Used by |
+|---|---|---|
+| `45` | state rate | all |
+| `00` | county rate, county-wide | most |
+| `01` | city rate, added | most |
+| `01x` | city rate in place of its county's | NY own-rate cities, LA towns |
+| `rc` | county rate only outside rated cities | LA parishes |
+| `0c` | county's rate difference inside a named city | AL |
+| `x` + `kx` | exclusive area, with what it keeps at what rate | TX cities and combined areas, IL and NM locations |
+| `addr` | one street address's rate inside its area | IL business districts |
+| `no`, `pj`, `maybe`, `need` | refusals stored as data | AL, LA, IL/NM |
+
+### Near a line
+
+For each outline whose edge is closer than the point's margin, the engine reads the rate 2 m across that edge. Only if it differs is the address refused, with both rates in the message. Seams between pieces of one outline aren't edges.
+
+## Tables
+
+```mermaid
+erDiagram
+  sales_tax_areas ||--o{ sales_tax_street_ranges : "area_id"
+  sales_tax_areas ||--o{ sales_tax_zip_ranges : "area_id"
+  sales_tax_jurisdiction_rates }o--o{ sales_tax_areas : "type + code"
+  sales_tax_jurisdiction_rates }o--o{ sales_tax_shapes : "type + code = fips"
+  sales_tax_data_releases ||--o{ sales_tax_jurisdiction_rates : "state"
+
+  sales_tax_street_ranges {
+    text state
+    text street_key
+    int house_low
+    int house_high
+    text zip5
+    date starts_on
+    date ends_on
+  }
+  sales_tax_zip_ranges {
+    text state
+    text zip5
+    smallint plus4_low
+    smallint plus4_high
+  }
+  sales_tax_areas {
+    int id
+    text county
+    text place
+    text districts
+  }
+  sales_tax_jurisdiction_rates {
+    text state
+    text type
+    text code
+    numeric rate
+    date starts_on
+    date ends_on
+  }
+  sales_tax_shapes {
+    text state
+    text kind
+    text fips
+    jsonb rings
+    float min_lon
+    float max_lat
+  }
+  sales_tax_data_releases {
+    text state
+    text kind
+    text file
+    int rows
+  }
+```
+
+| Table | Rows (all states) | Size | What fills it |
+|---|---:|---:|---|
+| street ranges | 15.4 M | 3.65 GB | SST + Missouri address ranges since 2020 |
+| ZIP ranges | 5.3 M | 0.70 GB | SST + Missouri ZIP+4 and ZIP rows |
+| shapes | 68 k | 0.61 GB | Census TIGER + state outlines |
+| jurisdiction rates | 116 k | 20 MB | every state's dated rates |
+| areas | 13 k | 2 MB | combinations of county, city, districts |
+
+## Refresh
+
+`cli.js refresh [STATE...]` finds each state's newest files, skips ones already loaded, and replaces a state's rows in one transaction, so a lookup never sees half a release. Street ranges stream through Postgres `COPY`; a failure mid-file rolls the state back.
+
+| Kind of source | States | Cadence |
+|---|---|---|
+| Streamlined Sales Tax rate + boundary files | 24 | quarterly |
+| Missouri DOR workbooks + boundary CSV | MO | quarterly |
+| State rate files, sheets and GIS layers | TX, IL, AZ, NM, VA, AL, LA | monthly to yearly |
+| Transcribed forms (dated in code) | FL, NY, PA, HI, MS, ID, SC | when the state changes them |
+| State lookup service (bulk) | CO, AK | quarterly |
+| Census TIGER/Line | all | yearly |
