@@ -1,8 +1,9 @@
 import { stateCode } from '$lib/states';
 import { labelOf, type Suggestion } from './types';
 
-/** The lower 48 plus a margin; Photon only ranks inside it. */
-const US_BBOX = '-125,24,-66,50';
+/** All 50 states, Alaska and Hawaii included; Photon only searches inside it,
+ *  and results outside the US are dropped below. */
+const US_BBOX = '-180,17,-64,72';
 
 interface PhotonFeature {
 	geometry: { coordinates: [number, number] };
