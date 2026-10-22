@@ -1,7 +1,7 @@
 <script lang="ts">
 	/**
 	 * The landing page's accuracy and price claim, without naming competitors.
-	 * Leads with the rates it returned (none wrong) and sets the declines
+	 * Leads with the rates it returned and sets the declines
 	 * apart, so they don't read as misses. Figures come from benchmark.json and
 	 * pricing.json; the side-by-side comparison lives on /benchmarks.
 	 */
@@ -9,8 +9,10 @@
 	import { pricing } from '$lib/pricing';
 	import Pixels from '$lib/pixel/Pixels.svelte';
 
-	const ours = data.services.find((s) => s.id === 'opentaxrate-providers')!;
-	const price = pricing.rows.find((r) => r.id === 'opentaxrate-api')!.comparison!.perThousand;
+	const ours = data.services.find((s) => s.id === 'opentaxrate-providers');
+	const price = pricing.rows.find((r) => r.id === 'opentaxrate-api')?.comparison?.perThousand;
+	if (!ours || price === undefined)
+		throw new Error('AccuracySummary: benchmark.json or pricing.json no longer has the hosted API');
 	const answered = ours.right + ours.wrong;
 	const palette = { '#': 'var(--accent)', x: 'var(--clay)', o: 'var(--text-muted)' };
 
@@ -39,22 +41,28 @@
 		High accuracy. Lower cost.
 	</h2>
 	<p class="mt-3 max-w-[40rem] text-[15px] leading-relaxed text-[var(--text-muted)]">
-		We tested {ours.asked} random addresses against each state's own published rate. Every rate we returned was right.
+		We tested {ours.asked} random addresses against each state's own published rate.{ours.wrong === 0
+			? ' Every rate we returned was right.'
+			: ''}
 	</p>
 
 	<div class="mt-12 grid items-start gap-14 md:grid-cols-[minmax(0,460px)_1fr] md:gap-20">
 		<figure role="img" aria-label={summary}>
 			<Pixels rows={answeredRows} {palette} cell={5} class="block h-auto w-full" />
-			<div class="mt-8 flex items-center gap-4">
-				<Pixels rows={declinedRows} {palette} cell={5} />
-				<span class="text-[13px] text-[var(--text-muted)]">Declined, not guessed</span>
-			</div>
+			{#if ours.refused}
+				<div class="mt-8 flex items-center gap-4">
+					<Pixels rows={declinedRows} {palette} cell={5} />
+					<span class="text-[13px] text-[var(--text-muted)]">Declined, not guessed</span>
+				</div>
+			{/if}
 		</figure>
 
 		<dl class="flex flex-col divide-y divide-[var(--border)]">
 			<div class="flex flex-col-reverse pb-7">
 				<dt class="mt-2 text-[14px] leading-relaxed text-[var(--text-muted)]">
-					rates returned, all matching the state. No wrong answers.
+					{ours.wrong === 0
+						? 'rates returned, all matching the state. No wrong answers.'
+						: `rates returned matching the state; ${ours.wrong} did not.`}
 				</dt>
 				<dd class="font-num text-[40px] leading-none font-semibold tracking-tight text-[var(--accent)]">
 					{ours.right}<span class="text-[var(--text-muted)]">/{answered}</span>
