@@ -41,9 +41,22 @@ export interface GeoStateData {
     name: string;
     rings: Shape["rings"];
     bbox: Shape["bbox"];
+    /** Where the source dates its outlines (Colorado's and Alaska's rate
+     *  service): the days this one is in force, undefined for since before
+     *  the source's record and until further notice. A source that dates
+     *  any outline gives its whole history, which replaces what was loaded;
+     *  one that dates none is written as a new edition (boundariesFrom). */
+    startsOn?: string;
+    endsOn?: string;
   }>;
   /** What each part came from, as releases record it. */
   files: { rates: string; boundaries?: string };
+  /** The first date the outlines are in force, where the source says (a
+   *  Texas quarter's first day); the day they're loaded otherwise. */
+  boundariesFrom?: string;
+  /** Where the source lists some rates only in its newest edition, that
+   *  edition's first day: a rate starting on it may have applied before. */
+  ratesFirstListed?: string;
 }
 
 export interface GeoState {

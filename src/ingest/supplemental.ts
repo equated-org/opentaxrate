@@ -15,7 +15,11 @@ import { taxSourceFeatures, taxSourceSnapshots } from "../db/schema.js";
 import { geometryOf } from "./geometry.js";
 import { fetchFile, fetchText } from "./states/sources.js";
 import { readDbf, readPolygons, type Shape } from "./tiger.js";
-import { SUPPLEMENTAL_POLYGONS, type PolygonSource } from "./supplemental-sources.js";
+import { MN_SERVICES, SUPPLEMENTAL_POLYGONS, type PolygonSource } from "./supplemental-sources.js";
+import { HISTORY_FROM } from "../coverage.js";
+
+/** "2020Q1" for the quarter holding a day. */
+const quarterOf = (day: string) => `${day.slice(0, 4)}Q${Math.ceil(Number(day.slice(5, 7)) / 3)}`;
 
 export interface EvidenceFeature { id: string; attributes: Record<string, unknown>; rings: Shape["rings"]; }
 export const digest = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -107,18 +111,54 @@ export async function loadEvidence(source: Pick<PolygonSource, "id" | "state" | 
 }
 
 const WA_PAGE = "https://dor.wa.gov/taxes-rates/sales-tax-jurisdiction-boundaries";
-/** Use the newest *published dated* ZIP per family, rather than a live map
- * which can still show the preceding quarter. No guessed publication URL. */
+/** Use the *published dated* ZIPs, rather than a live map which can still
+ * show the preceding quarter; no guessed publication URL. The tax-area
+ * family (LOCCODE_PUBLIC) is kept for every quarter from HISTORY_FROM, each
+ * indexed for its own quarter, oldest first so the newest is observed last;
+ * the validation families only for their newest. */
 export async function washingtonSources(dir?: string) {
   const page = await fetchText(WA_PAGE, dir, "wa-sales-tax-boundaries.html");
   const latest = new Map<string, { url: string; quarter: string }>();
-  for (const match of page.matchAll(/href=["']([^"']+\/(LOCCODE_PUBLIC|Cities|PTBA|RTA)_(\d{2}Q[1-4])\.zip)["']/gi)) {
+  const history = new Map<string, { url: string; quarter: string }>();
+  const from = quarterOf(HISTORY_FROM).slice(2);
+  for (const match of page.matchAll(/href=["']([^"']+\/(LOCCODE_PUBLIC|Cities|PTBA|RTA)_(\d{2}Q[1-4])(?:_\d+)?\.zip)["']/gi)) {
     const family = match[2].toUpperCase(), quarter = match[3].toUpperCase();
+    const data = { url: new URL(match[1], WA_PAGE).href, quarter };
     const previous = latest.get(family);
-    if (!previous || quarter > previous.quarter) latest.set(family, { url: new URL(match[1], WA_PAGE).href, quarter });
+    if (!previous || quarter > previous.quarter) latest.set(family, data);
+    if (family === "LOCCODE_PUBLIC" && quarter >= from) history.set(quarter, data);
   }
   if (latest.size !== 4) throw new Error("WA: could not discover all four dated boundary ZIP families");
-  return [...latest].map(([family, data]) => ({ id: `wa-${family.toLowerCase()}`, state: "WA", ...data }));
+  return [
+    ...[...history.values()].sort((a, b) => a.quarter.localeCompare(b.quarter))
+      .map((data) => ({ id: "wa-loccode_public", state: "WA", ...data })),
+    ...[...latest].filter(([family]) => family !== "LOCCODE_PUBLIC")
+      .map(([family, data]) => ({ id: `wa-${family.toLowerCase()}`, state: "WA", ...data })),
+  ];
+}
+
+/** Every quarterly Minnesota layer from HISTORY_FROM's quarter, oldest
+ *  first: each is indexed for its own quarter. */
+export async function minnesotaSources(dir?: string): Promise<Array<PolygonSource & { quarter: string }>> {
+  const listing = await sourceJson(`${MN_SERVICES}?f=json`, dir, "mn-services.json");
+  const from = quarterOf(HISTORY_FROM);
+  const quarters = (listing.services as Array<{ name: string }>)
+    .map((s) => /^locgnrl_sales_usetax_areas_(\d{4}Q[1-4])$/.exec(s.name)?.[1])
+    .filter((q): q is string => !!q && q >= from)
+    .sort();
+  if (!quarters.length) throw new Error("MN: no quarterly sales tax area layers listed");
+  // Most services publish the areas as layer 0, not all (2025Q3's isn't).
+  const sources = [];
+  for (const quarter of quarters) {
+    const service = `${MN_SERVICES}/locgnrl_sales_usetax_areas_${quarter}/FeatureServer`;
+    const layers = (await sourceJson(`${service}?f=json`, dir, `mn-${quarter}-service.json`)).layers as Array<{ id: number }> | undefined;
+    if (!layers?.length) throw new Error(`MN: ${quarter} lists no layer`);
+    sources.push({
+      id: "mn-tax-areas", state: "MN", role: "tax-area" as const, quarter, url: `${service}/${layers[0].id}`,
+      note: `${quarter} combined areas; crosswalk sst_code and component codes before promotion.`,
+    });
+  }
+  return sources;
 }
 
 export async function fetchWashingtonZip(source: { id: string; url: string; quarter: string }, dir?: string) {
@@ -166,19 +206,35 @@ export async function refreshSupplemental({ states = [], dir, sources = [], log 
   { states?: string[]; dir?: string; sources?: string[]; log?: (line: string) => void } = {}) {
   const wanted = (s: { state: string; id: string }) => (!states.length || states.includes(s.state)) && (!sources.length || sources.includes(s.id));
   const failures: string[] = [];
-  const run = async (source: { id: string; state: string; url: string }, fetch: () => Promise<{ features: EvidenceFeature[]; metadata: Record<string, unknown> }>) => {
+  // An older quarter that fails is logged and left out; only a source's
+  // newest edition failing fails the run.
+  const run = async (source: { id: string; state: string; url: string }, fetch: () => Promise<{ features: EvidenceFeature[]; metadata: Record<string, unknown> }>, newest = true) => {
     try {
       const data = await fetch();
       const result = await loadEvidence(source, data.features, data.metadata);
       log(`${source.state}: ${source.id} → ${result.rows} supplemental outlines (pending verification)`);
     } catch (error) {
-      failures.push(source.id);
-      log(`${source.state}: ${source.id} FAILED: ${error instanceof Error ? error.message : error}; previous snapshots retained`);
+      if (newest) failures.push(source.id);
+      log(`${source.state}: ${source.id}${"quarter" in source ? ` ${source.quarter}` : ""} FAILED: ${error instanceof Error ? error.message : error}; previous snapshots retained`);
     }
   };
   for (const source of SUPPLEMENTAL_POLYGONS.filter(wanted)) await run(source, () => fetchEvidenceLayer(source, dir));
+  if (wanted({ state: "MN", id: "mn-tax-areas" })) {
+    try {
+      const sources = await minnesotaSources(dir);
+      for (const source of sources)
+        await run(source, async () => {
+          const data = await fetchEvidenceLayer(source, dir);
+          return { ...data, metadata: { ...data.metadata, quarter: source.quarter } };
+        }, source === sources.at(-1));
+    } catch (error) { failures.push("mn-discovery"); log(`MN: ${String(error)}`); }
+  }
   if ((!states.length || states.includes("WA")) && (!sources.length || sources.some((s) => s.startsWith("wa-")))) {
-    try { for (const source of (await washingtonSources(dir)).filter(wanted)) await run(source, () => fetchWashingtonZip(source, dir)); }
+    try {
+      const sources = (await washingtonSources(dir)).filter(wanted);
+      for (const source of sources)
+        await run(source, () => fetchWashingtonZip(source, dir), !sources.some((o) => o.id === source.id && o.quarter > source.quarter));
+    }
     catch (error) { failures.push("wa-discovery"); log(`WA: ${String(error)}`); }
   }
   if (failures.length) throw new Error(`Supplemental ingestion incomplete: ${failures.join(", ")}`);

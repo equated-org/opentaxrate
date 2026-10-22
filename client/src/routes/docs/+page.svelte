@@ -20,6 +20,8 @@
   ],
   "match": "street",
   "locationCode": "53-000-63000",
+  "jurisdictions": "settled",
+  "alternatives": [],
   "locationIds": { "Composite SER Code": "01726" },
   "zip4": "98109-4607",
   "source": "Streamlined Sales Tax files WAB2026Q4AUG27 + WAR2026Q4AUG27, street match on 2026-10-22",
@@ -123,6 +125,14 @@
 			</td>
 		</tr>
 		<tr><td><code>locationCode</code></td><td>Our identifier for the combination of taxes. Not a filing code.</td></tr>
+		<tr>
+			<td><code>jurisdictions</code>, <code>alternatives</code></td>
+			<td>
+				Whether <code>parts</code> name the jurisdictions the tax is paid to. The rate is settled either way; <code>uncertain</code> where
+				the address could be in another combination of jurisdictions with the same total, each listed in <code>alternatives</code>
+				as <code>{"{ locationCode, parts }"}</code>, or the state's own lookup gave one local part for every local tax.
+			</td>
+		</tr>
 		<tr><td><code>locationIds</code>, <code>parts[].ids</code></td><td>The state's own codes, as published. See <a class="link" href="/docs/codes">State codes and filing</a>.</td></tr>
 		<tr><td><code>zip4</code></td><td>The address's ZIP+4 where a Streamlined state's files give it; else <code>null</code>.</td></tr>
 		<tr><td><code>source</code></td><td>The files or service the rate came from, and the date.</td></tr>

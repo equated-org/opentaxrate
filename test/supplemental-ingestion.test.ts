@@ -5,7 +5,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { eq, sql } from "drizzle-orm";
 import { client, db } from "../src/db/client.js";
 import { taxRuleRows, taxSourceFeatures, taxSourceSnapshots } from "../src/db/schema.js";
-import { fetchEvidenceLayer, loadEvidence, washingtonSources } from "../src/ingest/supplemental.js";
+import { fetchEvidenceLayer, loadEvidence, minnesotaSources, washingtonSources } from "../src/ingest/supplemental.js";
 
 const source = { id: "test-supplemental", state: "CA", url: "https://example.test/FeatureServer/0", role: "tax-area" as const, note: "fixture" };
 const rings: Array<Array<[number, number]>> = [[[-120, 38], [-119, 38], [-119, 39], [-120, 39], [-120, 38]]];
@@ -64,8 +64,25 @@ describe("versioned evidence", () => {
       `<a href="/sites/default/files/2026-08/${family}_${q}.zip">download</a>`)).join("\n");
     await writeFile(path.join(dir, "wa-sales-tax-boundaries.html"), links);
     const sources = await washingtonSources(dir);
-    expect(sources).toHaveLength(4);
-    expect(sources.every((s) => s.quarter === "26Q4")).toBe(true);
+    // Every tax-area quarter, oldest first; the newest of the others.
+    expect(sources.map((s) => `${s.id} ${s.quarter}`)).toEqual([
+      "wa-loccode_public 26Q3", "wa-loccode_public 26Q4", "wa-cities 26Q4", "wa-ptba 26Q4", "wa-rta 26Q4",
+    ]);
+  });
+
+  it("lists every Minnesota quarter from the history start, oldest first", async () => {
+    await writeFile(path.join(dir, "mn-services.json"), JSON.stringify({ services: [
+      "locgnrl_sales_usetax_areas_2026Q4", "locgnrl_sales_usetax_areas_2019Q4", "locgnrl_sales_usetax_areas_2020Q1",
+      "test_locgnrl_sales_usetax_areas_2026Q2",
+    ].map((name) => ({ name, type: "FeatureServer" })) }));
+    await writeFile(path.join(dir, "mn-2020Q1-service.json"), JSON.stringify({ layers: [{ id: 0 }] }));
+    await writeFile(path.join(dir, "mn-2026Q4-service.json"), JSON.stringify({ layers: [{ id: 3 }] }));
+    const sources = await minnesotaSources(dir);
+    expect(sources.map((s) => s.quarter)).toEqual(["2020Q1", "2026Q4"]);
+    // Each service's own layer, which isn't always 0.
+    expect(sources.map((s) => s.url.split("/").slice(-3).join("/"))).toEqual([
+      "locgnrl_sales_usetax_areas_2020Q1/FeatureServer/0", "locgnrl_sales_usetax_areas_2026Q4/FeatureServer/3",
+    ]);
   });
 
   it("retains an allowed geometry-less record as an explicit acquisition gap", async () => {

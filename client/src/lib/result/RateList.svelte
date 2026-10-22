@@ -64,6 +64,14 @@
 		{/each}
 	</ul>
 
+	{#if rate.jurisdictions === 'uncertain'}
+		<p class="-mt-3 text-[11.5px] text-[var(--text-muted)]">
+			The rate is settled, but which jurisdictions it is paid to isn't{#if rate.alternatives?.length}: it could also be {rate.alternatives
+					.map((a) => a.parts.filter((p) => p.kind !== 'state').map((p) => p.name ?? p.code).join(', '))
+					.join('; or ')}{/if}.
+		</p>
+	{/if}
+
 	{#if locationIds.length}
 		<p class="font-num -mt-3 text-[11.5px] text-[var(--text-muted)]">
 			This location: {locationIds.map(([key, value]) => `${key} ${value}`).join(' · ')}

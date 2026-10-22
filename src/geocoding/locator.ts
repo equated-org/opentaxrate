@@ -17,7 +17,7 @@ export async function insideTypedCity(a: AddressToLocate, p: LocatedPoint): Prom
   const rows = await db.execute<{ inside: boolean }>(sql`
     select st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326)) as inside
     from sales_tax_shapes where state = ${a.state}
-      and kind in ('place', 'cousub')
+      and kind in ('place', 'cousub') and ends_on = '9999-12-31'
       and regexp_replace(upper(name), '[^A-Z0-9]', '', 'g') = ${a.city.toUpperCase().replace(/[^A-Z0-9]/g, "")}`);
   if (!rows.length) return "no outline";
   return rows.some((r) => r.inside) ? "inside" : "outside";
@@ -47,7 +47,7 @@ export async function insideTypedArea(a: AddressToLocate, p: LocatedPoint) {
 async function insideRatedTown(a: AddressToLocate, p: LocatedPoint) {
   const [row] = await db.execute<{ inside: boolean }>(sql`
     select exists (select 1 from sales_tax_shapes where state = ${a.state} and kind in ('place', 'cousub')
-      and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))) as inside`);
+      and ends_on = '9999-12-31' and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))) as inside`);
   return Boolean(row?.inside);
 }
 /** A town's name without the Census's kind of place: "Hatfield township"

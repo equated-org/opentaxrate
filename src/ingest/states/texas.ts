@@ -146,6 +146,9 @@ export const texas: GeoState = {
         rates: `TX ${sheetName} city rates + SPD list + EDI rates from ${FIRST_QUARTER.year} Q${FIRST_QUARTER.quarter}`,
         boundaries: `TX Sales_Tax_Boundaries ${current.label}`,
       },
+      boundariesFrom: current.start,
+      // Districts outside cities come from the current quarter's list only.
+      ratesFirstListed: current.start,
     };
   },
 };

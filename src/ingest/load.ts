@@ -20,10 +20,9 @@ import {
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
   salesTaxJurisdictions,
-  salesTaxShapes,
 } from "../db/schema.js";
 import type { GeoStateData, JurisdictionRow } from "./states/index.js";
-import { and, eq, inArray, like, notLike, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { geometryOf } from "./geometry.js";
 import { RANGE_FIPS, STATE_FIPS } from "../coverage.js";
 import { readTigerZip, type Shape } from "./tiger.js";
@@ -40,7 +39,11 @@ export interface StateFiles {
    *  Streamlined layout (Missouri's). */
   parseBoundary?: (line: string) => BoundaryRow[];
   rates: { name: string; lines: AsyncIterable<string> | Iterable<string> };
-  boundaries: { name: string; lines: AsyncIterable<string> | Iterable<string> };
+  /** `firstListed`: where the file lists only the ranges in force on its
+   *  edition and after (Missouri's, which drops every row that ended), that
+   *  edition's first day; before it, a ZIP's or street's rows are missing
+   *  the ones that ended. Unset where the file keeps its history. */
+  boundaries: { name: string; lines: AsyncIterable<string> | Iterable<string>; firstListed?: string };
   /** Names and ids for the rates' codes, where the state's files give them
    *  (Missouri's rate workbook); the Streamlined files give none. Read
    *  after the rate lines, so a source may gather them while they stream. */
@@ -54,7 +57,7 @@ export async function loadGeoState(state: string, data: GeoStateData) {
   // outline.
   const merged = new Map<string, GeoStateData["shapes"][number]>();
   for (const s of data.shapes) {
-    const key = `${s.kind}:${s.fips}`;
+    const key = `${s.kind}:${s.fips}:${s.startsOn ?? ""}`;
     const known = merged.get(key);
     if (!known) merged.set(key, { ...s, rings: [...s.rings] });
     else {
@@ -88,25 +91,28 @@ export async function loadGeoState(state: string, data: GeoStateData) {
       await tx.insert(salesTaxJurisdictions).values(
         data.jurisdictions.slice(i, i + 500).map((j) => ({ state, ...j, file: data.files.rates })),
       );
-    await tx
-      .delete(salesTaxShapes)
-      .where(and(eq(salesTaxShapes.state, state), notLike(salesTaxShapes.file, "tl\\_%")));
-    for (let i = 0; i < shapes.length; i += 20)
-      await tx.insert(salesTaxShapes).values(
-        shapes.slice(i, i + 20).map((d) => ({
-          state,
-          kind: d.kind,
-          fips: d.fips,
-          name: d.name,
-          geom: geometryOf(d.rings),
-          file: data.files.boundaries ?? data.files.rates,
-        })),
+    const file = data.files.boundaries ?? data.files.rates;
+    if (shapes.some((d) => d.startsOn || d.endsOn)) {
+      // The source's own dated history replaces what was loaded.
+      await tx.execute(sql`delete from sales_tax_shapes s where s.state = ${state} and s.file not like 'tl\\_%'`);
+      for (let i = 0; i < shapes.length; i += 20)
+        await tx.execute(sql`insert into sales_tax_shapes (state, kind, fips, name, geom, file, starts_on, ends_on) values ${sql.join(
+          shapes.slice(i, i + 20).map((d) => sql`(${state}, ${d.kind}, ${d.fips}, ${d.name}, ${geometryOf(d.rings)}, ${file},
+            ${d.startsOn ?? "0001-01-01"}, ${d.endsOn ?? "9999-12-31"})`),
+          sql`, `,
+        )}`);
+    } else
+      await writeEdition(
+        tx,
+        sql`s.state = ${state} and s.file not like 'tl\\_%'`,
+        shapes.map((d) => ({ state, kind: d.kind, fips: d.fips, name: d.name, rings: d.rings, file })),
+        data.boundariesFrom ?? today(),
       );
     await tx
       .delete(salesTaxDataReleases)
       .where(eq(salesTaxDataReleases.state, state));
     await tx.insert(salesTaxDataReleases).values([
-      { state, kind: "rates" as const, file: data.files.rates, rows: data.rates.length },
+      { state, kind: "rates" as const, file: data.files.rates, rows: data.rates.length, firstListed: data.ratesFirstListed ?? null },
       ...(data.files.boundaries
         ? [{ state, kind: "boundaries" as const, file: data.files.boundaries, rows: shapes.length }]
         : []),
@@ -128,27 +134,17 @@ export async function loadTigerShapes(
   const shapes = readTigerZip(file.bytes, file.kind, new Set(fipsToState.keys())).filter(
     (s) => !named || named.has(`${fipsToState.get(s.stateFips)}:${s.fips}`),
   );
+  // A TIGER year's outlines are the legal boundaries on January 1 of it.
+  const year = /^tl_(\d{4})_/.exec(file.name)?.[1];
+  // A file with none of the states' outlines (no rated places) touches none.
+  if (!shapes.length) return 0;
   await db.transaction(async (tx) => {
-    await tx
-      .delete(salesTaxShapes)
-      .where(
-        and(
-          eq(salesTaxShapes.kind, file.kind),
-          like(salesTaxShapes.file, "tl\\_%"),
-          inArray(salesTaxShapes.state, [...new Set(shapes.map((s) => fipsToState.get(s.stateFips)!))]),
-        ),
-      );
-    for (let i = 0; i < shapes.length; i += 20)
-      await tx.insert(salesTaxShapes).values(
-        shapes.slice(i, i + 20).map((s) => ({
-          state: fipsToState.get(s.stateFips)!,
-          kind: s.kind,
-          fips: s.fips,
-          name: s.name,
-          geom: geometryOf(s.rings),
-          file: file.name,
-        })),
-      );
+    await writeEdition(
+      tx,
+      sql`s.kind = ${file.kind} and s.file like 'tl\\_%' and s.state in ${[...new Set(shapes.map((s) => fipsToState.get(s.stateFips)!))]}`,
+      shapes.map((s) => ({ state: fipsToState.get(s.stateFips)!, kind: s.kind, fips: s.fips, name: s.name, rings: s.rings, file: file.name })),
+      year ? `${year}-01-01` : today(),
+    );
   });
   return shapes.length;
 }
@@ -276,15 +272,15 @@ export async function loadSstState(files: StateFiles) {
       areas,
     );
 
-    for (const [kind, name, rows] of [
-      ["rates", files.rates.name, counts.rates],
-      ["boundaries", files.boundaries.name, counts.streets + counts.zips],
+    for (const [kind, name, rows, firstListed] of [
+      ["rates", files.rates.name, counts.rates, null],
+      ["boundaries", files.boundaries.name, counts.streets + counts.zips, files.boundaries.firstListed ?? null],
     ] as const)
       await sql`
-        INSERT INTO sales_tax_data_releases (state, kind, file, rows)
-        VALUES (${files.state}, ${kind}, ${name}, ${rows})
+        INSERT INTO sales_tax_data_releases (state, kind, file, rows, first_listed)
+        VALUES (${files.state}, ${kind}, ${name}, ${rows}, ${firstListed})
         ON CONFLICT (state, kind) DO UPDATE
-        SET file = EXCLUDED.file, rows = EXCLUDED.rows, loaded_at = now()`;
+        SET file = EXCLUDED.file, rows = EXCLUDED.rows, first_listed = EXCLUDED.first_listed, loaded_at = now()`;
   });
   return counts;
 }
@@ -338,3 +334,48 @@ async function copy(
   await pipeline(Readable.from(lines), stream);
 }
 
+
+type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+const today = () => new Date().toISOString().slice(0, 10);
+
+/**
+ * Writes one edition of a set of outlines, keeping the ones it replaces as
+ * history: `scope` selects (as `s`) the rows an edition of this source
+ * replaces, and `from` is the first date the edition's lines are in force.
+ *   - An outline with the same geometry as its open row keeps that row.
+ *   - An open row the edition changes or leaves out ends the day before
+ *     `from`, or is deleted when it starts on or after `from` (the same
+ *     edition loaded again).
+ *   - A changed or new outline starts on `from`; on the scope's first
+ *     edition, every outline stands for every earlier date as well, which
+ *     the lookups refuse where the rates say otherwise (rates/map.ts).
+ * Lookups read the row in force on their date (rates/shapes.ts).
+ */
+async function writeEdition(
+  tx: Tx,
+  scope: ReturnType<typeof sql>,
+  shapes: Array<{ state: string; kind: string; fips: string; name: string; rings: Shape["rings"]; file: string }>,
+  from: string,
+) {
+  const [{ first }] = await tx.execute<{ first: boolean }>(sql`select not exists (select 1 from sales_tax_shapes s where ${scope}) as first`);
+  await tx.execute(sql`create temp table edition (state text, kind text, fips text, name text,
+    geom geometry(MultiPolygon, 4326), file text, same boolean not null default false) on commit drop`);
+  for (let i = 0; i < shapes.length; i += 20)
+    await tx.execute(sql`insert into edition (state, kind, fips, name, geom, file) values ${sql.join(
+      shapes.slice(i, i + 20).map((d) => sql`(${d.state}, ${d.kind}, ${d.fips}, ${d.name}, ${geometryOf(d.rings)}, ${d.file})`),
+      sql`, `,
+    )}`);
+  const open = sql`s.ends_on = '9999-12-31' and s.state = e.state and s.kind = e.kind and s.fips = e.fips`;
+  await tx.execute(sql`update edition e set same = true from sales_tax_shapes s
+    where ${scope} and ${open} and st_orderingequals(s.geom, e.geom)`);
+  await tx.execute(sql`update sales_tax_shapes s set name = e.name, file = e.file from edition e
+    where ${scope} and ${open} and e.same`);
+  const replaced = sql`${scope} and s.ends_on = '9999-12-31'
+    and not exists (select 1 from edition e where ${open} and e.same)`;
+  await tx.execute(sql`delete from sales_tax_shapes s where ${replaced} and s.starts_on >= ${from}`);
+  await tx.execute(sql`update sales_tax_shapes s set ends_on = ${from}::date - 1 where ${replaced}`);
+  await tx.execute(sql`insert into sales_tax_shapes (state, kind, fips, name, geom, file, starts_on)
+    select state, kind, fips, name, geom, file, ${first ? "0001-01-01" : from}::date from edition where not same`);
+  await tx.execute(sql`drop table edition`);
+}

@@ -141,6 +141,13 @@ export const AddressRateSchema = z
         "How the address was placed: one rate statewide, a street range, a ZIP+4 range, a ZIP whose ranges agree, map outlines, a ZIP area with one rate, or the state's own lookup.",
     }),
     locationCode: z.string().nullable().openapi({ description: "OpenTaxRate's key for the combination of taxes. Not a filing code.", example: "53-000-63000" }),
+    jurisdictions: z.enum(["settled", "uncertain"]).openapi({
+      description:
+        "Whether parts name the jurisdictions the tax is paid to. The rate is settled either way; uncertain where the address could be in another combination of jurisdictions with the same total (listed in alternatives), or the state's lookup gave one local part for every local tax.",
+    }),
+    alternatives: z
+      .array(z.object({ locationCode: z.string().nullable(), parts: z.array(RatePartSchema) }))
+      .openapi({ description: "The other combinations of jurisdictions the address could be in, each with the same total; empty when settled." }),
     locationIds: ids("The state's own ids for the whole location; {} where its data gives none, or the address could be in areas whose ids differ.").openapi({
       example: { "Composite SER Code": "01726" },
     }),

@@ -9,6 +9,7 @@
 # NAME names the run (its answers go to $TUNE_DIR/NAME/<split>); the JSON is
 # OTR_PARAMS (src/params.ts). Environment:
 #   SPLITS     splits to run (default: the dev splits)
+#   PER_STATE  addresses asked per state and split (default 99)
 #   TUNE_DIR   working folder (default: artifacts/tuning, git-ignored)
 #   KEYS_ENV   an extra env file with geocoder keys, read after .env
 #   DROP       variables to unset, e.g. DROP=MAPBOX_ACCESS_TOKEN
@@ -39,7 +40,7 @@ for split in $SPLITS; do
     # One replay file per split: they're rewritten as new answers arrive.
     export BENCH_GEOCODE_REPLAY=$TUNE_DIR/replay-$split.json BENCH_LOOKUP_REPLAY=$TUNE_DIR/lookups-$split.json
     export BENCH_CASES=$POOL/sets/$split BENCH_ANSWERS=$dir
-    npx tsx scripts/bench.ts ask opentaxrate-dev --per-state 99 --budget 5000 > "$dir.log" 2>&1 ) &
+    npx tsx scripts/bench.ts ask opentaxrate-dev --per-state ${PER_STATE:-99} --budget 5000 > "$dir.log" 2>&1 ) &
 done
 wait
 for split in $SPLITS; do grep -q ' kept$' "$TUNE_DIR/$NAME/$split.log" && finished=$((finished + 1)); done

@@ -8,8 +8,11 @@
  * whole sales tax rate, which is used as one rate rather than added from its
  * parts, since the parts don't always add up to it.
  *
- * Rates come from the last eight quarters' files, back to the first one
- * missing; coverage starts with the oldest quarter loaded.
+ * Rates come from every quarter's file back to HISTORY_FROM, read from the
+ * DOR's documents or, once moved, its archived reports (2023Q3 onward),
+ * back to the first one missing; coverage starts with the oldest quarter
+ * loaded. The street ranges are the newest boundary file's. Files before
+ * 2025 head the sales column "SalesTaxRate(0000)", later ones "Sales Tax Rate".
  *
  * Each code keeps, as ids, its Jurisdiction Code and District Code 1 to 5
  * from the newest workbook that lists it; the DOR names none of them.
@@ -19,13 +22,14 @@ import path from "node:path";
 import { parseBoundaryLine, type BoundaryRow } from "./sst-files.js";
 import { fetchFile, readXlsx } from "./states/sources.js";
 import { sstFileLines } from "./downloads.js";
-import { WHOLE_CODE_TYPE } from "../coverage.js";
+import { HISTORY_FROM, WHOLE_CODE_TYPE } from "../coverage.js";
 import type { StateFiles } from "./load.js";
 import type { JurisdictionRow } from "./states/index.js";
 
 const DOCUMENTS = "https://dor.mo.gov/taxation/business/tax-types/sales-use/documents";
 const STATE_RATE = 0.04225;
-const QUARTERS = 8;
+/** Where the DOR moves a quarter's files once it is no longer current. */
+const ARCHIVE = "https://dor.mo.gov/taxation/business/tax-types/sales-use/archived-reports";
 
 const JURISDICTION = /\b(\d{5}-\d{3}-\d{3})\b/;
 
@@ -54,17 +58,31 @@ const CENSUS_PLACE: Record<string, string> = {
   "80908": "80767", // Wood Heights
 };
 
+/** A quarter's total-rate workbook: in the documents while current, in the
+ *  archive after, named q3-2024 or, for 2023, q32023. */
+async function quarterFile(q: { year: number; quarter: number }, dir?: string) {
+  for (const base of [DOCUMENTS, ARCHIVE])
+    for (const name of [`dor-jurisdiction-total-rate-q${q.quarter}-${q.year}.xlsx`, `dor-jurisdiction-total-rate-q${q.quarter}${q.year}.xlsx`])
+      try {
+        return await fetchFile(`${base}/${name}`, dir);
+      } catch (error) {
+        if (!/answered 404/.test((error as Error).message)) throw error;
+      }
+  throw new Error(`Missouri rate file q${q.quarter}-${q.year} answered 404`);
+}
+
 export async function missouriFiles(dir?: string): Promise<StateFiles> {
-  const quarters = recentQuarters(new Date(), QUARTERS + 2);
+  const quarters = recentQuarters(new Date(), 4 * 30).filter((q) => q.end >= HISTORY_FROM);
   const rateLines: string[] = [];
   const jurisdictions = new Map<string, JurisdictionRow>();
   let oldest: string | null = null;
   let newestBoundary: string | null = null;
+  let boundaryFrom: string | null = null;
   const loaded: string[] = [];
   for (const q of quarters) {
     let bytes: Uint8Array;
     try {
-      bytes = await fetchFile(`${DOCUMENTS}/dor-jurisdiction-total-rate-q${q.quarter}-${q.year}.xlsx`, dir);
+      bytes = await quarterFile(q, dir);
     } catch (error) {
       // The next quarter may not be out yet; past that, a missing quarter
       // ends the history rather than leaving a gap with no local rates.
@@ -73,12 +91,13 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
       throw error;
     }
     newestBoundary ??= `dor-boundary-database-q${q.quarter}-${q.year}.csv`;
+    boundaryFrom ??= q.start;
     loaded.push(`q${q.quarter}-${q.year}`);
     oldest = q.start;
     const [rows] = [...readXlsx(bytes).values()];
     const header = rows.findIndex((r) => r.some((c) => /jurisdiction code/i.test(c)));
     const codeAt = header < 0 ? -1 : rows[header].findIndex((c) => /jurisdiction code/i.test(c));
-    const salesAt = header < 0 ? -1 : rows[header].findIndex((c) => /^sales( tax rate)?$/i.test(c.trim()));
+    const salesAt = header < 0 ? -1 : rows[header].findIndex((c) => /^sales(\s*tax\s*rate)?\s*(\(\d+\))?$/i.test(c.trim()));
     if (header < 0 || codeAt < 0 || salesAt < 0)
       throw new Error(`Missouri rate file q${q.quarter}-${q.year} has no jurisdiction code or sales column`);
     const idColumns = rows[header].flatMap((c, i) => (/^(jurisdiction code|district code \d)$/i.test(c.trim()) ? [[c.trim(), i] as const] : []));
@@ -99,7 +118,6 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
       // is lower, so the food and interstate columns are left blank.
       rateLines.push(`29,${WHOLE_CODE_TYPE},${code},${local},,,,${q.start.replaceAll("-", "")},${q.end.replaceAll("-", "")}`);
     }
-    if (loaded.length === QUARTERS) break;
   }
   if (!oldest || !newestBoundary) throw new Error("No Missouri rate file found");
   rateLines.push(`29,45,29,${STATE_RATE},,,,${oldest.replaceAll("-", "")},99991231`);
@@ -113,6 +131,10 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
     rates: { name: `MO total rates ${loaded.at(-1)} to ${loaded[0]}`, lines: rateLines },
     boundaries: {
       name: newestBoundary.replace(/\.csv$/, ""),
+      // The file keeps only the rows in force on its quarter and after. A
+      // quarter's file is out before it starts: today's lookups still read
+      // it, as before.
+      firstListed: boundaryFrom ? [boundaryFrom, new Date().toISOString().slice(0, 10)].sort()[0] : undefined,
       lines: sstFileLines({
         state: "MO",
         kind: "boundaries",

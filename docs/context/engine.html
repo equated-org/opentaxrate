@@ -247,6 +247,14 @@
 <td>the range engine's matched area's <code>sales_tax_areas.ids</code> (<code>{"Composite SER Code": "01726"}</code>, Missouri's <code>{"Jurisdiction Code": …}</code>) when every matched area has the same ids; <code>{}</code> otherwise and for every other engine</td>
 </tr>
 <tr>
+<td><code>jurisdictions</code></td>
+<td><code>settled</code>, or <code>uncertain</code> where the address could be in another combination of jurisdictions with the same total (the map engine's other side of a line within the margin; the range engine's other matched areas), or a state's lookup gave one local part for every local tax. The rate is settled either way.</td>
+</tr>
+<tr>
+<td><code>alternatives</code></td>
+<td>the other combinations, each <code>{ locationCode, parts }</code> with named parts and the same total; empty when settled</td>
+</tr>
+<tr>
 <td><code>source</code></td>
 <td>a sentence naming the files and match, e.g. <code>Streamlined Sales Tax files OHR... + OHB..., street match on 2026-10-21</code> (<code>Missouri DOR files ...</code> for MO)</td>
 </tr>

@@ -26,7 +26,7 @@ import { RateError } from "../errors.js";
 import { statewideRate, STATEWIDE_STATES } from "./statewide.js";
 import { MAP_STATES, RANGE_FIPS } from "../coverage.js";
 import { sstRateAt } from "./ranges.js";
-import { generalOnly, type RatePart, type RatesByType, type Trace } from "./types.js";
+import { generalOnly, type Breakdown, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 import { PARAMS } from "../params.js";
 import type { StandardAddress } from "../standardize/index.js";
@@ -84,6 +84,14 @@ export interface AddressRate {
   /** OpenTaxRate's own key for the combination of taxes (FIPS codes, or
    *  California's tax area code); not a filing code. */
   locationCode: string | null;
+  /** Whether `parts` name the jurisdictions the tax is paid to. The rate is
+   *  settled either way; "uncertain" where the address could be in another
+   *  combination of jurisdictions with the same total (each in
+   *  `alternatives`), or the rate came from a state's lookup that doesn't
+   *  name them. */
+  jurisdictions: "settled" | "uncertain";
+  /** The other combinations, each with the same total; empty when settled. */
+  alternatives: Breakdown[];
   /** The state's own ids for the whole location, keyed by its data's column
    *  names: Washington's location code as {"Composite SER Code": "01726"},
    *  Missouri's {"Jurisdiction Code": …}. {} where the data gives none, or
@@ -134,15 +142,30 @@ export const addressRates = {
    *  address that needs confirming or an unsupported state, 502 when the
    *  state's files aren't loaded. */
   async at(query: AddressRateQuery, date: string): Promise<AddressRate> {
-    const { locationIds, zip4, ...found } = await rateAt(query, date);
+    const { locationIds, zip4, alternatives = [], ...found } = await rateAt(query, date);
     const parts = await describeParts(found.state, found.parts);
-    return { ...found, parts, locationIds: locationIds ?? {}, zip4: zip4 ?? null, reporting: reportingFor(found.state) };
+    const others = await Promise.all(alternatives.map(async (a) => ({ ...a, parts: await describeParts(found.state, a.parts) })));
+    return {
+      ...found,
+      parts,
+      jurisdictions: others.length || found.jurisdictions === "uncertain" ? "uncertain" : "settled",
+      alternatives: others,
+      locationIds: locationIds ?? {},
+      zip4: zip4 ?? null,
+      reporting: reportingFor(found.state),
+    };
   },
 };
 
 /** An engine's answer, before its parts are described; only the range
  *  engine has location ids and a ZIP+4. */
-type EngineRate = Omit<AddressRate, "reporting" | "locationIds" | "zip4"> & { locationIds?: Record<string, string>; zip4?: string };
+type EngineRate = Omit<AddressRate, "reporting" | "locationIds" | "zip4" | "jurisdictions" | "alternatives"> & {
+  locationIds?: Record<string, string>;
+  zip4?: string;
+  /** Set where the parts don't name the jurisdictions at all. */
+  jurisdictions?: "uncertain";
+  alternatives?: Breakdown[];
+};
 
 async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate> {
   const state = query.state.toUpperCase();
@@ -226,6 +249,8 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
       ],
       match: "authority",
       locationCode: null,
+      // One local part for every local tax: the lookup names none.
+      jurisdictions: "uncertain",
       source: `${lookup.name}, at the address's map point on ${date}${point.placedBy?.length ? `; placed by ${point.placedBy.join(", ")}` : ""}`,
     };
   }
@@ -248,6 +273,7 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
       parts: found.parts,
       match: found.wholeZip ? "zip_area" : "map",
       locationCode: found.locationCode,
+      alternatives: found.alternatives,
       source: found.wholeZip
         ? `${state} rate table ${found.files.join(" + ")}, on ${date}: no geocoder placed the address, and every part of ZIP ${found.wholeZip}'s Census area has this rate`
         : `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
@@ -278,6 +304,7 @@ async function rangeRate(query: AddressRateQuery, state: string, date: string): 
     locationCode: found.locationCode,
     locationIds: found.locationIds,
     zip4: found.zip4,
+    alternatives: found.alternatives,
     source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,
   };
 }

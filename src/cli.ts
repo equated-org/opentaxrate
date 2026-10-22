@@ -63,9 +63,9 @@ async function main() {
         throw new Error("Transaction-rule ingestion is disabled: nationwide policy coverage and calculation support are incomplete. Only supplemental polygons are enabled.");
       if (kind !== "polygons") throw new Error("Only --kind polygons is supported");
       const source = flag("--source");
-      if (source && ![...SUPPLEMENTAL_POLYGONS.map((s) => s.id), "wa-loccode_public", "wa-cities", "wa-ptba", "wa-rta"].includes(source))
+      if (source && ![...SUPPLEMENTAL_POLYGONS.map((s) => s.id), "wa-loccode_public", "wa-cities", "wa-ptba", "wa-rta", "mn-tax-areas"].includes(source))
         throw new Error(`Unknown supplemental source ${source}`);
-      const sourceState = source?.startsWith("wa-") ? "WA" : SUPPLEMENTAL_POLYGONS.find((s) => s.id === source)?.state;
+      const sourceState = source?.startsWith("wa-") ? "WA" : source === "mn-tax-areas" ? "MN" : SUPPLEMENTAL_POLYGONS.find((s) => s.id === source)?.state;
       if (sourceState && states.length && !states.includes(sourceState)) throw new Error(`Source ${source} belongs to ${sourceState}`);
       await refreshSupplemental({ states, dir: flag("--dir"), sources: source ? [source] : [] });
       await indexVerifiedPolygons({ states });

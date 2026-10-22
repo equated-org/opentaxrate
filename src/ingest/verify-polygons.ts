@@ -165,9 +165,17 @@ export async function indexVerifiedPolygons({ states = [], log = console.log }:
   const snapshots = await db.select().from(taxSourceSnapshots).orderBy(desc(taxSourceSnapshots.observedAt), desc(taxSourceSnapshots.id));
   const latest = new Map<string, Snapshot>();
   for (const s of snapshots) if (!latest.has(s.source)) latest.set(s.source, s);
+  // Each dated edition (a quarter's layer or ZIP) is indexed for its own
+  // window, so older quarters stay beside the newest: the newest snapshot
+  // of each source and quarter. An undated source has one, its newest.
+  const editions = new Map<string, Snapshot>();
+  for (const s of snapshots) {
+    const key = `${s.source}|${windowOf(s)?.from ?? ""}`;
+    if (!editions.has(key)) editions.set(key, s);
+  }
   if ((!states.length || states.includes("WA")) && latest.has("wa-loccode_public")) await ensureWashingtonIds(log);
   const results: Array<Record<string, unknown>> = [];
-  for (const s of latest.values()) {
+  for (const s of editions.values()) {
     if (states.length && !states.includes(s.state)) continue;
     const eligible = CALCULATION_SOURCES[s.state] === s.source;
     const dependency = s.source === "ca-tax-history" ? latest.get("ca-tax-areas") : undefined;

@@ -73,7 +73,7 @@ export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Pro
     const regions = await regionsAt(state, date, () => lastPoint ? Promise.resolve(lastPoint) : locate());
     return { ...rate, regions };
   } finally {
-    if (trace) await drawOutlines(state, trace);
+    if (trace) await drawOutlines(state, trace, date);
   }
 }
 
@@ -85,12 +85,12 @@ function paidPicker(budget: AccountBudget): StreetPicker | null {
 
 /** Adds each traced outline's shape near the point. A failure here only
  *  leaves the shapes out; it never changes the answer. */
-async function drawOutlines(state: string, trace: Trace) {
+async function drawOutlines(state: string, trace: Trace, date: string) {
   if (!trace.point || !trace.outlines.length) return;
   try {
     const nearest = Math.min(...trace.outlines.filter((o) => o.levies).map((o) => o.edgeMetres));
     const metres = Math.min(TRACE_CLIP_METRES.max, Math.max(TRACE_CLIP_METRES.min, nearest * 1.25 + 500));
-    const shapes = await outlineGeometry(state, trace.outlines, trace.point, metres);
+    const shapes = await outlineGeometry(state, trace.outlines, trace.point, metres, date);
     for (const o of trace.outlines) {
       const geometry = shapes.get(`${o.kind}:${o.fips}`);
       if (geometry) o.geometry = geometry;

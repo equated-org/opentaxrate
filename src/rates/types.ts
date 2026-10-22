@@ -20,6 +20,18 @@ export interface RatePart {
   ids?: Record<string, string>;
 }
 
+/** One combination of jurisdictions an address could be in, and its parts. */
+export interface Breakdown {
+  locationCode: string | null;
+  parts: RatePart[];
+}
+
+/** Two breakdowns name the same jurisdictions at the same rates. */
+export const sameBreakdown = (a: { parts: RatePart[] }, b: { parts: RatePart[] }) => {
+  const key = (x: { parts: RatePart[] }) => x.parts.map((p) => `${p.code}=${p.rate}`).sort().join(" ");
+  return key(a) === key(b);
+};
+
 /** A rate for each kind of sale the Streamlined files rate apart. `general`
  *  is the rate on a general sale from within the state; the others are null
  *  where the publisher gives none. A food and drug rate is what applies

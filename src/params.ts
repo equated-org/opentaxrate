@@ -7,6 +7,8 @@
  * the wrong kind, stops the process at start rather than run on a guess.
  * scripts/tuning runs the trials; keep development logs privately.
  */
+import { MAP_STATES } from "./coverage.js";
+
 export interface Params {
   /** Geocoders never asked, whatever keys are set (geocoding/registry.ts).
    *  On the dev splits Mapbox, HERE and Google stood in for one another,
@@ -53,6 +55,39 @@ export interface Params {
    *  point and four edges of its margin, which can miss a town inside a
    *  wider one (rates/index.ts). */
   lookupMaxMarginMetres: number;
+  /** An address inside an outline that adds nothing on the sale date, but
+   *  whose jurisdiction's rate starts later, on the day its source first
+   *  lists rates like it, is refused: whether it taxed on the date isn't
+   *  known (rates/map.ts). On the boundary benchmark this is every wrong
+   *  Texas answer for a past date: districts its loader knows only from the
+   *  current quarter's list. */
+  refuseBeforeFirstRate: boolean;
+  /** A range state whose boundary file lists only the rows in force on its
+   *  edition (Missouri's) answers no date before that edition from its
+   *  ranges (rates/ranges.ts); its map and state lookup still may. On the
+   *  history split, Missouri's ZIP-wide answers for past dates were wrong
+   *  3 times in 17; its dated state lookup, 0 in 77. */
+  refuseBeforeRangesListed: boolean;
+  /** Where the address could be in another combination of jurisdictions
+   *  with the same total rate, refuse it rather than answer the rate with
+   *  its parts marked uncertain (rates/map.ts, rates/ranges.ts). */
+  breakdownMustAgree: boolean;
+  /** Metres added to a point's margin at a line, by map state, for how far
+   *  a loaded outline may be from the state's own (rates/map.ts). Widens
+   *  refusals as well as alternatives. Every map state is named; the
+   *  boundary benchmark finds Texas's published outlines up to about 80 m
+   *  from the Comptroller's own lookup: at a rooftop's margin, Texas at 0 m
+   *  gives 15 wrong rates of 1,194 points near lines, 25 m gives 7 (and 94
+   *  more refusals), 80 m gives 2; the address dev splits are unchanged at
+   *  25 m. */
+  outlineMarginMetres: Record<string, number>;
+  /** Within this many metres of a line, a neighbour with the same rate but
+   *  other jurisdictions is listed as an alternative, even beyond the
+   *  point's margin (rates/map.ts). It only marks the breakdown uncertain;
+   *  it never refuses a rate. On the boundary benchmark (TX, AZ, VA, SC,
+   *  rooftop margin), 0 leaves 6 wrong breakdowns unmarked; 60 marks all of
+   *  them, and marks 99 right ones uncertain as well (21 at 0). */
+  breakdownMarginMetres: number;
   /** A misspelled street is read as another when this alike, and this far
    *  ahead of the next (rates/streets/correct.ts). */
   spellingMinSimilarity: number;
@@ -73,6 +108,11 @@ const DEFAULTS: Params = {
   outlinesOverZip4: false,
   lookupSharpen: true,
   lookupMaxMarginMetres: 1_000,
+  refuseBeforeFirstRate: true,
+  breakdownMustAgree: false,
+  refuseBeforeRangesListed: true,
+  outlineMarginMetres: { ...Object.fromEntries(MAP_STATES.map((s) => [s, 0])), TX: 25 },
+  breakdownMarginMetres: 60,
   spellingMinSimilarity: 0.45,
   spellingMinLead: 0.08,
 };

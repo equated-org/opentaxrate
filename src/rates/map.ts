@@ -55,7 +55,7 @@ import {
   salesTaxShapes,
 } from "../db/schema.js";
 import { RateError } from "../errors.js";
-import { traceOutline, type RatePart, type Trace, type TracedOutline } from "./types.js";
+import { sameBreakdown, traceOutline, type Breakdown, type RatePart, type Trace, type TracedOutline } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet, streetKeysOf } from "../address.js";
@@ -73,7 +73,11 @@ export interface GeoRate {
    *  is in it, joined by dashes. */
   locationCode: string;
   files: string[];
+  /** Other combinations of jurisdictions the address could be in, each
+   *  with the same total: the rate is settled, its parts aren't. */
+  alternatives: Breakdown[];
 }
+
 
 /** How far a police jurisdiction can reach past its city's limits. */
 const PJ_METRES = 4_828;
@@ -98,8 +102,8 @@ export async function geoRateAt(
   const pjState = await hasRows(state, "pj");
   if (!point) {
     const zip5 = /^\d{5}/.exec(typed?.zip ?? "")?.[0];
-    const byZip = zip5 && !pjState ? await wholeZipRate(state, zip5, typed?.city ?? "", await ratesOn(state, date), street) : null;
-    if (byZip) return { ...byZip, files, placedBy: [], wholeZip: zip5 };
+    const byZip = zip5 && !pjState ? await wholeZipRate(state, zip5, typed?.city ?? "", await ratesOn(state, date), date, street) : null;
+    if (byZip) return { ...byZip, files, placedBy: [], wholeZip: zip5, alternatives: [] };
     throw new RateError(
       `${state}'s local rates follow city and county lines, and this address couldn't be placed on the map. Verify the street, city and ZIP.`,
       422,
@@ -108,8 +112,10 @@ export async function geoRateAt(
 
   // Outlines within ~300 m of the point, or three miles where a police
   // jurisdiction could reach it.
-  const pad = Math.max(0.003, marginOf(point) / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
-  const shapes = await shapesAround(state, point, pjState ? Math.max(0.06, pad) : pad);
+  const outlineMargin = PARAMS.outlineMarginMetres[state] ?? 0;
+  const reach = Math.max(marginOf(point) + outlineMargin, PARAMS.breakdownMarginMetres);
+  const pad = Math.max(0.003, reach / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
+  const shapes = await shapesAround(state, point, pjState ? Math.max(0.06, pad) : pad, date);
   const rates = await ratesOn(state, date);
   const keptCodes = new Set(
     [...rates.values()].filter((r) => r.type === "kx").map((r) => r.code.split(">")[1]),
@@ -162,6 +168,14 @@ export async function geoRateAt(
     const outline = traced.get(s);
     if (outline) outline.levies = true;
   }
+  if (PARAMS.refuseBeforeFirstRate) {
+    const later = await ratedOnlyLater(state, date, shapes.filter((s) => s.inside && !levying.has(s)), answer.parts);
+    if (later)
+      throw new RateError(
+        `This address is in ${later.shape.name.trim() || `${later.shape.kind} ${later.shape.fips}`}, whose tax this service has on record only from ${later.from}, so it can't tell whether it applied on ${date}. Confirm the rate with the state.`,
+        422,
+      );
+  }
   for (const s of inside) {
     const maybe = rates.get(`maybe:${s.fips}`);
     // A county's unmapped district matters only outside its rated cities.
@@ -175,35 +189,45 @@ export async function geoRateAt(
   // Near an edge, the address could be on either side; that only matters if
   // the other side's rate differs. The other side is read at a point just
   // past the edge, so every outline that changes there is counted.
-  const margin = marginOf(point);
+  // A different combination with the same total settles the rate, not its
+  // parts: kept as an alternative, or refused with breakdownMustAgree.
+  const margin = marginOf(point) + outlineMargin;
+  const alternatives: Breakdown[] = [];
   for (const s of levied) {
-    if (s.edgeMetres >= margin) continue;
+    if (s.edgeMetres >= Math.max(margin, PARAMS.breakdownMarginMetres)) continue;
+    // Past the margin, only a breakdown is in question, never the rate.
+    const breakdownOnly = s.edgeMetres >= margin;
     // Two metres over, so a narrow outline just past the line isn't skipped.
     for (const beyond of pointsAcross(point, s.foot, s.edgeMetres, 2)) {
-      const holding = await shapesHolding(state, beyond);
+      const holding = await shapesHolding(state, beyond, date);
       const across = new Set(levied.filter((l) => holding.has(`${l.kind}:${l.fips}`)));
     // Across the line may be no rated area at all, which is a different rate.
-    let other: { rate: number };
+    let other: { rate: number; parts: RatePart[]; locationCode: string };
     try {
       other = rateOf(state, across, rates, addressKey);
     } catch (error) {
       if (!(error instanceof RateError)) throw error;
-      other = { rate: NaN };
+      other = { rate: NaN, parts: [], locationCode: "" };
     }
-    if (other.rate !== answer.rate) {
+    const breakdownDiffers = other.rate === answer.rate && !sameBreakdown(other, answer);
+    if (!breakdownOnly && (other.rate !== answer.rate || (breakdownDiffers && PARAMS.breakdownMustAgree))) {
       if (locate) {
         const sharper = await locate({ marginUnder: s.edgeMetres });
         // Re-evaluate every outline, rate and deciding edge at the new point.
         if (sharper) return geoRateAt(state, sharper, date, street, trace, typed);
       }
       throw new RateError(
-        `This address is within ${margin} m of the ${s.name.trim() || `${s.kind} ${s.fips}`} line, too close to tell from the map whether it is ${pct(answer.rate)}${Number.isNaN(other.rate) ? " or another rate" : ` or ${pct(other.rate)}`}. Confirm the rate with the address's city or county.`,
+        breakdownDiffers
+          ? `This address is within ${margin} m of the ${s.name.trim() || `${s.kind} ${s.fips}`} line: its rate is ${pct(answer.rate)} on either side, but the jurisdictions it is paid to differ. Confirm the address's city or county.`
+          : `This address is within ${margin} m of the ${s.name.trim() || `${s.kind} ${s.fips}`} line, too close to tell from the map whether it is ${pct(answer.rate)}${Number.isNaN(other.rate) ? " or another rate" : ` or ${pct(other.rate)}`}. Confirm the rate with the address's city or county.`,
         422,
       );
     }
+    if (breakdownDiffers && !alternatives.some((a) => sameBreakdown(a, other)))
+      alternatives.push({ locationCode: other.locationCode, parts: other.parts });
     }
   }
-  return { ...answer, files, placedBy: point.placedBy };
+  return { ...answer, files, placedBy: point.placedBy, alternatives };
 }
 
 /** The state's rate rows on a date, keyed "type:code"; a later start wins
@@ -237,20 +261,21 @@ async function wholeZipRate(
   zip5: string,
   city: string,
   rates: Map<string, RateRow>,
+  date: string,
   street?: string,
-): Promise<Omit<GeoRate, "files"> | null> {
+): Promise<Omit<GeoRate, "files" | "alternatives"> | null> {
   const widened = sql`(select st_buffer(geom::geography, ${PARAMS.zipMarginMetres})::geometry as g from zip_areas where zip5 = ${zip5})`;
   const rows = await db.execute<{ kind: Shape["kind"]; fips: string; name: string; area: number; holds: boolean }>(sql`
     select s.kind, s.fips, s.name, st_area(s.geom) as area, st_covers(s.geom, z.g) as holds
     from sales_tax_shapes s cross join ${widened} z
-    where s.state = ${state} and st_intersects(s.geom, z.g)`);
+    where s.state = ${state} and ${date} between s.starts_on and s.ends_on and st_intersects(s.geom, z.g)`);
   if (!rows.length) return null;
   // All of it in the state: its counties together hold it. Which county
   // matters only where one levies, and a levying one must hold all of it.
   const [within] = await db.execute<{ held: boolean | null }>(sql`
     select st_covers(st_union(s.geom), z.g) as held
     from sales_tax_shapes s cross join ${widened} z
-    where s.state = ${state} and s.kind = 'county' and st_intersects(s.geom, z.g)
+    where s.state = ${state} and s.kind = 'county' and ${date} between s.starts_on and s.ends_on and st_intersects(s.geom, z.g)
     group by z.g`);
   if (!within?.held) return null;
 
@@ -259,7 +284,7 @@ async function wholeZipRate(
     const [named] = await db.execute<{ reaches: boolean | null }>(sql`
       select bool_or(st_intersects(s.geom, z.g)) as reaches
       from sales_tax_shapes s cross join ${widened} z
-      where s.state = ${state} and s.kind in ('place', 'cousub')
+      where s.state = ${state} and s.kind in ('place', 'cousub') and ${date} between s.starts_on and s.ends_on
         and regexp_replace(upper(s.name), '[^A-Z0-9]', '', 'g') = ${typedCity}`);
     if (named?.reaches === false) return null;
   }
@@ -290,12 +315,51 @@ async function wholeZipRate(
   }
 }
 
+/** An outline holding the point that adds nothing on `date`, though its
+ *  jurisdiction has a rate starting later that would apply there: inside an
+ *  exclusive area, the area's kx row keeping it; elsewhere its own. Only a
+ *  rate starting on the day its source first lists rates like it counts
+ *  (the release's first_listed: Texas's current quarter, for districts
+ *  outside cities), as it may have applied before; any other rate's start
+ *  is the publisher's, and before it there was no tax. */
+async function ratedOnlyLater(state: string, date: string, holding: Shape[], parts: RatePart[]) {
+  if (!holding.length) return null;
+  const [release] = await db
+    .select({ firstListed: salesTaxDataReleases.firstListed })
+    .from(salesTaxDataReleases)
+    .where(and(eq(salesTaxDataReleases.state, state), eq(salesTaxDataReleases.kind, "rates")));
+  const listed = release?.firstListed;
+  if (!listed || listed <= date) return null;
+  const exclusive = parts.find((p) => p.code.startsWith("x:"))?.code.slice(2);
+  const fips = holding.map((s) => s.fips);
+  const rows = await db.execute<{ type: string; code: string; from: string }>(sql`
+    select type, code, min(starts_on)::text as from from sales_tax_jurisdiction_rates
+    where state = ${state} and starts_on = ${listed}
+      and (split_part(code, '@', 1) in ${fips} or split_part(code, '>', 2) in ${fips})
+    group by type, code order by 3`);
+  const fits = (s: Shape, type: string) =>
+    s.kind === "county" ? ["00", "rc"].includes(type)
+      : s.kind === "district" ? !NOT_DISTRICT.includes(type)
+        : ["01", "01x", "x", "0c"].includes(type);
+  for (const r of rows)
+    for (const s of holding) {
+      const applies = exclusive
+        ? r.type === "kx" && r.code === `${exclusive}>${s.fips}`
+        : r.type !== "kx" && r.code.split("@")[0] === s.fips && fits(s, r.type);
+      if (applies) return { shape: s, from: r.from };
+    }
+  return null;
+}
+
 /** Whether the point is inside a city with its own rate. */
 function inRatedCity(inside: Set<Shape>, rates: Map<string, RateRow>) {
   return [...inside].some(
     (s) => (s.kind === "place" || s.kind === "cousub") && leviesOf(s, rates).some((r) => r.type === "01" || r.type === "01x"),
   );
 }
+
+/** Rate types that are never a special district's own. */
+const NOT_DISTRICT = ["45", "00", "rc", "01", "01x", "0c", "kx", "addr", "need", "no", "pj", "maybe"];
 
 /** The rate rows a shape could carry, by its kind. */
 function leviesOf(shape: Shape, rates: Map<string, RateRow>): RateRow[] {
@@ -306,7 +370,7 @@ function leviesOf(shape: Shape, rates: Map<string, RateRow>): RateRow[] {
         ? [...rates.keys()]
             .filter((k) => k.endsWith(`:${shape.fips}`))
             .map((k) => k.split(":")[0])
-            .filter((t) => !["45", "00", "rc", "01", "01x", "0c", "kx", "addr", "need", "no", "pj", "maybe"].includes(t))
+            .filter((t) => !NOT_DISTRICT.includes(t))
         : ["01", "01x", "x", "0c"];
   return types.flatMap((t) => {
     const own = rates.get(`${t}:${shape.fips}`);

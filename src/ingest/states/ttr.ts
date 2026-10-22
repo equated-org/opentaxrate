@@ -12,7 +12,9 @@
  * service answers about one point a second, so four batches run at once.
  *
  * Rates are read as of each half-year since 2024 and today, so coverage
- * starts 2024-01-01.
+ * starts 2024-01-01. Outlines are read on the same days, and the day one
+ * changed between two of them is found by halving the span, so each
+ * outline is loaded with the days it was in force.
  *
  * Each jurisdiction keeps the service's name, placeId and placeTypeId.
  */
@@ -24,6 +26,7 @@ import { db } from "../../db/client.js";
 import { salesTaxJurisdictionRates } from "../../db/schema.js";
 import { ringsOf, bboxOf, shiftDay } from "./sources.js";
 import { archiveResponse } from "../archive.js";
+import { createHash } from "node:crypto";
 import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 
 const FIRST = "2024-01-01";
@@ -152,27 +155,72 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
 
     const shapes: GeoStateData["shapes"] = [];
     const ids = [...kindOf].filter(([, t]) => KINDS[t]).map(([id]) => Number(id));
+    // Each outline as the service draws it on a day, kept by a hash of its
+    // GeoJSON (null where it draws none).
+    const drawnOn = new Map<string, Map<string, string | null>>();
+    const geojsonOf = new Map<string, string>();
     // An outline the service can't draw fails its batch; it is split until
     // that one is found and left out (the map then refuses its addresses).
-    const outlines = async (batch: number[]): Promise<void> => {
+    const outlines = async (batch: number[], date: string): Promise<void> => {
       let body: { shapes: Record<string, string | null> };
       try {
-        body = (await post("places.shapes.map", { placeIds: batch, date: today })) as typeof body;
+        body = (await post("places.shapes.map", { placeIds: batch, date })) as typeof body;
       } catch (error) {
         if (!/answered 500/.test((error as Error).message)) throw error;
-        if (batch.length === 1) return console.warn(`${service.state}: no outline for place ${batch[0]}`);
-        await outlines(batch.slice(0, Math.ceil(batch.length / 2)));
-        await outlines(batch.slice(Math.ceil(batch.length / 2)));
+        if (batch.length === 1) {
+          if (date === today) console.warn(`${service.state}: no outline for place ${batch[0]}`);
+          return void drawnOn.set(String(batch[0]), (drawnOn.get(String(batch[0])) ?? new Map()).set(date, null));
+        }
+        await outlines(batch.slice(0, Math.ceil(batch.length / 2)), date);
+        await outlines(batch.slice(Math.ceil(batch.length / 2)), date);
         return;
       }
-      for (const [id, geojson] of Object.entries(body.shapes)) {
-        if (!geojson) continue;
-        const rings = ringsOf(JSON.parse(geojson));
-        if (!rings.length) continue;
-        shapes.push({ kind: KINDS[kindOf.get(id)!], fips: `${CODE_PREFIX}${id}`, name: nameOf.get(id) ?? id, rings, bbox: bboxOf(rings) });
+      for (const id of batch.map(String)) {
+        const geojson = body.shapes[id] ?? null;
+        const hash = geojson && createHash("sha256").update(geojson).digest("hex");
+        if (hash) geojsonOf.set(hash, geojson);
+        drawnOn.set(id, (drawnOn.get(id) ?? new Map()).set(date, hash));
       }
     };
-    for (let i = 0; i < ids.length; i += 15) await outlines(ids.slice(i, i + 15));
+    const readOutlines = async (which: number[], date: string) => {
+      for (let i = 0; i < which.length; i += 15) await outlines(which.slice(i, i + 15), date);
+    };
+    // The service dates its outlines: each is read on every day the rates
+    // were first read, and where one differs between two of those days, the
+    // day it changed is found by halving the span (a Lochbuie annexation
+    // between 2024-07-01 and 2025-01-01).
+    const snapshots = [...new Set(dates)].sort();
+    for (const date of snapshots) await readOutlines(ids, date);
+    const hashOn = (id: number, date: string) => drawnOn.get(String(id))?.get(date) ?? null;
+    const bisect = async (changed: number[], from: string, to: string): Promise<void> => {
+      if (!changed.length || shiftDay(from, 1) === to) return;
+      const days = Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
+      const middle = shiftDay(from, Math.floor(days / 2));
+      await readOutlines(changed, middle);
+      await bisect(changed.filter((id) => hashOn(id, from) !== hashOn(id, middle)), from, middle);
+      await bisect(changed.filter((id) => hashOn(id, middle) !== hashOn(id, to)), middle, to);
+    };
+    for (let i = 1; i < snapshots.length; i++)
+      await bisect(ids.filter((id) => hashOn(id, snapshots[i - 1]) !== hashOn(id, snapshots[i])), snapshots[i - 1], snapshots[i]);
+    // Each run of days with one drawing is one dated outline; the first
+    // stands for every day before the first read as well.
+    for (const id of ids.map(String)) {
+      const days = [...(drawnOn.get(id) ?? new Map<string, string | null>())].sort(([a], [b]) => a.localeCompare(b));
+      for (let i = 0; i < days.length; i++) {
+        const [start, hash] = days[i];
+        if (i > 0 && days[i - 1][1] === hash) continue;
+        let next = i + 1;
+        while (next < days.length && days[next][1] === hash) next++;
+        if (!hash) continue;
+        const rings = ringsOf(JSON.parse(geojsonOf.get(hash)!));
+        if (!rings.length) continue;
+        shapes.push({
+          kind: KINDS[kindOf.get(id)!], fips: `${CODE_PREFIX}${id}`, name: nameOf.get(id) ?? id, rings, bbox: bboxOf(rings),
+          ...(i > 0 ? { startsOn: start } : {}),
+          ...(next < days.length ? { endsOn: shiftDay(days[next][0], -1) } : {}),
+        });
+      }
+    }
     // A district the service rates but can't draw would otherwise be left
     // out without a word (Upper Pine River Fire Protection District, 1% in
     // and around Bayfield from July 2026). Each county and city it was found

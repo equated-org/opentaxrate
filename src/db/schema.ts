@@ -106,6 +106,14 @@ export const salesTaxDataReleases = pgTable(
     file: text("file").notNull(),
     rows: integer("rows").notNull(),
     loadedAt: timestamp("loaded_at").notNull().defaultNow(),
+    /** For rates whose source lists some only in its newest edition (Texas's
+     *  districts outside cities, from the current quarter's list): that
+     *  edition's first day. A rate starting on it may have applied before;
+     *  null where every rate's start is the publisher's (rates/map.ts). For
+     *  boundaries listing only the ranges in force on their edition
+     *  (Missouri's): that edition's first day, before which the ranges
+     *  aren't read (rates/ranges.ts). */
+    firstListed: date("first_listed"),
   },
   (t) => [unique("uq_sales_tax_data_releases_state_kind").on(t.state, t.kind)],
 );
@@ -339,7 +347,11 @@ export const salesTaxShapes = pgTable(
     name: text("name").notNull(),
     /** A verified complete tax-area outline; removed when its SST area is rebuilt. */
     areaId: integer("area_id").references(() => salesTaxAreas.id, { onDelete: "cascade" }),
-    /** Native dated editions constrain supplemental geometry; legacy outlines are undated. */
+    /** The dates the outline is in force. A verified supplemental outline
+     *  carries its source period. A loader's outline starts on its
+     *  edition's first day (a TIGER year's January 1, a Texas quarter's),
+     *  or 0001-01-01 for the first edition loaded, and ends the day before
+     *  an edition that changes or drops it; the newest ends 9999-12-31. */
     startsOn: date("starts_on").notNull().default("0001-01-01"),
     endsOn: date("ends_on").notNull().default("9999-12-31"),
     geom: multiPolygon("geom").notNull(),
@@ -347,7 +359,9 @@ export const salesTaxShapes = pgTable(
     file: text("file").notNull(),
   },
   (t) => [
-    unique("uq_sales_tax_shapes_state_kind_fips").on(t.state, t.kind, t.fips),
+    // One row per edition: a new edition ends the rows it changes
+    // (ingest/load.ts writeEdition) rather than replacing them.
+    unique("uq_sales_tax_shapes_state_kind_fips_starts").on(t.state, t.kind, t.fips, t.startsOn),
     index("idx_sales_tax_shapes_geom").using("gist", t.geom),
     index("idx_sales_tax_shapes_area").on(t.areaId),
   ],

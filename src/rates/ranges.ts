@@ -37,7 +37,7 @@ import type { StreetPicker } from "./streets/jev.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { rangePolygonAreas } from "./range-polygons.js";
 import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
-import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
+import { agreedByType, sameBreakdown, sumByType, traceOutline, type Breakdown, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 import { PARAMS } from "../params.js";
 
@@ -63,6 +63,9 @@ export interface SstRate {
   /** How the address was found when not by its own typed street, e.g. "street
    *  read as COFFEY RD (closest spelling in the ZIP)". */
   note?: string;
+  /** The other matched areas' combinations of jurisdictions, where they
+   *  share the rate but not its parts. */
+  alternatives: Breakdown[];
 }
 
 interface Lookup {
@@ -89,6 +92,14 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     throw new RateError(
       `This service hasn't loaded ${input.state}'s rate and boundary files.`,
       502,
+    );
+  // A boundary file that keeps only the rows in force on its edition can't
+  // say which areas a ZIP or street had before it: rows that ended are gone.
+  const listed = releases.find((r) => r.kind === "boundaries")?.firstListed;
+  if (PARAMS.refuseBeforeRangesListed && listed && date < listed)
+    throw new RateError(
+      `${input.state}'s address files list only the ranges in force from ${listed}, so they can't place this address on ${date}.`,
+      422,
     );
   if (date < HISTORY_FROM)
     throw new RateError(
@@ -135,7 +146,14 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     const rated = await rateAreas(input.state, fips, areaIds, date);
     const rates = new Set(rated.map((a) => a.rate));
     if (rates.size !== 1) return null;
+    // Areas that share the rate may still name other jurisdictions.
+    const alternatives: Breakdown[] = [];
+    for (const a of rated.slice(1))
+      if (!sameBreakdown(a, rated[0]) && !alternatives.some((b) => sameBreakdown(a, b)))
+        alternatives.push({ locationCode: a.locationCode, parts: a.parts });
+    if (alternatives.length && PARAMS.breakdownMustAgree) return null;
     return {
+      alternatives,
       rate: rated[0].rate,
       byType: agreedByType(rated.map((a) => a.byType)),
       parts: rated[0].parts,
@@ -406,7 +424,7 @@ async function mapAreas(
   }
   // Outlines within ~300 m of the point.
   const pad = Math.max(0.003, marginOf(point) / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
-  const shapes = await shapesAround(state, point, pad);
+  const shapes = await shapesAround(state, point, pad, date);
   if (trace) for (const s of shapes) traceOutline(trace, s);
   const holding = new Set(shapes.filter(s => s.inside).map(s => `${s.kind}:${s.fips}`));
   const candidateCounties = new Set(areas.map(a => a.county).filter(Boolean));
@@ -432,7 +450,7 @@ async function mapAreas(
   const hereRate = signature(here);
   for (const shape of nearby)
     for (const beyond of pointsAcross(point, shape.foot, shape.edgeMetres, 2)) {
-      const across = await shapesHolding(state, beyond);
+      const across = await shapesHolding(state, beyond, date);
       // Outside the requested state's county outlines is not another candidate rate.
       if (![...across].some(key => key.startsWith("county:"))) continue;
       if (signature(candidatesAt(across)) !== hereRate) return "near_edge";
@@ -617,7 +635,7 @@ async function citiesOf(state: string, areaIds: number[]) {
 
 async function releaseFiles(state: string) {
   return db
-    .select({ kind: salesTaxDataReleases.kind, file: salesTaxDataReleases.file })
+    .select({ kind: salesTaxDataReleases.kind, file: salesTaxDataReleases.file, firstListed: salesTaxDataReleases.firstListed })
     .from(salesTaxDataReleases)
     .where(eq(salesTaxDataReleases.state, state))
     .orderBy(salesTaxDataReleases.kind);

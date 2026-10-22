@@ -1,0 +1,1 @@
+ALTER TABLE "sales_tax_data_releases" ADD COLUMN "first_listed" date;

@@ -150,6 +150,7 @@
 <li><a href="#tiger-tiger-ts">TIGER (tiger.ts)</a></li>
 <li><a href="#tables-schema-ts">Tables (schema.ts)</a></li>
 <li><a class="sub" href="#jurisdiction-ids">Names and ids by source</a></li>
+<li><a class="sub" href="#editions">Outline editions</a></li>
 <li><a href="#invariants">Invariants</a></li>
 </ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
 <article id="content">
@@ -211,9 +212,9 @@
 </ol>
 <p>COPY runs through <code>pipeline</code>, so a failure mid-file ends the COPY and rolls the whole state back. <code>copyLine</code> escapes backslash, tab, newline and carriage return and writes null as <code>\N</code>.</p>
 <h3 id="loadgeostate-state-data"><code>loadGeoState(state, data)</code></h3>
-<p>One Drizzle transaction: merge shapes sharing <code>kind:fips</code>; delete and re-insert the state's rates and its <code>data.jurisdictions</code> (batches of 500); delete the state's non-TIGER shapes (file not like <code>tl_%</code>) and insert its own (batches of 20, <code>geometryOf</code>); replace its <code>sales_tax_data_releases</code> rows. Census outlines are kept.</p>
+<p>One Drizzle transaction: merge shapes sharing <code>kind:fips</code>; delete and re-insert the state's rates and its <code>data.jurisdictions</code> (batches of 500); write its outlines as a new edition of the state's non-TIGER shapes (file not like <code>tl_%</code>) from <code>data.boundariesFrom</code>, else the day they're loaded (<code>writeEdition</code>, below); replace its <code>sales_tax_data_releases</code> rows, the rates row with <code>data.ratesFirstListed</code> as <code>first_listed</code>. Census outlines are kept.</p>
 <h3 id="loadtigershapes-file-states"><code>loadTigerShapes(file, states)</code></h3>
-<p>One transaction per TIGER file: delete that <code>kind</code>'s TIGER rows (file like <code>tl_%</code>) for the states in it, insert the new ones. Every county loads; a place or county subdivision loads only if <code>namedPlaces</code> finds it in a rate code or an area's <code>place</code>, which leaves out most Census places. So TIGER must load after rates and ranges, as step 4 does.</p>
+<p>One transaction per TIGER file: write a new edition of that <code>kind</code>'s TIGER rows (file like <code>tl_%</code>) for the states in it, in force from January 1 of the file's year (a TIGER year's outlines are the legal boundaries on that day). Every county loads; a place or county subdivision loads only if <code>namedPlaces</code> finds it in a rate code or an area's <code>place</code>, which leaves out most Census places. So TIGER must load after rates and ranges, as step 4 does.</p>
 
 <h2 id="tiger-tiger-ts">TIGER (<code>tiger.ts</code>)</h2>
 <p><code>readTigerZip(zip, kind, stateFips)</code> reads the <code>.shp</code> and <code>.dbf</code> in a TIGER zip into <code>Shape { kind, stateFips, fips, name, rings, bbox }</code>, merging a town split across counties into one shape. <code>STATE_FIPS</code> maps every state and DC to its FIPS. <code>contains(shape, p)</code> tests a point against in-memory rings (odd ring count), used before shapes are in PostGIS (adapters such as Texas).</p>
@@ -229,7 +230,7 @@
 <tbody>
 <tr>
 <td><code>sales_tax_data_releases</code></td>
-<td><code>state</code>, <code>kind</code> (<code>rates</code> or <code>boundaries</code>), <code>file</code>, <code>rows</code>, <code>loaded_at</code>; unique <code>(state, kind)</code></td>
+<td><code>state</code>, <code>kind</code> (<code>rates</code> or <code>boundaries</code>), <code>file</code>, <code>rows</code>, <code>loaded_at</code>, <code>first_listed</code> (rates whose source lists some only in its newest edition: that edition's first day, so a rate starting on it may have applied before; null otherwise); unique <code>(state, kind)</code></td>
 <td>every loader</td>
 </tr>
 <tr>
@@ -259,7 +260,7 @@
 </tr>
 <tr>
 <td><code>sales_tax_shapes</code></td>
-<td><code>state</code>, <code>kind</code> (<code>county</code>, <code>place</code>, <code>cousub</code>, <code>district</code>), <code>fips</code>, <code>name</code>, <code>geom geometry(MultiPolygon, 4326)</code> with GiST index, <code>file</code>; unique <code>(state, kind, fips)</code></td>
+<td><code>state</code>, <code>kind</code> (<code>county</code>, <code>place</code>, <code>cousub</code>, <code>district</code>), <code>fips</code>, <code>name</code>, <code>geom geometry(MultiPolygon, 4326)</code> with GiST index, <code>file</code>, <code>starts_on</code>, <code>ends_on</code> (the edition's dates in force); unique <code>(state, kind, fips, starts_on)</code></td>
 <td><code>loadGeoState</code>, <code>loadTigerShapes</code></td>
 </tr>
 </tbody>
@@ -283,6 +284,10 @@
 </tbody>
 </table></div>
 
+<h3 id="editions">Outline editions (<code>writeEdition</code>)</h3>
+<p>A loader's outlines are history, not a replacement: <code>writeEdition(tx, scope, shapes, from)</code> compares the new edition with the open rows (<code>ends_on = 9999-12-31</code>) that <code>scope</code> selects. An outline whose geometry is identical (<code>st_orderingequals</code>) keeps its row, renamed and refiled. An open row the edition changes or drops ends the day before <code>from</code>, or is deleted when it starts on or after <code>from</code>, so loading the same edition twice leaves the same rows. A changed or new outline starts on <code>from</code>. The first edition of a scope starts at <code>0001-01-01</code>: with no older edition held, it stands for every earlier date. Lookups read the row in force on their date (<a href="map-engine.html#history">map-engine.html</a>); the locator's typed-city checks read the newest. Verified supplemental outlines (<code>verify-polygons.ts</code>) carry their own source periods and aren't written this way. A geo source that dates its own outlines (<code>GeoStateData.shapes[].startsOn</code>/<code>endsOn</code>, Colorado's and Alaska's rate service) gives its whole history, which replaces the state's non-TIGER rows on load.</p>
+<p>Supplemental tax areas keep their history the same way: <code>indexVerifiedPolygons</code> indexes the newest snapshot of each source <em>and quarter</em> (<code>windowOf</code>), each for its own window. Minnesota's quarterly layers (<code>locgnrl_sales_usetax_areas_&lt;YYYYQn&gt;</code>, listed by <code>minnesotaSources</code>, each service's own layer id) and Washington's <code>LOCCODE_PUBLIC</code> ZIPs (<code>washingtonSources</code>) are acquired for every quarter from <code>HISTORY_FROM</code>, oldest first; a quarter with no edition has no supplemental outline, and the lookup falls back to its dated ranges and Census outlines. Only a source's newest edition failing fails the run.</p>
+<p>An edition's <code>from</code> is when its lines are in force, not when they were fetched: a TIGER year's January 1, a Texas quarter's first day; a source that doesn't say gets the day it's loaded, so a change between two loads is dated at the later one.</p>
 <h2 id="invariants">Invariants</h2>
 <ul>
 <li>A lookup never sees half a state: each SST state and each map state is replaced inside one transaction.</li>

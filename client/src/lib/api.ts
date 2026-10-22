@@ -43,6 +43,11 @@ export interface AddressRate {
 	/** The state's own ids for the whole location, e.g. Washington's
 	 *  {"Composite SER Code": "01726"}; {} where it gives none. */
 	locationIds?: Record<string, string>;
+	/** Whether the parts name the jurisdictions the tax is paid to; the rate
+	 *  is settled either way. Absent from an API older than it. */
+	jurisdictions?: 'settled' | 'uncertain';
+	/** Other combinations of jurisdictions with the same total. */
+	alternatives?: Array<{ locationCode: string | null; parts: RatePart[] }>;
 	/** "98109-4607" where the state's address files give it. */
 	zip4?: string | null;
 	source: string;

@@ -34,8 +34,9 @@ export interface PlacedShape {
   foot: Point;
 }
 
-/** The outlines whose geometry comes within `padDegrees` of the point. */
-export async function shapesAround(state: string, p: Point, padDegrees: number): Promise<PlacedShape[]> {
+/** The outlines in force on `date` whose geometry comes within
+ *  `padDegrees` of the point. */
+export async function shapesAround(state: string, p: Point, padDegrees: number, date: string): Promise<PlacedShape[]> {
   const rows = await db.execute<{
     kind: PlacedShape["kind"];
     fips: string;
@@ -57,7 +58,8 @@ export async function shapesAround(state: string, p: Point, padDegrees: number):
       select st_boundary(s.geom) as edge,
              st_closestpoint(st_boundary(s.geom), p.g) as foot
     ) b
-    where s.state = ${state} and s.fips not like ${`${HELD_PREFIX}%`} and st_dwithin(s.geom, p.g, ${padDegrees})`);
+    where s.state = ${state} and s.fips not like ${`${HELD_PREFIX}%`} and ${date} between s.starts_on and s.ends_on
+      and st_dwithin(s.geom, p.g, ${padDegrees})`);
   return rows.map((r) => ({
     kind: r.kind,
     fips: r.fips,
@@ -69,11 +71,11 @@ export async function shapesAround(state: string, p: Point, padDegrees: number):
   }));
 }
 
-/** The outlines holding a point, as "kind:fips". */
-export async function shapesHolding(state: string, p: Point): Promise<Set<string>> {
+/** The outlines in force on `date` holding a point, as "kind:fips". */
+export async function shapesHolding(state: string, p: Point, date: string): Promise<Set<string>> {
   const rows = await db.execute<{ kind: string; fips: string }>(sql`
     select kind, fips from sales_tax_shapes
-    where state = ${state} and fips not like ${`${HELD_PREFIX}%`}
+    where state = ${state} and fips not like ${`${HELD_PREFIX}%`} and ${date} between starts_on and ends_on
       and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))`);
   return new Set(rows.map((r) => `${r.kind}:${r.fips}`));
 }
@@ -91,6 +93,7 @@ export async function outlineGeometry(
   outlines: Array<{ kind: string; fips: string }>,
   p: Point,
   metres: number,
+  date: string,
 ): Promise<Map<string, OutlineGeometry>> {
   if (!outlines.length) return new Map();
   const keys = outlines.map((o) => `${o.kind}:${o.fips}`);
@@ -103,7 +106,7 @@ export async function outlineGeometry(
     cross join lateral (
       select st_collectionextract(st_makevalid(st_simplifypreservetopology(
         st_intersection(s.geom, box.g), ${DISPLAY_SIMPLIFY_DEGREES * Math.max(1, metres / 3_000)})), 3) as g) c
-    where s.state = ${state}
+    where s.state = ${state} and ${date} between s.starts_on and s.ends_on
       and s.kind || ':' || s.fips in (${sql.join(keys.map((k) => sql`${k}`), sql`, `)})
       and s.geom && box.g
       and not st_isempty(c.g)`);

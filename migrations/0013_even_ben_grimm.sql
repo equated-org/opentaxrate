@@ -1,0 +1,2 @@
+ALTER TABLE "sales_tax_shapes" DROP CONSTRAINT "uq_sales_tax_shapes_state_kind_fips";--> statement-breakpoint
+ALTER TABLE "sales_tax_shapes" ADD CONSTRAINT "uq_sales_tax_shapes_state_kind_fips_starts" UNIQUE("state","kind","fips","starts_on");
