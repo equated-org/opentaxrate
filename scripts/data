@@ -1,0 +1,281 @@
+#!/usr/bin/env sh
+# Moves the published tax data between this machine, GitHub Releases and
+# production. Data reaches production only as a release: load and benchmark
+# it here, publish it, then pull it there. Never refresh or ingest there.
+#
+#   scripts/data status                      newest release; what production runs and serves
+#   scripts/data snapshot [--check]          this stack's data to data/opentaxrate-DATE.dump
+#   scripts/data publish [TAG]               snapshot, then GitHub Release TAG (default data-DATE)
+#   scripts/data pull TAG --prod             load release TAG into production
+#   scripts/data pull TAG --local [--db D]   load it into this stack (database D), to try it first
+#   scripts/data load DUMP [--db D]          replace this stack's published data with DUMP's
+#   scripts/data install DUMP|URL            fill a new, empty install from a dump
+#
+# Published data is TAX_TABLES below. The rest (EMPTY_TABLES) belongs to the
+# server that holds it: accounts, keys, request history, credit, the
+# geocoding cache. A snapshot carries those tables empty.
+#
+# `load`, and so `pull`, replaces TAX_TABLES and nothing else, in one
+# transaction, and is idempotent: loading a dump again leaves the same rows.
+# It refuses a dump whose migrations differ from the database's (deploy the
+# revision the dump was made with first), and restarts a running API after.
+# `install` replaces every table, so it refuses a database with accounts:
+# it is for new installs, never production.
+#
+# Environment: COMPOSE, the compose command (default `docker compose`);
+# OPENTAXRATE_HOST, production's SSH host (default opentaxrate).
+set -eu
+cd "$(dirname "$0")/.."
+
+# Every table must be in one list; snapshot stops at one that isn't, so
+# nothing new reaches a public dump by default.
+TAX_TABLES="sales_tax_areas sales_tax_data_releases sales_tax_jurisdiction_rates
+  sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges zip_areas zip_street_names
+  tax_source_snapshots tax_source_features"
+EMPTY_TABLES="geocode_results geocoder_usage user session account verification
+  apikey api_requests credit_grants tax_rule_rows"
+
+COMPOSE=${COMPOSE:-docker compose}
+HOST=${OPENTAXRATE_HOST:-opentaxrate}
+SERVER_DIR=/opt/opentaxrate
+SERVER_COMPOSE="docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml"
+db=opentaxrate
+
+usage() { sed -n '6,12p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+die() { echo "$*" >&2; exit 1; }
+psql() { $COMPOSE exec -T db psql -U opentaxrate -d "$db" -At -v ON_ERROR_STOP=1 "$@"; }
+on() { ssh "$HOST" "cd $SERVER_DIR && $*"; }
+
+# Writes data/opentaxrate-DATE.dump: TAX_TABLES' rows, every other table
+# empty (so a restored database has every table its migration history
+# names), and the migration history. Prints only the dump's path.
+snapshot() {
+  # Transaction policies are research only: never publish their metadata
+  # through the shared snapshot table, even if an older importer ran.
+  if [ "$(psql -c "select exists(select 1 from tax_source_snapshots where source like 'sst-%' or metadata->>'status' in ('evidence-only', 'needs-normalization'))")" = t ]; then
+    die "Research-only tax policy snapshots must be moved out of the export database before publishing."
+  fi
+  unknown=""
+  # Tables an extension owns (PostGIS's spatial_ref_sys) come with --extension.
+  for t in $(psql -c "select c.relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
+      where n.nspname = 'public' and c.relkind in ('r', 'p')
+        and not exists (select 1 from pg_depend d where d.objid = c.oid and d.deptype = 'e')
+      order by 1"); do
+    case " $(echo $TAX_TABLES $EMPTY_TABLES) " in
+      *" $t "*) ;;
+      *) unknown="$unknown $t" ;;
+    esac
+  done
+  [ -z "$unknown" ] || die "Tables in neither TAX_TABLES nor EMPTY_TABLES:$unknown. Classify them in scripts/data."
+  if [ "${1:-}" = --check ]; then
+    echo "Export checks passed: known tables only; transaction policy rows excluded." >&2
+    return
+  fi
+  set --
+  for t in $TAX_TABLES; do set -- "$@" "--table=public.\"$t\""; done
+  for t in $EMPTY_TABLES; do set -- "$@" "--table=public.\"$t\"" "--exclude-table-data=public.\"$t\""; done
+  mkdir -p data
+  out="data/opentaxrate-$(date -u +%F).dump"
+  tmp=$(mktemp "$out.XXXXXX")
+  trap 'rm -f "$tmp"' EXIT HUP INT TERM
+  $COMPOSE exec -T db pg_dump -U opentaxrate -Fc -Z 6 \
+    --no-owner --no-privileges --no-comments --strict-names \
+    --extension=postgis --table=drizzle.__drizzle_migrations "$@" "$db" > "$tmp"
+  $COMPOSE exec -T db pg_restore --list < "$tmp" > /dev/null
+  mv "$tmp" "$out"
+  trap - EXIT HUP INT TERM
+  ls -lh "$out" >&2
+  echo "$out"
+}
+
+publish() {
+  day=$(date -u +%F)
+  tag=${1:-data-$day}
+  case "$tag" in ''|-*) die "A release tag must be nonempty and can't start with '-'." ;; esac
+  gh auth status > /dev/null
+  repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
+  if gh release view "$tag" --repo "$repo" > /dev/null 2>&1; then
+    die "Release $tag already exists; choose a new tag. Nothing was changed."
+  fi
+  dump=$(snapshot)
+  name=$(basename "$dump")
+  (cd data && sha256sum "$name" > "$name.sha256")
+  notes=$(mktemp)
+  trap 'rm -f "$notes"' EXIT HUP INT TERM
+  cat > "$notes" <<EOF
+Sales tax database snapshot exported on $day (UTC).
+
+Includes published tax rates, street and ZIP ranges, geographic boundaries,
+supplemental source polygons, source-file metadata, and database migration
+metadata. Runtime geocoding cache, account and usage tables are empty.
+
+Load into production (replaces the tax data only):
+scripts/data pull $tag --prod
+
+Fill a new, empty install:
+scripts/data install https://github.com/$repo/releases/download/$tag/$name
+EOF
+  # Stage both assets before making the release visible.
+  gh release create "$tag" "$dump" "$dump.sha256" \
+    --repo "$repo" --draft --title "Database snapshot $day" --notes-file "$notes"
+  gh release edit "$tag" --repo "$repo" --draft=false
+  gh release view "$tag" --repo "$repo" --json url --jq .url
+}
+
+# Downloads release TAG's dump to data/TAG/ and checks its SHA-256; a file
+# already there is reused, and downloaded again if it fails the check.
+download() {
+  tag=$1
+  mkdir -p "data/$tag"
+  for attempt in 1 2; do
+    gh release download "$tag" --dir "data/$tag" --skip-existing --pattern '*.dump' --pattern '*.dump.sha256' >&2
+    if (cd "data/$tag" && sha256sum -c --quiet ./*.dump.sha256) >&2; then
+      ls "data/$tag"/*.dump
+      return
+    fi
+    [ "$attempt" = 1 ] && { echo "data/$tag fails its SHA-256; downloading it again." >&2; rm -f "data/$tag"/*; }
+  done
+  die "Release $tag's dump fails its SHA-256 after a fresh download."
+}
+
+load() {
+  dump=$1
+  [ -f "$dump" ] || die "No dump at $dump"
+  restore() { $COMPOSE exec -T db pg_restore --data-only --no-owner --no-privileges "$@" -f - < "$dump"; }
+  ours=$(psql -c "select hash from drizzle.__drizzle_migrations" | sort)
+  theirs=$(restore --table=__drizzle_migrations | awk -F'\t' '
+    /^COPY / { s = $0; sub(/^[^(]*\(/, "", s); sub(/\).*/, "", s)
+               n = split(s, c, /, /); for (i = 1; i <= n; i++) if (c[i] == "hash") col = i; on = 1; next }
+    /^\\\.$/ { on = 0 }
+    on { print $col }' | sort)
+  if [ -z "$theirs" ] || [ "$ours" != "$theirs" ]; then
+    die "The dump's migrations ($(echo "$theirs" | grep -c .)) aren't this database's ($(echo "$ours" | grep -c .)): deploy the revision the dump was made with, or publish one from this revision."
+  fi
+  # tax_rule_rows refers to tax_source_snapshots, so it is emptied with it.
+  rules=$(psql -c "select count(*) from tax_rule_rows")
+  [ "$rules" = 0 ] || die "tax_rule_rows has $rules rows, which loading would erase. Move them out first."
+
+  list="" names="" select=""
+  for t in $TAX_TABLES; do
+    list="$list public.\"$t\","
+    names="$names'$t',"
+    select="$select --table=$t"
+  done
+  sequences=$(psql -c "select format('select setval(%L, coalesce((select max(%I) from public.%I), 0) + 1, false);', s, a.attname, c.relname)
+    from pg_class c join pg_attribute a on a.attrelid = c.oid
+    cross join pg_get_serial_sequence(format('public.%I', c.relname), a.attname) s
+    where c.relnamespace = 'public'::regnamespace and a.attnum > 0 and not a.attisdropped and s is not null and c.relname in (${names%,})")
+
+  started=$(date +%s)
+  # Lookups wait on the tables' locks until this commits; a failure anywhere
+  # rolls it all back, and a stream that ends early never reaches commit.
+  {
+    echo "begin;"
+    echo "set lock_timeout = '60s';"
+    echo "truncate $list public.tax_rule_rows;"
+    echo "set lock_timeout = 0;"
+    # The dump's rows aren't in foreign-key order. They came from one
+    # consistent database, so this transaction skips the foreign-key checks.
+    echo "set local session_replication_role = replica;"
+    if restore $select; then
+      echo "$sequences"
+      echo "commit;"
+    else
+      echo "do \$\$ begin raise exception 'pg_restore failed: nothing was loaded'; end \$\$;"
+    fi
+  } | psql -q > /dev/null
+  echo "Loaded $dump into $db in $(( $(date +%s) - started ))s"
+  psql -q -c "analyze ${list%,}"
+  # Its caches hold answers from the old data.
+  if [ "$db" = opentaxrate ] && [ -n "$($COMPOSE ps -q api)" ]; then $COMPOSE restart api; fi
+}
+
+pull() {
+  tag=${1:-}; [ $# -gt 0 ] && shift
+  where=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --prod) where=prod ;;
+      --local) where=local ;;
+      --db) db=${2:?--db needs a database name}; shift ;;
+      *) usage ;;
+    esac
+    shift
+  done
+  [ -n "$tag" ] && [ -n "$where" ] || die "Usage: scripts/data pull TAG --prod | --local [--db D]"
+  dump=$(download "$tag")
+  if [ "$where" = local ]; then
+    load "$dump"
+    return
+  fi
+  [ "$db" = opentaxrate ] || die "--db is for --local; production loads its own database."
+  on "test -x scripts/data" || die "$HOST's revision has no scripts/data: deploy first."
+  jobs=$(on "docker ps --filter label=com.docker.compose.oneoff=True --format '{{.Names}}'")
+  [ -z "$jobs" ] || die "Jobs running on $HOST: $jobs. Pull once they finish."
+  remote="data/$tag-$(basename "$dump")"
+  if [ "$(on "sha256sum $remote 2>/dev/null | cut -d' ' -f1")" != "$(cut -d' ' -f1 "$dump.sha256")" ]; then
+    on "mkdir -p data"
+    scp "$dump" "$HOST:$SERVER_DIR/$remote"
+  fi
+  on "COMPOSE='$SERVER_COMPOSE' scripts/data load $remote && echo $tag > DATA_RELEASE"
+  tries=0
+  until on "curl -fs -o /dev/null http://127.0.0.1:8080/v1/coverage"; do
+    tries=$((tries + 1))
+    [ $tries -lt 30 ] || die "The API on $HOST isn't answering after the pull."
+    sleep 2
+  done
+  echo "$HOST serves $tag"
+}
+
+install() {
+  src=${1:?Usage: scripts/data install DUMP|URL}
+  if [ "${src#http}" != "$src" ]; then
+    mkdir -p data
+    curl -fL "$src" -o data/install.dump
+    src=data/install.dump
+  fi
+  $COMPOSE up -d db
+  attempt=0
+  until $COMPOSE exec -T db pg_isready -U opentaxrate -d "$db" > /dev/null 2>&1; do
+    attempt=$((attempt + 1))
+    [ "$attempt" -lt 60 ] || die "Database did not become ready."
+    sleep 1
+  done
+  # A dump replaces every table it holds, accounts included (as empty
+  # tables): refuse a database that has any.
+  in_use=$(psql -c "
+    select coalesce(sum(n), 0) from (
+      select (xpath('//n/text()', query_to_xml(format('select count(*) as n from %I', t), false, false, '')))[1]::text::bigint as n
+      from unnest(array['user', 'api_requests', 'credit_grants']) t
+      where to_regclass(format('public.%I', t)) is not null
+    ) counts")
+  [ "$in_use" = 0 ] || die "This database has $in_use account, request or credit rows; install would erase them. Use 'scripts/data load' to replace only the tax data."
+  # Table-selected dumps carry migration history but not its parent schema.
+  psql -c 'create schema if not exists drizzle' > /dev/null
+  $COMPOSE exec -T db pg_restore -U opentaxrate -d "$db" \
+    --clean --if-exists --no-owner --no-privileges --exit-on-error < "$src"
+  echo "Installed $src; now run: docker compose up -d"
+}
+
+status() {
+  echo "newest release:    $(gh release list --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // "none"')"
+  echo "production runs:   $(on "cat DEPLOYED_REVISION")"
+  echo "production serves: $(on "cat DATA_RELEASE 2>/dev/null || echo 'no pulled release'")"
+  theirs=$(on "$SERVER_COMPOSE exec -T db psql -U opentaxrate -d opentaxrate -At -c 'select count(*) from drizzle.__drizzle_migrations'")
+  echo "migrations:        $(ls migrations/*.sql | wc -l) here, $theirs in production's database"
+}
+
+command=${1:-}; [ $# -gt 0 ] && shift
+case "$command" in
+  status) status ;;
+  snapshot) snapshot "$@" ;;
+  publish) publish "$@" ;;
+  pull) pull "$@" ;;
+  load)
+    dump=${1:-}; [ $# -gt 0 ] && shift
+    [ "${1:-}" = --db ] && db=${2:?--db needs a database name}
+    [ -n "$dump" ] || usage
+    load "$dump" ;;
+  install) install "$@" ;;
+  *) usage ;;
+esac

@@ -27,7 +27,7 @@ docker compose up -d
 docker compose run --rm refresh OH TX WA
 ```
 
-The API runs on `localhost:8080`. Omit the state codes to load every state (~45 minutes, ~5 GB), or [restore a snapshot](docs/data.md#snapshots).
+The API runs on `localhost:8080`. Omit the state codes to load every state (~45 minutes, ~5 GB), or [install a snapshot](docs/data.md#snapshots-and-releases).
 
 ```bash
 curl -G localhost:8080/v1/rate \

@@ -31,51 +31,46 @@ Refresh acquires versioned supplemental polygons and validates general-tax featu
 - `previous/<date>-<id>-<file>` beside a file: its older contents.
 - `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced).
 
-The folder is backed up with [restic](https://restic.net) to R2, bucket `opentaxrate-sources`. Each run is a dated snapshot that stores only what changed, and nothing is ever pruned. The credentials are in your production secret manager: `R2_ACCOUNT_ID`, `OPENTAXRATE_R2_ACCESS_KEY_ID` and `OPENTAXRATE_R2_SECRET_ACCESS_KEY` (a token for this bucket only; `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` stand in until it exists), and `OPENTAXRATE_RESTIC_PASSWORD`.
+Use [restic](https://restic.net) with your own R2 credentials to back up the folder.
+Set `R2_ACCOUNT_ID`, `OPENTAXRATE_R2_ACCESS_KEY_ID`,
+`OPENTAXRATE_R2_SECRET_ACCESS_KEY` and `OPENTAXRATE_RESTIC_PASSWORD`
+in your environment or secret manager. Use `OPENTAXRATE_RESTIC_REPOSITORY`
+to override the destination.
 
 ```bash
-cd /path/to/secret-manager-project
-
-# Back up
-infisical run --env=prod -- sh /path/to/opentaxrate/scripts/backup-sources.sh /path/to/opentaxrate/artifacts/sources
-
-# List, browse or restore snapshots
-infisical run --env=prod -- sh -c '
-  export AWS_ACCESS_KEY_ID="${OPENTAXRATE_R2_ACCESS_KEY_ID:-$R2_ACCESS_KEY_ID}"
-  export AWS_SECRET_ACCESS_KEY="${OPENTAXRATE_R2_SECRET_ACCESS_KEY:-$R2_SECRET_ACCESS_KEY}"
-  export AWS_DEFAULT_REGION=auto
-  export RESTIC_REPOSITORY="s3:https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com/opentaxrate-sources"
-  export RESTIC_PASSWORD="$OPENTAXRATE_RESTIC_PASSWORD"
-  restic snapshots                       # or: restic ls latest
-                                         # or: restic restore <id> --target /tmp/sources-<date>
-'
+scripts/backup-sources.sh artifacts/sources
 ```
 
-Always set `RESTIC_REPOSITORY` and `RESTIC_PASSWORD` from the `OPENTAXRATE_*` values, as above. Inherited `RESTIC_REPOSITORY` and `RESTIC_PASSWORD` may belong to unrelated backups (bucket `unrelated-backups`), and a command that inherits them writes there. `backup-sources.sh` ignores them and prints the repository it writes to.
+The script creates dated snapshots without pruning them. It ignores unrelated
+`RESTIC_*` settings so a source backup cannot accidentally use another repository.
 
-## Snapshots
+## Snapshots and releases
 
-For a new installation, restore a published snapshot instead of refreshing:
+`scripts/data` (also `pnpm data`) moves the published data between this machine, GitHub Releases and production. Data reaches production only as a release: load and benchmark it locally, publish it, then pull it. Never refresh or ingest on the server.
 
 ```bash
-scripts/restore.sh https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22/opentaxrate-2026-10-22.dump
+pnpm data status                      # newest release; what production runs and serves
+pnpm data snapshot [--check]          # this stack's data to data/opentaxrate-DATE.dump
+pnpm data publish [TAG]               # snapshot, then GitHub Release TAG (default data-DATE)
+pnpm data pull TAG --prod             # load release TAG into production
+pnpm data pull TAG --local [--db D]   # load it into this stack (database D), to try it first
+pnpm data load DUMP [--db D]          # replace this stack's published data with DUMP's
+pnpm data install DUMP|URL            # fill a new, empty install from a dump
 ```
 
-Snapshots replace the included tables. They contain tax data and migrations, with account, key, request, credit, and geocoding tables empty. Restore refuses databases with accounts or keyed lookups.
+**What a snapshot holds.** The published data (`TAX_TABLES` in `scripts/data`: rates, jurisdictions, areas and shapes, street and ZIP ranges, ZIP street lists, supplemental source polygons) plus the migration history. Every other table (`EMPTY_TABLES`: accounts, keys, request history, credit, the geocoding cache, rule rows) is dumped empty. A table in neither list stops the snapshot, so nothing new reaches a dump by default; `snapshot --check` runs that check and the one below without dumping. Transaction-policy research is excluded, and a database holding experimental policy snapshots is refused, so their metadata can't leak through the source table.
 
-Transaction-policy research is excluded. The exporter also refuses a database containing experimental policy snapshots, so their metadata cannot leak through the polygon-source table. Run `scripts/snapshot.sh --check` to validate export eligibility without creating a dump.
+**Publishing** needs `gh auth login`; check `/v1/coverage` and benchmark first. It never overwrites a release: give a new tag to publish again the same day. Each release has the dump and its SHA-256.
 
-To verify a downloaded dump, download its `.sha256` asset alongside it and run:
+**Pulling** downloads the release here (the repository is private and the server has no GitHub login), checks its SHA-256 (downloading again once if it fails), copies it to the server unless the same file is there, and runs `scripts/data load` there. It stops if the deployed revision has no `scripts/data` or a refresh or ingest job is running. The server's `DATA_RELEASE` then names the release it serves.
+
+**Loading** replaces the published-data tables and nothing else, so accounts, keys, request history, credit and the geocoding cache are kept. It is idempotent: loading the same dump twice leaves the same rows and sequence positions. It refuses a dump whose migrations differ from the database's (deploy the revision the dump was made with first). Everything happens in one transaction, about 75 s for every state: lookups wait meanwhile, and a failure anywhere rolls it all back. It then refreshes the planner's statistics and restarts a running API, whose caches hold answers from the old data.
+
+**Installing** is for a new, empty database: it replaces every table the dump holds, accounts included, so it refuses a database with accounts, requests or credit. Never use it on production; use `pull` there. A release URL downloads without a login only while the repository is public; otherwise `gh release download TAG` first and give the file.
 
 ```bash
-sha256sum -c opentaxrate-YYYY-MM-DD.dump.sha256
-scripts/restore.sh opentaxrate-YYYY-MM-DD.dump
+pnpm data install https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22-regions/opentaxrate-2026-10-22.dump
+docker compose up -d
 ```
 
-To publish the currently loaded database, authenticate with `gh auth login`, check `/v1/coverage`, then run:
-
-```bash
-scripts/publish.sh # release data-YYYY-MM-DD with dump + SHA-256
-```
-
-Publishing does not refresh data or overwrite existing releases. Supply a new tag to publish again the same day. Set `COMPOSE_PROJECT_NAME` if the stack uses a custom project name. Private releases require authenticated `gh release download` before restoring.
+Set `COMPOSE` for a stack with another compose command, and `OPENTAXRATE_HOST` for another production host.

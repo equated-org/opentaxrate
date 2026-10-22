@@ -21,6 +21,7 @@
     "ingest": "tsx --env-file-if-exists=.env src/cli.ts ingest",
     "rate": "tsx --env-file-if-exists=.env src/cli.ts rate",
     "check": "tsx --env-file-if-exists=.env src/cli.ts check",
+    "data": "scripts/data",
     "db:generate": "drizzle-kit generate",
     "test": "vitest run"
   },
