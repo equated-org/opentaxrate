@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Jurisdiction resolution: architecture review</title><meta name="description" content="OpenTaxRate versus Stripe jurisdiction resolution: strengths, tradeoffs and prioritized accuracy improvements."><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono&amp;display=swap"><style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  /* Timeline of statements */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; max-width: none; }
+  .timeline li { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); gap: 0 12px; padding-bottom: 18px; margin: 0; }
+  .tl-when { font-family: var(--mono); font-size: 0.82rem; color: var(--text-3); text-align: right; padding-top: 3px; }
+  .tl-mark { position: relative; }
+  .tl-mark::before { content: ""; position: absolute; left: 11px; top: 0; bottom: -18px; border-left: 1px solid var(--edge); }
+  .timeline li:last-child .tl-mark::before { display: none; }
+  .tl-mark::after { content: ""; position: absolute; left: 5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--edge); }
+  .timeline li.you .tl-mark::after { background: var(--ink); border-color: var(--ink); }
+  .timeline li.note .tl-mark::after { border-radius: 3px; background: var(--accent); border-color: var(--accent); }
+  .timeline li.ship .tl-mark::after { border-radius: 3px; border: 1.5px solid var(--ink); }
+  .tl-body { min-width: 0; }
+  .tl-who { font-size: 0.82rem; font-weight: 600; color: var(--text-2); }
+  .tl-quote { margin: 0; max-width: 80ch; }
+
+  /* Axis map (explainers with an overloaded term) */
+  .axismap { display: grid; gap: 14px; }
+  .map-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button { font: inherit; font-size: 0.86rem; font-weight: 500; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--box); color: var(--text-2); cursor: pointer; }
+  .presets button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .map-controls label { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; color: var(--text-2); }
+  .map-controls select { font: inherit; font-size: 0.86rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--box); color: var(--ink); }
+  .map-wrap { overflow-x: auto; }
+  .map-wrap svg { display: block; width: 100%; height: auto; min-width: 880px; }
+  .m-row, .m-row.alt { fill: none; stroke: var(--line); stroke-width: 1; }
+  .m-vline { stroke: var(--line); stroke-width: 1; }
+  .m-frame { fill: none; stroke: var(--edge); }
+  .m-bin { font: 12px var(--sans); fill: var(--text-2); }
+  .m-axis { font: 600 12.5px var(--sans); fill: var(--ink); }
+  .m-chip { cursor: pointer; transition: transform 460ms var(--ease); outline: none; }
+  .m-chip rect { fill: var(--box); stroke: var(--edge); stroke-width: 1; }
+  .m-chip text { font: 500 11.5px var(--sans); fill: var(--ink); pointer-events: none; }
+  .m-chip.mem rect { stroke: var(--accent); stroke-width: 1.8; }
+  .m-chip.mem text { fill: var(--accent-ink); }
+  .m-chip.off rect { stroke-dasharray: 4 3; }
+  .m-chip:hover rect { stroke: var(--ink); }
+  .m-chip:focus-visible rect { stroke: var(--accent); stroke-width: 2.6; }
+  .m-chip.on rect { stroke: var(--ink); stroke-width: 2.2; }
+  .map.settling .m-chip { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .m-chip { transition: none; } }
+  .map-detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 760px) { .map-detail { grid-template-columns: minmax(0, 1fr); } }
+  .map-detail .who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .map-detail h3 { margin: 0; font-size: 1.05rem; }
+  .map-detail .left { display: grid; gap: 6px; align-content: start; color: var(--text-2); }
+  .map-detail .left p { margin: 0; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; background: var(--code); color: var(--text-2); }
+  .tag.mem { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .axes-dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.88rem; }
+  .axes-dl dt { color: var(--text-3); }
+  .axes-dl dd { margin: 0; color: var(--text-2); }
+  .axes-dl .plotted { color: var(--ink); font-weight: 600; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--text-2); }
+  .legend .chipk { display: inline-block; width: 22px; height: 11px; border-radius: 3px; border: 1px solid var(--edge); vertical-align: -1px; margin-right: 7px; }
+  .legend .chipk.mem { border: 1.8px solid var(--accent); }
+  .legend .chipk.off { border-style: dashed; }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style></head><body><a class="skip" href="#content">Skip to content</a><div class="layout"><nav class="toc" aria-label="Contents"><p class="toc-title">Architecture review</p><ol><li><a href="#assessment">Assessment</a></li><li><a href="#strengths">What is working well</a></li><li><a href="#history">Version historical boundaries consistently</a></li><li><a href="#validation">Validate relationships between boundaries</a></li><li><a href="#uncertainty">Strengthen the meaning of one answer</a></li><li><a href="#regions">Pilot precomputed tax regions</a></li><li><a href="#indexing">Improve indexing when measurements justify it</a></li><li><a href="#sequence">Recommended sequence and success criteria</a></li><li><a href="#appendix">Appendix: terms</a></li></ol><button class="theme" type="button" data-theme-toggle>Dark mode</button></nav><article id="content"><header class="page-head"><p class="eyebrow">OpenTaxRate · Internal planning</p><h1>Jurisdiction resolution: lessons from Stripe</h1><p class="lede">Keep the hybrid lookup engines and PostGIS. Improve historical boundaries, source validation and uncertainty handling before adding a new spatial service.</p><p class="meta">Architecture review · Version 1 · 2026-10-22 · Proposed work</p></header><section><h2 id="assessment">Assessment</h2><p><strong>OpenTaxRate already uses PostGIS. The biggest opportunity is improving how jurisdiction boundaries are validated, versioned and resolved, rather than changing databases.</strong> Keep the hybrid engines and evolve the spatial data model.</p><p>This review examined architecture notes, the schema, map lookup, geometry processing and supplemental polygon verification. It did not measure production accuracy or latency. Recommendations below are proposed work, not implemented capabilities.</p><p>Stripe precomputes nonoverlapping regions representing combinations of taxing jurisdictions, retains historical versions, and uses a spatial index to narrow candidates before exact containment checks. It also splits disconnected regions to improve indexing. The useful lessons are preparing data offline and treating boundaries as historical data. The article does not establish comparative accuracy or explain enough of its geocoding and uncertainty handling to judge those against OpenTaxRate. <a href="https://stripe.dev/blog/how-we-built-it-jurisdiction-resolution-for-stripe-tax">Stripe’s architecture article</a>.</p></section>
+<section><h2 id="strengths">What is working well</h2><p>The hybrid architecture uses the evidence each state actually provides. An official street-to-tax-area assignment contains information that ordinary postal city and ZIP matching does not. Replacing it with geocoding everywhere could introduce uncertainty and cost.</p><details class="more"><summary>Current strengths and tradeoffs</summary><div class="inner scroll"><table class="grid-table"><thead><tr><th>Approach</th><th>Benefit</th><th>Tradeoff</th></tr></thead><tbody>
+<tr><td>Published ranges, polygons and state-specific paths</td><td>Uses the available state evidence</td><td>More paths and exceptions to maintain</td></tr>
+<tr><td>Explicit refusals</td><td>Avoids unsupported plausible rates</td><td>Higher refusal rate needs measurement</td></tr>
+<tr><td>Geocoder agreement with dataset provenance</td><td>Recognizes shared upstream data</td><td>Agreement cannot prove location accuracy</td></tr>
+<tr><td>Boundary margins and refinement</td><td>Treats geocodes as uncertain</td><td>Edge sampling remains an approximation</td></tr>
+<tr><td>Separate ingestion and lookup</td><td>Reviewable changes and fewer runtime dependencies</td><td>Requires disciplined releases</td></tr>
+<tr><td>Archived sources and verified polygons</td><td>Supports reproducibility and coverage expansion</td><td>Snapshots are not universal historical lookup versions</td></tr>
+</tbody></table></div></details><p>There is already a foundation for precomputed tax regions: <code>sales_tax_areas</code> represents jurisdiction combinations, and supplemental verification attaches polygons to verified combinations. Build on <a href="../../src/ingest/verify-polygons.ts">the existing verification pipeline</a>.</p></section>
+<section><h2 id="history">Version historical boundaries consistently</h2><p><strong>This is the clearest architectural gap found.</strong> Rate rows have effective dates. Shapes also have date fields used by the supplemental indexed-area path. However, general map helpers <code>shapesAround()</code> and <code>shapesHolding()</code> accept no lookup date. Ordinary shapes are unique by state, kind and FIPS identifier, and loaders replace geometry.</p><p>Dated rates alone therefore do not guarantee historically correct map results. An annexed address can require the old city boundary as well as the old rate. Introduce immutable boundary editions with effective intervals, source snapshot IDs and stable jurisdiction identities. Each lookup should select a coherent edition for its requested date. Preserve acquisition time separately from legal effective time, and refuse unsupported historical dates.</p><p><strong>Benefit:</strong> defensible historical answers and reproducible investigations. <strong>Cost:</strong> storage, migration work and sourcing historical boundaries that schema changes cannot manufacture.</p><details class="more"><summary>Implementation evidence</summary><div class="inner"><p><a href="../../src/db/schema.ts">Shape schema</a>; <a href="../../src/rates/shapes.ts">map queries</a>; <a href="../../src/rates/range-polygons.ts">dated supplemental lookup</a>; <a href="../../src/ingest/load.ts">loaders</a>.</p></div></details></section>
+<section><h2 id="validation">Validate relationships between boundaries</h2><p>The loader repairs and dissolves shapes, then simplifies them at roughly metre scale. This helps individual shapes, but <code>ST_SimplifyPreserveTopology</code> does not preserve shared boundaries between separate polygons. <a href="https://postgis.net/docs/ST_SimplifyPreserveTopology.html">PostGIS documents this limitation</a>.</p><ul><li><em>Coverage checks.</em> Detect unexpected gaps and overlaps within layers intended to partition an area.</li><li><em>Change checks.</em> Detect missing features, unexplained coverage changes, boundary movement and affected benchmark addresses.</li><li><em>Binding checks.</em> Detect conflicting tax-area assignments and missing rate bindings.</li></ul><p>City and district overlaps can be legitimate. Use source-specific rules; automatically snapping every layer into a gapless map could invent tax boundaries. Preserve original geometry separately from derived lookup geometry. Quantify simplification displacement and include it in uncertainty.</p><p><strong>Benefit:</strong> catches source and transformation problems before publication. <strong>Cost:</strong> some findings require research rather than automatic repair. See <a href="../../src/ingest/geometry.ts">geometry processing</a>.</p></section>
+<section><h2 id="uncertainty">Strengthen the meaning of one answer</h2><p>The map engine samples points two metres across nearby boundaries and compares total rates. A nearest-edge sample does not establish every possible jurisdiction combination around complicated intersections, narrow districts or several nearby boundaries. Consider every tax region intersecting the location’s uncertainty footprint, then compare the possible outcomes. Precomputed regions would make this easier.</p><p><strong>Distinguish rate certainty from jurisdiction certainty.</strong> Two regions can have the same total but different collecting jurisdictions. The current comparison uses <code>other.rate !== answer.rate</code>, while responses also include jurisdiction parts and a location code. A common rate can be useful for a rate-only consumer even when the breakdown remains uncertain. Represent that distinction explicitly or require agreement on jurisdiction identity.</p><p><strong>Benefit:</strong> stronger boundary handling and response semantics. <strong>Cost:</strong> potentially more refusals and spatial work. Calibrate the uncertainty footprint as well. See <a href="../../src/rates/map.ts">map lookup and edge checks</a>.</p></section>
+<section><h2 id="regions">Pilot precomputed tax regions</h2><p>Build a derived region layer over existing sources and levy rules, starting with one map state with strong authoritative boundaries and benchmark evidence. Keep street ranges and address-specific exceptions. A region identifies a jurisdiction combination, not merely a percentage; equal totals must not erase different jurisdiction identities.</p><figure class="fig"><div class="panel"><p class="fig-title">Prepare validated regions before answering requests</p><svg viewBox="0 0 880 185" role="img" aria-label="Dated evidence flows through validated editions into tax regions, then uncertainty lookup and dated rates"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" class="d-ah"/></marker></defs>
+<rect x="10" y="20" width="250" height="55" rx="5" class="d-box"/><text x="135" y="52" text-anchor="middle" class="d-t">Dated source evidence</text>
+<path d="M260 47 H310" class="d-edge" marker-end="url(#arrow)"/><text x="285" y="33" text-anchor="middle" class="d-s">verify</text>
+<rect x="315" y="20" width="250" height="55" rx="5" class="d-box"/><text x="440" y="52" text-anchor="middle" class="d-t">Boundary editions and bindings</text>
+<path d="M565 47 H615" class="d-edge" marker-end="url(#arrow)"/><text x="590" y="33" text-anchor="middle" class="d-s">overlay</text>
+<rect x="620" y="20" width="250" height="55" rx="5" class="d-box acc"/><text x="745" y="52" text-anchor="middle" class="d-t">Tax regions and unresolved areas</text>
+<path d="M745 75 V125 H565" class="d-edge" marker-end="url(#arrow)"/><text x="685" y="112" text-anchor="middle" class="d-s">index regions</text>
+<rect x="315" y="100" width="250" height="55" rx="5" class="d-box"/><text x="440" y="132" text-anchor="middle" class="d-t">Spatial lookup and uncertainty check</text>
+<path d="M315 127 H265" class="d-edge" marker-end="url(#arrow)"/><text x="290" y="113" text-anchor="middle" class="d-s">resolve</text>
+<rect x="10" y="100" width="250" height="55" rx="5" class="d-box"/><text x="135" y="132" text-anchor="middle" class="d-t">Dated rates and jurisdiction parts</text>
+</svg></div><figcaption>Proposed derived layer. Unknown coverage stays explicit; precomputation must not turn missing evidence into a definite answer.</figcaption></figure><p><strong>Benefits:</strong> simpler runtime stacking, better overlap diagnostics and easier uncertainty checks. <strong>Costs:</strong> expensive overlay builds, small sliver polygons, historical storage and regeneration when boundaries or bindings change. Precomputation can make bad data consistently wrong. Run both engines against the same trusted cases before changing dispatch.</p></section>
+<section><h2 id="indexing">Improve indexing when measurements justify it</h2><p>GiST indexes and indexed predicates are already present. PostGIS implements R-tree indexing through GiST, so broad spatial candidate filtering is already available. <a href="https://postgis.net/workshops/en/postgis-intro/indexing.html">PostGIS indexing documentation</a>.</p><p>Experiment with a separate lookup-pieces table: split disconnected multipolygons into components, subdivide complex components with <code>ST_Subdivide</code>, and index the pieces while retaining their parent jurisdiction or region IDs. PostGIS documents improved candidate filtering and spatial checks for subdivided datasets. <a href="https://postgis.net/docs/ST_Subdivide.html">ST_Subdivide documentation</a>.</p><p><strong>Keep boundary distances tied to real jurisdiction boundaries.</strong> Artificial subdivision seams must never become tax boundaries. Benchmark first: faster containment does not improve source accuracy, and if geocoding dominates latency, spatial optimization may barely affect the user experience.</p></section>
+<section><h2 id="sequence">Recommended sequence and success criteria</h2><ol><li><strong>Expand the existing benchmark.</strong> Add independently verified boundary, annexation and historical cases. Track wrong accepted answers separately from refusals, and assess jurisdiction identity as well as totals.</li><li><strong>Make boundary versions date-aware.</strong> Require coherent release selection and correct before/after answers for known boundary changes.</li><li><strong>Validate geometry changes and coverage.</strong> Detect missing districts, unexpected overlaps and transformation drift before release.</li><li><strong>Separate rate and jurisdiction certainty.</strong> Never present a definitive breakdown when only the total is settled.</li><li><strong>Pilot regions in one state.</strong> Require agreement with trusted evidence and demonstrate stronger uncertainty handling.</li><li><strong>Optimize indexing as measured.</strong> Seek better database p95/p99 latency with unchanged answers before considering a custom spatial service.</li></ol><p>Extend <a href="../../scripts/bench.ts">the existing benchmark infrastructure</a>. Keep the hybrid engines and PostGIS; invest first in historical boundaries, source validation and measurable uncertainty. Precomputed regions are a promising next layer, while a custom R-tree service should wait for evidence that PostGIS is the bottleneck.</p></section>
+<section><h2 id="appendix">Appendix: terms</h2><div class="glossary"><section class="term"><h3>PostGIS and GiST</h3><p>PostGIS adds spatial operations to PostgreSQL. GiST is the index framework used here to narrow spatial candidates before exact checks.</p><pre class="snip">spatial index → candidate shapes → ST_Covers</pre></section><section class="term"><h3>Effective and acquisition dates</h3><p>Effective time says when a boundary applies. Acquisition time says when the system obtained its evidence.</p><pre class="snip">requested date → applicable boundary edition
+observed_at → evidence acquisition time</pre></section><section class="term"><h3>Uncertainty footprint</h3><p>The area in which an address might plausibly lie, given geocoder and boundary limitations. It is an operational model, not proof.</p><pre class="snip">footprint intersects regions A and B
+compare both jurisdiction sets and totals</pre></section><section class="term"><h3>p95 and p99 latency</h3><p>Request-duration percentiles used to measure slower requests, rather than only averages.</p><pre class="snip">p95: 95% of measured durations at or below it</pre></section></div><details class="more"><summary>Review sources and scope</summary><div class="inner"><p>Repository files linked above, <a href="../../docs/architecture.html">architecture</a>, and subsystem notes for <a href="../../docs/context/map-engine.html">maps</a>, <a href="../../docs/context/geocoding.html">geocoding</a>, <a href="../../docs/context/refresh.html">refresh</a> and <a href="../../docs/context/range-engine.html">ranges</a>. External sources are linked beside their claims. Design review dated 2026-10-22; no production benchmark was run.</p></div></details></section></article></div><script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script></body></html>
