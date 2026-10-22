@@ -60,9 +60,20 @@ describe("staged locator", () => {
   });
 
   it("does not use disagreement as a single-source fallback", async () => {
-    const { locate, options } = setup([provider("a", "tiger"), provider("b", "osm", 6000)], true);
+    const { locate, options } = setup([provider("a", "tiger"), provider("b", "osm", 12000)], true);
     expect(await locate()).toBeNull();
     expect(options.checkSingle).not.toHaveBeenCalled();
+  });
+
+  it("places disagreeing datasets within a circle that reaches every one of them", async () => {
+    const { locate, options } = setup([provider("a", "tiger"), provider("b", "osm", 600, "rooftop")], true);
+    const placed = (await locate())!;
+    expect(placed.accuracy).toBe("rooftop");
+    // The circle reaches the other point plus that point's own 40 m margin.
+    expect(placed.metres).toBeGreaterThanOrEqual(640);
+    expect(options.checkSingle).not.toHaveBeenCalled();
+    // A refinement can't shrink it by picking one side of the disagreement.
+    expect((await locate({ marginUnder: 10 }))?.metres).toBe(placed.metres);
   });
 
   it.each([true, false])("accepts a lone point only when the city check passes (%s)", async single => {
