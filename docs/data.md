@@ -20,6 +20,47 @@ Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to reduce SST/Missouri history and rou
 
 Refresh also indexes Missouri tax-district polygons and Utah tax zones for local map fallbacks. Rates still come from the dated DOR/SST files. Missouri’s polygon source is an archived May 2023 MSDIS snapshot; missing district outlines remain unresolved. Answers cite the polygon snapshot used. Missouri tries local data before its optional `STATE_LOOKUPS=MO` fallback. Use `--force` to reload outlines.
 
+Refresh acquires versioned supplemental polygons and reconciles general-tax features against dated codes/rates before lookup can use them. Run `pnpm ingest` for that phase alone, or `pnpm reconcile` for already-loaded evidence. See the [approved sources, date windows and remaining holds](research/source-reconciliation-2026-10-22.md). Product taxability, holidays, caps and exemptions are [documented research only](tax-rules.md), with no policy importer, API support or policy data in public exports.
+
+## Raw sources and backups
+
+`artifacts/sources/` holds every file and live answer refresh builds the database from, and nothing else:
+
+- `<host>/<path>/<file>`: the newest copy, where its URL says, e.g. `www2.census.gov/geo/tiger/TIGER2026/COUNTY/tl_2026_us_county.zip`.
+- `<host>/<path>/<query id>/`: one folder per query or POST (map layer pages, lookup pages), gzipped, with `url.txt` saying what was asked.
+- `previous/<date>-<id>-<file>` beside a file: its older contents.
+- `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced).
+- `_unknown-url/<hash>/`: pages saved before URLs were recorded.
+
+Files saved in the older per-URL-hash folders (`artifacts/<sha256>/`) move in with:
+
+```bash
+npx tsx scripts/organize-sources.ts artifacts --dry-run   # then without --dry-run
+# other folders: --hashed <dir> for hash folders, --loose <dir> for loose copies
+```
+
+The folder is backed up with [restic](https://restic.net) to R2, bucket `opentaxrate-sources`. Each run is a dated snapshot that stores only what changed, and nothing is ever pruned. The credentials are in your production secret manager: `R2_ACCOUNT_ID`, `OPENTAXRATE_R2_ACCESS_KEY_ID` and `OPENTAXRATE_R2_SECRET_ACCESS_KEY` (a token for this bucket only; `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` stand in until it exists), and `OPENTAXRATE_RESTIC_PASSWORD`.
+
+```bash
+cd /path/to/secret-manager-project
+
+# Back up
+infisical run --env=prod -- sh /path/to/opentaxrate/scripts/backup-sources.sh /path/to/opentaxrate/artifacts/sources
+
+# List, browse or restore snapshots
+infisical run --env=prod -- sh -c '
+  export AWS_ACCESS_KEY_ID="${OPENTAXRATE_R2_ACCESS_KEY_ID:-$R2_ACCESS_KEY_ID}"
+  export AWS_SECRET_ACCESS_KEY="${OPENTAXRATE_R2_SECRET_ACCESS_KEY:-$R2_SECRET_ACCESS_KEY}"
+  export AWS_DEFAULT_REGION=auto
+  export RESTIC_REPOSITORY="s3:https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com/opentaxrate-sources"
+  export RESTIC_PASSWORD="$OPENTAXRATE_RESTIC_PASSWORD"
+  restic snapshots                       # or: restic ls latest
+                                         # or: restic restore <id> --target /tmp/sources-<date>
+'
+```
+
+Always set `RESTIC_REPOSITORY` and `RESTIC_PASSWORD` from the `OPENTAXRATE_*` values, as above. Inherited `RESTIC_REPOSITORY` and `RESTIC_PASSWORD` may belong to unrelated backups (bucket `unrelated-backups`), and a command that inherits them writes there. `backup-sources.sh` ignores them and prints the repository it writes to.
+
 ## Snapshots
 
 For a new installation, restore a published snapshot instead of refreshing:
