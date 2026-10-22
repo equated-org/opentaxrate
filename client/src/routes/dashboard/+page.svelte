@@ -44,7 +44,7 @@
 	}
 
 	/** Back from Checkout: ask Stripe about the session, again for a few
-	 *  seconds if it isn't paid yet (the webhook credits it too, if set up).
+	 *  seconds if it isn't paid yet.
 	 *  The session stays in the URL until it's confirmed, so a reload or
 	 *  Retry can still credit it. */
 	let unconfirmed = $state<string | null>(null);
