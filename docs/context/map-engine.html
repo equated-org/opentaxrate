@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map engine · OpenTaxRate</title>
+<meta name="description" content="For states whose local taxes follow county, city and district lines (TX, FL, NY, VA, AZ, NM, IL, SC, CO, AL, LA, AK, PA, HI, MS, ID, the order of GEO_STATES). T">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+
+  .scroll { margin: 24px 0; }
+  .grid-table { min-width: 560px; }
+  .grid-table td { color: var(--text-2); }
+  .state-code { color: var(--text-3); font-size: .8em; font-family: var(--mono); }
+  .inner p { max-width: 76ch; }
+  .source-links { font-size: .85rem; overflow-wrap: anywhere; }
+  .source-links a { display: inline-block; margin: 0 12px 6px 0; }
+  .page-foot { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--text-3); font-size: .85rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 20px; top: 12px; background: var(--bg); padding: 10px; }
+  @media print { .toc, .skip { display: none; } .layout { display: block; padding: 0; } details.more > .inner { display: block; } h2 { margin-top: 32px; } }
+  pre.cmd { margin: 0 0 24px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.65; color: var(--ink); max-width: 100%; }
+  pre.cmd code { background: none; padding: 0; font-size: inherit; }
+  pre.mermaid { margin: 0 0 28px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; text-align: center; font-family: var(--mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><p class="toc-title">Map engine</p><ol>
+<li><a href="#georateat-state-point-date-street-trace">geoRateAt(state, point, date, street?, trace?)</a></li>
+<li><a href="#levy-types">Levy types</a></li>
+<li><a href="#edges-and-margins-geocoding-index-ts-end-of-geor">Edges and margins (geocoding/index.ts, end of geoRateAt)</a></li>
+<li><a href="#outlines-shapes-ts">Outlines (shapes.ts)</a></li>
+<li><a href="#state-adapters-geo-states">State adapters (geo-states/)</a></li>
+<li><a class="sub" href="#adding-a-state">Adding a state</a></li>
+</ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
+<article id="content">
+<header class="page-head"><p class="eyebrow">OpenTaxRate · Design notes</p><h1>Map engine</h1>
+<p class="lede">For states whose local taxes follow county, city and district lines (TX, FL, NY, VA, AZ, NM, IL, SC, CO, AL, LA, AK, PA, HI, MS, ID, the order of <code>GEO_STATES</code>). The address is placed on the map (see <a href="geocoding.html">geocoding.html</a>), PostGIS finds the outlines around it, and each outline's dated rate row is stacked by its type.</p>
+<p class="meta">Sources: <code>src/rates/map.ts</code>, <code>src/rates/shapes.ts</code>, <code>src/rates/types.ts</code>, <code>src/ingest/states/index.ts</code>, <code>src/ingest/states/tables.ts</code>, <code>src/ingest/states/sources.ts</code>, <code>src/ingest/states/*.ts</code> (one adapter per state)</p>
+</header>
+
+
+<h2 id="georateat-state-point-date-street-trace"><code>geoRateAt(state, point, date, street?, trace?)</code></h2>
+<ol>
+<li>502 if <code>sales_tax_data_releases</code> has nothing for the state; 422 if <code>point</code> is null.</li>
+<li><code>shapesAround(state, point, pad)</code>: pad 0.003 degrees (about 300 m), or 0.06 when the state has any <code>pj</code> rows (<code>hasRows</code>).</li>
+<li>Load every rate row live on <code>date</code>; key them <code>type:code</code>, later <code>starts_on</code> winning.</li>
+<li>Refuse when: no county outline holds the point; the county has a <code>no</code> row; outside a rated city but within <code>PJ_METRES</code> (4,828 m) of a city with a <code>pj</code> row; inside a shape with a <code>maybe</code> row.</li>
+<li><code>rateOf(...)</code> stacks the parts (below). No <code>45</code> row on the date is a 422.</li>
+<li>Edge check (below), then return <code>{ rate, parts, locationCode, files }</code>.</li>
+</ol>
+<p>With a trace, every shape from step 2 is recorded (<code>traceOutline</code>, <code>types.ts</code>) before any refusal in step 4, so a refused address still shows its lines. After step 5, <code>rateOf</code> collects in <code>levying</code> the shapes whose rows it added, and those outlines get <code>levies: true</code>. The trace never changes the answer.</p>
+<h2 id="levy-types">Levy types</h2>
+<p>Rows are <code>(type, code)</code> in <code>sales_tax_jurisdiction_rates</code>. <code>leviesOf(shape, rates)</code> picks which types a shape can carry: counties <code>00</code>, <code>rc</code>; places and county subdivisions <code>01</code>, <code>01x</code>, <code>x</code>, <code>0c</code>; districts any other type with their code.</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>45</code></td>
+<td>state rate</td>
+</tr>
+<tr>
+<td><code>00</code></td>
+<td>county, county-wide, unless a <code>01x</code> city replaces it</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>city or town, added</td>
+</tr>
+<tr>
+<td><code>01x</code></td>
+<td>city in place of its county (NY own-rate cities); <code>city@county</code> for a county-specific rate (LA towns in two parishes)</td>
+</tr>
+<tr>
+<td><code>0c</code></td>
+<td>county's rate difference inside one city (AL), may be negative</td>
+</tr>
+<tr>
+<td><code>rc</code></td>
+<td>county rate only outside every rated city (LA parishes; the code comment also cites NM, whose adapter uses <code>x</code> areas instead)</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>exclusive area (TX city or combined area, IL and NM locations): replaces every other local rate</td>
+</tr>
+<tr>
+<td><code>kx</code></td>
+<td>code <code>area&gt;kept</code>: a jurisdiction an <code>x</code> area keeps, at this rate (TX)</td>
+</tr>
+<tr>
+<td><code>addr</code></td>
+<td>code <code>area\|house\|streetKey</code>: one address's rate inside an <code>x</code> area (IL business districts)</td>
+</tr>
+<tr>
+<td><code>no</code></td>
+<td>county refused (AL split counties)</td>
+</tr>
+<tr>
+<td><code>pj</code></td>
+<td>police jurisdiction reaching 3 miles past a city, no outline (AL)</td>
+</tr>
+<tr>
+<td><code>maybe</code></td>
+<td>unmapped district inside a city or parish, refused with both rates (LA; also emitted by <code>alabama.ts</code> and <code>ttr.ts</code>)</td>
+</tr>
+<tr>
+<td><code>need</code></td>
+<td><code>need:x</code> marker: every address must be in an <code>x</code> area, else refused (IL, NM)</td>
+</tr>
+<tr>
+<td>other</td>
+<td>special district, inside its own outline</td>
+</tr>
+</tbody>
+</table></div>
+<p>Stacking in <code>rateOf</code>: if any <code>x</code> area holds the point, the smallest by <code>area</code> wins; add it (or its <code>addr</code> row for this street), then each <code>kx</code> row it keeps, and stop. Otherwise add every levy, skipping <code>00</code> when a <code>01x</code> city holds the point and <code>rc</code> when any rated city does; a city's <code>@county</code> row wins for that county. A city matched as both place and county subdivision counts once.</p>
+<p><code>locationCode</code> is the state code, then each part's code (without <code>@county</code>), joined by dashes.</p>
+<h2 id="edges-and-margins-geocoding-index-ts-end-of-geor">Edges and margins (<code>geocoding/index.ts</code>, end of <code>geoRateAt</code>)</h2>
+<p><code>EDGE_METRES</code> by geocode accuracy: rooftop 15, parcel 25, point 40, interpolated 75. <code>marginOf(p)</code> is <code>p.metres</code> when set (geocoders disagreed, see <a href="geocoding.html">geocoding.html</a>) else <code>EDGE_METRES[p.accuracy]</code>.</p>
+<p>For every levied shape whose <code>edgeMetres &lt; margin</code>: <code>pointsAcross(point, foot, edgeMetres, 2)</code> gives a point 2 m past the nearest edge point (four points, one each way, when the address is on the edge); <code>shapesHolding</code> finds what holds it; <code>rateOf</code> is run for that side. If the rate differs, or the other side has no rate at all, the address is refused naming both rates. Same rate across the line means no refusal.</p>
+<h2 id="outlines-shapes-ts">Outlines (<code>shapes.ts</code>)</h2>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Function</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shapesAround(state, p, padDegrees)</code></td>
+<td><code>st_dwithin</code> on the GiST index; per shape: <code>inside</code> (<code>st_covers</code>), <code>edgeMetres</code> (distance to <code>st_boundary</code> on the spheroid), <code>foot</code> (<code>st_closestpoint</code>), <code>area</code></td>
+</tr>
+<tr>
+<td><code>shapesHolding(state, p)</code></td>
+<td><code>kind:fips</code> of every shape covering a point</td>
+</tr>
+<tr>
+<td><code>pointsAcross(...)</code></td>
+<td>flat-earth step past an edge (pure function)</td>
+</tr>
+<tr>
+<td><code>outlineGeometry(state, outlines, p, metres)</code></td>
+<td>for display only (<code>include=trace</code>): each outline intersected with a square <code>metres</code> around the point, simplified to about 5 m (<code>DISPLAY_SIMPLIFY_DEGREES</code>), as GeoJSON with 5 decimals, keyed <code>kind:fips</code></td>
+</tr>
+<tr>
+<td><code>geometryOf(rings)</code></td>
+<td>SQL that turns rings into one valid multipolygon: polygonize the noded lines, keep faces inside an odd number of rings, dissolve seams, simplify to about 1 m (<code>SIMPLIFY_DEGREES</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Invariant: each outline is stored as one dissolved multipolygon per <code>(state, kind, fips)</code>, so seams between pieces are never edges.</p>
+<h2 id="state-adapters-geo-states">State adapters (<code>geo-states/</code>)</h2>
+<p>Each adapter is a <code>GeoState { state, fetch(dir?) }</code> returning <code>GeoStateData { rates: GeoRateRow[], shapes, files: { rates, boundaries? } }</code>. Shapes are the state's own outlines (kind <code>county</code>, <code>place</code> or <code>district</code>), keyed by the code their rate rows use. Census counties, places and county subdivisions load separately for every state.</p>
+<p>Two ways to write one:</p>
+<ul>
+<li><strong><code>stateTable(state, load)</code></strong> (<code>tables.ts</code>): <code>load</code> returns <code>{ stateRates, locals, source, skipUnmatchedCities? }</code>. Each local names its county or city as the state writes it (or by FIPS); <code>censusCodes</code> matches names to TIGER FIPS, exact then loose. A name that matches zero or several stops the load (or, with <code>skipUnmatchedCities</code>, skips a city with a warning). Used by VA, PA, FL, NY, HI, MS, ID and AL; SC wraps one and adds a Myrtle Beach district outline.</li>
+<li><strong>A custom <code>GeoState</code></strong> that reads rates and outlines itself, as <code>texas.ts</code> (Comptroller rate files and ArcGIS boundary layers), <code>illinois.ts</code>, <code>arizona.ts</code>, <code>new-mexico.ts</code>, <code>louisiana.ts</code>, and <code>ttr.ts</code> (<code>colorado</code>, <code>alaska</code> from their lookup service).</li>
+</ul>
+<p>Helpers in <code>sources.ts</code>: <code>fetchFile</code> / <code>fetchText</code> (local copy in <code>dir</code> first, sends <code>OPENTAXRATE_USER_AGENT</code>, 120 s timeout), <code>readXlsx</code>, <code>fetchLayer</code> (ArcGIS pages to rings), <code>ringsOf</code>, <code>bboxOf</code>, <code>isoDay</code>, <code>shiftDay</code>, <code>excelDay</code>.</p>
+<h3 id="adding-a-state">Adding a state</h3>
+<ol>
+<li>Write <code>src/ingest/states/&lt;state&gt;.ts</code> exporting a <code>GeoState</code>, with <code>stateTable</code> if its rates follow Census names or FIPS.</li>
+<li>Give every row a type from the table above; dates as ISO, open end <code>9999-12-31</code>.</li>
+<li>Add it to <code>GEO_STATES</code> in <code>ingest/states/index.ts</code>, which makes <code>refreshAddressRates</code> load its data and its TIGER outlines, and to <code>MAP_STATES</code> in <code>src/coverage.ts</code>, which makes <code>addressRates</code> route it to the map and lists it in <code>/v1/coverage</code>. <code>test/coverage.test.ts</code> fails if the two lists differ.</li>
+<li>Run <code>refresh &lt;ST&gt;</code> and check known addresses with <code>check --cases</code>.</li>
+<li>Update this note and <a href="../state-coverage.html">../state-coverage.html</a>.</li>
+</ol>
+</article></div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
+</body>
+</html>

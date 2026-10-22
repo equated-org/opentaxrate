@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-hosted geocoders · OpenTaxRate</title>
+<meta name="description" content="Run Nominatim, Photon and Pelias for the US, connect OpenTaxRate to them, and keep their data current.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+
+  .scroll { margin: 24px 0; }
+  .grid-table { min-width: 560px; }
+  .grid-table td { color: var(--text-2); }
+  .state-code { color: var(--text-3); font-size: .8em; font-family: var(--mono); }
+  .inner p { max-width: 76ch; }
+  .source-links { font-size: .85rem; overflow-wrap: anywhere; }
+  .source-links a { display: inline-block; margin: 0 12px 6px 0; }
+  .page-foot { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--text-3); font-size: .85rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 20px; top: 12px; background: var(--bg); padding: 10px; }
+  @media print { .toc, .skip { display: none; } .layout { display: block; padding: 0; } details.more > .inner { display: block; } h2 { margin-top: 32px; } }
+  pre.cmd { margin: 0 0 24px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.65; color: var(--ink); max-width: 100%; }
+  pre.cmd .c { color: var(--text-3); }
+  .callout { max-width: 76ch; margin: 0 0 24px; padding: 14px 18px; border-left: 3px solid var(--g3-ink); background: var(--g3); border-radius: 0 8px 8px 0; }
+  .callout p { margin: 0; color: var(--ink); }
+  .callout + .callout { margin-top: -12px; }
+  .callout.ok { border-left-color: var(--g1-ink); background: var(--g1); }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><p class="toc-title">Self-hosted geocoders</p><ol>
+<li><a href="#overview">Three geocoders</a></li>
+<li><a href="#wire">Point OpenTaxRate at them</a></li>
+<li><a href="#machine">The machine</a></li>
+<li><a href="#nominatim">Nominatim</a></li>
+<li><a class="sub" href="#nominatim-install">First install</a></li>
+<li><a class="sub" href="#nominatim-tiger">Adding TIGER</a></li>
+<li><a class="sub" href="#nominatim-wiki">Adding Wikipedia importance</a></li>
+<li><a class="sub" href="#nominatim-update">Keeping it current</a></li>
+<li><a href="#photon">Photon</a></li>
+<li><a href="#pelias">Pelias</a></li>
+<li><a class="sub" href="#pelias-build">Build</a></li>
+<li><a class="sub" href="#pelias-update">Keeping it current</a></li>
+<li><a href="#schedule">Schedule</a></li>
+<li><a href="#trouble">Troubleshooting</a></li>
+</ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
+<article id="content">
+<header class="page-head"><p class="eyebrow">OpenTaxRate · Operations</p><h1>Self-hosted geocoders</h1>
+<p class="lede">How to run Nominatim, Photon and Pelias for the US on one machine, connect OpenTaxRate to them, and keep their data current.</p>
+<p class="meta">Written 2026-10-22 from the spark-3 install · <a href="context/geocoding.html">Geocoding design</a> · <a href="../README.md">README</a></p></header>
+
+<p>OpenTaxRate places an address on the map only when the states’ street and ZIP files can’t settle a rate. It can ask public services, but the public Nominatim allows one request a second and the vendors bill per call. Running your own removes both limits.</p>
+
+<h2 id="overview">Three geocoders</h2>
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">Service</th><th scope="col">Data</th><th scope="col">Port</th><th scope="col">Built on the host?</th><th scope="col">How it stays current</th></tr></thead><tbody>
+<tr><th scope="row">Nominatim 5.3</th><td>OpenStreetMap, Census TIGER house-number ranges, US ZIP centroids</td><td class="num">8080</td><td>Yes, about 6 h</td><td>Daily OSM diffs (minutes); TIGER once a year</td></tr>
+<tr><th scope="row">Photon 1.3</th><td>OpenStreetMap, exported from a Nominatim database</td><td class="num">2322</td><td>No, a 14 GB prebuilt download</td><td>Re-download weekly, or build from your Nominatim</td></tr>
+<tr><th scope="row">Pelias</th><td>OpenStreetMap, OpenAddresses, Who’s On First, TIGER interpolation</td><td class="num">4000</td><td>Yes, about 3 h plus interpolation</td><td>Full rebuild every few months</td></tr>
+</tbody></table></div>
+<p>The Census Bureau’s geocoder has no self-hosted edition; OpenTaxRate keeps calling it directly.</p>
+
+<h2 id="wire">Point OpenTaxRate at them</h2>
+<pre class="cmd">NOMINATIM_URL=http://spark-3:8080
+PHOTON_URL=http://spark-3:2322
+PELIAS_URL=http://spark-3:4000</pre>
+<p><code>NOMINATIM_URL</code> replaces the public server and raises its spacing from one request a second to ten. Photon and Pelias are only called when their URL is set. All three default to 10 requests a second and 100,000 a day; <code>&lt;NAME&gt;_RATE_PER_SECOND</code> and <code>&lt;NAME&gt;_DAILY_CAP</code> override them (<code>NOMINATIM_</code>, <code>PHOTON_</code>, <code>PELIAS_</code>). Changing a URL changes the cache fingerprint, so results cached from the public server aren’t reused for yours.</p>
+<p>Check each one:</p>
+<pre class="cmd">curl -s 'http://spark-3:8080/status?format=json'
+curl -s 'http://spark-3:8080/search?q=1600+Pennsylvania+Ave+NW,+Washington+DC&amp;format=jsonv2&amp;limit=1'
+curl -s 'http://spark-3:2322/status'
+curl -s 'http://spark-3:2322/api?q=1600+Pennsylvania+Ave+Washington&amp;limit=1'
+curl -s 'http://spark-3:4000/v1/search?text=1600+Pennsylvania+Ave+NW,+Washington+DC&amp;size=1'</pre>
+
+<h2 id="machine">The machine</h2>
+<p>spark-3 is a DGX Spark: ARM64, 20 cores, 121 GB RAM, 3.7 TB NVMe. Every image below has an ARM64 build.</p>
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">Service</th><th scope="col">Disk</th><th scope="col">RAM while serving</th></tr></thead><tbody>
+<tr><th scope="row">Nominatim (Postgres + flatnode)</th><td>About 400–500 GB</td><td>10–30 GB, mostly page cache</td></tr>
+<tr><th scope="row">Pelias (Elasticsearch + source files)</th><td>About 200 GB index + 150 GB sources</td><td>About 25 GB</td></tr>
+<tr><th scope="row">Photon</th><td>14 GB</td><td>2–6 GB (8 GB heap cap)</td></tr>
+</tbody></table></div>
+<p>Importing Nominatim and Pelias at the same time fits in 121 GB, but not alongside a large local LLM. The <code>glm-flash-api</code> user service on spark-3 holds about 75 GB; stop it for imports (<code>systemctl --user stop glm-flash-api</code>) and start it again afterwards.</p>
+
+<h2 id="nominatim">Nominatim</h2>
+<h3 id="nominatim-install">First install</h3>
+<pre class="cmd">mkdir -p ~/nominatim/pgdata ~/nominatim/flatnode
+docker run -d --name nominatim --restart unless-stopped --shm-size=4g \
+  -e PBF_URL=https://download.geofabrik.de/north-america/us-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/north-america/us-updates/ \
+  -e UPDATE_MODE=continuous \
+  -e IMPORT_US_POSTCODES=true \
+  -e IMPORT_TIGER_ADDRESSES=true \
+  -e IMPORT_WIKIPEDIA=true \
+  -e THREADS=18 \
+  -e POSTGRES_SHARED_BUFFERS=8GB -e POSTGRES_MAINTENANCE_WORK_MEM=16GB \
+  -e POSTGRES_AUTOVACUUM_WORK_MEM=2GB -e POSTGRES_WORK_MEM=128MB \
+  -e POSTGRES_EFFECTIVE_CACHE_SIZE=64GB -e POSTGRES_MAX_WAL_SIZE=8GB \
+  -e POSTGRES_CHECKPOINT_TIMEOUT=30min \
+  -v $HOME/nominatim/pgdata:/var/lib/postgresql/16/main \
+  -v $HOME/nominatim/flatnode:/nominatim/flatnode \
+  -p 8080:8080 mediagis/nominatim:5.3
+docker logs -f nominatim</pre>
+<p>The API answers once the log says <code>Import completed successfully</code>. On spark-3 the 2026-10-21 import took 5 h 50 min: download 20 min, osm2pgsql 32 min, streets 84 min, house numbers and points of interest 2 h 20 min, search indexes 12 min.</p>
+<p>Three of those flags decide accuracy:</p>
+<ul>
+<li><em><code>IMPORT_TIGER_ADDRESSES=true</code></em> adds the Census house-number ranges for every US street segment. Without them Nominatim knows only the house numbers mapped in OpenStreetMap, which most of the US lacks.</li>
+<li><em><code>IMPORT_WIKIPEDIA=true</code></em> loads place importance. Without it “350 5th Ave, New York, NY” resolves to Smithtown, Long Island, because nothing ranks Manhattan above it.</li>
+<li><em><code>UPDATE_MODE=continuous</code></em> applies Geofabrik’s daily diffs inside the container. Leave it out and the data stays as it was at import.</li>
+</ul>
+<div class="callout"><p>The spark-3 import ran without these three. TIGER was added afterwards (below); Wikipedia importance and <code>UPDATE_MODE</code> are still missing.</p></div>
+
+<h3 id="nominatim-tiger">Adding TIGER to an existing database</h3>
+<p>Nominatim publishes the Census TIGER address ranges preprocessed. <code>nominatim.org</code> returns 403 without a User-Agent.</p>
+<pre class="cmd">docker exec nominatim bash -c 'cd /nominatim &amp;&amp;
+  curl -sSL -A "opentaxrate-setup" -o tiger.csv.tar.gz \
+    https://nominatim.org/data/tiger2025-nominatim-preprocessed.csv.tar.gz &amp;&amp;
+  chown nominatim tiger.csv.tar.gz &amp;&amp;
+  sudo -E -u nominatim nominatim add-data --tiger-data /nominatim/tiger.csv.tar.gz --threads 16'
+docker exec nominatim bash -c 'grep -q USE_US_TIGER /nominatim/.env ||
+  echo NOMINATIM_USE_US_TIGER_DATA=yes &gt;&gt; /nominatim/.env'
+docker exec nominatim bash -c 'cd /nominatim &amp;&amp; sudo -E -u nominatim nominatim refresh --functions'
+docker restart nominatim</pre>
+<p>The API keeps serving during <code>add-data</code>. <code>.env</code> lives in the container, not on a volume: if you ever recreate the container, pass <code>-e IMPORT_TIGER_ADDRESSES=true</code> so the start script writes that line again. It won’t re-import anything; the import only runs when <code>pgdata</code> is empty.</p>
+<p>A new TIGER release appears each autumn as <code>tigerYYYY-nominatim-preprocessed.csv.tar.gz</code>. List them with <code>curl -sA x https://nominatim.org/data/ | grep -o 'tiger[0-9]*-nominatim[^"]*'</code>. Loading a new one replaces the old ranges.</p>
+
+<h3 id="nominatim-wiki">Adding Wikipedia importance to an existing database</h3>
+<pre class="cmd">docker exec nominatim bash -c 'cd /nominatim &amp;&amp;
+  curl -sSL -A "opentaxrate-setup" -o wikimedia-importance.csv.gz \
+    https://nominatim.org/data/wikimedia-importance.csv.gz &amp;&amp;
+  chown nominatim wikimedia-importance.csv.gz &amp;&amp;
+  sudo -E -u nominatim nominatim refresh --wiki-data --importance'</pre>
+<p>This recomputes importance for every place, which takes about an hour. Refresh it yearly.</p>
+
+<h3 id="nominatim-update">Keeping it current</h3>
+<p>With <code>UPDATE_MODE=continuous</code> the container pulls Geofabrik’s daily US diff and applies it, usually in minutes. Without it, run updates by hand or from cron:</p>
+<pre class="cmd">docker exec nominatim sudo -E -u nominatim nominatim replication --project-dir /nominatim --once</pre>
+<p><code>/status?format=json</code> reports <code>data_updated</code>; alert if it is more than three days old.</p>
+<p>To switch an existing container to continuous updates, recreate it with the same volumes and <code>-e UPDATE_MODE=continuous</code> added, plus <code>-e IMPORT_TIGER_ADDRESSES=true</code> as above. The data stays in <code>pgdata</code>.</p>
+
+<h2 id="photon">Photon</h2>
+<h3 id="photon-install">Install from the prebuilt US dump</h3>
+<p>GraphHopper publishes a US Photon database built from their own Nominatim import, weekly. Downloading it is far quicker than building one.</p>
+<pre class="cmd">mkdir -p ~/photon &amp;&amp; cd ~/photon
+curl -sSLO https://github.com/komoot/photon/releases/download/1.3.0/photon-1.3.0.jar
+docker run --rm -v ~/photon:/w -w /w debian:stable-slim sh -c '
+  apt-get update -qq &amp;&amp; apt-get install -y -qq curl lbzip2 ca-certificates &gt;/dev/null &amp;&amp;
+  curl -sSL https://download1.graphhopper.com/public/north-america/usa/photon-db-usa-1.0-latest.tar.bz2 |
+  lbzip2 -d | tar x &amp;&amp; chown -R 1000:1000 /w'
+docker run -d --name photon --restart unless-stopped -p 2322:2322 \
+  -v ~/photon:/photon -w /photon eclipse-temurin:21-jre \
+  java -Xmx8g -jar photon-1.3.0.jar serve -data-dir /photon -listen-ip 0.0.0.0</pre>
+
+<h3 id="photon-update">Keeping it current</h3>
+<p>Either re-download weekly: unpack into a new directory, stop <code>photon</code>, swap <code>photon_data</code>, start it.</p>
+<p>Or build Photon from your own Nominatim, so both share one dataset (including TIGER) and Photon follows Nominatim’s diffs. This needs Nominatim’s Postgres port reachable from the Photon container; the <code>mediagis</code> image doesn’t publish 5432, so add <code>-p 127.0.0.1:5432:5432</code>.</p>
+<pre class="cmd"><span class="c"># once: export Nominatim into a fresh Photon database</span>
+java -jar photon-1.3.0.jar import -host 127.0.0.1 -database nominatim -user nominatim \
+  -password '&lt;password&gt;' -country-codes us -languages en -data-dir /photon/new -j 16
+java -jar photon-1.3.0.jar update-init -host 127.0.0.1 -user nominatim -password '&lt;password&gt;'
+<span class="c"># after each Nominatim replication run</span>
+java -jar photon-1.3.0.jar update -host 127.0.0.1 -user nominatim -password '&lt;password&gt;' -data-dir /photon</pre>
+<div class="callout"><p>spark-3 still runs the prebuilt dump; building from your own Nominatim hasn’t been tried there.</p></div>
+
+<h2 id="pelias">Pelias</h2>
+<p>Pelias is driven by the <a href="https://github.com/pelias/docker"><code>pelias/docker</code></a> CLI. On spark-3 the CLI is <code>~/pelias/src/pelias</code>, the project (<code>docker-compose.yml</code>, <code>pelias.json</code>, <code>.env</code>) is <code>~/pelias/project</code>, and data is <code>~/pelias/data</code>. <code>~/pelias/stage.sh NAME cmd…</code> runs a step with its log in <code>~/pelias/logs/NAME.log</code> and timings in <code>~/pelias/logs/timing.log</code>.</p>
+
+<h3 id="pelias-build">Build</h3>
+<p>Run from <code>~/pelias/project</code>. Times are from the 2026-10-21 spark-3 build.</p>
+<pre class="cmd">P=~/pelias/src/pelias; S=~/pelias/stage.sh
+$P compose pull
+$P elastic start &amp;&amp; $P elastic wait &amp;&amp; $P elastic create
+$S download_wof   $P download wof              <span class="c">#  2 min</span>
+$S download_tiger $P download tiger            <span class="c"># 25 min, 3,221 county files</span>
+bash ~/pelias/dl_osm.sh                        <span class="c"># 16 min, Geofabrik us-latest.osm.pbf</span>
+bash ~/pelias/dl_oa.sh &amp;&amp; bash ~/pelias/extract_oa.sh   <span class="c"># OpenAddresses, see below</span>
+bash ~/pelias/polylines_big.sh                 <span class="c"># 49 min, see below</span>
+$S prepare_placeholder $P prepare placeholder  <span class="c">#  1.5 min</span>
+$P compose up -d libpostal placeholder pip
+$S import_wof $P import wof                    <span class="c">#  0.5 min</span>
+$S import_osm $P import osm                    <span class="c">#  2 h</span>
+$S import_oa_p1 docker compose run --rm openaddresses ./bin/parallel 6 /data/openaddresses/p1   <span class="c"># 53 min</span>
+$S import_oa_p2 docker compose run --rm openaddresses ./bin/parallel 6 /data/openaddresses/p2   <span class="c"># 98 min</span>
+$S build_interpolation docker compose run --rm interpolation bash ./docker_build.sh             <span class="c"># several hours</span>
+$P compose up -d api interpolation</pre>
+<p>The OpenStreetMap and OpenAddresses imports can run at the same time. The API can start as soon as the Elasticsearch index exists; it serves whatever has been imported so far, and uses interpolation once that service is up.</p>
+<p>Three steps don’t work as shipped for the whole US:</p>
+<ul>
+<li><em>OpenAddresses.</em> <code>pelias download oa</code> no longer finds the US files. <code>dl_oa.sh</code> fetches the four regional collections from <code>https://v2.openaddresses.io/batch-prod/collection-us-{west,south,midwest,northeast}.zip</code>, and <code>extract_oa.sh</code> unpacks only the <code>*-addresses-*.geojson</code> files, putting priority states in <code>p1</code> and the rest in <code>p2</code> so the important states are searchable first.</li>
+<li><em>Polylines.</em> <code>pelias prepare polylines</code> refuses a PBF this large (“The file is too large”). <code>polylines_big.sh</code> runs the same <code>pbf streets</code> extractor directly with a 70 GB memory limit, writing <code>/data/polylines/extract.0sv</code>.</li>
+<li><em>Interpolation from OpenAddresses.</em> The interpolation builder reads only <code>*.csv</code>, and OpenAddresses now ships GeoJSON, so its OpenAddresses step adds nothing; house-number ranges come from TIGER and OpenStreetMap. Converting the GeoJSON to OpenAddresses CSV (<code>LON,LAT,NUMBER,STREET,UNIT,CITY,DISTRICT,REGION,POSTCODE,ID,HASH</code>) under <code>/data/openaddresses</code> before the build would add them.</li>
+</ul>
+
+<h3 id="pelias-update">Keeping it current</h3>
+<p>Pelias has no incremental updates. Rebuild every three to six months, or when OpenAddresses publishes a large new batch:</p>
+<ol>
+<li>Re-run the downloads (<code>dl_osm.sh</code>, <code>dl_oa.sh</code> + <code>extract_oa.sh</code>, <code>pelias download wof</code>, <code>pelias download tiger</code>) and <code>polylines_big.sh</code>.</li>
+<li>Create a fresh index alongside the live one rather than in place: set <code>"schema": { "indexName": "pelias_YYYYMMDD" }</code> in a copy of <code>pelias.json</code>, then run <code>pelias elastic create</code> and the imports with that copy.</li>
+<li>Build interpolation into a new <code>BUILDDIR</code>.</li>
+<li>Point the live <code>pelias.json</code> at the new index name and interpolation directory, run <code>pelias compose up -d api interpolation</code>, then delete the old index (<code>curl -XDELETE localhost:9200/pelias</code>).</li>
+</ol>
+<p>Rebuilding into the live index also works, but searches return a mix of old and new data until it finishes, and deleted places linger.</p>
+
+<h2 id="schedule">Schedule</h2>
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">What</th><th scope="col">How often</th><th scope="col">Command</th></tr></thead><tbody>
+<tr><th scope="row">Nominatim OSM diffs</th><td>Daily; automatic with <code>UPDATE_MODE=continuous</code></td><td><code>nominatim replication --once</code></td></tr>
+<tr><th scope="row">Photon</th><td>Weekly</td><td>Re-download, or <code>photon update</code> after Nominatim</td></tr>
+<tr><th scope="row">Nominatim TIGER</th><td>Yearly, when <code>tigerYYYY</code> appears (autumn)</td><td><code>nominatim add-data --tiger-data</code></td></tr>
+<tr><th scope="row">Nominatim Wikipedia importance</th><td>Yearly</td><td><code>nominatim refresh --wiki-data --importance</code></td></tr>
+<tr><th scope="row">Pelias</th><td>Every 3–6 months</td><td>Full rebuild into a new index</td></tr>
+<tr><th scope="row">Images</th><td>With each rebuild</td><td><code>docker pull mediagis/nominatim:5.3</code>, <code>pelias compose pull</code></td></tr>
+</tbody></table></div>
+<p>After any update, rerun the geocoder benchmark (<code>tsx scripts/bench.ts geocode</code>) to confirm nothing regressed.</p>
+
+<h2 id="trouble">Troubleshooting</h2>
+<ul>
+<li><em>Nominatim API down during import.</em> Normal: the web server starts only after <code>Import completed successfully</code>. Progress: <code>docker logs --tail 5 nominatim</code>.</li>
+<li><em><code>Control server error: Permission denied: '/root/.gunicorn'</code></em> in the Nominatim log is harmless; the API works.</li>
+<li><em><code>du</code> shows <code>~/nominatim/pgdata</code> as 4 KB.</em> The directory belongs to the container’s Postgres user. Use <code>docker exec nominatim du -sh /var/lib/postgresql/16/main</code>.</li>
+<li><em>Downloads from <code>nominatim.org</code> return 403.</em> Send a User-Agent (<code>curl -A …</code>).</li>
+<li><em>Pelias returns results without house-number interpolation.</em> The <code>interpolation</code> service isn’t running or its build is unfinished: <code>docker ps | grep interpolation</code>, <code>tail ~/pelias/logs/build_interpolation.log</code>.</li>
+</ul>
+<p class="page-foot">Written 2026-10-22 from the spark-3 install. Commands marked as untried on spark-3 follow the tools’ own help output and haven’t been run end to end.</p>
+</article></div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
+</body>
+</html>

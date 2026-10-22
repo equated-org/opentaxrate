@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API, CLI and errors · OpenTaxRate</title>
+<meta name="description" content="The outside of the service. The HTTP API and the CLI both turn a request into one call to lookUpRate (src/lookup.ts), which calls addressRates.at in the engine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+
+  .scroll { margin: 24px 0; }
+  .grid-table { min-width: 560px; }
+  .grid-table td { color: var(--text-2); }
+  .state-code { color: var(--text-3); font-size: .8em; font-family: var(--mono); }
+  .inner p { max-width: 76ch; }
+  .source-links { font-size: .85rem; overflow-wrap: anywhere; }
+  .source-links a { display: inline-block; margin: 0 12px 6px 0; }
+  .page-foot { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--text-3); font-size: .85rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 20px; top: 12px; background: var(--bg); padding: 10px; }
+  @media print { .toc, .skip { display: none; } .layout { display: block; padding: 0; } details.more > .inner { display: block; } h2 { margin-top: 32px; } }
+  pre.cmd { margin: 0 0 24px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.65; color: var(--ink); max-width: 100%; }
+  pre.cmd code { background: none; padding: 0; font-size: inherit; }
+  pre.mermaid { margin: 0 0 28px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; text-align: center; font-family: var(--mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><p class="toc-title">API, CLI and errors</p><ol>
+<li><a href="#endpoints-src-server-ts">Endpoints (src/server.ts)</a></li>
+<li><a href="#include-trace">include=trace</a></li>
+<li><a href="#public-deployment">Public deployment</a></li>
+<li><a href="#error-responses">Error responses</a></li>
+<li><a href="#rateerror-src-errors-ts">RateError (src/errors.ts)</a></li>
+<li><a href="#the-shared-lookup-src-lookup-ts">The shared lookup (src/lookup.ts)</a></li>
+<li><a href="#cli-src-cli-ts">CLI (src/cli.ts)</a></li>
+<li><a href="#environment">Environment</a></li>
+</ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
+<article id="content">
+<header class="page-head"><p class="eyebrow">OpenTaxRate · Design notes</p><h1>API, CLI and errors</h1>
+<p class="lede">The outside of the service. The HTTP API and the CLI both turn a request into one call to <code>lookUpRate</code> (<code>src/lookup.ts</code>), which calls <code>addressRates.at</code> in the engine. Neither writes rate data; loading is the CLI's <code>refresh</code> command (see <a href="refresh.html">refresh.html</a>).</p>
+<p class="meta">Sources: <code>src/server.ts</code>, <code>src/cli.ts</code>, <code>src/lookup.ts</code>, <code>src/errors.ts</code>, <code>src/limits.ts</code>, <code>src/cache.ts</code>, <code>src/suggest.ts</code> (and <code>src/db/client.ts</code> for the pool)</p>
+</header>
+
+
+<h2 id="endpoints-src-server-ts">Endpoints (<code>src/server.ts</code>)</h2>
+<p>The app is a Hono instance exported as <code>app</code>.</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Route</th>
+<th>Does</th>
+<th>Status codes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /health</code></td>
+<td>runs <code>select 1</code>, returns <code>{ "ok": true }</code></td>
+<td>200, or 500 if the database fails</td>
+</tr>
+<tr>
+<td><code>GET /v1/rate</code></td>
+<td>validates the query, returns an <code>AddressRate</code> (see <a href="engine.html">engine.html</a>), plus <code>trace</code> when asked</td>
+<td>200, 400, 422, 429, 502, 504, 500</td>
+</tr>
+<tr>
+<td><code>GET /v1/suggest</code></td>
+<td>only with <code>OPENTAXRATE_PHOTON_URL</code>: <code>q</code> (1–200 chars), <code>limit</code> (1–10, default 5), <code>lang</code>, <code>bbox</code>, and repeated <code>layer</code> (only Photon's known layers pass) relayed to <code>&lt;url&gt;/api</code>; Photon's GeoJSON returned unchanged with <code>Cache-Control: public, max-age=300</code></td>
+<td>200, 400, 429, 502, 504</td>
+</tr>
+<tr>
+<td><code>GET /v1/coverage</code></td>
+<td>for each of <code>ADDRESS_RATE_STATES</code>: <code>state</code>, <code>method</code> from <code>addressRates.method</code>, and its <code>files</code> from <code>sales_tax_data_releases</code> (<code>kind</code>, <code>file</code>, <code>rows</code>, <code>loadedAt</code>)</td>
+<td>200</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>/v1/rate</code> query, checked with zod:</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Param</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td>trimmed, exactly 2 characters (upper-cased later in <code>lookUpRate</code>)</td>
+</tr>
+<tr>
+<td><code>street</code></td>
+<td>up to 200 characters, default <code>""</code></td>
+</tr>
+<tr>
+<td><code>city</code></td>
+<td>up to 100 characters, default <code>""</code></td>
+</tr>
+<tr>
+<td><code>zip</code></td>
+<td>optional, <code>^\d{5}(?:-?\d{4})?$</code></td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>optional, <code>YYYY-MM-DD</code>; today (UTC) when absent</td>
+</tr>
+<tr>
+<td><code>include</code></td>
+<td>optional, comma-separated; only <code>trace</code> is read, anything else is ignored</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="include-trace"><code>include=trace</code></h2>
+<p>Without it the response is exactly what it was before traces existed. With it, the route makes an empty <code>Trace</code> (<code>emptyTrace()</code>, <code>src/rates/types.ts</code>), passes it to <code>lookUpRate</code>, and answers <code>{ ...AddressRate, trace }</code>; a 422 becomes <code>{ error, code, trace }</code> (502 and 504 never carry one). The engines fill it as they go; the shape:</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Field</th>
+<th>Filled by</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>geocoders</code></td>
+<td><code>createLocator</code></td>
+<td>each provider's point: <code>source</code> (the provider id, e.g. <code>census</code>, <code>nominatim</code>, <code>mapbox</code>), <code>lon</code>, <code>lat</code>, <code>accuracy</code></td>
+</tr>
+<tr>
+<td><code>point</code></td>
+<td><code>locateAddress</code></td>
+<td>the point used: <code>lon</code>, <code>lat</code>, <code>accuracy</code>, <code>source</code>, <code>marginMetres</code> (<code>marginOf</code>), <code>spreadMetres</code></td>
+</tr>
+<tr>
+<td><code>outlines</code></td>
+<td><code>geoRateAt</code>, <code>mapAreas</code></td>
+<td>each outline <code>shapesAround</code> found: <code>kind</code>, <code>fips</code>, <code>name</code>, <code>inside</code>, <code>edgeMetres</code>, <code>foot</code>, <code>levies</code> (added a rate part), <code>geometry</code></td>
+</tr>
+<tr>
+<td><code>range</code></td>
+<td><code>sstRateAt</code></td>
+<td>on a street match, the narrowest deciding row: <code>street</code>, <code>low</code>, <code>high</code>, <code>side</code> (<code>odd</code>, <code>even</code>, <code>both</code>), <code>zip</code>, <code>file</code> (the boundary file)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Coordinates are rounded to 5 decimals, metres to 0.1. <code>outlines</code> is empty when no point was used (a street or ZIP match never geocodes for display). After the engine returns or throws, <code>lookUpRate</code> adds <code>geometry</code> with <code>outlineGeometry</code> (<code>src/rates/shapes.ts</code>): each outline clipped to a square around <code>point</code> reaching 3 km, or 1.25 × the nearest levying edge + 500 m when that is further, up to 20 km (<code>TRACE_CLIP_METRES</code>), and simplified to about 5 m per 3 km of reach, as GeoJSON; an outline with nothing in the square gets none. A geometry query that fails is logged and only leaves the shapes out.</p>
+<h2 id="public-deployment">Public deployment</h2>
+<p>Each is off when its variable is unset, so a self-hosted API behaves as before.</p>
+<ul>
+<li><strong>CORS.</strong> <code>hono/cors</code> on every route for the origins in <code>OPENTAXRATE_CORS_ORIGINS</code>, methods <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>, exposing <code>Retry-After</code>. Registered first, so a 429 carries the headers and a preflight is never counted.</li>
+<li><strong>Per-IP limit</strong> (<code>src/limits.ts</code>). <code>limitFromEnv()</code> reads <code>OPENTAXRATE_PUBLIC_LIMIT</code> (<code>parseLimits</code>: <code>count/unit</code> pairs, units <code>s</code>, <code>min</code>, <code>hour</code>, <code>day</code>, optionally <code>10/5min</code>; an unreadable value throws at start). Only <code>/v1/rate</code> is limited. <code>limitFromEnv(env, name)</code> reads any such setting; <code>OPENTAXRATE_SUGGEST_LIMIT</code> limits <code>/v1/suggest</code> the same way. The key is the first address in the header <code>clientIpHeader()</code> names (<code>OPENTAXRATE_CLIENT_IP_HEADER</code>, else <code>CF-Connecting-IP</code> when <code>OPENTAXRATE_TRUST_CF=1</code>), else the socket address from <code>@hono/node-server</code>'s <code>getConnInfo</code> (<code>"unknown"</code> when there is no socket, as in <code>app.request</code> tests). <code>PerIpLimiter</code> keeps fixed windows in memory per process; a refused call isn't counted; windows that have all ended are swept at most once per shortest window, and past <code>MAX_KEYS</code> (100,000) the least recently seen address is dropped. Over any window: 429 <code>{ error: "Too many lookups from this address. Try again in N s.", code: "RATE_LIMITED" }</code> with <code>Retry-After: N</code>.</li>
+<li><strong>Answer cache</strong> (<code>src/cache.ts</code>). <code>cacheFromEnv()</code> reads <code>OPENTAXRATE_CACHE_HOURS</code>. An <code>AnswerCache</code> (LRU by last use, <code>MAX_ANSWERS</code> 5,000) holds successful answers, with their trace when asked, under <code>answerKey</code>: state, street, city upper-cased with dots, commas and extra spaces removed, the ZIP without its dash, the resolved date, and the includes. Refusals and errors are never cached. The limiter runs before the cache, so a cached answer still counts.</li>
+</ul>
+<h2 id="error-responses">Error responses</h2>
+<p>Every error body is <code>{ "error": &lt;message for a person&gt;, "code": &lt;stable code&gt; }</code>.</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Code</th>
+<th>Status</th>
+<th>Where it comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BAD_REQUEST</code></td>
+<td>400</td>
+<td>query failed validation (<code>server.ts</code>)</td>
+</tr>
+<tr>
+<td><code>ADDRESS_NEEDS_CONFIRMATION</code></td>
+<td>422</td>
+<td>default for any <code>RateError</code> with status 422</td>
+</tr>
+<tr>
+<td><code>UNSUPPORTED_STATE</code></td>
+<td>422</td>
+<td><code>addressRates.at</code> for a state with no engine</td>
+</tr>
+<tr>
+<td><code>UPSTREAM_UNAVAILABLE</code></td>
+<td>502</td>
+<td>default for status 502: state not loaded, missing state rate row, CDTFA down</td>
+</tr>
+<tr>
+<td><code>UPSTREAM_TIMEOUT</code></td>
+<td>504</td>
+<td>default for status 504: CDTFA timed out</td>
+</tr>
+<tr>
+<td><code>RATE_LIMITED</code></td>
+<td>429</td>
+<td>the per-IP limit (<code>limits.ts</code>), with <code>Retry-After</code></td>
+</tr>
+<tr>
+<td><code>INTERNAL</code></td>
+<td>500</td>
+<td>any non-<code>RateError</code> throw, logged by <code>app.onError</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>RATE_ERROR_CODES</code> lists the four <code>RateError</code> codes and <code>RATE_LIMITED</code>, which <code>limits.ts</code> writes directly rather than throwing; <code>BAD_REQUEST</code> and <code>INTERNAL</code> are written by <code>server.ts</code> directly.</p>
+<h2 id="rateerror-src-errors-ts"><code>RateError</code> (<code>src/errors.ts</code>)</h2>
+<p><code>new RateError(message, status, resultCode?, code?)</code></p>
+<ul>
+<li><code>status</code> is <code>422 | 502 | 504</code>, used as the HTTP status.</li>
+<li><code>code</code> defaults from the status: 422 to <code>ADDRESS_NEEDS_CONFIRMATION</code>, 504 to <code>UPSTREAM_TIMEOUT</code>, else <code>UPSTREAM_UNAVAILABLE</code>.</li>
+<li><code>resultCode</code> is optional and not sent to clients.</li>
+</ul>
+<p>Invariants:</p>
+<ul>
+<li>A refusal is always a <code>RateError</code>, never a guessed rate. A 422 message names the candidate rates when the engine knows them.</li>
+<li>Missing data is a 502, not a zero rate.</li>
+<li>The route catches only <code>RateError</code>; anything else becomes a 500.</li>
+</ul>
+<h2 id="the-shared-lookup-src-lookup-ts">The shared lookup (<code>src/lookup.ts</code>)</h2>
+<p><code>lookUpRate(q: RateQuery, options?: { trace?: Trace }): Promise&lt;AddressRate&gt;</code></p>
+<ul>
+<li>Upper-cases <code>state</code>, defaults <code>date</code> to today's UTC date.</li>
+<li>Builds a staged locator, <code>createLocator(address, { trace })</code>; Mapbox is one of its providers when <code>MAPBOX_ACCESS_TOKEN</code> is set.</li>
+<li>Passes a <code>locate</code> closure that calls <code>locateAddress({ street, city, state, zip }, primary, trace)</code>. The engine decides whether to call it, so the address is geocoded only when needed (see <a href="geocoding.html">geocoding.html</a>).</li>
+<li>Passes <code>trace</code> in the query; with one, adds outline geometry once the engine is done (<code>drawOutlines</code>). Without one, nothing extra runs.</li>
+</ul>
+<h2 id="cli-src-cli-ts">CLI (<code>src/cli.ts</code>)</h2>
+<p>Run as <code>opentaxrate &lt;command&gt;</code> (built to <code>dist/cli.js</code>). With no or an unknown command it prints its own header comment as help.</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>serve</code></td>
+<td>imports <code>server.ts</code>, listens on <code>PORT</code> (default 8080), keeps the process alive</td>
+</tr>
+<tr>
+<td><code>migrate</code></td>
+<td>runs Drizzle migrations from <code>migrations/</code></td>
+</tr>
+<tr>
+<td><code>refresh [STATE...] [--dir D] [--force]</code></td>
+<td><code>refreshAddressRates({ states, dir, force })</code></td>
+</tr>
+<tr>
+<td><code>rate STATE "street" "city" [zip] [date]</code></td>
+<td>prints <code>lookUpRate</code> as JSON</td>
+</tr>
+<tr>
+<td><code>check --cases file.csv</code></td>
+<td>runs each CSV row (<code>state,street,city,zip,date,expected</code>) through <code>lookUpRate</code>; prints counts of agree, differ and refused, then each difference</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>check</code> compares within <code>1e-6</code> and counts any throw as refused. The CSV is split on commas with no quoting.</p>
+<p>After any command but <code>serve</code>, the Postgres <code>client</code> is closed; a thrown error sets exit code 1.</p>
+<h2 id="environment">Environment</h2>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Read in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PORT</code></td>
+<td><code>8080</code></td>
+<td><code>cli.ts</code></td>
+</tr>
+<tr>
+<td><code>DATABASE_URL</code></td>
+<td><code>postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate</code></td>
+<td><code>db.ts</code></td>
+</tr>
+<tr>
+<td><code>DATABASE_POOL</code></td>
+<td><code>10</code></td>
+<td><code>db.ts</code> (pool size)</td>
+</tr>
+<tr>
+<td><code>MAPBOX_ACCESS_TOKEN</code></td>
+<td>unset</td>
+<td><code>geocoding/providers/mapbox.ts</code>, via the registry</td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_CORS_ORIGINS</code></td>
+<td>unset (no CORS)</td>
+<td><code>server.ts</code></td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_PUBLIC_LIMIT</code></td>
+<td>unset (no limit)</td>
+<td><code>limits.ts</code>, via <code>server.ts</code></td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_TRUST_CF</code></td>
+<td>unset (socket address)</td>
+<td><code>limits.ts</code></td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_CLIENT_IP_HEADER</code></td>
+<td>unset</td>
+<td><code>limits.ts</code> (<code>clientIpHeader</code>)</td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_CACHE_HOURS</code></td>
+<td>unset (no cache)</td>
+<td><code>cache.ts</code>, via <code>server.ts</code></td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_PHOTON_URL</code></td>
+<td>unset (<code>/v1/suggest</code> off)</td>
+<td><code>suggest.ts</code>, via <code>server.ts</code></td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_SUGGEST_LIMIT</code></td>
+<td>unset (no limit)</td>
+<td><code>limits.ts</code>, via <code>server.ts</code></td>
+</tr>
+</tbody>
+</table></div>
+</article></div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
+</body>
+</html>

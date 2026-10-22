@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range engine (Streamlined states and Missouri) · OpenTaxRate</title>
+<meta name="description" content="The 24 Streamlined Sales Tax (SST) members publish every street's house-number ranges, ZIP+4 ranges and ZIP rows, each tied to an area (county, city, districts)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+
+  .scroll { margin: 24px 0; }
+  .grid-table { min-width: 560px; }
+  .grid-table td { color: var(--text-2); }
+  .state-code { color: var(--text-3); font-size: .8em; font-family: var(--mono); }
+  .inner p { max-width: 76ch; }
+  .source-links { font-size: .85rem; overflow-wrap: anywhere; }
+  .source-links a { display: inline-block; margin: 0 12px 6px 0; }
+  .page-foot { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--text-3); font-size: .85rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 20px; top: 12px; background: var(--bg); padding: 10px; }
+  @media print { .toc, .skip { display: none; } .layout { display: block; padding: 0; } details.more > .inner { display: block; } h2 { margin-top: 32px; } }
+  pre.cmd { margin: 0 0 24px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.65; color: var(--ink); max-width: 100%; }
+  pre.cmd code { background: none; padding: 0; font-size: inherit; }
+  pre.mermaid { margin: 0 0 28px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; text-align: center; font-family: var(--mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><p class="toc-title">Range engine (Streamlined states and Missouri)</p><ol>
+<li><a href="#lookup-order-sstrateat-in-rates-ranges-ts">Lookup order (sstRateAt in rates/ranges.ts)</a></li>
+<li><a href="#street-matching-src-rates-streets">Street matching (src/rates/streets/)</a></li>
+<li><a href="#rates-rateareas">Rates (rateAreas)</a></li>
+<li><a href="#the-street-key-address-ts">The street key (address.ts)</a></li>
+<li><a href="#file-parsing-sst-files-ts">File parsing (sst-files.ts)</a></li>
+<li><a href="#missouri-missouri-ts">Missouri (missouri.ts)</a></li>
+</ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
+<article id="content">
+<header class="page-head"><p class="eyebrow">OpenTaxRate · Design notes</p><h1>Range engine (Streamlined states and Missouri)</h1>
+<p class="lede">The 24 Streamlined Sales Tax (SST) members publish every street's house-number ranges, ZIP+4 ranges and ZIP rows, each tied to an area (county, city, districts). Missouri's DOR publishes the same boundary layout. <code>RANGE_FIPS</code> in <code>sst-files.ts</code> is <code>SST_FIPS</code> plus <code>MO: "29"</code>; it decides which states this engine serves.</p>
+<p class="meta">Sources: <code>src/rates/ranges.ts</code>, <code>src/rates/streets/</code> (<code>findStreet</code>), <code>src/rates/places.ts</code>, <code>src/standardize/index.ts</code>, <code>src/ingest/sst-files.ts</code>, <code>src/address.ts</code>, <code>src/ingest/missouri.ts</code></p>
+</header>
+
+
+<h2 id="lookup-order-sstrateat-in-rates-ranges-ts">Lookup order (<code>sstRateAt</code> in <code>rates/ranges.ts</code>)</h2>
+<p><code>sstRateAt(input, date)</code> returns <code>{ rate, byType, parts, match, locationCode, files, note? }</code> or throws. <code>note</code> says how an address was found when not by its own typed street (a corrected name, listed neighbours, a standardized ZIP+4); <code>addressRates.at</code> appends it to <code>source</code>. <code>byType</code> is each part's interstate and food-and-drug rates (<code>byTypeOf</code>) added with <code>sumByType</code>; across several areas sharing one general rate, <code>agreedByType</code> keeps only the types they all agree on.</p>
+<p>Up front: 502 if fewer than two release files are loaded for the state; 422 if <code>date &lt; HISTORY_FROM</code>.</p>
+<ol>
+<li><strong>Street.</strong> <code>findStreet</code> (below). If it finds nothing, no ZIP+4 was typed, and <code>input.standardize</code> exists, the address is standardized once: its ZIP+4 is used (only if its ZIP is the typed one, or none was typed), and <code>findStreet</code> is retried with the Postal Service's spelling of the street. If a ZIP+4 was typed, its areas (<code>zipAreas</code> with <code>plus4</code>) must give the same rate or the address is refused. If no ZIP+4 but the ZIP has more than one rate and <code>locate</code> exists, the address is geocoded and <code>mapAreas</code> must not give a different rate (street ranges are filed by hundred-block, which can straddle a city line).</li>
+<li><strong>ZIP+4.</strong> When the street wasn't found, the ZIP+4 range's areas.</li>
+<li><strong>ZIP.</strong> <code>zipAreas(state, zip5)</code> (every ZIP row and street range in the ZIP), only when <code>citiesInZip</code> names the typed city (or names none), and only if every area has one rate. No ZIP at this point is a 422.</li>
+<li><strong>Map.</strong> When the ZIP is split, or its ranges don't name the city, call <code>locate()</code> and keep <code>mapAreas</code>. A point within <code>marginOf(point)</code> of a deciding county or city line is refused.</li>
+</ol>
+<p>Anything left is a <code>refusal(...)</code>: a 422 listing up to six candidate rates with up to three city names each.</p>
+<p>With <code>input.trace</code>: a street answer records <code>trace.range</code> (<code>rangeAt</code>: one extra query for the narrowest range on the matched street holding the house, in one of the deciding areas: its street as filed, house range, side and ZIP, and the boundary file; none when the street was found between listed houses or under a corrected name); <code>mapAreas</code> records each outline <code>shapesAround</code> found; a street or map answer marks an outline <code>levies</code> when its county or city is one of the answer's parts (<code>traced</code>). A ZIP+4 or ZIP answer records no range.</p>
+<p><code>answer(areaIds, match)</code> is the core rule: rate every area with <code>rateAreas</code>; answer only if they all share one rate. <code>locationCode</code> is set only when one area remains.</p>
+<h2 id="street-matching-src-rates-streets">Street matching (<code>src/rates/streets/</code>)</h2>
+<p>One call, <code>findStreet({ state, street, city, zip5, date })</code> → <code>{ areaIds, how, note? }</code> or null, tries three ways in turn and stops at the first that finds the address:</p>
+<ol>
+<li><strong>exact</strong> (<code>exact.ts</code>, <code>exactAreas</code>): each of <code>streetVariantsOf(street)</code> in order, stopping at the first that finds rows:<ul>
+<li>rows on <code>(state, street_key)</code> live on <code>date</code>, with the house inside <code>[house_low, house_high]</code> and parity <code>B</code> or matching odd/even; lettered numbers match <code>house_text</code> (see <code>letteredHouse</code>);</li>
+<li><code>bestRows</code> narrows: same ZIP (typed city's rows first), else same city; then type and directions (one side silent is allowed, exact preferred, directions compared as sets); then unit ranges;</li>
+<li>a street type the file never uses for that name in the place is treated as a typo when the file has only one type (<code>suffixesOf</code>);</li>
+<li><code>CR&lt;n&gt;</code> with no match retries under each county's name the ZIP reaches (<code>countyRoadKeys</code>), keeping every county's match.</li>
+</ul>
+</li>
+<li><strong>between</strong> (<code>between.ts</code>): for a file that lists houses one by one (Missouri), the nearest listed houses below and above on the same street, side (parity) and ZIP, filtered by <code>bestRows</code>. Used only when both exist, are at most <code>MAX_GAP</code> (200) apart, and every row at both neighbours is in one area.</li>
+<li><strong>corrected</strong> (<code>correct.ts</code>): when the typed name isn't one of the ZIP's streets, read it as one: by trigram similarity of the parsed names (at least 0.45 and 0.08 ahead of the next), else by Jev (<code>jev.ts</code>, only with <code>TYPESAFE_API_KEY</code>) choosing among the ZIP's streets or NONE at confidence ≥ 0.5. The pick is only a name: 1 and 2 must still find the house on it. Jev failures are no answer.</li>
+</ol>
+<p>City names compare through <code>normalizeCity</code> (<code>places.ts</code>), which abbreviates Saint, Mount and Fort anywhere in the name ("Lake Saint Louis" = "LAKE ST LOUIS").</p>
+<p><code>parseStreet</code> reads only the street out of a longer line: the comma-separated piece that starts with a house number, a unit piece just before or after it, a trailing state and ZIP with the city before them, a unit glued to its designator ("Apt4B"), a house number spelled out ("One"), and a street type one slip from its spelling ("Steet", "Bvld"; spelled-out types of five letters or more and four-letter abbreviations only, so "Broad" is never "Road"). None of this touches <code>readFileStreet</code>.</p>
+<h2 id="rates-rateareas">Rates (<code>rateAreas</code>)</h2>
+<p>Loads every rate row for the state FIPS, each area's county, place and districts, on <code>date</code>. Parts add up: state (<code>45</code>), county (<code>00</code>), city (<code>01</code>), then each district by its type. A later <code>starts_on</code> wins where spans overlap. A city or district not found under its own type is looked up among district types (files sometimes disagree). No <code>45</code> row is a 502. A Missouri <code>99</code> code with no row on the date is a 422 (missing data, never zero).</p>
+<h2 id="the-street-key-address-ts">The street key (<code>address.ts</code>)</h2>
+<p>Both sides go through the same reading so a typed street and a file row meet on one key.</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Function</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>parseStreet(line)</code></td>
+<td>typed line to <code>StreetParts</code> (house, houseText, directions, <code>streetKey</code>, suffix, unit, <code>alternates</code>); null without a house number; <code>PO BOX n</code> becomes key <code>POBOX</code></td>
+</tr>
+<tr>
+<td><code>readFileStreet(pre, name, suffix, post)</code></td>
+<td>a file row's four street fields, read the same way; drops a type or direction repeated in the name</td>
+</tr>
+<tr>
+<td><code>nameKey(tokens)</code> (private)</td>
+<td>ordinals to numbers, <code>NAME_WORDS</code> and direction words abbreviated, highway names folded to <code>HWY</code>, county roads to <code>CR</code>, interstates to <code>I</code>, spaces removed</td>
+</tr>
+<tr>
+<td><code>streetKeysOf(parts)</code></td>
+<td>the key plus alternates for "Avenue B", lettered routes (<code>HWYK18</code>), county-named roads</td>
+</tr>
+<tr>
+<td><code>streetVariantsOf(parts)</code></td>
+<td>keys, then <code>alternates</code> (run-together words, last word kept as name), then a one-letter grid number as direction plus number</td>
+</tr>
+<tr>
+<td><code>letteredHouse(text)</code></td>
+<td>"W5350" to <code>{ line: "W#", number: 5350 }</code> for grid addresses (Wisconsin style)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Invariant: any change to how keys are built changes what is stored, so it needs a reload of every range state (<code>refresh --force</code>).</p>
+<h2 id="file-parsing-sst-files-ts">File parsing (<code>sst-files.ts</code>)</h2>
+<ul>
+<li><code>parseRateLine(line)</code>: <code>RateRow { type, code, rate, startsOn, endsOn }</code>; type normalised by <code>jurisdictionType</code> ("0" and "00" both "00").</li>
+<li><code>parseBoundaryLine(line)</code>: kind <code>A</code> is a street row, <code>4</code> a ZIP+4 range, <code>Z</code> a whole ZIP; a ZIP range spanning several ZIPs becomes one row per ZIP. Districts are read from column 29 on as sorted <code>type:code</code> pairs.</li>
+<li>Dates: <code>isoDate</code> turns <code>YYYYMMDD</code> into ISO; any open end (2999 or later) becomes <code>9999-12-31</code>.</li>
+<li><code>HISTORY_FROM</code> (<code>OPENTAXRATE_HISTORY_FROM</code>, default <code>2020-01-01</code>): rows that ended before it are dropped when parsing, and <code>sstRateAt</code> refuses dates before it.</li>
+</ul>
+<h2 id="missouri-missouri-ts">Missouri (<code>missouri.ts</code>)</h2>
+<p><code>missouriFiles(dir?)</code> returns <code>StateFiles</code> for <code>loadSstState</code>:</p>
+<ul>
+<li>Rates: the DOR's <code>dor-jurisdiction-total-rate-q&lt;Q&gt;-&lt;YYYY&gt;.xlsx</code> for up to <code>QUARTERS</code> (8) recent quarters, starting with next quarter (published early). A 404 before any file loads is skipped; a 404 after ends the history. Each jurisdiction code's total minus <code>STATE_RATE</code> (4.225%) becomes one rate line of type <code>WHOLE_CODE_TYPE</code> ("99"). One state line (<code>45</code>) runs from the oldest quarter. The newest quarter's rows run on to <code>9999-12-31</code>.</li>
+<li>Boundaries: the newest quarter's <code>dor-boundary-database-q&lt;Q&gt;-&lt;YYYY&gt;.csv</code>, streamed by <code>sstFileLines</code>.</li>
+<li><code>parseBoundary</code>: the jurisdiction code <code>PPPPP-CCC-DDD</code> sets the area: county from the code, place mapped to Census FIPS through <code>CENSUS_PLACE</code> where the DOR numbers differ, and the only district <code>99:&lt;code&gt;</code>. The place and county exist only so the map can settle a split ZIP; the rate is the code's own total.</li>
+</ul>
+<p>Invariant: Missouri parts are never added; the code's total is the local rate.</p>
+</article></div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
+</body>
+</html>

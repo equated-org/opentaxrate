@@ -149,7 +149,7 @@
 <article id="content">
 <header class="page-head"><p class="eyebrow">OpenTaxRate · Implementation reference</p><h1>State coverage</h1>
 <p class="lede">How an address becomes a tax rate in all 50 states and DC. Most requests use published data loaded into our database; California calls the state’s live service.</p>
-<p class="meta">Code reviewed 2026-10-21 · <a href="architecture.md">Architecture</a> · <a href="../README.md">README</a></p></header>
+<p class="meta">Code reviewed 2026-10-21 · <a href="architecture.html">Architecture</a> · <a href="../README.md">README</a></p></header>
 <h2 id="methods">Four lookup methods</h2>
 <p>The state selects the lookup method. Address ranges assign house numbers directly to tax areas. Geographic lookup places an address on a map, then finds the jurisdictions around it. Both read dated rates and apply state-specific rules.</p>
 <div class="scroll"><table class="grid-table"><caption>Methods configured in the repository, reviewed 2026-10-21.</caption><thead><tr><th scope="col">Method</th><th scope="col">Coverage</th><th scope="col">Geocoding</th></tr></thead><tbody>

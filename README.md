@@ -123,7 +123,7 @@ flowchart LR
 3. **Map.** Elsewhere the address is geocoded by every configured geocoder at once (kept only where they agree), tested against county, city and district outlines in PostGIS, and each outline's dated rate is stacked by that state's rules: a city in place of its county, a parish only outside towns, a Texas combined area that keeps only some districts, an Illinois business district at listed addresses.
 4. **Edges.** Near a line, the rate a few metres across is computed too; only if it differs is the address refused.
 
-The full design, with the stacking rules and tables: **[docs/architecture.md](docs/architecture.md)**.
+The full design, with the stacking rules and tables: **[docs/architecture.html](docs/architecture.html)**.
 
 State-by-state sources, lookup methods, and limitations: **[State coverage](docs/state-coverage.html)**.
 
@@ -176,6 +176,7 @@ To measure coordinate error against benchmark CSV cases containing trusted `lon,
 | `MAPBOX_ACCESS_TOKEN` | unset | optional precise provider after cheaper providers |
 | `PHOTON_URL` | unset | internal Photon base URL, e.g. `http://spark-3:2322`; enables OSM address geocoding |
 | `PELIAS_URL` | unset | optional internal Pelias base URL, e.g. `http://spark-3:4000` |
+| `NOMINATIM_URL` | public server | self-hosted Nominatim base URL, e.g. `http://spark-3:8080`; see [docs/self-hosted-geocoders.html](docs/self-hosted-geocoders.html) |
 | `SMARTY_AUTH_ID`, `SMARTY_AUTH_TOKEN` | unset | enable Smarty together |
 | `HERE_API_KEY`, `ARCGIS_API_KEY`, `GOOGLE_MAPS_API_KEY` | unset | enable the respective provider |
 | `MAPBOX_PERMANENT`, `ARCGIS_FOR_STORAGE` | `false` | request paid storage rights and enable caching for that provider |
