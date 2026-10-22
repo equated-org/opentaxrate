@@ -2,6 +2,11 @@ node_modules
 dist
 data
 .env
+.env.dev
+.env.*
+!.env.example
+.env~
+deploy/.env
 *.log
 artifacts
 

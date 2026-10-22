@@ -169,6 +169,14 @@ To measure coordinate error against benchmark CSV cases containing trusted `lon,
 
 ## Configuration
 
+Use one private configuration file per environment: local `.env` contains
+development keys and local settings; production `deploy/.env` stays on the
+server and contains production keys and server settings. Both are ignored by
+Git. `.env.example` is the committed template with empty key placeholders.
+The CLI scripts load local `.env` when present; exported environment variables
+take precedence. Use Stripe test keys locally. Code deployments must preserve
+the server's `deploy/.env` rather than copy local `.env` over it.
+
 | Variable | Default | Purpose |
 |---|---|---|
 | `DATABASE_URL` | `postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate` | Postgres |
@@ -211,6 +219,7 @@ docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.pu
 
 ```bash
 pnpm install
+cp .env.example .env # first setup only; fill in development keys
 docker compose up -d db
 DATABASE_URL=postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate pnpm migrate
 DATABASE_URL=... pnpm refresh WY PA

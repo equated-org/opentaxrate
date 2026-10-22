@@ -10,12 +10,12 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "dev": "tsx watch src/cli.ts serve",
-    "start": "node dist/cli.js serve",
-    "migrate": "tsx src/cli.ts migrate",
-    "refresh": "tsx src/cli.ts refresh",
-    "rate": "tsx src/cli.ts rate",
-    "check": "tsx src/cli.ts check",
+    "dev": "tsx watch --env-file-if-exists=.env src/cli.ts serve",
+    "start": "node --env-file-if-exists=.env dist/cli.js serve",
+    "migrate": "tsx --env-file-if-exists=.env src/cli.ts migrate",
+    "refresh": "tsx --env-file-if-exists=.env src/cli.ts refresh",
+    "rate": "tsx --env-file-if-exists=.env src/cli.ts rate",
+    "check": "tsx --env-file-if-exists=.env src/cli.ts check",
     "db:generate": "drizzle-kit generate",
     "test": "vitest run"
   },
