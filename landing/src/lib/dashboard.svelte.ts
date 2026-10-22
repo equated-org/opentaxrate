@@ -1,4 +1,5 @@
 /** The signed-in account's summary, shared by the dashboard's pages. */
+import { rememberSignedIn } from './accounts';
 import { account, type Summary } from './auth';
 
 let summary = $state<Summary | null>(null);
@@ -15,5 +16,6 @@ export const dashboard = {
 		const next = await account<Summary>('summary');
 		signedOut = next === null;
 		summary = next;
+		rememberSignedIn(!signedOut);
 	}
 };

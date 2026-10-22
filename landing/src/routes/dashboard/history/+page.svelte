@@ -81,4 +81,12 @@
 		padding: 7px 11px;
 		font-size: 13.5px;
 	}
+	/* The native arrow sits against the edge; draw one with the same inset as the text. */
+	select.field {
+		appearance: none;
+		padding-right: 32px;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 12px center;
+	}
 </style>

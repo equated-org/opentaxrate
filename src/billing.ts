@@ -1,11 +1,16 @@
 /**
- * Buying credit: a one-time Stripe Checkout payment of $10, $25 or $50,
- * credited by Stripe's webhook. The request path never calls Stripe; the
- * balance in Postgres (credits.ts) decides who can look up.
+ * Buying credit: a one-time Stripe Checkout payment of any whole-dollar
+ * amount from $5 to $1,000. It's credited when the buyer comes back to the
+ * dashboard (confirm(), which asks Stripe about the session), and by
+ * Stripe's webhook when one is set up, which also covers a buyer who
+ * closes the tab before coming back, and refunds. The lookup path never
+ * calls Stripe; the balance in Postgres (credits.ts) decides who can look up.
  *
  *   STRIPE_SECRET_KEY       sk_test_… or sk_live_… (your secret manager)
- *   STRIPE_WEBHOOK_SECRET   whsec_… for POST /api/billing/webhook
- *   BETTER_AUTH_URL         where Checkout returns to (the dashboard's origin)
+ *   STRIPE_WEBHOOK_SECRET   whsec_… for POST /api/billing/webhook; optional
+ *   BETTER_AUTH_URL         where Checkout returns to (the dashboard's origin),
+ *                           unless the buyer came from one of
+ *                           OPENTAXRATE_CORS_ORIGINS, which it returns to
  *
  * A purchase is credited once per Checkout session id, however many times
  * Stripe sends the event; a refund takes back what was refunded, once.
@@ -18,8 +23,11 @@ import { db } from "./db/client.js";
 import { user } from "./db/auth-schema.js";
 import { addCredit } from "./credits.js";
 
-/** Top-ups offered, in cents. */
-export const TOP_UPS = [1000, 2500, 5000] as const;
+/** What a top-up may be, in cents: whole dollars in this range. */
+export const MIN_CENTS = 500;
+export const MAX_CENTS = 100_000;
+
+export const validTopUp = (cents: number) => Number.isInteger(cents) && cents % 100 === 0 && cents >= MIN_CENTS && cents <= MAX_CENTS;
 
 /** One cent in millionths of a dollar. */
 const MICROS_PER_CENT = 10_000;
@@ -29,7 +37,15 @@ const MICROS_PER_CENT = 10_000;
 export const METADATA_KEY = "opentaxrate_user_id";
 
 export interface Billing {
-  createCheckout(userId: string, cents: number): Promise<string>;
+  /** `from` is the page's origin; Checkout returns there when it's one
+   *  of ours, else to the first. */
+  createCheckout(userId: string, cents: number, from?: string): Promise<string>;
+  /** Credits a Checkout session the buyer came back from, if it's theirs
+   *  and paid. Returns whether it's paid (credited now or before); false
+   *  for a session that isn't, or doesn't exist. */
+  confirm(userId: string, sessionId: string): Promise<boolean>;
+  /** Whether webhooks can be checked (STRIPE_WEBHOOK_SECRET is set). */
+  webhooks: boolean;
   /** Verifies and applies one webhook delivery; throws on a bad signature. */
   handleWebhook(raw: string, signature: string): Promise<void>;
 }
@@ -37,10 +53,11 @@ export interface Billing {
 export function billingFromEnv(env: NodeJS.ProcessEnv = process.env): Billing | undefined {
   const key = env.STRIPE_SECRET_KEY?.trim();
   if (!key) return undefined;
-  return createBilling(new Stripe(key), env.STRIPE_WEBHOOK_SECRET?.trim() ?? "", env.BETTER_AUTH_URL || "http://localhost:8080");
+  const origins = [env.BETTER_AUTH_URL || "http://localhost:8080", ...(env.OPENTAXRATE_CORS_ORIGINS ?? "").split(",").map((o) => o.trim()).filter(Boolean)];
+  return createBilling(new Stripe(key), env.STRIPE_WEBHOOK_SECRET?.trim() ?? "", origins);
 }
 
-export function createBilling(stripe: Stripe, webhookSecret: string, origin: string): Billing {
+export function createBilling(stripe: Stripe, webhookSecret: string, origins: string[]): Billing {
   async function customerFor(userId: string) {
     const [account] = await db.select({ email: user.email, customer: user.stripeCustomerId }).from(user).where(eq(user.id, userId));
     if (!account) throw new Error("No such account.");
@@ -56,9 +73,21 @@ export function createBilling(stripe: Stripe, webhookSecret: string, origin: str
     return intent.metadata?.[METADATA_KEY] || undefined;
   }
 
+  /** Credits a paid session once, by its id, whichever of confirm() and the
+   *  webhook sees it first. */
+  async function creditSession(session: Stripe.Checkout.Session) {
+    const userId = session.metadata?.[METADATA_KEY];
+    if (session.payment_status !== "paid" || !userId || !session.amount_total) return false;
+    await addCredit(userId, "purchase", session.amount_total * MICROS_PER_CENT, session.id);
+    return true;
+  }
+
   return {
-    async createCheckout(userId, cents) {
-      if (!(TOP_UPS as readonly number[]).includes(cents)) throw new Error(`Top-ups are ${TOP_UPS.join(", ")} cents.`);
+    webhooks: !!webhookSecret,
+
+    async createCheckout(userId, cents, from) {
+      if (!validTopUp(cents)) throw new Error(`A top-up is whole dollars from $${MIN_CENTS / 100} to $${MAX_CENTS / 100}.`);
+      const origin = from && origins.includes(from) ? from : origins[0];
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
         customer: await customerFor(userId),
@@ -77,14 +106,22 @@ export function createBilling(stripe: Stripe, webhookSecret: string, origin: str
       return session.url;
     },
 
+    async confirm(userId, sessionId) {
+      const session = await stripe.checkout.sessions.retrieve(sessionId).catch((error: unknown) => {
+        if (error instanceof Stripe.errors.StripeInvalidRequestError) return undefined;
+        throw error;
+      });
+      if (!session) return false;
+      // Someone else's session id credits no one.
+      if (session.metadata?.[METADATA_KEY] !== userId) return false;
+      return creditSession(session);
+    },
+
     async handleWebhook(raw, signature) {
       if (!webhookSecret) throw new Error("STRIPE_WEBHOOK_SECRET is not set.");
       const event = stripe.webhooks.constructEvent(raw, signature, webhookSecret);
       if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
-        const session = event.data.object;
-        const userId = session.metadata?.[METADATA_KEY];
-        if (session.payment_status !== "paid" || !userId || !session.amount_total) return;
-        await addCredit(userId, "purchase", session.amount_total * MICROS_PER_CENT, session.id);
+        await creditSession(event.data.object);
       } else if (event.type === "charge.refunded") {
         const charge = event.data.object;
         // Only charges from our Checkout: they carry the key on the charge

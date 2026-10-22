@@ -74,7 +74,10 @@ services:
   api:
     build: .
     command: ["serve"]
-    environment: *env
+    environment:
+      <<: *env
+      # Keys for your own apps (README, "Keys and accounts").
+      OPENTAXRATE_MASTER_KEYS: ${OPENTAXRATE_MASTER_KEYS:-}
     ports:
       - "${PORT:-8080}:8080"
     depends_on:

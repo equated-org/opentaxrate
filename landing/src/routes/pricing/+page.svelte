@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ACCOUNTS } from '$lib/accounts';
 	import { GITHUB } from '$lib/examples';
 	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
@@ -7,7 +8,7 @@
 	 *  will enforce (docs/plans/api-keys-and-provider-tiers.html). */
 	const PLANS = ['Free', 'API key', 'Self-hosted'];
 	const ROWS: [string, string, string, string][] = [
-		['Price', '$0', '$1.95 per 1,000 lookups, prepaid from $10. First 100 free.', '$0 + your server'],
+		['Price', '$0', '$1.95 per 1,000 lookups', '$0 + your server'],
 		['Sign-up', 'None', 'Email', 'None'],
 		['Geocoding', 'Our own servers', 'Ours plus commercial geocoders, so fewer addresses are declined', 'Whatever you configure'],
 		['Declined addresses', '—', 'Not charged', '—'],
@@ -53,7 +54,7 @@
 					<tr>
 						<th scope="row"><span class="sr-only">Start</span></th>
 						<td class="pt-5 pr-4"><a class="btn" href="/">Look up an address</a></td>
-						<td class="pt-5 pr-4"><a class="btn primary" href="/login">Get a key</a></td>
+						<td class="pt-5 pr-4">{#if ACCOUNTS}<a class="btn primary" href="/login">Get a key</a>{/if}</td>
 						<td class="pt-5 pr-4"><a class="btn" href="{GITHUB}#quick-start" target="_blank" rel="noopener">Quick start</a></td>
 					</tr>
 				</tbody>

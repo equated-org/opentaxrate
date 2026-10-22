@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
+	import { ACCOUNTS, seemsSignedIn } from '$lib/accounts';
 	import { GITHUB } from '$lib/examples';
 	import Wordmark from '$lib/pixel/Wordmark.svelte';
 
@@ -15,6 +16,10 @@
 		/** Under the bar's border, e.g. the progress strip. */
 		below?: Snippet;
 	} = $props();
+
+	// The page is prerendered signed out; swap the link once in the browser.
+	let signedIn = $state(false);
+	onMount(() => (signedIn = seemsSignedIn()));
 </script>
 
 <header class="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg-translucent)] backdrop-blur">
@@ -39,7 +44,12 @@
 			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : 'hidden sm:inline'}" href={GITHUB} target="_blank" rel="noopener"
 				>GitHub</a
 			>
-			<a class="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--text-2)] hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/login">Sign in</a>
+			{#if ACCOUNTS}
+				<a
+					class="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--text-2)] hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}"
+					href={signedIn ? '/dashboard' : '/login'}>{signedIn ? 'Dashboard' : 'Sign in'}</a
+				>
+			{/if}
 		</nav>
 	</div>
 	{#if below}{@render below()}{/if}

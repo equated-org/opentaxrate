@@ -202,3 +202,18 @@ body {
 .dark .maplibregl-ctrl-group .maplibregl-ctrl-icon {
 	filter: invert(1);
 }
+
+/* The dashboard's dialogs (a native <dialog> opened with showModal). */
+.modal {
+	width: min(440px, calc(100vw - 32px));
+	margin: auto;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	background: var(--card);
+	color: var(--text);
+	box-shadow: var(--shadow);
+	padding: 22px;
+}
+.modal::backdrop {
+	background: rgb(0 0 0 / 0.45);
+}

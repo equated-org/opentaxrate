@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import { authClient } from '$lib/auth';
+	import { dashboard } from '$lib/dashboard.svelte';
 	import Wordmark from '$lib/pixel/Wordmark.svelte';
 
 	/** Sign in, or sign up, with a code sent to your email. */
@@ -19,6 +21,12 @@
 		if (failed) error = failed.message ?? "We couldn't send a code. Try again.";
 		else step = 'code';
 	}
+
+	// Already signed in: there's nothing to do here.
+	onMount(async () => {
+		await dashboard.refresh().catch(() => {});
+		if (dashboard.summary) await goto('/dashboard', { replaceState: true });
+	});
 
 	async function verify(event: SubmitEvent) {
 		event.preventDefault();
@@ -43,7 +51,8 @@
 	</header>
 
 	<main class="grid flex-1 place-items-center px-5 py-16">
-		<div class="w-full max-w-[400px] rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--card)] p-7 shadow-[var(--shadow)]">
+		<div class="w-full max-w-[360px]">
+			<img class="mx-auto mb-6 h-auto w-[168px]" src="/signin.webp" alt="" width="1234" height="1186" />
 			{#if step === 'email'}
 				<form onsubmit={send}>
 					<h1 class="text-[24px] font-semibold tracking-tight">Sign in</h1>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { authClient } from '$lib/auth';
+	import { copyText } from '$lib/clipboard';
 	import { dashboard } from '$lib/dashboard.svelte';
 
 	interface Key {
@@ -12,8 +13,10 @@
 	}
 
 	let keys = $state<Key[]>([]);
-	let naming = $state(false);
+	let dialog: HTMLDialogElement;
 	let name = $state('');
+	let creating = $state(false);
+	let createError = $state('');
 	let revealed = $state<string | null>(null);
 	let copied = $state(false);
 	let error = $state('');
@@ -35,17 +38,39 @@
 	}
 	onMount(load);
 
+	function openDialog() {
+		name = '';
+		revealed = null;
+		createError = '';
+		copied = false;
+		dialog.showModal();
+	}
+
+	/** The key is only ever in memory here, so closing forgets it. */
+	function cancel(event: Event) {
+		// Escape while creating would close before the key arrives.
+		if (creating) event.preventDefault();
+	}
+
+	function closed() {
+		revealed = null;
+		name = '';
+	}
+
 	async function create(event: SubmitEvent) {
 		event.preventDefault();
-		error = '';
+		createError = '';
+		creating = true;
 		const { data, error: failed } = await authClient.apiKey.create({ name: name.trim() || 'untitled' });
+		creating = false;
 		if (failed || !data) {
-			error = failed?.message ?? "The key couldn't be created.";
+			createError = failed?.message ?? "The key couldn't be created.";
 			return;
 		}
 		revealed = data.key;
-		naming = false;
-		name = '';
+		// Escape can still get through (browsers let a second press past
+		// preventDefault), so bring the dialog back to show the key.
+		if (!dialog.open) dialog.showModal();
 		await load();
 	}
 
@@ -57,7 +82,10 @@
 	}
 
 	async function copy() {
-		await navigator.clipboard.writeText(revealed!);
+		if (!(await copyText(revealed!))) {
+			prompt('Copy your key', revealed!);
+			return;
+		}
 		copied = true;
 		setTimeout(() => (copied = false), 1200);
 	}
@@ -67,40 +95,44 @@
 	<div class="min-w-[260px] flex-1">
 		<h1 class="text-[30px] leading-tight font-semibold tracking-tight">API keys</h1>
 		<p class="mt-1.5 mb-7 max-w-[46rem] text-[14.5px] text-[var(--text-muted)]">
-			Send a key as <code>x-api-key</code> or <code>Authorization: Bearer</code>. Keep keys on your server; anyone with one can spend your
-			credit.
+			Send a key as <code>x-api-key</code> or <code>Authorization: Bearer</code>. Keep keys on your server; anyone with one can use your
+			lookups.
 		</p>
 	</div>
-	<button class="btn primary" onclick={() => ((naming = true), (revealed = null))}>New key</button>
+	<button class="btn primary" onclick={openDialog}>New key</button>
 </div>
 
-{#if naming}
-	<form class="card mb-4 flex flex-wrap items-center gap-2 p-4" onsubmit={create}>
-		<!-- svelte-ignore a11y_autofocus -->
-		<input
-			bind:value={name}
-			placeholder="Name, e.g. production"
-			maxlength="32"
-			autofocus
-			class="min-w-[240px] rounded-[9.6px] border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-[13.5px]"
-		/>
-		<button class="btn primary">Create</button>
-		<button type="button" class="btn" onclick={() => (naming = false)}>Cancel</button>
-	</form>
-{/if}
-
-{#if revealed}
-	<div class="card mb-4 border-[color-mix(in_srgb,var(--accent)_45%,var(--border))] p-4">
-		<p class="mb-2.5 text-[var(--text-2)]">
-			<b class="text-[var(--text)]">Copy your key now.</b> We only keep a hash, so it can't be shown again.
-		</p>
-		<div class="flex flex-wrap items-center gap-2">
-			<code class="min-w-[260px] flex-1 rounded-[10px] border border-[var(--border)] bg-[var(--bg-muted)] px-3 py-2 break-all">{revealed}</code>
+<dialog bind:this={dialog} oncancel={cancel} onclose={closed} class="modal" aria-labelledby="new-key-title">
+	{#if revealed}
+		<h2 id="new-key-title" class="text-[17px] font-semibold">Copy your key now</h2>
+		<p class="mt-1.5 mb-4 text-[13.5px] text-[var(--text-muted)]">We only keep a hash, so it can't be shown again.</p>
+		<code class="block rounded-[10px] border border-[var(--border)] bg-[var(--bg-muted)] px-3 py-2 break-all">{revealed}</code>
+		<div class="mt-5 flex justify-end gap-2">
 			<button class="btn" onclick={copy}>{copied ? 'Copied' : 'Copy'}</button>
-			<button class="btn" onclick={() => (revealed = null)}>Done</button>
+			<button class="btn primary" onclick={() => dialog.close()}>Done</button>
 		</div>
-	</div>
-{/if}
+		<span class="sr-only" aria-live="polite">{copied ? 'Copied the key' : ''}</span>
+	{:else}
+		<form onsubmit={create}>
+			<h2 id="new-key-title" class="text-[17px] font-semibold">New key</h2>
+			<p class="mt-1.5 mb-4 text-[13.5px] text-[var(--text-muted)]">Name it for where it runs, so you know which to revoke.</p>
+			<!-- svelte-ignore a11y_autofocus -->
+			<input
+				bind:value={name}
+				placeholder="Name, e.g. production"
+				aria-label="Key name"
+				maxlength="32"
+				autofocus
+				class="w-full rounded-[9.6px] border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-[13.5px]"
+			/>
+			{#if createError}<p class="mt-3 text-[13px] text-[var(--warn)]" role="alert">{createError}</p>{/if}
+			<div class="mt-5 flex justify-end gap-2">
+				<button type="button" class="btn" disabled={creating} onclick={() => dialog.close()}>Cancel</button>
+				<button class="btn primary" disabled={creating}>{creating ? 'Creating…' : 'Create'}</button>
+			</div>
+		</form>
+	{/if}
+</dialog>
 
 {#if error}<p class="mb-3 text-[13px] text-[var(--warn)]" role="alert">{error}</p>{/if}
 
@@ -132,7 +164,7 @@
 		</tbody>
 	</table>
 </div>
-<p class="mt-3 text-[12.5px] text-[var(--text-muted)]">Each key can make 120 lookups a minute. All keys draw from the account's credit.</p>
+<p class="mt-3 text-[12.5px] text-[var(--text-muted)]">Each key can make 120 lookups a minute. All keys share the account's lookups.</p>
 
 <style>
 	.card {
