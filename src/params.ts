@@ -8,6 +8,10 @@
  * each one has decided on the benchmark.
  */
 export interface Params {
+  /** Geocoders never asked, whatever keys are set (geocoding/registry.ts).
+   *  On the dev splits Mapbox, HERE and Google stood in for one another,
+   *  so Mapbox, the cheapest, is kept (docs/accuracy-log.md). */
+  disabledGeocoders: string[];
   /** Two geocodes agree when no farther apart than this many times the
    *  larger of their accuracy classes' margins (geocoding/agreement.ts). */
   agreeFactor: number;
@@ -50,6 +54,7 @@ export interface Params {
 }
 
 const DEFAULTS: Params = {
+  disabledGeocoders: ["google", "here"],
   agreeFactor: 1,
   agreeCapMetres: 250,
   agreeFallbackFactor: 1,

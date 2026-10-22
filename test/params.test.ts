@@ -20,6 +20,10 @@ describe("tunable settings", () => {
     expect(tuned.edgeMetres).toEqual({ rooftop: 10, parcel: 25, point: 40, interpolated: 75 });
   });
 
+  it("leave Google and HERE out by default: Mapbox stands in for both", async () => {
+    expect((await load()).disabledGeocoders).toEqual(["google", "here"]);
+  });
+
   it("refuse a setting that doesn't exist", async () => {
     await expect(load('{"wideMeters":20000}')).rejects.toThrow(/unknown settings: wideMeters/);
   });

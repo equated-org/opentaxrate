@@ -18,6 +18,7 @@ import { photonPoint } from "./providers/photon.js";
 import { smartyPoint } from "./providers/smarty.js";
 import type { GeocoderProvider, LocatedPoint } from "./types.js";
 import type { ProviderPolicy } from "../access.js";
+import { PARAMS } from "../params.js";
 
 export const fingerprint = (value: string) => createHash("sha256").update(value).digest("hex");
 
@@ -95,6 +96,7 @@ function setting(name: string, fallback: number, integer = false) {
 export function geocoderProviders(policy?: ProviderPolicy): GeocoderProvider[] {
   return DEFINITIONS.flatMap((d): GeocoderProvider[] => {
     if (policy && !policy.allows(d.id)) return [];
+    if (PARAMS.disabledGeocoders.includes(d.id)) return [];
     const credential = d.credential();
     if (!credential) return [];
     const storable = d.storable();

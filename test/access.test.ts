@@ -9,6 +9,10 @@ import { Hono } from "hono";
 import { EVERY_PROVIDER, masterKeys, policyFor, presentedKey, resolveAccess, type AccessVariables } from "../src/access.js";
 import { geocoderProviders } from "../src/geocoding/registry.js";
 import { addressStandardizer } from "../src/standardize/index.js";
+import { PARAMS } from "../src/params.js";
+
+// These test every adapter; which ones production asks is a setting.
+PARAMS.disabledGeocoders = [];
 
 const MASTER = `otr_master_${"a1".repeat(24)}`;
 const OTHER = `otr_master_${"b2".repeat(24)}`;
@@ -81,6 +85,7 @@ describe("the API by tier", () => {
     vi.stubEnv("OPENTAXRATE_PUBLIC_PROVIDERS", "photon,pelias");
     vi.stubEnv("OPENTAXRATE_MASTER_KEYS", `test=${MASTER}`);
     vi.stubEnv("OPENTAXRATE_PUBLIC_LIMIT", "1/min");
+    vi.stubEnv("OTR_PARAMS", JSON.stringify({ disabledGeocoders: [] }));
     return (await import("../src/server.js")).app;
   }
   const geocoders = async (response: Response) =>

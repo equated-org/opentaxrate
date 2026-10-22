@@ -1,5 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { geocoderCoverage, geocoderProviders } from "../src/geocoding/registry.js";
+import { PARAMS } from "../src/params.js";
+
+// These test every adapter; which ones production asks is a setting.
+PARAMS.disabledGeocoders = [];
 
 const variables = ["CENSUS_DISABLED", "NOMINATIM_DISABLED", "NOMINATIM_URL", "PHOTON_URL", "PELIAS_URL", "GEOCODIO_API_KEY", "SMARTY_AUTH_ID", "SMARTY_AUTH_TOKEN",
   "MAPBOX_ACCESS_TOKEN", "MAPBOX_PERMANENT", "HERE_API_KEY", "ARCGIS_API_KEY", "ARCGIS_FOR_STORAGE", "GOOGLE_MAPS_API_KEY"];
