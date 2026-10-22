@@ -1,8 +1,9 @@
 /** A range state's tax-specific polygons narrow its ZIP candidates. Unknown
  * district geometry remains unknown; rates always come from dated files. */
-import { and, eq, inArray, like, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, like, lte, sql } from "drizzle-orm";
+import { PARAMS } from "../params.js";
 import { db } from "../db/client.js";
-import { salesTaxAreas, salesTaxJurisdictions, salesTaxShapes } from "../db/schema.js";
+import { salesTaxAreas, salesTaxJurisdictionRates, salesTaxJurisdictions, salesTaxShapes } from "../db/schema.js";
 import { RANGE_POLYGON_SOURCES, rangePolygonPrefix, type RangePolygonState } from "../range-polygon-sources.js";
 import { marginOf, type LocatedPoint } from "../geocoding/types.js";
 import { traceOutline, type Trace } from "./types.js";
@@ -82,7 +83,12 @@ export async function rangePolygonAreas(
     const [county, place] = zones[0].fips.slice(prefix.length).split(":");
     // Utah's 99xxx zones are unincorporated county areas. Other pseudo-FIPS
     // are retained verbatim; no name-based guesses about special districts.
-    selected = areas.filter((a) => a.county === county && a.place === (place.startsWith("99") ? null : place) && !a.districts).map((a) => a.id);
+    const town = place.startsWith("99") ? null : place;
+    selected = areas.filter((a) => a.county === county && a.place === town && !a.districts).map((a) => a.id);
+    // A town that levies nothing of its own has no row in the rate file,
+    // so its addresses are filed with the county's, without a town.
+    if (!selected.length && town && PARAMS.zoneBeyondZip && !(await townLevies(state, town, date)))
+      selected = areas.filter((a) => a.county === county && a.place === null && !a.districts).map((a) => a.id);
   }
   if (!selected?.length) return null;
   if (trace) for (const s of rows) {
@@ -91,4 +97,12 @@ export async function rangePolygonAreas(
     outline.levies = s.inside;
   }
   return { areas: rows.some((s) => Number(s.edge) < margin) ? "near_edge" : selected, file: source.file };
+}
+
+/** Whether the state's rate file has a rate of the town's own on the date. */
+async function townLevies(state: string, town: string, date: string) {
+  const [row] = await db.select({ code: salesTaxJurisdictionRates.code }).from(salesTaxJurisdictionRates)
+    .where(and(eq(salesTaxJurisdictionRates.state, state), eq(salesTaxJurisdictionRates.code, town),
+      lte(salesTaxJurisdictionRates.startsOn, date), gte(salesTaxJurisdictionRates.endsOn, date))).limit(1);
+  return Boolean(row);
 }
