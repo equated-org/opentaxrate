@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
 			// API, which sidesteps CORS on an API that doesn't send it yet.
 			proxy: {
 				'/v1': env.API_PROXY_TARGET || 'http://localhost:8080',
+				// Accounts (sign-in, keys) on the same origin, as the Worker does.
+				'/api/auth': env.API_PROXY_TARGET || 'http://localhost:8080',
 				// Dev only: PUBLIC_PHOTON_URL=/photon reaches a Photon that sends no
 				// CORS headers (a self-hosted one without -cors-any).
 				'/photon': {
