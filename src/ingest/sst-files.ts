@@ -32,6 +32,10 @@ export interface Area {
   place: string | null;
   /** Sorted "type:code" pairs joined by spaces. */
   districts: string;
+  /** The code the state's return files this combination under, where the
+   *  boundary file gives one (its composite SER column): Washington's
+   *  location code, Kansas's jurisdiction code. */
+  reportingCode: string | null;
 }
 
 export type BoundaryRow = { startsOn: string; endsOn: string; area: Area } & (
@@ -107,6 +111,7 @@ export function parseBoundaryLine(line: string): BoundaryRow[] {
     county: c[24] || null,
     place: c[25] || null,
     districts: [...new Set(districts)].sort().join(" "),
+    reportingCode: c[21] || null,
   };
 
   if (kind === "A") {

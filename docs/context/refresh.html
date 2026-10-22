@@ -203,7 +203,7 @@
 <ol>
 <li><code>DELETE</code> the state's rows from <code>sales_tax_street_ranges</code>, <code>sales_tax_zip_ranges</code>, <code>sales_tax_jurisdiction_rates</code>, <code>sales_tax_areas</code>.</li>
 <li><code>COPY sales_tax_jurisdiction_rates</code> from <code>parseRateLine</code>.</li>
-<li>Stream boundaries through <code>files.parseBoundary ?? parseBoundaryLine</code>. Each distinct <code>county|place|districts</code> gets an area id <code>Number(fips) * 1_000_000 + counter</code>. Street rows <code>COPY</code> into <code>sales_tax_street_ranges</code> in ~1 MB batches; ZIP rows wait in memory (one connection runs one COPY at a time).</li>
+<li>Stream boundaries through <code>files.parseBoundary ?? parseBoundaryLine</code>. Each distinct <code>county|place|districts|reportingCode</code> gets an area id <code>Number(fips) * 1_000_000 + counter</code>. Street rows <code>COPY</code> into <code>sales_tax_street_ranges</code> in ~1 MB batches; ZIP rows wait in memory (one connection runs one COPY at a time).</li>
 <li><code>COPY</code> ZIP ranges, then areas.</li>
 <li>Upsert both files into <code>sales_tax_data_releases</code> on <code>(state, kind)</code>.</li>
 </ol>
@@ -212,6 +212,7 @@
 <p>One Drizzle transaction: merge shapes sharing <code>kind:fips</code>; delete and re-insert the state's rates (batches of 500); delete the state's non-TIGER shapes (file not like <code>tl_%</code>) and insert its own (batches of 20, <code>geometryOf</code>); replace its <code>sales_tax_data_releases</code> rows. Census outlines are kept.</p>
 <h3 id="loadtigershapes-file-states"><code>loadTigerShapes(file, states)</code></h3>
 <p>One transaction per TIGER file: delete that <code>kind</code>'s TIGER rows (file like <code>tl_%</code>) for the states in it, insert the new ones. Every county loads; a place or county subdivision loads only if <code>namedPlaces</code> finds it in a rate code or an area's <code>place</code>, which leaves out most Census places. So TIGER must load after rates and ranges, as step 4 does.</p>
+
 <h2 id="tiger-tiger-ts">TIGER (<code>tiger.ts</code>)</h2>
 <p><code>readTigerZip(zip, kind, stateFips)</code> reads the <code>.shp</code> and <code>.dbf</code> in a TIGER zip into <code>Shape { kind, stateFips, fips, name, rings, bbox }</code>, merging a town split across counties into one shape. <code>STATE_FIPS</code> maps every state and DC to its FIPS. <code>contains(shape, p)</code> tests a point against in-memory rings (odd ring count), used before shapes are in PostGIS (adapters such as Texas).</p>
 <h2 id="tables-schema-ts">Tables (<code>schema.ts</code>)</h2>
@@ -231,7 +232,7 @@
 </tr>
 <tr>
 <td><code>sales_tax_areas</code></td>
-<td><code>id</code> (loader-given), <code>state</code>, <code>county</code>, <code>place</code>, <code>districts</code> (sorted <code>type:code</code> pairs)</td>
+<td><code>id</code> (loader-given), <code>state</code>, <code>county</code>, <code>place</code>, <code>districts</code> (sorted <code>type:code</code> pairs), <code>reporting_code</code> (the boundary file's composite SER column, e.g. WA's <code>01726</code>, KS's <code>ABIC1</code>; Missouri's jurisdiction code)</td>
 <td><code>loadSstState</code></td>
 </tr>
 <tr>
@@ -257,6 +258,7 @@
 </tbody>
 </table></div>
 <p>The <code>file</code> column on shapes tells the two loaders apart: TIGER files start with <code>tl_</code>.</p>
+
 <h2 id="invariants">Invariants</h2>
 <ul>
 <li>A lookup never sees half a state: each SST state and each map state is replaced inside one transaction.</li>

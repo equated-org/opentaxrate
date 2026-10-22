@@ -143,6 +143,8 @@
 <nav class="toc" aria-label="Contents"><p class="toc-title">API, CLI and errors</p><ol>
 <li><a href="#endpoints-src-server-ts">Endpoints (src/server.ts)</a></li>
 <li><a href="#include-trace">include=trace</a></li>
+<li><a href="#access-src-access-ts">Access (src/access.ts)</a></li>
+<li><a href="#accounts-keys-and-credit-src-auth-ts-credits-ts-requests-ts-billing-ts">Accounts, keys and credit (src/auth.ts, credits.ts, requests.ts, billing.ts)</a></li>
 <li><a href="#public-deployment">Public deployment</a></li>
 <li><a href="#error-responses">Error responses</a></li>
 <li><a href="#rateerror-src-errors-ts">RateError (src/errors.ts)</a></li>
@@ -153,7 +155,7 @@
 <article id="content">
 <header class="page-head"><p class="eyebrow">OpenTaxRate · Design notes</p><h1>API, CLI and errors</h1>
 <p class="lede">The outside of the service. The HTTP API and the CLI both turn a request into one call to <code>lookUpRate</code> (<code>src/lookup.ts</code>), which calls <code>addressRates.at</code> in the engine. Neither writes rate data; loading is the CLI's <code>refresh</code> command (see <a href="refresh.html">refresh.html</a>).</p>
-<p class="meta">Sources: <code>src/server.ts</code>, <code>src/cli.ts</code>, <code>src/lookup.ts</code>, <code>src/errors.ts</code>, <code>src/limits.ts</code>, <code>src/cache.ts</code>, <code>src/suggest.ts</code> (and <code>src/db/client.ts</code> for the pool)</p>
+<p class="meta">Sources: <code>src/server.ts</code>, <code>src/cli.ts</code>, <code>src/lookup.ts</code>, <code>src/errors.ts</code>, <code>src/limits.ts</code>, <code>src/cache.ts</code>, <code>src/suggest.ts</code>, <code>src/access.ts</code>, <code>src/auth.ts</code>, <code>src/mail.ts</code>, <code>src/credits.ts</code>, <code>src/requests.ts</code>, <code>src/billing.ts</code> (and <code>src/db/client.ts</code> for the pool)</p>
 </header>
 
 
@@ -175,7 +177,7 @@
 </tr>
 <tr>
 <td><code>GET /v1/rate</code></td>
-<td>validates the query, returns an <code>AddressRate</code> (see <a href="engine.html">engine.html</a>), plus <code>trace</code> when asked</td>
+<td>validates the query, returns an <code>AddressRate</code> with named <code>parts</code> and <code>reporting</code> (see <a href="engine.html">engine.html</a>), plus <code>trace</code> when asked</td>
 <td>200, 400, 422, 429, 502, 504, 500</td>
 </tr>
 <tr>
@@ -225,6 +227,7 @@
 </tr>
 </tbody>
 </table></div>
+
 <h2 id="include-trace"><code>include=trace</code></h2>
 <p>Without it the response is exactly what it was before traces existed. With it, the route makes an empty <code>Trace</code> (<code>emptyTrace()</code>, <code>src/rates/types.ts</code>), passes it to <code>lookUpRate</code>, and answers <code>{ ...AddressRate, trace }</code>; a 422 becomes <code>{ error, code, trace }</code> (502 and 504 never carry one). The engines fill it as they go; the shape:</p>
 <div class="scroll"><table class="grid-table">
@@ -259,6 +262,65 @@
 </tbody>
 </table></div>
 <p>Coordinates are rounded to 5 decimals, metres to 0.1. <code>outlines</code> is empty when no point was used (a street or ZIP match never geocodes for display). After the engine returns or throws, <code>lookUpRate</code> adds <code>geometry</code> with <code>outlineGeometry</code> (<code>src/rates/shapes.ts</code>): each outline clipped to a square around <code>point</code> reaching 3 km, or 1.25 × the nearest levying edge + 500 m when that is further, up to 20 km (<code>TRACE_CLIP_METRES</code>), and simplified to about 5 m per 3 km of reach, as GeoJSON; an outline with nothing in the square gets none. A geometry query that fails is logged and only leaves the shapes out.</p>
+<h2 id="access-src-access-ts">Access (<code>src/access.ts</code>)</h2>
+<p><code>resolveAccess()</code> runs on <code>/v1/rate</code> and <code>/v1/coverage</code>, before the per-IP limit, and sets <code>c.var.access</code>:</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Request</th>
+<th>Access</th>
+<th>Providers (<code>policyFor</code>)</th>
+<th>Per-IP limit</th>
+<th>Answer cache</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no key</td>
+<td><code>{ tier: "public" }</code></td>
+<td><code>OPENTAXRATE_PUBLIC_PROVIDERS</code>, or every one when unset</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>a key in <code>OPENTAXRATE_MASTER_KEYS</code></td>
+<td><code>{ tier: "keyed", master: name }</code></td>
+<td>every configured one</td>
+<td>no</td>
+<td><code>api_requests</code></td>
+</tr>
+<tr>
+<td>an account's key (<code>otr_live_…</code>, <code>auth.api.verifyApiKey</code>)</td>
+<td><code>{ tier: "keyed", userId, keyId }</code></td>
+<td>every configured one, paid from the allowance</td>
+<td>no; 120 a minute per key (429 <code>KEY_LIMITED</code>)</td>
+<td><code>api_requests</code></td>
+</tr>
+<tr>
+<td>any other key</td>
+<td>401 <code>{ code: "INVALID_API_KEY" }</code></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>The key is read from <code>x-api-key</code> or <code>Authorization: Bearer</code> (<code>presentedKey</code>). <code>OPENTAXRATE_MASTER_KEYS</code> is <code>name=key</code> pairs, comma-separated (a bare key is named <code>master</code>); <code>masterKeys()</code> throws at start unless each key is <code>otr_master_</code> plus at least 32 characters, and holds only their SHA-256 digests. A key never falls back to the public tier. <code>/v1/rate</code> answers carry <code>X-OpenTaxRate-Tier: public|keyed</code>.</p>
+<p>The policy is a set of ids: the registry's geocoders plus <code>jev</code>. <code>lookUpRate(q, { trace, policy })</code> passes it to <code>createLocator</code> (<code>geocoderProviders(policy)</code>), to <code>addressStandardizer(policy)</code> (only when <code>geocodio</code> is allowed), and as <code>pickStreet: null</code> when <code>jev</code> isn't allowed, so <code>correctedStreet</code> reads by spelling only. Without a policy (the CLI), every provider is allowed.</p>
+
+<h2 id="accounts-keys-and-credit-src-auth-ts-credits-ts-requests-ts-billing-ts">Accounts, keys and credit (<code>src/auth.ts</code>, <code>credits.ts</code>, <code>requests.ts</code>, <code>billing.ts</code>)</h2>
+<p>On only with <code>BETTER_AUTH_SECRET</code>. Better Auth (drizzle adapter, tables in <code>src/db/auth-schema.ts</code>) is mounted at <code>/api/auth/*</code>: <code>emailOTP</code> (6 digits, 5 minutes, 3 tries, stored hashed; <code>sendMail</code> in <code>mail.ts</code>) signs in and signs up in one step and sets <code>emailVerified</code>; <code>@better-auth/api-key</code> makes <code>otr_live_</code> keys (hashed, <code>start</code> keeps 13 characters, 120 a minute). A before-hook refuses <code>/api-key/create</code> for an unverified user. <code>databaseHooks.user.create.after</code> grants the trial (<code>grantTrial</code>).</p>
+<p>A keyed <code>/v1/rate</code> (<code>keyedLookup</code> in <code>server.ts</code>):</p>
+<ol>
+<li>An account's key: <code>charge(userId)</code> takes <code>PRICE_MICROS</code> (1,950 µ$, $1.95 per 1,000; a new account starts with <code>TRIAL_LOOKUPS</code>, 100) and adds 80% of it to <code>geo_allowance_micros</code>, in one <code>UPDATE … WHERE credit_micros &gt;= price</code>; no row is 402 <code>NO_CREDITS</code>. Master keys aren't charged.</li>
+<li><code>cachedAnswer(caller, answerKey)</code>: the caller's own last 200 for the same key within <code>CACHE_HOURS</code> (24) is returned with <code>X-OpenTaxRate-Cache: hit</code>, charged, and logged with <code>cached</code>. Only the tax answer is stored: a traced lookup's trace (geocoder points, outlines) is dropped before logging, and traced lookups are never answered from history.</li>
+<li>Otherwise <code>lookUpRate</code> with <code>accountBudget(userId)</code> (or <code>meteredBudget()</code> for a master key): a provider with a list price (<code>pricePerCall</code>, fixed in the registry) is reserved from the allowance before the vendor cap, and the Geocodio standardizer (twice Geocodio's price, for the zip4 field) and Jev (<code>JEV_PRICE</code>) the same way. A thin allowance means only the free providers are asked.</li>
+<li>A 422 or 5xx is refunded (<code>refund</code>). Every outcome is one <code>api_requests</code> row: query, status, response, <code>providers</code> paid, <code>charged_micros</code>, <code>geo_cost_micros</code>, <code>ms</code>. Rows older than 90 days are pruned a minute after start and daily.</li>
+</ol>
+<p>Session routes (cookie; 401 <code>SIGNED_OUT</code> without one): <code>GET /v1/account/summary</code> (email, <code>creditMicros</code>, <code>priceMicros</code>, <code>lookupsLeft</code>, this month's totals, lookups by key, <code>canBuy</code>, <code>topUpCents: {min, max}</code>), <code>GET /v1/account/requests?before=&amp;key=&amp;result=rate|declined|error&amp;q=</code> (50 a page, newest first), and with Stripe set <code>POST /v1/account/checkout {"amount": &lt;cents&gt;}</code> (whole dollars, $5 to $1,000, <code>validTopUp</code>) → <code>{ url }</code> of a Stripe Checkout session (mode <code>payment</code>, <code>metadata.opentaxrate_user_id</code> on the session and its payment intent).</p>
+<p><code>POST /v1/account/checkout/confirm {"session": "cs_…"}</code> → <code>{ paid }</code>: the dashboard calls it on return (<code>?paid=&lt;session&gt;</code>); it retrieves the session from Stripe and credits it when it's paid and its metadata names the signed-in user. Purchases are credited through <code>creditSession</code>, keyed by session id, so confirm and the webhook can't both credit one.</p>
+<p><code>POST /api/billing/webhook</code> (only with <code>STRIPE_WEBHOOK_SECRET</code>) checks <code>stripe-signature</code> against <code>STRIPE_WEBHOOK_SECRET</code> (400 when wrong). <code>checkout.session.completed</code> or <code>…async_payment_succeeded</code> with <code>payment_status: "paid"</code> calls <code>addCredit(userId, "purchase", amount_total × 10,000, session.id)</code>; <code>credit_grants.stripe_id</code> is unique, so a resent event is a no-op. <code>charge.refunded</code> takes back the newly refunded amount once (<code>refund:&lt;charge&gt;:&lt;total refunded&gt;</code>).</p>
+
 <h2 id="public-deployment">Public deployment</h2>
 <p>Each is off when its variable is unset, so a self-hosted API behaves as before.</p>
 <ul>
@@ -308,6 +370,31 @@
 <td>the per-IP limit (<code>limits.ts</code>), with <code>Retry-After</code></td>
 </tr>
 <tr>
+<td><code>INVALID_API_KEY</code></td>
+<td>401</td>
+<td>a key that isn't a master key or a live account key (<code>access.ts</code>)</td>
+</tr>
+<tr>
+<td><code>KEY_LIMITED</code></td>
+<td>429</td>
+<td>an account key over 120 lookups a minute, with <code>Retry-After</code></td>
+</tr>
+<tr>
+<td><code>NO_CREDITS</code></td>
+<td>402</td>
+<td>an account key whose credit doesn't cover a lookup</td>
+</tr>
+<tr>
+<td><code>SIGNED_OUT</code></td>
+<td>401</td>
+<td>a <code>/v1/account/*</code> call without a session</td>
+</tr>
+<tr>
+<td><code>USE_API_HOST</code></td>
+<td>400</td>
+<td>from the landing's Worker, not the API: a request to opentaxrate.com/v1/* carrying a key (keys go to api.opentaxrate.com)</td>
+</tr>
+<tr>
 <td><code>INTERNAL</code></td>
 <td>500</td>
 <td>any non-<code>RateError</code> throw, logged by <code>app.onError</code></td>
@@ -315,6 +402,7 @@
 </tbody>
 </table></div>
 <p><code>RATE_ERROR_CODES</code> lists the four <code>RateError</code> codes and <code>RATE_LIMITED</code>, which <code>limits.ts</code> writes directly rather than throwing; <code>BAD_REQUEST</code> and <code>INTERNAL</code> are written by <code>server.ts</code> directly.</p>
+
 <h2 id="rateerror-src-errors-ts"><code>RateError</code> (<code>src/errors.ts</code>)</h2>
 <p><code>new RateError(message, status, resultCode?, code?)</code></p>
 <ul>
@@ -435,8 +523,35 @@
 <td>unset (no limit)</td>
 <td><code>limits.ts</code>, via <code>server.ts</code></td>
 </tr>
+<tr>
+<td><code>OPENTAXRATE_PUBLIC_PROVIDERS</code></td>
+<td>unset (every provider)</td>
+<td><code>access.ts</code>, via <code>server.ts</code></td>
+</tr>
+<tr>
+<td><code>OPENTAXRATE_MASTER_KEYS</code></td>
+<td>unset (none)</td>
+<td><code>access.ts</code>, via <code>server.ts</code></td>
+</tr>
+<tr>
+<td><code>BETTER_AUTH_SECRET</code>, <code>BETTER_AUTH_URL</code></td>
+<td>unset (accounts off)</td>
+<td><code>auth.ts</code></td>
+</tr>
+<tr>
+<td><code>RESEND_API_KEY</code></td>
+<td>unset (codes printed outside production)</td>
+<td><code>mail.ts</code></td>
+</tr>
+<tr>
+<td><code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code></td>
+<td>unset (no buying)</td>
+<td><code>billing.ts</code></td>
+</tr>
 </tbody>
 </table></div>
+
+
 </article></div>
 
 <script>

@@ -42,17 +42,19 @@
  * An address too close to an outline's edge for its geocode's accuracy is
  * refused, unless moving it across that edge would not change the rate.
  */
-import { and, eq, gte, lte } from "drizzle-orm";
+import { and, eq, gte, inArray, lte } from "drizzle-orm";
 import { db } from "../db/client.js";
 import {
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
+  salesTaxShapes,
 } from "../db/schema.js";
 import { RateError } from "../errors.js";
 import { traceOutline, type RatePart, type Trace, type TracedOutline } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet } from "../address.js";
+import { districtCode } from "../coverage.js";
 
 export interface GeoRate {
   placedBy?: string[];
@@ -123,11 +125,19 @@ export async function geoRateAt(
     );
   const inside = new Set(levied.filter((s) => s.inside));
   for (const s of shapes) {
-    if (s.kind !== "county" || !rates.has(`no:${s.fips}`) || !s.inside) continue;
-    throw new RateError(
-      `${s.name} County's ${state} rates depend on city limits and police jurisdictions no one publishes outlines for. Confirm the rate with the county.`,
-      422,
-    );
+    if (!rates.has(`no:${s.fips}`)) continue;
+    if (s.kind === "county" && s.inside)
+      throw new RateError(
+        `${s.name} County's ${state} rates depend on city limits and police jurisdictions no one publishes outlines for. Confirm the rate with the county.`,
+        422,
+      );
+    // A district whose rate no source confirms: inside it, or close enough
+    // that it could be, there is no rate to give.
+    if (s.kind === "district" && (s.inside || s.edgeMetres < marginOf(point)))
+      throw new RateError(
+        `This address is ${s.inside ? "in" : `within ${marginOf(point)} m of`} ${s.name}, which levies its own tax at a rate no published source confirms. Confirm the rate with ${s.name}.`,
+        422,
+      );
   }
   // A police jurisdiction reaches only unincorporated land, never into
   // another city.
@@ -184,7 +194,7 @@ export async function geoRateAt(
         if (sharper) return geoRateAt(state, sharper, date, street, trace);
       }
       throw new RateError(
-        `This address is within ${margin} m of the ${s.name} line, too close to tell from the map whether it is ${pct(answer.rate)}${Number.isNaN(other.rate) ? " or another rate" : ` or ${pct(other.rate)}`}. Confirm the rate with the address's city or county.`,
+        `This address is within ${margin} m of the ${s.name.trim() || `${s.kind} ${s.fips}`} line, too close to tell from the map whether it is ${pct(answer.rate)}${Number.isNaN(other.rate) ? " or another rate" : ` or ${pct(other.rate)}`}. Confirm the rate with the address's city or county.`,
         422,
       );
     }
@@ -254,7 +264,7 @@ function rateOf(
     // A city counts once, whether matched as a place or as a town.
     const code = `${row.type}:${row.code}`;
     if (parts.some((p) => p.code === code)) return;
-    parts.push({ kind: kindOf(s), code, rate });
+    parts.push({ kind: kindOf(s), name: s.name.trim() || null, code, rate });
     levying?.add(s);
   };
   const sorted = [...inside].sort(byKind);
@@ -338,6 +348,26 @@ async function hasRows(state: string, type: string) {
     .where(and(eq(salesTaxJurisdictionRates.state, state), eq(salesTaxJurisdictionRates.type, type)))
     .limit(1);
   return Boolean(row);
+}
+
+/** A district of its own (a "no" or resort-tax "rt" row) that `city` is
+ *  named for, as its state's seed coded it, and whether it has an outline;
+ *  "unloaded" when the state has no data loaded. */
+export async function districtNamed(state: string, city: string, date: string): Promise<{ outlined: boolean } | null | "unloaded"> {
+  if (!(await releaseFiles(state)).length) return "unloaded";
+  const code = districtCode(city);
+  const [row] = await db
+    .select({ code: salesTaxJurisdictionRates.code })
+    .from(salesTaxJurisdictionRates)
+    .where(and(eq(salesTaxJurisdictionRates.state, state), inArray(salesTaxJurisdictionRates.type, ["no", "rt"]),
+      eq(salesTaxJurisdictionRates.code, code), lte(salesTaxJurisdictionRates.startsOn, date), gte(salesTaxJurisdictionRates.endsOn, date)));
+  if (!row) return null;
+  const [outline] = await db
+    .select({ fips: salesTaxShapes.fips })
+    .from(salesTaxShapes)
+    .where(and(eq(salesTaxShapes.state, state), eq(salesTaxShapes.kind, "district"), eq(salesTaxShapes.fips, code)))
+    .limit(1);
+  return { outlined: Boolean(outline) };
 }
 
 async function releaseFiles(state: string) {

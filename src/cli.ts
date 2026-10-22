@@ -3,7 +3,7 @@
  * opentaxrate <command>
  *   serve                         start the HTTP API on PORT (default 8080)
  *   migrate                       create or update the tables
- *   refresh [STATE...] [--dir D] [--force]
+ *   refresh [STATE...] [--dir D] [--download-dir D] [--force]
  *                                 download and load each state's newest data
  *   rate STATE "street" "city" [zip] [date]
  *                                 look one address up
@@ -38,6 +38,11 @@ async function main() {
       console.log("tables up to date");
       return;
     case "refresh":
+      if (args.includes("--download-dir")) {
+        const directory = flag("--download-dir");
+        if (!directory || directory.startsWith("--")) throw new Error("--download-dir needs a local directory");
+        process.env.OPENTAXRATE_DOWNLOAD_DIR = directory;
+      }
       await refreshAddressRates({
         states: positional.map((s) => s.toUpperCase()),
         dir: flag("--dir"),

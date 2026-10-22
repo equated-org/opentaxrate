@@ -10,9 +10,9 @@
  * meals, Massachusetts's local meals tax, Maryland's IT services) are not the
  * general rate and are not here.
  *
- * Montana has no state sales tax, but ten resort areas levy their own, so an
- * address in one is refused for the owner to confirm. Alaska has no state
- * tax and many local ones, so it is not statewide.
+ * Montana has no state sales tax, but its resort areas levy their own; they
+ * are read from the map (ingest/states/montana.ts, rates/index.ts). Alaska
+ * has no state tax and many local ones, so it is not statewide.
  */
 
 interface DatedRate {
@@ -37,24 +37,6 @@ const RATES: Record<string, DatedRate[]> = {
   DC: [{ rate: 0.06, from: "2013-10-01" }],
 };
 
-/** Montana Department of Revenue's resort areas, by the city an address in
- *  each carries. */
-const MONTANA_RESORT_AREAS = new Set([
-  "RED LODGE",
-  "VIRGINIA CITY",
-  "WEST YELLOWSTONE",
-  "WHITEFISH",
-  "BIG SKY",
-  "COOKE CITY",
-  "CRAIG",
-  "GARDINER",
-  "ST REGIS",
-  "SAINT REGIS",
-  "WOLF CREEK",
-  // Cooke City's resort area takes in Silver Gate, which has its own ZIP.
-  "SILVER GATE",
-]);
-
 export const STATEWIDE_STATES = Object.keys(RATES);
 
 export type StatewideRate =
@@ -70,11 +52,6 @@ export function statewideRate(
 ): StatewideRate | null {
   const history = RATES[state];
   if (!history) return null;
-  const normalizedCity = (city ?? "").toUpperCase().replace(/\./g, "").trim();
-  if (state === "MT" && MONTANA_RESORT_AREAS.has(normalizedCity))
-    return {
-      refused: `${city} is a Montana resort area with its own local resort tax. Confirm its rate with the town.`,
-    };
   const found = history.find((r) => r.from <= date);
   if (!found)
     return {

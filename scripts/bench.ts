@@ -26,10 +26,14 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = new URL("../artifacts/bench/", import.meta.url).pathname;
-const CASES = path.join(ROOT, "cases");
-const ANSWERS = path.join(ROOT, "answers");
+/** BENCH_CASES and BENCH_ANSWERS point at another set (a pool split), whose
+ *  rows may not have an expected rate yet: they are asked, not scored. */
+const CASES = process.env.BENCH_CASES || path.join(ROOT, "cases");
+const ANSWERS = process.env.BENCH_ANSWERS || path.join(ROOT, "answers");
 const USAGE = path.join(ROOT, "usage.jsonl");
-const PAID_CALLS_PER_RUN = 10;
+/** Paid calls per service per run; raise it per run with
+ *  BENCH_PAID_CALLS_PER_RUN when a budget has been agreed. */
+const PAID_CALLS_PER_RUN = Number(process.env.BENCH_PAID_CALLS_PER_RUN || 10);
 /** Rates within half a hundredth of a percent agree: some services round
  *  New Mexico's 6.4375% to 6.438%. */
 const SAME_RATE = 5e-5;
@@ -75,22 +79,17 @@ const PROVIDERS: Record<string, Provider> = {
   /** The full pipeline: every configured geocoder, then the engine. The
    *  bench measures accuracy, not quota, so geocoder calls are neither
    *  rationed nor cached in the database it reads. */
-  opentaxrate: {
+  opentaxrate: { needs: [], pauseMs: 0, fresh: true, ask: (c) => pipeline(c) },
+  /** The same, for iterating on the engine: each provider's answer for each
+   *  address is asked once and replayed from BENCH_GEOCODE_REPLAY after. */
+  "opentaxrate-dev": { needs: ["BENCH_GEOCODE_REPLAY"], pauseMs: 0, fresh: true, ask: (c) => pipeline(c, env("BENCH_GEOCODE_REPLAY")) },
+  /** The public tier: a lookup without a key, limited to
+   *  OPENTAXRATE_PUBLIC_PROVIDERS (photon,pelias when unset here). */
+  "opentaxrate-public": {
     needs: [],
     pauseMs: 0,
     fresh: true,
-    async ask(c) {
-      const { addressRates } = await import("../src/rates/index.js");
-      const { createLocator } = await import("../src/geocoding/locator.js");
-      const locate = createLocator(c, {
-        budget: { reserve: async () => true, success: () => {}, failure: () => {} },
-        cache: { get: async () => undefined, put: async () => {} },
-      });
-      return addressRates.at({ ...c, locate }, c.date).then(
-        (r) => ({ rate: r.rate, raw: { match: r.match, locationCode: r.locationCode, source: r.source, geocoders: locate.trace } }),
-        (e: Error) => ({ refused: e.message, raw: { geocoders: locate.trace } }),
-      );
-    },
+    ask: (c) => pipeline(c, undefined, process.env.OPENTAXRATE_PUBLIC_PROVIDERS || "photon,pelias"),
   },
   /** The engine alone, at the case's own address point. */
   "opentaxrate-point": {
@@ -158,13 +157,42 @@ const PROVIDERS: Record<string, Provider> = {
         : { refused: `${response.status} ${raw?.error?.message ?? ""}`, raw };
     },
   },
+  /** TaxCloud's v1 Lookup: a tax amount on a $100 item, so the rate is the
+   *  amount / 100. It answers $0 where the account doesn't collect, so $0 is
+   *  "not collecting" except in states with no sales tax (Alaska has local ones). */
+  "taxcloud-v1": {
+    needs: ["TAXCLOUD_V1_LOGIN_ID", "TAXCLOUD_V1_API_KEY"],
+    pauseMs: 300,
+    async ask(c) {
+      const address = { Address1: c.street, City: c.city, State: c.state, Zip5: c.zip.slice(0, 5) };
+      const response = await fetch("https://api.taxcloud.net/1.0/TaxCloud/Lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          apiLoginID: env("TAXCLOUD_V1_LOGIN_ID"), apiKey: env("TAXCLOUD_V1_API_KEY"),
+          customerID: "opentaxrate-bench", cartID: `bench-${c.id}`, deliveredBySeller: false,
+          origin: address, destination: address,
+          cartItems: [{ Index: 0, ItemID: "general", TIC: 0, Price: 100, Qty: 1 }],
+        }),
+      });
+      const raw = await json(response);
+      const amount = raw?.CartItemsResponse?.[0]?.TaxAmount;
+      if (!response.ok || raw?.ResponseType !== 3 || typeof amount !== "number")
+        return { refused: `${response.status} ${raw?.Messages?.[0]?.Message ?? ""}`, raw };
+      if (amount === 0 && !["DE", "MT", "NH", "OR"].includes(c.state)) return { refused: "$0: the account has no nexus set for this state", raw };
+      return { rate: round(amount / 100), raw };
+    },
+  },
   taxjar: {
     needs: ["TAXJAR_API_TOKEN"],
     pauseMs: 300,
     async ask(c) {
-      const url = new URL(`https://api.taxjar.com/v2/rates/${c.zip.slice(0, 5)}`);
+      // TAXJAR_SANDBOX=1: the sandbox answers the same rates and doesn't bill.
+      const sandbox = Boolean(env("TAXJAR_SANDBOX"));
+      const url = new URL(`https://${sandbox ? "api.sandbox.taxjar.com" : "api.taxjar.com"}/v2/rates/${c.zip.slice(0, 5)}`);
       url.search = new URLSearchParams({ street: c.street, city: c.city, state: c.state, country: "US" }).toString();
-      const response = await fetch(url, { headers: { Authorization: `Bearer ${env("TAXJAR_API_TOKEN")}` } });
+      const token = sandbox ? env("TAXJAR_SANDBOX_API_TOKEN") : env("TAXJAR_API_TOKEN");
+      const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
       const raw = await json(response);
       const rate = Number(raw?.rate?.combined_rate);
       return response.ok && Number.isFinite(rate)
@@ -214,6 +242,22 @@ const PROVIDERS: Record<string, Provider> = {
         : { refused: `${response.status} ${raw?.error ?? ""}`, raw };
     },
   },
+  /** APIVerve's sales tax API takes a ZIP code, not a street, and its free
+   *  plan has 200 credits in all and allows 5 requests at a time. */
+  apiverve: {
+    needs: ["APIVERVE_API_KEY"],
+    pauseMs: 1_500,
+    async ask(c) {
+      const url = new URL("https://api.apiverve.com/v1/salestax");
+      url.search = new URLSearchParams({ zip: c.zip.slice(0, 5) }).toString();
+      const response = await fetch(url, { headers: { "x-api-key": env("APIVERVE_API_KEY") } });
+      const raw = await json(response);
+      const rate = Number(raw?.data?.rate);
+      return response.ok && raw?.status === "ok" && Number.isFinite(rate)
+        ? { rate: round(rate), raw }
+        : { refused: `${response.status} ${raw?.error ?? ""}`, raw };
+    },
+  },
   /** Stripe Tax in test mode; needs Tax turned on for the account. */
   stripe: {
     needs: ["STRIPE_SECRET_KEY"],
@@ -250,6 +294,64 @@ const PROVIDERS: Record<string, Provider> = {
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
+async function pipeline(c: Case, replayFile?: string, publicProviders?: string): Promise<Answer> {
+  const { addressRates } = await import("../src/rates/index.js");
+  const { createLocator } = await import("../src/geocoding/locator.js");
+  const { geocoderProviders } = await import("../src/geocoding/registry.js");
+  const { addressStandardizer } = await import("../src/standardize/index.js");
+  const { EVERY_PROVIDER, policyFor } = await import("../src/access.js");
+  const policy = publicProviders
+    ? policyFor({ tier: "public" }, { OPENTAXRATE_PUBLIC_PROVIDERS: publicProviders })
+    : EVERY_PROVIDER;
+  const replay: Record<string, unknown> = replayFile && fs.existsSync(replayFile) ? JSON.parse(fs.readFileSync(replayFile, "utf8")) : {};
+  const providers = geocoderProviders(policy).map((p) => !replayFile ? p : {
+    ...p,
+    async geocode(a: typeof c, signal: AbortSignal) {
+      const key = `${p.id}|${c.id}`;
+      // A failure (a spent quota, an outage) isn't kept: replayed, it would
+      // trip the provider's breaker on every later run.
+      if (!(key in replay)) {
+        replay[key] = await p.geocode(a, signal);
+        fs.writeFileSync(replayFile, JSON.stringify(replay));
+      }
+      const r = replay[key] as { failed?: string } | null;
+      if (r && "failed" in r) throw new Error(r.failed);
+      return r as never;
+    },
+  });
+  // Geocodio's free tier is daily and shared with standardization, so its
+  // calls go through the shared budget (GEOCODIO_DAILY_CAP); the rest are
+  // unmetered for a benchmark.
+  const { postgresGeocodeBudget } = await import("../src/geocoding/budget.js");
+  const locate = createLocator(c, {
+    providers,
+    budget: {
+      reserve: async (p) => (p.id === "geocodio" ? postgresGeocodeBudget.reserve(p) : true),
+      success: (p) => postgresGeocodeBudget.success(p),
+      failure: (p, e) => postgresGeocodeBudget.failure(p, e),
+    },
+    cache: { get: async () => undefined, put: async () => {} },
+  });
+  const standardizer = addressStandardizer(policy);
+  const standardize = standardizer && (async () => {
+    if (!replayFile) return standardizer(c);
+    const key = `standardize|${c.id}`;
+    // Only a found ZIP+4 is kept: the standardizer gives none both for no
+    // match and for a failed call, and a failure mustn't stick.
+    if (replay[key]) return replay[key] as Awaited<ReturnType<typeof standardizer>>;
+    const found = await standardizer(c);
+    if (found) {
+      replay[key] = found;
+      fs.writeFileSync(replayFile, JSON.stringify(replay));
+    }
+    return found;
+  });
+  return addressRates.at({ ...c, locate, standardize, pickStreet: policy.allows("jev") ? undefined : null }, c.date).then(
+    (r) => ({ rate: r.rate, raw: { match: r.match, locationCode: r.locationCode, source: r.source, geocoders: locate.trace } }),
+    (e: Error) => ({ refused: e.message, raw: { geocoders: locate.trace } }),
+  );
+}
+
 const notAboutAddress = (a: Answer): a is { refused: string } =>
   "refused" in a && /^(error:|40[13] |429 |5\d\d )|isn’t active|not active|not collecting/i.test(a.refused);
 
@@ -273,7 +375,7 @@ function loadCases(): Case[] {
         lon: at.lon !== undefined && f[at.lon] ? Number(f[at.lon]) : undefined,
         lat: at.lat !== undefined && f[at.lat] ? Number(f[at.lat]) : undefined,
       };
-      if (!Number.isFinite(c.expected)) continue;
+      if (!Number.isFinite(c.expected) && !process.env.BENCH_CASES) continue;
       const id = hash(`${c.state}|${c.street}|${c.city}|${c.zip}|${c.date}`.toUpperCase());
       if (!cases.has(id)) cases.set(id, { id, ...c });
     }

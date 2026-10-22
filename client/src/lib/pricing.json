@@ -1,0 +1,416 @@
+{
+  "asOf": "2026-10-22",
+  "rows": [
+    {
+      "id": "opentaxrate-api",
+      "name": "OpenTaxRate API",
+      "ours": true,
+      "published": "Free without a key; $1.95 per 1,000 lookups with one",
+      "estimate": "$0\u20131.95",
+      "notes": [],
+      "estimateNote": "$0 without a key; $1.95 with one, which adds commercial geocoders",
+      "method": "Our own price. Without a key, lookups use only our own geocoders and cost nothing. With a key they may also use commercial geocoders, at $1.95 per 1,000 lookups that return a rate; declined addresses aren't charged.",
+      "sources": [
+        {
+          "label": "OpenTaxRate pricing",
+          "url": "https://opentaxrate.com/pricing",
+          "checked": "2026-10-22"
+        }
+      ],
+      "comparison": {
+        "perThousand": 1.95,
+        "note": "Keyed plan; first 100 free excluded. The measured run enabled all configured providers with Geocodio\u2019s quota exhausted; production quotas and budgets can change coverage.",
+        "conditional": false,
+        "benchmarkId": "opentaxrate-providers"
+      }
+    },
+    {
+      "id": "opentaxrate-self-hosted",
+      "name": "OpenTaxRate, self-hosted",
+      "ours": true,
+      "published": "Free on your own server: $0 with only its own geocoders (Nominatim, Photon, Pelias), or the providers' prices for any commercial geocoders you add keys for",
+      "estimate": "$0\u20131.14 + hosting (sample mix)",
+      "notes": [],
+      "method": "No fee from us. Provider counts below are scaled to 1,000 lookups from a 309-address run, not raw counts for 309 addresses. For example, 78 Geocodio calls \u00f7 309 \u00d7 1,000 \u2248 252. This models the observed provider mix at the listed unit prices, not a maximum or an invoice. Different addresses, retries, storage rights and provider plans change the cost; HERE\u2019s current public page does not expose its unit rate.",
+      "sources": [
+        {
+          "label": "Geocodio",
+          "url": "https://www.geocod.io/pricing/",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "HERE",
+          "url": "https://www.here.com/get-started/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Mapbox",
+          "url": "https://www.mapbox.com/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Google Maps Platform",
+          "url": "https://developers.google.com/maps/billing-and-pricing/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Esri ArcGIS",
+          "url": "https://location.arcgis.com/pricing/",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Mapbox storage and pricing",
+          "url": "https://www.mapbox.com/geocoding",
+          "checked": "2026-10-22"
+        }
+      ],
+      "estimateNote": "$0 plus hosting with its own geocoders only (91.3% correct on the benchmark); about $1.14 with every commercial geocoder after free tiers (98.9%)",
+      "breakdown": [
+        "With only its own geocoders, no provider is paid: $0 plus hosting.",
+        "Geocodio: 252 calls \u00d7 $1.00 per 1,000 = $0.25",
+        "Geocodio ZIP+4 standardization: 243 \u00d7 2 lookups \u00d7 $1.00 per 1,000 = $0.49",
+        "HERE: 246 calls \u00d7 $0.83 per 1,000 = $0.20",
+        "Mapbox: 104 calls \u00d7 $0.75 per 1,000 = $0.08",
+        "Esri: 42 calls \u00d7 $0.50 per 1,000 = $0.02",
+        "Google: 19 calls \u00d7 $5.00 per 1,000 = $0.10",
+        "Census and OpenStreetMap (Pelias, Photon): free",
+        "Total about $1.14 per 1,000 at this provider mix; without Google, about $1.04. Free tiers and provider terms apply separately. Mapbox\u2019s $0.75 rate is for temporary results; permanent storage starts at $5 per 1,000 with no free tier. Using that rate adds about $0.44 at this mix. Hosting and other paid services are excluded."
+      ]
+    },
+    {
+      "id": "geoverio",
+      "name": "Geoverio",
+      "published": "$0.50 per 1,000 PAYG; $9/mo for 100,000 requests; free 1,000/mo",
+      "estimate": "$0.50 PAYG / $0.09 at capacity",
+      "notes": [],
+      "method": "PAYG has no monthly fee. Starter: $9 \u00f7 100,000 \u00d7 1,000 = $0.09 only when fully used. Benchmarked with full street addresses on the same 277 officially labeled evalA cases; see the measured accuracy column. Low subscription unit prices depend on utilization.",
+      "sources": [
+        {
+          "label": "Geoverio pricing",
+          "url": "https://www.geoverio.com/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Sales tax API documentation",
+          "url": "https://www.geoverio.com/docs/sales-tax",
+          "checked": "2026-10-22"
+        }
+      ],
+      "comparison": {
+        "perThousand": 0.5,
+        "conditional": false,
+        "note": "PAYG $0.50 per 1,000 requests, no monthly fee. At 2,000 lookups/month: $1.00/month. The separate free plan and subscription capacity prices are not used for this point. Full street-address inputs on the same 277 officially labeled evalA cases."
+      }
+    },
+    {
+      "id": "api-ninjas",
+      "name": "API Ninjas",
+      "published": "Developer $59/mo for 100,000 calls; $39/mo with annual billing",
+      "estimate": "$0.59 at capacity",
+      "notes": [],
+      "method": "$59 \u00f7 100,000 \u00d7 1,000. Sales tax documentation accepts street_address with city and state; combined rates and commercial use require a paid plan. Developer disallows data caching/storage. Not benchmarked; street input alone does not establish rooftop accuracy.",
+      "sources": [
+        {
+          "label": "API Ninjas pricing",
+          "url": "https://api-ninjas.com/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Sales tax API",
+          "url": "https://api-ninjas.com/api/salestax",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "taxrate",
+      "name": "TaxRate.io",
+      "published": "$9.99/mo for 10,000; $19.99/mo for 100,000 requests",
+      "estimate": "$0.20\u20131.00 at capacity",
+      "notes": [
+        "zip"
+      ],
+      "method": "Basic: $9.99 \u00f7 10,000 \u00d7 1,000 \u2248 $1.00; Advanced: $19.99 \u00f7 100,000 \u00d7 1,000 \u2248 $0.20. The vendor describes US ZIP-level lookups. Public pages are old; current availability and billing need confirmation. Not benchmarked.",
+      "sources": [
+        {
+          "label": "TaxRate.io pricing",
+          "url": "https://www.taxrate.io/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "TaxRate.io coverage",
+          "url": "https://www.taxrate.io/",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "salestaxapi",
+      "name": "SalesTaxAPI",
+      "published": "$19/mo for 2,000 requests; extra requests $5 per 5,000",
+      "estimate": "$9.50 entry / $1.00 extra",
+      "notes": [
+        "zip"
+      ],
+      "method": "Starter: $19 \u00f7 2,000 \u00d7 1,000 = $9.50. Extra requests: $5 \u00f7 5,000 \u00d7 1,000 = $1, plus the plan fee. Enterprise is $199 for 100,000 ($1.99 per 1,000 at capacity). Documentation requires state and 5-digit ZIP, not a street address. Not benchmarked.",
+      "sources": [
+        {
+          "label": "SalesTaxAPI pricing",
+          "url": "https://www.salestaxapi.io/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "SalesTaxAPI docs",
+          "url": "https://www.salestaxapi.io/docs",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe Tax",
+      "published": "$0.05 per calculation",
+      "estimate": "$50",
+      "notes": [],
+      "method": "$0.05 \u00d7 1,000, using the Calculations API alone. With the Transaction API, each $0.50 transaction includes 10 calculations.",
+      "sources": [
+        {
+          "label": "Stripe Tax pricing",
+          "url": "https://stripe.com/tax/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Stripe: how Tax is billed",
+          "url": "https://support.stripe.com/questions/understanding-stripe-tax-pricing?locale=en-GB",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "ziptax",
+      "name": "Zip-Tax",
+      "published": "$29/mo, then from $0.0242 per call",
+      "estimate": "Allowance unclear",
+      "notes": [],
+      "method": "Growth is $29/month and overage starts at $0.0242/call ($24.20 per 1,000 extra calls). The public page does not tie an included call allowance to this price; the calculator\u2019s default 15,000 must not be treated as the allowance. The free plan advertises 100 calls/month; our account stopped after 100 total.",
+      "sources": [
+        {
+          "label": "Zip-Tax pricing",
+          "url": "https://www.zip.tax/pricing",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "quaderno",
+      "name": "Quaderno",
+      "published": "$83/mo for 1,000 transactions",
+      "estimate": "$8.30",
+      "notes": [
+        "bundle"
+      ],
+      "method": "$83 \u00f7 10,000 API calls on Business, fully used. Startup is $41 for up to 2,500 API calls ($16.40 per 1,000 at capacity); Hobby is $24 for 250 ($96 per 1,000). These are different utilization scenarios, not the bill for 1,000 calls.",
+      "sources": [
+        {
+          "label": "Quaderno pricing",
+          "url": "https://quaderno.io/pricing/",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "taxcloud",
+      "name": "TaxCloud",
+      "published": "$79/mo for 200 orders",
+      "estimate": "$39.50",
+      "notes": [
+        "bundle",
+        "fraction"
+      ],
+      "method": "$79 \u00f7 2,000 lookups. The price is from our 2026-10-21 reading; on 2026-10-22 the page showed order tiers without prices.",
+      "sources": [
+        {
+          "label": "TaxCloud pricing",
+          "url": "https://taxcloud.com/taxcloud-pricing/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "comparison": {
+        "perThousand": 39.5,
+        "note": "Historical illustration: $79/month \u00f7 2,000 \u00d7 1,000 from the 21 October reading. Current page exposes no price; API allowance needs confirmation.",
+        "conditional": true
+      }
+    },
+    {
+      "id": "taxjar",
+      "name": "TaxJar",
+      "published": "$99/mo for 200 orders",
+      "estimate": "$49.50",
+      "notes": [
+        "bundle",
+        "fraction"
+      ],
+      "method": "$99 \u00f7 2,000 lookups, on Professional, the cheapest plan with the API.",
+      "sources": [
+        {
+          "label": "TaxJar pricing",
+          "url": "https://support.taxjar.com/article/139-how-much-does-taxjar-cost",
+          "checked": "2026-10-22"
+        }
+      ],
+      "comparison": {
+        "perThousand": 49.5,
+        "note": "$99/month Professional, 200 orders = 2,000 rate lookups; no imported orders. Full monthly allowance used.",
+        "conditional": false
+      }
+    },
+    {
+      "id": "avalara",
+      "name": "Avalara AvaTax",
+      "published": "From $69 per state per month",
+      "estimate": "Depends on states / contract",
+      "notes": [
+        "bundle"
+      ],
+      "method": "The published $699/year is per state for a compliance bundle, equivalent to $58.25/month. At 2,000 lookups/month in one paid state, that is $29.13 per 1,000. It is not a nationwide API quote; API eligibility and state coverage need confirmation. The old rates-by-address documentation URL now redirects to generic developer navigation, so it no longer substantiates a free production API.",
+      "sources": [
+        {
+          "label": "Avalara pricing",
+          "url": "https://www.avalara.com/us/en/products/sales-and-use-tax/pricing.html",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "AvaTax rates by address",
+          "url": "https://developer.avalara.com/api-reference/avatax/rest/v2/methods/Free/TaxRatesByAddress/",
+          "checked": "2026-10-22"
+        }
+      ],
+      "comparison": {
+        "perThousand": 29.125,
+        "note": "Illustration only: $699/year for ONE paid state \u00f7 12 \u00f7 2,000 \u00d7 1,000. Nationwide API access and contract cost are not established.",
+        "conditional": true
+      }
+    },
+    {
+      "id": "lovat",
+      "name": "Lovat",
+      "published": "\u20ac20 per 5,000 extra transactions, plus a plan fee",
+      "estimate": "\u20ac0.40 + plan",
+      "notes": [
+        "fraction",
+        "zip"
+      ],
+      "method": "10 lookups count as one transaction, so \u20ac20 covers 50,000 lookups past the plan's allowance. The plan fee isn't published. Lovat is now called Lappa.",
+      "sources": [
+        {
+          "label": "Lovat transaction pricing",
+          "url": "https://vatcompliance.co/transaction-based-pricing/",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "apiverve",
+      "name": "APIVerve",
+      "published": "$29.99/mo for 200,000 credits (2 per call); free plan 200 credits a month",
+      "estimate": "$0.30",
+      "notes": [
+        "zip"
+      ],
+      "method": "$29.99 \u00f7 100,000 calls on Starter, the vendor's own figure. Larger plans come to $0.20 and $0.15. The API takes a 5-digit ZIP code.",
+      "sources": [
+        {
+          "label": "APIVerve pricing",
+          "url": "https://apiverve.com/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Sales tax API",
+          "url": "https://apiverve.com/marketplace/salestax",
+          "checked": "2026-10-22"
+        }
+      ],
+      "comparison": {
+        "perThousand": 14.995,
+        "conditional": true,
+        "note": "Separate sample: 76/87 correct (87.4%), ZIP-code input only; not the 277-address evalA sample, so excluded from frontier ranking. Starter is $29.99/month for 200,000 credits, at 2 credits/call. At the chart\u2019s 2,000 lookups/month: $29.99 \u00f7 2 = $14.995 per 1,000. The $0.30 figure requires using all 100,000 included calls."
+      }
+    },
+    {
+      "id": "anrok",
+      "name": "Anrok",
+      "published": "$50 per market per month for ecommerce; $100 otherwise",
+      "estimate": "$5\u2013100 (one market)",
+      "notes": [
+        "bundle"
+      ],
+      "method": "Starter costs $50 per market per month for ecommerce and $100 otherwise. At 1,000 lookups/month in one market, that is $50\u2013100 per 1,000; at 10,000, $5\u201310. Each registered US state is a separate market. API eligibility and high-volume fees depend on contract; this is not a nationwide API quote.",
+      "sources": [
+        {
+          "label": "Anrok pricing",
+          "url": "https://www.anrok.com/pricing?0270bf64_page=2&9c61155a_page=1",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "zip2tax",
+      "name": "Zip2Tax",
+      "published": "$1,500/yr for 1,000 lookups a month",
+      "estimate": "$125",
+      "notes": [],
+      "method": "$1,500 \u00f7 12,000 lookups, for the street-address database. The ZIP-level one is $389 a year.",
+      "sources": [
+        {
+          "label": "Zip2Tax pricing",
+          "url": "https://www.zip2tax.com/pages/sales-tax-rate-api",
+          "checked": "2026-10-22"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "id": "bundle",
+      "text": "The plan also covers filing, registration or other compliance work, so this is the whole plan fee spread over lookups, not a per-call price like Stripe's."
+    },
+    {
+      "id": "fraction",
+      "text": "A lookup counts as a fraction of an order or transaction (1/10)."
+    },
+    {
+      "id": "zip",
+      "text": "Rates by ZIP code, not street address."
+    }
+  ],
+  "quoteOnly": [
+    {
+      "name": "Kintsugi",
+      "url": "https://trykintsugi.com/pricing"
+    },
+    {
+      "name": "Vertex",
+      "url": "https://www.vertexinc.com/"
+    },
+    {
+      "name": "Sovos",
+      "url": "https://sovos.com/sut/products/sales-use-tax-filing/"
+    },
+    {
+      "name": "CereTax",
+      "url": "https://www.ceretax.com/"
+    },
+    {
+      "name": "Fonoa",
+      "url": "https://www.fonoa.com/platform/tax-engine"
+    },
+    {
+      "name": "Numeral",
+      "url": "https://www.numeral.com/pricing"
+    },
+    {
+      "name": "Zamp",
+      "url": "https://zamp.com/"
+    }
+  ]
+}

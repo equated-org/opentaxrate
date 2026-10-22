@@ -36,6 +36,20 @@
       "when": 1792615628810,
       "tag": "0004_geocoding",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792639332280,
+      "tag": "0005_accounts",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792645786530,
+      "tag": "0006_area_reporting_code",
+      "breakpoints": true
     }
   ]
 }
