@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 465" role="img" aria-labelledby="title desc">
+  <title id="title">Accuracy versus price, 22 October 2026</title>
+  <desc id="desc">Higher and further left is better. Price runs from $0.10 to $100 on a logarithmic horizontal axis. Accuracy is on the left vertical axis, from 0 to 100%. Hollow dots have conditional prices or separate samples.</desc>
+  <style>text{fill:#6b6a63;font-size:12px;font-family:Arial,sans-serif}line{stroke:#e8e6dc}</style>
+  <rect width="820" height="465" fill="#faf9f5" />
+  <line x1="80" x2="730" y1="325.0" y2="325.0" />
+  <text x="65" y="329.0" text-anchor="end">0%</text>
+  <line x1="80" x2="730" y1="271.0" y2="271.0" />
+  <text x="65" y="275.0" text-anchor="end">20%</text>
+  <line x1="80" x2="730" y1="217.0" y2="217.0" />
+  <text x="65" y="221.0" text-anchor="end">40%</text>
+  <line x1="80" x2="730" y1="163.0" y2="163.0" />
+  <text x="65" y="167.0" text-anchor="end">60%</text>
+  <line x1="80" x2="730" y1="109.0" y2="109.0" />
+  <text x="65" y="113.0" text-anchor="end">80%</text>
+  <line x1="80" x2="730" y1="55.0" y2="55.0" />
+  <text x="65" y="59.0" text-anchor="end">100%</text>
+  <line x1="80.0" x2="80.0" y1="55" y2="325" />
+  <text x="80.0" y="348" text-anchor="middle">$0.1</text>
+  <line x1="231.4435009394707" x2="231.4435009394707" y1="55" y2="325" />
+  <text x="231.4435009394707" y="348" text-anchor="middle">$0.5</text>
+  <line x1="296.66666666666663" x2="296.66666666666663" y1="55" y2="325" />
+  <text x="296.66666666666663" y="348" text-anchor="middle">$1</text>
+  <line x1="361.8898323938626" x2="361.8898323938626" y1="55" y2="325" />
+  <text x="361.8898323938626" y="348" text-anchor="middle">$2</text>
+  <line x1="448.1101676061374" x2="448.1101676061374" y1="55" y2="325" />
+  <text x="448.1101676061374" y="348" text-anchor="middle">$5</text>
+  <line x1="513.3333333333333" x2="513.3333333333333" y1="55" y2="325" />
+  <text x="513.3333333333333" y="348" text-anchor="middle">$10</text>
+  <line x1="578.5564990605293" x2="578.5564990605293" y1="55" y2="325" />
+  <text x="578.5564990605293" y="348" text-anchor="middle">$20</text>
+  <line x1="664.7768342728041" x2="664.7768342728041" y1="55" y2="325" />
+  <text x="664.7768342728041" y="348" text-anchor="middle">$50</text>
+  <line x1="730.0" x2="730.0" y1="55" y2="325" />
+  <text x="730.0" y="348" text-anchor="middle">$100</text>
+  <text x="80" y="25">Correct / asked (%) ↑</text>
+  <text x="405" y="383" text-anchor="middle">Estimated USD / 1,000 lookups · log scale · ← cheaper</text>
+  <circle cx="359.5074991285456" cy="57.92418772563178" r="10" fill="#2563eb" stroke="#2563eb" stroke-width="2">
+    <title>OpenTaxRate API: 98.9%, $1.95/1,000. Keyed plan; first 100 free excluded. The measured run enabled all configured providers with Geocodio’s quota exhausted; production quotas and budgets can change coverage.</title>
+  </circle>
+  <text x="374.5074991285456" y="77.92418772563178" text-anchor="start">OpenTaxRate API</text>
+  <circle cx="231.4435009394707" cy="102.76173285198556" r="7" fill="#6b6a63" stroke="#6b6a63" stroke-width="2">
+    <title>Geoverio: 82.3%, $0.50/1,000. PAYG $0.50 per 1,000 requests, no monthly fee. At 2,000 lookups/month: $1.00/month. The separate free plan and subscription capacity prices are not used for this point. Full street-address inputs on the same 277 officially labeled evalA cases.</title>
+  </circle>
+  <text x="246.4435009394707" y="122.76173285198556" text-anchor="start">Geoverio</text>
+  <circle cx="642.596037385733" cy="83.2089552238806" r="7" fill="#faf9f5" stroke="#6b6a63" stroke-width="2">
+    <title>TaxCloud: 89.6%, $39.50/1,000. Historical illustration: $79/month ÷ 2,000 × 1,000 from the 21 October reading. Current page exposes no price; API allowance needs confirmation.</title>
+  </circle>
+  <text x="657.596037385733" y="103.2089552238806" text-anchor="start">TaxCloud*</text>
+  <circle cx="663.8311264356065" cy="59.873646209386266" r="7" fill="#6b6a63" stroke="#6b6a63" stroke-width="2">
+    <title>TaxJar: 98.2%, $49.50/1,000. $99/month Professional, 200 orders = 2,000 rate lookups; no imported orders. Full monthly allowance used.</title>
+  </circle>
+  <text x="678.8311264356065" y="66.87364620938627" text-anchor="start">TaxJar</text>
+  <circle cx="613.924285707383" cy="55.9747292418773" r="7" fill="#faf9f5" stroke="#6b6a63" stroke-width="2">
+    <title>Avalara AvaTax: 99.6%, $29.12/1,000. Illustration only: $699/year for ONE paid state ÷ 12 ÷ 2,000 × 1,000. Nationwide API access and contract cost are not established.</title>
+  </circle>
+  <text x="628.924285707383" y="39.9747292418773" text-anchor="start">Avalara AvaTax*</text>
+  <circle cx="551.4550685207016" cy="89.13793103448273" r="7" fill="#faf9f5" stroke="#6b6a63" stroke-width="2">
+    <title>APIVerve: 87.4%, $14.99/1,000. Separate sample: 76/87 correct (87.4%), ZIP-code input only; not the 277-address evalA sample, so excluded from frontier ranking. Starter is $29.99/month for 200,000 credits, at 2 credits/call. At the chart’s 2,000 lookups/month: $29.99 ÷ 2 = $14.995 per 1,000. The $0.30 figure requires using all 100,000 included calls.</title>
+  </circle>
+  <text x="566.4550685207016" y="109.13793103448273" text-anchor="start">APIVerve*</text>
+  <text x="80" y="425">2,000 lookups/month · 22 October 2026 · Hollow dots: conditional price or separate sample.</text>
+  <text x="80" y="442">APIVerve: ZIP-only, n=87. Full assumptions and sources: opentaxrate.com/benchmarks.</text>
+</svg>

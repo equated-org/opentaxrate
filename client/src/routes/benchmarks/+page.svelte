@@ -1,11 +1,18 @@
 <script lang="ts">
 	import Benchmark from '$lib/landing/Benchmark.svelte';
+	import AccuracyPrice from '$lib/landing/AccuracyPrice.svelte';
+	import BenchmarkAppendix from '$lib/landing/BenchmarkAppendix.svelte';
 	import LookupPipeline from '$lib/landing/LookupPipeline.svelte';
 	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
 	import { noteNumbers, pricing as data } from '$lib/pricing';
 
-	const num = noteNumbers(data);
+	// Ours, then the vendors on the accuracy chart in its order, then the rest.
+	const benchmarked = ['opentaxrate-api', 'opentaxrate-self-hosted', 'avalara', 'taxjar', 'ziptax', 'apiverve', 'taxcloud', 'geoverio', 'lovat'];
+	const rank = (id: string) => (benchmarked.includes(id) ? benchmarked.indexOf(id) : benchmarked.length);
+	const rows = [...data.rows].sort((a, b) => rank(a.id) - rank(b.id));
+	const notes = data.notes.filter((note) => rows.some((row) => row.notes.includes(note.id)));
+	const num = noteNumbers({ ...data, notes });
 	const marks = (ids: string[]) => ids.map((id) => num[id]).join(',');
 </script>
 
@@ -28,14 +35,14 @@
 			<Benchmark
 				compact
 				title="Accuracy"
-				lead="OpenTaxRate matched the state's own rate for 98.9% of 277 random addresses (91.3% with only its own self-hosted geocoders) and gave no wrong rates; when unsure, it declines rather than guesses."
+				lead="OpenTaxRate matched the state's own rate for 98.9% of 277 random addresses (92.8% with only its own self-hosted geocoders) and gave no wrong rates; when unsure, it declines rather than guesses."
 			/>
 		</div>
 
 		<section id="pricing" aria-labelledby="pricing-heading" class="mt-20 border-t border-[var(--border)] pt-14">
 			<h2 id="pricing-heading" class="text-[19px] leading-snug font-semibold tracking-[-0.01em] sm:text-[22px]">Pricing</h2>
 			<p class="mt-2 max-w-[44rem] text-[14.5px] leading-relaxed text-[var(--text-muted)]">
-				Most vendors sell monthly plans, not calls. Spread over lookups, street-address services come to about $2–125 per 1,000. OpenTaxRate is $0 within free tiers and at most about $1.14 past them.
+				OpenTaxRate is free without a key, or $1.95 per 1,000 lookups with one; self-hosted, it costs $0 plus hosting with its own geocoders. Most other services sell monthly plans.
 			</p>
 
 			<p class="mt-6 flex items-center gap-2 text-[12.5px] text-[var(--text-muted)]">
@@ -43,7 +50,8 @@
 				Shaded figures are our estimates; the rest are the vendors' published prices, as of {data.asOf}.
 			</p>
 
-			<table class="pricing mt-3 w-full border-collapse text-left text-sm">
+			<div class="overflow-x-auto">
+			<table class="pricing mt-3 w-full min-w-[560px] border-collapse text-left text-sm">
 				<caption class="sr-only">Published price and our estimated cost per 1,000 lookups, by vendor</caption>
 				<thead>
 					<tr class="border-b border-[var(--border-strong)] text-[12.5px] text-[var(--text-muted)]">
@@ -53,7 +61,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.rows as r (r.id)}
+					{#each rows as r (r.id)}
 						<tr class:ours={r.ours}>
 							<th scope="row" class="py-2.5 pr-4 align-top font-normal {r.ours ? 'font-semibold text-[var(--text)]' : 'text-[var(--text-2)]'}">
 								{r.name}
@@ -61,25 +69,26 @@
 							<td class="py-2.5 pr-4 align-top leading-snug text-[var(--text-2)]">{r.published}</td>
 							<td class="py-2.5 text-right align-top">
 								<span class="whitespace-nowrap"><span class="est font-num">{r.estimate}</span>{#if r.notes.length}<sup class="mark">{marks(r.notes)}</sup>{/if}</span>
-								{#if r.estimateNote}<span class="mt-1 ml-auto block max-w-[15rem] text-[12px] leading-snug text-[var(--text-muted)]">{r.estimateNote}</span>{/if}
 							</td>
 						</tr>
 					{/each}
 				</tbody>
 			</table>
+			</div>
 
 			<ol class="mt-4 flex flex-col gap-1 text-[12.5px] leading-relaxed text-[var(--text-muted)]">
-				{#each data.notes as n, i (n.id)}<li><sup class="mark">{i + 1}</sup> {n.text}</li>{/each}
+				{#each notes as n, i (n.id)}<li><sup class="mark">{i + 1}</sup> {n.text}</li>{/each}
 			</ol>
 
 			<details class="mt-6 text-sm">
 				<summary class="cursor-pointer text-[13px] text-[var(--text-2)] hover:text-[var(--text)]">How we estimated, and sources</summary>
 				<p class="mt-3 leading-relaxed text-[var(--text-muted)]">
-					Each estimate spreads the cheapest plan with API access over an assumed number of lookups a month. They are
-					planning figures, not quotes, and fall as volume rises. Prices change; dates are when we read each page.
+					Each estimate uses the plan and utilization stated below; several assume the entire allowance is used.
+					At lower volume the effective cost rises. Overage prices exclude base fees, and per-state plans do not imply nationwide coverage.
+					These are planning figures, not quotes. Prices change; dates are when we read each page.
 				</p>
 				<ul class="mt-4 flex flex-col gap-3 leading-relaxed">
-					{#each data.rows as r (r.id)}
+					{#each rows as r (r.id)}
 						<li>
 							<span class="font-medium text-[var(--text)]">{r.name}.</span>
 							<span class="text-[var(--text-2)]">{r.method}</span>
@@ -98,14 +107,9 @@
 				</ul>
 			</details>
 
-			<details class="mt-3 text-sm">
-				<summary class="cursor-pointer text-[13px] text-[var(--text-2)] hover:text-[var(--text)]">Vendors that only quote</summary>
-				<p class="mt-3 leading-relaxed text-[var(--text-muted)]">
-					No price published to compute from:
-					{#each data.quoteOnly as q, i (q.name)}{#if i > 0}{', '}{/if}<a class="link" href={q.url} target="_blank" rel="noopener">{q.name}</a>{/each}.
-				</p>
-			</details>
 		</section>
+		<AccuracyPrice />
+		<BenchmarkAppendix />
 	</main>
 
 	<SiteFooter />
