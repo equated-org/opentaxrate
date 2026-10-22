@@ -56,8 +56,15 @@ describe("boundary lines", () => {
       houseHigh: 11040,
       unitLow: "417",
       zip5: "45246",
-      area: { county: "061", place: null, districts: "63:31000" },
+      area: { county: "061", place: null, districts: "63:31000", reportingCode: null },
     });
+  });
+
+  it("keeps the composite SER code a state files the area under", () => {
+    const [row] = parseBoundaryLine(
+      "A,20160701,99991231,320,320,E,E,PINE,ST,,APT,201,224,B,SEATTLE,98122,0017,,,,,01726,53,53,,63000,,,,",
+    );
+    expect(row.area).toEqual({ county: null, place: "63000", districts: "", reportingCode: "01726" });
   });
 
   it("keeps a lettered range's numbers under its grid line", () => {

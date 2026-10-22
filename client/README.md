@@ -19,7 +19,7 @@ nothing from `../src`, and the API's Docker build ignores it.
 ## Develop
 
 ```sh
-cd landing
+cd client
 pnpm install
 cp .env.example .env     # then edit
 pnpm dev                 # http://localhost:5173
@@ -83,7 +83,7 @@ The output is `build/`, plain files. There are no functions or edge code.
 ### Vercel
 
 1. New Project → import the repo.
-2. **Root Directory**: `landing`. Vercel detects SvelteKit and pnpm.
+2. **Root Directory**: `client`. Vercel detects SvelteKit and pnpm.
 3. Build command `pnpm build`, output directory `build`. Set these explicitly
    if Vercel picks its own SvelteKit adapter output.
 4. Environment variables: `PUBLIC_API_URL=https://api.opentaxrate.com`, and the
@@ -97,7 +97,7 @@ Cloudflare Pages.
 ### Cloudflare Pages
 
 1. Workers & Pages → Create → Pages → connect the repo.
-2. Framework preset: SvelteKit (or None). **Root directory**: `landing`.
+2. Framework preset: SvelteKit (or None). **Root directory**: `client`.
    **Build command**: `pnpm build`. **Build output directory**: `build`.
 3. Environment variables: as for Vercel. Add `NODE_VERSION=22` if the
    default image's Node is older.
@@ -106,7 +106,7 @@ Cloudflare Pages.
 You can also deploy without git:
 
 ```sh
-cd landing && pnpm build && npx wrangler pages deploy build --project-name opentaxrate
+cd client && pnpm build && npx wrangler pages deploy build --project-name opentaxrate
 ```
 
 ### Any other static host

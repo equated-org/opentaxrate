@@ -5,7 +5,7 @@
 	import SiteNav from '$lib/landing/SiteNav.svelte';
 
 	/** The plans in one table; the keyed plan's numbers are the ones the API
-	 *  will enforce (docs/plans/api-keys-and-provider-tiers.html). */
+	 *  will enforce (see src/credits.ts). */
 	const PLANS = ['Free', 'API key', 'Self-hosted'];
 	const ROWS: [string, string, string, string][] = [
 		['Price', '$0', '$1.95 per 1,000 lookups', '$0 + your server'],

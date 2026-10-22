@@ -63,6 +63,39 @@
 		</div>
 	{/if}
 
+	{#if rate.reporting}
+		{@const r = rate.reporting}
+		<div>
+			<h3 class="text-sm font-semibold">For your return</h3>
+			<p class="mt-1 text-sm leading-relaxed text-[var(--text-2)]">
+				File with the <a class="link" href={r.agency.url} target="_blank" rel="noopener">{r.agency.name}</a>{r.form
+					? `, on the ${r.form}`
+					: ''}.
+				{#if r.status === 'not_needed'}No local code needed.{/if}
+			</p>
+			{#if r.codes.length}
+				<dl class="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+					{#each r.codes as code, i (i)}
+						<dt class="text-[var(--text-muted)]">{code.label}</dt>
+						<dd>
+							<span class="font-num font-medium text-[var(--text)]">{code.value}</span>
+							{#if !code.verified}<span class="ml-1.5 text-xs text-[var(--warn)]">unverified</span>{/if}
+						</dd>
+					{/each}
+				</dl>
+			{/if}
+			{#each r.missing as item, i (i)}
+				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">Not given here: {item}.</p>
+			{/each}
+			{#each r.fromAccount as item, i (i)}
+				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">From your registration: {item}.</p>
+			{/each}
+			{#each r.notes as note, i (i)}
+				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{note}</p>
+			{/each}
+		</div>
+	{/if}
+
 	<div>
 		<h3 class="text-sm font-semibold">How it was placed</h3>
 		{#each lines as line, i (i)}

@@ -29,7 +29,7 @@ One `client.begin` transaction per state:
 
 1. `DELETE` the state's rows from `sales_tax_street_ranges`, `sales_tax_zip_ranges`, `sales_tax_jurisdiction_rates`, `sales_tax_areas`.
 2. `COPY sales_tax_jurisdiction_rates` from `parseRateLine`.
-3. Stream boundaries through `files.parseBoundary ?? parseBoundaryLine`. Each distinct `county|place|districts` gets an area id `Number(fips) * 1_000_000 + counter`. Street rows `COPY` into `sales_tax_street_ranges` in ~1 MB batches; ZIP rows wait in memory (one connection runs one COPY at a time).
+3. Stream boundaries through `files.parseBoundary ?? parseBoundaryLine`. Each distinct `county|place|districts|reportingCode` gets an area id `Number(fips) * 1_000_000 + counter`. Street rows `COPY` into `sales_tax_street_ranges` in ~1 MB batches; ZIP rows wait in memory (one connection runs one COPY at a time).
 4. `COPY` ZIP ranges, then areas.
 5. Upsert both files into `sales_tax_data_releases` on `(state, kind)`.
 
@@ -52,7 +52,7 @@ One transaction per TIGER file: delete that `kind`'s TIGER rows (file like `tl_%
 | Table | Key columns | Filled by |
 |---|---|---|
 | `sales_tax_data_releases` | `state`, `kind` (`rates` or `boundaries`), `file`, `rows`, `loaded_at`; unique `(state, kind)` | every loader |
-| `sales_tax_areas` | `id` (loader-given), `state`, `county`, `place`, `districts` (sorted `type:code` pairs) | `loadSstState` |
+| `sales_tax_areas` | `id` (loader-given), `state`, `county`, `place`, `districts` (sorted `type:code` pairs), `reporting_code` (the boundary file's composite SER column, e.g. WA's `01726`, KS's `ABIC1`; Missouri's jurisdiction code) | `loadSstState` |
 | `sales_tax_street_ranges` | `state`, `street_key`, `house_low/high`, `house_text`, `parity`, `unit_low/high`, `city`, `zip5`, `starts_on`, `ends_on`, `area_id`; indexes on `(state, street_key)`, `(state, zip5)` | `loadSstState` |
 | `sales_tax_zip_ranges` | `state`, `zip5`, `plus4_low/high`, `kind` (`zip4` or `zip5`), dates, `area_id` | `loadSstState` |
 | `sales_tax_jurisdiction_rates` | `state`, `type`, `code`, `rate numeric(8,6)`, `rate_interstate`, `food_drug_rate`, `food_drug_rate_interstate` (Streamlined only, else null), dates | `loadSstState`, `loadGeoState` |

@@ -264,7 +264,7 @@ function rateOf(
     // A city counts once, whether matched as a place or as a town.
     const code = `${row.type}:${row.code}`;
     if (parts.some((p) => p.code === code)) return;
-    parts.push({ kind: kindOf(s), code, rate });
+    parts.push({ kind: kindOf(s), name: s.name.trim() || null, code, rate });
     levying?.add(s);
   };
   const sorted = [...inside].sort(byKind);

@@ -49,6 +49,11 @@ export interface SstRate {
   /** "state-county-place[-district...]" FIPS codes; null when several areas
    *  share the rate and the address doesn't say which. */
   locationCode: string | null;
+  /** The code the state's return files the area under, where its boundary
+   *  file gives one (Washington's location code, Kansas's jurisdiction
+   *  code, Missouri's jurisdiction code); null when the matched areas
+   *  differ. */
+  reportingCode: string | null;
   files: string[];
   /** How the address was found when not by its own typed street, e.g. "street
    *  read as COFFEY RD (closest spelling in the ZIP)". */
@@ -126,6 +131,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       parts: rated[0].parts,
       match,
       locationCode: rated.length === 1 ? rated[0].locationCode : null,
+      reportingCode: new Set(rated.map((a) => a.reportingCode)).size === 1 ? rated[0].reportingCode : null,
       files,
       ...(notes.length ? { note: notes.join("; ") } : {}),
     };
@@ -475,6 +481,7 @@ async function rateAreas(
       rate: round(parts.reduce((sum, p) => sum + p.rate, 0)),
       byType: sumByType(parts.map((p) => p.byType!)),
       parts,
+      reportingCode: a.reportingCode,
       locationCode: [
         fips,
         a.county ?? "000",

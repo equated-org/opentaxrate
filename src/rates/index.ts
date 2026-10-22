@@ -16,8 +16,9 @@
  * in one rate is refused with the rates it could be; it never gets a guess,
  * and missing data is never read as no tax.
  *
- * This is the rate on a general sale. Whether an item is taxable, which
- * address a sale is sourced to, and the filing codes a return needs are the
+ * This is the rate on a general sale, with the codes the state's return
+ * files it under where the state's data gives them (reporting.ts). Whether
+ * an item is taxable and which address a sale is sourced to are the
  * caller's.
  */
 import { RateError } from "../errors.js";
@@ -34,8 +35,10 @@ import { marginProbes, stateLookup, stateLookupAt } from "./state-lookups.js";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxJurisdictionRates } from "../db/schema.js";
+import { nameParts } from "./names.js";
+import { reportingFor, type Reporting } from "./reporting.js";
 
-export type { LocatedPoint, RatePart, RatesByType, Trace };
+export type { LocatedPoint, RatePart, RatesByType, Reporting, Trace };
 export { emptyTrace } from "./types.js";
 export { STATEWIDE_STATES };
 
@@ -79,6 +82,9 @@ export interface AddressRate {
   locationCode: string | null;
   /** Where the rate came from, for a tax line's note. */
   source: string;
+  /** Who the state return goes to and the codes it files this address's
+   *  tax under (reporting.ts); null for a state with no entry. */
+  reporting: Reporting | null;
 }
 
 const MATCH_NAMES = {
@@ -110,116 +116,128 @@ export const addressRates = {
     return MAP_STATES.includes(s) ? "map" : null;
   },
 
-  /** The rate at `query` on `date` (YYYY-MM-DD). Throws RateError: 422
-   *  for an address that needs confirming or an unsupported state, 502 when
-   *  the state's files aren't loaded. */
+  /** The rate at `query` on `date` (YYYY-MM-DD), its parts named and the
+   *  codes its return files them under. Throws RateError: 422 for an
+   *  address that needs confirming or an unsupported state, 502 when the
+   *  state's files aren't loaded. */
   async at(query: AddressRateQuery, date: string): Promise<AddressRate> {
-    const state = query.state.toUpperCase();
-    const statewide = statewideRate(state, date, query.city);
-    if (statewide && "refused" in statewide) throw new RateError(statewide.refused, 422);
-    // A statewide state whose local taxes are read from the map (Montana's
-    // resort areas): placed, its outlines decide; not placed, it takes the
-    // statewide rate unless its city is named for one of those areas.
-    const local = statewide && MAP_STATES.includes(state);
-    const placed = local && query.locate ? await query.locate() : null;
-    if (local) {
-      const area = await districtNamed(state, query.city, date);
-      if (area === "unloaded") throw new RateError(`This service hasn't loaded ${state}'s local tax areas.`, 502);
-      // Named for an area with no outline, the map can't say whether the
-      // address is in it; named for one with an outline, only the map can.
-      if (area && (!area.outlined || !placed))
-        throw new RateError(
-          area.outlined
-            ? `${query.city} levies its own local tax, and this address couldn't be placed on the map to tell whether it is inside it. Confirm the rate with ${query.city}.`
-            : `${query.city} levies its own local tax and publishes no outline of where it applies. Confirm the rate with ${query.city}.`,
-          422,
-        );
-    }
-    if (statewide && !placed) {
-      return {
-        state,
-        rate: statewide.rate,
-        stateRate: statewide.rate,
-        localRate: 0,
-        byType: generalOnly(statewide.rate),
-        parts: [{ kind: "state", code: state, rate: statewide.rate }],
-        match: "statewide",
-        locationCode: state,
-        source: `${state} statewide rate from ${statewide.from}`,
-      };
-    }
-    if (state === "CA") return california(query, date);
-    // A state whose own lookup STATE_LOOKUPS turns on answers from it, at
-    // the address's map point, when it gives one rate across the point's
-    // margin; otherwise the loaded data answers.
-    const lookup = stateLookup(state);
-    const point = lookup && query.locate ? await query.locate() : null;
-    const looked = lookup && point ? await stateLookupAt(lookup, point, date) : null;
-    if (lookup && point && looked !== null) {
-      const stateRate = await loadedStateRate(state, date);
-      const localRate = Math.round((looked - stateRate) * 1e6) / 1e6;
-      return {
-        state,
-        rate: looked,
-        stateRate,
-        localRate,
-        byType: generalOnly(looked),
-        parts: [
-          { kind: "state", code: state, rate: stateRate },
-          ...(localRate ? [{ kind: "district" as const, code: `${state}:lookup`, rate: localRate }] : []),
-        ],
-        match: "authority",
-        locationCode: null,
-        source: `${lookup.name}, at the address's map point on ${date}${point.placedBy?.length ? `; placed by ${point.placedBy.join(", ")}` : ""}`,
-      };
-    }
-    if (MAP_STATES.includes(state)) {
-      const found = await geoRateAt(
-        state,
-        query.locate ?? null,
-        date,
-        query.street,
-        query.trace,
-      );
-      const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
-      return {
-        state,
-        rate: found.rate,
-        stateRate,
-        localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
-        byType: generalOnly(found.rate),
-        parts: found.parts,
-        match: "map",
-        locationCode: found.locationCode,
-        source: `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
-      };
-    }
-    if (!RANGE_FIPS[state])
+    const { reportingCode, ...found } = await rateAt(query, date);
+    const parts = await nameParts(found.state, found.parts);
+    return { ...found, parts, reporting: reportingFor(found.state, found.match, parts, found.locationCode, reportingCode) };
+  },
+};
+
+/** An engine's answer, before naming: the reporting code a range state's
+ *  boundary file gave rides along until `reportingFor` reads it. */
+type EngineRate = Omit<AddressRate, "reporting"> & { reportingCode?: string | null };
+
+async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate> {
+  const state = query.state.toUpperCase();
+  const statewide = statewideRate(state, date, query.city);
+  if (statewide && "refused" in statewide) throw new RateError(statewide.refused, 422);
+  // A statewide state whose local taxes are read from the map (Montana's
+  // resort areas): placed, its outlines decide; not placed, it takes the
+  // statewide rate unless its city is named for one of those areas.
+  const local = statewide && MAP_STATES.includes(state);
+  const placed = local && query.locate ? await query.locate() : null;
+  if (local) {
+    const area = await districtNamed(state, query.city, date);
+    if (area === "unloaded") throw new RateError(`This service hasn't loaded ${state}'s local tax areas.`, 502);
+    // Named for an area with no outline, the map can't say whether the
+    // address is in it; named for one with an outline, only the map can.
+    if (area && (!area.outlined || !placed))
       throw new RateError(
-        `OpenTaxRate has no address rates for ${state} yet.`,
+        area.outlined
+          ? `${query.city} levies its own local tax, and this address couldn't be placed on the map to tell whether it is inside it. Confirm the rate with ${query.city}.`
+          : `${query.city} levies its own local tax and publishes no outline of where it applies. Confirm the rate with ${query.city}.`,
         422,
-        undefined,
-        "UNSUPPORTED_STATE",
       );
-    const found = await sstRateAt({ ...query, state }, date);
+  }
+  if (statewide && !placed) {
+    return {
+      state,
+      rate: statewide.rate,
+      stateRate: statewide.rate,
+      localRate: 0,
+      byType: generalOnly(statewide.rate),
+      parts: [{ kind: "state", code: state, rate: statewide.rate }],
+      match: "statewide",
+      locationCode: state,
+      source: `${state} statewide rate from ${statewide.from}`,
+    };
+  }
+  if (state === "CA") return california(query, date);
+  // A state whose own lookup STATE_LOOKUPS turns on answers from it, at
+  // the address's map point, when it gives one rate across the point's
+  // margin; otherwise the loaded data answers.
+  const lookup = stateLookup(state);
+  const point = lookup && query.locate ? await query.locate() : null;
+  const looked = lookup && point ? await stateLookupAt(lookup, point, date) : null;
+  if (lookup && point && looked !== null) {
+    const stateRate = await loadedStateRate(state, date);
+    const localRate = Math.round((looked - stateRate) * 1e6) / 1e6;
+    return {
+      state,
+      rate: looked,
+      stateRate,
+      localRate,
+      byType: generalOnly(looked),
+      parts: [
+        { kind: "state", code: state, rate: stateRate },
+        ...(localRate ? [{ kind: "district" as const, code: `${state}:lookup`, rate: localRate }] : []),
+      ],
+      match: "authority",
+      locationCode: null,
+      source: `${lookup.name}, at the address's map point on ${date}${point.placedBy?.length ? `; placed by ${point.placedBy.join(", ")}` : ""}`,
+    };
+  }
+  if (MAP_STATES.includes(state)) {
+    const found = await geoRateAt(
+      state,
+      query.locate ?? null,
+      date,
+      query.street,
+      query.trace,
+    );
     const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
     return {
       state,
       rate: found.rate,
       stateRate,
       localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
-      byType: found.byType,
+      byType: generalOnly(found.rate),
       parts: found.parts,
-      match: found.match,
+      match: "map",
       locationCode: found.locationCode,
-      source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,
+      source: `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
     };
-  },
-};
+  }
+  if (!RANGE_FIPS[state])
+    throw new RateError(
+      `OpenTaxRate has no address rates for ${state} yet.`,
+      422,
+      undefined,
+      "UNSUPPORTED_STATE",
+    );
+  const found = await sstRateAt({ ...query, state }, date);
+  const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
+  return {
+    state,
+    rate: found.rate,
+    stateRate,
+    localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
+    byType: found.byType,
+    parts: found.parts,
+    match: found.match,
+    locationCode: found.locationCode,
+    reportingCode: found.reportingCode,
+    source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,
+  };
+}
 
 /** California's rate from its tax office's live lookup, which knows only
  *  today's; the source says so when the sale is dated otherwise. */
-async function california(query: AddressRateQuery, date: string): Promise<AddressRate> {
+async function california(query: AddressRateQuery, date: string): Promise<EngineRate> {
   if (!query.zip)
     throw new RateError("California's lookup needs the address's ZIP code.", 422);
   const found = await californiaSalesTaxService

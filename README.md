@@ -268,7 +268,7 @@ Self-hosting needs no sign-in, no accounts and no Stripe. Each of these is off u
 |---|---|---|
 | A private API for your own apps | `OPENTAXRATE_MASTER_KEYS` | Callers send a master key as `x-api-key` or `Authorization: Bearer`. A master key gets every geocoder you configured, no per-IP limit and no charge. Lookups made with a key are logged in `api_requests` for 90 days. |
 | An open API anyone can call | nothing | Lookups without a key use the public tier. Narrow it with `OPENTAXRATE_PUBLIC_PROVIDERS` and `OPENTAXRATE_PUBLIC_LIMIT`. |
-| Sign-up, a dashboard and per-user keys | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `RESEND_API_KEY` | Sign-in by emailed code at `/api/auth/*`, `otr_live_…` keys and prepaid credit. Build the site with `PUBLIC_ACCOUNTS=on` (`landing/README.md`) so it shows "Sign in". |
+| Sign-up, a dashboard and per-user keys | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `RESEND_API_KEY` | Sign-in by emailed code at `/api/auth/*`, `otr_live_…` keys and prepaid credit. Build the site with `PUBLIC_ACCOUNTS=on` (`client/README.md`) so it shows "Sign in". |
 | Selling credit | the above plus `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` for production | Top-ups through Stripe Checkout, any whole-dollar amount from $5 to $1,000, credited when the buyer comes back to the dashboard. With a webhook at `/api/billing/webhook` (`checkout.session.completed`, `checkout.session.async_payment_succeeded`, `charge.refunded`), a buyer who closes the tab is credited too, and refunds are taken back. Each Checkout session is credited once, whichever path sees it first. |
 
 Without `BETTER_AUTH_SECRET`, `/api/auth/*` and `/v1/account/*` don't exist, and an `otr_live_…` key gets a `401`. A private API for yourself takes two steps:
