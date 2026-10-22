@@ -7,7 +7,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { Readable } from "node:stream";
+import { downloadedBytes, downloadedChunks } from "./archive.js";
 import { Unzip, UnzipInflate } from "fflate";
 import type { Shape } from "./tiger.js";
 
@@ -114,9 +114,10 @@ export async function latestTigerFiles(
       const found = local.find((l) => l.name === `${f.name}.zip`);
       if (found) return new Uint8Array(fs.readFileSync(found.location));
       const folder = f.kind.toUpperCase();
-      const response = await fetch(`${TIGER}/TIGER${year}/${folder}/${f.name}.zip`);
+      const url = `${TIGER}/TIGER${year}/${folder}/${f.name}.zip`;
+      const response = await fetch(url);
       if (!response.ok) throw new Error(`TIGER ${f.name} answered ${response.status}`);
-      return new Uint8Array(await response.arrayBuffer());
+      return downloadedBytes(url, response);
     },
   }));
 }
@@ -138,7 +139,7 @@ async function open(location: string): Promise<AsyncIterable<Uint8Array>> {
   const response = await fetch(location);
   if (!response.ok || !response.body)
     throw new Error(`${location} answered ${response.status}`);
-  return Readable.fromWeb(response.body as never);
+  return downloadedChunks(location, response);
 }
 
 async function listSite(folder: "Rates" | "Boundary") {
