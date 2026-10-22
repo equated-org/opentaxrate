@@ -1,0 +1,22 @@
+[
+  {
+    "tag": "data-2026-10-22-regions",
+    "published": "2026-10-22",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-10-22-regions",
+    "dump": { "name": "opentaxrate-2026-10-22.dump", "bytes": 498102686 },
+    "changes": [
+      "Verified tax-area polygons for California, Minnesota, Washington, Nebraska, South Dakota, Vermont and Iowa, with coverage markers where a polygon couldn't be verified.",
+      "Regional source layers, for answers with include=regions.",
+      "ZIP+4 from the Streamlined address files, and Washington's community empowerment zones."
+    ]
+  },
+  {
+    "tag": "data-2026-10-22",
+    "published": "2026-10-22",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-10-22",
+    "dump": { "name": "opentaxrate-2026-10-22.dump", "bytes": 345797162 },
+    "changes": [
+      "The first published snapshot: every state's rates, street and ZIP ranges, and outlines, from the states' own files."
+    ]
+  }
+]

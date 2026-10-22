@@ -56,7 +56,28 @@ pnpm rates pull TAG --prod             # load release TAG into production
 pnpm rates pull TAG --local [--db D]   # load it into this stack (database D), to try it first
 pnpm rates load DUMP [--db D]          # replace this stack's published data with DUMP's
 pnpm rates install DUMP|URL            # fill a new, empty install from a dump
+pnpm rates restore TAG|DUMP --db D     # a release into a new database D, to update or inspect it
+pnpm rates maintain STEP               # a maintenance run (below)
 ```
+
+`snapshot` and `publish` take `--db D` to dump another database than the
+stack's own; `publish` puts `RELEASE_NOTES` (a file) first in the release's
+notes.
+
+## Maintenance runs
+
+New editions reach a release through a maintenance run, by hand or monthly
+by an agent: [cron.md](maintenance/cron.md) is its prompt and
+[sources.md](maintenance/sources.md) the sources it watches. `pnpm rates
+maintain prepare` restores the newest release into `opentaxrate_maint_<run>`
+and migrates it; `update` refreshes and ingests into it; `check` tests
+invariants and lists what changed from the release; `bench` asks the states'
+own services about fresh points and scores the standing benchmark sets;
+`publish TAG` releases it only past those gates and with approval; `accept`
+makes its scores the next run's baseline; `cron` is the unattended monthly
+run. Every published release is listed, with what changed, on the site's
+[data releases](https://opentaxrate.com/docs/releases) page, built from
+`client/src/lib/data-releases.json`.
 
 **What a snapshot holds.** The published data (`TAX_TABLES` in `scripts/rates`: rates, jurisdictions, areas and shapes, street and ZIP ranges, ZIP street lists, supplemental source polygons) plus the migration history. Every other table (`EMPTY_TABLES`: accounts, keys, request history, credit, the geocoding cache, rule rows) is dumped empty. A table in neither list stops the snapshot, so nothing new reaches a dump by default; `snapshot --check` runs that check and the one below without dumping. Transaction-policy research is excluded, and a database holding experimental policy snapshots is refused, so their metadata can't leak through the source table.
 

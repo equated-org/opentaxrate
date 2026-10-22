@@ -4,12 +4,15 @@
 # it here, publish it, then pull it there. Never refresh or ingest there.
 #
 #   scripts/rates status                      newest release; what production runs and serves
-#   scripts/rates snapshot [--check]          this stack's data to data/opentaxrate-DATE.dump
-#   scripts/rates publish [TAG]               snapshot, then GitHub Release TAG (default data-DATE)
+#   scripts/rates snapshot [--check] [--db D] this stack's data to data/opentaxrate-DATE.dump
+#   scripts/rates publish [TAG] [--db D]      snapshot, then GitHub Release TAG (default data-DATE)
+#   scripts/rates restore TAG|DUMP --db D     a release into a new database D, schema and all
 #   scripts/rates pull TAG --prod             load release TAG into production
 #   scripts/rates pull TAG --local [--db D]   load it into this stack (database D), to try it first
 #   scripts/rates load DUMP [--db D]          replace this stack's published data with DUMP's
 #   scripts/rates install DUMP|URL            fill a new, empty install from a dump
+#   scripts/rates maintain STEP               a maintenance run: prepare [TAG], update [STATE...],
+#                                             check, bench, publish TAG, accept, drop, cron
 #
 # Published data is TAX_TABLES below. The rest (EMPTY_TABLES) belongs to the
 # server that holds it: accounts, keys, request history, credit, the
@@ -49,9 +52,70 @@ SERVER_DIR=/opt/opentaxrate
 SERVER_COMPOSE="docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml"
 db=opentaxrate
 
-usage() { sed -n '6,12p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+usage() { sed -n '6,15p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 die() { echo "$*" >&2; exit 1; }
 psql() { $COMPOSE exec -T db psql -U opentaxrate -d "$db" -At -v ON_ERROR_STOP=1 "$@"; }
+# psql on the server's own database, for creating and dropping others.
+psql_server() { $COMPOSE exec -T db psql -U opentaxrate -d postgres -At -v ON_ERROR_STOP=1 "$@"; }
+
+# A database's sizes by state, kept at a maintenance run's start.
+SIZES="select state, 'rates' as what, count(*) as n from sales_tax_jurisdiction_rates group by 1
+  union all select state, 'outline editions', count(*) from sales_tax_shapes group by 1
+  union all select state, 'held markers', count(*) from sales_tax_shapes where fips like 'held:%' group by 1
+  union all select state, 'street ranges', count(*) from sales_tax_street_ranges group by 1
+  union all select state, 'zip ranges', count(*) from sales_tax_zip_ranges group by 1"
+
+# A maintenance run's checks, on the day (psql -v day): each line is
+# "kind<TAB>...". fail: an invariant broken. rate: a rate in force that was
+# added, removed or changed since the run's release, or announced for later.
+# summary: those by state. release, size: a state's files or sizes that
+# changed.
+CHECKS=$(cat <<'SQL'
+-- A state with rates but no state rate on the day.
+select 'fail', r.state, 'no state rate on the day' from sales_tax_data_releases r
+where r.kind = 'rates' and not exists (select 1 from sales_tax_jurisdiction_rates j
+  where j.state = r.state and j.type = '45' and :'day'::date between j.starts_on and j.ends_on);
+select 'fail', state, 'rate row ends before it starts: ' || type || ':' || code from sales_tax_jurisdiction_rates where ends_on < starts_on;
+select 'fail', state, 'outline ends before it starts: ' || kind || ':' || fips from sales_tax_shapes where ends_on < starts_on;
+-- Two editions of one outline in force on the same day.
+select 'fail', a.state, 'overlapping outline editions: ' || a.kind || ':' || a.fips from sales_tax_shapes a
+join sales_tax_shapes b on a.state = b.state and a.kind = b.kind and a.fips = b.fips and a.starts_on < b.starts_on
+where a.ends_on >= b.starts_on;
+select 'fail', state, 'invalid outline: ' || kind || ':' || fips from sales_tax_shapes where not st_isvalid(geom) or st_isempty(geom);
+-- Over 20%, or a plain additive rate below 0. A 0c, pj or maybe row is a
+-- difference and an Illinois x area stands in for the state's rate: those
+-- may be below 0.
+select 'fail', state, 'implausible rate ' || rate::text || ' for ' || type || ':' || code from sales_tax_jurisdiction_rates
+where rate > 0.2 or (rate < 0 and type in ('45', '00', '01', '01x', '99'));
+
+create temp view now_rates as select state, type, code, rate from sales_tax_jurisdiction_rates where :'day'::date between starts_on and ends_on;
+create temp view was_rates as select state, type, code, rate from baseline.rates where :'day'::date between starts_on and ends_on;
+create temp view moved as
+  select coalesce(n.state, w.state) as state, coalesce(n.type, w.type) || ':' || coalesce(n.code, w.code) as code,
+         w.rate as was, n.rate as now,
+         case when w.rate is null then 'added' when n.rate is null then 'removed' else 'changed' end as how
+  from now_rates n full join was_rates w using (state, type, code)
+  where n.rate is distinct from w.rate
+  union all
+  select r.state, r.type || ':' || r.code, null, r.rate, 'announced from ' || r.starts_on
+  from sales_tax_jurisdiction_rates r
+  where r.starts_on > :'day'::date and not exists (select 1 from baseline.rates b
+    where (b.state, b.type, b.code, b.starts_on, b.rate) = (r.state, r.type, r.code, r.starts_on, r.rate));
+select 'rate', state, code, coalesce(was::text, ''), coalesce(now::text, ''), how from moved order by 2, 3;
+select 'summary', state, count(*) filter (where how = 'added'), count(*) filter (where how = 'removed'),
+  count(*) filter (where how = 'changed'), count(*) filter (where how like 'announced%') from moved group by 2 order by 2;
+select 'release', coalesce(n.state, w.state), coalesce(n.kind, w.kind), coalesce(w.file, '(none)'), coalesce(n.file, '(none)')
+from sales_tax_data_releases n full join baseline.releases w using (state, kind) where n.file is distinct from w.file order by 2, 3;
+create temp table sizes_now as select * from (
+  select state, 'rates' as what, count(*) as n from sales_tax_jurisdiction_rates group by 1
+  union all select state, 'outline editions', count(*) from sales_tax_shapes group by 1
+  union all select state, 'held markers', count(*) from sales_tax_shapes where fips like 'held:%' group by 1
+  union all select state, 'street ranges', count(*) from sales_tax_street_ranges group by 1
+  union all select state, 'zip ranges', count(*) from sales_tax_zip_ranges group by 1) s;
+select 'size', state, what, coalesce(w.n, 0), coalesce(n.n, 0)
+from sizes_now n full join baseline.sizes w using (state, what) where n.n is distinct from w.n order by 2, 3;
+SQL
+)
 on() { ssh "$HOST" "cd $SERVER_DIR && $*"; }
 reachable() { ssh -o BatchMode=yes -o ConnectTimeout=10 "$HOST" true 2> /dev/null; }
 
@@ -106,7 +170,15 @@ snapshot() {
 
 publish() {
   day=$(date -u +%F)
-  tag=${1:-data-$day}
+  tag=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --db) db=${2:?--db needs a database name}; shift ;;
+      *) tag=$1 ;;
+    esac
+    shift
+  done
+  tag=${tag:-data-$day}
   case "$tag" in ''|-*) die "A release tag must be nonempty and can't start with '-'." ;; esac
   maintainer "publish rate releases"
   repo=$REPO
@@ -118,7 +190,10 @@ publish() {
   (cd data && sha256sum "$name" > "$name.sha256")
   notes=$(mktemp)
   trap 'rm -f "$notes"' EXIT HUP INT TERM
-  cat > "$notes" <<EOF
+  # RELEASE_NOTES names a file of what changed (the maintenance report's
+  # changelog entry), put before the standard notes.
+  if [ -n "${RELEASE_NOTES:-}" ]; then cat "$RELEASE_NOTES" > "$notes"; echo >> "$notes"; fi
+  cat >> "$notes" <<EOF
 Sales tax database snapshot exported on $day (UTC).
 
 Includes published tax rates, street and ZIP ranges, geographic boundaries,
@@ -278,6 +353,177 @@ install() {
   echo "Installed $src; now run: docker compose up -d"
 }
 
+# Restores a release (or a dump file) into database D, created for it:
+# every table, schema and migration history included, as the release was
+# made. D must not exist, so nothing is overwritten; it is never the stack's
+# own database. Migrate it forward after: DATABASE_URL=... pnpm migrate.
+restore() {
+  src=${1:-}; [ $# -gt 0 ] && shift
+  [ "${1:-}" = --db ] && db=${2:?--db needs a database name}
+  [ -n "$src" ] && [ "$db" != opentaxrate ] || die "Usage: scripts/rates restore TAG|DUMP --db D (a database other than opentaxrate)"
+  case "$db" in *[!a-z0-9_]*) die "Database names here are lowercase letters, digits and _." ;; esac
+  [ -f "$src" ] && dump=$src || dump=$(download "$src")
+  [ "$(psql_server -c "select count(*) from pg_database where datname = '$db'")" = 0 ] ||
+    die "Database $db already exists. Drop it first if it is a scratch copy."
+  psql_server -q -c "create database $db"
+  psql -q -c 'create extension if not exists postgis' -c 'create schema if not exists drizzle'
+  $COMPOSE exec -T db pg_restore -U opentaxrate -d "$db" --no-owner --no-privileges --exit-on-error < "$dump"
+  echo "Restored $dump into $db"
+}
+
+# A maintenance run (docs/maintenance/cron.md): the newest release restored
+# into a database of the run's own, updated from every source, checked
+# against what it started from, benchmarked, and published only past the
+# gates. MAINT_RUN names the run (default: today, UTC): its database is
+# opentaxrate_maint_<run> and its files are in artifacts/maintenance/<run>.
+# SAMPLE: points a state for the fresh official answers (default 40).
+# KEYS_ENV: an env file with geocoder keys and Texas's TX_CPA_CLIENT_ID and
+# TX_CPA_CLIENT_SECRET. MAINT_GEOCODE_BUDGET: dollars of geocoding a bench
+# may spend (default 2).
+maintain() {
+  step=${1:-}; [ $# -gt 0 ] && shift
+  run=${MAINT_RUN:-$(date -u +%F)}
+  db=opentaxrate_maint_$(echo "$run" | tr -c 'a-z0-9\n' _)
+  dir=artifacts/maintenance/$run
+  day=$(date -u +%F)
+  mkdir -p "$dir"
+  base=$(grep -s '^DATABASE_URL=' .env | cut -d= -f2- || true)
+  url=$(echo "${base:-postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate}" | sed "s|/[^/?]*\(?.*\)\{0,1\}$|/$db|")
+  note() { echo "$(date -u +%FT%TZ) $step: $*" | tee -a "$dir/log.txt" >&2; }
+  made() { [ "$(psql_server -c "select count(*) from pg_database where datname = '$db'")" = 1 ]; }
+  need() { made || die "No database $db: run 'scripts/rates maintain prepare' first."; }
+  case "$step" in
+    prepare)
+      tag=${1:-$(gh release list --repo "$REPO" --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName')}
+      made && die "$db already exists: this run is prepared. Set another MAINT_RUN, or 'maintain drop' it first."
+      note "restoring $tag into $db"
+      restore "$tag" --db "$db" >&2
+      DATABASE_URL=$url pnpm -s migrate > /dev/null 2>&1 || die "Migrating $db failed."
+      # What the run started from, kept beside the data for check's diff.
+      psql -q -c "create schema baseline" \
+        -c "create table baseline.rates as select state, type, code, rate, starts_on, ends_on from sales_tax_jurisdiction_rates" \
+        -c "create table baseline.releases as select state, kind, file, rows, first_listed from sales_tax_data_releases" \
+        -c "create table baseline.sizes as $SIZES"
+      echo "$tag" > "$dir/release.txt"
+      note "$db holds $tag, migrated" ;;
+    update)
+      need
+      note "refresh $*"
+      DATABASE_URL=$url pnpm -s refresh "$@" 2>&1 | tee -a "$dir/update.log"
+      note "ingest $*"
+      DATABASE_URL=$url pnpm -s ingest "$@" 2>&1 | tee -a "$dir/update.log"
+      note "done" ;;
+    check)
+      need
+      psql -F '	' -v day="$day" -f - > "$dir/check.tsv" <<EOF
+$CHECKS
+EOF
+      fails=$(grep -c '^fail' "$dir/check.tsv" || true)
+      awk -F'\t' '
+        $1 == "fail" { print "FAIL " $2 ": " $3; next }
+        $1 == "release" { print "file    " $2 " " $3 ": " $4 " -> " $5; next }
+        $1 == "summary" { print "rates   " $2 ": " $3 " added, " $4 " removed, " $5 " changed, " $6 " announced"; next }
+        $1 == "size" { print "size    " $2 " " $3 ": " $4 " -> " $5 }' "$dir/check.tsv" | tee "$dir/check.txt"
+      echo "Every changed rate: $dir/check.tsv (lines 'rate')." >&2
+      [ "$fails" = 0 ] || die "$fails invariants failed."
+      note "invariants hold" ;;
+    bench)
+      need
+      budget=${MAINT_GEOCODE_BUDGET:-2}
+      spent() { python3 scripts/tuning/cost.py | tail -1 | sed 's/^\$\([0-9.]*\).*/\1/'; }
+      start=$(spent); out=$dir/bench.txt; : > "$out"
+      keys() { set -a; [ -n "${KEYS_ENV:-}" ] && . "$KEYS_ENV"; set +a; }
+      # Fresh official answers: points near lines sampled from this run's
+      # outlines, each labelled by the state's own service today.
+      fresh=$dir/sample
+      for st in TX CO AK AZ VA SC; do
+        [ -f "$fresh/$st/official.jsonl" ] && continue
+        DATABASE_URL=$url BOUNDARY_DIR=$fresh npx tsx scripts/tuning/boundary/sample.mts "$st" "${SAMPLE:-40}" "$day" > /dev/null
+        ( keys; BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/label.py "$st" ) >> "$dir/log.txt" 2>&1
+      done
+      DATABASE_URL=$url BOUNDARY_DIR=$fresh MARGIN=15 npx tsx scripts/tuning/boundary/run.mts run TX CO AK AZ VA SC > /dev/null
+      { echo "Fresh official answers, $day, ${SAMPLE:-40} points a state near lines:"
+        BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/score.py run | sed -n '2p'; } >> "$out"
+      # The standing sets, with recorded geocodes.
+      name=maint-$run
+      DATABASE_URL=$url MARGIN=15 npx tsx scripts/tuning/boundary/run.mts "$name" TX CO AK AZ VA SC > /dev/null
+      { echo "Boundary set:"; python3 -I scripts/tuning/boundary/score.py "$name" | sed -n 2p; } >> "$out"
+      for set in dev hist; do
+        [ "$(python3 -c "print(int($(spent) - $start < $budget))")" = 1 ] || { echo "Stopped: geocoder spend reached \$$budget." >> "$out"; break; }
+        splits=$([ $set = hist ] && echo hist-dev || echo "batch1 batch-dev batch2 batch3 batch4 batch5 round2")
+        ( keys; DATABASE_URL=$url PER_STATE=999 SPLITS="$splits" scripts/tuning/trial.sh "$name-$set" '' ) > /dev/null 2>&1 ||
+          echo "The $set trial didn't finish: artifacts/tuning/$name-$set/" >> "$out"
+        { echo "Address set $set:"; SPLITS="$splits" python3 scripts/tuning/score.py "$name-$set" 2>/dev/null | head -1; } >> "$out"
+      done
+      # A set with more wrong answers than the accepted run's is a regression.
+      if [ -f artifacts/maintenance/accepted ]; then
+        echo "Against the accepted run, $(head -1 artifacts/maintenance/accepted):" >> "$out"
+        grep -o 'wrong *[0-9]*' "$out" | grep -o '[0-9]*$' > "$dir/wrong.now"
+        sed 1d artifacts/maintenance/accepted | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' > "$dir/wrong.was"
+        paste "$dir/wrong.now" "$dir/wrong.was" | awk 'NF == 2 { print "  wrong " $2 " -> " $1 ($1 > $2 ? "  REGRESSION" : "") }' >> "$out"
+      fi
+      echo "Geocoder spend: \$$(python3 -c "print(round($(spent) - $start, 2))")" >> "$out"
+      cat "$out" ;;
+    publish)
+      tag=${1:?Usage: scripts/rates maintain publish TAG}
+      need
+      # The gates hold whoever publishes.
+      [ -f "$dir/check.txt" ] && ! grep -q '^FAIL' "$dir/check.txt" || die "Run 'maintain check' until it passes."
+      [ -f "$dir/bench.txt" ] && ! grep -q REGRESSION "$dir/bench.txt" || die "Run 'maintain bench'; it must show no regression."
+      [ -s "$dir/notes.md" ] || die "Write $dir/notes.md first: what changed, as bullets a reader needs."
+      [ "${MAINT_APPROVED:-}" = yes ] || [ "${MAINT_AUTO_PUBLISH:-}" = yes ] ||
+        die "Publishing needs a human's approval (MAINT_APPROVED=yes), or an unattended run's MAINT_AUTO_PUBLISH=yes."
+      RELEASE_NOTES=$dir/notes.md publish "$tag"
+      note "$tag released; add it to client/src/lib/data-releases.json" ;;
+    accept)
+      [ -f "$dir/bench.txt" ] || die "No bench for $run."
+      { echo "$run"; cat "$dir/bench.txt"; } > artifacts/maintenance/accepted
+      note "$run's scores are the baseline" ;;
+    drop)
+      need
+      psql_server -q -c "drop database $db"
+      note "$db dropped" ;;
+    cron) cron ;;
+    *) usage ;;
+  esac
+}
+
+# The monthly unattended run, from cron: Claude, headless, follows
+# docs/maintenance/cron.md in a worktree of main of its own (MAINT_TREE,
+# default ~/code/opentaxrate-maint) sharing this checkout's artifacts/,
+# data/, .env and database, and publishes only past the gates. Its output
+# goes to artifacts/maintenance/cron-DATE.log.
+#   0 7 5 * * /path/to/opentaxrate/scripts/rates maintain cron
+cron() {
+  main=$(pwd)
+  tree=${MAINT_TREE:-$HOME/code/opentaxrate-maint}
+  export KEYS_ENV=${KEYS_ENV:-$HOME/.config/opentaxrate/keys.env}
+  export PATH="$HOME/.local/bin:$(dirname "$(ls -d "$HOME"/.nvm/versions/node/*/bin/node 2>/dev/null | tail -1)"):/usr/local/bin:/usr/bin:/bin"
+  export COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-$(basename "$main")}
+  export MAINT_AUTO_PUBLISH=yes
+  mkdir -p artifacts/maintenance
+  exec >> "artifacts/maintenance/cron-$(date -u +%F).log" 2>&1
+  exec 9> artifacts/maintenance/.cron.lock
+  flock -n 9 || { echo "$(date -u +%FT%TZ) another maintenance run holds the lock"; exit 0; }
+  echo "$(date -u +%FT%TZ) maintenance run starting in $tree"
+  [ -e "$tree/.git" ] || git worktree add --detach "$tree" origin/main
+  git -C "$tree" fetch -q origin main
+  git -C "$tree" checkout -q -B maint origin/main
+  for shared in artifacts data .env; do
+    [ -e "$main/$shared" ] && [ ! -L "$tree/$shared" ] && { rm -rf "${tree:?}/$shared"; ln -s "$main/$shared" "$tree/$shared"; }
+  done
+  cd "$tree"
+  pnpm install --frozen-lockfile --silent
+  status=0
+  claude -p "You are the unattended monthly maintenance run for OpenTaxRate, in $tree, a worktree of main: push with 'git push origin HEAD:main'.
+Follow docs/maintenance/cron.md from start to finish as an unattended run: MAINT_AUTO_PUBLISH=yes is set, so publish only if every gate in step 3 holds; otherwise stop and leave the report for a human.
+Use MAINT_RUN=$(date -u +%F). KEYS_ENV=$KEYS_ENV holds the keys the bench needs. Never touch production.
+End with the short report the prompt asks for." \
+    --dangerously-skip-permissions ${CLAUDE_MODEL:+--model "$CLAUDE_MODEL"} --output-format text || status=$?
+  echo "$(date -u +%FT%TZ) maintenance run finished (exit $status)"
+  exit $status
+}
+
 status() {
   echo "newest release:    $(gh release list --repo "$REPO" --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // "none"' 2> /dev/null || echo "can't read $REPO's releases")"
   if ! reachable; then
@@ -293,7 +539,18 @@ status() {
 command=${1:-}; [ $# -gt 0 ] && shift
 case "$command" in
   status) status ;;
-  snapshot) snapshot "$@" ;;
+  snapshot)
+    check=""
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --check) check=--check ;;
+        --db) db=${2:?--db needs a database name}; shift ;;
+        *) usage ;;
+      esac
+      shift
+    done
+    snapshot $check ;;
+  restore) restore "$@" ;;
   publish) publish "$@" ;;
   pull) pull "$@" ;;
   load)
@@ -302,5 +559,6 @@ case "$command" in
     [ -n "$dump" ] || usage
     load "$dump" ;;
   install) install "$@" ;;
+  maintain) maintain "$@" ;;
   *) usage ;;
 esac

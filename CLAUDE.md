@@ -15,6 +15,7 @@ Start with the local docs and read the relevant subsystem note before changing c
 | [State coverage](docs/state-coverage.html) | Supported sources, state-specific behavior and known gaps |
 | [Configuration](docs/configuration.md) | Environment settings, credentials, provider limits and accounts |
 | [Data maintenance](docs/data.md) | Local refresh, source archives, snapshots and production releases |
+| [Maintenance runs](docs/maintenance/cron.md) | The monthly tax-rate update, step by step, and the [sources](docs/maintenance/sources.md) it watches |
 | [Tax-rule scope](docs/tax-rules.md) | Research and taxability rules outside the implemented rate lookup |
 | [Web client](client/README.md) | Client setup, commands, configuration and fixtures |
 | [Self-hosted geocoders](docs/self-hosted-geocoders.html) | Geocoder infrastructure and setup |
@@ -27,4 +28,5 @@ Start with the local docs and read the relevant subsystem note before changing c
 - Follow [the shared HTML style](.agent-skills/shared/html-design/STYLE.md) and [template](.agent-skills/shared/html-design/template.html) when writing HTML documentation or plans.
 - Keep secrets in ignored environment files. Preserve the server's `deploy/.env` during deployment.
 - Follow [data maintenance](docs/data.md) for production data: refresh and benchmark locally, publish a release, then pull that release into production. Never refresh or ingest on the production server; use `pull`, not `install`, for an existing production database.
+- Every published data release goes in `client/src/lib/data-releases.json` (the public /docs/releases page), newest first, with a few bullets on what changed. Record a new or dropped source in [sources](docs/maintenance/sources.md).
 - Do not add Claude co-author trailers or generated-by credits to commits. Preserve human authorship.

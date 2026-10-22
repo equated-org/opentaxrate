@@ -30,7 +30,8 @@
 			title: 'Guides',
 			links: [
 				{ href: '/docs/codes', title: 'State codes and filing' },
-				{ href: '/docs/regions', title: 'Regional data' }
+				{ href: '/docs/regions', title: 'Regional data' },
+				{ href: '/docs/releases', title: 'Data releases' }
 			]
 		}
 	];
