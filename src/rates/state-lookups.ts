@@ -1,7 +1,8 @@
 /**
  * The states' own live rate lookups, asked at the address's map point in
- * place of the loaded data, for the states named in STATE_LOOKUPS ("MO,CO",
- * or "all"). Off by default: each is a live call per address to a service
+ * place of the loaded data (Missouri only after local lookup fails), for
+ * the states named in STATE_LOOKUPS ("MO,CO", or "all"). Off by default:
+ * each fallback/request is a live call to a service
  * the state runs (several on Avalara's platform), with no published terms
  * for automated use.
  *   - Missouri: the DOR's Sales and Use Tax Lookup (missouri.atr.avalara.com);

@@ -10,12 +10,15 @@
  * A file already loaded is skipped unless `force`; a map-read state is
  * fetched again every run, since its sources don't name versions alike.
  */
+import { and, eq } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxDataReleases, salesTaxShapes, zipStreetNames } from "../db/schema.js";
 import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines } from "./downloads.js";
 import { loadStreetNames } from "./street-names.js";
 import { GEO_STATES } from "./states/index.js";
 import { loadGeoState, loadSstState, loadTigerShapes } from "./load.js";
+import { fetchRangePolygons, loadRangePolygons } from "./range-polygons.js";
+import { RANGE_POLYGON_SOURCES, type RangePolygonState } from "../range-polygon-sources.js";
 import { missouriFiles } from "./missouri.js";
 import { RANGE_FIPS, STATE_FIPS } from "../coverage.js";
 
@@ -74,6 +77,26 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     log(`${geo.state}: ${from} → ${counts.rates} rates, ${counts.jurisdictions} jurisdictions, ${counts.shapes} outlines in ${seconds(started)}`);
   }
 
+  // Range states keep their dated rates and address ranges. Extra tax
+  // polygons can resolve a ZIP split that Census county/city outlines cannot.
+  for (const state of Object.keys(RANGE_POLYGON_SOURCES) as RangePolygonState[]) {
+    if (!wanted(state)) continue;
+    const source = RANGE_POLYGON_SOURCES[state];
+    const existing = await db.select({ file: salesTaxShapes.file }).from(salesTaxShapes)
+      .where(and(
+        eq(salesTaxShapes.state, state),
+        eq(salesTaxShapes.file, source.file),
+      )).limit(1);
+    if (!force && existing.length) {
+      log(`${state}: ${source.file} already loaded`);
+      continue;
+    }
+    const started = Date.now();
+    const count = await loadRangePolygons(state, await fetchRangePolygons(state, dir));
+    log(`${state}: ${source.file} → ${count} tax outlines in ${seconds(started)}`);
+    if (state === "MO") log("MO: MSDIS polygon updates discontinued; archived boundaries, current rates from DOR workbooks");
+  }
+
   // The streets in each ZIP of the map-read states, for telling a typo from
   // another street; a TIGER year already loaded is kept.
   const namesLoaded = new Set(
@@ -108,4 +131,5 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     const count = await loadTigerShapes({ kind: file.kind, name: file.name, bytes: await file.bytes() }, forStates);
     log(`${file.name}: ${count} outlines`);
   }
+
 }

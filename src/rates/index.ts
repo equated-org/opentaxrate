@@ -99,7 +99,7 @@ const MATCH_NAMES = {
   street: "street match",
   zip4: "ZIP+4 match",
   zip5: "one rate across the ZIP",
-  map: "Census county and city outlines",
+  map: "map match",
 };
 
 export const ADDRESS_RATE_STATES = [...new Set([
@@ -175,10 +175,21 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
     };
   }
   if (state === "CA") return california(query, date);
-  // A state whose own lookup STATE_LOOKUPS turns on answers from it, at
-  // the address's map point, when it gives one rate across the point's
-  // margin; otherwise the loaded data answers.
+  // Missouri's indexed ranges and tax polygons answer locally first. Its
+  // optional official lookup remains available when local data cannot settle
+  // the address; it no longer adds a live call to every successful lookup.
   const lookup = stateLookup(state);
+  let localMissouriError: RateError | undefined;
+  if (state === "MO" && lookup) {
+    try {
+      return await rangeRate(query, state, date);
+    } catch (error) {
+      if (!(error instanceof RateError) || ![422, 502].includes(error.status)) throw error;
+      localMissouriError = error;
+    }
+  }
+  // Other enabled state lookups answer at the map point when the rate is
+  // consistent across its uncertainty margin; otherwise local data answers.
   const point = lookup && query.locate ? await query.locate() : null;
   const looked = lookup && point ? await stateLookupAt(lookup, point, date) : null;
   if (lookup && point && looked !== null) {
@@ -227,6 +238,11 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
       undefined,
       "UNSUPPORTED_STATE",
     );
+  if (localMissouriError) throw localMissouriError;
+  return rangeRate(query, state, date);
+}
+
+async function rangeRate(query: AddressRateQuery, state: string, date: string): Promise<EngineRate> {
   const found = await sstRateAt({ ...query, state }, date);
   const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
   return {

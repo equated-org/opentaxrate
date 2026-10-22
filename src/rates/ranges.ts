@@ -35,6 +35,7 @@ import { citiesInZip, normalizeCity, zipAreas, zipDefaultAreas } from "./places.
 import { findStreet, listedInZip } from "./streets/index.js";
 import type { StreetPicker } from "./streets/jev.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
+import { rangePolygonAreas } from "./range-polygons.js";
 import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
 import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
@@ -170,7 +171,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       const point = zipRates > 1 ? await input.locate() : null;
       const refined =
         point && point.accuracy !== "interpolated"
-          ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace)
+          ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace, files, false)
           : null;
       const onMap = refined ? refined.areas : [];
       const mappedPoint = refined?.point;
@@ -216,8 +217,15 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     if (byZip4 && standardizedZip4 && zip5) {
       const inZip = await zipAreas(input.state, zip5, date);
       const point = input.locate ? await input.locate() : null;
-      const mapped = point ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace) : null;
+      const mapped = point ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace, files) : null;
       const byMap = mapped && mapped.areas !== "near_edge" && mapped.areas.length ? await answer(mapped.areas, "map") : null;
+      // An automatically obtained ZIP+4 is only a lead. Complete tax
+      // polygons may settle its conflict; a caller-supplied ZIP+4 and a
+      // published street range are not overridden by this fallback.
+      if (byMap && mapped?.taxPolygons) {
+        notes.push(byMap.rate === byZip4.rate ? "confirmed by tax polygons" : "tax polygons resolve the conflicting looked-up ZIP+4");
+        return traced({ ...byMap, note: notes.join("; ") }, input.trace);
+      }
       const contradicted = byMap && byMap.rate !== byZip4.rate;
       if (contradicted || (!byMap && UNCONFIRMED_ZIP4_STATES.includes(input.state)))
         throw await refusal(
@@ -278,7 +286,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       ? await input.locate()
       : null;
   if (point) {
-    const mapped = await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace);
+    const mapped = await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace, files);
     const onMap = mapped.areas;
     point = mapped.point;
     if (onMap === "near_edge")
@@ -318,16 +326,24 @@ const UNCONFIRMED_ZIP4_STATES = ["MO"];
 /** A map point this sure, agreed by two datasets, outweighs a street range. */
 const PRECISE_METRES = 40;
 
-async function mapWithRefinement(state: string, areaIds: number[], point: LocatedPoint, date: string, locate?: Locate, trace?: Trace) {
-  let areas = await mapAreas(state, areaIds, point, date, trace);
-  if (areas === "near_edge" && locate) {
+async function mapWithRefinement(state: string, areaIds: number[], point: LocatedPoint, date: string, locate?: Locate, trace?: Trace, files?: string[], useTaxPolygons = true) {
+  const map = async () => {
+    const polygon = useTaxPolygons ? await rangePolygonAreas(state, areaIds, point, date, trace) : null;
+    if (polygon) {
+      if (files && !files.includes(polygon.file)) files.push(polygon.file);
+      return { areas: polygon.areas, taxPolygons: true };
+    }
+    return { areas: await mapAreas(state, areaIds, point, date, trace), taxPolygons: false };
+  };
+  let mapped = await map();
+  if (mapped.areas === "near_edge" && locate) {
     const sharper = await locate({ marginUnder: marginOf(point) });
     if (sharper) {
       point = sharper;
-      areas = await mapAreas(state, areaIds, point, date, trace);
+      mapped = await map();
     }
   }
-  return { areas, point };
+  return { ...mapped, point };
 }
 
 /** The candidate areas whose county and city (or town) hold the point. An
