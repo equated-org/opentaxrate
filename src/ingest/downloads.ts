@@ -141,9 +141,22 @@ export async function latestTigerAddressFiles(
       bytes: async () => {
         const found = local.find((l) => l.name === name);
         if (found) return new Uint8Array(fs.readFileSync(found.location));
-        const response = await fetch(folder + name);
-        if (!response.ok) throw new Error(`TIGER ${name} answered ${response.status}`);
-        return downloadedBytes(folder + name, response);
+        // The Census site answers some files with a short "Request Rejected"
+        // page and a 200 (in 2026, one county each in VA, AL, LA, AK and MS,
+        // every time): only a zip counts, and after a retry the county's file
+        // from the year before stands in, its streets near enough the same.
+        const zipFrom = async (url: string) => {
+          const response = await fetch(url);
+          if (!response.ok) return null;
+          const bytes = await downloadedBytes(url, response);
+          return bytes[0] === 0x50 && bytes[1] === 0x4b ? bytes : null;
+        };
+        const before = `${TIGER}/TIGER${Number(year) - 1}/ADDRFEAT/${name.replace(`tl_${year}_`, `tl_${Number(year) - 1}_`)}`;
+        const bytes = (await zipFrom(folder + name))
+          ?? (await new Promise((resolve) => setTimeout(resolve, 3_000)), await zipFrom(folder + name))
+          ?? (await zipFrom(before));
+        if (!bytes) throw new Error(`TIGER ${name} answered with something other than a zip, as did its ${Number(year) - 1} file`);
+        return bytes;
       },
     })),
   };
