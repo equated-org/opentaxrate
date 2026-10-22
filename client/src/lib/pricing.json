@@ -64,7 +64,7 @@
           "checked": "2026-10-22"
         }
       ],
-      "estimateNote": "$0 plus hosting with its own geocoders only (91.3% correct on the benchmark); about $1.14 with every commercial geocoder after free tiers (98.9%)",
+      "estimateNote": "$0 plus hosting with its own geocoders only (92.8% correct on the benchmark); about $1.14 with every commercial geocoder after free tiers (98.9%)",
       "breakdown": [
         "With only its own geocoders, no provider is paid: $0 plus hosting.",
         "Geocodio: 252 calls \u00d7 $1.00 per 1,000 = $0.25",

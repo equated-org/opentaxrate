@@ -20,6 +20,13 @@ export type PriceRow = {
 	/** Line-by-line working, listed under the method. */
 	breakdown?: string[];
 	sources: Source[];
+	/** A shared scenario of 2,000 lookups/month, separate from plan-capacity estimates. */
+	comparison?: {
+		perThousand: number;
+		note: string;
+		conditional: boolean;
+		benchmarkId?: string;
+	};
 };
 export type Pricing = {
 	asOf: string;

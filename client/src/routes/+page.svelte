@@ -8,10 +8,11 @@
 	import { page } from '$app/state';
 	import { goto, pushState } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { seemsSignedIn } from '$lib/accounts';
+	import { ACCOUNTS, seemsSignedIn } from '$lib/accounts';
 	import { lookUp, type LookupResult } from '$lib/api';
 	import { EXAMPLES, GITHUB } from '$lib/examples';
 	import Benchmark from '$lib/landing/Benchmark.svelte';
+	import AccuracyPrice from '$lib/landing/AccuracyPrice.svelte';
 	import Features from '$lib/landing/Features.svelte';
 	import Showcase from '$lib/landing/Showcase.svelte';
 	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
@@ -157,10 +158,10 @@
 					class="h-auto w-[min(72vw,330px)] select-none"
 				/>
 				<h1 class="mt-4 text-center text-[36px] leading-[1.1] font-semibold tracking-[-0.025em] text-balance sm:text-[48px]">
-					Sales tax for any US address
+					One API key. Sales tax by address.
 				</h1>
 				<p class="mt-4 max-w-[44rem] text-center text-[17px] text-balance leading-relaxed text-[var(--text-muted)]">
-					Open-source sales tax lookup, powered by public data from state tax agencies.
+					Accurate US sales tax rates from official state sources, through one open-source API.
 					<a
 						href="/sources"
 						class="underline underline-offset-4 hover:text-[var(--text)]"
@@ -187,25 +188,29 @@
 						{/each}
 					</ul>
 				</div>
-				<a
-					href={GITHUB}
-					target="_blank"
-					rel="noopener"
-					class="mt-6 rounded text-sm text-[var(--text-muted)] underline-offset-4 hover:text-[var(--text)] hover:underline"
-				>
-					Open source · View on GitHub <span aria-hidden="true">↗</span>
-				</a>
+				<div class="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+					{#if ACCOUNTS}<a class="btn primary" href="/login">Get an API key <span aria-hidden="true">→</span></a>{/if}
+					<a
+						href={GITHUB}
+						target="_blank"
+						rel="noopener"
+						class="rounded text-sm text-[var(--text-muted)] underline-offset-4 hover:text-[var(--text)] hover:underline"
+					>
+						Open source · View on GitHub <span aria-hidden="true">↗</span>
+					</a>
+				</div>
 			</section>
 
 			<section class="px-4 sm:px-8" aria-label="What a lookup shows">
 				<div class="relative mx-auto max-w-[1120px]">
 					<Showcase label={EXAMPLES[0].suggestion.label} href="/?q={encodeURIComponent(EXAMPLES[0].suggestion.label)}" onopen={() => go(EXAMPLES[0].suggestion)} />
 				</div>
-				<div class="mx-auto mt-12 max-w-[1000px] px-2 sm:px-6">
+				<div class="mx-auto mt-20 max-w-[1120px] sm:mt-24">
 					<Features />
 				</div>
-				<div class="mx-auto mt-16 max-w-[1000px] px-2 sm:px-6">
+				<div class="mx-auto mt-20 max-w-[1120px] sm:mt-24">
 					<Benchmark />
+					<AccuracyPrice />
 				</div>
 			</section>
 		</main>
