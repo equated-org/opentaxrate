@@ -26,7 +26,26 @@ const responseSchema = z.object({
   }),
 });
 
+const pointSchema = z.object({
+  taxRateInfo: z.array(z.object({ rate: z.number().gt(0).lt(1), tac: z.string().min(1) })),
+});
+
 export const californiaSalesTaxService = {
+  /** CDTFA's rate at a point: every tax area within its 50 m buffer, so one
+   *  area means no boundary within 50 m. Null when the service fails. */
+  async atPoint(lon: number, lat: number) {
+    const url = new URL("https://services.maps.cdtfa.ca.gov/api/taxrate/GetRateByLngLat");
+    url.search = new URLSearchParams({ Longitude: String(lon), Latitude: String(lat) }).toString();
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+      if (!response.ok) return null;
+      const parsed = pointSchema.safeParse(await response.json());
+      return parsed.success ? parsed.data.taxRateInfo : null;
+    } catch {
+      return null;
+    }
+  },
+
   async lookup(address: StateTaxAddress) {
     const url = new URL(
       "https://services.maps.cdtfa.ca.gov/api/taxrate/GetRateByAddress",

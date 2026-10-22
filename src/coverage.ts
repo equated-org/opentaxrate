@@ -60,8 +60,14 @@ export const RANGE_FIPS: Record<string, string> = { ...SST_FIPS, MO: "29" };
 
 /** States read from the map: their adapters (ingest/states) load each one's
  *  rate table and outlines, and rates/map.ts reads them. */
-export const MAP_STATES = ["TX", "FL", "NY", "VA", "AZ", "NM", "IL", "SC", "CO", "AL", "LA", "AK", "PA", "HI", "MS", "ID"];
+export const MAP_STATES = ["TX", "FL", "NY", "VA", "AZ", "NM", "IL", "SC", "CO", "AL", "LA", "AK", "PA", "HI", "MS", "ID", "MT"];
 
 /** The type a state that publishes only whole-location rates (Missouri)
  *  files them under. */
 export const WHOLE_CODE_TYPE = "99";
+
+/** The code a district named in a state's own list goes under, so the seed
+ *  that loads it and a lookup naming it agree: "Saint Regis" and "St. Regis"
+ *  are both "ST_REGIS". */
+export const districtCode = (name: string) =>
+  name.toUpperCase().replace(/[^A-Z0-9 ]/g, " ").replace(/\bSAINT\b/g, "ST").trim().replace(/\s+/g, "_");

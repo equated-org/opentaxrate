@@ -12,6 +12,9 @@
  * Every answer is still checked by the range engine against the ZIP+4 and
  * the map; this only finds which ranges the address is on.
  */
+import { and, eq, gte, inArray, lte } from "drizzle-orm";
+import { db } from "../../db/client.js";
+import { salesTaxStreetRanges } from "../../db/schema.js";
 import { parseStreet, type StreetParts } from "../../address.js";
 import { normalizeCity } from "../places.js";
 import { betweenAreas } from "./between.js";
@@ -63,6 +66,22 @@ export async function findStreet(q: StreetQuery): Promise<StreetFound | null> {
     how: "corrected",
     note: [`street read as ${corrected.street} (${why})`, found.note].filter(Boolean).join("; "),
   };
+}
+
+/** Whether the ZIP's ranges list the typed street at all, by any of its
+ *  spellings or as the street a correction reads it as. A street they list
+ *  without the house is not an unlisted one. */
+export async function listedInZip(q: StreetQuery & { zip5: string }): Promise<boolean> {
+  const parsed = parseStreet(q.street);
+  if (!parsed) return true;
+  const r = salesTaxStreetRanges;
+  const keys = [parsed.streetKey, ...(parsed.alternates ?? []).map((a) => a.streetKey)];
+  const [row] = await db
+    .select({ key: r.streetKey })
+    .from(r)
+    .where(and(eq(r.state, q.state), eq(r.zip5, q.zip5), inArray(r.streetKey, keys), lte(r.startsOn, q.date), gte(r.endsOn, q.date)))
+    .limit(1);
+  return !!row || (await correctedStreet(q.state, q.street, parsed, q.zip5, q.date)) !== null;
 }
 
 async function onStreet(q: StreetQuery, street: StreetParts, city: string): Promise<StreetFound | null> {

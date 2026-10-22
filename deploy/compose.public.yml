@@ -29,6 +29,9 @@ services:
       OPENTAXRATE_CACHE_HOURS: "6"
       OPENTAXRATE_PUBLIC_LIMIT: ${OPENTAXRATE_PUBLIC_LIMIT:-10/min,300/day}
       OPENTAXRATE_SUGGEST_LIMIT: ${OPENTAXRATE_SUGGEST_LIMIT:-120/min}
+      # Missouri from its DOR's own lookup (run by Avalara for the DOR) at the
+      # address's map point; its loaded files answer where the lookup can't.
+      STATE_LOOKUPS: ${STATE_LOOKUPS:-MO}
       OPENTAXRATE_CLIENT_IP_HEADER: X-Client-IP
       OPENTAXRATE_PHOTON_URL: ${OPENTAXRATE_PHOTON_URL:-}
 

@@ -31,8 +31,8 @@ import {
 import { parseStreet } from "../address.js";
 import { RateError } from "../errors.js";
 import type { StandardAddress } from "../standardize/index.js";
-import { citiesInZip, normalizeCity, zipAreas } from "./places.js";
-import { findStreet } from "./streets/index.js";
+import { citiesInZip, normalizeCity, zipAreas, zipDefaultAreas } from "./places.js";
+import { findStreet, listedInZip } from "./streets/index.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
 import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
@@ -84,6 +84,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     );
   let zip5 = /^(\d{5})/.exec(input.zip ?? "")?.[1] ?? null;
   let plus4 = /^\d{5}-?(\d{4})$/.exec(input.zip ?? "")?.[1] ?? null;
+  let standardizedZip4 = false;
   const city = normalizeCity(input.city);
   const notes: string[] = [];
 
@@ -97,6 +98,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     if (standard && (!zip5 || standard.zip5 === zip5)) {
       zip5 = standard.zip5;
       plus4 = standard.plus4;
+      standardizedZip4 = true;
       notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}${standard.exact ? "" : " (the building's; no unit given)"}`);
       found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date });
       if (found) foundStreet = standard.street;
@@ -152,12 +154,24 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
         () => 2,
       );
       const point = zipRates > 1 ? await input.locate() : null;
-      const onMap =
+      const refined =
         point && point.accuracy !== "interpolated"
-          ? (await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace)).areas
-          : [];
+          ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace)
+          : null;
+      const onMap = refined ? refined.areas : [];
+      const mappedPoint = refined?.point;
       if (onMap !== "near_edge" && onMap.length) {
         const byMap = await answer(onMap, "map").catch(() => null);
+        // Street ranges are filed by the hundred-block; a precise point that
+        // two datasets agree on, clear of every line, says which side of the
+        // block's county or city line the house is on.
+        const mapped = (mappedPoint ?? point)!;
+        // Two datasets, not two providers: Geocodio's TIGER points are Census's.
+        const datasets = new Set((mapped.placedBy ?? []).map((p) => /\(([^)]*)\)$/.exec(p)?.[1] ?? p));
+        if (byMap && byMap.rate !== byStreet.rate && datasets.size >= 2 && marginOf(mapped) <= PRECISE_METRES) {
+          notes.push(`the map point, placed by ${mapped.placedBy!.join(", ")}, in place of the street range's ${+(byStreet.rate * 100).toFixed(4)}%`);
+          return traced({ ...byMap, note: notes.join("; ") }, input.trace);
+        }
         if (byMap && byMap.rate !== byStreet.rate)
           throw await refusal(
             input,
@@ -182,6 +196,26 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   }
   if (zip4Areas.length) {
     const byZip4 = await answer(zip4Areas, "zip4");
+    // A ZIP+4 looked up here, not typed, is a lead: it answers unless the
+    // map, placed apart from it, says otherwise; and in a state whose ZIP+4
+    // ranges have put houses in the wrong area, only where the map agrees.
+    if (byZip4 && standardizedZip4 && zip5) {
+      const inZip = await zipAreas(input.state, zip5, date);
+      const point = input.locate ? await input.locate() : null;
+      const mapped = point ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace) : null;
+      const byMap = mapped && mapped.areas !== "near_edge" && mapped.areas.length ? await answer(mapped.areas, "map") : null;
+      const contradicted = byMap && byMap.rate !== byZip4.rate;
+      if (contradicted || (!byMap && UNCONFIRMED_ZIP4_STATES.includes(input.state)))
+        throw await refusal(
+          input,
+          `${input.state}'s files have no range for this street, and its ZIP+4 ${zip5}-${plus4} isn't confirmed by the address's place on the map.`,
+          [...zip4Areas, ...(mapped && mapped.areas !== "near_edge" ? mapped.areas : [])],
+          fips,
+          date,
+        );
+      if (byMap) notes.push("confirmed by the map");
+      return { ...byZip4, note: notes.join("; ") };
+    }
     if (byZip4) return byZip4;
   }
   if (!zip5)
@@ -197,6 +231,31 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   if (inZip.length && cityNamed) {
     const byZip = await answer(inZip, "zip5");
     if (byZip) return byZip;
+  }
+  // A street the ZIP's file doesn't list at all takes the ZIP's default, as
+  // the Streamlined files rank them, where the ZIP's other areas add only
+  // special districts: a district is the streets listed for it (Teton
+  // County's resort districts, around a 7% default), but a city or county
+  // levies on every street in it, and a default without one (West
+  // Virginia's state-only rows) is a fallback, not the street's rate. A
+  // listed street whose house isn't listed doesn't take it either.
+  if (inZip.length > 1 && cityNamed) {
+    const byDefault = await zipDefaultAreas(input.state, zip5, date);
+    const rated = byDefault.length === 1 ? await rateAreas(input.state, fips, inZip, date).catch(() => []) : [];
+    const levies = (a: (typeof rated)[number]) =>
+      // By the publisher's type: a place filed as a district (WY's 69) is one.
+      a.parts.filter((p) => /^0[01]:/.test(p.code)).map((p) => p.code).sort().join();
+    const base = rated.find((a) => a.areaId === byDefault[0]);
+    // A whole-code area (Missouri's) files its city and county as one
+    // code, so it can't show that only districts set it apart.
+    const wholeCode = rated.some((a) => a.parts.some((p) => p.code.startsWith(`${WHOLE_CODE_TYPE}:`)));
+    const districtsApart =
+      !!base && !wholeCode && rated.length === inZip.length && rated.every((a) => levies(a) === levies(base));
+    if (districtsApart && !(await listedInZip({ ...input, zip5, date }))) {
+      notes.push(`street not in ZIP ${zip5}'s file; the ZIP's default`);
+      const answered = await answer(byDefault, "zip5");
+      if (answered) return answered;
+    }
   }
   // A ZIP split between rates, or one whose ranges don't name the typed city,
   // is settled on the map: the point must fall in an area's county and city.
@@ -238,6 +297,12 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
 // ---------------------------------------------------------------------------
 // Map
 // ---------------------------------------------------------------------------
+
+/** States whose ZIP+4 ranges put a looked-up ZIP+4 in the wrong area (Missouri:
+ *  2 of 4 on the bench), so one must be confirmed by the map. */
+const UNCONFIRMED_ZIP4_STATES = ["MO"];
+/** A map point this sure, agreed by two datasets, outweighs a street range. */
+const PRECISE_METRES = 40;
 
 async function mapWithRefinement(state: string, areaIds: number[], point: LocatedPoint, date: string, locate?: Locate, trace?: Trace) {
   let areas = await mapAreas(state, areaIds, point, date, trace);
