@@ -12,6 +12,9 @@ import {
   unique,
   jsonb,
   primaryKey,
+  bigint,
+  bigserial,
+  boolean,
 } from "drizzle-orm/pg-core";
 import type { SourcedPoint } from "../geocoding/types.js";
 
@@ -30,6 +33,51 @@ export const geocoderUsage = pgTable("geocoder_usage", {
   calls: integer("calls").notNull(),
   nextCallAt: timestamp("next_call_at", { withTimezone: true }).notNull(),
 }, t => [primaryKey({ columns: [t.provider, t.day] })]);
+
+/**
+ * Every lookup made with a key: one table that is the caller's history (the
+ * dashboard), their answer cache (a repeat within a day is answered from
+ * their own last 200 here) and the meter (what each lookup was charged and
+ * cost). Kept 90 days. user_id is null for a master key, whose key_id is
+ * "master:<name>"; key_id has no foreign key, so rows outlive a deleted key.
+ */
+export const apiRequests = pgTable("api_requests", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  userId: text("user_id"),
+  keyId: text("key_id").notNull(),
+  at: timestamp("at", { withTimezone: true }).notNull().defaultNow(),
+  /** answerKey(): the normalized address, date and includes. */
+  answerKey: text("answer_key").notNull(),
+  query: jsonb("query").$type<Record<string, string>>().notNull(),
+  status: smallint("status").notNull(),
+  response: jsonb("response").notNull(),
+  cached: boolean("cached").notNull().default(false),
+  /** Paid providers called, by registry id. */
+  providers: text("providers").array().notNull().default([]),
+  /** What the account was charged, and what paid providers cost at list
+   *  price, in millionths of a dollar. */
+  chargedMicros: integer("charged_micros").notNull().default(0),
+  geoCostMicros: integer("geo_cost_micros").notNull().default(0),
+  ms: integer("ms").notNull(),
+}, t => [
+  // The cache: an account's own answers, or a master key's.
+  index("idx_api_requests_cache").on(t.userId, t.answerKey, t.at.desc()),
+  index("idx_api_requests_key_cache").on(t.keyId, t.answerKey, t.at.desc()),
+  index("idx_api_requests_history").on(t.userId, t.at.desc()),
+  index("idx_api_requests_at").on(t.at),
+]);
+
+/** Credit added to an account: the trial, a Stripe purchase, a refund
+ *  (negative), or a correction. A purchase's Stripe session id is unique, so
+ *  a webhook sent twice credits once. */
+export const creditGrants = pgTable("credit_grants", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  userId: text("user_id").notNull(),
+  kind: text("kind").$type<"trial" | "purchase" | "refund" | "adjust">().notNull(),
+  micros: bigint("micros", { mode: "number" }).notNull(),
+  stripeId: text("stripe_id").unique(),
+  at: timestamp("at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [index("idx_credit_grants_user").on(t.userId, t.at)]);
 
 /**
  * Equated's own copy of the states' sales tax rate and boundary data, which
