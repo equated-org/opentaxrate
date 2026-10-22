@@ -1,23 +1,27 @@
-# OpenTaxRate
+<h1 align="center">
+  <a href="https://opentaxrate.com">OpenTaxRate</a>
+</h1>
+
+<p align="center">US sales tax rates by street address, from the states’ own data.</p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Elastic%202.0-blue?style=for-the-badge" alt="License: Elastic 2.0"></a>
-  <img src="https://img.shields.io/badge/States-50%20%2B%20DC-2ea44f?style=for-the-badge" alt="50 states + DC">
-  <img src="https://img.shields.io/badge/Node-22-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node 22">
-  <img src="https://img.shields.io/badge/Postgres-17%20%2B%20PostGIS-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres 17 + PostGIS">
-  <img src="https://img.shields.io/badge/docker%20compose-up-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="docker compose">
+  <a href="https://opentaxrate.com"><strong>Website · Try a lookup</strong></a> ·
+  <a href="#quick-start">Self-host</a> ·
+  <a href="docs/configuration.md">Configuration</a> ·
+  <a href="docs/state-coverage.html">Coverage</a>
 </p>
 
-**US sales tax rates by street address, from the states’ own data.**
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic%202.0-blue?style=flat-square" alt="License: Elastic 2.0"></a>
+  <a href="docs/state-coverage.html"><img src="https://img.shields.io/badge/coverage-50%20states%20%2B%20DC-2ea44f?style=flat-square" alt="Coverage: 50 states + DC"></a>
+</p>
 
-Look up an address and date to get the combined rate, jurisdiction breakdown, and sources. Covers all 50 states + DC using address ranges, mapped boundaries, or state lookups. Ambiguous addresses return `422` rather than a guessed rate.
-
-Self-host with Postgres + PostGIS. No API key required; paid geocoders are optional.
+Look up an address and date to get the combined rate, jurisdiction breakdown, and sources. Ambiguous addresses return `422` rather than a guessed rate. Self-host with Postgres + PostGIS; paid geocoders are optional.
 
 ## Quick start
 
 ```bash
-git clone https://github.com/opentaxrate/opentaxrate && cd opentaxrate
+git clone https://github.com/equated-org/opentaxrate.git && cd opentaxrate
 cp .env.example .env
 docker compose up -d
 docker compose run --rm refresh OH TX WA
