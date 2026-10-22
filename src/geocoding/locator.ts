@@ -4,6 +4,7 @@ import { agreeingGroup, compatible, placement } from "./agreement.js";
 import { addressCacheKey, postgresGeocodeCache, type GeocodeCache } from "./cache.js";
 import { postgresGeocodeBudget, type GeocodeBudget } from "./budget.js";
 import { geocoderProviders } from "./registry.js";
+import { streetsInZip } from "./zip-streets.js";
 import { roundCoord, type Trace } from "../rates/types.js";
 import { EDGE_METRES, marginOf, metresBetween, validPoint,
   type AddressToLocate, type SourcedPoint, type LocatedPoint, type GeocoderProvider, type Locate } from "./types.js";
@@ -59,6 +60,8 @@ interface Options {
   checkSingle?: (address: AddressToLocate, point: LocatedPoint) => Promise<boolean>;
   /** Records every provider's point and the point placed, for display. */
   trace?: Trace;
+  /** The streets in the typed ZIP, for telling a typo from another street. */
+  zipStreets?: (address: AddressToLocate) => Promise<ReadonlySet<string> | null>;
 }
 export interface GeocodeTrace { provider: string; outcome: "cached" | "matched" | "no-match" | "skipped" | "failed" }
 /** The widest circle disagreeing datasets may be placed within. */
@@ -82,6 +85,11 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
     if (point && shown)
       shown.geocoders.push({ source: id, lon: roundCoord(point.lon), lat: roundCoord(point.lat), accuracy: point.accuracy });
   };
+  // Loaded once, when a provider is first asked; without them the matcher
+  // stays exact.
+  let located: Promise<AddressToLocate> | undefined;
+  const withStreets = () => (located ??= (options.zipStreets ?? streetsInZip)(address)
+    .then((zipStreets) => ({ ...address, zipStreets }), () => address));
   const considered = new Set<string>();
   let base: Promise<LocatedPoint | null> | undefined;
   let refined: Promise<LocatedPoint | null> | undefined;
@@ -108,7 +116,7 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
         return undefined;
       }
       try {
-        const point = await p.geocode(address, AbortSignal.timeout(6_000));
+        const point = await p.geocode(await withStreets(), AbortSignal.timeout(6_000));
         if (point && (!validPoint(point) || point.provider !== p.id || !point.source)) throw new Error("Invalid geocoder point");
         budget.success(p);
         trace.push({ provider: p.id, outcome: point ? "matched" : "no-match" });
