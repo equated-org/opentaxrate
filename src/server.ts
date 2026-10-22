@@ -4,6 +4,7 @@
  *       or ?address=1410 E Pine St, Seattle, WA   ...given as one line
  *       &include=trace                            ...and how it was placed
  *   GET /v1/coverage                              each state's method and files
+ *   GET /v1/openapi.json                          the two above, as OpenAPI 3.1 (api-schema.ts)
  *   GET /v1/suggest?q=                            address suggestions (suggest.ts)
  *   GET /health                                   database reachable
  * With accounts on (BETTER_AUTH_SECRET, auth.ts):
@@ -30,7 +31,8 @@
  * relayed to a Photon (OPENTAXRATE_PHOTON_URL, with
  * OPENTAXRATE_SUGGEST_LIMIT).
  */
-import { Hono, type Context } from "hono";
+import type { Context } from "hono";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
 import { z } from "zod";
 import { sql } from "drizzle-orm";
@@ -52,20 +54,12 @@ import { user } from "./db/auth-schema.js";
 import { eq } from "drizzle-orm";
 import { regionSourcesFor } from "./regions.js";
 import { PARSE_HINT, parseAddress } from "./address-text.js";
+import { AddressRateSchema, CoverageSchema, ErrorSchema, RateQuerySchema } from "./api-schema.js";
 
-const query = z.object({
-  /** One line, read by address-text.ts; the separate fields win over it. */
-  address: z.string().trim().max(300).optional(),
-  state: z.string().trim().length(2).optional(),
-  street: z.string().trim().max(200).default(""),
-  city: z.string().trim().max(100).default(""),
-  zip: z.string().trim().regex(/^\d{5}(?:-?\d{4})?$/).optional(),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-  /** Comma-separated extras: trace, regions. Others are ignored. */
-  include: z.string().max(100).optional(),
-});
+const query = RateQuerySchema;
+const usage = "Give state (two letters), street, city, or the whole address as address=, and optionally zip and date (YYYY-MM-DD).";
 
-export const app = new Hono<{ Variables: AccessVariables }>();
+export const app = new OpenAPIHono<{ Variables: AccessVariables }>();
 
 const origins = (process.env.OPENTAXRATE_CORS_ORIGINS ?? "").split(",").map((o) => o.trim()).filter(Boolean);
 if (origins.length)
@@ -97,10 +91,37 @@ app.get("/health", async (c) => {
   return c.json({ ok: true });
 });
 
-app.get("/v1/rate", async (c) => {
-  const parsed = query.safeParse(c.req.query());
+/** An answer, checked at compile time against the spec's 200. */
+const fits = (answer: z.input<typeof AddressRateSchema>) => answer;
+
+const json = <T extends z.ZodType>(schema: T, description: string) => ({ content: { "application/json": { schema } }, description });
+const refusal = (description: string) => json(ErrorSchema, description);
+
+const rateRoute = createRoute({
+  method: "get",
+  path: "/v1/rate",
+  operationId: "getRate",
+  summary: "The sales tax rate at an address",
+  description: "Give the address as one line (address) or as fields (state, street, city, zip). Rates are decimals: 0.1055 is 10.55%.",
+  request: { query },
+  responses: {
+    200: json(AddressRateSchema, "The rate, split into the taxes that make it up."),
+    400: refusal("A parameter failed validation, or address couldn't be read; the message says what's missing (BAD_REQUEST)."),
+    401: refusal("The key isn't one we issued (INVALID_API_KEY)."),
+    402: refusal("The key's credit doesn't cover the lookup (NO_CREDITS)."),
+    422: refusal("The data can't place the address in one rate (ADDRESS_NEEDS_CONFIRMATION), or the state isn't covered (UNSUPPORTED_STATE)."),
+    429: refusal("Too many lookups; wait the Retry-After seconds (RATE_LIMITED, KEY_LIMITED)."),
+    502: refusal("A state's data isn't loaded, or its service is down (UPSTREAM_UNAVAILABLE)."),
+    504: refusal("A state's service timed out (UPSTREAM_TIMEOUT)."),
+  },
+});
+
+// Registered for the spec; the handler validates with the same schema, and
+// fits() checks its answer against the 200's.
+app.openAPIRegistry.registerPath(rateRoute);
+app.get(rateRoute.path, async (c) => {
   const badRequest = (error: string) => c.json({ error, code: "BAD_REQUEST" }, 400);
-  const usage = "Give state (two letters), street, city, or the whole address as address=, and optionally zip and date (YYYY-MM-DD).";
+  const parsed = query.safeParse(c.req.query());
   if (!parsed.success) return badRequest(usage);
   const { include: includeParam, address, ...fields } = parsed.data;
   const line = address ? parseAddress(address) : undefined;
@@ -129,7 +150,7 @@ app.get("/v1/rate", async (c) => {
     const rate = await lookUpRate({ ...q, date }, { trace, regions: include.includes("regions"), policy: policyFor(c.var.access) });
     const answer = trace ? { ...rate, trace } : rate;
     if (key) answers!.set(key, answer);
-    return c.json(answer);
+    return c.json(fits(answer));
   } catch (error) {
     if (!(error instanceof RateError)) throw error;
     if (trace && error.status === 422) return c.json({ error: error.message, code: error.code, trace }, 422);
@@ -182,7 +203,7 @@ async function keyedLookup(
     const rate = await lookUpRate(q, { trace, regions: include.includes("regions"), policy: policyFor(a), budget });
     const answer = trace ? { ...rate, trace } : rate;
     await done(200, rate, price);
-    return c.json(answer);
+    return c.json(fits(answer));
   } catch (error) {
     if (a.userId) await refund(a.userId, price);
     if (!(error instanceof RateError)) {
@@ -259,7 +280,18 @@ const prune = () => pruneRequests().catch((error) => console.error(error));
 setTimeout(prune, 60_000).unref();
 setInterval(prune, 86_400_000).unref();
 
-app.get("/v1/coverage", async (c) => {
+const coverageRoute = createRoute({
+  method: "get",
+  path: "/v1/coverage",
+  operationId: "getCoverage",
+  summary: "Each state, how its addresses are placed, and the data loaded for it",
+  responses: {
+    200: json(CoverageSchema, "Every covered state."),
+    401: refusal("The key isn't one we issued (INVALID_API_KEY)."),
+  },
+});
+
+app.openapi(coverageRoute, async (c) => {
   const releases = await db.select().from(salesTaxDataReleases);
   return c.json(
     ADDRESS_RATE_STATES.map((state) => ({
@@ -267,9 +299,28 @@ app.get("/v1/coverage", async (c) => {
       method: addressRates.method(state),
       geocoders: geocoderCoverage(policyFor(c.var.access)),
       regionSources: regionSourcesFor(state),
-      files: releases.filter((r) => r.state === state).map((r) => ({ kind: r.kind, file: r.file, rows: r.rows, loadedAt: r.loadedAt })),
+      files: releases.filter((r) => r.state === state).map((r) => ({ kind: r.kind, file: r.file, rows: r.rows, loadedAt: r.loadedAt.toISOString() })),
     })),
+    200,
   );
+});
+
+app.openAPIRegistry.registerComponent("securitySchemes", "bearer", { type: "http", scheme: "bearer", description: "An API key from the dashboard." });
+app.openAPIRegistry.registerComponent("securitySchemes", "apiKey", { type: "apiKey", in: "header", name: "x-api-key", description: "The same key, as a header." });
+
+// The spec, generated from api-schema.ts. Under /v1 so the site's origin
+// forwards it too.
+app.doc31("/v1/openapi.json", {
+  openapi: "3.1.0",
+  info: {
+    title: "OpenTaxRate API",
+    version: "1",
+    license: { name: "Elastic License 2.0", url: "https://github.com/opentaxrate/opentaxrate/blob/main/LICENSE" },
+    description: "The sales tax rate at a US street address, from the states' own published data. Without a key, lookups are limited per IP address.",
+  },
+  servers: [{ url: "https://api.opentaxrate.com" }],
+  // A key is optional: without one, lookups are free and limited per IP.
+  security: [{}, { bearer: [] }, { apiKey: [] }],
 });
 
 app.onError((error, c) => {

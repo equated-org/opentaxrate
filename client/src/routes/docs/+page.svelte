@@ -58,6 +58,14 @@
 			</td>
 		</tr>
 		<tr><td>Rates</td><td>Decimals: <code>0.1055</code> is 10.55%.</td></tr>
+		<tr>
+			<td>OpenAPI</td>
+			<td>
+				<a class="link" href="https://api.opentaxrate.com/v1/openapi.json" target="_blank" rel="noopener"
+					><code>/v1/openapi.json</code></a
+				>, for generating a client or importing into Postman.
+			</td>
+		</tr>
 	</tbody>
 </table>
 
