@@ -9,8 +9,11 @@
  *
  * Rates come from this period's layer (July to June) and the last one's;
  * outlines from this period's.
+ *
+ * Each location keeps the layer's name, and its locat_cdr, locat_cd1 and
+ * locat_cd2 codes where they aren't blank, from the newest period.
  */
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchLayer } from "./sources.js";
 
 const SERVICES = "https://services5.arcgis.com/f4lpEvI6fkgVYigk/arcgis/rest/services";
@@ -31,6 +34,7 @@ export const newMexico: GeoState = {
       { type: "need", code: "x", rate: 0, startsOn: periods[1].from, endsOn: periods[0].to },
     ];
     let shapes: GeoStateData["shapes"] = [];
+    const jurisdictions = new Map<string, JurisdictionRow>();
     for (const [i, period] of periods.entries()) {
       const features = await fetchLayer(await polygonLayer(period.service));
       const seen = new Set<string>();
@@ -45,6 +49,14 @@ export const newMexico: GeoState = {
           shapes.push({ kind: "district", fips: code, name: String(a.name).replace(/[*^]+$/, "").trim(), rings: f.rings, bbox: bboxOf(f.rings) });
         if (seen.has(code)) continue;
         seen.add(code);
+        if (!jurisdictions.has(code)) {
+          const ids: Record<string, string> = {};
+          for (const field of ["locat_cdr", "locat_cd1", "locat_cd2"]) {
+            const value = String(a[field] ?? "").trim();
+            if (value) ids[field] = value;
+          }
+          jurisdictions.set(code, { type: "x", code, name: String(a.name ?? "").trim() || null, ids });
+        }
         rates.push({
           type: "x",
           code,
@@ -58,6 +70,7 @@ export const newMexico: GeoState = {
     shapes = shapes.filter((s) => s.rings.length);
     return {
       rates,
+      jurisdictions: [...jurisdictions.values()],
       shapes,
       files: { rates: `NM ${periods[1].service} + ${periods[0].service}`, boundaries: `NM ${periods[0].service}` },
     };

@@ -13,6 +13,8 @@
  *
  * Rates are read as of each half-year since 2024 and today, so coverage
  * starts 2024-01-01.
+ *
+ * Each jurisdiction keeps the service's name, placeId and placeTypeId.
  */
 import { latestTigerFiles } from "../downloads.js";
 import { contains, readTigerZip } from "../tiger.js";
@@ -21,7 +23,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../db/client.js";
 import { salesTaxJurisdictionRates } from "../../db/schema.js";
 import { ringsOf, bboxOf, shiftDay } from "./sources.js";
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 
 const FIRST = "2024-01-01";
 /** The service's place ids are plain numbers, which could equal a Census
@@ -187,8 +189,22 @@ async function fetchState(service: Service, dir?: string): Promise<GeoStateData>
     }
     if (!rates.some((r) => r.type === "45"))
       rates.push({ type: "45", code: service.state, rate: 0, startsOn: FIRST, endsOn: "9999-12-31" });
+    // A "maybe" row is a refusal, not the place it's keyed by.
+    const jurisdictions = new Map<string, JurisdictionRow>();
+    for (const r of rates) {
+      if (r.type === "maybe") continue;
+      const id = r.code.replace(CODE_PREFIX, "");
+      if (!kindOf.has(id)) continue;
+      jurisdictions.set(`${r.type}:${r.code}`, {
+        type: r.type,
+        code: r.code,
+        name: nameOf.get(id) ?? null,
+        ids: { placeId: id, placeTypeId: kindOf.get(id)! },
+      });
+    }
     return {
       rates,
+      jurisdictions: [...jurisdictions.values()],
       shapes,
       files: {
         rates: `${service.state} rate service ${new URL(service.host).host} ${FIRST} to ${today}`,

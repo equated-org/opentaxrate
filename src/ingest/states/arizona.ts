@@ -11,8 +11,11 @@
  *
  * Some cities tax part of a single item over a set price at another rate;
  * that tier is the caller's to apply.
+ *
+ * Each region keeps the table's RegionName and RegionCode, and its
+ * outline's County or FIPS where the layer gives one.
  */
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchLayer, fetchText, isoDay, shiftDay } from "./sources.js";
 
 const TABLES = "https://azdor.gov/sites/default/files/document";
@@ -26,6 +29,8 @@ export const arizona: GeoState = {
   state: "AZ",
   async fetch(dir) {
     const found = new Map<string, { code: string; rate: number; from: string; to: string }>();
+    /** Each region's name, from the newest table that lists it. */
+    const regionNames = new Map<string, string>();
     let latest = "";
     const lastMonth = new Date();
     lastMonth.setUTCMonth(lastMonth.getUTCMonth() + 2);
@@ -50,6 +55,7 @@ export const arizona: GeoState = {
         if (!from || !to) continue;
         const row = { code: c[0], rate: Number(c[4]) / 100, from, to: to >= "9999-01-01" ? "9999-12-31" : to };
         found.set(`${row.code}|${row.from}|${row.rate}`, row);
+        if (c[1]) regionNames.set(c[0], c[1]);
       }
     }
     if (!latest) throw new Error("No Arizona rate table found");
@@ -63,12 +69,16 @@ export const arizona: GeoState = {
     ]);
     const shapes: GeoStateData["shapes"] = [];
     const regions = new Map<string, "county" | "place">();
+    const layerIds = new Map<string, Record<string, string>>();
     for (const [features, kind] of [[counties, "county"], [cities, "place"]] as const)
       for (const f of features) {
         const raw = String(f.attributes.Region_Code ?? "").trim();
         const code = PLACE_CODES[raw] ?? raw;
         if (!code) continue;
         regions.set(code, kind);
+        const field = kind === "county" ? "County" : "FIPS";
+        const value = String(f.attributes[field] ?? "").trim();
+        if (value) layerIds.set(code, { ...layerIds.get(code), [field]: value });
         shapes.push({ kind, fips: code, name: String(f.attributes.Name ?? f.attributes.Description ?? code), rings: f.rings, bbox: bboxOf(f.rings) });
       }
 
@@ -91,8 +101,13 @@ export const arizona: GeoState = {
         });
       });
     }
+    const jurisdictions: JurisdictionRow[] = [...new Set(rates.filter((r) => r.type !== "45").map((r) => `${r.type}:${r.code}`))].map((key) => {
+      const [type, code] = key.split(":");
+      return { type, code, name: regionNames.get(code) ?? null, ids: { RegionCode: code, ...layerIds.get(code) } };
+    });
     return {
       rates,
+      jurisdictions,
       shapes,
       files: { rates: `AZ ${latest.replace(".csv", "")} and earlier from ${FIRST_TABLE}`, boundaries: "AZGeo county regions and incorporated places" },
     };

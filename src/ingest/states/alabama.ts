@@ -17,6 +17,11 @@
  *   - an address outside a city but within three miles of it, where the
  *     city's police jurisdiction may tax at half its rate.
  * Codes for abated businesses ("unabated") don't apply to general sales.
+ *
+ * Each rate keeps the file's Locality Code, County Number and Administered
+ * (who collects it: STATE, SELF or a private collector) as its ids, and its
+ * Locality Name as its name; a county rate summed from several codes lists
+ * each.
  */
 import type { LocalRate } from "./tables.js";
 import { stateTable } from "./tables.js";
@@ -133,22 +138,38 @@ const COUNTY_RULES: Record<string, CountyRule> = {
 /** A county code that applies across the whole county, beside its base. */
 const COUNTYWIDE = /^[A-Z .']+ (?:COUNTY|CO)(?: SPECIAL REVENUE| EDUCATION| COUNTY-WIDE TAX)?$/;
 
+interface CountyCode {
+  name: string;
+  /** The file's County Number. */
+  countyNo: string;
+  periods: Period[];
+}
+
 interface Period {
   rate: number;
   from: string;
   to?: string;
+  /** The row's Administered column. */
+  administered: string;
 }
+
+/** A row's ids, by the file's column names. */
+const idsOf = (code: string, countyNo: string, administered: string) => ({
+  "Locality Code": code,
+  "County Number": countyNo,
+  Administered: administered,
+});
 
 export const alabama = stateTable("AL", async (dir) => {
   const csv = await fetchText(FILE, dir, "taxrates.csv");
   const locals: LocalRate[] = [];
   /** County codes by county, then by locality code. */
-  const countyCodes = new Map<string, Map<string, { name: string; periods: Period[] }>>();
+  const countyCodes = new Map<string, Map<string, CountyCode>>();
   /** Each city's name as its rows give it, with ALDOR's county number. */
   const cities = new Map<string, { county: number; levies: boolean }>();
   const countyNames = new Map<number, string>();
   for (const line of csv.replace(/^﻿/, "").split(/\r?\n/).slice(1)) {
-    const [code, name, countyNo, taxType, rateType, , active, inactive, rate, , pj, , pjRate] = line.split(",").map((c) => c.trim());
+    const [code, name, countyNo, taxType, rateType, administered, active, inactive, rate, , pj, , pjRate] = line.split(",").map((c) => c.trim());
     if (taxType !== "ST" || rateType !== "GENER" || !code || !name) continue;
     const from = isoDay(active);
     if (!from) continue;
@@ -162,8 +183,8 @@ export const alabama = stateTable("AL", async (dir) => {
       countyNames.set(Number(countyNo), county);
       const codes = countyCodes.get(county) ?? new Map();
       countyCodes.set(county, codes);
-      const known = codes.get(code) ?? { name, periods: [] };
-      known.periods.push({ rate: Number(rate) / 100, ...dated });
+      const known = codes.get(code) ?? { name, countyNo, periods: [] };
+      known.periods.push({ rate: Number(rate) / 100, ...dated, administered });
       codes.set(code, known);
     } else if (code.startsWith("9")) {
       // A district inside a town is listed like a town but has no outline.
@@ -175,9 +196,10 @@ export const alabama = stateTable("AL", async (dir) => {
       const seen = cities.get(city);
       const levies = Number(rate) > 0 && (!to || to >= "2026-01-01");
       cities.set(city, { county: Number(countyNo), levies: Boolean(seen?.levies) || levies });
-      locals.push({ name: city, rate: Number(rate) / 100, ...dated, type: "01", inCounty });
+      const source = { title: name, ids: idsOf(code, countyNo, administered) };
+      locals.push({ name: city, rate: Number(rate) / 100, ...dated, type: "01", inCounty, ...source });
       if (pj === "Y" && Number(pjRate) > 0)
-        locals.push({ name: city, rate: Number(pjRate) / 100, ...dated, type: "pj", inCounty });
+        locals.push({ name: city, rate: Number(pjRate) / 100, ...dated, type: "pj", inCounty, ...source });
     }
   }
 
@@ -197,7 +219,19 @@ export const alabama = stateTable("AL", async (dir) => {
     }
     // Without a rule, every code must apply countywide; they add up.
     if ([...codes.values()].every((c) => COUNTYWIDE.test(c.name)))
-      counties.push(...sumByCode([...codes.values()].flatMap((c) => c.periods.map((p) => ({ name: county, ...p, type: "00" as const })))));
+      counties.push(
+        ...sumByCode(
+          [...codes].flatMap(([code, c]) =>
+            c.periods.map(({ administered, ...p }) => ({
+              name: county,
+              ...p,
+              type: "00" as const,
+              title: c.name,
+              ids: idsOf(code, c.countyNo, administered),
+            })),
+          ),
+        ),
+      );
     else counties.push({ name: county, rate: 0, from: FROM, type: "no" });
   }
   return {
@@ -215,7 +249,7 @@ export const alabama = stateTable("AL", async (dir) => {
 function ruleRows(
   county: string,
   rule: CountyRule,
-  codes: Map<string, { name: string; periods: Period[] }>,
+  codes: Map<string, CountyCode>,
   cities: Map<string, { county: number; levies: boolean }>,
   countyNames: Map<number, string>,
 ): LocalRate[] {
@@ -227,6 +261,15 @@ function ruleRows(
     const live = list.flatMap((code) => (codes.get(code)?.periods ?? []).filter((p) => p.from <= day && (!p.to || p.to >= day)));
     return live.length ? Math.round(live.reduce((sum, p) => sum + p.rate, 0) * 1e6) / 1e6 : null;
   };
+  /** The names and ids of the codes in effect on a day, as a row's source. */
+  const sourceOn = (list: string[], day: string) =>
+    mergeSources(
+      list.flatMap((code) => {
+        const c = codes.get(code);
+        const p = c?.periods.find((p) => p.from <= day && (!p.to || p.to >= day));
+        return c && p ? [{ title: c.name, ids: idsOf(code, c.countyNo, p.administered) }] : [];
+      }),
+    );
   const countyNo = [...countyNames].find(([, name]) => name === county)?.[0];
   const named = (which: Cities, pj: boolean) =>
     Array.isArray(which)
@@ -239,13 +282,13 @@ function ruleRows(
   days.forEach((day, i) => {
     const outside = rateOn(rule.outside, day);
     if (outside === null) return;
-    out.push({ name: county, rate: outside, from: day, to: span(i), type: "00" });
+    out.push({ name: county, rate: outside, from: day, to: span(i), type: "00", ...sourceOn(rule.outside, day) });
     for (const group of rule.inside) {
       const inside = rateOn(group.codes, day) ?? outside;
       const rate = Math.round((inside - outside) * 1e6) / 1e6;
       if (rate)
         for (const city of named(group.cities, false))
-          out.push({ name: city, rate, from: day, to: span(i), type: "0c", inCounty: titleCase(county) });
+          out.push({ name: city, rate, from: day, to: span(i), type: "0c", inCounty: titleCase(county), ...sourceOn(group.codes, day) });
     }
     // An unnamed city in an "unincorporated areas" county: its rate could be
     // the outside one or the first named group's.
@@ -254,7 +297,7 @@ function ruleRows(
       const first = rateOn(rule.inside[0].codes, day) ?? outside;
       for (const [city, c] of cities)
         if (c.county === countyNo && !listed.has(city) && ![...listed].some((l) => l.toUpperCase() === city))
-          out.push({ name: city, rate: Math.round((first - outside) * 1e6) / 1e6 || 0, from: day, to: span(i), type: "maybe" });
+          out.push({ name: city, rate: Math.round((first - outside) * 1e6) / 1e6 || 0, from: day, to: span(i), type: "maybe", ...sourceOn(rule.inside[0].codes, day) });
     }
     for (const group of rule.pj ?? []) {
       // A police jurisdiction code no longer in effect leaves the county's
@@ -262,7 +305,7 @@ function ruleRows(
       const rate = Math.round(((rateOn(group.codes, day) ?? outside) - outside) * 1e6) / 1e6;
       if (rate)
         for (const city of named(group.cities, true))
-          out.push({ name: city, rate, from: day, to: span(i), type: "pj" });
+          out.push({ name: city, rate, from: day, to: span(i), type: "pj", ...sourceOn(group.codes, day) });
     }
   });
   return out;
@@ -292,10 +335,21 @@ function sumByCode(rows: LocalRate[]): LocalRate[] {
           ? live.reduce((sum, r) => sum + r.rate, 0)
           : Math.max(...live.map((r) => r.rate));
       const to = days[i + 1] ? prev(days[i + 1]) : undefined;
-      out.push({ ...group[0], rate: Math.round(rate * 1e6) / 1e6, from: day, to });
+      out.push({ ...group[0], ...mergeSources(live), rate: Math.round(rate * 1e6) / 1e6, from: day, to });
     });
   }
   return out;
+}
+
+/** Several rows' names and ids as one: each distinct value, comma-separated. */
+function mergeSources(rows: Array<Pick<LocalRate, "title" | "ids">>): Pick<LocalRate, "title" | "ids"> {
+  const join = (values: Array<string | undefined>) => [...new Set(values.filter(Boolean))].join(", ") || undefined;
+  if (!rows.some((r) => r.ids)) return { title: join(rows.map((r) => r.title)) };
+  const keys = [...new Set(rows.flatMap((r) => Object.keys(r.ids ?? {})))];
+  return {
+    title: join(rows.map((r) => r.title)),
+    ids: Object.fromEntries(keys.map((k) => [k, join(rows.map((r) => r.ids?.[k]))!])),
+  };
 }
 
 const titleCase = (s: string) => s.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());

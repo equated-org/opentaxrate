@@ -56,6 +56,7 @@ export const southCarolina: GeoState = {
     const outline = await fetchLayer(MUNICIPALITIES, { where: `CITY_NAME = '${MYRTLE_BEACH.name}'` });
     if (!outline.length) throw new Error("SC RFA has no Myrtle Beach outline");
     data.rates.push({ type: MYRTLE_BEACH.type, code: MYRTLE_BEACH.code, rate: MYRTLE_BEACH.rate, startsOn: FROM, endsOn: "9999-12-31" });
+    data.jurisdictions.push({ type: MYRTLE_BEACH.type, code: MYRTLE_BEACH.code, name: MYRTLE_BEACH.name, ids: {} });
     data.shapes = outline.map((f) => ({ kind: "district" as const, fips: MYRTLE_BEACH.code, name: "Myrtle Beach", rings: f.rings, bbox: bboxOf(f.rings) }));
     data.files.boundaries = "SC RFA municipal limits (Myrtle Beach)";
     return data;

@@ -19,9 +19,10 @@ import { client, db } from "../db/client.js";
 import {
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
+  salesTaxJurisdictions,
   salesTaxShapes,
 } from "../db/schema.js";
-import type { GeoStateData } from "./states/index.js";
+import type { GeoStateData, JurisdictionRow } from "./states/index.js";
 import { and, eq, inArray, like, notLike, sql } from "drizzle-orm";
 import { geometryOf } from "./geometry.js";
 import { RANGE_FIPS, STATE_FIPS } from "../coverage.js";
@@ -40,6 +41,10 @@ export interface StateFiles {
   parseBoundary?: (line: string) => BoundaryRow[];
   rates: { name: string; lines: AsyncIterable<string> | Iterable<string> };
   boundaries: { name: string; lines: AsyncIterable<string> | Iterable<string> };
+  /** Names and ids for the rates' codes, where the state's files give them
+   *  (Missouri's rate workbook); the Streamlined files give none. Read
+   *  after the rate lines, so a source may gather them while they stream. */
+  jurisdictions?: () => JurisdictionRow[];
 }
 
 /** Stores a map-read state's rates and own outlines in place of its last
@@ -78,6 +83,11 @@ export async function loadGeoState(state: string, data: GeoStateData) {
           endsOn: r.endsOn,
         })),
       );
+    await tx.delete(salesTaxJurisdictions).where(eq(salesTaxJurisdictions.state, state));
+    for (let i = 0; i < data.jurisdictions.length; i += 500)
+      await tx.insert(salesTaxJurisdictions).values(
+        data.jurisdictions.slice(i, i + 500).map((j) => ({ state, ...j, file: data.files.rates })),
+      );
     await tx
       .delete(salesTaxShapes)
       .where(and(eq(salesTaxShapes.state, state), notLike(salesTaxShapes.file, "tl\\_%")));
@@ -102,7 +112,7 @@ export async function loadGeoState(state: string, data: GeoStateData) {
         : []),
     ]);
   });
-  return { rates: data.rates.length, shapes: shapes.length };
+  return { rates: data.rates.length, jurisdictions: data.jurisdictions.length, shapes: shapes.length };
 }
 
 /** Loads one TIGER county, place or county subdivision zip's outlines for
@@ -156,13 +166,14 @@ async function namedPlaces(states: string[]) {
 export async function loadSstState(files: StateFiles) {
   const fips = RANGE_FIPS[files.state];
   if (!fips) throw new Error(`${files.state} has no address-range files`);
-  const counts = { rates: 0, streets: 0, zips: 0, areas: 0 };
+  const counts = { rates: 0, jurisdictions: 0, streets: 0, zips: 0, areas: 0 };
 
   await client.begin(async (sql) => {
     for (const table of [
       "sales_tax_street_ranges",
       "sales_tax_zip_ranges",
       "sales_tax_jurisdiction_rates",
+      "sales_tax_jurisdictions",
       "sales_tax_areas",
     ])
       await sql`DELETE FROM ${sql(table)} WHERE state = ${files.state}`;
@@ -189,10 +200,18 @@ export async function loadSstState(files: StateFiles) {
       await sql`COPY sales_tax_jurisdiction_rates (state, type, code, rate, rate_interstate, food_drug_rate, food_drug_rate_interstate, starts_on, ends_on) FROM STDIN`.writable(),
       rateRows(),
     );
+    const jurisdictions = files.jurisdictions?.() ?? [];
+    counts.jurisdictions = jurisdictions.length;
+    for (let i = 0; i < jurisdictions.length; i += 500)
+      await sql`
+        INSERT INTO sales_tax_jurisdictions (state, type, code, name, ids, file)
+        SELECT ${files.state}, j.type, j.code, j.name, j.ids, ${files.rates.name}
+          FROM jsonb_to_recordset(${JSON.stringify(jurisdictions.slice(i, i + 500))}::jsonb)
+            AS j(type text, code text, name text, ids jsonb)`;
 
     const areaIds = new Map<string, number>();
     const areaOf = (area: Area) => {
-      const key = `${area.county ?? ""}|${area.place ?? ""}|${area.districts}|${area.reportingCode ?? ""}`;
+      const key = `${area.county ?? ""}|${area.place ?? ""}|${area.districts}|${JSON.stringify(area.ids)}`;
       let id = areaIds.get(key);
       if (id === undefined) {
         id = Number(fips) * 1_000_000 + areaIds.size + 1;
@@ -247,19 +266,13 @@ export async function loadSstState(files: StateFiles) {
     );
 
     const areas = [...areaIds].map(([key, id]) => {
-      const [county, place, districts, reportingCode] = key.split("|");
-      return copyLine([
-        id,
-        files.state,
-        county || null,
-        place || null,
-        districts,
-        reportingCode || null,
-      ]);
+      // The ids' JSON comes last, so a "|" inside it stays in it.
+      const [county, place, districts, ...ids] = key.split("|");
+      return copyLine([id, files.state, county || null, place || null, districts, ids.join("|")]);
     });
     counts.areas = areas.length;
     await copy(
-      await sql`COPY sales_tax_areas (id, state, county, place, districts, reporting_code) FROM STDIN`.writable(),
+      await sql`COPY sales_tax_areas (id, state, county, place, districts, ids) FROM STDIN`.writable(),
       areas,
     );
 

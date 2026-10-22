@@ -16,8 +16,13 @@
  * it, at the rate it applies there (its "kx" rows). Outside every city, each
  * jurisdiction has its own rate, from the unincorporated lines and the
  * Comptroller's special district list.
+ *
+ * Each rate's jurisdiction keeps its name and ids from the boundary layer
+ * that outlines it (TAID, and the layer's SPD_Type, Transit_Type,
+ * CMPTRL_CNTY_NBR or FIPS_ST_CNTY_CD), else its name from the newest EDI
+ * file; a kept rate inside a city takes the kept authority's.
  */
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchFile, fetchLayer, fetchText, readXlsx, shiftDay } from "./sources.js";
 import { contains, type Point } from "../tiger.js";
 
@@ -31,7 +36,7 @@ const TAID = /^\d{7}$/;
 export const texas: GeoState = {
   state: "TX",
   async fetch(dir) {
-    const { quarters, leadByName } = await quarterLines(dir);
+    const { quarters, leadByName, nameById } = await quarterLines(dir);
     const sheet = readXlsx(
       await fetchFile(`${COMPTROLLER}/taxes/sales/docs/city-rates.xlsx`, dir),
     );
@@ -76,24 +81,34 @@ export const texas: GeoState = {
     const [cities, combos, transits, spds, counties] = await Promise.all([1, 2, 3, 4, 5].map(layer));
     const shapes: GeoStateData["shapes"] = [];
     const typeOf = new Map<string, string>();
+    /** Each TAID's name and ids, as its layer gives them. */
+    const about = new Map<string, Omit<JurisdictionRow, "type" | "code">>();
     const add = (
       features: Awaited<ReturnType<typeof layer>>,
       kind: "county" | "place" | "district",
       type: string,
       name: (a: Record<string, unknown>) => string,
+      nameField: string,
+      idFields: string[] = [],
     ) => {
       for (const f of features) {
         const id = String(f.attributes.TAID ?? "");
         if (!TAID.test(id) || f.attributes.Collects_Tax === "No") continue;
         typeOf.set(id, type);
         shapes.push({ kind, fips: id, name: name(f.attributes).trim(), rings: f.rings, bbox: bboxOf(f.rings) });
+        const ids: Record<string, string> = { TAID: id };
+        for (const field of idFields) {
+          const value = f.attributes[field];
+          if (value != null && String(value).trim()) ids[field] = String(value).trim();
+        }
+        about.set(id, { name: String(f.attributes[nameField] ?? "").trim() || null, ids });
       }
     };
-    add(counties, "county", "00", (a) => `${a.CNTY_NM} County`);
-    add(cities, "place", "x", (a) => String(a.City_Name));
-    add(combos, "district", "x", (a) => String(a.Name));
-    add(transits, "district", "transit", (a) => String(a.Transit_Name));
-    add(spds, "district", "spd", (a) => String(a.SPD_Name));
+    add(counties, "county", "00", (a) => `${a.CNTY_NM} County`, "CNTY_NM", ["CMPTRL_CNTY_NBR", "FIPS_ST_CNTY_CD"]);
+    add(cities, "place", "x", (a) => String(a.City_Name), "City_Name");
+    add(combos, "district", "x", (a) => String(a.Name), "Name");
+    add(transits, "district", "transit", (a) => String(a.Transit_Name), "Transit_Name", ["Transit_Type"]);
+    add(spds, "district", "spd", (a) => String(a.SPD_Name), "SPD_Name", ["SPD_Type"]);
 
     // A sheet row whose city's TAID has no outline is mistyped where the
     // newest EDI file has a line of the same name under a TAID that has one
@@ -109,13 +124,23 @@ export const texas: GeoState = {
     });
 
     const rates = spans(quarters, typeOf);
+    const all: GeoRateRow[] = [
+      // Coverage starts with the first quarter's file.
+      { type: "45", code: "48", rate: 0.0625, startsOn: quarterStart(FIRST_QUARTER.year, FIRST_QUARTER.quarter), endsOn: "9999-12-31" },
+      ...rates,
+      ...districtsInCities(rates, shapes),
+    ];
+    const jurisdictions = new Map<string, JurisdictionRow>();
+    for (const r of all) {
+      if (r.type === "45") continue;
+      // A kept rate inside a city is the kept authority's.
+      const id = r.code.split(">").pop()!;
+      const known = about.get(id) ?? { name: nameById.get(id) ?? null, ids: { TAID: id } };
+      jurisdictions.set(`${r.type}:${r.code}`, { type: r.type, code: r.code, ...known });
+    }
     return {
-      rates: [
-        // Coverage starts with the first quarter's file.
-        { type: "45", code: "48", rate: 0.0625, startsOn: quarterStart(FIRST_QUARTER.year, FIRST_QUARTER.quarter), endsOn: "9999-12-31" },
-        ...rates,
-        ...districtsInCities(rates, shapes),
-      ],
+      rates: all,
+      jurisdictions: [...jurisdictions.values()],
       shapes,
       files: {
         rates: `TX ${sheetName} city rates + SPD list + EDI rates from ${FIRST_QUARTER.year} Q${FIRST_QUARTER.quarter}`,
@@ -150,14 +175,20 @@ async function quarterLines(dir?: string) {
   const latest = await fetchText(`${COMPTROLLER}/data/edi/sales-tax/taxrates.txt`, dir);
   const header = /^\d+\t(\d{4})(\d)\t/.exec(latest);
   if (header) quarters.set(quarterStart(Number(header[1]), Number(header[2])), ediLines(latest));
-  // Each city's or combined area's TAID by the name its line leads with.
+  // Each city's or combined area's TAID by the name its line leads with,
+  // and every TAID's name: a line is (name, TAID, rate) triples.
   const leadByName = new Map<string, string>();
+  const nameById = new Map<string, string>();
   for (const line of latest.split(/\r?\n/)) {
     const c = line.split("\t");
     const id = c[1]?.trim();
     if (id && TAID.test(id) && /^[26]/.test(id)) leadByName.set(c[0].trim().toLowerCase(), id);
+    for (let i = 1; i + 1 < c.length; i += 3) {
+      const taid = c[i]?.trim();
+      if (TAID.test(taid) && c[i - 1]?.trim()) nameById.set(taid, c[i - 1].trim());
+    }
   }
-  return { quarters, leadByName };
+  return { quarters, leadByName, nameById };
 }
 
 /** The local tax cap: a city's, county's, transit authority's and

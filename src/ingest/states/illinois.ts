@@ -15,9 +15,14 @@
  * for. The higher of a
  * location's two rates is the one a retailer liable for every local tax
  * charges, which is the general rate here.
+ *
+ * Each location keeps its name and, as ids, its location code with the check
+ * digit the ST-1 shows (048-0002-8) and its county; a business district's
+ * address also keeps the district's suffix (R01). The files have no header,
+ * so the keys are the fields' names in IDOR's file layout.
  */
 import { parseStreet } from "../../address.js";
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchLayer, fetchText, isoDay, shiftDay } from "./sources.js";
 
 const FILES = "https://tax.illinois.gov/content/dam/soi/en/web/tax/research/taxrates/documents/salestaxrates";
@@ -29,6 +34,17 @@ export const illinois: GeoState = {
   async fetch(dir) {
     const editions = ["current", "prior", "prior-010126"];
     const rates: GeoRateRow[] = [];
+    // Editions are read newest first, so the first one seen is kept.
+    const jurisdictions = new Map<string, JurisdictionRow>();
+    /** A location line's name and ids; `at` is where its city name starts
+     *  (an address line has the district's suffix first). */
+    const describe = (type: string, code: string, line: string, at: number) => {
+      if (jurisdictions.has(`${type}:${code}`)) return;
+      const ids: Record<string, string> = { "Location Code": line.slice(0, 10).trim() };
+      if (at > 10) ids["Business District"] = line.slice(10, at).trim();
+      ids["County Name"] = line.slice(at + 25, at + 50).trim();
+      jurisdictions.set(`${type}:${code}`, { type, code, name: line.slice(at, at + 25).trim() || null, ids });
+    };
     const seen = new Set<string>();
     const earliest = new Map<string, string>();
     // Current: date, then the general merchandise rate; prior: from, to,
@@ -81,6 +97,7 @@ export const illinois: GeoState = {
         else {
           const periods = periodsOf(line, 61, 71);
           push("x", code, periods, until);
+          describe("x", code, line, 10);
           if (periods.current.from && periods.current.from < editionStart) editionStart = periods.current.from;
         }
       }
@@ -91,11 +108,15 @@ export const illinois: GeoState = {
         const periods = periodsOf(line, 98, 50);
         if (!address) {
           push("x", code, periods, until);
+          describe("x", code, line, 13);
           continue;
         }
         const street = parseStreet(address);
-        if (street)
-          push("addr", `${code}|${street.house ?? street.houseText}|${street.streetKey}`, periods, until);
+        if (street) {
+          const at = `${code}|${street.house ?? street.houseText}|${street.streetKey}`;
+          push("addr", at, periods, until);
+          describe("addr", at, line, 13);
+        }
       }
       until = shiftDay(latestStart(locations) ?? editionStart, -1);
     }
@@ -106,12 +127,15 @@ export const illinois: GeoState = {
       if (!/^\d{7}$/.test(code)) return [];
       return [{ kind: "district" as const, fips: code, name: `${String(f.attributes.CITY_NAME ?? "").trim() || "Unincorporated"} (${f.attributes.COUNTY_NAM})`, rings: f.rings, bbox: bboxOf(f.rings) }];
     });
+    const rated = new Set(rates.map((r) => `${r.type}:${r.code}`));
     rates.unshift(
       { type: "45", code: "17", rate: STATE, startsOn: coverFrom, endsOn: "9999-12-31" },
       { type: "need", code: "x", rate: 0, startsOn: coverFrom, endsOn: "9999-12-31" },
     );
     return {
       rates,
+      // Only for codes a rate row has: a line with no current rate pushes none.
+      jurisdictions: [...jurisdictions.values()].filter((j) => rated.has(`${j.type}:${j.code}`)),
       shapes,
       files: { rates: "IL IDOR ordmache + ordmacha (current and two prior editions)", boundaries: "IL IDOR CityCountyTwpDD" },
     };

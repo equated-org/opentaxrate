@@ -4,7 +4,8 @@
  * Virginia, and the Historic Triangle's and some localities' added 1%), from
  * the Department of Taxation's workbook of rates by locality, one sheet per
  * period since 2005. Localities are keyed by FIPS, so independent cities
- * match the Census county outlines they have.
+ * match the Census county outlines they have, and named as the workbook
+ * names them.
  */
 import type { LocalRate } from "./tables.js";
 import { stateTable } from "./tables.js";
@@ -23,7 +24,7 @@ export const virginia = stateTable("VA", async (dir) => {
     if (!period) throw new Error(`VA sheet "${name}" names no period`);
     if (period.from < first) first = period.from;
     for (const row of rows) {
-      const [, , code, general] = row;
+      const [, title, code, general] = row;
       if (!/^51\d{3}$/.test(code?.trim() ?? "")) continue;
       locals.push({
         name: code.trim(),
@@ -31,6 +32,7 @@ export const virginia = stateTable("VA", async (dir) => {
         from: period.from,
         to: period.to,
         type: "00",
+        title: title?.trim() || undefined,
       });
     }
   }
