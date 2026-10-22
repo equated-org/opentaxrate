@@ -5,14 +5,24 @@
 
 	let { children } = $props();
 
-	/** The reference is one page; each guide is its own. */
-	const GROUPS = [
+	type Link = { href: string; title: string; links?: Link[] };
+
+	/** The reference is one page, an endpoint's sections indented under it;
+	 *  each guide is its own page. */
+	const GROUPS: Array<{ title: string; links: Link[] }> = [
 		{
 			title: 'API reference',
 			links: [
 				{ href: '/docs', title: 'Overview' },
-				{ href: '/docs#rate', title: 'GET /v1/rate' },
-				{ href: '/docs#errors', title: 'Errors' },
+				{
+					href: '/docs#rate',
+					title: 'GET /v1/rate',
+					links: [
+						{ href: '/docs#parameters', title: 'Parameters' },
+						{ href: '/docs#response', title: 'Response' },
+						{ href: '/docs#errors', title: 'Errors' }
+					]
+				},
 				{ href: '/docs#coverage', title: 'GET /v1/coverage' }
 			]
 		},
@@ -42,6 +52,13 @@
 								class="hover:text-[var(--text)] {current(link.href) ? 'font-medium text-[var(--text)]' : 'text-[var(--text-2)]'}"
 								href={link.href}>{link.title}</a
 							>
+							{#if link.links}
+								<ul class="mt-2 flex flex-col gap-2 border-l border-[var(--border)] pl-3">
+									{#each link.links as sub (sub.href)}
+										<li><a class="text-[var(--text-muted)] hover:text-[var(--text)]" href={sub.href}>{sub.title}</a></li>
+									{/each}
+								</ul>
+							{/if}
 						</li>
 					{/each}
 				</ul>

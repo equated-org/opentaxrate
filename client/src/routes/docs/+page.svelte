@@ -74,7 +74,7 @@
 <p>The rate at an address on a given day.</p>
 <RateTryIt />
 
-<h3>Parameters</h3>
+<h3 id="parameters">Parameters</h3>
 <p>Give the address one of two ways. Both answer the same; with both, the fields win over the line.</p>
 <pre><code>{LINE}</code></pre>
 <pre><code>{FIELDS}</code></pre>
@@ -106,7 +106,7 @@
 	</tbody>
 </table>
 
-<h3>Response</h3>
+<h3 id="response">Response</h3>
 <pre><code>{RESPONSE}</code></pre>
 <table>
 	<thead><tr><th>Field</th><th>Description</th></tr></thead>
@@ -131,7 +131,7 @@
 	</tbody>
 </table>
 
-<h2 id="errors">Errors</h2>
+<h3 id="errors">Errors</h3>
 <pre><code>{ERROR}</code></pre>
 <table>
 	<thead><tr><th>Status</th><th>Code</th><th>Meaning</th></tr></thead>
