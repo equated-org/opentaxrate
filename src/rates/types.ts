@@ -6,6 +6,9 @@ import type { LocatedPoint } from "../geocoding/types.js";
 
 export interface RatePart {
   kind: "state" | "county" | "city" | "district";
+  /** The jurisdiction's name ("Washington", "King County", "Seattle"); null
+   *  where no loaded source names it, as for most Streamlined districts. */
+  name?: string | null;
   /** The publisher's jurisdiction type and code, e.g. "00:061". */
   code: string;
   rate: number;

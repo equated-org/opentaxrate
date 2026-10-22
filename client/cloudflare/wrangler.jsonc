@@ -1,14 +1,16 @@
 {
-	// The landing page on Cloudflare Workers, served at opentaxrate.com: the
+	// The site (client/) on Cloudflare Workers, served at opentaxrate.com: the
 	// static build plus worker.js forwarding /v1 and /photon to the API at
 	// API_ORIGIN (deploy/compose.public.yml behind Cloudflare). Build in
-	// landing/ (PUBLIC_ACCOUNTS=on pnpm build, for sign-in and the
+	// client/ (PUBLIC_ACCOUNTS=on pnpm build, for sign-in and the
 	// dashboard), then from this folder: wrangler deploy. The
 	// PROXY_SECRET secret (wrangler secret put) matches the server's.
 	// The account comes from CLOUDFLARE_ACCOUNT_ID, in the shell or in a
 	// git-ignored .env here (wrangler reads it from this folder; see
 	// .env.example). A fork changes the routes and CANONICAL_HOST to its domain.
 	"$schema": "../node_modules/wrangler/config-schema.json",
+	// The Worker keeps its first name: renaming it would deploy a new Worker
+	// without PROXY_SECRET and move the custom domains.
 	"name": "opentaxrate-landing",
 	"main": "worker.js",
 	"compatibility_date": "2026-10-01",

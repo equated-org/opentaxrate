@@ -67,6 +67,12 @@ export function outlineName(o: Pick<Outline, 'kind' | 'name'>): string {
 	return o.name;
 }
 
+/** A part's name as the API gives it, worded like an outline's. */
+function partName(kind: string, name: string): string {
+	if (kind === 'city') return /^(city|town|village) of /i.test(name) ? name : `City of ${name}`;
+	return name;
+}
+
 export interface PartRow {
 	name: string;
 	/** The publisher's code, shown small when a name was found. */
@@ -85,9 +91,10 @@ export function partRows(rate: AddressRate, trace: Trace | null): PartRow[] {
 			return { name: `State of ${stateName(rate.state)}`, code: null, rate: part.rate, color: PART_COLOR.state, dim: false };
 		const o = outlineFor(part, outlines);
 		if (o) used.add(o);
+		const named = o ? outlineName(o) : part.name ? partName(part.kind, part.name) : null;
 		return {
-			name: o ? outlineName(o) : `${KIND_LABEL[part.kind] ?? part.kind} ${part.code}`,
-			code: o ? part.code : null,
+			name: named ?? `${KIND_LABEL[part.kind] ?? part.kind} ${part.code}`,
+			code: named ? part.code : null,
 			rate: part.rate,
 			color: PART_COLOR[part.kind] ?? 'var(--text-muted)',
 			dim: false

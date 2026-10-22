@@ -11,7 +11,7 @@ The app is a Hono instance exported as `app`.
 | Route | Does | Status codes |
 |---|---|---|
 | `GET /health` | runs `select 1`, returns `{ "ok": true }` | 200, or 500 if the database fails |
-| `GET /v1/rate` | validates the query, returns an `AddressRate` (see [engine.md](engine.md)), plus `trace` when asked | 200, 400, 422, 429, 502, 504, 500 |
+| `GET /v1/rate` | validates the query, returns an `AddressRate` with named `parts` and `reporting` (see [engine.md](engine.md)), plus `trace` when asked | 200, 400, 422, 429, 502, 504, 500 |
 | `GET /v1/suggest` | only with `OPENTAXRATE_PHOTON_URL`: `q` (1–200 chars), `limit` (1–10, default 5), `lang`, `bbox`, and repeated `layer` (only Photon's known layers pass) relayed to `<url>/api`; Photon's GeoJSON returned unchanged with `Cache-Control: public, max-age=300` | 200, 400, 429, 502, 504 |
 | `GET /v1/coverage` | for each of `ADDRESS_RATE_STATES`: `state`, `method` from `addressRates.method`, and its `files` from `sales_tax_data_releases` (`kind`, `file`, `rows`, `loadedAt`) | 200 |
 

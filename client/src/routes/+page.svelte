@@ -250,7 +250,7 @@
 			</div>
 
 			{#if showMap && mapModule && result && (result.kind === 'rate' || result.kind === 'refusal')}
-				<div class="h-[420px] min-w-0 lg:sticky lg:top-[88px] lg:h-[calc(100dvh-112px)]">
+				<div class="h-[420px] min-w-0 lg:sticky lg:top-[104px] lg:h-[calc(100dvh-128px)]">
 					{#await mapModule}
 						<div class="h-full w-full rounded-2xl border border-[var(--border)] bg-[var(--bg-muted)]"></div>
 					{:then { default: TaxMap }}

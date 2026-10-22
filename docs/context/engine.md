@@ -31,10 +31,29 @@ Note the map method always calls `query.locate()` up front; the range method pas
 | `stateRate` | the `kind: "state"` part's rate |
 | `localRate` | `rate - stateRate`, rounded to 6 decimals |
 | `byType` | `RatesByType`: `general`, `generalInterstate`, `foodDrug`, `foodDrugInterstate` (`types.ts`). Filled from the Streamlined files by `sstRateAt`; every other method gives `generalOnly(rate)`, the others null. A food rate is the rate where the state taxes food at that rate, not whether it does |
-| `parts` | `RatePart[]`: `{ kind: "state" \| "county" \| "city" \| "district", code, rate, byType? }` (`types.ts`) |
+| `parts` | `RatePart[]`: `{ kind: "state" \| "county" \| "city" \| "district", name, code, rate, byType? }` (`types.ts`). `name` is filled by `nameParts` (`names.ts`) after the engine answers: the state's name, else the map engine's shape name, else the loaded outline (`sales_tax_shapes`) whose fips is the code's last piece (county → `county`, city → `place`/`cousub`, district → `district`/`place`/`cousub`); null when none (most Streamlined districts) |
 | `match` | `statewide`, `street`, `zip4`, `zip5`, `map` or `authority` |
 | `locationCode` | statewide: the state code; ranges: `fips-county-place[-districts]` or null when several areas share the rate; map: state code then each part's code; CA: the CDTFA tax area code |
 | `source` | a sentence naming the files and match, e.g. `Streamlined Sales Tax files OHR... + OHB..., street match on 2026-10-21` (`Missouri DOR files ...` for MO) |
+| `reporting` | `Reporting \| null` from `reportingFor` (`reporting.ts`): see below |
+
+`addressRates.at` calls `rateAt` (the engines), then `nameParts`, then `reportingFor(state, match, parts, locationCode, reportingCode)`. `reportingCode` is internal: the range engine's area code from the boundary file (`sales_tax_areas.reporting_code`, the Streamlined composite SER column, or Missouri's jurisdiction code), kept only when every matched area shares it.
+
+## Reporting (`src/rates/reporting.ts`)
+
+`STATE_REPORTING` holds every state and DC: the agency, its sales tax page, the usual return (`form`), the local code the return asks for that we don't give (`needs`), what only the seller's registration gives (`account`), and filing outside the state return (`notes`). `reportingFor` returns:
+
+| Field | Meaning |
+|---|---|
+| `status` | `not_needed` when no part but the state levies anything (and no code was given); `complete` when nothing is `missing` and every code is `verified`; else `partial` |
+| `agency` | `{ name, url }` |
+| `form` | the return, or null where there's no general sales tax return |
+| `codes` | `{ scheme, label, value, parts, verified }[]`. WA: `wa-dor-location`, the SER code without its leading zero, covering every part, verified against DOR's AddressRates API. MO: `mo-dor-jurisdiction` (unverified). CA: `ca-cdtfa-tac`. Other SER codes (Kansas): `sst-ser`, unverified. Part by part (`PART_CODES`, not for `authority` answers): TX `tx-local-code` and NM `nm-grt-location` (verified), AZ and IL (unverified), the value being the part code's last piece |
+| `missing` | the state's `needs` when there's local tax, plus `OWN_CODE[state]` when a state that has its own code got none (several areas matched) |
+| `fromAccount` | the state's `account` |
+| `notes` | the state's `notes` |
+
+A Census FIPS code is never offered as a filing code.
 
 The `source` match phrases come from `MATCH_NAMES`.
 

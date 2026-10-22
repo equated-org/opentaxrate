@@ -17,6 +17,8 @@ export interface RatesByType {
 
 export interface RatePart {
 	kind: RateKind;
+	/** "Washington", "King County", "Seattle"; null where no source names it. */
+	name?: string | null;
 	/** The publisher's jurisdiction type and code, e.g. "00:061". */
 	code: string;
 	/** A decimal: 0.01 is 1%. */
@@ -35,6 +37,28 @@ export interface AddressRate {
 	match: Match;
 	locationCode: string | null;
 	source: string;
+	/** Who the return goes to and the codes it files this address under;
+	 *  absent from an API older than reporting. */
+	reporting?: Reporting | null;
+}
+
+export interface ReportingCode {
+	scheme: string;
+	label: string;
+	value: string;
+	/** The `code`s of the parts it reports. */
+	parts: string[];
+	verified: boolean;
+}
+
+export interface Reporting {
+	status: 'complete' | 'partial' | 'not_needed';
+	agency: { name: string; url: string };
+	form: string | null;
+	codes: ReportingCode[];
+	missing: string[];
+	fromAccount: string[];
+	notes: string[];
 }
 
 export interface LonLat {

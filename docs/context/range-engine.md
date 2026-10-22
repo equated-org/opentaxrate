@@ -6,7 +6,7 @@ The 24 Streamlined Sales Tax (SST) members publish every street's house-number r
 
 ## Lookup order (`sstRateAt` in `rates/ranges.ts`)
 
-`sstRateAt(input, date)` returns `{ rate, byType, parts, match, locationCode, files, note? }` or throws. `note` says how an address was found when not by its own typed street (a corrected name, listed neighbours, a standardized ZIP+4); `addressRates.at` appends it to `source`. `byType` is each part's interstate and food-and-drug rates (`byTypeOf`) added with `sumByType`; across several areas sharing one general rate, `agreedByType` keeps only the types they all agree on.
+`sstRateAt(input, date)` returns `{ rate, byType, parts, match, locationCode, reportingCode, files, note? }` or throws. `note` says how an address was found when not by its own typed street (a corrected name, listed neighbours, a standardized ZIP+4); `addressRates.at` appends it to `source`. `byType` is each part's interstate and food-and-drug rates (`byTypeOf`) added with `sumByType`; across several areas sharing one general rate, `agreedByType` keeps only the types they all agree on.
 
 Up front: 502 if fewer than two release files are loaded for the state; 422 if `date < HISTORY_FROM`.
 
@@ -19,7 +19,7 @@ Anything left is a `refusal(...)`: a 422 listing up to six candidate rates with 
 
 With `input.trace`: a street answer records `trace.range` (`rangeAt`: one extra query for the narrowest range on the matched street holding the house, in one of the deciding areas: its street as filed, house range, side and ZIP, and the boundary file; none when the street was found between listed houses or under a corrected name); `mapAreas` records each outline `shapesAround` found; a street or map answer marks an outline `levies` when its county or city is one of the answer's parts (`traced`). A ZIP+4 or ZIP answer records no range.
 
-`answer(areaIds, match)` is the core rule: rate every area with `rateAreas`; answer only if they all share one rate. `locationCode` is set only when one area remains.
+`answer(areaIds, match)` is the core rule: rate every area with `rateAreas`; answer only if they all share one rate. `locationCode` is set only when one area remains; `reportingCode` (the area's `reporting_code`) when every rated area shares it.
 
 ## Street matching (`src/rates/streets/`)
 

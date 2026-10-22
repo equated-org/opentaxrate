@@ -123,6 +123,10 @@ export const salesTaxAreas = pgTable(
     /** Special districts as sorted "type:code" pairs joined by spaces, e.g.
      *  "63:31000"; empty when there are none. */
     districts: text("districts").notNull().default(""),
+    /** The code the state's return files this area under, where its
+     *  boundary file gives one (Washington's location code, Kansas's
+     *  jurisdiction code); null elsewhere. */
+    reportingCode: text("reporting_code"),
   },
   (t) => [
     unique("uq_sales_tax_areas_state_jurisdictions").on(
@@ -130,6 +134,7 @@ export const salesTaxAreas = pgTable(
       t.county,
       t.place,
       t.districts,
+      t.reportingCode,
     ),
   ],
 );
