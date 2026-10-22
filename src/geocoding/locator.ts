@@ -49,9 +49,11 @@ const townName = (name: string) =>
 /** A lone dataset's point is plausible inside the typed city's outline; or,
  * where the typed city has no outline loaded, inside the typed ZIP's area or
  * a Census place or township of the typed name. Outside an outline the city
- * does have is not. */
+ * does have is not, unless lonePointOutsideCity lets the typed ZIP's area
+ * vouch for it. */
 async function plausible(a: AddressToLocate, p: LocatedPoint) {
   const city = await insideTypedCity(a, p);
+  if (city === "outside" && PARAMS.lonePointOutsideCity) return insideTypedArea({ ...a, city: "" }, p);
   return city === "inside" || (city === "no outline" && await insideTypedArea(a, p));
 }
 interface Options {

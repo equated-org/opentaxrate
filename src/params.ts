@@ -18,6 +18,10 @@ export interface Params {
   agreeFallbackFactor: number;
   /** The smallest margin each accuracy class gets, in metres. */
   edgeMetres: { rooftop: number; parcel: number; point: number; interpolated: number };
+  /** A lone dataset's point outside the typed city's outline is still
+   *  trusted when it lies in the typed ZIP's Census area: a rural address
+   *  with a town's mailing name (geocoding/locator.ts). */
+  lonePointOutsideCity: boolean;
   /** The widest circle disagreeing geocodes may be placed within. */
   wideMetres: number;
   /** How far past its Census area an address with that ZIP may be, for an
@@ -50,6 +54,7 @@ const DEFAULTS: Params = {
   agreeCapMetres: 250,
   agreeFallbackFactor: 1,
   edgeMetres: { rooftop: 15, parcel: 25, point: 40, interpolated: 75 },
+  lonePointOutsideCity: false,
   wideMetres: 20_000,
   zipMarginMetres: 2_000,
   preciseMetres: 40,
