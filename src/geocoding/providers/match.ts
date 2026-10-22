@@ -63,12 +63,16 @@ export function matchesAddress(a: AddressToLocate, found: { street?: string; hou
   // A street typed without its type ("42725 London") is the found one with
   // it ("London Dr"); a different type is a different street.
   if (sameName(parsed) && (!requested.suffix || parsed.suffix === requested.suffix)) return true;
-  // So is one whose name ends in a type word, typed without its own type
-  // ("Ridge Park" for "Ridge Park Dr"): the found street, its type taken out.
+  // So is one typed without a type word the found street has, wherever it
+  // stands: "Ridge Park" for "Ridge Park Dr", "Forest Extension" for "Forest
+  // Avenue Extension", "River 2" for "River Loop 2". Each type word is taken
+  // out in turn, and what's left must read as the typed street exactly. An
+  // Extension is never dropped: Forest Ave Extension isn't Forest Ave.
   const words = found.street.trim().split(/\s+/);
-  let at = -1;
-  if (parsed.suffix) for (let i = words.length - 1; i > 0 && at < 0; i--) if (parseStreet(`1 X ${words[i]}`)?.suffix === parsed.suffix) at = i;
-  if (at < 1) return false;
-  const untyped = parseStreet(`${found.house} ${[...words.slice(0, at), ...words.slice(at + 1)].join(" ")}`);
-  return !!untyped && sameName(untyped) && untyped.suffix === requested.suffix;
+  return words.some((word, i) => {
+    const type = parseStreet(`1 X ${word}`)?.suffix;
+    if (i === 0 || !type || /^EXT/.test(type)) return false;
+    const untyped = parseStreet(`${found.house} ${[...words.slice(0, i), ...words.slice(i + 1)].join(" ")}`);
+    return !!untyped && sameName(untyped) && untyped.suffix === requested.suffix;
+  });
 }
