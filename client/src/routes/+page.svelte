@@ -11,8 +11,7 @@
 	import { ACCOUNTS, seemsSignedIn } from '$lib/accounts';
 	import { lookUp, type LookupResult } from '$lib/api';
 	import { EXAMPLES, GITHUB } from '$lib/examples';
-	import Benchmark from '$lib/landing/Benchmark.svelte';
-	import AccuracyPrice from '$lib/landing/AccuracyPrice.svelte';
+	import AccuracySummary from '$lib/landing/AccuracySummary.svelte';
 	import Features from '$lib/landing/Features.svelte';
 	import Showcase from '$lib/landing/Showcase.svelte';
 	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
@@ -209,8 +208,7 @@
 					<Features />
 				</div>
 				<div class="mx-auto mt-20 max-w-[1120px] sm:mt-24">
-					<Benchmark />
-					<AccuracyPrice />
+					<AccuracySummary />
 				</div>
 			</section>
 		</main>
