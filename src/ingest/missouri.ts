@@ -118,7 +118,7 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
       return parseBoundaryLine(line).map(
         (row): BoundaryRow => ({
           ...row,
-          area: { county, place: place === "00000" ? null : (CENSUS_PLACE[place] ?? place), districts: `${WHOLE_CODE_TYPE}:${code}` },
+          area: { county, place: place === "00000" ? null : (CENSUS_PLACE[place] ?? place), districts: `${WHOLE_CODE_TYPE}:${code}`, reportingCode: code },
         }),
       );
     },

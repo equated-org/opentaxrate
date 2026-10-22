@@ -30,7 +30,7 @@ import { geometryOf } from "../src/ingest/geometry.js";
 import type { LocatedPoint } from "../src/geocoding/index.js";
 import { emptyTrace } from "../src/rates/types.js";
 
-const STATES = ["WY", "XT"];
+const STATES = ["WY", "XT", "MT"];
 const ON = "2026-10-21";
 
 const square = (
@@ -101,6 +101,7 @@ const listed = (house: number, areaId: number) => ({
 
 const COUNTY_AREA = 56_999_001;
 const CITY_AREA = 56_999_002;
+const DISTRICT_AREA = 56_999_003;
 
 async function clear() {
   for (const table of [
@@ -125,15 +126,22 @@ beforeAll(async () => {
     { state: "WY", kind: "rates", file: "WYR-fixture", rows: 3 },
     { state: "WY", kind: "boundaries", file: "WYB-fixture", rows: 4 },
     { state: "XT", kind: "rates", file: "XT-fixture", rows: 6 },
+    { state: "MT", kind: "rates", file: "MT-fixture", rows: 2 },
   ]);
   await db.insert(salesTaxAreas).values([
     { id: COUNTY_AREA, state: "WY", county: "021", place: null, districts: "" },
     { id: CITY_AREA, state: "WY", county: "021", place: "13900", districts: "" },
+    { id: DISTRICT_AREA, state: "WY", county: "021", place: "02290", districts: "" },
   ]);
   await db.insert(salesTaxStreetRanges).values([
     street(100, 198, CITY_AREA, "82001", "1234"),
     street(200, 298, COUNTY_AREA),
     street(100, 198, COUNTY_AREA, "82009"),
+    // ZIPs 82002 and 82003 list only Main St's 100 block, the rest of each
+    // its default, the county: in 82002 the block is a resort district, in
+    // 82003 the city.
+    street(100, 198, DISTRICT_AREA, "82002"),
+    street(100, 198, CITY_AREA, "82003"),
     // Oak Dr's odd side: 101 and 121 in Cheyenne, 141 past its line.
     listed(101, CITY_AREA),
     listed(121, CITY_AREA),
@@ -142,17 +150,23 @@ beforeAll(async () => {
   await db.insert(salesTaxZipRanges).values([
     { state: "WY", zip5: "82001", plus4Low: 1000, plus4High: 1999, kind: "zip4", startsOn: "2020-01-01", endsOn: "9999-12-31", areaId: CITY_AREA },
     { state: "WY", zip5: "82001", plus4Low: 5000, plus4High: 5999, kind: "zip4", startsOn: "2020-01-01", endsOn: "9999-12-31", areaId: COUNTY_AREA },
+    { state: "WY", zip5: "82002", plus4Low: 0, plus4High: 9999, kind: "zip4", startsOn: "2020-01-01", endsOn: "9999-12-31", areaId: COUNTY_AREA },
+    { state: "WY", zip5: "82003", plus4Low: 0, plus4High: 9999, kind: "zip4", startsOn: "2020-01-01", endsOn: "9999-12-31", areaId: COUNTY_AREA },
   ]);
   await db.insert(salesTaxJurisdictionRates).values([
     rate("WY", "45", "56", 0.04),
     rate("WY", "00", "021", 0.01),
     rate("WY", "01", "13900", 0.02),
+    rate("WY", "69", "02290", 0.02),
     rate("XT", "45", "99", 0.05),
     rate("XT", "00", "001", 0.02),
     rate("XT", "01", "10000", 0.01),
     rate("XT", "01x", "20000", 0.03),
     rate("XT", "rc", "003", 0.01),
     rate("XT", "63", "T1", 0.005),
+    rate("MT", "45", "30", 0),
+    rate("MT", "rt", "WHITEFISH", 0.03),
+    rate("MT", "no", "CRAIG", 0),
   ]);
   await db.insert(salesTaxShapes).values([
     shape("WY", "county", "021", -105, -104),
@@ -163,6 +177,8 @@ beforeAll(async () => {
     shape("XT", "place", "20000", 1, 2),
     shape("XT", "place", "30000", 3, 4),
     shape("XT", "district", "T1", 0, 0.5),
+    shape("MT", "county", "029", 10, 12),
+    shape("MT", "district", "WHITEFISH", 10, 11),
   ]);
 });
 
@@ -184,6 +200,25 @@ describe("a Streamlined state's address", () => {
     expect(found.source).toContain("WYR-fixture");
   });
 
+  it("takes the map over its street range when two datasets place it clear of the line", async () => {
+    const precise = { ...at(-104.2), placedBy: ["mapbox (mapbox)", "google (google)"] };
+    const found = await addressRates.at(
+      { state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => precise },
+      ON,
+    );
+    expect(found).toMatchObject({ rate: 0.05, match: "map" });
+    expect(found.source).toContain("in place of the street range's 7%");
+    // Two providers on one dataset (Geocodio's TIGER points are Census's) aren't two datasets.
+    const oneDataset = { ...at(-104.2), placedBy: ["census (tiger)", "geocodio (tiger)"] };
+    await expect(
+      addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => oneDataset }, ON),
+    ).rejects.toThrow(/disagree/);
+    // One dataset alone isn't enough to overrule the state's file.
+    await expect(
+      addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => at(-104.2) }, ON),
+    ).rejects.toThrow(/disagree/);
+  });
+
   it("is refused when its street range and ZIP+4 disagree", async () => {
     await expect(
       addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001-5100" }, ON),
@@ -197,6 +232,16 @@ describe("a Streamlined state's address", () => {
     await expect(
       addressRates.at({ state: "WY", street: "9 Elm St", city: "Cheyenne", zip: "82001" }, ON),
     ).rejects.toThrow(/more than one rate.*5% \(Cheyenne\) or 7% \(Cheyenne\)/);
+  });
+
+  it("on a street its ZIP doesn't list, takes the ZIP's default only where the rest of the ZIP adds just districts", async () => {
+    const lookup = (street: string, zip: string) => addressRates.at({ state: "WY", street, city: "Cheyenne", zip }, ON);
+    const found = await lookup("9 Elm St", "82002");
+    expect(found).toMatchObject({ rate: 0.05, match: "zip5" });
+    expect(found.source).toContain("the ZIP's default");
+    // A listed street without the house, or a default that leaves out a city's tax, doesn't.
+    await expect(lookup("300 Main St", "82002")).rejects.toThrow(/more than one rate/);
+    await expect(lookup("9 Elm St", "82003")).rejects.toThrow(/more than one rate/);
   });
 
   it("in a split ZIP, is settled by which outlines its map point falls in, unless it is near a line", async () => {
@@ -248,6 +293,13 @@ describe("a Streamlined state's address its typed street doesn't find", () => {
     expect(found.source).toContain("street read as MAIN ST (Jev, confidence 0.90)");
     vi.stubGlobal("fetch", jev(0.3));
     await expect(cheyenne("150 Mian St")).rejects.toThrow(/more than one rate/);
+  });
+
+  it("is refused when the map contradicts a looked-up ZIP+4", async () => {
+    const standard = async () => ({ street: "9 Elm St", city: "Cheyenne", state: "WY", zip5: "82001", plus4: "1500", exact: true, source: "Geocodio" });
+    // ZIP+4 1500 is Cheyenne's 7%; the map puts the house outside Cheyenne, at 5%.
+    await expect(cheyenne("9 Elm St", { standardize: standard, locate: async () => at(-104.2) })).rejects.toThrow(/isn't confirmed/);
+    expect(await cheyenne("9 Elm St", { standardize: standard, locate: async () => at(-104.8) })).toMatchObject({ rate: 0.07, match: "zip4" });
   });
 
   it("is placed by its standardized ZIP+4, but not one in another ZIP", async () => {
@@ -345,10 +397,25 @@ describe("a statewide state's address", () => {
     expect((await dc("2026-10-01")).rate).toBe(0.06);
   });
 
-  it("is refused in a Montana resort area, which levies its own tax", async () => {
+  it("takes a Montana resort area's rate inside its outline, refuses near its edge, and is 0% outside", async () => {
+    const whitefish = (lon: number) =>
+      addressRates.at({ state: "MT", street: "418 E 2nd St", city: "Whitefish", locate: async () => at(lon) }, ON);
+    expect(await whitefish(10.5)).toMatchObject({ rate: 0.03, match: "map" });
+    // 0.0001° (~8 m) outside the outline is inside a rooftop's 15 m margin.
+    await expect(whitefish(11.0001)).rejects.toThrow(/within 15 m of the district WHITEFISH line/);
     await expect(
-      addressRates.at({ state: "MT", street: "418 E 2nd St", city: "Whitefish" }, ON),
-    ).rejects.toThrow(/resort area/);
+      addressRates.at({ state: "MT", street: "418 E 2nd St", city: "Whitefish", locate: async () => null }, ON),
+    ).rejects.toThrow(/Whitefish levies its own local tax, and this address couldn't be placed/);
+    expect(await whitefish(11.5)).toMatchObject({ rate: 0, match: "map" });
+    // Craig publishes no outline: an address there that can't be placed is
+    // refused by name; another Montana town is 0%.
+    await expect(
+      addressRates.at({ state: "MT", street: "375 Augusta St", city: "Craig" }, ON),
+    ).rejects.toThrow(/Craig levies its own local tax and publishes no outline/);
+    // Placed or not.
+    await expect(
+      addressRates.at({ state: "MT", street: "375 Augusta St", city: "Craig", locate: async () => at(11.5) }, ON),
+    ).rejects.toThrow(/Craig levies its own local tax/);
     expect(
       (await addressRates.at({ state: "MT", street: "1 Main St", city: "Helena" }, ON)).rate,
     ).toBe(0);

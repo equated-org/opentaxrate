@@ -67,13 +67,17 @@ services:
       GOOGLE_RATE_PER_SECOND: ${GOOGLE_RATE_PER_SECOND:-5}
       GOOGLE_COST_PER_CALL: ${GOOGLE_COST_PER_CALL:-0.005}
       OPENTAXRATE_USER_AGENT: ${OPENTAXRATE_USER_AGENT:-}
+      STATE_LOOKUPS: ${STATE_LOOKUPS:-}
     depends_on:
       db: { condition: service_healthy }
 
   api:
     build: .
     command: ["serve"]
-    environment: *env
+    environment:
+      <<: *env
+      # Keys for your own apps (README, "Keys and accounts").
+      OPENTAXRATE_MASTER_KEYS: ${OPENTAXRATE_MASTER_KEYS:-}
     ports:
       - "${PORT:-8080}:8080"
     depends_on:
@@ -84,9 +88,12 @@ services:
     build: .
     entrypoint: ["node", "dist/cli.js", "refresh"]
     command: []
-    environment: *env
+    environment:
+      <<: *env
+      OPENTAXRATE_DOWNLOAD_DIR: ${OPENTAXRATE_DOWNLOAD_DIR:-/artifacts}
     volumes:
       - ./data:/data
+      - ./artifacts:/artifacts
     profiles: ["tools"]
     depends_on:
       migrate: { condition: service_completed_successfully }

@@ -41,7 +41,7 @@ docker compose run --rm refresh OH TX WA
 Or skip the first load with a snapshot:
 
 ```bash
-scripts/restore.sh https://github.com/opentaxrate/opentaxrate/releases/download/2026-10/opentaxrate-2026-10-21.dump
+scripts/restore.sh https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22/opentaxrate-2026-10-22.dump
 ```
 
 Then:
@@ -86,7 +86,7 @@ A refusal:
 ```bash
 opentaxrate serve                          # HTTP API on $PORT (8080)
 opentaxrate migrate                        # create or update the tables
-opentaxrate refresh [STATE...] [--dir D] [--force]   # download and load each state's newest data
+opentaxrate refresh [STATE...] [--dir D] [--download-dir D] [--force]   # download and load each state's newest data
 opentaxrate rate OH "90 W Broad St" Columbus 43215 [2025-06-01]
 opentaxrate check --cases cases.csv        # state,street,city,zip,date,expected
 ```
@@ -155,9 +155,65 @@ The 5 GB is almost all one thing: **15.4 million street house-number ranges** fr
 
 **Nothing is committed to this repo.** The data changes every quarter, several files are over GitHub's 100 MB limit, and each state should be fetched from its source so you know where every rate came from. `refresh` downloads straight from the publishers; `scripts/snapshot.sh` writes a compressed dump (about 570 MB) for a release download, and `scripts/restore.sh` loads one.
 
+To publish a downloadable snapshot, authenticate GitHub CLI (`gh auth login`),
+then load and publish the database:
+
+```bash
+docker compose up -d db
+docker compose run --rm migrate
+docker compose run --rm refresh
+scripts/publish.sh                 # creates release data-YYYY-MM-DD with dump + SHA-256
+# scripts/publish.sh data-2026-10-22-v2   # use a new tag to publish again that day
+```
+
+`publish.sh` exports the currently loaded database; it does not refresh it. Check
+the refresh output and `/v1/coverage` before publishing. If the stack uses a
+different Compose project name, set `COMPOSE_PROJECT_NAME` when running the script.
+Existing releases are never overwritten. The release has the repository's visibility.
+For a private repository, download with authenticated GitHub CLI before restoring:
+
+```bash
+gh release download data-2026-10-22 --pattern 'opentaxrate-2026-10-22.dump*' --dir data
+(cd data && sha256sum -c opentaxrate-2026-10-22.dump.sha256)
+scripts/restore.sh data/opentaxrate-2026-10-22.dump
+```
+
+Snapshots hold rows only for the six tax-data tables, migration metadata, and
+standard PostGIS reference data. Every other table (geocoding cache and usage,
+accounts, keys, request history, credit) is included empty, so a restored
+database matches its migrations. `snapshot.sh` stops on a table it doesn't
+classify, and `restore.sh` refuses a database that already has accounts or
+keyed lookups, since restoring replaces those tables. Street ranges describe
+the states' published tax boundaries. After downloading both assets, verify with
+`sha256sum -c opentaxrate-YYYY-MM-DD.dump.sha256` and load the dump with
+`scripts/restore.sh path/to/opentaxrate-YYYY-MM-DD.dump`.
+
 Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
 
+Refresh saves downloaded source files locally under `artifacts/` by default:
+
+```bash
+docker compose build refresh
+docker compose run --rm refresh
+# Or without Docker:
+DATABASE_URL=postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate \
+  pnpm refresh
+```
+
+Docker maps `/artifacts` to the checkout's `artifacts/` and uses it by default.
+Override the location with `--download-dir` or `OPENTAXRATE_DOWNLOAD_DIR`
+(Docker paths must be inside a mounted directory). Downloads keep their
+original filenames in separate URL-hash folders to avoid name collisions.
+Only completed downloads are saved. This covers SST/Missouri boundary files,
+TIGER ZIPs, and files read by the state file downloader; live GIS/API responses
+are not archived. Already-loaded sources skipped by refresh are not downloaded
+again unless `--force` is used. `--dir` still selects existing input files;
+`--download-dir` saves newly downloaded files. These local files are ignored by
+Git and are not uploaded by `publish.sh`.
+
 Geocoding reuses permitted cached results before asking providers. It starts with a cheap pair, preferring different datasets, and asks more only when it lacks independent agreement. The map and range engines request one refinement when a boundary prevents a rate decision. Refinement can move the point across the original line; all relevant outlines and rates are checked again.
+
+Google is a last-resort provider: routine providers run first, and an accepted placement stops before Google is called, including a lone dataset that passes the city/ZIP plausibility check. Google remains available when routine providers cannot place the address or provide a compatible precision refinement near a boundary. Cost overrides do not move Google into the routine stage.
 
 Only `geocode_results` and `geocoder_usage` are written by runtime geocoding. Run `pnpm migrate` before starting the new API. Missing usage tables or failed reservations skip providers rather than bypassing quotas. Keep cap/rate configuration consistent across replicas; the quota covers calls routed through this application, not other applications sharing a vendor account. Cache failures do not disable budget enforcement. Expired cache rows may be removed periodically with `DELETE FROM geocode_results WHERE expires_at < now()`.
 
@@ -206,6 +262,34 @@ the server's `deploy/.env` rather than copy local `.env` over it.
 | `OPENTAXRATE_CACHE_HOURS` | unset | keep successful `/v1/rate` answers in memory this long (up to 5,000) |
 | `OPENTAXRATE_PHOTON_URL` | unset | a Photon geocoder that `/v1/suggest` relays to, e.g. over Tailscale |
 | `OPENTAXRATE_SUGGEST_LIMIT` | unset | per-IP limit on `/v1/suggest`, like `OPENTAXRATE_PUBLIC_LIMIT` |
+| `OPENTAXRATE_PUBLIC_PROVIDERS` | unset (all) | providers a lookup without a key may use, e.g. `photon,pelias`; ids are the geocoders' plus `jev` |
+| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` | unset | turn on accounts: sign-in by emailed code, API keys (`otr_live_…`) and prepaid credit, at `/api/auth/*` and `/v1/account/*` |
+| `RESEND_API_KEY` | unset | send sign-in codes; outside production they're printed instead. Keyed lookups are $1.95 per 1,000 (declines refunded), new accounts start with 100, and a repeat within 24 hours is answered from the caller's history |
+| `STRIPE_SECRET_KEY` | unset | buy credit through Stripe Checkout, any whole-dollar amount from $5 to $1,000, credited when the buyer returns to the dashboard |
+| `STRIPE_WEBHOOK_SECRET` | unset | optional: also credit from Stripe's webhook at `POST /api/billing/webhook`, which catches a buyer who closes the tab before returning, and takes back refunds |
+| `OPENTAXRATE_MASTER_KEYS` | unset | keys for your own apps, `name=otr_master_…` comma-separated; each gets every provider, no per-IP limit. Make one with `echo otr_master_$(openssl rand -hex 24)`; any other key is a `401` (`INVALID_API_KEY`) |
+
+### Keys and accounts
+
+Self-hosting needs no sign-in, no accounts and no Stripe. Each of these is off until you set its secret:
+
+| You want | Set | You get |
+|---|---|---|
+| A private API for your own apps | `OPENTAXRATE_MASTER_KEYS` | Callers send a master key as `x-api-key` or `Authorization: Bearer`. A master key gets every geocoder you configured, no per-IP limit and no charge. Lookups made with a key are logged in `api_requests` for 90 days. |
+| An open API anyone can call | nothing | Lookups without a key use the public tier. Narrow it with `OPENTAXRATE_PUBLIC_PROVIDERS` and `OPENTAXRATE_PUBLIC_LIMIT`. |
+| Sign-up, a dashboard and per-user keys | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `RESEND_API_KEY` | Sign-in by emailed code at `/api/auth/*`, `otr_live_…` keys and prepaid credit. Build the site with `PUBLIC_ACCOUNTS=on` (`client/README.md`) so it shows "Sign in". |
+| Selling credit | the above plus `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` for production | Top-ups through Stripe Checkout, any whole-dollar amount from $5 to $1,000, credited when the buyer comes back to the dashboard. With a webhook at `/api/billing/webhook` (`checkout.session.completed`, `checkout.session.async_payment_succeeded`, `charge.refunded`), a buyer who closes the tab is credited too, and refunds are taken back. Each Checkout session is credited once, whichever path sees it first. |
+
+Without `BETTER_AUTH_SECRET`, `/api/auth/*` and `/v1/account/*` don't exist, and an `otr_live_…` key gets a `401`. A private API for yourself takes two steps:
+
+```bash
+echo "OPENTAXRATE_MASTER_KEYS=me=otr_master_$(openssl rand -hex 24)" >> .env
+docker compose up -d
+curl "http://localhost:8080/v1/rate?state=TX&street=301+W+2nd+St&city=Austin&zip=78701" \
+  -H "x-api-key: otr_master_…"
+```
+
+Every setting is read at startup, so restart the API after changing one.
 
 For a public server, `deploy/compose.public.yml` layers these on the stack: the API on `127.0.0.1:8080` only, no published Postgres port, Postgres sized for 2 GB, the limits, the cache and the Photon relay (settings in `deploy/.env`; see `deploy/.env.example`):
 

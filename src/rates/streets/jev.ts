@@ -8,6 +8,9 @@ const ENDPOINT = "https://api.typesafe.ai/v1/systemone";
 const MODEL = process.env.OPENTAXRATE_JEV_MODEL || "jev-latest";
 const TIMEOUT_MS = 3_000;
 
+/** Picks one of a list of options for a line of text, or none. */
+export type StreetPicker = typeof jevChoice;
+
 export async function jevChoice(
   state: string,
   instructions: string,

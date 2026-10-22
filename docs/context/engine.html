@@ -143,6 +143,7 @@
 <nav class="toc" aria-label="Contents"><p class="toc-title">Engine dispatch, statewide states and California</p><ol>
 <li><a href="#dispatch">Dispatch</a></li>
 <li><a href="#addressrate">AddressRate</a></li>
+<li><a href="#reporting-src-rates-reporting-ts">Reporting (src/rates/reporting.ts)</a></li>
 <li><a href="#statewide-src-rates-statewide-ts">Statewide (src/rates/statewide.ts)</a></li>
 <li><a href="#california-src-rates-california-ts-california-in">California (src/rates/california.ts, california() in index.ts)</a></li>
 </ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
@@ -231,7 +232,7 @@
 </tr>
 <tr>
 <td><code>parts</code></td>
-<td><code>RatePart[]</code>: <code>{ kind: "state" \| "county" \| "city" \| "district", code, rate, byType? }</code> (<code>types.ts</code>)</td>
+<td><code>RatePart[]</code>: <code>{ kind: "state" | "county" | "city" | "district", name, code, rate, byType? }</code> (<code>types.ts</code>). <code>name</code> is filled by <code>nameParts</code> (<code>names.ts</code>) after the engine answers: the state's name, else the map engine's shape name, else the loaded outline (<code>sales_tax_shapes</code>) whose fips is the code's last piece (county → <code>county</code>, city → <code>place</code>/<code>cousub</code>, district → <code>district</code>/<code>place</code>/<code>cousub</code>); null when none (most Streamlined districts)</td>
 </tr>
 <tr>
 <td><code>match</code></td>
@@ -245,9 +246,57 @@
 <td><code>source</code></td>
 <td>a sentence naming the files and match, e.g. <code>Streamlined Sales Tax files OHR... + OHB..., street match on 2026-10-21</code> (<code>Missouri DOR files ...</code> for MO)</td>
 </tr>
+<tr>
+<td><code>reporting</code></td>
+<td><code>Reporting | null</code> from <code>reportingFor</code> (<code>reporting.ts</code>): see below</td>
+</tr>
 </tbody>
 </table></div>
+<p><code>addressRates.at</code> calls <code>rateAt</code> (the engines), then <code>nameParts</code>, then <code>reportingFor(state, match, parts, locationCode, reportingCode)</code>. <code>reportingCode</code> is internal: the range engine's area code from the boundary file (<code>sales_tax_areas.reporting_code</code>, the Streamlined composite SER column, or Missouri's jurisdiction code), kept only when every matched area shares it.</p>
+
+<h2 id="reporting-src-rates-reporting-ts">Reporting (<code>src/rates/reporting.ts</code>)</h2>
+<p><code>STATE_REPORTING</code> holds every state and DC: the agency, its sales tax page, the usual return (<code>form</code>), the local code the return asks for that we don't give (<code>needs</code>), what only the seller's registration gives (<code>account</code>), and filing outside the state return (<code>notes</code>). <code>reportingFor</code> returns:</p>
+<div class="scroll"><table class="grid-table">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td><code>not_needed</code> when no part but the state levies anything (and no code was given); <code>complete</code> when nothing is <code>missing</code> and every code is <code>verified</code>; else <code>partial</code></td>
+</tr>
+<tr>
+<td><code>agency</code></td>
+<td><code>{ name, url }</code></td>
+</tr>
+<tr>
+<td><code>form</code></td>
+<td>the return, or null where there's no general sales tax return</td>
+</tr>
+<tr>
+<td><code>codes</code></td>
+<td><code>{ scheme, label, value, parts, verified }[]</code>. WA: <code>wa-dor-location</code>, the SER code without its leading zero, covering every part, verified against DOR's AddressRates API. MO: <code>mo-dor-jurisdiction</code> (unverified). CA: <code>ca-cdtfa-tac</code>. Other SER codes (Kansas): <code>sst-ser</code>, unverified. Part by part (<code>PART_CODES</code>, not for <code>authority</code> answers): TX <code>tx-local-code</code> and NM <code>nm-grt-location</code> (verified), AZ and IL (unverified), the value being the part code's last piece</td>
+</tr>
+<tr>
+<td><code>missing</code></td>
+<td>the state's <code>needs</code> when there's local tax, plus <code>OWN_CODE[state]</code> when a state that has its own code got none (several areas matched)</td>
+</tr>
+<tr>
+<td><code>fromAccount</code></td>
+<td>the state's <code>account</code></td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>the state's <code>notes</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>A Census FIPS code is never offered as a filing code.</p>
 <p>The <code>source</code> match phrases come from <code>MATCH_NAMES</code>.</p>
+
 <h2 id="statewide-src-rates-statewide-ts">Statewide (<code>src/rates/statewide.ts</code>)</h2>
 <p><code>RATES</code> holds a newest-first list of <code>{ rate, from }</code> per state: DE, NH, OR, MT at 0; CT 6.35%; ME 5.5%; MD 6%; MA 6.25%; DC 6%. <code>STATEWIDE_STATES = Object.keys(RATES)</code>.</p>
 <p><code>statewideRate(state, date, city)</code> returns:</p>

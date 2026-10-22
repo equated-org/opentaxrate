@@ -192,7 +192,7 @@ export async function loadSstState(files: StateFiles) {
 
     const areaIds = new Map<string, number>();
     const areaOf = (area: Area) => {
-      const key = `${area.county ?? ""}|${area.place ?? ""}|${area.districts}`;
+      const key = `${area.county ?? ""}|${area.place ?? ""}|${area.districts}|${area.reportingCode ?? ""}`;
       let id = areaIds.get(key);
       if (id === undefined) {
         id = Number(fips) * 1_000_000 + areaIds.size + 1;
@@ -247,18 +247,19 @@ export async function loadSstState(files: StateFiles) {
     );
 
     const areas = [...areaIds].map(([key, id]) => {
-      const [county, place, districts] = key.split("|");
+      const [county, place, districts, reportingCode] = key.split("|");
       return copyLine([
         id,
         files.state,
         county || null,
         place || null,
         districts,
+        reportingCode || null,
       ]);
     });
     counts.areas = areas.length;
     await copy(
-      await sql`COPY sales_tax_areas (id, state, county, place, districts) FROM STDIN`.writable(),
+      await sql`COPY sales_tax_areas (id, state, county, place, districts, reporting_code) FROM STDIN`.writable(),
       areas,
     );
 

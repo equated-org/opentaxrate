@@ -28,6 +28,9 @@ export interface GeocoderProvider {
   sources: string[];
   typicalAccuracy: LocatedPoint["accuracy"];
   costPerCall: number;
+  /** What one call is billed at the vendor's list price, in dollars; an
+   *  account's geocoder allowance pays it (credits.ts). Absent: costPerCall. */
+  pricePerCall?: number;
   ratePerSecond: number;
   dailyCap: number;
   storable: boolean;

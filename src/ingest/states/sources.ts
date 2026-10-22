@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { unzipSync, strFromU8 } from "fflate";
 import type { Shape } from "../tiger.js";
+import { downloadedBytes } from "../archive.js";
 
 const USER_AGENT =
   process.env.OPENTAXRATE_USER_AGENT ||
@@ -28,7 +29,7 @@ export async function fetchFile(url: string, dir?: string, name?: string) {
     signal: AbortSignal.timeout(120_000),
   });
   if (!response.ok) throw new Error(`${url} answered ${response.status}`);
-  return new Uint8Array(await response.arrayBuffer());
+  return downloadedBytes(url, response, fileName);
 }
 
 export async function fetchText(url: string, dir?: string, name?: string) {

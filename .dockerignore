@@ -1,9 +1,10 @@
 node_modules
 dist
 data
+artifacts
 .env
 .env.*
 .env~
 deploy/.env
 .git
-landing
+client

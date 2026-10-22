@@ -13,7 +13,7 @@ import { and, eq, gte, lte } from "drizzle-orm";
 import { db } from "../../db/client.js";
 import { salesTaxStreetRanges } from "../../db/schema.js";
 import { parseStreet, type StreetParts } from "../../address.js";
-import { jevChoice } from "./jev.js";
+import { jevChoice, type StreetPicker } from "./jev.js";
 
 /** How alike two names must be, and how far ahead of the next, for the
  *  spelling alone to pick a street. */
@@ -35,6 +35,8 @@ export async function correctedStreet(
   typed: StreetParts,
   zip5: string,
   date: string,
+  /** Asked when spelling alone can't pick; null to rely on spelling only. */
+  pick: StreetPicker | null = jevChoice,
 ): Promise<Correction | null> {
   const rows = await db
     .selectDistinct({ street: salesTaxStreetRanges.street })
@@ -61,8 +63,8 @@ export async function correctedStreet(
   if (best.score >= MIN_SIMILARITY && best.score - (next?.score ?? 0) >= MIN_LEAD)
     return { street: best.street, by: "spelling", confidence: best.score };
 
-  if (streets.length > MAX_CHOICES) return null;
-  const picked = await jevChoice(
+  if (!pick || streets.length > MAX_CHOICES) return null;
+  const picked = await pick(
     line,
     `The \`state\` is a typed US street address line in ZIP ${zip5}. Which of these streets, as the state's tax file spells them, is it on? Allow typos, missing or spelled-out types and directions, and nicknames. If it could be on more than one (for example no direction given where both E and W exist), or on none, choose NONE.`,
     streets,
