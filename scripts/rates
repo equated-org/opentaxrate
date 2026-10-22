@@ -88,8 +88,12 @@ select 'fail', state, 'invalid outline: ' || kind || ':' || fips from sales_tax_
 select 'fail', state, 'implausible rate ' || rate::text || ' for ' || type || ':' || code from sales_tax_jurisdiction_rates
 where rate > 0.2 or (rate < 0 and type in ('45', '00', '01', '01x', '99'));
 
-create temp view now_rates as select state, type, code, rate from sales_tax_jurisdiction_rates where :'day'::date between starts_on and ends_on;
-create temp view was_rates as select state, type, code, rate from baseline.rates where :'day'::date between starts_on and ends_on;
+-- A code may have several rows in force at once (Alabama's police
+-- jurisdictions), so each code's sorted rates are compared.
+create temp view now_rates as select state, type, code, string_agg(rate::text, ' ' order by rate) as rate
+  from sales_tax_jurisdiction_rates where :'day'::date between starts_on and ends_on group by 1, 2, 3;
+create temp view was_rates as select state, type, code, string_agg(rate::text, ' ' order by rate) as rate
+  from baseline.rates where :'day'::date between starts_on and ends_on group by 1, 2, 3;
 create temp view moved as
   select coalesce(n.state, w.state) as state, coalesce(n.type, w.type) || ':' || coalesce(n.code, w.code) as code,
          w.rate as was, n.rate as now,
@@ -97,7 +101,7 @@ create temp view moved as
   from now_rates n full join was_rates w using (state, type, code)
   where n.rate is distinct from w.rate
   union all
-  select r.state, r.type || ':' || r.code, null, r.rate, 'announced from ' || r.starts_on
+  select r.state, r.type || ':' || r.code, null, r.rate::text, 'announced from ' || r.starts_on
   from sales_tax_jurisdiction_rates r
   where r.starts_on > :'day'::date and not exists (select 1 from baseline.rates b
     where (b.state, b.type, b.code, b.starts_on, b.rate) = (r.state, r.type, r.code, r.starts_on, r.rate));
