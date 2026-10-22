@@ -149,6 +149,7 @@
 <li><a class="sub" href="#loadtigershapes-file-states">loadTigerShapes(file, states)</a></li>
 <li><a href="#tiger-tiger-ts">TIGER (tiger.ts)</a></li>
 <li><a href="#tables-schema-ts">Tables (schema.ts)</a></li>
+<li><a class="sub" href="#jurisdiction-ids">Names and ids by source</a></li>
 <li><a href="#invariants">Invariants</a></li>
 </ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
 <article id="content">
@@ -201,15 +202,15 @@
 <h3 id="loadsststate-files-statefiles"><code>loadSstState(files: StateFiles)</code></h3>
 <p>One <code>client.begin</code> transaction per state:</p>
 <ol>
-<li><code>DELETE</code> the state's rows from <code>sales_tax_street_ranges</code>, <code>sales_tax_zip_ranges</code>, <code>sales_tax_jurisdiction_rates</code>, <code>sales_tax_areas</code>.</li>
-<li><code>COPY sales_tax_jurisdiction_rates</code> from <code>parseRateLine</code>.</li>
-<li>Stream boundaries through <code>files.parseBoundary ?? parseBoundaryLine</code>. Each distinct <code>county|place|districts|reportingCode</code> gets an area id <code>Number(fips) * 1_000_000 + counter</code>. Street rows <code>COPY</code> into <code>sales_tax_street_ranges</code> in ~1 MB batches; ZIP rows wait in memory (one connection runs one COPY at a time).</li>
+<li><code>DELETE</code> the state's rows from <code>sales_tax_street_ranges</code>, <code>sales_tax_zip_ranges</code>, <code>sales_tax_jurisdiction_rates</code>, <code>sales_tax_jurisdictions</code>, <code>sales_tax_areas</code>.</li>
+<li><code>COPY sales_tax_jurisdiction_rates</code> from <code>parseRateLine</code>, then insert <code>files.jurisdictions?.()</code> (Missouri's workbook ids; the Streamlined files give none) in batches of 500.</li>
+<li>Stream boundaries through <code>files.parseBoundary ?? parseBoundaryLine</code>. Each distinct <code>county|place|districts|JSON of ids</code> gets an area id <code>Number(fips) * 1_000_000 + counter</code>. Street rows <code>COPY</code> into <code>sales_tax_street_ranges</code> in ~1 MB batches; ZIP rows wait in memory (one connection runs one COPY at a time).</li>
 <li><code>COPY</code> ZIP ranges, then areas.</li>
 <li>Upsert both files into <code>sales_tax_data_releases</code> on <code>(state, kind)</code>.</li>
 </ol>
 <p>COPY runs through <code>pipeline</code>, so a failure mid-file ends the COPY and rolls the whole state back. <code>copyLine</code> escapes backslash, tab, newline and carriage return and writes null as <code>\N</code>.</p>
 <h3 id="loadgeostate-state-data"><code>loadGeoState(state, data)</code></h3>
-<p>One Drizzle transaction: merge shapes sharing <code>kind:fips</code>; delete and re-insert the state's rates (batches of 500); delete the state's non-TIGER shapes (file not like <code>tl_%</code>) and insert its own (batches of 20, <code>geometryOf</code>); replace its <code>sales_tax_data_releases</code> rows. Census outlines are kept.</p>
+<p>One Drizzle transaction: merge shapes sharing <code>kind:fips</code>; delete and re-insert the state's rates and its <code>data.jurisdictions</code> (batches of 500); delete the state's non-TIGER shapes (file not like <code>tl_%</code>) and insert its own (batches of 20, <code>geometryOf</code>); replace its <code>sales_tax_data_releases</code> rows. Census outlines are kept.</p>
 <h3 id="loadtigershapes-file-states"><code>loadTigerShapes(file, states)</code></h3>
 <p>One transaction per TIGER file: delete that <code>kind</code>'s TIGER rows (file like <code>tl_%</code>) for the states in it, insert the new ones. Every county loads; a place or county subdivision loads only if <code>namedPlaces</code> finds it in a rate code or an area's <code>place</code>, which leaves out most Census places. So TIGER must load after rates and ranges, as step 4 does.</p>
 
@@ -232,7 +233,7 @@
 </tr>
 <tr>
 <td><code>sales_tax_areas</code></td>
-<td><code>id</code> (loader-given), <code>state</code>, <code>county</code>, <code>place</code>, <code>districts</code> (sorted <code>type:code</code> pairs), <code>reporting_code</code> (the boundary file's composite SER column, e.g. WA's <code>01726</code>, KS's <code>ABIC1</code>; Missouri's jurisdiction code)</td>
+<td><code>id</code> (loader-given), <code>state</code>, <code>county</code>, <code>place</code>, <code>districts</code> (sorted <code>type:code</code> pairs), <code>ids jsonb</code> (the boundary file's ids for the whole combination: <code>{"Composite SER Code": "01726"}</code> for WA, KS's <code>ABIC1</code>, <code>{"Jurisdiction Code": …}</code> for Missouri; <code>{}</code> when blank); unique <code>(state, county, place, districts, ids)</code></td>
 <td><code>loadSstState</code></td>
 </tr>
 <tr>
@@ -251,6 +252,11 @@
 <td><code>loadSstState</code>, <code>loadGeoState</code></td>
 </tr>
 <tr>
+<td><code>sales_tax_jurisdictions</code></td>
+<td>primary key <code>(state, type, code)</code>, the rate rows' key; <code>name</code> as the publisher writes it (null when it gives none); <code>ids jsonb</code>, the source's identifying columns by their own names, values verbatim, a rate summed from several source rows listing each value comma-separated; <code>file</code>, the rates' release. Only for a <code>type:code</code> some rate row has; a refusal row (<code>maybe</code>) has none. See the table below.</td>
+<td><code>loadSstState</code> (Missouri), <code>loadGeoState</code></td>
+</tr>
+<tr>
 <td><code>sales_tax_shapes</code></td>
 <td><code>state</code>, <code>kind</code> (<code>county</code>, <code>place</code>, <code>cousub</code>, <code>district</code>), <code>fips</code>, <code>name</code>, <code>geom geometry(MultiPolygon, 4326)</code> with GiST index, <code>file</code>; unique <code>(state, kind, fips)</code></td>
 <td><code>loadGeoState</code>, <code>loadTigerShapes</code></td>
@@ -258,6 +264,23 @@
 </tbody>
 </table></div>
 <p>The <code>file</code> column on shapes tells the two loaders apart: TIGER files start with <code>tl_</code>.</p>
+<h3 id="jurisdiction-ids">What each source stores as names and ids</h3>
+<p>Each adapter keeps the columns that say which jurisdiction a rate is and who runs it, keyed by the source's own field names (<code>GeoStateData.jurisdictions</code>, <code>StateFiles.jurisdictions</code>, <code>LocalRate.title</code> and <code>.ids</code> for tables). A Census FIPS is never an id: it's already the code.</p>
+<div class="scroll"><table class="grid-table">
+<thead><tr><th>State</th><th>Name</th><th>Ids</th></tr></thead>
+<tbody>
+<tr><td>AL</td><td><code>Locality Name</code></td><td><code>Locality Code</code>, <code>County Number</code>, <code>Administered</code> (a county summed from several codes lists each)</td></tr>
+<tr><td>TX</td><td>the outlining layer's name, else the newest EDI file's</td><td><code>TAID</code>; <code>CMPTRL_CNTY_NBR</code>, <code>FIPS_ST_CNTY_CD</code> (counties), <code>Transit_Type</code>, <code>SPD_Type</code>; a <code>kx</code> rate takes the kept authority's</td></tr>
+<tr><td>IL</td><td>the location's city</td><td><code>Location Code</code> with check digit, <code>County Name</code>, <code>Business District</code> (R00–R07, address rows); keys from IDOR's file layout, as the files have no header</td></tr>
+<tr><td>LA</td><td>the domiciles' names</td><td><code>Domicile Code</code>, <code>Parish</code>, <code>Parish Code</code></td></tr>
+<tr><td>AZ</td><td><code>RegionName</code></td><td><code>RegionCode</code>; <code>County</code> or <code>FIPS</code> from the outline layer</td></tr>
+<tr><td>NM</td><td><code>name</code></td><td><code>locat_cdr</code>, <code>locat_cd1</code>, <code>locat_cd2</code> where not blank</td></tr>
+<tr><td>CO, AK</td><td>the service's <code>name</code></td><td><code>placeId</code>, <code>placeTypeId</code></td></tr>
+<tr><td>MO</td><td>none</td><td><code>Jurisdiction Code</code>, <code>District Code 1</code>–<code>5</code> on each <code>99:</code> code</td></tr>
+<tr><td>VA, MT, SC (Myrtle Beach), FL, HI, ID, MS, NY, PA</td><td>as the table writes it</td><td>none</td></tr>
+<tr><td>Streamlined members</td><td>none</td><td>none per jurisdiction; the area's <code>Composite SER Code</code></td></tr>
+</tbody>
+</table></div>
 
 <h2 id="invariants">Invariants</h2>
 <ul>

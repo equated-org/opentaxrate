@@ -121,15 +121,16 @@ export const addressRates = {
    *  address that needs confirming or an unsupported state, 502 when the
    *  state's files aren't loaded. */
   async at(query: AddressRateQuery, date: string): Promise<AddressRate> {
-    const { reportingCode, ...found } = await rateAt(query, date);
+    const { locationIds, ...found } = await rateAt(query, date);
     const parts = await nameParts(found.state, found.parts);
+    const reportingCode = locationIds?.["Composite SER Code"] ?? locationIds?.["Jurisdiction Code"];
     return { ...found, parts, reporting: reportingFor(found.state, found.match, parts, found.locationCode, reportingCode) };
   },
 };
 
-/** An engine's answer, before naming: the reporting code a range state's
- *  boundary file gave rides along until `reportingFor` reads it. */
-type EngineRate = Omit<AddressRate, "reporting"> & { reportingCode?: string | null };
+/** An engine's answer, before naming: the ids a range state's boundary file
+ *  gave the area ride along until `reportingFor` reads them. */
+type EngineRate = Omit<AddressRate, "reporting"> & { locationIds?: Record<string, string> };
 
 async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate> {
   const state = query.state.toUpperCase();
@@ -230,7 +231,7 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
     parts: found.parts,
     match: found.match,
     locationCode: found.locationCode,
-    reportingCode: found.reportingCode,
+    locationIds: found.locationIds,
     source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,
   };
 }

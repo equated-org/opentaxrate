@@ -10,6 +10,9 @@
  *
  * Rates come from the last eight quarters' files, back to the first one
  * missing; coverage starts with the oldest quarter loaded.
+ *
+ * Each code keeps, as ids, its Jurisdiction Code and District Code 1 to 5
+ * from the newest workbook that lists it; the DOR names none of them.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -18,6 +21,7 @@ import { fetchFile, readXlsx } from "./states/sources.js";
 import { sstFileLines } from "./downloads.js";
 import { WHOLE_CODE_TYPE } from "../coverage.js";
 import type { StateFiles } from "./load.js";
+import type { JurisdictionRow } from "./states/index.js";
 
 const DOCUMENTS = "https://dor.mo.gov/taxation/business/tax-types/sales-use/documents";
 const STATE_RATE = 0.04225;
@@ -53,6 +57,7 @@ const CENSUS_PLACE: Record<string, string> = {
 export async function missouriFiles(dir?: string): Promise<StateFiles> {
   const quarters = recentQuarters(new Date(), QUARTERS + 2);
   const rateLines: string[] = [];
+  const jurisdictions = new Map<string, JurisdictionRow>();
   let oldest: string | null = null;
   let newestBoundary: string | null = null;
   const loaded: string[] = [];
@@ -76,10 +81,19 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
     const salesAt = header < 0 ? -1 : rows[header].findIndex((c) => /^sales( tax rate)?$/i.test(c.trim()));
     if (header < 0 || codeAt < 0 || salesAt < 0)
       throw new Error(`Missouri rate file q${q.quarter}-${q.year} has no jurisdiction code or sales column`);
+    const idColumns = rows[header].flatMap((c, i) => (/^(jurisdiction code|district code \d)$/i.test(c.trim()) ? [[c.trim(), i] as const] : []));
     for (const row of rows.slice(header + 1)) {
       const code = row[codeAt]?.trim();
       const total = rate(row[salesAt]);
       if (!code || !JURISDICTION.test(code) || total === null) continue;
+      // Quarters are read newest first.
+      if (!jurisdictions.has(code))
+        jurisdictions.set(code, {
+          type: WHOLE_CODE_TYPE,
+          code,
+          name: null,
+          ids: Object.fromEntries(idColumns.flatMap(([name, i]) => (row[i]?.trim() ? [[name, row[i].trim()]] : []))),
+        });
       const local = Math.round((total - STATE_RATE) * 1e6) / 1e6;
       // The DOR publishes only the general total; Missouri's state food rate
       // is lower, so the food and interstate columns are left blank.
@@ -109,6 +123,7 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
             : `${DOCUMENTS}/${newestBoundary}`,
       }),
     },
+    jurisdictions: () => [...jurisdictions.values()],
     parseBoundary: (line) => {
       const code = JURISDICTION.exec(line)?.[1];
       if (!code) return [];
@@ -118,7 +133,7 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
       return parseBoundaryLine(line).map(
         (row): BoundaryRow => ({
           ...row,
-          area: { county, place: place === "00000" ? null : (CENSUS_PLACE[place] ?? place), districts: `${WHOLE_CODE_TYPE}:${code}`, reportingCode: code },
+          area: { county, place: place === "00000" ? null : (CENSUS_PLACE[place] ?? place), districts: `${WHOLE_CODE_TYPE}:${code}`, ids: { "Jurisdiction Code": code } },
         }),
       );
     },

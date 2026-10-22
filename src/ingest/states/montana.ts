@@ -18,7 +18,7 @@
  * 3%. An area with no outline (Craig, Wolf Creek) is stored as "no" and
  * refused by name (see rates/index.ts).
  */
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchLayer, fetchText } from "./sources.js";
 import { districtCode } from "../../coverage.js";
 
@@ -63,7 +63,9 @@ export const montana: GeoState = {
         endsOn: UNTIL,
       })),
     ];
-    return { rates, shapes, files: { rates: "MT DOR local resort tax table", boundaries: "MT Administrative Boundaries Framework layers 7, 51" } };
+    // Each area is named as the Department's table names it.
+    const jurisdictions: JurisdictionRow[] = rates.slice(1).map((r, i) => ({ type: r.type, code: r.code, name: areas[i].name, ids: {} }));
+    return { rates, jurisdictions, shapes, files: { rates: "MT DOR local resort tax table", boundaries: "MT Administrative Boundaries Framework layers 7, 51" } };
   },
 };
 

@@ -265,6 +265,7 @@
     <li><a class="sub" href="#w-show">Show it on the site</a></li>
     <li><a href="#boundaries">Boundaries</a></li>
     <li><a href="#phases">Phases</a></li>
+    <li><a class="sub" href="#reload">What to reload</a></li>
     <li><a href="#questions">Open questions</a></li>
     <li><a href="#appendix">Appendix: terms</a></li>
   </ol>
@@ -274,7 +275,7 @@
 <article>
 
 <header class="page-head">
-  <p class="eyebrow">Design plan · proposed · main after 392c161 · 2026-10-22</p>
+  <p class="eyebrow">Design plan · phases 1 and 2 built · main after 392c161 · 2026-10-22</p>
   <h1>Keep every source's own jurisdiction ids</h1>
   <p class="lede">Each state's rate source names its jurisdictions with its own codes, like Alabama's locality code 9454 for Montgomery or Washington's SER code 01726 for Seattle, and the ingest throws most of them away. This plan keeps them in one table, <code>sales_tax_jurisdictions</code>, and returns them on every part exactly as the publisher wrote them. That makes the answer as complete as the data we load, with no per-state mapping code.</p>
   <p class="meta">Traced from <code>src/ingest/load.ts</code>, <code>sst-files.ts</code>, <code>missouri.ts</code>, <code>states/*.ts</code>, <code>src/rates/index.ts</code>, <code>ranges.ts</code>, <code>map.ts</code>, <code>names.ts</code>, <code>reporting.ts</code>, and the cached source files in <code>/tmp/otr-cache</code> (Alabama <code>taxrates.csv</code>, Illinois <code>ordmache</code>, Missouri's boundary CSV and rate workbook, the Streamlined files), on 2026-10-22.</p>
@@ -352,8 +353,9 @@
 );
 
 ALTER TABLE sales_tax_areas ADD COLUMN ids jsonb NOT NULL DEFAULT '{}';
-UPDATE sales_tax_areas SET ids = jsonb_build_object('Composite SER code', reporting_code)
-  WHERE reporting_code IS NOT NULL;   -- or just refresh WA, KS, MO
+UPDATE sales_tax_areas SET ids = jsonb_build_object(
+  CASE WHEN state = 'MO' THEN 'Jurisdiction Code' ELSE 'Composite SER Code' END, reporting_code)
+  WHERE reporting_code IS NOT NULL;   -- keeps loaded codes, so nothing needs a refresh
 ALTER TABLE sales_tax_areas DROP CONSTRAINT uq_sales_tax_areas_state_jurisdictions;
 ALTER TABLE sales_tax_areas DROP COLUMN reporting_code;
 ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdictions
@@ -385,7 +387,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
     <tr><th scope="row">TRD GRT layer</th><td>NM</td><td>name <code>name</code>; ids <code>locat_cdr</code>, <code>locat_cd1</code>, <code>locat_cd2</code></td><td><code>new-mexico.ts:41-54</code></td></tr>
     <tr><th scope="row">Colorado and Alaska lookups</th><td>CO, AK</td><td>name; ids <code>placeId</code>, <code>placeTypeId</code></td><td><code>ttr.ts:117-123</code></td></tr>
     <tr><th scope="row">DOR rate workbook and boundary CSV</th><td>MO</td><td>no names in either file; ids <code>Jurisdiction Code</code>, <code>District Code 1</code>–<code>5</code> (AMB00003, FIR00006…), on the <code>99:</code> code's row</td><td><code>missouri.ts:74-86</code>, area <code>:121</code></td></tr>
-    <tr><th scope="row">Streamlined rate and boundary files</th><td>24 members</td><td>no names, no ids in the rate file; the boundary file's <code>Composite SER code</code> goes on the area (already kept, as <code>reporting_code</code>)</td><td><code>sst-files.ts:72-89</code>, <code>:107-115</code></td></tr>
+    <tr><th scope="row">Streamlined rate and boundary files</th><td>24 members</td><td>no names, no ids in the rate file; the boundary file's <code>Composite SER Code</code> goes on the area (already kept, as <code>reporting_code</code>)</td><td><code>sst-files.ts:72-89</code>, <code>:107-115</code></td></tr>
     <tr><th scope="row">Hand-written and published tables</th><td>FL, HI, ID, MS, NY, PA, SC, VA, MT</td><td>name as the state writes it; VA's locality name from its workbook; no other ids (NY's Pub 718 reporting codes were never transcribed)</td><td><code>tables.ts:67-86</code>, <code>virginia.ts:26-33</code>, <code>montana.ts:58-64</code></td></tr>
   </tbody>
 </table></div>
@@ -446,7 +448,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
         <li>
           <div class="obj"><span class="kind">source line</span><span class="id">WAB2026Q4AUG27</span><span class="field">1410 E PINE ST · SER 01726 · place 63000</span></div>
           <ul>
-            <li><div class="obj changed"><span class="kind">changed</span><span class="id">area 53000123</span><span class="field">place 63000 · districts ""</span><span class="field">ids {"Composite SER code":"01726"}</span></div></li>
+            <li><div class="obj changed"><span class="kind">changed</span><span class="id">area 53000123</span><span class="field">place 63000 · districts ""</span><span class="field">ids {"Composite SER Code":"01726"}</span></div></li>
             <li><div class="obj gone"><span class="kind">removed</span><span class="id">reporting_code</span><span class="field">01726</span></div></li>
           </ul>
         </li>
@@ -460,7 +462,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
   <div class="inner">
 <pre class="calls"><span class="layer">load</span>loadSstState(files)                                <span class="n">ingest/load.ts</span>
 ├─ <span class="layer">sql</span>DELETE sales_tax_jurisdictions WHERE state = 'WA'   <span class="n">none to insert for a Streamlined file</span>
-├─ <span class="layer">parse</span>parseBoundaryLine(line)                        <span class="n">sst-files.ts: area.ids = c[21] ? { "Composite SER code": c[21] } : {}</span>
+├─ <span class="layer">parse</span>parseBoundaryLine(line)                        <span class="n">sst-files.ts: area.ids = c[21] ? { "Composite SER Code": c[21] } : {}</span>
 ├─ <span class="layer">load</span>areaOf(area)                                     <span class="n">key: county|place|districts|JSON of ids</span>
 └─ <span class="layer">sql</span>COPY sales_tax_areas (id, state, county, place, districts, <b>ids</b>)</pre>
     <p>Missouri passes its <code>Jurisdiction Code</code> and <code>District Code 1</code>–<code>5</code> as jurisdiction rows for its <code>99:</code> codes, from the rate workbook it already reads (<code>missouri.ts:74-86</code>); <code>StateFiles</code> gains an optional <code>jurisdictions</code> list for that.</p>
@@ -486,7 +488,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
       </ul>
     </div>
   </div>
-  <figcaption>Black-bordered boxes change shape. Seattle's answer looks the same with <code>ids: {}</code> on both parts and <code>locationIds: {"Composite SER code": "01726"}</code>; Austin's parts carry the Comptroller's names and <code>SPD_Type</code> or <code>Transit_Type</code>.</figcaption>
+  <figcaption>Black-bordered boxes change shape. Seattle's answer looks the same with <code>ids: {}</code> on both parts and <code>locationIds: {"Composite SER Code": "01726"}</code>; Austin's parts carry the Comptroller's names and <code>SPD_Type</code> or <code>Transit_Type</code>.</figcaption>
 </figure>
 <details class="more">
   <summary>Calls and response<span class="dim">GET /v1/rate</span></summary>
@@ -558,7 +560,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
 </table></div>
 
 <h2 id="phases">Phases</h2>
-<p>Four pull requests, in order. Each leaves the API working; ids appear state by state as phase 2 lands.</p>
+<p>Four pull requests, in order. Each leaves the API working; ids appear state by state as phase 2 lands. Phases 1 and 2 were built on 2026-10-22; the API returns nothing new until phase 3.</p>
 <ol>
   <li><strong>Table and area ids.</strong> The new table, <code>sales_tax_areas.ids</code> in place of <code>reporting_code</code>, and the Streamlined boundary parser writing it.
     <details class="more">
@@ -570,7 +572,8 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
         <li>Tests: <code>test/sst-files.test.ts</code>, <code>test/address-rates.test.ts</code> fixtures.</li>
       </ul></div>
     </details>
-    <em>Done when</em> <code>pnpm test</code> passes on a <code>_test</code> database and <code>refresh WA</code> stores <code>{"Composite SER code":"01726"}</code> on Seattle's area.</li>
+    <em>Done when</em> <code>pnpm test</code> passes on a <code>_test</code> database and <code>refresh WA</code> stores <code>{"Composite SER Code":"01726"}</code> on Seattle's area.
+    <p><strong>Built.</strong> As planned, with three changes. The key is <code>Composite SER Code</code>, as the Streamlined layout names column 21 (Missouri's copy of the layout has a header row that says so). Missouri's areas use <code>{"Jurisdiction Code": …}</code>, the rate workbook's name for the code: its boundary file carries the code in a column headed "Special Tax District Code (#20)", which would mislead. And until phase 3, <code>addressRates.at</code> reads the area's code back out of <code>locationIds</code> to feed <code>reportingFor</code>, so <code>reporting</code> is unchanged. <code>test/jurisdictions.test.ts</code> loads a Vermont fixture and checks the area ids; the migration's copy was checked on the dev database inside a rolled-back transaction.</p></li>
   <li><strong>Every adapter emits its jurisdictions.</strong> <code>GeoStateData</code> and <code>StateFiles</code> gain <code>jurisdictions</code>; <code>LocalRate</code> gains <code>ids</code> so table states keep their source names; each adapter fills them from the columns in <a href="#sources">the table above</a>, starting with AL, TX, IL, LA and MO.
     <details class="more">
       <summary>Files<span class="dim">phase 2</span></summary>
@@ -581,7 +584,16 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
         <li>Tests: one adapter test per source on a cached fixture line, e.g. the Montgomery row gives <code>Locality Code 9454</code>.</li>
       </ul></div>
     </details>
-    <em>Done when</em> <code>refresh AL TX IL LA MO</code> loads, and <code>select count(*) from sales_tax_jurisdictions group by state</code> is non-zero for each.</li>
+    <em>Done when</em> <code>refresh AL TX IL LA MO</code> loads, and <code>select count(*) from sales_tax_jurisdictions group by state</code> is non-zero for each.
+    <p><strong>Built</strong>, with these differences:</p>
+    <ul>
+      <li><code>LocalRate</code> also gained <code>title</code>, the source's own name where the table's lookup name differs (Alabama's <code>MONTGOMERY COUNTY</code> for the county looked up as <code>MONTGOMERY</code>).</li>
+      <li>A rate summed from several source rows lists each row's value, comma-separated: Jefferson County, Alabama is <code>Locality Code "7037, 7137"</code>. Alabama's county rules (<code>0c</code>, <code>pj</code> rows) take the names and ids of the codes they were built from.</li>
+      <li>Illinois's files have no header row, so its keys are the fields in IDOR's layout: <code>Location Code</code>, <code>County Name</code>, and <code>Business District</code> (R00–R07) on rows from the address file. Address rows (<code>addr</code>) get rows too, about 44,000.</li>
+      <li>Louisiana's keys follow its lookup page ("Jurisdiction (Domicile Code)"): <code>Domicile Code</code>, <code>Parish</code>, <code>Parish Code</code>. Arizona adds the layers' <code>County</code> or <code>FIPS</code> to <code>RegionCode</code>. South Carolina names its Myrtle Beach district.</li>
+      <li>Refusal rows (<code>maybe</code>) get no jurisdiction row: they mark doubt, not a jurisdiction.</li>
+      <li>Tests: <code>test/jurisdictions.test.ts</code> covers both loaders (stored verbatim, replaced on the next load). There are no per-adapter fixture tests, since no adapter has a test harness yet. Instead each adapter was run against its live or cached source and every jurisdiction row matched a rate row: AL 1,820, TX 2,949, IL 44,614, LA 327, AZ 139, NM 245, VA 133, MT 10, MO 2,616. Colorado and Alaska were not run, because their grid discovery takes hours.</li>
+    </ul></li>
   <li><strong>Return ids; slim <code>reporting</code>.</strong> <code>describeParts</code> replaces <code>nameParts</code>; parts carry <code>ids</code>, the answer carries <code>locationIds</code>; <code>reporting.ts</code> keeps <code>STATE_REPORTING</code> (agency, url, form, notes) and drops <code>needs</code>, <code>account</code>, <code>PART_CODES</code>, <code>OWN_CODE</code>, <code>codes</code>, <code>missing</code>, <code>fromAccount</code> and <code>status</code>.
     <details class="more">
       <summary>Files<span class="dim">phase 3</span></summary>
@@ -604,6 +616,15 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
     <em>Done when</em> <code>svelte-check</code>, the client tests and <code>vite build</code> pass, and the Montgomery result shows its locality codes in both themes.</li>
 </ol>
 
+<h3 id="reload">What to reload after phases 1 and 2</h3>
+<p>Not everything. The source files under <code>artifacts/</code> don't change; only what's read from them does.</p>
+<ul>
+  <li><strong>Phase 1: nothing.</strong> <code>migrate</code> copies each <code>reporting_code</code> into <code>ids</code> before dropping the column. (On the dev database on 2026-10-22 every <code>reporting_code</code> was still null: no Streamlined state had been reloaded since 0006 added it. To get Washington's and Kansas's codes there, run <code>refresh WA KS --force</code>; that was already true before this plan.)</li>
+  <li><strong>Phase 2: the map-read states and Missouri.</strong> <code>sales_tax_jurisdictions</code> fills only as a state loads. Until then lookups are unchanged, and in phase 3 parts would show <code>ids: {}</code> and Census names. <code>pnpm refresh AL TX IL LA AZ NM CO AK VA MT SC FL HI ID MS NY PA MO</code> reloads them, without <code>--force</code>: refresh fetches map-read states and Missouri on every run. Their GIS and API responses aren't archived, so this downloads again.</li>
+  <li><strong>The 24 Streamlined states: nothing.</strong> Their rate files carry no names or ids.</li>
+  <li><strong>Published snapshot.</strong> <code>scripts/snapshot.sh</code> now lists <code>sales_tax_jurisdictions</code> among its tax tables. Publish a new dump after the reload to include it. Older dumps still restore, and <code>migrate</code> brings them up to date.</li>
+</ul>
+
 <h2 id="questions">Open questions</h2>
 <ul>
   <li><em>Should ids be dated?</em> Recommend no. Names and codes rarely change, and the newest load replaces them with the rates; a dated rate on an old date then shows today's ids. Add <code>starts_on</code>/<code>ends_on</code> only if a source is found renumbering.</li>
@@ -622,7 +643,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
 "kx:2227016>3227999" → type kx, code 2227016>3227999 (Austin, Capital Metro)</pre>
   </section>
   <section class="term">
-    <h3 id="t-ser">Composite SER code</h3>
+    <h3 id="t-ser">Composite SER Code</h3>
     <p>Column 21 of a Streamlined boundary line: a code the state gives each combination of jurisdictions. Washington fills it with its DOR location code, zero-padded; Kansas with its own jurisdiction code; most states leave it blank.</p>
 <pre class="snip">A,…,PINE,ST,…,SEATTLE,98122,0017,,,,,01726,53,53,,63000,…
                                         ^ c[21] = "01726"  (DOR location 1726)</pre>

@@ -21,6 +21,10 @@
  * the French Quarter EDD, whose rate the lookup gives without the district's
  * own tax, is refused in an area drawn around it (FRENCH_QUARTER_ZONE).
  * Coverage starts this period.
+ *
+ * A parish's, city's or EBR area's rate keeps its domiciles' names, and as
+ * ids their Domicile Code and parish, as the lookup labels them; a refusal
+ * ("maybe") has none.
  */
 import https from "node:https";
 import tls from "node:tls";
@@ -28,7 +32,7 @@ import { sql } from "drizzle-orm";
 import { db } from "../../db/client.js";
 import { latestTigerFiles } from "../downloads.js";
 import { readTigerZip, type Shape } from "../tiger.js";
-import type { GeoRateRow, GeoState, GeoStateData } from "./index.js";
+import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, ringsOf } from "./sources.js";
 
 const LOOKUP = "https://remotesellersfiling.louisiana.gov/lookup/lookup.aspx";
@@ -186,6 +190,22 @@ export const louisiana: GeoState = {
       rates.push({ type, code, rate: Math.round(rate * 1e6) / 1e6, startsOn: from, endsOn: "9999-12-31" });
     const shapes: GeoStateData["shapes"] = [];
     const warn = (m: string) => console.warn(`LA: ${m}`);
+    const jurisdictions = new Map<string, JurisdictionRow>();
+    /** A rate's source: the domiciles it was read from, each value listed. */
+    const describe = (type: string, code: string, from: Array<{ code: string; name: string }>) => {
+      const list = (values: string[]) => [...new Set(values)].join(", ");
+      const parish = (d: { code: string }) => parishes.get(d.code.slice(0, 2));
+      jurisdictions.set(`${type}:${code}`, {
+        type,
+        code,
+        name: list(from.map((d) => d.name)) || null,
+        ids: {
+          "Domicile Code": list(from.map((d) => d.code)),
+          Parish: list(from.map((d) => parish(d)?.name ?? "")),
+          "Parish Code": list(from.map((d) => parish(d)?.value ?? "")),
+        },
+      });
+    };
 
     // Every domicile, classified, by parish.
     const byParish = new Map<string, Array<{ code: string; name: string; rate: number; kind: Kind }>>();
@@ -211,7 +231,10 @@ export const louisiana: GeoState = {
       const own = list.filter((d) => d.kind.kind === "parish");
       const ownRates = [...new Set(own.map((d) => d.rate))];
       const baseRate = ownRates.length ? Math.min(...ownRates) : null;
-      if (baseRate !== null) row("rc", county, baseRate);
+      if (baseRate !== null) {
+        row("rc", county, baseRate);
+        describe("rc", county, own.filter((d) => d.rate === baseRate));
+      }
       // Unincorporated areas at two rates, with no outline between them.
       for (const r of ownRates) if (r !== baseRate) row("maybe", county, r);
       if (baseRate === null) {
@@ -220,7 +243,7 @@ export const louisiana: GeoState = {
       }
 
       // Cities, by Census place, at the rate of their domicile here.
-      const cityRates = new Map<string, { name: string; rates: number[] }>();
+      const cityRates = new Map<string, { name: string; rates: number[]; domiciles: Array<{ code: string; name: string; rate: number }> }>();
       for (const d of list) {
         if (d.kind.kind !== "city") continue;
         const place = census.place(d.kind.city);
@@ -235,11 +258,12 @@ export const louisiana: GeoState = {
           warn(`${d.code} ${d.name} is listed under ${parish.name}; left out`);
           continue;
         }
-        const known = cityRates.get(place) ?? { name: d.kind.city, rates: [] };
+        const known = cityRates.get(place) ?? { name: d.kind.city, rates: [], domiciles: [] };
         known.rates.push(d.rate);
+        known.domiciles.push(d);
         cityRates.set(place, known);
       }
-      for (const [place, { name, rates: rs }] of cityRates) {
+      for (const [place, { name, rates: rs, domiciles: ds }] of cityRates) {
         const parts = cityParishes.get(place);
         const primary: string = parts?.primary ?? county;
         if (primary !== county) {
@@ -250,6 +274,7 @@ export const louisiana: GeoState = {
         }
         const distinct = [...new Set(rs)];
         row("01x", place, Math.min(...distinct));
+        describe("01x", place, ds.filter((d) => d.rate === Math.min(...distinct)));
         for (const r of distinct) if (r !== Math.min(...distinct)) row("maybe", place, r);
       }
 
@@ -307,6 +332,7 @@ export const louisiana: GeoState = {
     for (const s of ebr) {
       shapes.push({ kind: "district", fips: s.code, name: s.name, rings: s.rings, bbox: bboxOf(s.rings) });
       row("x", s.code, s.rate);
+      describe("x", s.code, [{ code: s.domicile, name: domiciles.get(s.domicile)!.name }]);
       if (s.disputedRate !== undefined) row("maybe", s.code, s.disputedRate - s.rate);
     }
     // EBR's districts all have outlines; its parish and cities need no
@@ -326,11 +352,15 @@ export const louisiana: GeoState = {
       const orleans = domiciles.get("3601");
       shapes.push({ kind: "district", fips: "3601", name: "The French Quarter EDD's area", rings: quarter, bbox: bboxOf(quarter) });
       row("x", "3601", orleans?.rate ?? 0.05);
+      if (orleans) describe("x", "3601", [{ code: "3601", name: orleans.name }]);
       row("maybe", "3601", FRENCH_QUARTER_TAX);
     }
 
+    const kept = dedupe(rates);
+    const rated = new Set(kept.map((r) => `${r.type}:${r.code}`));
     return {
-      rates: dedupe(rates),
+      rates: kept,
+      jurisdictions: [...jurisdictions.values()].filter((j) => rated.has(`${j.type}:${j.code}`)),
       shapes,
       files: {
         rates: `LA Remote Sellers Commission rates for ${period}`,
@@ -445,7 +475,7 @@ async function cityParts(census: Awaited<ReturnType<typeof censusShapes>>) {
 /** EBR's outlines with the lookup's rate for each, and the other rate where
  *  the board's own lookup disagrees. */
 async function ebrDomiciles(domiciles: Map<string, { name: string; rate: number }>) {
-  const out: Array<{ code: string; name: string; rate: number; rings: Shape["rings"]; disputedRate?: number }> = [];
+  const out: Array<{ code: string; domicile: string; name: string; rate: number; rings: Shape["rings"]; disputedRate?: number }> = [];
   const features = await layer(EBR_DOMICILES);
   for (const f of features) {
     const letter = String(f.attributes.SalesTaxDo ?? "").trim();
@@ -455,6 +485,7 @@ async function ebrDomiciles(domiciles: Map<string, { name: string; rate: number 
     const disputed = EBR_DISPUTED.has(`${letter}|${city}`);
     out.push({
       code: `EBR-${letter}-${city || "UNINC"}`,
+      domicile: EBR_LETTERS[letter],
       name: `EBR ${domicile.name}${city ? ` (${city})` : ""}`,
       rate: domicile.rate,
       rings: f.rings,

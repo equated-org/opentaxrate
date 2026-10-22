@@ -28,8 +28,8 @@ export interface RefreshOptions {
 export async function refreshAddressRates({ states = [], dir, force = false, log = console.log }: RefreshOptions = {}) {
   const wanted = (state: string) => !states.length || states.includes(state);
   const seconds = (started: number) => `${Math.round((Date.now() - started) / 1000)}s`;
-  const ranges = (counts: { rates: number; areas: number; streets: number; zips: number }) =>
-    `${counts.rates} rates, ${counts.areas} areas, ${counts.streets} street ranges, ${counts.zips} ZIP ranges`;
+  const ranges = (counts: { rates: number; jurisdictions: number; areas: number; streets: number; zips: number }) =>
+    `${counts.rates} rates, ${counts.jurisdictions ? `${counts.jurisdictions} jurisdictions, ` : ""}${counts.areas} areas, ${counts.streets} street ranges, ${counts.zips} ZIP ranges`;
 
   const files = await latestSstFiles(dir);
   const loaded = new Map(
@@ -68,7 +68,7 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     const data = await geo.fetch(dir);
     const counts = await loadGeoState(geo.state, data);
     const from = [data.files.rates, data.files.boundaries].filter(Boolean).join(" + ");
-    log(`${geo.state}: ${from} → ${counts.rates} rates, ${counts.shapes} outlines in ${seconds(started)}`);
+    log(`${geo.state}: ${from} → ${counts.rates} rates, ${counts.jurisdictions} jurisdictions, ${counts.shapes} outlines in ${seconds(started)}`);
   }
 
   const shapeStates = [...Object.keys(RANGE_FIPS), ...GEO_STATES.map((g) => g.state)].filter(wanted);

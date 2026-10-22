@@ -8,7 +8,7 @@
 import { latestTigerFiles } from "../downloads.js";
 import { readTigerZip } from "../tiger.js";
 import { STATE_FIPS } from "../../coverage.js";
-import type { GeoRateRow, GeoState } from "./index.js";
+import type { GeoRateRow, GeoState, JurisdictionRow } from "./index.js";
 
 export interface DatedRate {
   rate: number;
@@ -27,6 +27,12 @@ export interface LocalRate extends DatedRate {
    *  jurisdiction, maybe a city's unmapped district, 0c a county's rate
    *  inside one city (see rates/map.ts). */
   type: "00" | "01" | "01x" | "0c" | "rc" | "no" | "pj" | "maybe";
+  /** The jurisdiction's name as the source titles it, where that differs
+   *  from `name` ("MONTGOMERY COUNTY"); `name` stands in when absent. */
+  title?: string;
+  /** Its ids in the source, by the source's column name (see
+   *  JurisdictionRow). */
+  ids?: Record<string, string>;
 }
 
 export interface Table {
@@ -49,6 +55,8 @@ export function stateTable(
     async fetch(dir) {
       const table = await load(dir);
       const codes = await censusCodes(state, dir);
+      // One row per type:code, from its newest rate.
+      const jurisdictions = new Map<string, JurisdictionRow & { from: string }>();
       const rates: GeoRateRow[] = table.stateRates.map((r) => ({
         type: "45",
         code: STATE_FIPS[state],
@@ -77,15 +85,25 @@ export function stateTable(
           console.warn(`${state}: leaving out ${local.name}: ${(error as Error).message}`);
           continue;
         }
+        const keyed = local.inCounty ? `${code}@${codes.county(local.inCounty)}` : code;
         rates.push({
           type: local.type,
-          code: local.inCounty ? `${code}@${codes.county(local.inCounty)}` : code,
+          code: keyed,
           rate: local.rate,
           startsOn: local.from,
           endsOn: local.to ?? "9999-12-31",
         });
+        const name = local.title ?? (/^\d+$/.test(local.name) ? null : local.name);
+        const known = jurisdictions.get(`${local.type}:${keyed}`);
+        if ((name || local.ids) && (!known || known.from <= local.from))
+          jurisdictions.set(`${local.type}:${keyed}`, { type: local.type, code: keyed, name, ids: local.ids ?? {}, from: local.from });
       }
-      return { rates, shapes: [], files: { rates: table.source } };
+      return {
+        rates,
+        jurisdictions: [...jurisdictions.values()].map(({ from: _, ...j }) => j),
+        shapes: [],
+        files: { rates: table.source },
+      };
     },
   };
 }

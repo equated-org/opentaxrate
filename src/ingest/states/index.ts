@@ -18,8 +18,22 @@ export interface GeoRateRow {
   endsOn: string;
 }
 
+/** One jurisdiction a rate row names, as its source describes it (see
+ *  salesTaxJurisdictions): its name and identifying columns, keyed by the
+ *  source's own column name, values verbatim. A rate summed from several
+ *  source rows gives each row's value, comma-separated. */
+export interface JurisdictionRow {
+  /** The rate row's type and code it describes. */
+  type: string;
+  code: string;
+  name: string | null;
+  ids: Record<string, string>;
+}
+
 export interface GeoStateData {
   rates: GeoRateRow[];
+  /** A row for each type:code whose source gives a name or ids. */
+  jurisdictions: JurisdictionRow[];
   /** The state's own outlines, keyed by the code their rate rows use. */
   shapes: Array<{
     kind: "county" | "place" | "district";

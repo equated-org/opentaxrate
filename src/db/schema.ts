@@ -123,10 +123,10 @@ export const salesTaxAreas = pgTable(
     /** Special districts as sorted "type:code" pairs joined by spaces, e.g.
      *  "63:31000"; empty when there are none. */
     districts: text("districts").notNull().default(""),
-    /** The code the state's return files this area under, where its
-     *  boundary file gives one (Washington's location code, Kansas's
-     *  jurisdiction code); null elsewhere. */
-    reportingCode: text("reporting_code"),
+    /** The ids its boundary file gives the whole combination, keyed by the
+     *  publisher's column name, e.g. {"Composite SER code": "01726"} for a
+     *  Washington location; {} when it gives none. */
+    ids: jsonb("ids").$type<Record<string, string>>().notNull().default({}),
   },
   (t) => [
     unique("uq_sales_tax_areas_state_jurisdictions").on(
@@ -134,7 +134,7 @@ export const salesTaxAreas = pgTable(
       t.county,
       t.place,
       t.districts,
-      t.reportingCode,
+      t.ids,
     ),
   ],
 );
@@ -218,6 +218,28 @@ export const salesTaxJurisdictionRates = pgTable(
   (t) => [
     index("idx_sales_tax_jurisdiction_rates_code").on(t.state, t.code),
   ],
+);
+
+/** One jurisdiction a rate row names, as its publisher describes it: the
+ *  name and every identifying column its source gives, keyed by the
+ *  publisher's own column name and kept verbatim ({"Locality Code": "9454",
+ *  "Administered": "SELF"} for Montgomery, Alabama). Keyed like the rate rows
+ *  and replaced with them, so a part's "type:code" finds its row. A source
+ *  with neither names nor ids (the Streamlined rate files) has no rows. */
+export const salesTaxJurisdictions = pgTable(
+  "sales_tax_jurisdictions",
+  {
+    state: text("state").notNull(),
+    /** The rate row's type, e.g. 00, 01, x, kx, spd, 99. */
+    type: text("type").notNull(),
+    code: text("code").notNull(),
+    /** As the publisher writes it; null when it gives none. */
+    name: text("name"),
+    ids: jsonb("ids").$type<Record<string, string>>().notNull().default({}),
+    /** The release it came from, e.g. "taxrates.csv". */
+    file: text("file").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.state, t.type, t.code] })],
 );
 
 /** A PostGIS multipolygon in WGS84 longitude and latitude. NAD83, which the

@@ -252,7 +252,7 @@
 </tr>
 </tbody>
 </table></div>
-<p><code>addressRates.at</code> calls <code>rateAt</code> (the engines), then <code>nameParts</code>, then <code>reportingFor(state, match, parts, locationCode, reportingCode)</code>. <code>reportingCode</code> is internal: the range engine's area code from the boundary file (<code>sales_tax_areas.reporting_code</code>, the Streamlined composite SER column, or Missouri's jurisdiction code), kept only when every matched area shares it.</p>
+<p><code>addressRates.at</code> calls <code>rateAt</code> (the engines), then <code>nameParts</code>, then <code>reportingFor(state, match, parts, locationCode, reportingCode)</code>. <code>reportingCode</code> is read from the range engine's internal <code>locationIds</code> (<code>sales_tax_areas.ids</code>: its <code>Composite SER Code</code>, or Missouri's <code>Jurisdiction Code</code>), set only when every matched area has the same ids. The engine doesn't yet read <code>sales_tax_jurisdictions</code>; returning each part's ids is phase 3 of <a href="../plans/source-jurisdiction-ids.html">the source ids plan</a>.</p>
 
 <h2 id="reporting-src-rates-reporting-ts">Reporting (<code>src/rates/reporting.ts</code>)</h2>
 <p><code>STATE_REPORTING</code> holds every state and DC: the agency, its sales tax page, the usual return (<code>form</code>), the local code the return asks for that we don't give (<code>needs</code>), what only the seller's registration gives (<code>account</code>), and filing outside the state return (<code>notes</code>). <code>reportingFor</code> returns:</p>
