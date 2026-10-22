@@ -10,7 +10,7 @@
 #    server since the revision it runs: that edit would be overwritten.
 # 3. Backs up the code and settings (not artifacts/ or data/) to /root.
 # 4. Unpacks REV (default HEAD) over /opt/opentaxrate, keeping deploy/.env.
-# 5. Builds, migrates, then restarts the API alone. The database is never
+# 5. Builds every image (refresh's too), migrates, then restarts the API alone. The database is never
 #    recreated, so its data and anything connected to it carry on.
 # 6. Waits until the API answers on the server.
 # 7. --ingest: downloads the supplemental polygons into artifacts/ and
@@ -50,7 +50,8 @@ echo "Backed up $deployed to $host:$backup"
 
 git archive "$rev" | ssh "$host" "tar -x -C $dir"
 on "echo $rev > DEPLOYED_REVISION"
-on "$compose build migrate api && $compose run --rm --no-deps migrate && $compose up -d --no-deps api"
+# The refresh image runs --ingest and later refreshes: built with the rest.
+on "$compose build migrate api refresh && $compose run --rm --no-deps migrate && $compose up -d --no-deps api"
 
 tries=0
 until on "curl -fs -o /dev/null http://127.0.0.1:8080/v1/coverage"; do
