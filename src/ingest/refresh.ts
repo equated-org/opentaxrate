@@ -15,7 +15,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxDataReleases, salesTaxShapes, zipAreas, zipStreetNames } from "../db/schema.js";
 import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines, ZIP_AREA_FILE, zipAreaFile } from "./downloads.js";
-import { loadZipAreas } from "./zip-areas.js";
+import { loadZipAreas, statesWithoutZipAreas } from "./zip-areas.js";
 import { loadStreetNames } from "./street-names.js";
 import { GEO_STATES } from "./states/index.js";
 import { loadGeoState, loadSstState, loadTigerShapes } from "./load.js";
@@ -144,7 +144,8 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
   const missing = geoStates.filter((s) => !counties.has(s));
   const [zipLoaded] = await db.select({ file: zipAreas.file }).from(zipAreas).limit(1);
   if (missing.length) log(`${ZIP_AREA_FILE}: waits for county outlines in ${missing.join(", ")}`);
-  else if (!force && zipLoaded?.file === ZIP_AREA_FILE) log(`${ZIP_AREA_FILE} already loaded`);
+  else if (!force && zipLoaded?.file === ZIP_AREA_FILE && !(await statesWithoutZipAreas(geoStates)).length)
+    log(`${ZIP_AREA_FILE} already loaded`);
   else {
     const started = Date.now();
     const kept = await loadZipAreas({ name: ZIP_AREA_FILE, bytes: await zipAreaFile(dir) }, geoStates);

@@ -51,3 +51,16 @@ export async function loadZipAreas(file: { name: string; bytes: Uint8Array }, st
     return kept;
   });
 }
+
+/** The states among `states` with no ZIP area touching their counties: a
+ *  state added to the map-read ones since the areas were loaded. */
+export async function statesWithoutZipAreas(states: string[]) {
+  const without: string[] = [];
+  for (const state of states) {
+    const [row] = await db.execute<{ covered: boolean }>(sql`
+      select exists (select 1 from sales_tax_shapes s join zip_areas z on st_intersects(s.geom, z.geom)
+        where s.state = ${state} and s.kind = 'county') as covered`);
+    if (!row?.covered) without.push(state);
+  }
+  return without;
+}
