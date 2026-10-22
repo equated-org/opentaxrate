@@ -14,9 +14,9 @@ afterEach(() => {
 
 describe("tunable settings", () => {
   it("run with the defaults unless OTR_PARAMS overrides some", async () => {
-    expect((await load()).wideMetres).toBe(10_000);
-    const tuned = await load('{"wideMetres":20000,"edgeMetres":{"rooftop":10}}');
-    expect(tuned.wideMetres).toBe(20_000);
+    expect((await load()).wideMetres).toBe(20_000);
+    const tuned = await load('{"wideMetres":10000,"edgeMetres":{"rooftop":10}}');
+    expect(tuned.wideMetres).toBe(10_000);
     expect(tuned.edgeMetres).toEqual({ rooftop: 10, parcel: 25, point: 40, interpolated: 75 });
   });
 

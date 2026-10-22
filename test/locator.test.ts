@@ -60,7 +60,7 @@ describe("staged locator", () => {
   });
 
   it("does not use disagreement as a single-source fallback", async () => {
-    const { locate, options } = setup([provider("a", "tiger"), provider("b", "osm", 12000)], true);
+    const { locate, options } = setup([provider("a", "tiger"), provider("b", "osm", 25000)], true);
     expect(await locate()).toBeNull();
     expect(options.checkSingle).not.toHaveBeenCalled();
   });

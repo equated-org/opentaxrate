@@ -1,8 +1,9 @@
 /**
  * The engine's tunable settings: numbers and switches that decide how sure
  * an answer must be, kept in one place so they can be tuned on the dev
- * splits rather than rewritten as rules. Each default is the value the
- * engine has run with; OTR_PARAMS (JSON) overrides any of them for a run,
+ * splits rather than rewritten as rules. Each default is the best value
+ * found so far (docs/accuracy-log.md, Tuning); OTR_PARAMS (JSON) overrides
+ * any of them for a run,
  * e.g. OTR_PARAMS='{"agreeFactor":3}'. See docs/accuracy-log.md for what
  * each one has decided on the benchmark.
  */
@@ -44,11 +45,11 @@ const DEFAULTS: Params = {
   agreeCapMetres: 250,
   agreeFallbackFactor: 1,
   edgeMetres: { rooftop: 15, parcel: 25, point: 40, interpolated: 75 },
-  wideMetres: 10_000,
+  wideMetres: 20_000,
   zipMarginMetres: 2_000,
   preciseMetres: 40,
-  zoneBeyondZip: false,
-  lookupRefine: 0,
+  zoneBeyondZip: true,
+  lookupRefine: 0.5,
   spellingMinSimilarity: 0.45,
   spellingMinLead: 0.08,
 };
