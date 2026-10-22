@@ -294,7 +294,34 @@ const PROVIDERS: Record<string, Provider> = {
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
+/** With BENCH_LOOKUP_REPLAY, the states' live lookups (Missouri's, and the
+ *  TTR services Colorado and Alaska run on) are answered once and replayed
+ *  from that file after, so a tuning trial isn't moved by a lookup's
+ *  timeout. A failed call isn't kept. */
+const LOOKUP_HOSTS = ["missouri.atr.avalara.com", "alaska.atr.avalara.com", "salestaxlookup.colorado.gov"];
+let lookupsReplayed = false;
+function replayStateLookups(file: string) {
+  if (lookupsReplayed) return;
+  lookupsReplayed = true;
+  const live = globalThis.fetch;
+  globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = String(input instanceof Request ? input.url : input);
+    if (!LOOKUP_HOSTS.some((h) => url.includes(h))) return live(input, init);
+    const key = `${init?.method ?? "GET"} ${url} ${typeof init?.body === "string" ? init.body : ""}`;
+    const kept: Record<string, { status: number; body: string }> = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : {};
+    if (!kept[key]) {
+      const response = await live(input, init);
+      const body = await response.text();
+      if (!response.ok) return new Response(body, { status: response.status });
+      kept[key] = { status: response.status, body };
+      fs.writeFileSync(file, JSON.stringify(kept));
+    }
+    return new Response(kept[key].body, { status: kept[key].status, headers: { "content-type": "application/json" } });
+  }) as typeof fetch;
+}
+
 async function pipeline(c: Case, replayFile?: string, publicProviders?: string): Promise<Answer> {
+  if (process.env.BENCH_LOOKUP_REPLAY) replayStateLookups(process.env.BENCH_LOOKUP_REPLAY);
   const { addressRates } = await import("../src/rates/index.js");
   const { createLocator } = await import("../src/geocoding/locator.js");
   const { geocoderProviders } = await import("../src/geocoding/registry.js");
