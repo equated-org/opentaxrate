@@ -178,7 +178,7 @@ gh release download data-2026-10-22 --pattern 'opentaxrate-2026-10-22.dump*' --d
 scripts/restore.sh data/opentaxrate-2026-10-22.dump
 ```
 
-Snapshots hold rows only for the seven tax-data tables, migration metadata, and
+Snapshots hold rows only for the eight tax-data tables, migration metadata, and
 standard PostGIS reference data. Every other table (geocoding cache and usage,
 accounts, keys, request history, credit) is included empty, so a restored
 database matches its migrations. `snapshot.sh` stops on a table it doesn't
