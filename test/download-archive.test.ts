@@ -98,3 +98,44 @@ describe("local source download archive", () => {
     expect(await files(directory)).toEqual([]);
   });
 });
+
+describe("reusing saved downloads", () => {
+  const text = (bytes: Uint8Array) => new TextDecoder().decode(bytes);
+
+  it("reads a fresh saved file instead of downloading it again", async () => {
+    await setup();
+    const fetch = vi.fn().mockResolvedValueOnce(new Response("first")).mockResolvedValue(new Response("second"));
+    vi.stubGlobal("fetch", fetch);
+    expect(text(await fetchFile("https://state.example/taxrates.csv"))).toBe("first");
+    expect(text(await fetchFile("https://state.example/taxrates.csv"))).toBe("first");
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("downloads a file named for no edition again once it's older than the max age", async () => {
+    await setup();
+    vi.stubEnv("OPENTAXRATE_DOWNLOAD_MAX_AGE_HOURS", "0");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(new Response("old")).mockResolvedValue(new Response("new")));
+    await fetchFile("https://state.example/taxrates.csv");
+    expect(text(await fetchFile("https://state.example/taxrates.csv"))).toBe("new");
+  });
+
+  it("always reuses a file whose name says its edition", async () => {
+    await setup();
+    vi.stubEnv("OPENTAXRATE_DOWNLOAD_MAX_AGE_HOURS", "0");
+    const fetch = vi.fn(async () => new Response("a,b\n"));
+    vi.stubGlobal("fetch", fetch);
+    const file = { state: "OH", kind: "rates" as const, name: "OHR2026Q4SEP17", location: "https://state.example/OHR2026Q4SEP17.csv" };
+    for (let i = 0; i < 2; i++) for await (const _ of sstFileLines(file));
+    await fetchFile("https://comptroller.example/taxrates264.txt");
+    await fetchFile("https://comptroller.example/taxrates264.txt");
+    expect(fetch).toHaveBeenCalledTimes(2);
+  });
+
+  it("drops a saved .zip that is an error page, and downloads it again", async () => {
+    await setup();
+    const zip = new Uint8Array([0x50, 0x4b, 3, 4]);
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(new Response("<html>Request Rejected</html>")).mockResolvedValue(new Response(zip)));
+    expect(text(await fetchFile("https://census.example/tl_2026_51059_addrfeat.zip"))).toMatch(/Rejected/);
+    expect(await fetchFile("https://census.example/tl_2026_51059_addrfeat.zip")).toEqual(zip);
+  });
+});

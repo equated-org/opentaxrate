@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { unzipSync, strFromU8 } from "fflate";
 import type { Shape } from "../tiger.js";
-import { downloadedBytes } from "../archive.js";
+import { downloadedBytes, savedBytes } from "../archive.js";
 
 const USER_AGENT =
   process.env.OPENTAXRATE_USER_AGENT ||
@@ -24,6 +24,8 @@ export async function fetchFile(url: string, dir?: string, name?: string) {
     const local = path.join(dir, fileName);
     if (fs.existsSync(local)) return new Uint8Array(fs.readFileSync(local));
   }
+  const saved = savedBytes(url, fileName);
+  if (saved) return saved;
   const response = await fetch(url, {
     headers: { "User-Agent": USER_AGENT },
     signal: AbortSignal.timeout(120_000),

@@ -7,7 +7,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { downloadedBytes, downloadedChunks } from "./archive.js";
+import { downloadedBytes, downloadedChunks, savedBytes, savedDownload } from "./archive.js";
 import { Unzip, UnzipInflate } from "fflate";
 import type { Shape } from "./tiger.js";
 
@@ -115,6 +115,8 @@ export async function latestTigerFiles(
       if (found) return new Uint8Array(fs.readFileSync(found.location));
       const folder = f.kind.toUpperCase();
       const url = `${TIGER}/TIGER${year}/${folder}/${f.name}.zip`;
+      const saved = savedBytes(url);
+      if (saved) return saved;
       const response = await fetch(url);
       if (!response.ok) throw new Error(`TIGER ${f.name} answered ${response.status}`);
       return downloadedBytes(url, response);
@@ -146,6 +148,8 @@ export async function latestTigerAddressFiles(
         // every time): only a zip counts, and after a retry the county's file
         // from the year before stands in, its streets near enough the same.
         const zipFrom = async (url: string) => {
+          const saved = savedBytes(url);
+          if (saved) return saved;
           const response = await fetch(url);
           if (!response.ok) return null;
           const bytes = await downloadedBytes(url, response);
@@ -176,6 +180,8 @@ async function tigerYear(local: Array<{ name: string }>) {
 
 async function open(location: string): Promise<AsyncIterable<Uint8Array>> {
   if (!/^https?:/.test(location)) return fs.createReadStream(location);
+  const saved = savedDownload(location);
+  if (saved) return fs.createReadStream(saved);
   const response = await fetch(location);
   if (!response.ok || !response.body)
     throw new Error(`${location} answered ${response.status}`);
