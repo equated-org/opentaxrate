@@ -223,6 +223,7 @@ To measure coordinate error against benchmark CSV cases containing trusted `lon,
 | `OPENTAXRATE_PUBLIC_PROVIDERS` | unset (all) | providers a lookup without a key may use, e.g. `photon,pelias`; ids are the geocoders' plus `jev` |
 | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` | unset | turn on accounts: sign-in by emailed code, API keys (`otr_live_…`) and prepaid credit, at `/api/auth/*` and `/v1/account/*` |
 | `RESEND_API_KEY` | unset | send sign-in codes; outside production they're printed instead. Keyed lookups are $1.95 per 1,000 (declines refunded), new accounts start with 100, and a repeat within 24 hours is answered from the caller's history |
+| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | unset | buy credit in $10, $25 or $50 top-ups through Stripe Checkout; the webhook is `POST /api/billing/webhook` |
 | `OPENTAXRATE_MASTER_KEYS` | unset | keys for your own apps, `name=otr_master_…` comma-separated; each gets every provider, no per-IP limit. Make one with `echo otr_master_$(openssl rand -hex 24)`; any other key is a `401` (`INVALID_API_KEY`) |
 
 For a public server, `deploy/compose.public.yml` layers these on the stack: the API on `127.0.0.1:8080` only, no published Postgres port, Postgres sized for 2 GB, the limits, the cache and the Photon relay (settings in `deploy/.env`; see `deploy/.env.example`):

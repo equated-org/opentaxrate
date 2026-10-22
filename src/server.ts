@@ -9,6 +9,8 @@
  *   GET|POST /api/auth/*                          sign-in by code, sessions, API keys
  *   GET /v1/account/summary                       credit and this month's lookups
  *   GET /v1/account/requests                      history (requests.ts)
+ *   POST /v1/account/checkout {"amount": 1000}    a Stripe Checkout URL to buy credit
+ *   POST /api/billing/webhook                     Stripe's events (billing.ts)
  * A refusal is a 422 whose message names the candidate rates; missing data
  * is a 502. Runtime writes are limited to the geocoding cache and budgets;
  * loading tax data is the CLI's.
@@ -43,6 +45,7 @@ import { geocoderCoverage } from "./geocoding/registry.js";
 import { suggestFromEnv } from "./suggest.js";
 import { policyFor, resolveAccess, type Access, type AccessVariables } from "./access.js";
 import { authFromEnv } from "./auth.js";
+import { billingFromEnv, TOP_UPS } from "./billing.js";
 import { accountBudget, charge, meteredBudget, PRICE_MICROS, refund } from "./credits.js";
 import { cachedAnswer, historyFor, logRequest, monthTotals, pruneRequests, type Caller } from "./requests.js";
 import { user } from "./db/auth-schema.js";
@@ -65,6 +68,7 @@ if (origins.length)
   app.use("*", cors({ origin: origins, allowMethods: ["GET", "HEAD", "OPTIONS"], exposeHeaders: ["Retry-After", "X-OpenTaxRate-Tier"], maxAge: 600 }));
 
 const auth = authFromEnv();
+const billing = auth ? billingFromEnv() : undefined;
 if (auth) app.on(["GET", "POST"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
 // Before the limits: a keyed caller isn't counted by IP.
@@ -194,6 +198,8 @@ if (auth) {
       lookupsLeft: Math.max(0, Math.floor(account.creditMicros / price)),
       month: month.total,
       lookupsByKey: month.byKey,
+      /** Whether credit can be bought (Stripe is configured). */
+      canBuy: !!billing,
     });
   });
 
@@ -208,6 +214,31 @@ if (auth) {
     if (!f.success) return c.json({ error: "Bad filter.", code: "BAD_REQUEST" }, 400);
     const rows = await historyFor(c.var.access.userId!, { before: f.data.before, keyId: f.data.key, result: f.data.result, search: f.data.q });
     return c.json({ requests: rows, next: rows.length === 50 ? rows.at(-1)!.id : null });
+  });
+}
+
+if (auth && billing) {
+  app.post("/v1/account/checkout", async (c) => {
+    const body = await c.req.json().catch(() => ({}));
+    const amount = Number((body as { amount?: unknown }).amount);
+    if (!(TOP_UPS as readonly number[]).includes(amount))
+      return c.json({ error: `Choose a top-up of ${TOP_UPS.map((t) => `$${t / 100}`).join(", ")}.`, code: "BAD_REQUEST" }, 400);
+    return c.json({ url: await billing.createCheckout(c.var.access.userId!, amount) });
+  });
+
+  // From Stripe directly (through Caddy, not the Worker), so the body is
+  // byte for byte what Stripe signed.
+  app.post("/api/billing/webhook", async (c) => {
+    const signature = c.req.header("stripe-signature");
+    if (!signature) return c.json({ error: "Missing signature.", code: "BAD_REQUEST" }, 400);
+    try {
+      await billing.handleWebhook(await c.req.text(), signature);
+    } catch (error) {
+      if (error instanceof Error && /signature/i.test(error.message))
+        return c.json({ error: "Bad signature.", code: "BAD_REQUEST" }, 400);
+      throw error;
+    }
+    return c.json({ received: true });
   });
 }
 
