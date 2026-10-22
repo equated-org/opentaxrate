@@ -160,6 +160,23 @@ body {
 	border-color: var(--border-strong);
 	color: var(--text);
 }
+.btn:disabled,
+.btn[aria-disabled='true'] {
+	cursor: default;
+	opacity: 0.6;
+}
+.btn.primary {
+	background: var(--text);
+	border-color: var(--text);
+	color: var(--bg);
+}
+.btn.primary:hover:not(:disabled) {
+	opacity: 0.9;
+	color: var(--bg);
+}
+.btn.danger {
+	color: var(--part-district);
+}
 
 /* MapLibre controls in the page's palette. */
 .maplibregl-ctrl-attrib {

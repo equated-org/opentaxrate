@@ -27,17 +27,19 @@
 			<div class="mx-auto w-full max-w-[560px] min-w-0">{@render center()}</div>
 		{/if}
 		<nav class="ml-auto flex shrink-0 items-center gap-5 text-sm text-[var(--text-muted)]">
-			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/sources">Sources</a>
+			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : 'hidden sm:inline'}" href="/sources">Sources</a>
 			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/benchmarks">Benchmarks</a>
+			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/pricing">Pricing</a>
 			<a
 				class="hidden hover:text-[var(--text)] {center ? 'lg:inline' : 'sm:inline'}"
 				href="{GITHUB}/blob/main/docs/context/api.md"
 				target="_blank"
 				rel="noopener">API</a
 			>
-			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href={GITHUB} target="_blank" rel="noopener"
+			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : 'hidden sm:inline'}" href={GITHUB} target="_blank" rel="noopener"
 				>GitHub</a
 			>
+			<a class="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--text-2)] hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/login">Sign in</a>
 		</nav>
 	</div>
 	{#if below}{@render below()}{/if}
