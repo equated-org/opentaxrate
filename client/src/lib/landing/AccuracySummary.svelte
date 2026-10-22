@@ -1,8 +1,8 @@
 <script lang="ts">
 	/**
 	 * The landing page's accuracy and price claim, without naming competitors.
-	 * Leads with the rates it returned and sets the declines
-	 * apart, so they don't read as misses. Figures come from benchmark.json and
+	 * Shows every tested address, including declines, in one grid.
+	 * Figures come from benchmark.json and
 	 * pricing.json; the side-by-side comparison lives on /benchmarks.
 	 */
 	import data from '$lib/benchmark.json';
@@ -18,7 +18,7 @@
 
 	const RIGHT = ['###', '###', '###'];
 	const WRONG = ['x.x', '.x.', 'x.x'];
-	const DECLINED = ['ooo', 'o.o', 'ooo'];
+	const DECLINED = ['ooo', 'ooo', 'ooo'];
 
 	/** One 3×3 square per address, a one-pixel gutter between them. */
 	function grid(cells: string[][], columns: number): string[] {
@@ -30,8 +30,11 @@
 		}
 		return out;
 	}
-	const answeredRows = grid([...Array(ours.right).fill(RIGHT), ...Array(ours.wrong).fill(WRONG)], 25);
-	const declinedRows = grid(Array(ours.refused).fill(DECLINED), 25);
+	const rows = grid([
+		...Array(ours.right).fill(RIGHT),
+		...Array(ours.wrong).fill(WRONG),
+		...Array(ours.refused).fill(DECLINED)
+	], 25);
 
 	const summary = `Of ${ours.asked} random addresses, OpenTaxRate returned a rate for ${answered}, and ${ours.right} matched the state's published rate. ${ours.refused} addresses needed additional verification. $${price.toFixed(2)} per 1,000 lookups.`;
 </script>
@@ -41,31 +44,25 @@
 		High accuracy. Lower cost.
 	</h2>
 	<p class="mt-3 max-w-[40rem] text-[15px] leading-relaxed text-[var(--text-muted)]">
-		We tested {ours.asked} random addresses against each state's own published rate.{ours.wrong === 0
-			? ' Every rate we returned was right.'
-			: ''}
+		We tested {ours.asked} random addresses against each state's own published rate.
+		{ours.right} matched{ours.wrong ? `, ${ours.wrong} did not match,` : ''} and {ours.refused} were declined.
 	</p>
 
 	<div class="mt-12 grid items-start gap-14 md:grid-cols-[minmax(0,460px)_1fr] md:gap-20">
 		<figure role="img" aria-label={summary}>
-			<Pixels rows={answeredRows} {palette} cell={5} class="block h-auto w-full" />
-			{#if ours.refused}
-				<div class="mt-8 flex items-center gap-4">
-					<Pixels rows={declinedRows} {palette} cell={5} />
-					<span class="text-[13px] text-[var(--text-muted)]">Declined, not guessed</span>
-				</div>
-			{/if}
+			<Pixels {rows} {palette} cell={5} class="block h-auto w-full" />
+			<figcaption class="mt-4 text-[13px] text-[var(--text-muted)]">
+				One block per address. Blue: matched. Grey: declined.{ours.wrong ? ' Clay: did not match.' : ''}
+			</figcaption>
 		</figure>
 
 		<dl class="flex flex-col divide-y divide-[var(--border)]">
 			<div class="flex flex-col-reverse pb-7">
 				<dt class="mt-2 text-[14px] leading-relaxed text-[var(--text-muted)]">
-					{ours.wrong === 0
-						? 'rates returned, all matching the state. No wrong answers.'
-						: `rates returned matching the state; ${ours.wrong} did not.`}
+					addresses returned a rate matching the state, out of all {ours.asked} tested.
 				</dt>
 				<dd class="font-num text-[40px] leading-none font-semibold tracking-tight text-[var(--accent)]">
-					{ours.right}<span class="text-[var(--text-muted)]">/{answered}</span>
+					{ours.right}<span class="text-[var(--text-muted)]">/{ours.asked}</span>
 				</dd>
 			</div>
 			<div class="flex flex-col-reverse py-7">
