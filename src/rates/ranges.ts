@@ -33,6 +33,7 @@ import { RateError } from "../errors.js";
 import type { StandardAddress } from "../standardize/index.js";
 import { citiesInZip, normalizeCity, zipAreas, zipDefaultAreas } from "./places.js";
 import { findStreet, listedInZip } from "./streets/index.js";
+import type { StreetPicker } from "./streets/jev.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
 import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
@@ -66,6 +67,8 @@ interface Lookup {
   standardize?: () => Promise<StandardAddress | null>;
   /** Records the deciding street range and the outlines around a map point. */
   trace?: Trace;
+  /** Reads a misspelled street as one of the ZIP's; see StreetQuery. */
+  pickStreet?: StreetPicker | null;
 }
 
 export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
@@ -89,7 +92,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
   const notes: string[] = [];
 
   let foundStreet = input.street;
-  let found = await findStreet({ state: input.state, street: input.street, city: input.city, zip5, date });
+  let found = await findStreet({ state: input.state, street: input.street, city: input.city, zip5, date, pickStreet: input.pickStreet });
   // Off every street range with no ZIP+4 typed, the address's own ZIP+4, and
   // its street as the Postal Service writes it, may still place it. A ZIP
   // other than the typed one is a different address, not a correction.
@@ -100,7 +103,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       plus4 = standard.plus4;
       standardizedZip4 = true;
       notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}${standard.exact ? "" : " (the building's; no unit given)"}`);
-      found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date });
+      found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date, pickStreet: input.pickStreet });
       if (found) foundStreet = standard.street;
       if (found) notes.push(`street as ${standard.source} writes it, ${standard.street}`);
     }

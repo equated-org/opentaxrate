@@ -27,6 +27,7 @@ import { sstRateAt } from "./ranges.js";
 import { generalOnly, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { type LocatedPoint, type Locate } from "../geocoding/types.js";
 import type { StandardAddress } from "../standardize/index.js";
+import type { StreetPicker } from "./streets/jev.js";
 import { districtNamed, geoRateAt } from "./map.js";
 import { californiaSalesTaxService } from "./california.js";
 import { marginProbes, stateLookup, stateLookupAt } from "./state-lookups.js";
@@ -51,6 +52,9 @@ export interface AddressRateQuery {
   /** The address in the Postal Service's form with its ZIP+4, for a range
    *  state's address its typed street doesn't place. Asked at most once. */
   standardize?: () => Promise<StandardAddress | null>;
+  /** Reads a street a range state's file doesn't know as one of the ZIP's
+   *  when spelling can't: Jev by default, null for spelling only. */
+  pickStreet?: StreetPicker | null;
   /** Collects how the address was placed (geocoder points, the outlines
    *  tested, the deciding street range), for display. Never changes the
    *  answer. */

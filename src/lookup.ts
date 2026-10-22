@@ -8,6 +8,10 @@ import { addressRates, type AddressRate, type Trace } from "./rates/index.js";
 import { outlineGeometry } from "./rates/shapes.js";
 import { createLocator } from "./geocoding/index.js";
 import { addressStandardizer } from "./standardize/index.js";
+import { geocoderProviders } from "./geocoding/registry.js";
+import { EVERY_PROVIDER, type ProviderPolicy } from "./access.js";
+import { JEV_PRICE, toMicros, type AccountBudget } from "./credits.js";
+import { jevChoice, type StreetPicker } from "./rates/streets/jev.js";
 
 export interface RateQuery {
   state: string;
@@ -23,12 +27,22 @@ export interface RateQuery {
  *  line that settled the rate is on the map, up to 20 km. */
 const TRACE_CLIP_METRES = { min: 3_000, max: 20_000 };
 
-export async function lookUpRate(q: RateQuery, options: { trace?: Trace } = {}): Promise<AddressRate> {
-  const { trace } = options;
+export interface LookupOptions {
+  trace?: Trace;
+  /** The outside services this lookup may use (access.ts); every one when
+   *  absent, as for the CLI. */
+  policy?: ProviderPolicy;
+  /** Pays for paid providers and records what they cost: an account's
+   *  allowance (credits.ts). The vendors' shared caps alone when absent. */
+  budget?: AccountBudget;
+}
+
+export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Promise<AddressRate> {
+  const { trace, policy = EVERY_PROVIDER, budget } = options;
   const state = q.state.toUpperCase();
   const date = q.date ?? new Date().toISOString().slice(0, 10);
-  const locate = createLocator({ street: q.street, city: q.city, state, zip: q.zip }, { trace });
-  const standardizer = addressStandardizer();
+  const locate = createLocator({ street: q.street, city: q.city, state, zip: q.zip }, { trace, providers: geocoderProviders(policy), budget });
+  const standardizer = addressStandardizer(policy, budget);
   const found = addressRates.at(
     {
       state,
@@ -37,6 +51,7 @@ export async function lookUpRate(q: RateQuery, options: { trace?: Trace } = {}):
       zip: q.zip,
       locate,
       standardize: standardizer && (() => standardizer({ street: q.street, city: q.city, state, zip: q.zip })),
+      pickStreet: !policy.allows("jev") ? null : budget ? paidPicker(budget) : undefined,
       trace,
     },
     date,
@@ -47,6 +62,12 @@ export async function lookUpRate(q: RateQuery, options: { trace?: Trace } = {}):
   } finally {
     await drawOutlines(state, trace);
   }
+}
+
+/** Jev, asked only when the budget pays for the pick. */
+function paidPicker(budget: AccountBudget): StreetPicker | null {
+  if (!process.env.TYPESAFE_API_KEY) return null;
+  return async (...args) => ((await budget.spend("jev", toMicros(JEV_PRICE))) ? jevChoice(...args) : null);
 }
 
 /** Adds each traced outline's shape near the point. A failure here only
