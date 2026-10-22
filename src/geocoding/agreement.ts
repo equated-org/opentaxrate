@@ -1,8 +1,10 @@
 import { marginOf, metresBetween, type SourcedPoint, type LocatedPoint } from "./types.js";
+import { PARAMS } from "../params.js";
 
 const order = (a: SourcedPoint, b: SourcedPoint) => marginOf(a) - marginOf(b) || a.provider.localeCompare(b.provider);
-export const compatible = (a: LocatedPoint, b: LocatedPoint) =>
-  metresBetween(a, b) <= Math.min(250, Math.max(marginOf(a), marginOf(b)));
+const agree = (a: LocatedPoint, b: LocatedPoint, factor: number) =>
+  metresBetween(a, b) <= Math.min(PARAMS.agreeCapMetres, factor * Math.max(marginOf(a), marginOf(b)));
+export const compatible = (a: LocatedPoint, b: LocatedPoint) => agree(a, b, PARAMS.agreeFactor);
 
 /** The most precise dataset's point and every other dataset that agrees
  * with it. One point per dataset; a dataset contradicting itself is dropped.
@@ -10,6 +12,12 @@ export const compatible = (a: LocatedPoint, b: LocatedPoint) =>
  * Refused when the datasets left out agree with each other: that is two
  * places, not one. */
 export function agreeingGroup(points: SourcedPoint[]): SourcedPoint[] | null {
+  return groupAt(points, PARAMS.agreeFactor)
+    ?? (PARAMS.agreeFallbackFactor > PARAMS.agreeFactor ? groupAt(points, PARAMS.agreeFallbackFactor) : null);
+}
+
+function groupAt(points: SourcedPoint[], factor: number): SourcedPoint[] | null {
+  const compatible = (a: LocatedPoint, b: LocatedPoint) => agree(a, b, factor);
   const representatives = [...new Set(points.map(p => p.source))].flatMap(source => {
     const members = points.filter(p => p.source === source).sort(order);
     if (members.some(a => members.some(b => !compatible(a, b)))) return [];

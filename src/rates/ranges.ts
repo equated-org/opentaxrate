@@ -39,6 +39,7 @@ import { rangePolygonAreas } from "./range-polygons.js";
 import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
 import { agreedByType, sumByType, traceOutline, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
+import { PARAMS } from "../params.js";
 
 export interface SstRate {
   rate: number;
@@ -324,7 +325,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
  *  2 of 4 on the bench), so one must be confirmed by the map. */
 const UNCONFIRMED_ZIP4_STATES = ["MO"];
 /** A map point this sure, agreed by two datasets, outweighs a street range. */
-const PRECISE_METRES = 40;
+const PRECISE_METRES = PARAMS.preciseMetres;
 
 async function mapWithRefinement(state: string, areaIds: number[], point: LocatedPoint, date: string, locate?: Locate, trace?: Trace, files?: string[], useTaxPolygons = true) {
   const map = async () => {

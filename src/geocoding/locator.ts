@@ -8,6 +8,7 @@ import { streetsInZip } from "./zip-streets.js";
 import { roundCoord, type Trace } from "../rates/types.js";
 import { EDGE_METRES, marginOf, metresBetween, validPoint,
   type AddressToLocate, type SourcedPoint, type LocatedPoint, type GeocoderProvider, type Locate } from "./types.js";
+import { PARAMS } from "../params.js";
 
 /** The typed city is a plausibility check, never a precision upgrade. No
  * county-of-ZIP shortcut: a ZIP can span counties and county checks are weak. */
@@ -65,7 +66,7 @@ interface Options {
 }
 export interface GeocodeTrace { provider: string; outcome: "cached" | "matched" | "no-match" | "skipped" | "failed" }
 /** The widest circle disagreeing datasets may be placed within. */
-const WIDE_METRES = 10_000;
+const WIDE_METRES = PARAMS.wideMetres;
 // Coalesce duplicate requests in this process, without retaining non-storable results.
 const inFlight = new Map<string, Promise<SourcedPoint | null | undefined>>();
 

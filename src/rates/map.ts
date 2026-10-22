@@ -60,6 +60,7 @@ import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js"
 import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet, streetKeysOf } from "../address.js";
 import { districtCode } from "../coverage.js";
+import { PARAMS } from "../params.js";
 
 export interface GeoRate {
   placedBy?: string[];
@@ -79,7 +80,7 @@ const PJ_METRES = 4_828;
 /** How far past its Census area an address with that ZIP may be. The area
  *  is drawn from whole census blocks, by the ZIP most of each block's
  *  addresses use, and the file it comes from is simplified. */
-const ZIP_MARGIN_METRES = 2_000;
+const ZIP_MARGIN_METRES = PARAMS.zipMarginMetres;
 
 type Shape = PlacedShape;
 type RateRow = typeof salesTaxJurisdictionRates.$inferSelect;

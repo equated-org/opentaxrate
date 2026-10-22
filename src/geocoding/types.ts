@@ -1,3 +1,4 @@
+import { PARAMS } from "../params.js";
 export interface LocatedPoint {
   lon: number;
   lat: number;
@@ -7,9 +8,7 @@ export interface LocatedPoint {
   placedBy?: string[];
 }
 
-export const EDGE_METRES: Record<LocatedPoint["accuracy"], number> = {
-  rooftop: 15, parcel: 25, point: 40, interpolated: 75,
-};
+export const EDGE_METRES: Record<LocatedPoint["accuracy"], number> = PARAMS.edgeMetres;
 export const marginOf = (p: LocatedPoint) => Math.max(EDGE_METRES[p.accuracy], p.metres ?? 0);
 
 export interface AddressToLocate {

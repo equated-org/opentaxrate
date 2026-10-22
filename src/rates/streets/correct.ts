@@ -17,11 +17,12 @@ import { db } from "../../db/client.js";
 import { salesTaxStreetRanges } from "../../db/schema.js";
 import { parseStreet, type StreetParts } from "../../address.js";
 import { jevChoice, type StreetPicker } from "./jev.js";
+import { PARAMS } from "../../params.js";
 
 /** How alike two names must be, and how far ahead of the next, for the
  *  spelling alone to pick a street. */
-const MIN_SIMILARITY = 0.45;
-const MIN_LEAD = 0.08;
+const MIN_SIMILARITY = PARAMS.spellingMinSimilarity;
+const MIN_LEAD = PARAMS.spellingMinLead;
 const MIN_CONFIDENCE = 0.5;
 /** A ZIP with more streets than this is too long a list to put to Jev. */
 const MAX_CHOICES = 1500;
