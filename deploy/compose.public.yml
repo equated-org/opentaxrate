@@ -26,6 +26,8 @@ services:
     ports: !override
       - "127.0.0.1:8080:8080"
     environment:
+      # Jev, which picks the ZIP's street a misspelled one is.
+      TYPESAFE_API_KEY: ${TYPESAFE_API_KEY:-}
       OPENTAXRATE_CACHE_HOURS: "6"
       OPENTAXRATE_PUBLIC_LIMIT: ${OPENTAXRATE_PUBLIC_LIMIT:-10/min,300/day}
       OPENTAXRATE_SUGGEST_LIMIT: ${OPENTAXRATE_SUGGEST_LIMIT:-120/min}
