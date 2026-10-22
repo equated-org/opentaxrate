@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { GITHUB } from '$lib/examples';
+	import SourceLayers from '$lib/landing/SourceLayers.svelte';
 	import StateSources from '$lib/landing/StateSources.svelte';
 	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
@@ -19,6 +20,8 @@
 			<p class="mt-5 text-xl leading-relaxed text-[var(--text-2)]">
 				We use publicly available tax rates from state and local tax agencies, including departments of revenue.
 			</p>
+
+			<SourceLayers />
 
 			<section>
 				<h2>What we use</h2>
