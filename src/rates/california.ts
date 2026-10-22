@@ -8,7 +8,7 @@ import { sql } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { marginOf, type LocatedPoint } from "../geocoding/types.js";
 import { RateError } from "../errors.js";
-import { HELD_PREFIX, isHeld } from "./shapes.js";
+import { HELD_PREFIX, isHeld, outlinesAt, padAround } from "./shapes.js";
 import { traceOutline, type Trace } from "./types.js";
 
 interface StateTaxAddress {
@@ -144,33 +144,30 @@ export async function californiaIndexedRate(point: LocatedPoint, date: string, t
   | null
 > {
   const margin=marginOf(point);
-  const pad=Math.max(.003,margin/(110000*Math.max(.1,Math.cos(point.lat*Math.PI/180))));
-  const rows=await db.execute<{fips:string;name:string;code:string|null;rate:string|null;file:string;inside:boolean;edge:number;lon:number;lat:number}>(sql`
-    with p as (select st_setsrid(st_point(${point.lon},${point.lat}),4326) as g)
-    select s.fips,s.name,r.code,r.rate,s.file,st_covers(s.geom,p.g) as inside,
-      st_distance(st_boundary(s.geom)::geography,p.g::geography) as edge,
-      st_x(st_closestpoint(st_boundary(s.geom),p.g)) as lon,st_y(st_closestpoint(st_boundary(s.geom),p.g)) as lat
-    from sales_tax_shapes s left join sales_tax_jurisdiction_rates r on r.state=s.state
-      and r.type='tac' and s.fips like 'tac:%' and r.code=split_part(s.fips,':',2)
-      and ${date} between r.starts_on and r.ends_on
-    cross join p where s.state='CA' and (s.fips like 'tac:%' or s.fips like ${`${HELD_PREFIX}%`})
-      and ${date} between s.starts_on and s.ends_on and st_dwithin(s.geom,p.g,${pad})`);
+  const outlines=await outlinesAt("CA",point,date,"indexed",padAround(point));
+  const tacOf=(fips:string)=>fips.startsWith("tac:")?fips.split(":")[1]:null;
+  const codes=[...new Set(outlines.map(o=>tacOf(o.fips)).filter((c):c is string=>c!==null))];
+  const rates=codes.length?await db.execute<{code:string;rate:string}>(sql`
+    select code,rate from sales_tax_jurisdiction_rates where state='CA' and type='tac'
+      and code in (${sql.join(codes.map(c=>sql`${c}`),sql`, `)}) and ${date} between starts_on and ends_on`):[];
+  // Each outline with each of its tax area's rates on the date, or none.
+  const rows=outlines.flatMap(o=>{
+    const own=rates.filter(r=>r.code===tacOf(o.fips));
+    return own.length?own.map(r=>({...o,code:r.code as string|null,rate:Number(r.rate)})):[{...o,code:null,rate:NaN}];
+  });
   const result = (() => {
     // An outline without its dated rate is as unverified as a held one.
     const held=rows.filter(r=>isHeld(r.fips) || r.code===null), verified=rows.filter(r=>!held.includes(r));
-    if(held.some(r=>r.inside && Number(r.edge)>margin)) return {status:"unresolved" as const};
-    if(held.some(r=>Number(r.edge)<=margin)) return {status:"near_edge" as const,held:true};
+    if(held.some(r=>r.inside && r.edgeMetres>margin)) return {status:"unresolved" as const};
+    if(held.some(r=>r.edgeMetres<=margin)) return {status:"near_edge" as const,held:true};
     const inside=verified.filter(r=>r.inside);
     if(!inside.length) return null;
-    if(verified.some(r=>Number(r.edge)<=margin)) return {status:"near_edge" as const,held:false};
+    if(verified.some(r=>r.edgeMetres<=margin)) return {status:"near_edge" as const,held:false};
     const first=inside[0];
-    if(inside.some(r=>r.code!==first.code || Number(r.rate)!==Number(first.rate))) return {status:"unresolved" as const};
-    return {status:"verified" as const,rate:Number(first.rate),code:first.code!,file:first.file};
+    if(inside.some(r=>r.code!==first.code || r.rate!==first.rate)) return {status:"unresolved" as const};
+    return {status:"verified" as const,rate:first.rate,code:first.code!,file:first.file};
   })();
-  if(trace) for(const r of rows){
-    const outline=traceOutline(trace,{kind:"district",fips:r.fips,name:r.name,inside:r.inside,
-      edgeMetres:Number(r.edge),foot:{lon:Number(r.lon),lat:Number(r.lat)}});
-    outline.levies=result?.status==="verified" && r.inside && r.code===result.code;
-  }
+  if(trace) for(const r of rows)
+    traceOutline(trace,r).levies=result?.status==="verified" && r.inside && r.code===result.code;
   return result;
 }

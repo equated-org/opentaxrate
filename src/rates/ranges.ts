@@ -36,7 +36,7 @@ import { findStreet, listedInZip } from "./streets/index.js";
 import type { StreetPicker } from "./streets/jev.js";
 import { HISTORY_FROM, RANGE_FIPS, WHOLE_CODE_TYPE } from "../coverage.js";
 import { rangePolygonAreas } from "./range-polygons.js";
-import { pointsAcross, shapesAround, shapesHolding } from "./shapes.js";
+import { outlinesAt, padAround, pointsAcross, shapesHolding } from "./shapes.js";
 import { agreedByType, sameBreakdown, sumByType, traceOutline, type Breakdown, type RatePart, type RatesByType, type Trace } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
 import { PARAMS } from "../params.js";
@@ -423,8 +423,7 @@ async function mapAreas(
     unoutlined = new Set(candidatePlaces.filter((p) => !have.has(p)));
   }
   // Outlines within ~300 m of the point.
-  const pad = Math.max(0.003, marginOf(point) / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
-  const shapes = await shapesAround(state, point, pad, date);
+  const shapes = await outlinesAt(state, point, date, "all", padAround(point));
   if (trace) for (const s of shapes) traceOutline(trace, s);
   const holding = new Set(shapes.filter(s => s.inside).map(s => `${s.kind}:${s.fips}`));
   const candidateCounties = new Set(areas.map(a => a.county).filter(Boolean));

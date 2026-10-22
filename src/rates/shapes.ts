@@ -1,7 +1,8 @@
 /**
  * Every question the engines ask of outlines, answered by PostGIS:
- *   - which outlines lie near a point, whether each holds it, and how far it
- *     is from each one's edge (shapesAround);
+ *   - which outlines of a family lie near a point, whether each holds it,
+ *     and how far it is from each one's edge (outlinesAt); each engine keeps
+ *     only its own rule for what those rows mean;
  *   - which outlines hold a point just across an edge (shapesHolding);
  *   - what an outline looks like near a point, for drawing (outlineGeometry).
  * Outlines are found through the GiST index on geometry; distances are
@@ -9,6 +10,7 @@
  */
 import { sql } from "drizzle-orm";
 import { db } from "../db/client.js";
+import { marginOf, type LocatedPoint } from "../geocoding/types.js";
 import type { OutlineGeometry } from "./types.js";
 
 type Point = { lon: number; lat: number };
@@ -34,13 +36,51 @@ export interface PlacedShape {
   foot: Point;
 }
 
-/** The outlines in force on `date` whose geometry comes within
- *  `padDegrees` of the point. */
-export async function shapesAround(state: string, p: Point, padDegrees: number, date: string): Promise<PlacedShape[]> {
+/** An outline near a point, with the tax area it outlines (null for any
+ *  but a verified area outline) and the file it came from. */
+export interface NearbyOutline extends PlacedShape {
+  areaId: number | null;
+  file: string;
+}
+
+/** Which outlines a question reads:
+ *   - all: every outline but held markers (Census counties and cities, a
+ *     map state's districts, and the indexed ones besides);
+ *   - indexed: verified tax-area outlines and the held markers beside them;
+ *   - zones: Missouri's and Utah's tax zones ("rp:<state>:").
+ *  Each is read in force on the date: every outline is a dated edition. */
+export type OutlineFamily = "all" | "indexed" | "zones";
+
+const inFamily = (state: string, which: OutlineFamily) =>
+  which === "all"
+    ? sql`s.fips not like ${`${HELD_PREFIX}%`}`
+    : which === "indexed"
+      // California's tax areas ("tac:") are indexed without an area.
+      ? sql`(s.area_id is not null or s.fips like ${`${HELD_PREFIX}%`} or s.fips like 'tac:%')`
+      : sql`s.fips like ${`rp:${state}:%`}`;
+
+/** How far around a point to look, in degrees: about 300 m, or the point's
+ *  margin where that is wider. */
+export const padAround = (p: LocatedPoint) =>
+  Math.max(0.003, marginOf(p) / (110_000 * Math.max(0.1, Math.cos((p.lat * Math.PI) / 180))));
+
+/** The outlines of a family, live on the date, whose geometry comes within
+ *  `padDegrees` of the point: whether each holds it (st_covers, so its edge
+ *  counts as inside), how many metres it is from the edge, and the nearest
+ *  point on that edge. */
+export async function outlinesAt(
+  state: string,
+  p: Point,
+  date: string,
+  which: OutlineFamily,
+  padDegrees: number,
+): Promise<NearbyOutline[]> {
   const rows = await db.execute<{
     kind: PlacedShape["kind"];
     fips: string;
     name: string;
+    area_id: number | null;
+    file: string;
     area: number;
     inside: boolean;
     edge_m: number;
@@ -48,7 +88,7 @@ export async function shapesAround(state: string, p: Point, padDegrees: number, 
     foot_lat: number;
   }>(sql`
     with p as (select st_setsrid(st_point(${p.lon}, ${p.lat}), 4326) as g)
-    select s.kind, s.fips, s.name, st_area(s.geom) as area,
+    select s.kind, s.fips, s.name, s.area_id, s.file, st_area(s.geom) as area,
            st_covers(s.geom, p.g) as inside,
            st_distance(b.edge::geography, p.g::geography) as edge_m,
            st_x(b.foot) as foot_lon, st_y(b.foot) as foot_lat
@@ -58,12 +98,15 @@ export async function shapesAround(state: string, p: Point, padDegrees: number, 
       select st_boundary(s.geom) as edge,
              st_closestpoint(st_boundary(s.geom), p.g) as foot
     ) b
-    where s.state = ${state} and s.fips not like ${`${HELD_PREFIX}%`} and ${date} between s.starts_on and s.ends_on
+    where s.state = ${state} and ${inFamily(state, which)}
+      and ${date} between s.starts_on and s.ends_on
       and st_dwithin(s.geom, p.g, ${padDegrees})`);
   return rows.map((r) => ({
     kind: r.kind,
     fips: r.fips,
     name: r.name,
+    areaId: r.area_id === null ? null : Number(r.area_id),
+    file: r.file,
     area: Number(r.area),
     inside: r.inside,
     edgeMetres: Number(r.edge_m),

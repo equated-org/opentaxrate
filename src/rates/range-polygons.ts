@@ -1,6 +1,6 @@
 /** A range state's tax-specific polygons narrow its ZIP candidates. Unknown
  * district geometry remains unknown; rates always come from dated files. */
-import { and, eq, gte, inArray, like, lte, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, like, lte } from "drizzle-orm";
 import { PARAMS } from "../params.js";
 import { db } from "../db/client.js";
 import { salesTaxAreas, salesTaxJurisdictionRates, salesTaxJurisdictions, salesTaxShapes } from "../db/schema.js";
@@ -8,7 +8,7 @@ import { RANGE_POLYGON_SOURCES, rangePolygonPrefix, type RangePolygonState } fro
 import { marginOf, type LocatedPoint } from "../geocoding/types.js";
 import { traceOutline, type Trace } from "./types.js";
 import { WHOLE_CODE_TYPE } from "../coverage.js";
-import { HELD_PREFIX, isHeld, type PlacedShape } from "./shapes.js";
+import { isHeld, outlinesAt, padAround, type NearbyOutline } from "./shapes.js";
 
 type Area = typeof salesTaxAreas.$inferSelect;
 
@@ -62,18 +62,7 @@ export async function rangePolygonAreas(
   if (!legacy.length || legacy.some((s) => s.file !== source.file)) return null;
   const known = new Set(legacy.map((s) => s.fips));
   const margin = marginOf(point);
-  const pad = Math.max(0.003, margin / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
-  const rows = await db.execute<{
-    kind: PlacedShape["kind"]; fips: string; name: string; inside: boolean; edge: number; lon: number; lat: number;
-  }>(sql`
-    with p as (select st_setsrid(st_point(${point.lon}, ${point.lat}), 4326) as g)
-    select s.kind, s.fips, s.name, st_covers(s.geom, p.g) as inside,
-      st_distance(st_boundary(s.geom)::geography, p.g::geography) as edge,
-      st_x(st_closestpoint(st_boundary(s.geom), p.g)) as lon,
-      st_y(st_closestpoint(st_boundary(s.geom), p.g)) as lat
-    from sales_tax_shapes s cross join p
-    where s.state = ${state} and s.fips like ${`${prefix}%`}
-      and st_dwithin(s.geom, p.g, ${pad})`);
+  const rows = await outlinesAt(state, point, date, "zones", padAround(point));
   if (!rows.some((s) => s.inside)) return null;
   const areas = await db.select().from(salesTaxAreas).where(and(eq(salesTaxAreas.state, state), inArray(salesTaxAreas.id, areaIds)));
   let selected: number[] | null;
@@ -96,12 +85,8 @@ export async function rangePolygonAreas(
       selected = areas.filter((a) => a.county === county && a.place === null && !a.districts).map((a) => a.id);
   }
   if (!selected?.length) return null;
-  if (trace) for (const s of rows) {
-    const outline = traceOutline(trace, { kind: s.kind, fips: s.fips, name: s.name, inside: s.inside,
-      edgeMetres: Number(s.edge), foot: { lon: Number(s.lon), lat: Number(s.lat) } });
-    outline.levies = s.inside;
-  }
-  return { areas: rows.some((s) => Number(s.edge) < margin) ? "near_edge" : selected, file: source.file };
+  if (trace) for (const s of rows) traceOutline(trace, s).levies = s.inside;
+  return { areas: rows.some((s) => s.edgeMetres < margin) ? "near_edge" : selected, file: source.file };
 }
 
 /** Whether the town may have a rate of its own on the date: a row in the
@@ -145,36 +130,24 @@ export async function indexedTaxAreas(
   state: string, candidates: number[], point: LocatedPoint, date: string, trace?: Trace,
 ): Promise<IndexedAreas | null> {
   const margin = marginOf(point);
-  const pad = Math.max(.003, margin/(110000*Math.max(.1,Math.cos(point.lat*Math.PI/180))));
-  const rows = await db.execute<{fips:string;name:string;area_id:number|null;file:string;inside:boolean;edge:number;lon:number;lat:number}>(sql`
-    with p as (select st_setsrid(st_point(${point.lon},${point.lat}),4326) as g)
-    select s.fips,s.name,s.area_id,s.file,st_covers(s.geom,p.g) as inside,
-      st_distance(st_boundary(s.geom)::geography,p.g::geography) as edge,
-      st_x(st_closestpoint(st_boundary(s.geom),p.g)) as lon,st_y(st_closestpoint(st_boundary(s.geom),p.g)) as lat
-    from sales_tax_shapes s cross join p where s.state=${state}
-      and (s.area_id is not null or s.fips like ${`${HELD_PREFIX}%`})
-      and ${date} between s.starts_on and s.ends_on and st_dwithin(s.geom,p.g,${pad})`);
-  const result = indexedOutcome(rows.map(r => ({ ...r, edge: Number(r.edge) })), candidates, margin);
-  if (trace) for (const r of rows) {
-    const outline = traceOutline(trace, { kind: "district", fips: r.fips, name: r.name, inside: r.inside,
-      edgeMetres: Number(r.edge), foot: { lon: Number(r.lon), lat: Number(r.lat) } });
-    outline.levies = result?.status === "verified" && r.inside && r.area_id !== null && result.areas.includes(r.area_id);
-  }
+  const rows = await outlinesAt(state, point, date, "indexed", padAround(point));
+  const result = indexedOutcome(rows, candidates, margin);
+  if (trace) for (const r of rows)
+    traceOutline(trace, r).levies = result?.status === "verified" && r.inside && r.areaId !== null && result.areas.includes(r.areaId);
   return result;
 }
 
+type IndexedRow = Pick<NearbyOutline, "fips" | "areaId" | "file" | "inside" | "edgeMetres">;
+
 /** indexedTaxAreas' decision from the outlines near the point. */
-export function indexedOutcome(
-  rows: Array<{ fips: string; area_id: number | null; file: string; inside: boolean; edge: number }>,
-  candidates: number[], margin: number,
-): IndexedAreas | null {
-  const held = rows.filter(r => isHeld(r.fips)), verified = rows.filter(r => r.area_id !== null);
-  const file = (of: typeof rows) => [...new Set(of.map(r => r.file))].join(" + ");
-  if (held.some(r => r.inside && r.edge > margin)) return { status: "unresolved", file: file(held) };
-  if (held.some(r => r.edge <= margin)) return { status: "near_edge", held: true, file: file(held) };
+export function indexedOutcome(rows: IndexedRow[], candidates: number[], margin: number): IndexedAreas | null {
+  const held = rows.filter(r => isHeld(r.fips)), verified = rows.filter(r => r.areaId !== null);
+  const file = (of: IndexedRow[]) => [...new Set(of.map(r => r.file))].join(" + ");
+  if (held.some(r => r.inside && r.edgeMetres > margin)) return { status: "unresolved", file: file(held) };
+  if (held.some(r => r.edgeMetres <= margin)) return { status: "near_edge", held: true, file: file(held) };
   const inside = verified.filter(r => r.inside);
   if (!inside.length) return null;
-  if (verified.some(r => r.edge <= margin)) return { status: "near_edge", held: false, file: file(inside) };
-  return { status: "verified", file: file(inside), areas: [...new Set(inside.map(r => r.area_id!))]
+  if (verified.some(r => r.edgeMetres <= margin)) return { status: "near_edge", held: false, file: file(inside) };
+  return { status: "verified", file: file(inside), areas: [...new Set(inside.map(r => r.areaId!))]
     .filter(id => candidates.includes(id) || isBuiltArea(id)) };
 }

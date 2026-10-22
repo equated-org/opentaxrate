@@ -159,7 +159,7 @@
 <h2 id="georateat-state-point-date-street-trace"><code>geoRateAt(state, point, date, street?, trace?)</code></h2>
 <ol>
 <li>502 if <code>sales_tax_data_releases</code> has nothing for the state; 422 if <code>point</code> is null.</li>
-<li><code>shapesAround(state, point, pad, date)</code>: the outlines in force on <code>date</code>; pad 0.003 degrees (about 300 m), or 0.06 when the state has any <code>pj</code> rows (<code>hasRows</code>).</li>
+<li><code>outlinesAt(state, point, date, "all", pad)</code>: the outlines in force on <code>date</code>; pad 0.003 degrees (about 300 m), or 0.06 when the state has any <code>pj</code> rows (<code>hasRows</code>).</li>
 <li>Load every rate row live on <code>date</code>; key them <code>type:code</code>, later <code>starts_on</code> winning.</li>
 <li>Refuse when: no county outline holds the point; the county has a <code>no</code> row; outside a rated city but within <code>PJ_METRES</code> (4,828 m) of a city with a <code>pj</code> row; inside a shape with a <code>maybe</code> row.</li>
 <li><code>rateOf(...)</code> stacks the parts (below). No <code>45</code> row on the date is a 422.</li>
@@ -255,8 +255,8 @@
 </thead>
 <tbody>
 <tr>
-<td><code>shapesAround(state, p, padDegrees, date)</code></td>
-<td><code>st_dwithin</code> on the GiST index; per shape: <code>inside</code> (<code>st_covers</code>), <code>edgeMetres</code> (distance to <code>st_boundary</code> on the spheroid), <code>foot</code> (<code>st_closestpoint</code>), <code>area</code></td>
+<td><code>outlinesAt(state, p, date, which, padDegrees)</code></td>
+<td>The one point-in-outline query every engine uses. <code>st_dwithin</code> on the GiST index, outlines in force on <code>date</code> (every family is dated); per outline: <code>kind</code>, <code>fips</code>, <code>name</code>, <code>areaId</code>, <code>file</code>, <code>inside</code> (<code>st_covers</code>), <code>edgeMetres</code> (distance to <code>st_boundary</code> on the spheroid), <code>foot</code> (<code>st_closestpoint</code>), <code>area</code>. <code>which</code> picks the family: <code>all</code> (every outline but held markers: the map engine and the range engine's Census step), <code>indexed</code> (verified area outlines and <code>held:</code> markers: <code>indexedTaxAreas</code> and California), <code>zones</code> (Missouri's and Utah's <code>rp:</code> zones). Each caller keeps only its decision rule. <code>wholeZipRate</code> (a ZIP's whole area against outlines) and <code>nearbyRegions</code> (raw <code>tax_source_features</code>, never a rate) ask other questions and keep their own queries.</td>
 </tr>
 <tr>
 <td><code>shapesHolding(state, p, date)</code></td>

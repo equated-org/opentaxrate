@@ -168,7 +168,7 @@ describe('a district no boundary-file area includes', () => {
 });
 
 describe('indexed outcome', () => {
-  const row = (fips: string, area: number | null, inside: boolean, edge: number) => ({ fips, area_id: area, file: 'f', inside, edge });
+  const row = (fips: string, area: number | null, inside: boolean, edge: number) => ({ fips, areaId: area, file: 'f', inside, edgeMetres: edge });
   it('lets held coverage outrank a verified outline it overlaps', () => {
     expect(indexedOutcome([row('area:1:x', 1, true, 500), row('held:s:f:x', null, true, 400)], [1], 15)?.status).toBe('unresolved');
     expect(indexedOutcome([row('area:1:x', 1, true, 500), row('held:s:f:x', null, false, 10)], [1], 15)).toMatchObject({ status: 'near_edge', held: true });

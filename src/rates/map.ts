@@ -57,7 +57,7 @@ import {
 import { RateError } from "../errors.js";
 import { sameBreakdown, traceOutline, type Breakdown, type RatePart, type Trace, type TracedOutline } from "./types.js";
 import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
-import { pointsAcross, shapesAround, shapesHolding, type PlacedShape } from "./shapes.js";
+import { outlinesAt, pointsAcross, shapesHolding, type PlacedShape } from "./shapes.js";
 import { parseStreet, streetKeysOf } from "../address.js";
 import { districtCode } from "../coverage.js";
 import { PARAMS } from "../params.js";
@@ -115,7 +115,7 @@ export async function geoRateAt(
   const outlineMargin = PARAMS.outlineMarginMetres[state] ?? 0;
   const reach = Math.max(marginOf(point) + outlineMargin, PARAMS.breakdownMarginMetres);
   const pad = Math.max(0.003, reach / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
-  const shapes = await shapesAround(state, point, pjState ? Math.max(0.06, pad) : pad, date);
+  const shapes = await outlinesAt(state, point, date, "all", pjState ? Math.max(0.06, pad) : pad);
   const rates = await ratesOn(state, date);
   const keptCodes = new Set(
     [...rates.values()].filter((r) => r.type === "kx").map((r) => r.code.split(">")[1]),
