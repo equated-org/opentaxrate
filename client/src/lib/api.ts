@@ -1,6 +1,6 @@
 /**
  * The one call this page makes to OpenTaxRate: GET /v1/rate with
- * include=trace, read into one LookupResult whatever the status.
+ * include=trace,regions, read into one LookupResult whatever the status.
  */
 import type { Geometry, MultiPolygon, Polygon } from 'geojson';
 
@@ -121,7 +121,7 @@ export interface RateQuery {
 
 interface Common {
 	query: RateQuery;
-	/** The request as a person would repeat it (without include=trace). */
+	/** The request as a person would repeat it (include=regions, without trace). */
 	url: string;
 	/** The response body, for "Raw JSON". */
 	raw: unknown;
@@ -145,7 +145,7 @@ export function apiBase(): string {
 export function rateUrl(q: RateQuery, trace: boolean): string {
 	const params = new URLSearchParams({ state: q.state, street: q.street, city: q.city });
 	if (q.zip) params.set('zip', q.zip);
-	if (trace) params.set('include', 'trace');
+	params.set('include', trace ? 'trace,regions' : 'regions');
 	const path = `${apiBase()}/v1/rate?${params}`;
 	return path.startsWith('/') && typeof location !== 'undefined' ? location.origin + path : path;
 }

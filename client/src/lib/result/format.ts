@@ -183,3 +183,84 @@ function mapLines(trace: Trace | null): string[] {
 	);
 	return lines;
 }
+
+/** Words for a region's type; others read from the type itself. */
+const REGION_TYPE: Record<string, string> = {
+	regional_transit_authority: 'Regional transit authority',
+	public_transportation_benefit_area: 'Transit benefit area',
+	transit_special_tax_area: 'Transit tax area',
+	location_code_area: 'Location code area',
+	sales_use_tax_area: 'Sales and use tax area',
+	community_empowerment_zone: 'Community Empowerment Zone',
+	central_business_improvement_district: 'Business improvement district',
+	good_life_district: 'Good Life district',
+	police_jurisdiction: 'Police jurisdiction',
+	municipal_boundary_change: 'Annexation'
+};
+
+/** What a region means for a seller, where it's not the obvious. */
+const REGION_NOTE: Record<string, string> = {
+	community_empowerment_zone: "Businesses here can claim the state's credits and deferrals. The rate is the same."
+};
+
+/** Ids no one files with: ArcGIS's GlobalIDs and the like, and Washington's
+ *  tract key, which is the census tract again as a GEOID. */
+const internalId = (key: string, value: string) => /^(global_?id|objectid|fid|trc_key)$/i.test(key) || /^\{?[0-9a-f-]{36}\}?$/i.test(value);
+
+/** Publishers' column names, worded; others as published. */
+const ID_LABEL: Record<string, string> = {
+	TRACT: 'Census tract',
+	PTBA_LOC: 'PTBA code',
+	LOCCODE: 'Location code',
+	TAC_txt: 'Tax area code',
+	CountyCode: 'County code',
+	FIPS_CODE_3: 'County FIPS',
+	FIPS_CODE_5: 'FIPS'
+};
+
+/** A code without its leading zeros, so "01726" and "1726" are one. */
+const bare = (value: string) => value.replace(/^0+(?=.)/, '');
+
+export interface RegionRow {
+	label: string;
+	value: string;
+	ids: Array<[string, string]>;
+	note: string | null;
+}
+
+/** The supplemental details under the rate: the ZIP+4, then each region
+ *  the address is in that says something the list above doesn't (no
+ *  second Seattle, no location code that's the Composite SER Code again). */
+export function regionRows(rate: AddressRate, parts: PartRow[]): RegionRow[] {
+	const rows: RegionRow[] = [];
+	if (rate.zip4) rows.push({ label: 'ZIP+4', value: rate.zip4, ids: [], note: null });
+	const shownNames = parts.map((p) => p.name.toLowerCase());
+	const shownIds = new Set(
+		[...Object.values(rate.locationIds ?? {}), ...parts.flatMap((p) => p.ids.map(([, v]) => v))].map(bare)
+	);
+	for (const m of rate.regions?.matches ?? []) {
+		const name = m.name && m.name === m.name.toUpperCase() ? titleCase(m.name) : m.name;
+		// A city or county the list already names ("Nashville" in
+		// "Nashville-Davidson metropolitan government").
+		if (m.kind === 'civil' && name && shownNames.some((n) => n.includes(name.toLowerCase()))) continue;
+		const ids = Object.entries(m.ids)
+			.filter(([k, v]) => !internalId(k, v) && !shownIds.has(bare(v)))
+			.map(([k, v]): [string, string] => [ID_LABEL[k] ?? k, v]);
+		if (!name && !ids.length) continue;
+		const label = REGION_TYPE[m.type] ?? m.type.replaceAll('_', ' ').replace(/^./, (c) => c.toUpperCase());
+		// With no name, the region's one code is its value.
+		const [value, rest] = name ? [name, ids] : [ids[0][1], ids.slice(1)];
+		// The same area from two editions of one layer (California's current
+		// and history) is one row, with whichever ids either gives.
+		const same = rows.find((r) => r.label === label && r.value === value);
+		if (same) same.ids.push(...rest.filter(([k]) => !same.ids.some(([j]) => j === k)));
+		else rows.push({ label, value, ids: rest, note: REGION_NOTE[m.type] ?? null });
+	}
+	return rows;
+}
+
+/** "2026Q4" → "2026 Q4": the editions the regions came from. */
+export function regionEditions(rate: AddressRate): string[] {
+	const editions = (rate.regions?.matches ?? []).map((m) => m.source.edition).filter((e): e is string => !!e);
+	return [...new Set(editions)].map((e) => e.replace(/^(\d{4})Q(\d)$/, '$1 Q$2'));
+}

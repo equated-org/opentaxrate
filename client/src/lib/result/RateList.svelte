@@ -2,7 +2,7 @@
 	import type { AddressRate, Trace } from '$lib/api';
 	import RateBar from '$lib/pixel/RateBar.svelte';
 	import Actions from './Actions.svelte';
-	import { howPlaced, MATCH_SHORT, partRows, pct } from './format';
+	import { howPlaced, MATCH_SHORT, partRows, pct, regionEditions, regionRows } from './format';
 
 	interface Props {
 		rate: AddressRate;
@@ -16,6 +16,9 @@
 
 	const rows = $derived(partRows(rate, trace));
 	const locationIds = $derived(Object.entries(rate.locationIds ?? {}));
+	const details = $derived(regionRows(rate, rows));
+	const editions = $derived(regionEditions(rate));
+	const uncertain = $derived(rate.regions?.coverage.some((c) => c.status === 'location_uncertain') ?? false);
 	const lines = $derived(howPlaced(rate, trace));
 	const today = new Date().toISOString().slice(0, 10);
 	// The date the rate is for: the source names it ("... on 2026-10-21"),
@@ -82,12 +85,39 @@
 			<p class="mt-1 text-sm leading-relaxed text-[var(--text-2)]">
 				File with the <a class="link" href={r.agency.url} target="_blank" rel="noopener">{r.agency.name}</a>{r.form
 					? `, on the ${r.form}`
-					: ''}.{#if rows.some((row) => row.ids.length) || locationIds.length}
-					The state's own codes are listed under each tax, as its data gives them.{/if}
+					: ''}.{#if rows.some((row) => row.ids.length) || locationIds.length}{' '}The state's own codes are listed under each tax, as its data gives them.{/if}
 			</p>
 			{#each r.notes as note, i (i)}
 				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{note}</p>
 			{/each}
+		</div>
+	{/if}
+
+	{#if details.length}
+		<div>
+			<h3 class="text-sm font-semibold">Local details</h3>
+			<dl class="mt-2 divide-y divide-[var(--border)] border-y border-[var(--border)] text-sm">
+				{#each details as d, i (i)}
+					<div class="flex items-baseline gap-4 py-2">
+						<dt class="w-[44%] shrink-0 text-[var(--text-muted)]">{d.label}</dt>
+						<dd class="min-w-0 flex-1 break-words">
+							<span class={d.label === 'ZIP+4' ? 'font-num' : ''}>{d.value}</span>
+							{#if d.ids.length}
+								<span class="font-num mt-0.5 block text-[11.5px] text-[var(--text-muted)]">
+									{d.ids.map(([key, value]) => `${key} ${value}`).join(' · ')}
+								</span>
+							{/if}
+							{#if d.note}<span class="mt-0.5 block text-[12.5px] leading-snug text-[var(--text-muted)]">{d.note}</span>{/if}
+						</dd>
+					</div>
+				{/each}
+			</dl>
+			{#if editions.length || uncertain}
+				<p class="mt-2 text-[12.5px] leading-relaxed text-[var(--text-muted)]">
+					{#if editions.length}From the publishers' own map layers, {editions.join(', ')}.{/if}
+					{#if uncertain}Some layers aren't listed: the address is too near their edges to say.{/if}
+				</p>
+			{/if}
 		</div>
 	{/if}
 
