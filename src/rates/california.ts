@@ -6,10 +6,11 @@
 import { z } from "zod";
 import { sql } from "drizzle-orm";
 import { db } from "../db/client.js";
-import { marginOf, type LocatedPoint } from "../geocoding/types.js";
+import type { LocatedPoint } from "../geocoding/types.js";
 import { RateError } from "../errors.js";
-import { HELD_PREFIX, isHeld, outlinesAt, padAround } from "./shapes.js";
-import { traceOutline, type Trace } from "./types.js";
+import { HELD_PREFIX } from "./shapes.js";
+import { indexedTaxAreas } from "./range-polygons.js";
+import type { Trace } from "./types.js";
 
 interface StateTaxAddress {
   street: string;
@@ -128,46 +129,39 @@ export const californiaSalesTaxService = {
 export async function californiaIndexedOn(date: string) {
   const [row] = await db.execute<{ indexed: boolean }>(sql`
     select exists (select 1 from sales_tax_shapes where state = 'CA'
-      and (fips like 'tac:%' or fips like ${`${HELD_PREFIX}%`}) and ${date} between starts_on and ends_on) as indexed`);
+      and (area_id is not null or fips like ${`${HELD_PREFIX}%`}) and ${date} between starts_on and ends_on) as indexed`);
   return Boolean(row?.indexed);
 }
 
-/** A dated CDTFA tax area loaded into the ordinary shape and rate tables:
- *  verified with its rate; near_edge when the point's margin reaches an
+/** A dated CDTFA tax area, indexed as an ordinary verified area (its one
+ *  district "tac:<code>") with a dated "tac" row holding CDTFA's total:
+ *  verified with that rate; near_edge when the point's margin reaches an
  *  outline (`held` when that outline couldn't be verified); unresolved
- *  inside a held outline or where verified areas disagree. Null where none
- *  is indexed at the point. */
+ *  inside a held outline, where verified areas disagree, or where the
+ *  area's rate isn't dated to the day. Null where none is indexed at the
+ *  point. The outlines are read as every verified area's are
+ *  (indexedTaxAreas), with no ZIP's candidates to narrow them: California
+ *  publishes none, and its areas are all built by verification. */
 export async function californiaIndexedRate(point: LocatedPoint, date: string, trace?: Trace): Promise<
   | { status: "verified"; rate: number; code: string; file: string }
   | { status: "near_edge"; held: boolean }
   | { status: "unresolved" }
   | null
 > {
-  const margin=marginOf(point);
-  const outlines=await outlinesAt("CA",point,date,"indexed",padAround(point));
-  const tacOf=(fips:string)=>fips.startsWith("tac:")?fips.split(":")[1]:null;
-  const codes=[...new Set(outlines.map(o=>tacOf(o.fips)).filter((c):c is string=>c!==null))];
-  const rates=codes.length?await db.execute<{code:string;rate:string}>(sql`
-    select code,rate from sales_tax_jurisdiction_rates where state='CA' and type='tac'
-      and code in (${sql.join(codes.map(c=>sql`${c}`),sql`, `)}) and ${date} between starts_on and ends_on`):[];
-  // Each outline with each of its tax area's rates on the date, or none.
-  const rows=outlines.flatMap(o=>{
-    const own=rates.filter(r=>r.code===tacOf(o.fips));
-    return own.length?own.map(r=>({...o,code:r.code as string|null,rate:Number(r.rate)})):[{...o,code:null,rate:NaN}];
-  });
-  const result = (() => {
-    // An outline without its dated rate is as unverified as a held one.
-    const held=rows.filter(r=>isHeld(r.fips) || r.code===null), verified=rows.filter(r=>!held.includes(r));
-    if(held.some(r=>r.inside && r.edgeMetres>margin)) return {status:"unresolved" as const};
-    if(held.some(r=>r.edgeMetres<=margin)) return {status:"near_edge" as const,held:true};
-    const inside=verified.filter(r=>r.inside);
-    if(!inside.length) return null;
-    if(verified.some(r=>r.edgeMetres<=margin)) return {status:"near_edge" as const,held:false};
-    const first=inside[0];
-    if(inside.some(r=>r.code!==first.code || r.rate!==first.rate)) return {status:"unresolved" as const};
-    return {status:"verified" as const,rate:first.rate,code:first.code!,file:first.file};
-  })();
-  if(trace) for(const r of rows)
-    traceOutline(trace,r).levies=result?.status==="verified" && r.inside && r.code===result.code;
-  return result;
+  const found = await indexedTaxAreas("CA", [], point, date, trace);
+  if (!found) return null;
+  if (found.status === "near_edge") return { status: "near_edge", held: found.held };
+  if (found.status === "unresolved" || !found.areas.length) return { status: "unresolved" };
+  const rows = await db.execute<{ code: string; rate: string }>(sql`
+    select r.code, r.rate from sales_tax_areas a
+    join sales_tax_jurisdiction_rates r on r.state = 'CA' and r.type = 'tac' and a.districts = 'tac:' || r.code
+      and ${date} between r.starts_on and r.ends_on
+    where a.state = 'CA' and a.id in (${sql.join(found.areas.map((id) => sql`${id}`), sql`, `)})`);
+  const rated = new Set(rows.map((r) => `${r.code}|${Number(r.rate)}`));
+  if (rated.size !== 1 || rows.length < found.areas.length) {
+    // No single dated rate: the outline that held the point levies nothing shown.
+    for (const o of trace?.outlines ?? []) if (o.fips.startsWith("area:")) o.levies = false;
+    return { status: "unresolved" };
+  }
+  return { status: "verified", rate: Number(rows[0].rate), code: rows[0].code, file: found.file };
 }

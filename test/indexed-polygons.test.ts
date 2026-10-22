@@ -23,7 +23,7 @@ beforeAll(async()=>{
 });
 afterAll(async()=>{
   vi.unstubAllGlobals();
-  await db.delete(salesTaxShapes).where(and(eq(salesTaxShapes.state,'CA'),like(salesTaxShapes.fips,'tac:TEST-TAC:%')));
+  await db.delete(salesTaxAreas).where(and(eq(salesTaxAreas.state,'CA'),eq(salesTaxAreas.districts,'tac:TEST-TAC')));
   await db.delete(salesTaxShapes).where(and(eq(salesTaxShapes.state,'CA'),like(salesTaxShapes.fips,'held:ca-tax-history:%')));
   await db.delete(salesTaxJurisdictionRates).where(and(eq(salesTaxJurisdictionRates.state,'CA'),eq(salesTaxJurisdictionRates.code,'TEST-TAC')));
   await db.delete(salesTaxJurisdictions).where(and(eq(salesTaxJurisdictions.state,'CA'),eq(salesTaxJurisdictions.code,'TEST-TAC')));
@@ -39,9 +39,11 @@ describe('verified polygons in existing lookup tables',()=>{
     const rate = await addressRates.at({state:'CA',street:'1 Test Street',city:'Fixture',zip:'99999',locate:async()=>point,trace},'2026-10-21');
     expect(rate.rate).toBe(.0875);
     // The deciding outline is traced for display.
-    expect(trace.outlines.find(o=>o.fips.startsWith('tac:TEST-TAC:'))).toMatchObject({kind:'district',inside:true,levies:true});
+    expect(trace.outlines.find(o=>o.name==='CDTFA tax area TEST-TAC')).toMatchObject({kind:'district',fips:expect.stringMatching(/^area:69\d{5}:2026-10-01$/),inside:true,levies:true});
     expect(rate.locationCode).toBe('TEST-TAC');
     expect(rate.match).toBe('map');
+    expect(rate.parts.map(p=>[p.code,p.rate])).toEqual([['CA',.0725],['tac:TEST-TAC',.015]]);
+    expect(rate.source).toMatch(/^CDTFA indexed tax area TEST-TAC, ca-tax-history /);
     expect(fetch).not.toHaveBeenCalled();
     const [{table}] = await db.execute<{table:string|null}>(sql`select to_regclass('public.tax_source_reconciliations')::text as table`);
     expect(table).toBeNull();
@@ -53,7 +55,9 @@ describe('verified polygons in existing lookup tables',()=>{
   });
   it('reruns safely and keeps raw evidence out of lookup dependencies',async()=>{
     await indexVerifiedPolygons({states:['CA'],log:()=>{}});
-    expect((await db.select().from(salesTaxShapes).where(and(eq(salesTaxShapes.state,'CA'),like(salesTaxShapes.fips,'tac:TEST-TAC:%'))))).toHaveLength(1);
+    expect((await db.select().from(salesTaxShapes).where(and(eq(salesTaxShapes.state,'CA'),eq(salesTaxShapes.name,'CDTFA tax area TEST-TAC'))))).toHaveLength(1);
+    // The tax area is an ordinary area built by verification, its district the TAC.
+    expect(await db.select().from(salesTaxAreas).where(and(eq(salesTaxAreas.state,'CA'),eq(salesTaxAreas.districts,'tac:TEST-TAC')))).toHaveLength(1);
     // Removing downloaded evidence doesn't remove verified ordinary-table data.
     const [current] = await db.select().from(taxSourceSnapshots).where(eq(taxSourceSnapshots.id,ids[0]));
     await db.delete(taxSourceSnapshots).where(eq(taxSourceSnapshots.id,current.id));

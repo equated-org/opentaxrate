@@ -304,7 +304,7 @@ type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
  * read as no coverage), and combinations built where evidence is complete. */
 async function storeVerifiedPolygons(s: Snapshot, checks: FeatureChecks, window: {from: string; to: string}, releaseKey: string | null) {
   const file = `${s.source} (${s.url})`;
-  const prefix = s.state === "CA" ? "tac:" : "area:";
+  const prefix = "area:";
   const markers = `${HELD_PREFIX}${s.source}:`;
   const counts = { builtAreas: 0, heldMarkers: 0, unreachable: 0 };
   await db.transaction(async tx => {
@@ -317,6 +317,8 @@ async function storeVerifiedPolygons(s: Snapshot, checks: FeatureChecks, window:
     }
     const inWindow = sql`${salesTaxShapes.startsOn} <= ${window.to} and ${salesTaxShapes.endsOn} >= ${window.from}`;
     await tx.delete(salesTaxShapes).where(and(eq(salesTaxShapes.state,s.state),sql`(${salesTaxShapes.fips} like ${prefix+'%'} or ${salesTaxShapes.fips} like ${markers+'%'}) and ${inWindow}`));
+    // California's tax areas were once indexed as "tac:" outlines of no area.
+    if (s.state === "CA") await tx.delete(salesTaxShapes).where(and(eq(salesTaxShapes.state,"CA"),sql`${salesTaxShapes.fips} like 'tac:%'`));
     if (s.state === "CA") await tx.delete(salesTaxJurisdictionRates).where(and(eq(salesTaxJurisdictionRates.state,"CA"),eq(salesTaxJurisdictionRates.type,"tac"),sql`starts_on <= ${window.to} and ends_on >= ${window.from}`));
     const periods = [...new Set(Object.values(checks).flat().map(p => `${p.from}|${p.to}`))];
     for (const span of periods) {
@@ -325,14 +327,21 @@ async function storeVerifiedPolygons(s: Snapshot, checks: FeatureChecks, window:
       const blocked = entries.filter(e => e.p?.reason && !e.p.excluded).map(e=>e.feature);
       const approved = entries.filter(e => e.p && !e.p.reason && !e.p.ignore);
       if (s.state === "CA") {
+        // Each CDTFA tax area is an area built by verification, its one
+        // district the TAC, whose dated total is its "tac" rate row. CDTFA
+        // publishes the total alone, so the area isn't rated by rateAreas'
+        // stacking (state 45 row plus parts); the lookup reads the row.
         for (const {feature,p} of approved) {
           if (p!.rate === undefined || !p!.code) continue;
           const code=p!.code;
+          const built = await builtArea(tx, "CA", { county: null, place: null, districts: `tac:${code}` });
+          if (built === null) { counts.unreachable++; blocked.push(feature); continue; }
+          if (built.created) counts.builtAreas++;
           await tx.insert(salesTaxJurisdictionRates).values({state:"CA",type:"tac",code,rate:String(p!.rate),startsOn:from,endsOn:to});
           await tx.insert(salesTaxJurisdictions).values({state:"CA",type:"tac",code,name:`CDTFA tax area ${code}`,ids:{TAC_txt:code},file})
             .onConflictDoUpdate({target:[salesTaxJurisdictions.state,salesTaxJurisdictions.type,salesTaxJurisdictions.code],set:{file}});
-          await tx.execute(sql`insert into sales_tax_shapes(state,kind,fips,name,geom,file,starts_on,ends_on)
-            select 'CA','district',${`tac:${code}:${from}`},${`CDTFA tax area ${code}`},geom,${file},${from},${to}
+          await tx.execute(sql`insert into sales_tax_shapes(state,kind,fips,name,geom,file,area_id,starts_on,ends_on)
+            select 'CA','district',${`area:${built.id}:${from}`},${`CDTFA tax area ${code}`},geom,${file},${built.id},${from},${to}
             from tax_source_features where snapshot_id=${s.id} and feature_id=${feature}`);
         }
       } else {
@@ -362,8 +371,7 @@ async function storeVerifiedPolygons(s: Snapshot, checks: FeatureChecks, window:
       }
     }
     // A built combination no outline holds any longer is gone with it.
-    if (s.state !== "CA")
-      await tx.execute(sql`delete from sales_tax_areas a where a.state=${s.state} and a.id % 1000000 > ${BUILT_AREA_BASE}
+    await tx.execute(sql`delete from sales_tax_areas a where a.state=${s.state} and a.id % 1000000 > ${BUILT_AREA_BASE}
         and not exists (select 1 from sales_tax_shapes x where x.area_id=a.id)`);
   });
   return counts;

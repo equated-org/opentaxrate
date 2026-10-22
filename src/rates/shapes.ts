@@ -55,8 +55,7 @@ const inFamily = (state: string, which: OutlineFamily) =>
   which === "all"
     ? sql`s.fips not like ${`${HELD_PREFIX}%`}`
     : which === "indexed"
-      // California's tax areas ("tac:") are indexed without an area.
-      ? sql`(s.area_id is not null or s.fips like ${`${HELD_PREFIX}%`} or s.fips like 'tac:%')`
+      ? sql`(s.area_id is not null or s.fips like ${`${HELD_PREFIX}%`})`
       : sql`s.fips like ${`rp:${state}:%`}`;
 
 /** How far around a point to look, in degrees: about 300 m, or the point's
