@@ -229,8 +229,8 @@ async function ratesOn(state: string, date: string) {
 
 /** The rate everywhere in the typed ZIP's Census area widened by
  *  ZIP_MARGIN_METRES, or null unless it has exactly one: every rated
- *  outline it touches must hold all of it, inside one county, with no
- *  district whose rate no source confirms. Null too where the typed city
+ *  outline it touches must hold all of it, the state's counties must, and
+ *  no district whose rate no source confirms may touch it. Null too where the typed city
  *  or street says the ZIP was typed wrong: a city with an outline the area
  *  doesn't reach, or a street the Census lists in the state only in ZIPs
  *  far from this one. (A street it lists nowhere can't say either way.) */
@@ -247,6 +247,14 @@ async function wholeZipRate(
     from sales_tax_shapes s cross join ${widened} z
     where s.state = ${state} and st_intersects(s.geom, z.g)`);
   if (!rows.length) return null;
+  // All of it in the state: its counties together hold it. Which county
+  // matters only where one levies, and a levying one must hold all of it.
+  const [within] = await db.execute<{ held: boolean | null }>(sql`
+    select st_covers(st_union(s.geom), z.g) as held
+    from sales_tax_shapes s cross join ${widened} z
+    where s.state = ${state} and s.kind = 'county' and st_intersects(s.geom, z.g)
+    group by z.g`);
+  if (!within?.held) return null;
 
   const typedCity = city.toUpperCase().replace(/[^A-Z0-9]/g, "");
   if (typedCity) {
@@ -274,7 +282,6 @@ async function wholeZipRate(
   const keptCodes = new Set([...rates.values()].filter((r) => r.type === "kx").map((r) => r.code.split(">")[1]));
   const levied = shapes.filter((s) => leviesOf(s, rates).length || keptCodes.has(s.fips));
   if (levied.some((s) => !s.inside)) return null;
-  if (!shapes.some((s) => s.kind === "county" && s.inside)) return null;
   if (shapes.some((s) => rates.has(`no:${s.fips}`) || rates.has(`maybe:${s.fips}`))) return null;
   const addressKey = parsed ? `${parsed.house ?? parsed.houseText}|${parsed.streetKey}` : null;
   try {
