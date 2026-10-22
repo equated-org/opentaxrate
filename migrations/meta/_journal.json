@@ -57,6 +57,13 @@
       "when": 1792647571677,
       "tag": "0007_source_jurisdiction_ids",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792648933055,
+      "tag": "0008_zip_street_names",
+      "breakpoints": true
     }
   ]
 }

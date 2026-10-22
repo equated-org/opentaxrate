@@ -17,6 +17,10 @@ export interface AddressToLocate {
   city: string;
   state: string;
   zip?: string | null;
+  /** The street keys in the typed ZIP, when its streets are known: lets the
+   *  matcher take a geocoder's street one letter from a typed name that
+   *  isn't a street there (see providers/match.ts). */
+  zipStreets?: ReadonlySet<string> | null;
 }
 export type Locate = (need?: { marginUnder: number }) => Promise<LocatedPoint | null>;
 export interface SourcedPoint extends LocatedPoint { provider: string; source: string }
