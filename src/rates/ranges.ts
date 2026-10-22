@@ -223,7 +223,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       // An automatically obtained ZIP+4 is only a lead. Complete tax
       // polygons may settle its conflict; a caller-supplied ZIP+4 and a
       // published street range are not overridden by this fallback.
-      if (byMap && mapped?.taxPolygons) {
+      if (byMap && mapped?.taxPolygons && (byMap.rate === byZip4.rate || PARAMS.zip4Conflict === "polygons")) {
         notes.push(byMap.rate === byZip4.rate ? "confirmed by tax polygons" : "tax polygons resolve the conflicting looked-up ZIP+4");
         return traced({ ...byMap, note: notes.join("; ") }, input.trace);
       }

@@ -30,6 +30,11 @@ export interface Params {
    *  doesn't list, and that levies no rate of its own, takes the county's
    *  town-less area (rates/range-polygons.ts). */
   zoneBeyondZip: boolean;
+  /** When a looked-up ZIP+4 and a state's own tax outlines disagree: the
+   *  outlines answer ("polygons"), or the address is declined locally, so a
+   *  state lookup can settle it ("decline"), for outlines that may be stale
+   *  (rates/ranges.ts). */
+  zip4Conflict: "polygons" | "decline";
   /** When a state's lookup gives two rates across the point's margin, ask
    *  for a point with this fraction of the margin and try again; 0 never
    *  asks (rates/index.ts). */
@@ -49,6 +54,7 @@ const DEFAULTS: Params = {
   zipMarginMetres: 2_000,
   preciseMetres: 40,
   zoneBeyondZip: true,
+  zip4Conflict: "polygons",
   lookupRefine: 0.5,
   spellingMinSimilarity: 0.45,
   spellingMinLead: 0.08,
