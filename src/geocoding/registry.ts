@@ -24,6 +24,8 @@ export const fingerprint = (value: string) => createHash("sha256").update(value)
 
 interface Definition {
   id: string;
+  /** Bump when adapter changes make previously cached results unsuitable. */
+  cacheVersion?: number;
   /** The credential or URL that enables it; its fingerprint keys the budget. */
   credential: () => string | undefined;
   /** Prefix of its <PREFIX>_DAILY_CAP, _RATE_PER_SECOND and _COST_PER_CALL overrides. */
@@ -58,7 +60,7 @@ const DEFINITIONS: Definition[] = [
   { id: "photon", credential: () => env("PHOTON_URL"), env: "PHOTON",
     sources: ["osm"], typicalAccuracy: "point", costPerCall: 0, price: 0, dailyCap: 100_000, ratePerSecond: 10,
     storable: () => true, geocode: photonPoint },
-  { id: "pelias", credential: () => env("PELIAS_URL"), env: "PELIAS",
+  { id: "pelias", cacheVersion: 2, credential: () => env("PELIAS_URL"), env: "PELIAS",
     sources: ["osm", "openaddresses"], typicalAccuracy: "point", costPerCall: 0, price: 0, dailyCap: 100_000, ratePerSecond: 10,
     storable: () => true, geocode: peliasPoint },
   { id: "geocodio", credential: () => env("GEOCODIO_API_KEY"), env: "GEOCODIO",
@@ -108,7 +110,7 @@ export function geocoderProviders(policy?: ProviderPolicy): GeocoderProvider[] {
     return [{
       id: d.id,
       budgetId,
-      cacheId: `${budgetId}:${storable}`,
+      cacheId: `${budgetId}:${storable}${d.cacheVersion ? `:${d.cacheVersion}` : ""}`,
       sources: d.sources,
       typicalAccuracy: d.typicalAccuracy,
       storable,

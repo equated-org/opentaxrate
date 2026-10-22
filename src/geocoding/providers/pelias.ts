@@ -1,5 +1,5 @@
 import { matchesAddress } from "./match.js";
-import { geocoderJson, GeocoderError, metresBetween, type AddressToLocate, type SourcedPoint } from "../types.js";
+import { geocoderJson, GeocoderError, metresBetween, validPoint, type AddressToLocate, type SourcedPoint } from "../types.js";
 import { PARAMS } from "../../params.js";
 
 export async function peliasPoint(a: AddressToLocate, signal: AbortSignal): Promise<SourcedPoint | null> {
@@ -8,21 +8,27 @@ export async function peliasPoint(a: AddressToLocate, signal: AbortSignal): Prom
     "boundary.country": "USA", layers: "address", size: "5" }).toString();
   const body = await geocoderJson(url, signal);
   if (!Array.isArray(body.features)) throw new GeocoderError();
-  const matches = body.features.flatMap((f: any): SourcedPoint[] => {
+  const matches: SourcedPoint[] = body.features.flatMap((f: any): SourcedPoint[] => {
     const p = f.properties ?? {};
     if (p.layer !== "address" || p.accuracy !== "point" || p.match_type !== "exact"
       || !matchesAddress(a, { house: p.housenumber, street: p.street, city: p.locality,
         state: p.region_a ?? p.region, zip: p.postalcode, country: p.country_a === "USA" ? "US" : p.country_a })) return [];
-    const source = p.source === "openstreetmap" ? "osm" : p.source === "openaddresses" ? "openaddresses" : "pelias";
-    const [lon, lat] = f.geometry?.coordinates ?? [];
-    if (!Number.isFinite(lon) || !Number.isFinite(lat)) return [];
-    return [{ provider: "pelias", source, accuracy: "point", lon, lat }];
+    // Public address aggregators share upstream government datasets. Treat
+    // them as one family; Overture can also redistribute OpenStreetMap.
+    const upstream = p.addendum?.provenance?.sources;
+    const osm = p.source === "openstreetmap" || (p.source === "overtureaddresses"
+      && Array.isArray(upstream) && upstream.some((s: any) => /openstreetmap|\bosm\b/i.test(s?.dataset ?? "")));
+    const source = osm ? "osm" : ["openaddresses", "nad", "nyc", "overtureaddresses"].includes(p.source) ? "openaddresses" : "pelias";
+    const point: SourcedPoint = { provider: "pelias", source, accuracy: "point",
+      lon: f.geometry?.coordinates?.[0], lat: f.geometry?.coordinates?.[1] };
+    return validPoint(point) ? [point] : [];
   });
   if (!matches.length) return null;
-  // The same house from several datasets is one answer, its margin wide
-  // enough to reach them all; houses farther apart are different places.
-  const [first] = matches;
-  const spread = Math.max(...matches.map((m: SourcedPoint) => metresBetween(first, m)));
+  // Several copies of the same address are one placement. Keep an OSM
+  // lineage when any matching copy has it, and cover the point spread.
+  const first = matches[0];
+  const spread = Math.max(...matches.map(p => metresBetween(first, p)));
   if (spread > PARAMS.peliasDuplicateMetres) return null;
-  return spread > 0 ? { ...first, metres: Math.ceil(spread) } : first;
+  return { ...first, source: matches.some(p => p.source === "osm") ? "osm" : first.source,
+    ...(spread > 0 ? { metres: Math.ceil(spread) } : {}) };
 }

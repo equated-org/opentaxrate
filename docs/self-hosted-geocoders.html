@@ -156,6 +156,7 @@
 <li><a href="#pelias">Pelias</a></li>
 <li><a class="sub" href="#pelias-build">Build</a></li>
 <li><a class="sub" href="#pelias-update">Keeping it current</a></li>
+<li><a href="#supplements">Additional US sources</a></li>
 <li><a href="#automation">Automatic updates</a></li>
 <li><a class="sub" href="#automation-install">Install</a></li>
 
@@ -223,7 +224,7 @@ docker logs -f nominatim</pre>
 <li><em><code>UPDATE_MODE=continuous</code></em> keeps the data current: the container applies Geofabrik’s daily US changes itself (see <a href="#nominatim-update">Keeping it current</a>).</li>
 <li><em><code>IMPORT_WIKIPEDIA=true</code></em> loads place importance. Without it “350 5th Ave, New York, NY” resolves to Smithtown, Long Island, because nothing ranks Manhattan above it.</li>
 </ul>
-<div class="callout"><p>The geocoder.example.test import ran without TIGER, Wikipedia importance or continuous updates. TIGER 2025 was added and the container recreated with <code>UPDATE_MODE=continuous</code> and <code>IMPORT_TIGER_ADDRESSES=true</code> on 2026-10-22. Wikipedia importance is still missing (below).</p></div>
+<div class="callout"><p>The geocoder.example.test import ran without TIGER, Wikipedia importance or continuous updates. TIGER 2025 was added and the container recreated with <code>UPDATE_MODE=continuous</code> and <code>IMPORT_TIGER_ADDRESSES=true</code> on 2026-10-22. The Wikipedia importance refresh was started that morning; <code>~/geocoders/extra/wikipedia.done</code> records successful completion.</p></div>
 
 <h3 id="nominatim-tiger">Adding TIGER to an existing database</h3>
 <p>Nominatim publishes the Census TIGER address ranges preprocessed. <code>nominatim.org</code> returns 403 without a User-Agent.</p>
@@ -351,6 +352,8 @@ next whosonfirst ./bin/start
 next openstreetmap ./bin/start
 next openaddresses ./bin/parallel 6 /data/openaddresses
 next polylines ./bin/start
+<span class="c"># after the US supplement pipeline has completed (see below)</span>
+next csv ./bin/start
 
 <span class="c"># 4. interpolation into a new directory (several hours)</span>
 docker compose run --rm -T -e BUILDDIR=/data/interpolation.next interpolation bash ./docker_build.sh
@@ -366,6 +369,20 @@ curl -XDELETE localhost:9200/$LIVE &amp;&amp; rm -rf $D/interpolation.prev pelia
 <span class="c"># if the search fails instead: restore pelias.json.prev and interpolation.prev, recreate api and interpolation</span></pre>
 <p>Rebuilding into the live index instead would mix old and new data until it finished, and deleted places would linger.</p>
 <div class="callout"><p>This rebuild hasn’t been run end to end on geocoder.example.test; the first build used the separate steps under <a href="#pelias-build">Build</a>.</p></div>
+
+<h2 id="supplements">Additional US sources</h2>
+<p>The supplement pipeline under <code>~/geocoders/extra</code> adds USGS GNIS names and aliases, NYC OTI address points, USDOT National Address Database addresses, and Overture addresses and places. OpenAddresses and NAD already aggregate many state and county sources; NYC is an additional direct local-government feed, not a claim that every county has published complete data. Overture records are selected by their address country (US and US territories); places without a country-coded address are not included.</p>
+<p>For a new machine, use the short <a href="../deploy/geocoders/setup-pelias.md">Pelias setup prompt</a> with the installation steps above. The one-off import helpers for the existing geocoder.example.test rollout live on that machine under <code>~/geocoders/extra</code>; they are not part of the application deployment.</p>
+<p>The queue imports GNIS, NYC, NAD, Overture addresses and Overture places, and converts OpenAddresses GeoJSON to CSV for interpolation. It retains provenance, conservatively deduplicates addresses and verifies indexed counts. Overlapping aggregators are not independent evidence. A failed stage stops the queue: inspect its log before retrying, and preserve checkpoints.</p>
+<p>The interpolation supervisor finishes the original build, then builds the supplemental address database beside the live one. It validates the replacement before switching over and retains <code>~/pelias/data/interpolation.before-extra</code> for rollback. Don't start competing builders.</p>
+<pre class="cmd">cat ~/geocoders/extra/status.txt
+cat ~/geocoders/extra/*.done.json
+tail -20 ~/geocoders/logs/extra-nad.log
+tail -20 ~/geocoders/logs/extra-interpolation.log
+curl -s 'localhost:9200/_cat/count/pelias'</pre>
+<p>On geocoder.example.test, the Compose <code>csv</code> service imports the verified supplemental CSVs. Include <code>next csv ./bin/start</code> in replacement index builds. This replays saved data; recurring fresh downloads for the supplemental sources still need to be scheduled. Nominatim replication resumes automatically after the Wikipedia importance refresh.</p>
+
+<p>The strongest US/Canada additions are managed on geocoder.example.test under <code>~/geocoders/strongest</code>: Statistics Canada's June 2026 National Address Register, Québec's October 2026 RQA snapshot, recent Tennessee and New Jersey NG911 changes, and the Canadian OSM extract. The Canadian Who's on First hierarchy is loaded alongside the US hierarchy, and placeholder and point-in-polygon services support both countries. The source IDs are <code>nar</code>, <code>rqa</code>, <code>ng911tn</code> and <code>ng911nj</code>. Check that directory's <code>status.txt</code>, <code>pipeline.log</code> and <code>osm-canada-import.log</code>; verified CSV checkpoints remain under <code>~/geocoders/extra</code>. NAR prefers building coordinates and retains whether it had to fall back to a blockface point. These are not all rooftop locations. The new interpolation inputs are stored separately under <code>~/pelias/data/strongest-interpolation-inputs</code>; the current US interpolation rebuild does not include them. Future full rebuilds must import both OSM extracts and all verified supplemental CSVs.</p>
 
 <h2 id="automation">Automatic updates</h2>
 <p>Nominatim updates itself (<a href="#nominatim-update">above</a>). Everything else runs from a prompt: once a week, cron starts Claude Code on geocoder.example.test with <a href="../deploy/geocoders/maintain.md"><code>deploy/geocoders/maintain.md</code></a>, which follows this guide to:</p>

@@ -1,5 +1,9 @@
 You maintain the self-hosted geocoders on this machine: Nominatim (port 8080), Photon (2322) and Pelias (4000). The guide is `self-hosted-geocoders.html` in this directory; follow it for every command. `notes.md` here is your memory between runs: read it first, and update it before you finish.
 
+The US supplement pipeline lives in `~/geocoders/extra`. Read its `status.txt`, `*.done.json`, and the supplement section of the guide. While `extra-run.sh`, `extra-interpolation.sh`, or `wikipedia.sh` is running, report progress and do read-only health checks only; don't start competing imports or restart their containers. A FAILED status needs investigation, not a blind restart. Preserve the supplement CSVs and provenance archives. Future Pelias index rebuilds must also import the verified supplements with the guide's `next csv ./bin/start` step.
+
+The US/Canada additions live in `~/geocoders/strongest`; also check its `status.txt` and logs. Don't compete with those imports. Once complete, test a Canadian address as well as the US search, and preserve both countries in future rebuilds.
+
 Do these in order. Make at most one change per run.
 
 1. Check that Nominatim, Photon and Pelias each answer a test search for "1600 Pennsylvania Ave NW, Washington DC", that Pelias's `pelias_interpolation` container is running, and that the disk has at least 300 GB free. If something is down, try restarting its container once; don't rebuild anything to fix it.
