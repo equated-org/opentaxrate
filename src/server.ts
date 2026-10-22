@@ -315,7 +315,7 @@ app.doc31("/v1/openapi.json", {
   info: {
     title: "OpenTaxRate API",
     version: "1",
-    license: { name: "Elastic License 2.0", url: "https://github.com/equated-org/opentaxrate/blob/main/LICENSE" },
+    license: { name: "MIT License", url: "https://github.com/equated-org/opentaxrate/blob/main/LICENSE" },
     description: "The sales tax rate at a US street address, from the states' own published data. Without a key, lookups are limited per IP address.",
   },
   servers: [{ url: "https://api.opentaxrate.com" }],

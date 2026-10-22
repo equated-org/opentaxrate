@@ -18,7 +18,7 @@
 		<span aria-hidden="true">·</span>
 		<a class="hover:text-[var(--text)]" href={GITHUB} target="_blank" rel="noopener">GitHub</a>
 		<span aria-hidden="true">·</span>
-		<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/LICENSE" target="_blank" rel="noopener">Elastic License 2.0</a>
+		<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
 	</nav>
 	<p class="mt-3 text-center">
 		opentaxrate by

@@ -12,11 +12,24 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic%202.0-blue?style=flat-square" alt="License: Elastic 2.0"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License: MIT"></a>
   <a href="docs/state-coverage.html"><img src="https://img.shields.io/badge/coverage-50%20states%20%2B%20DC-2ea44f?style=flat-square" alt="Coverage: 50 states + DC"></a>
 </p>
 
 Look up an address and date to get the combined rate, jurisdiction breakdown, and sources. Ambiguous addresses return `422` rather than a guessed rate. Self-host with Postgres + PostGIS; paid geocoders are optional.
+
+## Why this exists
+
+ZIP codes do not follow tax boundaries. The same ZIP can span cities, counties, and special districts with different rates, and ZIP-level APIs average that away.
+
+OpenTaxRate is built for developers wiring sales tax into checkout, invoicing, or accounting software:
+
+- **Address-level, not ZIP-level:** the rate for the actual street address, with a jurisdiction breakdown and the source behind it
+- **Honest about uncertainty:** ambiguous or missing data returns `422` instead of a guessed or zero rate
+- **Verifiable:** rates come from the states' own published data. In our test of 277 random addresses against each state's published rate, 275 matched and 2 were declined rather than guessed
+- **Cheaper than the incumbents:** hosted lookups are $1.95 per 1,000 at [opentaxrate.com](https://opentaxrate.com), and the code is MIT licensed if you would rather self-host
+
+If this saves you a TaxJar, Avalara, or Stripe Tax integration headache, a star helps other developers find it.
 
 ## Quick start
 
@@ -93,4 +106,4 @@ pnpm dev
 
 Data comes from [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/), [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), and state tax offices. Provider terms apply; see [configuration](docs/configuration.md#geocoding). **Not tax advice:** verify the sources returned with each rate.
 
-[Elastic License 2.0](LICENSE). Use, modify, and run it for your business. Offering OpenTaxRate as a hosted or managed service requires a hosting license; open an issue to discuss.
+[MIT License](LICENSE). Use, modify, and run it for your business, including as a hosted service.
