@@ -52,6 +52,15 @@ describe("an address typed the way people type it", () => {
     expect(m("NE", "100 NE 5th St", "100", "5th St")).toBe(false);
   });
 
+  it("matches a street typed without a type word the found one has anywhere, and nothing looser", () => {
+    expect(matchesAddress(typed("115 Forest Extension"), found("115", "Forest Avenue Extension"))).toBe(true);
+    expect(matchesAddress(typed("955 River 2"), found("955", "River Loop 2"))).toBe(true);
+    expect(matchesAddress(typed("218 Shoreline Bear Lake Sands"), found("218", "Shoreline Road Bear Lake Sands"))).toBe(true);
+    expect(matchesAddress(typed("115 Forest Ave"), found("115", "Forest Avenue Extension"))).toBe(false);
+    expect(matchesAddress(typed("88 Oak"), found("88", "Oak Ridge Road"))).toBe(false);
+    expect(matchesAddress(typed("186 Byers Ln"), found("186", "Myers Ln"))).toBe(false);
+  });
+
   it("keeps a fractional house number after a unit typed before it", () => {
     expect(matchesAddress(typed("Apt 4, 3281 1/2 M Street NW"), found("3281 1/2", "M Street NW"))).toBe(true);
     expect(matchesAddress(typed("Apt 4, 3281 M Street NW"), found("3281 1/2", "M Street NW"))).toBe(false);
