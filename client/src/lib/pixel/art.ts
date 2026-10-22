@@ -33,6 +33,42 @@ export const PIN = [
 	'.....#.....'
 ];
 
+/** Published rate sheet with a refresh arrow, for the landing benefits. */
+export const RATE_UPDATE = [
+	'#########....',
+	'#ooooooo##...',
+	'#ooooooo#o#..',
+	'#ooooooo###..',
+	'#ooooooooo#..',
+	'#oo####ooo#..',
+	'#ooooooooo#..',
+	'#oo###oooo#..',
+	'#oooooo###..#',
+	'#ooooo#...#.#',
+	'######....###',
+	'.....#.......',
+	'......#...#..',
+	'.......###...'
+];
+
+/** Stepped shield with an uncertainty marker. */
+export const UNCERTAINTY = [
+	'......#......',
+	'...###o###...',
+	'###ooooooo###',
+	'#ooooooooooo#',
+	'#ooooo#ooooo#',
+	'#ooooo#ooooo#',
+	'#ooooo#ooooo#',
+	'#ooooooooooo#',
+	'.#oooo#oooo#.',
+	'.#ooooooooo#.',
+	'..#ooooooo#..',
+	'...#ooooo#...',
+	'....##o##....',
+	'......#......'
+];
+
 /** Hourglass for "too many lookups". `s` is sand. */
 export const HOURGLASS = [
 	'#########',

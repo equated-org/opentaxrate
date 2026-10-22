@@ -1,25 +1,29 @@
 <script lang="ts">
 	/**
 	 * How often each rate service gives the state's own answer, on the same
-	 * sample of addresses. Every number lives in benchmark.json. Prices are
-	 * kept apart, on /benchmarks (pricing.json): not every priced vendor was
-	 * benchmarked, so the two don't share a table.
+	 * sample of addresses. Every score lives in benchmark.json. The
+	 * /benchmarks price comparison joins only measured services to pricing.json;
+	 * untested services retain missing scores.
 	 */
 	import data from '$lib/benchmark.json';
 
 	type Tally = { asked: number; right: number; wrong: number; refused: number };
-	const services = data.services;
 	const methods = data.methods as { id: keyof (typeof services)[number]['byMethod']; label: string }[];
 	const pct = (x: number) => `${x.toFixed(1)}%`;
 	const cell = (t: Tally) => (t.asked ? `${t.right} / ${t.wrong} / ${t.refused}` : '—');
 
-	/** `compact` (the /benchmarks page): the page's own heading and one-line
-	 *  takeaway, with the method caption moved into the drawer. */
+	/** `compact` (the /benchmarks page) includes the full methodology drawer.
+	 *  The landing page links there instead. */
 	let {
-		title = "Checked against the states' own answers",
-		lead = 'The same addresses, asked of each service. A rate counts as correct only if it matches what the state itself publishes for that address.',
-		compact = false
-	}: { title?: string; lead?: string; compact?: boolean } = $props();
+		title = 'High accuracy. Lower cost.',
+		lead = 'Address-level sales tax from official sources, through one open-source API. See how accuracy and price compare with enterprise providers.',
+		compact = false,
+		serviceIds
+	}: { title?: string; lead?: string; compact?: boolean; serviceIds?: string[] } = $props();
+	const services = $derived(
+		(serviceIds ? data.services.filter((service) => serviceIds.includes(service.id)) : [...data.services])
+			.sort((a, b) => b.pctCorrect - a.pctCorrect)
+	);
 </script>
 
 <section aria-labelledby="benchmark-heading">
@@ -44,7 +48,7 @@
 					<tr class:ours={s.ours}>
 						<th scope="row" class="py-2 pr-4 align-middle font-normal text-[var(--text-2)]">
 							<span class="block leading-snug {s.ours ? 'font-semibold text-[var(--text)]' : ''}">{s.name}</span>
-							{#if s.detail}<span class="block text-[12.5px] leading-snug text-[var(--text-muted)]">{s.detail}</span>{/if}
+							{#if s.detail && (!compact || s.sample !== 'evalA')}<span class="block text-[12.5px] leading-snug text-[var(--text-muted)]">{s.detail}</span>{/if}
 						</th>
 						<td class="py-2 align-middle">
 							<div class="flex items-center gap-3" title="{s.name}: {s.right} correct of {s.asked} asked ({s.wrong} wrong, {s.refused} refused)">
@@ -64,13 +68,14 @@
 	{#if !compact}
 		<p class="mt-4 text-[12.5px] leading-relaxed text-[var(--text-muted)]">
 			{data.caption}
-			<a class="link ml-1 whitespace-nowrap" href="/benchmarks#pricing">Pricing →</a>
+			<a class="link ml-1" href="/benchmarks">Full benchmarks and methodology →</a>
 		</p>
 	{/if}
 
+	{#if compact}
 	<details class="mt-5 text-sm">
-		<summary class="cursor-pointer text-[13px] text-[var(--text-2)] hover:text-[var(--text)]">{compact ? 'How we tested' : 'How the states were read'}</summary>
-		{#if compact}<p class="mt-3 leading-relaxed text-[var(--text-muted)]">{data.caption}</p>{/if}
+		<summary class="cursor-pointer text-[13px] text-[var(--text-2)] hover:text-[var(--text)]">How we tested</summary>
+		<p class="mt-3 leading-relaxed text-[var(--text-muted)]">{data.caption}</p>
 		<div class="mt-4 overflow-x-auto">
 			<table class="w-full min-w-[620px] border-collapse text-left text-[13px]">
 				<caption class="mb-2 text-left text-[12.5px] text-[var(--text-muted)]">Right / wrong / refused, by how OpenTaxRate reads the state</caption>
@@ -96,6 +101,7 @@
 			{#each data.notes as note, i (i)}<li>{note}</li>{/each}
 		</ul>
 	</details>
+	{/if}
 </section>
 
 <style>
