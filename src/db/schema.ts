@@ -174,6 +174,25 @@ export const salesTaxStreetRanges = pgTable(
   ],
 );
 
+/** Every street the Census Bureau's TIGER address features name in a ZIP,
+ *  for the map-read states, whose rate files list no streets. Read by the
+ *  geocoder matcher to tell a typo ("Mian St", no such street) from a
+ *  different street one letter away ("Myers Ln" beside "Byers Ln"). The
+ *  Streamlined states' streets come from their range files instead. */
+export const zipStreetNames = pgTable(
+  "zip_street_names",
+  {
+    state: text("state").notNull(),
+    zip5: text("zip5").notNull(),
+    /** The street's name as matching compares it (see src/address.ts). */
+    streetKey: text("street_key").notNull(),
+    /** The street as TIGER writes it, e.g. "N Main St". */
+    street: text("street").notNull(),
+    file: text("file").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.state, t.zip5, t.streetKey] })],
+);
+
 /** A run of ZIP+4 codes (or a whole ZIP) within one ZIP that falls in one
  *  area. A ZIP-wide row is the publisher's default, not an address match. */
 export const salesTaxZipRanges = pgTable(

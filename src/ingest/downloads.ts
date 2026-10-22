@@ -122,6 +122,33 @@ export async function latestTigerFiles(
   }));
 }
 
+/** Each county's TIGER address features for a state (street names with the
+ *  ZIP on each side), from the newest TIGER year, read from `dir` first. */
+export async function latestTigerAddressFiles(
+  stateFips: string,
+  dir?: string,
+): Promise<{ year: string; files: Array<{ name: string; bytes: () => Promise<Uint8Array> }> }> {
+  const local = dir ? listDir(dir) : [];
+  const year = await tigerYear(local);
+  const folder = `${TIGER}/TIGER${year}/ADDRFEAT/`;
+  const index = await fetch(folder);
+  if (!index.ok) throw new Error(`TIGER ADDRFEAT listing answered ${index.status}`);
+  const names = [...new Set((await index.text()).match(new RegExp(`tl_${year}_${stateFips}\\d{3}_addrfeat\\.zip`, "g")) ?? [])];
+  return {
+    year,
+    files: names.map((name) => ({
+      name,
+      bytes: async () => {
+        const found = local.find((l) => l.name === name);
+        if (found) return new Uint8Array(fs.readFileSync(found.location));
+        const response = await fetch(folder + name);
+        if (!response.ok) throw new Error(`TIGER ${name} answered ${response.status}`);
+        return downloadedBytes(folder + name, response);
+      },
+    })),
+  };
+}
+
 async function tigerYear(local: Array<{ name: string }>) {
   const years = local
     .map((l) => /^tl_(\d{4})_us_county\.zip$/.exec(l.name)?.[1])

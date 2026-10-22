@@ -12,7 +12,7 @@ set -eu
 cd "$(dirname "$0")/.."
 
 TAX_TABLES="sales_tax_areas sales_tax_data_releases sales_tax_jurisdiction_rates
-  sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges"
+  sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges zip_street_names"
 EMPTY_TABLES="geocode_results geocoder_usage user session account verification
   apikey api_requests credit_grants"
 

@@ -126,7 +126,7 @@ function readPolygons(buffer: Uint8Array) {
   return polygons;
 }
 
-function readDbf(buffer: Uint8Array) {
+export function readDbf(buffer: Uint8Array) {
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
   const count = view.getUint32(4, true);
   const headerLength = view.getUint16(8, true);

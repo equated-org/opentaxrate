@@ -3,14 +3,17 @@
  *   1. each Streamlined member's newest rate and boundary files;
  *   2. Missouri's rate and address-range files, in the same layout;
  *   3. each map-read state's rate table and its own outlines;
- *   4. the Census Bureau's newest county, city and town outlines for all of
+ *   4. the streets in each ZIP of the map-read states, from TIGER address
+ *      features;
+ *   5. the Census Bureau's newest county, city and town outlines for all of
  *      them.
  * A file already loaded is skipped unless `force`; a map-read state is
  * fetched again every run, since its sources don't name versions alike.
  */
 import { db } from "../db/client.js";
-import { salesTaxDataReleases, salesTaxShapes } from "../db/schema.js";
-import { latestSstFiles, latestTigerFiles, sstFileLines } from "./downloads.js";
+import { salesTaxDataReleases, salesTaxShapes, zipStreetNames } from "../db/schema.js";
+import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines } from "./downloads.js";
+import { loadStreetNames } from "./street-names.js";
 import { GEO_STATES } from "./states/index.js";
 import { loadGeoState, loadSstState, loadTigerShapes } from "./load.js";
 import { missouriFiles } from "./missouri.js";
@@ -69,6 +72,24 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     const counts = await loadGeoState(geo.state, data);
     const from = [data.files.rates, data.files.boundaries].filter(Boolean).join(" + ");
     log(`${geo.state}: ${from} → ${counts.rates} rates, ${counts.jurisdictions} jurisdictions, ${counts.shapes} outlines in ${seconds(started)}`);
+  }
+
+  // The streets in each ZIP of the map-read states, for telling a typo from
+  // another street; a TIGER year already loaded is kept.
+  const namesLoaded = new Set(
+    (await db.selectDistinct({ state: zipStreetNames.state, file: zipStreetNames.file }).from(zipStreetNames)).map(
+      (r) => `${r.state}:${r.file}`,
+    ),
+  );
+  for (const geo of GEO_STATES) {
+    if (!wanted(geo.state)) continue;
+    const year = (await latestTigerAddressFiles(STATE_FIPS[geo.state], dir)).year;
+    if (!force && namesLoaded.has(`${geo.state}:tl_${year}_${STATE_FIPS[geo.state]}_addrfeat`)) {
+      log(`${geo.state}: TIGER ${year} street names already loaded`);
+      continue;
+    }
+    const started = Date.now();
+    await loadStreetNames(geo.state, dir, (line) => log(`${line} in ${seconds(started)}`));
   }
 
   const shapeStates = [...Object.keys(RANGE_FIPS), ...GEO_STATES.map((g) => g.state)].filter(wanted);
