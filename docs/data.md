@@ -12,7 +12,7 @@ docker compose run --rm refresh          # all states
 docker compose run --rm refresh OH TX WA # selected states
 ```
 
-Every file and live answer refresh builds the database from is kept under `artifacts/sources/` (`/artifacts/sources` in Docker), filed by its URL (`www2.census.gov/geo/tiger/TIGER2026/COUNTY/tl_2026_us_county.zip`), with each query or POST in a folder of its own and gzipped. When a file's contents change, the older copy stays beside it in `previous/`, dated; `artifacts/sources/manifest.jsonl` records every fetch. Files read with `--dir` are copied in too, so the folder holds every input either way. A saved file is read back instead of downloading it again: one whose name says its edition (`OHB2026Q4SEP17.zip`, `tl_2026_…`, Missouri's `-q4-2026` files, Arizona's monthly tables, Texas's `taxrates264.txt`) always, any other (Alabama's `taxrates.csv`, Texas's `city-rates.xlsx`) for `OPENTAXRATE_DOWNLOAD_MAX_AGE_HOURS`, 24 by default; `0` downloads those every run. `scripts/backup-sources.sh` backs the folder up to a restic repository in R2 (bucket `opentaxrate-sources`, password `OPENTAXRATE_RESTIC_PASSWORD` in your secret manager); `restic snapshots` lists the dated versions. `scripts/organize-sources.ts` moves files saved in the older per-URL-hash folders into `sources/`. Use `--download-dir` or `OPENTAXRATE_DOWNLOAD_DIR` to change where `sources/` goes; Docker paths must be mounted. `--dir` selects existing input files instead.
+Every file and live answer refresh builds the database from is kept under `artifacts/sources/` (`/artifacts/sources` in Docker), filed by its URL (`www2.census.gov/geo/tiger/TIGER2026/COUNTY/tl_2026_us_county.zip`), with each query or POST in a folder of its own and gzipped. When a file's contents change, the older copy stays beside it in `previous/`, dated; `artifacts/sources/manifest.jsonl` records every fetch. Files read with `--dir` are copied in too, so the folder holds every input either way. A saved file is read back instead of downloading it again: one whose name says its edition (`OHB2026Q4SEP17.zip`, `tl_2026_…`, Missouri's `-q4-2026` files, Arizona's monthly tables, Texas's `taxrates264.txt`) always, any other (Alabama's `taxrates.csv`, Texas's `city-rates.xlsx`) for `OPENTAXRATE_DOWNLOAD_MAX_AGE_HOURS`, 24 by default; `0` downloads those every run. `scripts/backup-sources.sh` backs the folder up to a restic repository in R2 (bucket `opentaxrate-sources`, password `OPENTAXRATE_RESTIC_PASSWORD` in your secret manager); `restic snapshots` lists the dated versions. Use `--download-dir` or `OPENTAXRATE_DOWNLOAD_DIR` to change where `sources/` goes; Docker paths must be mounted. `--dir` selects existing input files instead.
 
 Already-loaded sources are skipped unless `--force` is used. Downloaded files keep their original names in URL-hash folders; live GIS/API responses are not archived. Artifacts are ignored by Git and excluded from snapshots.
 
@@ -30,14 +30,6 @@ Refresh acquires versioned supplemental polygons and reconciles general-tax feat
 - `<host>/<path>/<query id>/`: one folder per query or POST (map layer pages, lookup pages), gzipped, with `url.txt` saying what was asked.
 - `previous/<date>-<id>-<file>` beside a file: its older contents.
 - `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced).
-- `_unknown-url/<hash>/`: pages saved before URLs were recorded.
-
-Files saved in the older per-URL-hash folders (`artifacts/<sha256>/`) move in with:
-
-```bash
-npx tsx scripts/organize-sources.ts artifacts --dry-run   # then without --dry-run
-# other folders: --hashed <dir> for hash folders, --loose <dir> for loose copies
-```
 
 The folder is backed up with [restic](https://restic.net) to R2, bucket `opentaxrate-sources`. Each run is a dated snapshot that stores only what changed, and nothing is ever pruned. The credentials are in your production secret manager: `R2_ACCOUNT_ID`, `OPENTAXRATE_R2_ACCESS_KEY_ID` and `OPENTAXRATE_R2_SECRET_ACCESS_KEY` (a token for this bucket only; `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` stand in until it exists), and `OPENTAXRATE_RESTIC_PASSWORD`.
 

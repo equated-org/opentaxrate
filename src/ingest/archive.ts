@@ -40,7 +40,7 @@ const safe = (segment: string) => {
 
 /** Where a fetch is kept: its host and path, and for a query or POST a
  *  folder of its own under that path. */
-export function sourcePath(request: Request, name?: string) {
+function sourcePath(request: Request, name?: string) {
   const url = new URL(request.url);
   const parts = decodeURIComponent(url.pathname).split("/").filter(Boolean).map(safe);
   const last = url.pathname.endsWith("/") ? undefined : parts.pop();
