@@ -18,4 +18,7 @@ export const hawaii = stateTable("HI", () => ({
     { name: "Maui", rate: 0.005, from: "2024-01-01", to: "2030-12-31", type: "00" },
   ],
   source: "HI Department of Taxation county surcharge",
+  publications: [
+    { url: "https://tax.hawaii.gov/geninfo/countysurcharge/", name: "hi-countysurcharge.html" },
+  ],
 }));

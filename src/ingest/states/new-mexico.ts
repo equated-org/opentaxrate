@@ -15,6 +15,7 @@
  */
 import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchLayer } from "./sources.js";
+import { archiveResponse } from "../archive.js";
 
 const SERVICES = "https://services5.arcgis.com/f4lpEvI6fkgVYigk/arcgis/rest/services";
 const STATE = 0.04875;
@@ -82,7 +83,9 @@ async function polygonLayer(service: string) {
   const url = `${SERVICES}/${service}/FeatureServer`;
   const response = await fetch(`${url}?f=json`);
   if (!response.ok) throw new Error(`${url} answered ${response.status}`);
-  const body = (await response.json()) as { layers?: Array<{ id: number; geometryType?: string }> };
+  const text = await response.text();
+  await archiveResponse({ url: `${url}?f=json` }, text, `${service}.json`);
+  const body = JSON.parse(text) as { layers?: Array<{ id: number; geometryType?: string }> };
   const layer = body.layers?.find((l) => l.geometryType === "esriGeometryPolygon") ?? body.layers?.[0];
   if (!layer) throw new Error(`${url} has no layers`);
   return `${url}/${layer.id}`;

@@ -16,4 +16,7 @@ export const mississippi = stateTable("MS", () => ({
     { name: "Tupelo", rate: 0.0025, from: "1989-02-01", type: "01" },
   ],
   source: "MS DOR tourism and economic development taxes",
+  publications: [
+    { url: "https://www.dor.ms.gov/business/sales-and-use-tax/tourism-and-economic-development-taxes", name: "ms-tourism-taxes.html" },
+  ],
 }));

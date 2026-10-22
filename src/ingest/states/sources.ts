@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { unzipSync, strFromU8 } from "fflate";
 import type { Shape } from "../tiger.js";
-import { downloadedBytes, savedBytes } from "../archive.js";
+import { archiveResponse, downloadedBytes, savedBytes } from "../archive.js";
 
 const USER_AGENT =
   process.env.OPENTAXRATE_USER_AGENT ||
@@ -103,7 +103,9 @@ export async function fetchLayer(
       signal: AbortSignal.timeout(180_000),
     });
     if (!response.ok) throw new Error(`${layerUrl} answered ${response.status}`);
-    const body = (await response.json()) as {
+    const text = await response.text();
+    await archiveResponse({ url: url.toString() }, text, `${layerName(layerUrl)}-${offset}.geojson`);
+    const body = JSON.parse(text) as {
       features?: Array<{ properties: Record<string, unknown>; geometry: { type: string; coordinates: unknown } | null }>;
       exceededTransferLimit?: boolean;
       properties?: { exceededTransferLimit?: boolean };
@@ -120,6 +122,14 @@ export async function fetchLayer(
   }
   return features;
 }
+
+/** "Sales_Tax_Boundaries-2" for ".../Sales_Tax_Boundaries/FeatureServer/2". */
+const layerName = (layerUrl: string) =>
+  new URL(layerUrl).pathname
+    .split("/")
+    .filter((p) => p && !/^(arcgis|rest|services|FeatureServer|MapServer)$/i.test(p))
+    .slice(-2)
+    .join("-") || "layer";
 
 /** A GeoJSON polygon's or multipolygon's rings, holes included. */
 export function ringsOf(geometry: { type: string; coordinates: unknown } | null): Shape["rings"] {

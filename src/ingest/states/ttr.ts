@@ -23,6 +23,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../db/client.js";
 import { salesTaxJurisdictionRates } from "../../db/schema.js";
 import { ringsOf, bboxOf, shiftDay } from "./sources.js";
+import { archiveResponse } from "../archive.js";
 import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 
 const FIRST = "2024-01-01";
@@ -299,14 +300,19 @@ async function discoverIds(service: Service, snapshot: string, dir?: string) {
 /** One call to the service, tried three times when its gateway times out
  *  under load. */
 async function request(host: string, path: string, body: unknown): Promise<unknown> {
+  const json = JSON.stringify(body);
   for (let attempt = 1; ; attempt++) {
     const response = await fetch(`${host}/api/v1/${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Origin: host, Referer: `${host}/` },
-      body: JSON.stringify(body),
+      body: json,
       signal: AbortSignal.timeout(180_000),
     }).catch((error: Error) => error);
-    if (!(response instanceof Error) && response.ok) return response.json();
+    if (!(response instanceof Error) && response.ok) {
+      const text = await response.text();
+      await archiveResponse({ url: `${host}/api/v1/${path}`, method: "POST", body: json }, text, `${path}.json`);
+      return JSON.parse(text);
+    }
     const status = response instanceof Error ? response.message : response.status;
     // Only a gateway that timed out or dropped the call is worth asking again.
     const transient = response instanceof Error || [502, 503, 504].includes(response.status);

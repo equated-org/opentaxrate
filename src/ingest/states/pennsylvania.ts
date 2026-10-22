@@ -13,4 +13,5 @@ export const pennsylvania = stateTable("PA", () => ({
     { name: "Philadelphia", rate: 0.02, from: "2009-10-08", type: "00" },
   ],
   source: "PA Department of Revenue sales tax rates",
+  publications: [{ url: "https://www.revenue.pa.gov/TaxTypes/SUT/", name: "pa-sut.html" }],
 }));

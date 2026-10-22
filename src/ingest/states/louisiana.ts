@@ -34,6 +34,7 @@ import { latestTigerFiles } from "../downloads.js";
 import { readTigerZip, type Shape } from "../tiger.js";
 import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, ringsOf } from "./sources.js";
+import { archiveResponse } from "../archive.js";
 
 const LOOKUP = "https://remotesellersfiling.louisiana.gov/lookup/lookup.aspx";
 /** The site serves its certificate without GoDaddy's intermediate, so the
@@ -502,7 +503,9 @@ async function layer(url: string, where = "1=1") {
   query.search = new URLSearchParams({ where, outFields: "*", outSR: "4326", f: "geojson", geometryPrecision: "6" }).toString();
   const response = await fetch(query, { headers: { "User-Agent": "Mozilla/5.0 (compatible; opentaxrate data loader)" }, signal: AbortSignal.timeout(120_000) });
   if (!response.ok) throw new Error(`${url} answered ${response.status}`);
-  const body = (await response.json()) as {
+  const text = await response.text();
+  await archiveResponse({ url: query.toString() }, text, `${new URL(url).pathname.split("/").slice(-3, -1).join("-") || "layer"}.geojson`);
+  const body = JSON.parse(text) as {
     features?: Array<{ properties: Record<string, unknown>; geometry: { type: string; coordinates: unknown } | null }>;
     error?: { message: string };
   };
@@ -595,7 +598,13 @@ async function page(previous?: Form, fields: Record<string, string> = {}): Promi
           if ((response.statusCode ?? 500) >= 400)
             return reject(new Error(`Louisiana lookup answered ${response.statusCode}`));
           const cookie = (response.headers["set-cookie"] ?? []).map((c) => c.split(";")[0]).join("; ");
-          resolve({ html, cookie: cookie || previous?.cookie || "" });
+          // Kept by what was asked, not the form state, which changes every time.
+          const asked = new URLSearchParams(fields).toString();
+          void archiveResponse(
+            previous ? { url: LOOKUP, method: "POST", body: asked } : { url: LOOKUP },
+            html,
+            `lookup-${fields.ddlJurisdiction ?? "start"}-${(fields.ddlFilingPeriod ?? "").replace(/\D/g, "")}.html`,
+          ).then(() => resolve({ html, cookie: cookie || previous?.cookie || "" }));
         });
       },
     );

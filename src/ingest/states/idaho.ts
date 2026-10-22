@@ -46,4 +46,7 @@ export const idaho = stateTable("ID", () => ({
     type: "01" as const,
   })),
   source: "ID resort city ordinances, 2026",
+  publications: [
+    { url: "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/", name: "id-city-sales-tax.html" },
+  ],
 }));

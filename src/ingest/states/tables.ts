@@ -8,6 +8,7 @@
 import { latestTigerFiles } from "../downloads.js";
 import { readTigerZip } from "../tiger.js";
 import { STATE_FIPS } from "../../coverage.js";
+import { fetchFile } from "./sources.js";
 import type { GeoRateRow, GeoState, JurisdictionRow } from "./index.js";
 
 export interface DatedRate {
@@ -43,6 +44,9 @@ export interface Table {
   /** Leave out, with a warning, a city no Census place or town matches,
    *  rather than stop the load. */
   skipUnmatchedCities?: boolean;
+  /** The publications a hand-written table was copied from, downloaded on
+   *  each load only to be kept in artifacts/ beside the other raw files. */
+  publications?: Array<{ url: string; name: string }>;
 }
 
 /** A state read from its table: its rates, keyed to Census FIPS codes. */
@@ -54,6 +58,10 @@ export function stateTable(
     state,
     async fetch(dir) {
       const table = await load(dir);
+      for (const p of table.publications ?? [])
+        await fetchFile(p.url, dir, p.name).catch((error: Error) =>
+          console.warn(`${state}: couldn't keep ${p.url}: ${error.message}`),
+        );
       const codes = await censusCodes(state, dir);
       // One row per type:code, from its newest rate.
       const jurisdictions = new Map<string, JurisdictionRow & { from: string }>();

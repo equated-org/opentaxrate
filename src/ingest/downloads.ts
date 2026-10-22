@@ -8,7 +8,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { downloadedBytes, downloadedChunks, savedBytes, savedDownload } from "./archive.js";
+import { archiveResponse, downloadedBytes, downloadedChunks, savedBytes, savedDownload } from "./archive.js";
 import { Unzip, UnzipInflate } from "fflate";
 import type { Shape } from "./tiger.js";
 
@@ -136,7 +136,9 @@ export async function latestTigerAddressFiles(
   const folder = `${TIGER}/TIGER${year}/ADDRFEAT/`;
   const index = await fetch(folder);
   if (!index.ok) throw new Error(`TIGER ADDRFEAT listing answered ${index.status}`);
-  const names = [...new Set((await index.text()).match(new RegExp(`tl_${year}_${stateFips}\\d{3}_addrfeat\\.zip`, "g")) ?? [])];
+  const listing = await index.text();
+  await archiveResponse({ url: folder }, listing, `TIGER${year}-ADDRFEAT-index.html`);
+  const names = [...new Set(listing.match(new RegExp(`tl_${year}_${stateFips}\\d{3}_addrfeat\\.zip`, "g")) ?? [])];
   return {
     year,
     files: names.map((name) => ({
@@ -212,6 +214,8 @@ async function listSite(folder: "Rates" | "Boundary") {
   if (!response.ok)
     throw new Error(`The Streamlined ${folder} folder answered ${response.status}`);
   const html = await response.text();
+  // Which editions the site listed that day.
+  await archiveResponse({ url: `${SITE}/${folder}/` }, html, `sst-${folder}-index.html`);
   return [...html.matchAll(/HREF="([^"]+\.(?:csv|zip))"/gi)].map((m) => ({
     name: decodeURIComponent(m[1].split("/").pop()!),
     location: new URL(m[1], SITE).toString(),

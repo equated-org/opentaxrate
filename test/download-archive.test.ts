@@ -2,7 +2,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { downloadedBytes, downloadedChunks } from "../src/ingest/archive.js";
+import { readFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
+import { archiveResponse, downloadedBytes, downloadedChunks } from "../src/ingest/archive.js";
 import { fetchFile } from "../src/ingest/states/sources.js";
 import { sstFileLines } from "../src/ingest/downloads.js";
 
@@ -19,10 +21,12 @@ async function setup() {
   vi.stubEnv("OPENTAXRATE_DOWNLOAD_DIR", root);
   return root;
 }
+/** The saved data files, without each folder's url.txt and the manifest. */
 async function files(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   return (await Promise.all(entries.map(e => e.isDirectory()
-    ? files(path.join(directory, e.name)) : [path.join(directory, e.name)]))).flat();
+    ? files(path.join(directory, e.name))
+    : ["url.txt", "manifest.jsonl"].includes(e.name) ? [] : [path.join(directory, e.name)]))).flat();
 }
 
 describe("local source download archive", () => {
@@ -137,5 +141,35 @@ describe("reusing saved downloads", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(new Response("<html>Request Rejected</html>")).mockResolvedValue(new Response(zip)));
     expect(text(await fetchFile("https://census.example/tl_2026_51059_addrfeat.zip"))).toMatch(/Rejected/);
     expect(await fetchFile("https://census.example/tl_2026_51059_addrfeat.zip")).toEqual(zip);
+  });
+});
+
+describe("keeping every version", () => {
+  it("keeps older contents, dated, when a file changes, and records each fetch", async () => {
+    const directory = await setup();
+    const url = "https://revenue.example/taxrates.csv";
+    await downloadedBytes(url, new Response("v1"));
+    await downloadedBytes(url, new Response("v1"));
+    await downloadedBytes(url, new Response("v2"));
+    const saved = await files(directory);
+    expect(saved.map((f) => path.basename(f)).sort()).toEqual([expect.stringMatching(/^\d{4}-\d{2}-\d{2}-\w{8}-taxrates\.csv$/), "taxrates.csv"]);
+    expect(await readFile(saved.find((f) => f.includes("previous"))!, "utf8")).toBe("v1");
+    expect(await readFile(saved.find((f) => !f.includes("previous"))!, "utf8")).toBe("v2");
+    const manifest = (await readFile(path.join(directory, "manifest.jsonl"), "utf8")).trim().split("\n").map((l) => JSON.parse(l));
+    expect(manifest).toHaveLength(3);
+    expect(manifest[2]).toMatchObject({ url, bytes: 2, previous: expect.stringContaining("previous/") });
+    expect(manifest[1].previous).toBeUndefined();
+    const folder = path.dirname(saved.find((f) => !f.includes("previous"))!);
+    expect(await readFile(path.join(folder, "url.txt"), "utf8")).toBe(`${url}\n`);
+  });
+
+  it("keeps a live answer gzipped, keyed by what a POST asked", async () => {
+    const directory = await setup();
+    const url = "https://lookup.example/api/v1/rates.byPlace";
+    await archiveResponse({ url, method: "POST", body: '{"date":"2026-01-01"}' }, '{"rate":0.03}', "rates.byPlace.json");
+    await archiveResponse({ url, method: "POST", body: '{"date":"2026-07-01"}' }, '{"rate":0.04}', "rates.byPlace.json");
+    const saved = await files(directory);
+    expect(saved).toHaveLength(2);
+    expect(saved.map((f) => gunzipSync(readFileSync(f)).toString()).sort()).toEqual(['{"rate":0.03}', '{"rate":0.04}']);
   });
 });

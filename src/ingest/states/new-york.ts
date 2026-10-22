@@ -54,4 +54,8 @@ export const newYork = stateTable("NY", () => ({
     })),
   ]),
   source: "NY Publication 718 (effective 2025-03-01)",
+  publications: [
+    { url: "https://www.tax.ny.gov/pdf/publications/sales/pub718.pdf", name: "pub718.pdf" },
+    { url: "https://www.tax.ny.gov/pdf/publications/sales/pub718a.pdf", name: "pub718a.pdf" },
+  ],
 }));

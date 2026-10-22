@@ -47,6 +47,9 @@ const counties = stateTable("SC", () => ({
     ),
   ],
   source: "SC DOR ST-500 (effective 2026-05-01)",
+  publications: [
+    { url: "https://dor.sc.gov/sites/dor/files/forms/ST500.pdf", name: "ST500.pdf" },
+  ],
 }));
 
 export const southCarolina: GeoState = {

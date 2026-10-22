@@ -84,4 +84,9 @@ export const florida = stateTable("FL", () => ({
   stateRates: [{ rate: 0.06, from: "2025-01-01", to: "2026-12-31" }],
   locals: SURTAX.map(([name, rate, from, to]) => ({ name, rate, from, to, type: "00" as const })),
   source: "FL DR-15DSS 2025 and 2026",
+  publications: [
+    { url: "https://floridarevenue.com/Forms_library/current/dr15dss_26.pdf", name: "dr15dss_26.pdf" },
+    { url: "https://floridarevenue.com/Forms_library/current/dr15dss_25.pdf", name: "dr15dss_25.pdf" },
+    { url: "https://floridarevenue.com/taxes/taxesfees/Pages/discretionary.aspx", name: "fl-discretionary.html" },
+  ],
 }));
