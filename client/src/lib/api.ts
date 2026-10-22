@@ -24,6 +24,10 @@ export interface RatePart {
 	/** A decimal: 0.01 is 1%. */
 	rate: number;
 	byType?: RatesByType;
+	/** The state's own ids for this jurisdiction, keyed by its data's column
+	 *  names ({"Locality Code": "9454"}); {} where it publishes none. Absent
+	 *  from an API older than ids. */
+	ids?: Record<string, string>;
 }
 
 export interface AddressRate {
@@ -36,28 +40,17 @@ export interface AddressRate {
 	parts: RatePart[];
 	match: Match;
 	locationCode: string | null;
+	/** The state's own ids for the whole location, e.g. Washington's
+	 *  {"Composite SER Code": "01726"}; {} where it gives none. */
+	locationIds?: Record<string, string>;
 	source: string;
-	/** Who the return goes to and the codes it files this address under;
-	 *  absent from an API older than reporting. */
+	/** Who the return goes to; absent from an API older than reporting. */
 	reporting?: Reporting | null;
 }
 
-export interface ReportingCode {
-	scheme: string;
-	label: string;
-	value: string;
-	/** The `code`s of the parts it reports. */
-	parts: string[];
-	verified: boolean;
-}
-
 export interface Reporting {
-	status: 'complete' | 'partial' | 'not_needed';
 	agency: { name: string; url: string };
 	form: string | null;
-	codes: ReportingCode[];
-	missing: string[];
-	fromAccount: string[];
 	notes: string[];
 }
 

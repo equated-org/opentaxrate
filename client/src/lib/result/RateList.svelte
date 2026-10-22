@@ -15,6 +15,7 @@
 	let { rate, trace, url, raw, preview = false }: Props = $props();
 
 	const rows = $derived(partRows(rate, trace));
+	const locationIds = $derived(Object.entries(rate.locationIds ?? {}));
 	const lines = $derived(howPlaced(rate, trace));
 	const today = new Date().toISOString().slice(0, 10);
 	// The date the rate is for: the source names it ("... on 2026-10-21"),
@@ -49,11 +50,22 @@
 				<span class="min-w-0 flex-1">
 					{row.name}
 					{#if row.code}<span class="part-code font-num ml-1.5 text-[10.5px] text-[var(--text-muted)] opacity-70">{row.code}</span>{/if}
+					{#if row.ids.length}
+						<span class="font-num mt-0.5 block text-[11.5px] text-[var(--text-muted)]">
+							{row.ids.map(([key, value]) => `${key} ${value}`).join(' · ')}
+						</span>
+					{/if}
 				</span>
 				<span class="font-num text-[14.5px] font-medium">{pct(row.rate)}</span>
 			</li>
 		{/each}
 	</ul>
+
+	{#if locationIds.length}
+		<p class="font-num -mt-3 text-[11.5px] text-[var(--text-muted)]">
+			This location: {locationIds.map(([key, value]) => `${key} ${value}`).join(' · ')}
+		</p>
+	{/if}
 
 	{#if otherRates.length}
 		<div class="text-sm text-[var(--text-muted)]">
@@ -70,26 +82,9 @@
 			<p class="mt-1 text-sm leading-relaxed text-[var(--text-2)]">
 				File with the <a class="link" href={r.agency.url} target="_blank" rel="noopener">{r.agency.name}</a>{r.form
 					? `, on the ${r.form}`
-					: ''}.
-				{#if r.status === 'not_needed'}No local code needed.{/if}
+					: ''}.{#if rows.some((row) => row.ids.length) || locationIds.length}
+					The state's own codes are listed under each tax, as its data gives them.{/if}
 			</p>
-			{#if r.codes.length}
-				<dl class="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
-					{#each r.codes as code, i (i)}
-						<dt class="text-[var(--text-muted)]">{code.label}</dt>
-						<dd>
-							<span class="font-num font-medium text-[var(--text)]">{code.value}</span>
-							{#if !code.verified}<span class="ml-1.5 text-xs text-[var(--warn)]">unverified</span>{/if}
-						</dd>
-					{/each}
-				</dl>
-			{/if}
-			{#each r.missing as item, i (i)}
-				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">Not given here: {item}.</p>
-			{/each}
-			{#each r.fromAccount as item, i (i)}
-				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">From your registration: {item}.</p>
-			{/each}
 			{#each r.notes as note, i (i)}
 				<p class="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{note}</p>
 			{/each}

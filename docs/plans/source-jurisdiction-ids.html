@@ -275,7 +275,7 @@
 <article>
 
 <header class="page-head">
-  <p class="eyebrow">Design plan · phases 1 and 2 built · main after 392c161 · 2026-10-22</p>
+  <p class="eyebrow">Design plan · built · main after 392c161 · 2026-10-22</p>
   <h1>Keep every source's own jurisdiction ids</h1>
   <p class="lede">Each state's rate source names its jurisdictions with its own codes, like Alabama's locality code 9454 for Montgomery or Washington's SER code 01726 for Seattle, and the ingest throws most of them away. This plan keeps them in one table, <code>sales_tax_jurisdictions</code>, and returns them on every part exactly as the publisher wrote them. That makes the answer as complete as the data we load, with no per-state mapping code.</p>
   <p class="meta">Traced from <code>src/ingest/load.ts</code>, <code>sst-files.ts</code>, <code>missouri.ts</code>, <code>states/*.ts</code>, <code>src/rates/index.ts</code>, <code>ranges.ts</code>, <code>map.ts</code>, <code>names.ts</code>, <code>reporting.ts</code>, and the cached source files in <code>/tmp/otr-cache</code> (Alabama <code>taxrates.csv</code>, Illinois <code>ordmache</code>, Missouri's boundary CSV and rate workbook, the Streamlined files), on 2026-10-22.</p>
@@ -560,7 +560,7 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
 </table></div>
 
 <h2 id="phases">Phases</h2>
-<p>Four pull requests, in order. Each leaves the API working; ids appear state by state as phase 2 lands. Phases 1 and 2 were built on 2026-10-22; the API returns nothing new until phase 3.</p>
+<p>Four pull requests, in order. Each leaves the API working; ids appear state by state as phase 2 lands. All four were built and deployed on 2026-10-22.</p>
 <ol>
   <li><strong>Table and area ids.</strong> The new table, <code>sales_tax_areas.ids</code> in place of <code>reporting_code</code>, and the Streamlined boundary parser writing it.
     <details class="more">
@@ -603,7 +603,8 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
         <li>Docs: <code>docs/context/engine.html</code> (<code>AddressRate</code>, Reporting), <code>refresh.html</code> (tables), <code>api.html</code>.</li>
       </ul></div>
     </details>
-    <em>Done when</em> the Montgomery lookup returns the response above against a refreshed database, and Seattle returns <code>locationIds</code> with SER 01726.</li>
+    <em>Done when</em> the Montgomery lookup returns the response above against a refreshed database, and Seattle returns <code>locationIds</code> with SER 01726.
+    <p><strong>Built.</strong> A part's name is the jurisdiction row's, else the engine's (the map engine's shape name), else the outline's. Illinois addresses on a business district list still take their location's row (the <code>x</code> part), so the district suffix isn't returned. Tests: <code>test/reporting.test.ts</code> (directory only) and the describe tests in <code>test/jurisdictions.test.ts</code>.</p></li>
   <li><strong>Client and docs page.</strong> Types, the part rows, and <code>/docs</code>.
     <details class="more">
       <summary>Files<span class="dim">phase 4</span></summary>
@@ -613,7 +614,8 @@ ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdiction
         <li><code>client/src/routes/docs/+page.svelte</code> (the Parts and Reporting sections, and a table of which sources give which ids, from <a href="#sources">above</a>).</li>
       </ul></div>
     </details>
-    <em>Done when</em> <code>svelte-check</code>, the client tests and <code>vite build</code> pass, and the Montgomery result shows its locality codes in both themes.</li>
+    <em>Done when</em> <code>svelte-check</code>, the client tests and <code>vite build</code> pass, and the Montgomery result shows its locality codes in both themes.
+    <p><strong>Built.</strong> The docs page has a "States' own codes" section with the table of keys by state.</p></li>
 </ol>
 
 <h3 id="reload">What to reload after phases 1 and 2</h3>

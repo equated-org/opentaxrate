@@ -16,8 +16,9 @@
  * in one rate is refused with the rates it could be; it never gets a guess,
  * and missing data is never read as no tax.
  *
- * This is the rate on a general sale, with the codes the state's return
- * files it under where the state's data gives them (reporting.ts). Whether
+ * This is the rate on a general sale, each part with the ids the state's
+ * own data gives it (names.ts), and where the state's return goes
+ * (reporting.ts). Whether
  * an item is taxable and which address a sale is sourced to are the
  * caller's.
  */
@@ -35,7 +36,7 @@ import { marginProbes, stateLookup, stateLookupAt } from "./state-lookups.js";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxJurisdictionRates } from "../db/schema.js";
-import { nameParts } from "./names.js";
+import { describeParts } from "./names.js";
 import { reportingFor, type Reporting } from "./reporting.js";
 
 export type { LocatedPoint, RatePart, RatesByType, Reporting, Trace };
@@ -79,11 +80,18 @@ export interface AddressRate {
    *  street range, a ZIP+4 range, a ZIP whose ranges all share one rate, or
    *  the county and city outlines its map point falls in. */
   match: "statewide" | "street" | "zip4" | "zip5" | "map" | "authority";
+  /** OpenTaxRate's own key for the combination of taxes (FIPS codes, or
+   *  California's tax area code); not a filing code. */
   locationCode: string | null;
+  /** The state's own ids for the whole location, keyed by its data's column
+   *  names: Washington's location code as {"Composite SER Code": "01726"},
+   *  Missouri's {"Jurisdiction Code": …}. {} where the data gives none, or
+   *  when the address could be in areas whose ids differ. */
+  locationIds: Record<string, string>;
   /** Where the rate came from, for a tax line's note. */
   source: string;
-  /** Who the state return goes to and the codes it files this address's
-   *  tax under (reporting.ts); null for a state with no entry. */
+  /** Who the state return goes to, the return, and filing outside it
+   *  (reporting.ts); null for a state with no entry. */
   reporting: Reporting | null;
 }
 
@@ -122,15 +130,14 @@ export const addressRates = {
    *  state's files aren't loaded. */
   async at(query: AddressRateQuery, date: string): Promise<AddressRate> {
     const { locationIds, ...found } = await rateAt(query, date);
-    const parts = await nameParts(found.state, found.parts);
-    const reportingCode = locationIds?.["Composite SER Code"] ?? locationIds?.["Jurisdiction Code"];
-    return { ...found, parts, reporting: reportingFor(found.state, found.match, parts, found.locationCode, reportingCode) };
+    const parts = await describeParts(found.state, found.parts);
+    return { ...found, parts, locationIds: locationIds ?? {}, reporting: reportingFor(found.state) };
   },
 };
 
-/** An engine's answer, before naming: the ids a range state's boundary file
- *  gave the area ride along until `reportingFor` reads them. */
-type EngineRate = Omit<AddressRate, "reporting"> & { locationIds?: Record<string, string> };
+/** An engine's answer, before its parts are described; only the range
+ *  engine has location ids. */
+type EngineRate = Omit<AddressRate, "reporting" | "locationIds"> & { locationIds?: Record<string, string> };
 
 async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate> {
   const state = query.state.toUpperCase();

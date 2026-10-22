@@ -81,6 +81,8 @@ export interface PartRow {
 	color: string;
 	/** An outline the address is inside that levies nothing. */
 	dim: boolean;
+	/** The state's own ids for it, as the API gives them. */
+	ids: Array<[string, string]>;
 }
 
 export function partRows(rate: AddressRate, trace: Trace | null): PartRow[] {
@@ -88,7 +90,7 @@ export function partRows(rate: AddressRate, trace: Trace | null): PartRow[] {
 	const used = new Set<Outline>();
 	const rows: PartRow[] = rate.parts.map((part) => {
 		if (part.kind === 'state')
-			return { name: `State of ${stateName(rate.state)}`, code: null, rate: part.rate, color: PART_COLOR.state, dim: false };
+			return { name: `State of ${stateName(rate.state)}`, code: null, rate: part.rate, color: PART_COLOR.state, dim: false, ids: Object.entries(part.ids ?? {}) };
 		const o = outlineFor(part, outlines);
 		if (o) used.add(o);
 		const named = o ? outlineName(o) : part.name ? partName(part.kind, part.name) : null;
@@ -97,12 +99,13 @@ export function partRows(rate: AddressRate, trace: Trace | null): PartRow[] {
 			code: named ? part.code : null,
 			rate: part.rate,
 			color: PART_COLOR[part.kind] ?? 'var(--text-muted)',
-			dim: false
+			dim: false,
+			ids: Object.entries(part.ids ?? {})
 		};
 	});
 	for (const o of outlines)
 		if (o.inside && !o.levies && !used.has(o))
-			rows.push({ name: `${outlineName(o)} levies none`, code: null, rate: 0, color: 'var(--border)', dim: true });
+			rows.push({ name: `${outlineName(o)} levies none`, code: null, rate: 0, color: 'var(--border)', dim: true, ids: [] });
 	return rows;
 }
 

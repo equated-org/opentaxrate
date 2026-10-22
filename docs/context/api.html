@@ -177,7 +177,7 @@
 </tr>
 <tr>
 <td><code>GET /v1/rate</code></td>
-<td>validates the query, returns an <code>AddressRate</code> with named <code>parts</code> and <code>reporting</code> (see <a href="engine.html">engine.html</a>), plus <code>trace</code> when asked</td>
+<td>validates the query, returns an <code>AddressRate</code> with named <code>parts</code> (each with the state's own <code>ids</code>), <code>locationIds</code> and <code>reporting</code> (see <a href="engine.html">engine.html</a>), plus <code>trace</code> when asked</td>
 <td>200, 400, 422, 429, 502, 504, 500</td>
 </tr>
 <tr>
