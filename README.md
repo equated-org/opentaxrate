@@ -41,7 +41,7 @@ docker compose run --rm refresh OH TX WA
 Or skip the first load with a snapshot:
 
 ```bash
-scripts/restore.sh https://github.com/opentaxrate/opentaxrate/releases/download/2026-10/opentaxrate-2026-10-21.dump
+scripts/restore.sh https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22/opentaxrate-2026-10-22.dump
 ```
 
 Then:
@@ -154,6 +154,39 @@ The 5 GB is almost all one thing: **15.4 million street house-number ranges** fr
 | State rate files and forms | under 20 MB | 20 MB |
 
 **Nothing is committed to this repo.** The data changes every quarter, several files are over GitHub's 100 MB limit, and each state should be fetched from its source so you know where every rate came from. `refresh` downloads straight from the publishers; `scripts/snapshot.sh` writes a compressed dump (about 570 MB) for a release download, and `scripts/restore.sh` loads one.
+
+To publish a downloadable snapshot, authenticate GitHub CLI (`gh auth login`),
+then load and publish the database:
+
+```bash
+docker compose up -d db
+docker compose run --rm migrate
+docker compose run --rm refresh
+scripts/publish.sh                 # creates release data-YYYY-MM-DD with dump + SHA-256
+# scripts/publish.sh data-2026-10-22-v2   # use a new tag to publish again that day
+```
+
+`publish.sh` exports the currently loaded database; it does not refresh it. Check
+the refresh output and `/v1/coverage` before publishing. If the stack uses a
+different Compose project name, set `COMPOSE_PROJECT_NAME` when running the script.
+Existing releases are never overwritten. The release has the repository's visibility.
+For a private repository, download with authenticated GitHub CLI before restoring:
+
+```bash
+gh release download data-2026-10-22 --pattern 'opentaxrate-2026-10-22.dump*' --dir data
+(cd data && sha256sum -c opentaxrate-2026-10-22.dump.sha256)
+scripts/restore.sh data/opentaxrate-2026-10-22.dump
+```
+
+Snapshots hold rows only for the six tax-data tables, migration metadata, and
+standard PostGIS reference data. Every other table (geocoding cache and usage,
+accounts, keys, request history, credit) is included empty, so a restored
+database matches its migrations. `snapshot.sh` stops on a table it doesn't
+classify, and `restore.sh` refuses a database that already has accounts or
+keyed lookups, since restoring replaces those tables. Street ranges describe
+the states' published tax boundaries. After downloading both assets, verify with
+`sha256sum -c opentaxrate-YYYY-MM-DD.dump.sha256` and load the dump with
+`scripts/restore.sh path/to/opentaxrate-YYYY-MM-DD.dump`.
 
 Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
 
