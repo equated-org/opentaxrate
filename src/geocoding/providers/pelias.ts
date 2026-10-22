@@ -1,5 +1,6 @@
 import { matchesAddress } from "./match.js";
-import { geocoderJson, GeocoderError, type AddressToLocate, type SourcedPoint } from "../types.js";
+import { geocoderJson, GeocoderError, metresBetween, type AddressToLocate, type SourcedPoint } from "../types.js";
+import { PARAMS } from "../../params.js";
 
 export async function peliasPoint(a: AddressToLocate, signal: AbortSignal): Promise<SourcedPoint | null> {
   const url = new URL(`${process.env.PELIAS_URL!.replace(/\/+$/, "")}/v1/search`);
@@ -13,7 +14,15 @@ export async function peliasPoint(a: AddressToLocate, signal: AbortSignal): Prom
       || !matchesAddress(a, { house: p.housenumber, street: p.street, city: p.locality,
         state: p.region_a ?? p.region, zip: p.postalcode, country: p.country_a === "USA" ? "US" : p.country_a })) return [];
     const source = p.source === "openstreetmap" ? "osm" : p.source === "openaddresses" ? "openaddresses" : "pelias";
-    return [{ provider: "pelias", source, accuracy: "point", lon: f.geometry?.coordinates?.[0], lat: f.geometry?.coordinates?.[1] }];
+    const [lon, lat] = f.geometry?.coordinates ?? [];
+    if (!Number.isFinite(lon) || !Number.isFinite(lat)) return [];
+    return [{ provider: "pelias", source, accuracy: "point", lon, lat }];
   });
-  return matches.length === 1 ? matches[0] : null;
+  if (!matches.length) return null;
+  // The same house from several datasets is one answer, its margin wide
+  // enough to reach them all; houses farther apart are different places.
+  const [first] = matches;
+  const spread = Math.max(...matches.map((m: SourcedPoint) => metresBetween(first, m)));
+  if (spread > PARAMS.peliasDuplicateMetres) return null;
+  return spread > 0 ? { ...first, metres: Math.ceil(spread) } : first;
 }

@@ -6,7 +6,7 @@ import { postgresGeocodeBudget, type GeocodeBudget } from "./budget.js";
 import { geocoderProviders } from "./registry.js";
 import { streetsInZip } from "./zip-streets.js";
 import { roundCoord, type Trace } from "../rates/types.js";
-import { EDGE_METRES, marginOf, metresBetween, validPoint,
+import { marginOf, metresBetween, validPoint,
   type AddressToLocate, type SourcedPoint, type LocatedPoint, type GeocoderProvider, type Locate } from "./types.js";
 import { PARAMS } from "../params.js";
 
@@ -42,6 +42,14 @@ export async function insideTypedArea(a: AddressToLocate, p: LocatedPoint) {
     (/zip code tabulation/i.test(layer) && geos.some(g => (g.ZCTA5 ?? g.GEOID) === zip))
     || (/places|county subdivisions/i.test(layer) && !!city && geos.some(g => townName(g.NAME ?? "") === city)));
 }
+/** Whether the point is in a city or town outline loaded for the state:
+ *  those are loaded for places with a rate of their own. */
+async function insideRatedTown(a: AddressToLocate, p: LocatedPoint) {
+  const [row] = await db.execute<{ inside: boolean }>(sql`
+    select exists (select 1 from sales_tax_shapes where state = ${a.state} and kind in ('place', 'cousub')
+      and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))) as inside`);
+  return Boolean(row?.inside);
+}
 /** A town's name without the Census's kind of place: "Hatfield township"
  *  and "Hatfield borough" are both "HATFIELD". */
 const townName = (name: string) =>
@@ -50,10 +58,12 @@ const townName = (name: string) =>
  * where the typed city has no outline loaded, inside the typed ZIP's area or
  * a Census place or township of the typed name. Outside an outline the city
  * does have is not, unless lonePointOutsideCity lets the typed ZIP's area
- * vouch for it. */
+ * vouch for a point in no rated town: a rural address with the town's
+ * mailing name. */
 async function plausible(a: AddressToLocate, p: LocatedPoint) {
   const city = await insideTypedCity(a, p);
-  if (city === "outside" && PARAMS.lonePointOutsideCity) return insideTypedArea({ ...a, city: "" }, p);
+  if (city === "outside")
+    return PARAMS.lonePointOutsideCity && !(await insideRatedTown(a, p)) && insideTypedArea({ ...a, city: "" }, p);
   return city === "inside" || (city === "no outline" && await insideTypedArea(a, p));
 }
 interface Options {
@@ -67,8 +77,6 @@ interface Options {
   zipStreets?: (address: AddressToLocate) => Promise<ReadonlySet<string> | null>;
 }
 export interface GeocodeTrace { provider: string; outcome: "cached" | "matched" | "no-match" | "skipped" | "failed" }
-/** The widest circle disagreeing datasets may be placed within. */
-const WIDE_METRES = PARAMS.wideMetres;
 // Coalesce duplicate requests in this process, without retaining non-storable results.
 const inFlight = new Map<string, Promise<SourcedPoint | null | undefined>>();
 
@@ -192,7 +200,7 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
       // and these points are the evidence: a refinement must agree with all.
       const wide = placement(remaining);
       const metres = Math.ceil(Math.max(...remaining.map(p => metresBetween(wide, p) + marginOf(p))));
-      if (metres > WIDE_METRES) return null;
+      if (metres > PARAMS.wideMetres) return null;
       accepted = remaining;
       return { ...wide, metres };
     }
@@ -211,7 +219,7 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
     // The old boundary distance is a hint, not an eligibility threshold:
     // a corrected point can move away from (or across) the boundary.
     for (const p of providers) {
-      if (EDGE_METRES[p.typicalAccuracy] >= marginOf(prior)) continue;
+      if (PARAMS.minMarginMetres[p.typicalAccuracy] >= marginOf(prior)) continue;
       const alreadyKnown = memo.has(p.id);
       const point = await ask(p);
       if (!point || marginOf(point) >= marginOf(prior)) continue;

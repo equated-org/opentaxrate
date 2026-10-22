@@ -19,10 +19,8 @@ import { parseStreet, type StreetParts } from "../../address.js";
 import { jevChoice, type StreetPicker } from "./jev.js";
 import { PARAMS } from "../../params.js";
 
-/** How alike two names must be, and how far ahead of the next, for the
- *  spelling alone to pick a street. */
-const MIN_SIMILARITY = PARAMS.spellingMinSimilarity;
-const MIN_LEAD = PARAMS.spellingMinLead;
+/** How sure Jev must be of its pick. How alike two names must be for the
+ *  spelling alone to pick a street is a setting (params.ts). */
 const MIN_CONFIDENCE = 0.5;
 /** A ZIP with more streets than this is too long a list to put to Jev. */
 const MAX_CHOICES = 1500;
@@ -80,7 +78,7 @@ export function bySpelling(typed: StreetParts, streets: string[]): Correction | 
     .map((street) => ({ street, score: similarity(nameOf(typed), nameOf(parseStreet(`1 ${street}`))) }))
     .sort((a, b) => b.score - a.score);
   const [best, next] = scored;
-  if (!best || best.score < MIN_SIMILARITY || best.score - (next?.score ?? 0) < MIN_LEAD) return null;
+  if (!best || best.score < PARAMS.spellingMinSimilarity || best.score - (next?.score ?? 0) < PARAMS.spellingMinLead) return null;
   return { street: best.street, by: "spelling", confidence: best.score };
 }
 

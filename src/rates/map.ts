@@ -43,7 +43,7 @@
  * refused, unless moving it across that edge would not change the rate.
  *
  * An address no geocoder can place still gets a rate when its whole ZIP has
- * one: when the typed ZIP's Census area, widened by ZIP_MARGIN_METRES, lies
+ * one: when the typed ZIP's Census area, widened by zipMarginMetres, lies
  * wholly inside every rated outline it touches (a rural ZIP far from any
  * city or district line).
  */
@@ -77,10 +77,6 @@ export interface GeoRate {
 
 /** How far a police jurisdiction can reach past its city's limits. */
 const PJ_METRES = 4_828;
-/** How far past its Census area an address with that ZIP may be. The area
- *  is drawn from whole census blocks, by the ZIP most of each block's
- *  addresses use, and the file it comes from is simplified. */
-const ZIP_MARGIN_METRES = PARAMS.zipMarginMetres;
 
 type Shape = PlacedShape;
 type RateRow = typeof salesTaxJurisdictionRates.$inferSelect;
@@ -228,12 +224,14 @@ async function ratesOn(state: string, date: string) {
 }
 
 /** The rate everywhere in the typed ZIP's Census area widened by
- *  ZIP_MARGIN_METRES, or null unless it has exactly one: every rated
- *  outline it touches must hold all of it, the state's counties must, and
- *  no district whose rate no source confirms may touch it. Null too where the typed city
- *  or street says the ZIP was typed wrong: a city with an outline the area
- *  doesn't reach, or a street the Census lists in the state only in ZIPs
- *  far from this one. (A street it lists nowhere can't say either way.) */
+ *  zipMarginMetres (the area is drawn from whole census blocks, by the ZIP
+ *  most of a block's addresses use, and simplified), or null unless it has
+ *  exactly one: every rated outline it touches must hold all of it, the
+ *  state's counties must, and no district whose rate no source confirms may
+ *  touch it. Null too where the typed city or street says the ZIP was typed
+ *  wrong: a city with an outline the area doesn't reach, or a street the
+ *  Census lists in the state only in ZIPs far from this one. (A street it
+ *  lists nowhere can't say either way.) */
 async function wholeZipRate(
   state: string,
   zip5: string,
@@ -241,7 +239,7 @@ async function wholeZipRate(
   rates: Map<string, RateRow>,
   street?: string,
 ): Promise<Omit<GeoRate, "files"> | null> {
-  const widened = sql`(select st_buffer(geom::geography, ${ZIP_MARGIN_METRES})::geometry as g from zip_areas where zip5 = ${zip5})`;
+  const widened = sql`(select st_buffer(geom::geography, ${PARAMS.zipMarginMetres})::geometry as g from zip_areas where zip5 = ${zip5})`;
   const rows = await db.execute<{ kind: Shape["kind"]; fips: string; name: string; area: number; holds: boolean }>(sql`
     select s.kind, s.fips, s.name, st_area(s.geom) as area, st_covers(s.geom, z.g) as holds
     from sales_tax_shapes s cross join ${widened} z

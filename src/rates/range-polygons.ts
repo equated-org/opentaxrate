@@ -87,7 +87,7 @@ export async function rangePolygonAreas(
     selected = areas.filter((a) => a.county === county && a.place === town && !a.districts).map((a) => a.id);
     // A town that levies nothing of its own has no row in the rate file,
     // so its addresses are filed with the county's, without a town.
-    if (!selected.length && town && PARAMS.zoneBeyondZip && !(await townLevies(state, town, date)))
+    if (!selected.length && town && PARAMS.zoneBeyondZip && !(await mayLevy(state, town, date)))
       selected = areas.filter((a) => a.county === county && a.place === null && !a.districts).map((a) => a.id);
   }
   if (!selected?.length) return null;
@@ -99,10 +99,16 @@ export async function rangePolygonAreas(
   return { areas: rows.some((s) => Number(s.edge) < margin) ? "near_edge" : selected, file: source.file };
 }
 
-/** Whether the state's rate file has a rate of the town's own on the date. */
-async function townLevies(state: string, town: string, date: string) {
-  const [row] = await db.select({ code: salesTaxJurisdictionRates.code }).from(salesTaxJurisdictionRates)
-    .where(and(eq(salesTaxJurisdictionRates.state, state), eq(salesTaxJurisdictionRates.code, town),
-      lte(salesTaxJurisdictionRates.startsOn, date), gte(salesTaxJurisdictionRates.endsOn, date))).limit(1);
-  return Boolean(row);
+/** Whether the town may have a rate of its own on the date: a row in the
+ *  state's rate file for it, or for a code beside it (Utah codes the part of
+ *  a town in another county next to the town's: Park City East 58071 beside
+ *  Park City 58070), or a special zone's code (97xxx), whose taxes the file
+ *  keeps under neighbouring codes. Only a town that plainly levies nothing
+ *  is read as the county without a town. */
+async function mayLevy(state: string, town: string, date: string) {
+  if (town.startsWith("97")) return true;
+  const rows = await db.select({ code: salesTaxJurisdictionRates.code }).from(salesTaxJurisdictionRates)
+    .where(and(eq(salesTaxJurisdictionRates.state, state), like(salesTaxJurisdictionRates.code, `${town.slice(0, 4)}%`),
+      lte(salesTaxJurisdictionRates.startsOn, date), gte(salesTaxJurisdictionRates.endsOn, date)));
+  return rows.some((r) => /^\d{5}$/.test(r.code));
 }

@@ -81,6 +81,10 @@ const DEFINITIONS: Definition[] = [
     storable: () => false, geocode: googlePoint },
 ];
 
+// A name that isn't a geocoder would leave the one meant switched on.
+const unknownGeocoders = PARAMS.disabledGeocoders.filter((id) => !DEFINITIONS.some((d) => d.id === id));
+if (unknownGeocoders.length) throw new Error(`OTR_PARAMS: disabledGeocoders names no geocoder ${unknownGeocoders.join(", ")}`);
+
 /** An override from the environment, or the default when unset or invalid:
  *  a mistyped setting must not stop every lookup. */
 function setting(name: string, fallback: number, integer = false) {

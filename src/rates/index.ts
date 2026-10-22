@@ -191,15 +191,20 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
   }
   // Other enabled state lookups answer at the map point when the rate is
   // consistent across its uncertainty margin; otherwise local data answers.
+  // The lookup is read at the point and four edges of its margin, so only a
+  // point sure enough that no town could hide between them is asked.
+  const ask = async (p: LocatedPoint) =>
+    lookup && marginOf(p) <= PARAMS.lookupMaxMarginMetres ? stateLookupAt(lookup, p, date) : null;
   let point = lookup && query.locate ? await query.locate() : null;
-  let looked = lookup && point ? await stateLookupAt(lookup, point, date) : null;
-  // Two rates across the margin may only mean the point is too vague: ask
-  // once for a sharper one, as the map does near a line.
-  if (lookup && point && looked === null && query.locate && PARAMS.lookupRefine > 0) {
-    const sharper = await query.locate({ marginUnder: Math.floor(marginOf(point) * PARAMS.lookupRefine) });
+  let looked = point ? await ask(point) : null;
+  // Two rates across the margin, or too wide a margin, may only mean the
+  // point is too vague: ask once for a sharper one, as the map does near a
+  // line.
+  if (lookup && point && looked === null && query.locate && PARAMS.lookupSharpen) {
+    const sharper = await query.locate({ marginUnder: marginOf(point) });
     if (sharper && marginOf(sharper) < marginOf(point)) {
       point = sharper;
-      looked = await stateLookupAt(lookup, sharper, date);
+      looked = await ask(sharper);
     }
   }
   if (lookup && point && looked !== null) {

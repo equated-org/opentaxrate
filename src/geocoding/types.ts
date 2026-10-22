@@ -8,8 +8,7 @@ export interface LocatedPoint {
   placedBy?: string[];
 }
 
-export const EDGE_METRES: Record<LocatedPoint["accuracy"], number> = PARAMS.edgeMetres;
-export const marginOf = (p: LocatedPoint) => Math.max(EDGE_METRES[p.accuracy], p.metres ?? 0);
+export const marginOf = (p: LocatedPoint) => Math.max(PARAMS.minMarginMetres[p.accuracy], p.metres ?? 0);
 
 export interface AddressToLocate {
   street: string;
@@ -52,7 +51,7 @@ export async function geocoderJson(url: URL, signal: AbortSignal): Promise<any> 
 }
 export function validPoint(p: LocatedPoint): boolean {
   return Number.isFinite(p.lon) && Math.abs(p.lon) <= 180 && Number.isFinite(p.lat) && Math.abs(p.lat) <= 90
-    && Object.hasOwn(EDGE_METRES, p.accuracy) && (p.metres === undefined || (Number.isFinite(p.metres) && p.metres >= 0));
+    && Object.hasOwn(PARAMS.minMarginMetres, p.accuracy) && (p.metres === undefined || (Number.isFinite(p.metres) && p.metres >= 0));
 }
 export function metresBetween(a: LocatedPoint, b: LocatedPoint) {
   return Math.hypot((a.lon - b.lon) * 111_320 * Math.cos((a.lat + b.lat) * Math.PI / 360),

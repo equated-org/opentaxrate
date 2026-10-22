@@ -71,7 +71,7 @@ describe("indexed tax polygons for range states", () => {
     expect(base.files).toContain(RANGE_POLYGON_SOURCES.MO.file);
     expect((await lookup("MO", 1.5)).rate).toBe(.08975);
   });
-  it("declines when tax polygons and an automatically looked-up ZIP+4 disagree (zip4Conflict)", async () => {
+  it("declines when tax polygons and an automatically looked-up ZIP+4 disagree (outlinesOverZip4 off)", async () => {
     await db.delete(salesTaxZipRanges).where(eq(salesTaxZipRanges.state, "MO"));
     await db.insert(salesTaxZipRanges).values([29900001, 29900002].map((areaId, i) => ({
       state: "MO", areaId, zip5: "99999", plus4Low: i ? 5000 : 0, plus4High: i ? 9999 : 4999,

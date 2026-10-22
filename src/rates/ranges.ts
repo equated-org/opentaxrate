@@ -184,7 +184,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
         const mapped = (mappedPoint ?? point)!;
         // Two datasets, not two providers: Geocodio's TIGER points are Census's.
         const datasets = new Set((mapped.placedBy ?? []).map((p) => /\(([^)]*)\)$/.exec(p)?.[1] ?? p));
-        if (byMap && byMap.rate !== byStreet.rate && datasets.size >= 2 && marginOf(mapped) <= PRECISE_METRES) {
+        if (byMap && byMap.rate !== byStreet.rate && datasets.size >= 2 && marginOf(mapped) <= PARAMS.preciseMetres) {
           notes.push(`the map point, placed by ${mapped.placedBy!.join(", ")}, in place of the street range's ${+(byStreet.rate * 100).toFixed(4)}%`);
           return traced({ ...byMap, note: notes.join("; ") }, input.trace);
         }
@@ -223,7 +223,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       // An automatically obtained ZIP+4 is only a lead. Complete tax
       // polygons may settle its conflict; a caller-supplied ZIP+4 and a
       // published street range are not overridden by this fallback.
-      if (byMap && mapped?.taxPolygons && (byMap.rate === byZip4.rate || PARAMS.zip4Conflict === "polygons")) {
+      if (byMap && mapped?.taxPolygons && (byMap.rate === byZip4.rate || PARAMS.outlinesOverZip4)) {
         notes.push(byMap.rate === byZip4.rate ? "confirmed by tax polygons" : "tax polygons resolve the conflicting looked-up ZIP+4");
         return traced({ ...byMap, note: notes.join("; ") }, input.trace);
       }
@@ -324,8 +324,6 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
 /** States whose ZIP+4 ranges put a looked-up ZIP+4 in the wrong area (Missouri:
  *  2 of 4 on the bench), so one must be confirmed by the map. */
 const UNCONFIRMED_ZIP4_STATES = ["MO"];
-/** A map point this sure, agreed by two datasets, outweighs a street range. */
-const PRECISE_METRES = PARAMS.preciseMetres;
 
 async function mapWithRefinement(state: string, areaIds: number[], point: LocatedPoint, date: string, locate?: Locate, trace?: Trace, files?: string[], useTaxPolygons = true) {
   const map = async () => {

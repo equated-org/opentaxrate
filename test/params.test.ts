@@ -15,9 +15,11 @@ afterEach(() => {
 describe("tunable settings", () => {
   it("run with the defaults unless OTR_PARAMS overrides some", async () => {
     expect((await load()).wideMetres).toBe(20_000);
-    const tuned = await load('{"wideMetres":10000,"edgeMetres":{"rooftop":10}}');
+    const tuned = await load('{"wideMetres":10000,"minMarginMetres":{"rooftop":10}}');
     expect(tuned.wideMetres).toBe(10_000);
-    expect(tuned.edgeMetres).toEqual({ rooftop: 10, parcel: 25, point: 40, interpolated: 75 });
+    expect(tuned.minMarginMetres).toEqual({ rooftop: 10, parcel: 25, point: 40, interpolated: 75 });
+    // An override changes this run only, never the defaults.
+    expect((await load()).minMarginMetres.rooftop).toBe(15);
   });
 
   it("leave Google and HERE out by default: Mapbox stands in for both", async () => {
@@ -27,6 +29,15 @@ describe("tunable settings", () => {
   it("refuse a setting that doesn't exist", async () => {
     await expect(load('{"wideMeters":20000}')).rejects.toThrow(/unknown settings: wideMeters/);
   });
+
+  it("refuse a value of the wrong kind rather than run on a guess", async () => {
+    await expect(load('{"lonePointOutsideCity":"false"}')).rejects.toThrow(/lonePointOutsideCity must be a boolean/);
+    await expect(load('{"wideMetres":-1}')).rejects.toThrow(/wideMetres must be a number of 0 or more/);
+    await expect(load('{"disabledGeocoders":"google"}')).rejects.toThrow(/disabledGeocoders must be a list/);
+    await expect(load('{"minMarginMetres":{"roof":10}}')).rejects.toThrow(/minMarginMetres has no roof/);
+    await expect(load('{"minMarginMetres":{"rooftop":"10"}}')).rejects.toThrow(/minMarginMetres.rooftop must be a number/);
+    await expect(load("{wideMetres:1}")).rejects.toThrow(/OTR_PARAMS isn't valid JSON/);
+  });
 });
 
 describe("agreement between geocodes", () => {
@@ -35,12 +46,12 @@ describe("agreement between geocodes", () => {
   // Three rooftops ~95 m apart, as Weiser's were.
   const points = [at("esri", "esri", -116.85176), at("here", "here", -116.85053), at("google", "google", -116.85295)];
 
-  it("finds none at the margins alone, and a group when the fallback factor allows", async () => {
+  it("finds none at the margins alone, and a group when agreeFactor allows", async () => {
     await load();
     const { agreeingGroup } = await import("../src/geocoding/agreement.js");
     expect(agreeingGroup(points)).toBeNull();
-    await load('{"agreeFallbackFactor":8}');
-    const fallback = await import("../src/geocoding/agreement.js");
-    expect(fallback.agreeingGroup(points)?.length).toBeGreaterThanOrEqual(2);
+    await load('{"agreeFactor":8}');
+    const looser = await import("../src/geocoding/agreement.js");
+    expect(looser.agreeingGroup(points)?.length).toBeGreaterThanOrEqual(2);
   });
 });

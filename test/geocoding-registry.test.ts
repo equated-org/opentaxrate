@@ -96,3 +96,31 @@ describe("provider adapters", () => {
     await expect(provider.geocode(address, AbortSignal.timeout(1000))).rejects.toMatchObject({ status: 429 });
   });
 });
+
+describe("Pelias's duplicates", () => {
+  const exact = (source: string, lon: number) => ({ geometry: { type: "Point", coordinates: [lon, 30.27] },
+    properties: { layer: "address", accuracy: "point", match_type: "exact", source, housenumber: "100", street: "N Main St",
+      locality: "Austin", region_a: "TX", postalcode: "78701", country_a: "USA" } });
+  const pelias = async (features: unknown[]) => {
+    vi.stubEnv("PELIAS_URL", "http://geocoder.example.test:4000");
+    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ features })));
+    return geocoderProviders().find(p => p.id === "pelias")!.geocode(address, AbortSignal.timeout(1000));
+  };
+
+  it("take one house from several datasets as one answer, wide enough to reach them all", async () => {
+    // OpenAddresses, then NAD 0.0003° (~29 m) east.
+    expect(await pelias([exact("openaddresses", -97.74), exact("nad", -97.7397)]))
+      .toMatchObject({ lon: -97.74, source: "openaddresses", metres: 29 });
+    expect(await pelias([exact("openaddresses", -97.74), exact("nad", -97.74)])).not.toHaveProperty("metres");
+  });
+
+  it("skip a match without coordinates", async () => {
+    const broken = { ...exact("nad", -97.74), geometry: { type: "Point", coordinates: [] } };
+    expect(await pelias([exact("openaddresses", -97.74), broken])).toMatchObject({ source: "openaddresses" });
+  });
+
+  it("are two places when farther apart than peliasDuplicateMetres", async () => {
+    // ~97 m apart.
+    expect(await pelias([exact("openaddresses", -97.74), exact("nad", -97.739)])).toBeNull();
+  });
+});
