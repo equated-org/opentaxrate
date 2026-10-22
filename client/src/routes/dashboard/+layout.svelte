@@ -24,7 +24,7 @@
 	async function signOut() {
 		await authClient.signOut();
 		rememberSignedIn(false);
-		await goto('/login');
+		await goto('/');
 	}
 </script>
 
