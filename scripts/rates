@@ -22,8 +22,14 @@
 # `install` replaces every table, so it refuses a database with accounts:
 # it is for new installs, never production.
 #
+# Only MAINTAINERS (GitHub logins) publish releases or load production.
+# GitHub's write permission and production's SSH access are what enforce
+# it; the checks here only stop anyone else early, with a plain message.
+# Reading releases needs read access while the repository is private.
+#
 # Environment: COMPOSE, the compose command (default `docker compose`);
-# OPENTAXRATE_HOST, production's SSH host (default opentaxrate).
+# OPENTAXRATE_HOST, production's SSH host (default opentaxrate);
+# OPENTAXRATE_REPO, the releases' repository (default equated-org/opentaxrate).
 set -eu
 cd "$(dirname "$0")/.."
 
@@ -37,6 +43,8 @@ EMPTY_TABLES="geocode_results geocoder_usage user session account verification
 
 COMPOSE=${COMPOSE:-docker compose}
 HOST=${OPENTAXRATE_HOST:-opentaxrate}
+REPO=${OPENTAXRATE_REPO:-equated-org/opentaxrate}
+MAINTAINERS="Winxton"
 SERVER_DIR=/opt/opentaxrate
 SERVER_COMPOSE="docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml"
 db=opentaxrate
@@ -45,6 +53,17 @@ usage() { sed -n '6,12p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 die() { echo "$*" >&2; exit 1; }
 psql() { $COMPOSE exec -T db psql -U opentaxrate -d "$db" -At -v ON_ERROR_STOP=1 "$@"; }
 on() { ssh "$HOST" "cd $SERVER_DIR && $*"; }
+reachable() { ssh -o BatchMode=yes -o ConnectTimeout=10 "$HOST" true 2> /dev/null; }
+
+# Stops anyone but a maintainer before they $1.
+maintainer() {
+  gh auth status > /dev/null 2>&1 || die "To $1 you need a GitHub login: run gh auth login."
+  login=$(gh api user --jq .login)
+  case " $MAINTAINERS " in
+    *" $login "*) ;;
+    *) die "Only $MAINTAINERS can $1; you're signed in to GitHub as $login. Send data changes as a pull request instead." ;;
+  esac
+}
 
 # Writes data/opentaxrate-DATE.dump: TAX_TABLES' rows, every other table
 # empty (so a restored database has every table its migration history
@@ -92,8 +111,10 @@ publish() {
   day=$(date -u +%F)
   tag=${1:-data-$day}
   case "$tag" in ''|-*) die "A release tag must be nonempty and can't start with '-'." ;; esac
-  gh auth status > /dev/null
-  repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
+  maintainer "publish rate releases"
+  repo=$REPO
+  [ "$(gh api "repos/$repo" --jq .permissions.push 2> /dev/null)" = true ] ||
+    die "$login has no write access to $repo, so GitHub would refuse the release."
   if gh release view "$tag" --repo "$repo" > /dev/null 2>&1; then
     die "Release $tag already exists; choose a new tag. Nothing was changed."
   fi
@@ -128,7 +149,8 @@ download() {
   tag=$1
   mkdir -p "data/$tag"
   for attempt in 1 2; do
-    gh release download "$tag" --dir "data/$tag" --skip-existing --pattern '*.dump' --pattern '*.dump.sha256' >&2
+    gh release download "$tag" --repo "$REPO" --dir "data/$tag" --skip-existing --pattern '*.dump' --pattern '*.dump.sha256' >&2 ||
+      { rmdir "data/$tag" 2> /dev/null || true; die "Can't download release $tag from $REPO: it doesn't exist, or your GitHub login can't read the repository."; }
     if (cd "data/$tag" && sha256sum -c --quiet ./*.dump.sha256) >&2; then
       ls "data/$tag"/*.dump
       return
@@ -203,15 +225,19 @@ pull() {
     shift
   done
   [ -n "$tag" ] && [ -n "$where" ] || die "Usage: scripts/rates pull TAG --prod | --local [--db D]"
-  dump=$(download "$tag")
   if [ "$where" = local ]; then
+    dump=$(download "$tag")
     load "$dump"
     return
   fi
+  # Everything production needs is checked before the download.
   [ "$db" = opentaxrate ] || die "--db is for --local; production loads its own database."
+  maintainer "load production"
+  reachable || die "Can't reach production ($HOST) over SSH: only the maintainers' machines can. Use --local to load a release here."
   on "test -x scripts/rates" || die "$HOST's revision has no scripts/rates: deploy first."
   jobs=$(on "docker ps --filter label=com.docker.compose.oneoff=True --format '{{.Names}}'")
   [ -z "$jobs" ] || die "Jobs running on $HOST: $jobs. Pull once they finish."
+  dump=$(download "$tag")
   remote="data/$tag-$(basename "$dump")"
   if [ "$(on "sha256sum $remote 2>/dev/null | cut -d' ' -f1")" != "$(cut -d' ' -f1 "$dump.sha256")" ]; then
     on "mkdir -p data"
@@ -258,7 +284,11 @@ install() {
 }
 
 status() {
-  echo "newest release:    $(gh release list --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // "none"')"
+  echo "newest release:    $(gh release list --repo "$REPO" --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // "none"' 2> /dev/null || echo "can't read $REPO's releases")"
+  if ! reachable; then
+    echo "production:        can't reach $HOST over SSH (maintainers only)"
+    return
+  fi
   echo "production runs:   $(on "cat DEPLOYED_REVISION")"
   echo "production serves: $(on "cat DATA_RELEASE 2>/dev/null || echo 'no pulled release'")"
   theirs=$(on "$SERVER_COMPOSE exec -T db psql -U opentaxrate -d opentaxrate -At -c 'select count(*) from drizzle.__drizzle_migrations'")
