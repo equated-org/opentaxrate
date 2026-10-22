@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API keys unlock the outside geocoders</title>
+<meta name="description" content="Plan: public lookups use only our own geocoders; email-code sign-in and dashboard API keys unlock every provider.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (~/.claude/skills/html-plan/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why two tiers</a></li>
+    <li><a class="sub" href="#before-after">What changes for each caller</a></li>
+    <li><a class="sub" href="#accuracy">What the public tier gives up</a></li>
+    <li><a href="#model">The objects</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#workflows">Workflows</a></li>
+    <li><a class="sub" href="#w-public">1. A lookup with no key</a></li>
+    <li><a class="sub" href="#w-signin">2. Sign in with an emailed code</a></li>
+    <li><a class="sub" href="#w-key">3. Create an API key</a></li>
+    <li><a class="sub" href="#w-keyed">4. A lookup with the key</a></li>
+    <li><a class="sub" href="#w-revoke">5. History, usage and revoking</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases</a></li>
+    <li><a class="sub" href="#pricing-math">What a lookup costs us</a></li>
+    <li><a href="#questions">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Design plan · built on branch debug-rates, not deployed · 2026-10-22</p>
+  <h1>API keys unlock the outside geocoders</h1>
+  <p class="lede">Without a key, a lookup may only ask the geocoders we run on spark-3: Photon and Pelias. A key unlocks every configured provider: Census, Nominatim, Geocodio, Mapbox, Esri, Google and Jev. Keys come from a dashboard you sign in to with a code sent to your email (Better Auth's email OTP, no OAuth), so every key belongs to a verified address. Every keyed lookup becomes one row in <code>api_requests</code>, a single Postgres table that is the user's query history, their answer cache and the meter that pricing will read later.</p>
+  <p class="meta">Traced from <code>src/server.ts</code>, <code>src/lookup.ts</code>, <code>src/limits.ts</code>, <code>src/cache.ts</code>, <code>src/geocoding/registry.ts</code>, <code>locator.ts</code>, <code>budget.ts</code>, <code>src/standardize/index.ts</code>, <code>src/rates/streets/correct.ts</code> and <code>jev.ts</code>, <code>landing/cloudflare/worker.js</code>, <code>deploy/</code>, and Better Auth v1.6 docs (fetched 2026-10-22). Nothing is built yet.</p>
+</header>
+
+<h2 id="why">Why two tiers</h2>
+<p>Today every lookup on <code>api.opentaxrate.com</code> can reach every provider the server has a credential for. <code>geocoderProviders()</code> reads the environment and returns all of them, and nothing about the request changes that list. An anonymous visitor on the landing page can make the server call Mapbox, Esri or Google, which costs money and uses up their daily caps. The per-IP limit of 10 a minute and 300 a day slows this down but doesn't stop it.</p>
+<p>The decision is to decide on each request which providers it may use, and to tie the paid ones to an identity. A request with no key gets the <em>public</em> tier, which may only ask the geocoders we host ourselves. A request with a valid key gets the <em>keyed</em> tier, which may ask every configured provider. The tier becomes one value, an <code>Access</code>, that <code>lookUpRate()</code> passes to the three places that call outside services: the locator's provider list, the Geocodio standardizer and Jev's street picker.</p>
+<ul>
+  <li><em>Why per request, not per deployment.</em> One API serves both the free landing page and paying callers. A second deployment would mean two databases and two caches, with no shared caps.</li>
+  <li><em>Why Better Auth.</em> It runs in the Hono process we already have, stores its tables in the same Postgres through the Drizzle adapter, and comes with both pieces we need as plugins: <code>emailOTP</code> for sign-in by code and <code>@better-auth/api-key</code> for hashed keys with per-key rate limits and quotas. A hosted service like Clerk would mean another vendor and another bill for something this small.</li>
+  <li><em>Why a bad key is an error.</em> A revoked or mistyped key gets a 401, not a quiet fallback to the public tier. A paying caller who got public answers without noticing would see more refusals and never know why.</li>
+  <li><em>Out of scope.</em> OAuth, passwords, teams and organizations, subscriptions and invoices. Paying is prepaid credit: the ledger ships in phase 2, buying through Stripe Checkout in phase 3.</li>
+</ul>
+
+<h3 id="before-after">What changes for each caller</h3>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Caller</th><th scope="col">Today</th><th scope="col">Proposed</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">No key (landing page, curl)</th><td>Every configured provider: Census, Nominatim, Photon, Pelias, Geocodio, Mapbox, Esri, plus the Geocodio standardizer and Jev</td><td>Only the providers named in <code>OPENTAXRATE_PUBLIC_PROVIDERS</code>: <code>photon,pelias</code> on the public deployment. No standardizer and no Jev.</td></tr>
+    <tr><th scope="row">A valid key from a verified account</th><td class="dim">doesn't exist</td><td>Every configured provider, as no-key requests get today</td></tr>
+    <tr><th scope="row">A revoked, expired or unknown key</th><td class="dim">doesn't exist</td><td>401 <code>INVALID_API_KEY</code></td></tr>
+    <tr><th scope="row">A master key from the environment</th><td class="dim">doesn't exist</td><td>Every configured provider, no credit charged, no per-IP or per-key limit (vendor caps still apply). Checked against <code>OPENTAXRATE_MASTER_KEYS</code> before any database call, for your own apps and tests.</td></tr>
+    <tr><th scope="row">Limits</th><td>Per IP, <code>10/min,300/day</code></td><td>No key: per IP, unchanged. With a key: 120 a minute per key, and each lookup that returns a rate spends $0.00195 of the account's prepaid credit. Vendor caps in <code>geocoder_usage</code> still apply to everyone.</td></tr>
+    <tr><th scope="row">Answer cache</th><td>In memory, keyed by the address and the date</td><td>No key: the same in-memory cache, holding only public answers. With a key: the user's own rows in <code>api_requests</code>, so a repeat within 24 hours is answered from their history and never from someone else's</td></tr>
+    <tr><th scope="row">Query history</th><td class="dim">not kept</td><td>Every keyed lookup is kept for 90 days in <code>api_requests</code>. Lookups without a key aren't stored.</td></tr>
+    <tr><th scope="row">Self-hosted, nothing set</th><td>Every provider</td><td>Unchanged: when <code>OPENTAXRATE_PUBLIC_PROVIDERS</code> is unset, every provider is public, and auth stays off until <code>BETTER_AUTH_SECRET</code> is set</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="accuracy">What the public tier gives up</h3>
+<p>Expect more refusals on the public tier, and measure them before switching it on. The locator only accepts a point when two independent datasets agree within their margins. Photon is OpenStreetMap, and Pelias returns OpenStreetMap or OpenAddresses records. When both return OSM records, they count as one dataset. The lookup then goes down the single-dataset path, which accepts the point only if it falls inside the typed city's outline, and otherwise refuses. Today the cheap pair is usually Census (TIGER) and Nominatim (OSM), which are two different datasets. Phase 1 adds a bench run comparing the two tiers on the same cases, so the cost of the change is a measured number before it ships.</p>
+
+<h2 id="model">The objects</h2>
+<p>Better Auth adds its core tables plus one from the API key plugin. We add one table of our own, <code>api_requests</code>, which is the history, the cache and the meter at once. The geocoding tables don't change. Figure 1 shows how they relate.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 860px">
+    <p class="fig-title">A verified user owns keys, and every keyed call is one request row</p>
+    <svg viewBox="0 0 1000 390" role="img" aria-label="Better Auth's user, session, account, verification and apikey tables, OpenTaxRate's new api_requests table, and the unchanged geocoder tables.">
+      <defs><marker id="m-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-group g2" x="12" y="16" width="630" height="360" rx="10"/>
+      <text class="d-group-label g2" x="28" y="42">Better Auth tables (generated)</text>
+      <rect class="d-box" x="32" y="150" width="190" height="96" rx="8"/>
+      <text class="d-t" x="48" y="176">User</text>
+      <text class="d-m" x="48" y="196">user</text>
+      <text class="d-s" x="48" y="216">email, emailVerified</text>
+      <text class="d-s" x="48" y="234">dana@acme.test · true</text>
+      <rect class="d-box" x="262" y="60" width="170" height="70" rx="8"/>
+      <text class="d-t" x="278" y="86">Session</text>
+      <text class="d-m" x="278" y="106">session · cookie</text>
+      <rect class="d-box" x="262" y="150" width="170" height="70" rx="8"/>
+      <text class="d-t" x="278" y="176">Account</text>
+      <text class="d-m" x="278" y="196">account</text>
+      <rect class="d-box acc" x="262" y="250" width="170" height="106" rx="8"/>
+      <text class="d-t" x="278" y="276">API key</text>
+      <text class="d-m" x="278" y="296">apikey</text>
+      <text class="d-s" x="278" y="316">hash, start otr_live_3Fq9</text>
+      <text class="d-s" x="278" y="334">rate limit 120 / min</text>
+      <rect class="d-box" x="462" y="60" width="160" height="96" rx="8"/>
+      <text class="d-t" x="478" y="86">Email code</text>
+      <text class="d-m" x="478" y="106">verification</text>
+      <text class="d-s" x="478" y="126">hashed code, 5 min</text>
+      <text class="d-s" x="478" y="144">found by email</text>
+      <path class="d-edge" d="M222,180 L260,100" marker-end="url(#m-ah)"/>
+      <path class="d-edge" d="M222,195 L260,188" marker-end="url(#m-ah)"/>
+      <path class="d-edge acc" d="M222,225 L260,290" marker-end="url(#m-ah)"/>
+      <text class="d-el" x="236" y="270" text-anchor="middle">owns</text>
+      <rect class="d-group g1" x="662" y="16" width="326" height="170" rx="10"/>
+      <text class="d-group-label g1" x="678" y="42">OpenTaxRate, new</text>
+      <rect class="d-box" x="682" y="60" width="286" height="106" rx="8"/>
+      <text class="d-t" x="698" y="86">Requests: history, cache, meter</text>
+      <text class="d-m" x="698" y="106">api_requests</text>
+      <text class="d-s" x="698" y="126">user, key, answer_key, status,</text>
+      <text class="d-s" x="698" y="144">response, cost · kept 90 days</text>
+      <path class="d-edge acc" d="M432,320 C560,320 600,140 680,140" marker-end="url(#m-ah)"/>
+      <text class="d-el" x="570" y="250" text-anchor="middle">one row per call</text>
+      <rect class="d-bound" x="662" y="210" width="326" height="166" rx="10"/>
+      <text class="d-bound-label" x="678" y="234">ALREADY THERE, UNCHANGED</text>
+      <rect class="d-box" x="682" y="252" width="286" height="104" rx="8"/>
+      <text class="d-t" x="698" y="278">Vendor caps and cached points</text>
+      <text class="d-m" x="698" y="298">geocoder_usage, geocode_results</text>
+      <text class="d-s" x="698" y="318">one cap per credential,</text>
+      <text class="d-s" x="698" y="336">shared by both tiers</text>
+    </svg>
+  </div>
+  <figcaption>The blue path is new: a user owns keys, and every call with a key adds one row to <code>api_requests</code>. Email codes are found by the email address, not a user id, so a code can be sent before the user exists. The vendor caps stay global, so no key can spend past them.</figcaption>
+</figure>
+<details class="more">
+  <summary>Columns<span class="dim">what each table holds, with the running example</span></summary>
+  <div class="inner"><div class="scroll">
+    <table class="grid-table">
+      <thead><tr><th scope="col">Table</th><th scope="col">Owner</th><th scope="col">Columns that matter here</th><th scope="col">Example row</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>user</code></th><td>Better Auth core</td><td><code>id</code>, <code>email</code>, <code>emailVerified</code>, <code>createdAt</code></td><td><code>usr_9f2c</code>, dana@acme.test, true</td></tr>
+        <tr><th scope="row"><code>session</code></th><td>Better Auth core</td><td><code>token</code>, <code>userId</code>, <code>expiresAt</code>, <code>ipAddress</code></td><td>7 days, sent as the <code>better-auth.session_token</code> cookie</td></tr>
+        <tr><th scope="row"><code>account</code></th><td>Better Auth core</td><td><code>providerId</code>, <code>userId</code></td><td>generated with the core schema; email codes use it little</td></tr>
+        <tr><th scope="row"><code>verification</code></th><td>Better Auth core</td><td><code>identifier</code>, <code>value</code>, <code>expiresAt</code></td><td><code>sign-in-otp-dana@acme.test</code>, hashed code, now + 300 s</td></tr>
+        <tr><th scope="row"><code>apikey</code></th><td><code>@better-auth/api-key</code></td><td><code>key</code> (hash), <code>start</code>, <code>prefix</code>, <code>userId</code>, <code>enabled</code>, <code>rateLimitMax</code>, <code>rateLimitTimeWindow</code>, <code>metadata</code></td><td><code>key_71b0</code>, "production", <code>otr_live_3Fq9</code>, 120 per 60 s</td></tr>
+        <tr><th scope="row"><code>api_requests</code></th><td>ours, <code>src/db/schema.ts</code></td><td><code>id</code>, <code>user_id</code> (null for master keys), <code>key_id</code> (no foreign key, so rows outlive a deleted key; <code>master:&lt;name&gt;</code> for a master key), <code>at</code>, <code>answer_key</code> (<code>answerKey()</code>'s string), <code>query</code> jsonb, <code>status</code>, <code>response</code> jsonb, <code>cached</code>, <code>providers</code> text[], <code>paid_calls</code>, <code>cost_usd</code> numeric(10,4), <code>ms</code>. Indexes: (<code>user_id</code>, <code>answer_key</code>, <code>at</code> desc) for the cache, and (<code>user_id</code>, <code>at</code> desc) for history and totals.</td><td><code>5521</code>, <code>usr_9f2c</code>, <code>key_71b0</code>, 2026-10-22 14:02, <code>TX|301 W 2ND ST|AUSTIN|78701|2026-10-22|</code>, 200, the answer, false, {census,nominatim}, 0, 0.0000, 184</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+</details>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>No key, no outside geocoder.</em> The registry filters the list itself: <code>geocoderProviders(policy)</code> never returns a provider the policy doesn't allow, so the route can't forget to check.</li>
+  <li><em>One list names everything that costs.</em> Provider ids are the registry's (<code>census</code>, <code>nominatim</code>, <code>photon</code>, <code>pelias</code>, <code>geocodio</code>, <code>smarty</code>, <code>mapbox</code>, <code>here</code>, <code>esri</code>, <code>google</code>) plus <code>jev</code>. The standardizer runs only when <code>geocodio</code> is allowed.</li>
+  <li><em>A key is either valid or a 401.</em> A request that sends a key never falls back to the public tier.</li>
+  <li><em>Master keys are for you, not customers.</em> <code>OPENTAXRATE_MASTER_KEYS="equated=otr_master_…,test=otr_master_…"</code> names one or more keys. Each needs the <code>otr_master_</code> prefix and at least 32 random characters, or the server refuses to start. A match, compared in constant time on SHA-256 digests, gives the keyed tier with <code>master: true</code>: every provider, no credit, no allowance, no per-IP or per-key limit. The vendor caps in <code>geocoder_usage</code> still bound what it can spend. Its lookups are logged and cached in <code>api_requests</code> under <code>key_id = 'master:equated'</code>, so its cost shows up next to everyone else's. Rotating means adding the new key, switching the app over, then removing the old one. Two keys can be live at once. The key is never logged and never accepted from the landing Worker's forwarded requests.</li>
+  <li><em>Only verified accounts hold keys.</em> Signing in with an email code sets <code>emailVerified</code>. A before-hook on <code>/api-key/create</code> refuses any session whose user isn't verified, so a later sign-in method can't get around it.</li>
+  <li><em>One table is the history, the cache and the meter.</em> A keyed lookup first looks for the user's own 200 row with the same <code>answer_key</code> from the last 24 hours. Only the tax answer is stored; a traced lookup's geocoder points and outlines are dropped, and traced lookups are never answered from history. Hit or miss, it then appends one row, and a hit is marked <code>cached</code> with no cost. The dashboard's history, the month's totals and later billing all read these rows. Nothing else stores keyed answers.</li>
+  <li><em>Caches never cross tiers or users.</em> The in-memory <code>AnswerCache</code> only holds and serves public answers. A user's cached answers are found by their own <code>user_id</code>. Cached geocoder points are already safe, because the locator reads cached rows only for the providers it was given.</li>
+  <li><em>Rows are kept 90 days.</em> A daily <code>DELETE FROM api_requests WHERE at &lt; now() - interval '90 days'</code> (on start and every 24 hours) keeps the table bounded. Ninety days covers a full billing month after it closes. Answers asked with <code>include=trace</code> are stored with their outline geometry, which makes those rows larger.</li>
+  <li><em>No account costs more than it pays.</em> A paid geocoder is asked only when the account's allowance (80% of what it has paid) covers the call. Stripe's fee and hosting come out of the other 20%. See <a href="#pricing-math">What a keyed lookup costs us</a>.</li>
+  <li><em>Vendor caps are shared.</em> <code>postgresGeocodeBudget</code> still caps each credential across every caller. A key's quota limits that key, and the vendor cap limits all of us.</li>
+  <li><em>Snapshots never carry accounts.</em> <code>scripts/snapshot.sh</code> dumps an explicit <code>--table</code> list, so the new tables are left out without any change. A test keeps it that way.</li>
+  <li><em>Self-hosting is unchanged by default.</em> With nothing set, every provider is public and <code>/api/auth</code> isn't mounted.</li>
+</ul>
+
+<h2 id="workflows">Workflows</h2>
+<p>Every workflow uses the same address, Austin City Hall at 301 W 2nd St, Austin TX 78701, a Texas map-engine lookup that has to be geocoded. Dana, at <code>dana@acme.test</code>, signs up and gets a key.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 860px">
+    <p class="fig-title">The key, or no key, decides which providers the locator gets</p>
+    <svg viewBox="0 0 1000 380" role="img" aria-label="A public request and a keyed request both pass through resolveAccess; the public one gets Photon and Pelias, the keyed one also gets the outside providers.">
+      <defs><marker id="f-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-box" x="20" y="50" width="250" height="76" rx="8"/>
+      <text class="d-t" x="36" y="80">Public request</text>
+      <text class="d-m" x="36" y="102">GET /v1/rate, no key</text>
+      <rect class="d-box acc" x="20" y="250" width="250" height="76" rx="8"/>
+      <text class="d-t" x="36" y="280">Keyed request</text>
+      <text class="d-m" x="36" y="302">x-api-key: otr_live_3Fq9…</text>
+      <rect class="d-box" x="330" y="146" width="210" height="84" rx="8"/>
+      <text class="d-t" x="346" y="176">Access check</text>
+      <text class="d-m" x="346" y="198">resolveAccess()</text>
+      <text class="d-s" x="346" y="216">access.ts → Access</text>
+      <path class="d-edge" d="M270,88 L328,170" marker-end="url(#f-ah)"/>
+      <path class="d-edge acc" d="M270,288 L328,206" marker-end="url(#f-ah)"/>
+      <rect class="d-group g1" x="600" y="16" width="388" height="150" rx="10"/>
+      <text class="d-group-label g1" x="616" y="42">Public: our own, on spark-3</text>
+      <rect class="d-box" x="620" y="60" width="170" height="80" rx="8"/>
+      <text class="d-t" x="636" y="90">Photon</text>
+      <text class="d-m" x="636" y="112">spark-3:2322 · osm</text>
+      <rect class="d-box" x="800" y="60" width="170" height="80" rx="8"/>
+      <text class="d-t" x="816" y="90">Pelias</text>
+      <text class="d-m" x="816" y="112">spark-3:4000</text>
+      <rect class="d-group g3" x="600" y="190" width="388" height="176" rx="10"/>
+      <text class="d-group-label g3" x="616" y="216">Keyed adds: outside services</text>
+      <rect class="d-box" x="620" y="232" width="110" height="54" rx="6"/><text class="d-t" x="634" y="256">Census</text><text class="d-m" x="634" y="274">free</text>
+      <rect class="d-box" x="740" y="232" width="110" height="54" rx="6"/><text class="d-t" x="754" y="256">Nominatim</text><text class="d-m" x="754" y="274">free, 1/s</text>
+      <rect class="d-box" x="860" y="232" width="110" height="54" rx="6"/><text class="d-t" x="874" y="256">Geocodio</text><text class="d-m" x="874" y="274">$0.0005</text>
+      <rect class="d-box" x="620" y="298" width="110" height="54" rx="6"/><text class="d-t" x="634" y="322">Mapbox</text><text class="d-m" x="634" y="340">$0.001</text>
+      <rect class="d-box" x="740" y="298" width="110" height="54" rx="6"/><text class="d-t" x="754" y="322">Esri, Google</text><text class="d-m" x="754" y="340">$0.004–0.005</text>
+      <rect class="d-box" x="860" y="298" width="110" height="54" rx="6"/><text class="d-t" x="874" y="322">Jev</text><text class="d-m" x="874" y="340">street picks</text>
+      <path class="d-edge" d="M540,170 L598,100" marker-end="url(#f-ah)"/>
+      <text class="d-el" x="560" y="122" text-anchor="middle">public</text>
+      <path class="d-edge acc" d="M540,206 L598,270" marker-end="url(#f-ah)"/>
+      <text class="d-el" x="560" y="256" text-anchor="middle">keyed</text>
+    </svg>
+  </div>
+  <figcaption>The blue path is the keyed request. A keyed lookup gets both groups, and the locator still asks them in cost order, so it pays only when the free ones disagree. Costs per call are the registry's defaults in <code>registry.ts</code>.</figcaption>
+</figure>
+
+<h3 id="w-public">1. A lookup with no key</h3>
+<p>A visitor types the address on opentaxrate.com. The Worker forwards it to <code>/v1/rate</code> with no key.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 1: the request gets the public policy, and only the spark-3 geocoders are asked</p>
+    <div class="objgraph"><ul class="tree"><li>
+      <div class="obj"><span class="kind">request</span><span class="id">GET /v1/rate</span><span class="field">301 W 2nd St · Austin · TX 78701</span></div>
+      <ul><li>
+        <div class="obj new"><span class="kind">created</span><span class="id">Access</span><span class="field">tier: public</span></div>
+        <ul><li>
+          <div class="obj new"><span class="kind">created</span><span class="id">ProviderPolicy</span><span class="field">allows photon, pelias</span></div>
+          <ul>
+            <li><div class="obj"><span class="kind">asked</span><span class="id">photon</span><span class="field">spark-3:2322</span></div></li>
+            <li><div class="obj"><span class="kind">asked</span><span class="id">pelias</span><span class="field">spark-3:4000</span></div></li>
+            <li><div class="obj gone"><span class="kind">filtered out</span><span class="id">outside providers</span><span class="field">census, nominatim, geocodio, mapbox, esri</span><span class="field">never in the list</span></div></li>
+            <li><div class="obj gone"><span class="kind">off</span><span class="id">standardizer, jev</span><span class="field">not passed to the engine</span></div></li>
+          </ul>
+        </li></ul>
+      </li></ul>
+    </li></ul></div>
+  </div>
+  <figcaption>Blue boxes are created by this step; dashed ones are what the public tier no longer reaches. Nothing is written except the per-IP count, which lives in memory.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 1</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">edge</span>worker.js fetch()                         <span class="n">per-IP edge limit, X-Client-IP, X-Proxy-Secret</span>
+<span class="layer">http</span>app.use("/v1/*", resolveAccess)          <span class="n">src/access.ts (new): no x-api-key or Bearer → { tier: "public" }</span>
+<span class="layer">http</span>tierLimit                                 <span class="n">public → existing perIpLimit (10/min, 300/day)</span>
+<span class="layer">http</span>GET /v1/rate                              <span class="n">server.ts: public → in-memory AnswerCache, as today</span>
+└─ <span class="layer">lookup</span>lookUpRate(q, { trace, access })     <span class="n">lookup.ts</span>
+   ├─ <span class="layer">lookup</span>policyFor(access)                  <span class="n">access.ts: OPENTAXRATE_PUBLIC_PROVIDERS → Set{photon,pelias}</span>
+   ├─ <span class="layer">geo</span>createLocator(addr, { providers: geocoderProviders(policy) })
+   │  └─ <span class="layer">geo</span>geocoderProviders(policy)           <span class="n">registry.ts: DEFINITIONS filtered by policy.allows(d.id)</span>
+   ├─ <span class="layer">lookup</span>addressStandardizer(policy)        <span class="n">→ undefined (geocodio not allowed)</span>
+   └─ <span class="layer">rates</span>addressRates.at({ …, pickStreet: undefined })
+      └─ <span class="layer">rates</span>correctedStreet(…, pick)          <span class="n">streets/correct.ts: no pick → spelling only</span></pre>
+    <div class="scroll"><table class="grid-table">
+      <thead><tr><th scope="col">State after</th><th scope="col">Value</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">in-memory answer cache</th><td><code>TX|301 W 2ND ST|AUSTIN|78701|2026-10-22|</code>, public answers only</td></tr>
+        <tr><th scope="row"><code>api_requests</code></th><td>nothing: lookups without a key aren't stored</td></tr>
+        <tr><th scope="row"><code>geocoder_usage</code></th><td>one call each reserved for <code>photon:…</code> and <code>pelias:…</code></td></tr>
+        <tr><th scope="row">response</th><td>200 with rate 0.0825 when the two agree or the single dataset falls inside Austin's outline; otherwise 422</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<p>The visitor sees the same page as today. Their lookup cost nothing outside spark-3.</p>
+
+<h3 id="w-signin">2. Sign in with an emailed code</h3>
+<p>Dana opens <code>/login</code>, types <code>dana@acme.test</code>, gets a six-digit code by email and types it in. Signing in and signing up are the same step: a new address creates the user.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 2: a code row, then a verified user and a session</p>
+    <div class="objgraph"><ul class="tree"><li>
+      <div class="obj"><span class="kind">typed</span><span class="id">dana@acme.test</span><span class="field">on /login</span></div>
+      <ul>
+        <li><div class="obj gone"><span class="kind">created, then consumed</span><span class="id">verification</span><span class="field">sign-in-otp-dana@acme.test · 300 s · 3 tries</span></div></li>
+        <li>
+          <div class="obj new"><span class="kind">created</span><span class="id">user usr_9f2c</span><span class="field">emailVerified: true</span></div>
+          <ul><li><div class="obj new"><span class="kind">created</span><span class="id">session</span><span class="field">7 days · httpOnly cookie on opentaxrate.com</span></div></li></ul>
+        </li>
+      </ul>
+    </li></ul></div>
+  </div>
+  <figcaption>The code row exists only between the email and the sign-in. The cookie belongs to opentaxrate.com, because the Worker forwards <code>/api/auth/*</code> on that origin, so no cross-site cookie is needed.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 2</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">client</span>authClient.emailOtp.sendVerificationOtp({ email, type: "sign-in" })   <span class="n">landing/src/routes/login</span>
+<span class="layer">edge</span>worker.js: /api/auth/* → API, POST body and cookies passed, Set-Cookie kept
+<span class="layer">http</span>app.on(["GET","POST"], "/api/auth/*", c =&gt; auth.handler(c.req.raw))   <span class="n">server.ts</span>
+└─ <span class="layer">auth</span>emailOTP.sendVerificationOTP({ email, otp, type })  <span class="n">src/auth.ts → sendMail() (Resend)</span>
+   └─ <span class="layer">sql</span>INSERT verification (identifier, hashed value, expires_at)   <span class="n">storeOTP: "hashed"</span>
+<span class="layer">client</span>authClient.signIn.emailOtp({ email, otp })
+└─ <span class="layer">auth</span>POST /api/auth/sign-in/email-otp
+   ├─ <span class="layer">sql</span>DELETE verification              <span class="n">code used once</span>
+   ├─ <span class="layer">sql</span>INSERT user (email_verified = true)   <span class="n">only for a new address</span>
+   └─ <span class="layer">sql</span>INSERT session  → Set-Cookie better-auth.session_token</pre>
+  </div>
+</details>
+<p>Dana lands on <code>/dashboard</code>, signed in, with no keys yet.</p>
+
+<h3 id="w-key">3. Create an API key</h3>
+<p>Dana clicks "New key" and names it "production". The dashboard shows the key once.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 3: the session's verified user gets a hashed key</p>
+    <div class="objgraph"><ul class="tree"><li>
+      <div class="obj"><span class="kind">exists</span><span class="id">user usr_9f2c</span><span class="field">emailVerified: true</span></div>
+      <ul><li><div class="obj new"><span class="kind">created</span><span class="id">apikey key_71b0</span><span class="field">"production" · start otr_live_3Fq9</span><span class="field">120 / 60 s</span></div></li></ul>
+    </li></ul></div>
+  </div>
+  <figcaption>Only the hash and the first characters are stored. The full key <code>otr_live_3Fq9…Xk2</code> is returned once and can't be shown again.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 3</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">client</span>authClient.apiKey.create({ name: "production" })   <span class="n">landing/src/routes/dashboard</span>
+<span class="layer">http</span>POST /api/auth/api-key/create (session cookie)
+├─ <span class="layer">auth</span>hooks.before: path "/api-key/create"         <span class="n">src/auth.ts: session.user.emailVerified or 403</span>
+└─ <span class="layer">auth</span>apiKey({ defaultPrefix: "otr_live_", rateLimit: { maxRequests: 120, timeWindow: 60_000 },
+             enableMetadata: true })
+   └─ <span class="layer">sql</span>INSERT apikey (key = hash, start, user_id, …)</pre>
+    <p>The key's own <code>remaining</code> and <code>refill*</code> fields stay unused. Spending is limited by the account's prepaid credit, not per key, so a user with three keys draws from one balance.</p>
+  </div>
+</details>
+<p>Dana copies the key into their server's environment.</p>
+
+<h3 id="w-keyed">4. A lookup with the key</h3>
+<p>Dana's server calls <code>https://api.opentaxrate.com/v1/rate</code> with <code>x-api-key: otr_live_3Fq9…Xk2</code> for the same address.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 4: the key is verified, the user's own history is checked first, and the call is logged</p>
+    <div class="objgraph"><ul class="tree"><li>
+      <div class="obj"><span class="kind">request</span><span class="id">GET /v1/rate</span><span class="field">x-api-key: otr_live_3Fq9…</span></div>
+      <ul>
+        <li><div class="obj changed"><span class="kind">changed</span><span class="id">apikey key_71b0</span><span class="field">lastRequest now</span></div></li>
+        <li>
+          <div class="obj new"><span class="kind">created</span><span class="id">Access</span><span class="field">tier: keyed · key_71b0 · usr_9f2c</span></div>
+          <ul><li>
+            <div class="obj new"><span class="kind">created</span><span class="id">ProviderPolicy</span><span class="field">allows all</span></div>
+            <ul>
+              <li><div class="obj"><span class="kind">asked first</span><span class="id">census + nominatim</span><span class="field">TIGER and OSM agree · $0</span></div></li>
+              <li><div class="obj gone"><span class="kind">not needed</span><span class="id">geocodio, mapbox, esri, google</span><span class="field">asked only on disagreement</span></div></li>
+            </ul>
+          </li></ul>
+        </li>
+        <li><div class="obj"><span class="kind">read, missed</span><span class="id">api_requests</span><span class="field">usr_9f2c · same answer_key · last 24 h → none</span></div></li>
+        <li><div class="obj new"><span class="kind">inserted</span><span class="id">api_requests 5521</span><span class="field">200 · cached false · census, nominatim</span><span class="field">paid_calls 0 · $0.0000 · 184 ms</span></div></li>
+      </ul>
+    </li></ul></div>
+  </div>
+  <figcaption>The locator's order doesn't change: it starts with a free pair from different datasets, so most keyed lookups cost nothing. The key's main gain in Austin is a second independent dataset (TIGER), not a paid call.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 4</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">edge</span>Caddy → api:8080, X-Client-IP from CF-Connecting-IP          <span class="n">deploy/Caddyfile, unchanged</span>
+<span class="layer">http</span>resolveAccess                                                <span class="n">src/access.ts</span>
+├─ matches OPENTAXRATE_MASTER_KEYS → { tier: "keyed", master: "equated" }   <span class="n">no database, no charge; skips to the lookup</span>
+└─ <span class="layer">auth</span>auth.api.verifyApiKey({ body: { key } })                  <span class="n">hash lookup, rate limit</span>
+   ├─ <span class="layer">sql</span>SELECT / UPDATE apikey
+   ├─ invalid / disabled / expired → 401 INVALID_API_KEY
+   ├─ over rate limit → 429 KEY_LIMITED + Retry-After
+   ├─ charge(userId): credit_micros &lt; price → 402 NO_CREDITS   <span class="n">src/credits.ts; never falls back to Free</span>
+   └─ valid → c.set("access", { tier: "keyed", keyId, userId })
+<span class="layer">http</span>tierLimit: keyed → skip perIpLimit
+<span class="layer">http</span>GET /v1/rate
+├─ <span class="layer">sql</span>cachedAnswer(userId, answerKey(q, include))    <span class="n">src/requests.ts (new)</span>
+│  └─ SELECT response FROM api_requests WHERE user_id = $1 AND answer_key = $2
+│        AND status = 200 AND at &gt; now() - '24 hours' ORDER BY at DESC LIMIT 1
+│     hit → respond, skip lookUpRate, log with cached = true
+└─ miss → lookUpRate(q, { trace, access })
+├─ <span class="layer">geo</span>geocoderProviders(policyFor(access))   <span class="n">all enabled providers, cheapest first</span>
+├─ <span class="layer">geo</span>createLocator → postgresGeocodeBudget.reserve(p)   <span class="n">vendor caps, unchanged</span>
+└─ <span class="layer">lookup</span>returns { rate, spent }               <span class="n">spent = providers actually called × costPerCall</span>
+<span class="layer">log</span>logRequest({ userId, keyId, answerKey, query, status, response, cached, providers, cost, ms })
+└─ <span class="layer">sql</span>INSERT api_requests …          <span class="n">src/requests.ts, after the response is sent; refusals and 400s too</span></pre>
+    <p>The locator already records each provider's outcome in its <code>GeocodeTrace</code> (<code>"matched"</code>, <code>"skipped"</code> and so on). Counting the calls that weren't served from cache, multiplied by each provider's <code>costPerCall</code>, gives the cost without a second trace. A cached answer is logged as a lookup with no paid calls, and is charged like any other answer. A declined address (422) is logged but not charged.</p>
+    <p><code>verifyApiKey</code> reads and writes the <code>apikey</code> row on every request. At today's volume that's fine. If it shows up in latency, Better Auth's <code>secondaryStorage</code> can keep the counters in Redis instead.</p>
+  </div>
+</details>
+<p>Dana gets the 0.0825 answer. The same call again within 24 hours is answered from row 5521 and logged as row 5522 with <code>cached</code> true. The response has the header <code>X-OpenTaxRate-Tier: keyed</code>, plus <code>X-OpenTaxRate-Cache: hit</code> or <code>miss</code>, so they can see which tier answered and whether it came from cache.</p>
+
+<h3 id="w-revoke">5. History, usage and revoking</h3>
+<p>Dana opens History to see their lookups and this month's total, then revokes a key after a leak.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Step 5: history and totals are read from api_requests; a deleted key stops working on the next request</p>
+    <div class="objgraph"><ul class="tree"><li>
+      <div class="obj"><span class="kind">exists</span><span class="id">user usr_9f2c</span><span class="field">session cookie</span></div>
+      <ul>
+        <li><div class="obj"><span class="kind">read</span><span class="id">api_requests</span><span class="field">newest 50 · then October's count and cost</span></div></li>
+        <li><div class="obj gone"><span class="kind">deleted</span><span class="id">apikey key_71b0</span><span class="field">next call → 401</span></div></li>
+      </ul>
+    </li></ul></div>
+  </div>
+  <figcaption>Request rows outlive the key, so its history and the month's total stay right.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">step 5</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">client</span>fetch("/v1/account/requests?before=5521&amp;key=key_71b0&amp;result=refused")   <span class="n">cookie, via the Worker</span>
+<span class="layer">http</span>GET /v1/account/requests                    <span class="n">server.ts: auth.api.getSession({ headers }) or 401</span>
+└─ <span class="layer">sql</span>historyFor(userId, filters)                <span class="n">src/requests.ts</span>
+   └─ SELECT … FROM api_requests WHERE user_id = $1 [AND key_id, status, address ILIKE]
+         AND id &lt; $before ORDER BY at DESC LIMIT 50
+<span class="layer">http</span>GET /v1/account/summary                     <span class="n">Home's usage line</span>
+└─ <span class="layer">sql</span>monthTotals(userId)
+   └─ SELECT count(*), count(*) FILTER (WHERE status = 422), sum(paid_calls), sum(cost_usd)
+         FROM api_requests WHERE user_id = $1 AND at &gt;= date_trunc('month', now())
+<span class="layer">client</span>authClient.apiKey.delete({ keyId: "key_71b0" })
+└─ <span class="layer">sql</span>DELETE apikey WHERE id = 'key_71b0' AND user_id = 'usr_9f2c'</pre>
+    <p>Each row stores <code>user_id</code> as well as <code>key_id</code>, so a deleted key's lookups still show up. The query filters on the user, not on the key list.</p>
+  </div>
+</details>
+<p>Dana sees the month's usage and an empty key list. Their old key now gets a 401.</p>
+
+<h2 id="boundaries">Boundaries</h2>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Edge</th><td><code>landing/cloudflare/worker.js</code></td><td>Same-origin routing. <code>/v1/*</code> as now (GET only, no keys passed). <code>/api/auth/*</code> and <code>/v1/account/*</code> with method, body, cookies and Set-Cookie.</td><td>Requests to the API, with X-Client-IP and X-Proxy-Secret</td></tr>
+    <tr><th scope="row">Dashboard</th><td><code>landing/src/routes/login</code>, <code>/dashboard</code>, <code>src/lib/auth.ts</code></td><td>The code form, the key list (create, reveal once, delete) and the usage table. Prerendered and client-only, still on adapter-static.</td><td><code>createAuthClient({ plugins: [emailOTPClient(), apiKeyClient()] })</code> calls</td></tr>
+    <tr><th scope="row">Auth</th><td><code>src/auth.ts</code> (new)</td><td>The <code>betterAuth()</code> instance: drizzle adapter, <code>emailOTP</code>, <code>apiKey</code>, the verified-only hook, the mail sender, <code>trustedOrigins</code>, and <code>ipAddressHeaders: ["x-client-ip"]</code> for its own rate limits</td><td>Users, sessions, verified keys</td></tr>
+    <tr><th scope="row">Access</th><td><code>src/access.ts</code> (new)</td><td>Master keys (<code>masterKeys()</code> from the environment), <code>resolveAccess</code> middleware, <code>tierLimit</code>, and <code>policyFor(access)</code> from <code>OPENTAXRATE_PUBLIC_PROVIDERS</code></td><td><code>Access</code> on <code>c.var</code>; a <code>ProviderPolicy</code></td></tr>
+    <tr><th scope="row">HTTP</th><td><code>src/server.ts</code></td><td>Mounts auth, orders the middleware (CORS, then access, then limits), sends keyed calls to <code>api_requests</code> and public calls to the in-memory cache, and serves <code>/v1/account/requests</code> and <code>/summary</code></td><td><code>lookUpRate(q, { trace, access })</code></td></tr>
+    <tr><th scope="row">Lookup</th><td><code>src/lookup.ts</code></td><td>Turns the policy into the three gates: the provider list, the standardizer and <code>pickStreet</code>. Returns what was spent.</td><td><code>createLocator</code>, <code>addressRates.at</code></td></tr>
+    <tr><th scope="row">Geocoding</th><td><code>src/geocoding/registry.ts</code></td><td><code>geocoderProviders(policy?)</code> filtering by id. With no policy, as today.</td><td>The provider list; budgets unchanged</td></tr>
+    <tr><th scope="row">Rates</th><td><code>src/rates/index.ts</code>, <code>streets/*</code></td><td>A new optional <code>pickStreet</code> on <code>AddressRateQuery</code>, passed to <code>correctedStreet</code> in place of calling <code>jevChoice</code> directly</td><td>A pick, or none</td></tr>
+    <tr><th scope="row">Requests</th><td><code>src/requests.ts</code> (new)</td><td>The one table's four uses: <code>cachedAnswer</code>, <code>logRequest</code>, <code>historyFor</code>, <code>monthTotals</code>, plus the 90-day prune</td><td><code>api_requests</code> rows</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="phases">Phases</h2>
+<p>Three pull requests. Phase 1 stops the public API from spending. Phase 2 is every migration plus accounts, keys, the dashboard and the credit ledger, with the 100-lookup trial as the only way to get credit. Phase 3 adds buying credit through Stripe. Each phase is safe to ship alone: after phase 2, a key that runs out of credit gets a 402 and nobody can spend past what they hold.</p>
+
+<h3 id="pricing-math">What a keyed lookup costs us</h3>
+<p>The figures come from the measured mix on <code>/benchmarks</code>: 309 random addresses with every provider on, at the vendors' published prices (checked 2026-10-22), once every free tier is used up. Per 1,000 keyed lookups, geocoding costs $1.14, and Jev adds at most $0.12. Stripe takes 2.9% + $0.30 of each top-up, which is 5.9% of a $10 top-up and 3.5% of $50. In the benchmark, 5.5% of addresses were declined, and declines aren't charged.</p>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Price per 1,000</th><th scope="col" class="num">Kept after declines and Stripe ($10 top-ups)</th><th scope="col" class="num">Margin over $1.14</th><th scope="col" class="num">Margin over $1.26 (with Jev)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">$1.50</th><td class="num">$1.33</td><td class="num">+$0.19</td><td class="num">+$0.07</td></tr>
+    <tr><th scope="row">$1.75</th><td class="num">$1.56</td><td class="num">+$0.42</td><td class="num">+$0.30</td></tr>
+    <tr><th scope="row">$1.95 (chosen)</th><td class="num">$1.73</td><td class="num">+$0.59</td><td class="num">+$0.47</td></tr>
+    <tr><th scope="row">$2.00</th><td class="num">$1.78</td><td class="num">+$0.64</td><td class="num">+$0.52</td></tr>
+  </tbody>
+</table></div>
+<p>Averages hide the risk. One lookup that asks every paid provider costs about $0.0112: Geocodio, its ZIP+4 lookup, HERE, Mapbox, Esri, Google, Smarty and Jev together. That's almost 6 times a $0.00195 charge. A customer whose addresses are mostly hard ones (rural, new builds, near city lines) loses money at any flat price. Two rules make break-even hold for every account, not just on average:</p>
+<ul>
+  <li><em>A geocoder allowance per account.</em> Each charged lookup adds 80% of its price to the account's <code>geo_allowance_micros</code>. A paid provider is asked only if the allowance covers its cost, and the cost comes out of it. Free providers are always asked. So no account's geocoder spend can exceed 80% of what it paid, and the other 20% covers the Stripe fee (at most 5.9%) and leaves the rest for hosting. An account of mostly easy addresses builds a pool that pays for its occasional hard one.</li>
+  <li><em>A price that keeps typical accounts above the floor.</em> At $1.50, the allowance grows by $1.13 per 1,000 lookups but the average spend is $1.14–1.26, so an average account would slowly run dry and lose the paid geocoders. At $1.95 it grows by $1.47, which covers the average with room to spare. $1.95 is still about a twelfth of Zip-Tax's per-call price past its plan ($0.0242) and 1/25th of Stripe Tax's ($0.05).</li>
+</ul>
+<p>Below the vendors' free tiers (Geocodio's 2,500 a day, Mapbox's 100,000 a month, Google's 10,000 a month) the real cost is close to $0, so small accounts are nearly all margin. The allowance still counts list prices, so the guarantee doesn't depend on free tiers lasting. Registry costs must match list prices for the allowance to be right, so phase 2 corrects the defaults (Geocodio $0.001 and its ZIP+4 lookup $0.002, HERE $0.00083, Mapbox $0.00075, Esri $0.0005, Google $0.005).</p>
+
+<h3>Phase 1: provider policy and the public tier</h3>
+<p>No-key lookups use only <code>OPENTAXRATE_PUBLIC_PROVIDERS</code> (<code>photon,pelias</code>), the gates are threaded through, master keys from <code>OPENTAXRATE_MASTER_KEYS</code> get the keyed tier (so the keyed path is usable and testable before accounts exist), and a bench compares the tiers. No migrations.</p>
+<details class="more">
+  <summary>Files<span class="dim">phase 1</span></summary>
+  <div class="inner"><ul>
+    <li><strong>Access:</strong> <code>src/access.ts</code> (new): <code>Access</code>, <code>ProviderPolicy</code>, <code>policyFor()</code>, <code>masterKeys()</code>, and a <code>resolveAccess</code> that returns <code>public</code> or, for a master key, <code>keyed</code>; any other key gets a 401 until phase 2.</li>
+    <li><strong>Geocoding:</strong> <code>src/geocoding/registry.ts</code>: <code>geocoderProviders(policy?)</code>, <code>geocoderCoverage(policy?)</code>.</li>
+    <li><strong>Lookup and rates:</strong> <code>src/lookup.ts</code>, <code>src/standardize/index.ts</code> (<code>addressStandardizer(policy)</code>), <code>src/rates/index.ts</code>, <code>src/rates/streets/index.ts</code>, <code>correct.ts</code> (<code>pickStreet</code>).</li>
+    <li><strong>Deploy and docs:</strong> <code>deploy/compose.public.yml</code>, <code>.env.example</code> and <code>deploy/.env.example</code> (<code>OPENTAXRATE_MASTER_KEYS</code>, generated with <code>echo otr_master_$(openssl rand -hex 24)</code> and kept in Infisical "equated"), <code>docs/context/api.md</code>, <code>geocoding.md</code>, <code>scripts/bench.ts --tier public|keyed</code>.</li>
+    <li><strong>Tests:</strong> <code>test/geocoding-registry.test.ts</code>, <code>test/access.test.ts</code>, <code>test/jev.test.ts</code>.</li>
+  </ul></div>
+</details>
+<p><strong>Done when:</strong> with <code>OPENTAXRATE_PUBLIC_PROVIDERS=photon,pelias</code>, a <code>/v1/rate</code> call with a stubbed <code>fetch</code> never reaches a Census, Nominatim, Geocodio, Mapbox or TypeSafe host; with it unset, the existing tests pass unchanged; the same call with a master key reaches the stubbed Mapbox, sends <code>X-OpenTaxRate-Tier: keyed</code>, and skips the per-IP limit; an unknown key, or a master key under 32 characters at start, fails (401, or a refused start); and the bench prints each tier's right, wrong and declined counts.</p>
+
+<h3>Phase 2: accounts, keys, the dashboard and the credit ledger</h3>
+<p>Email-code sign-in, API keys, keyed lookups with every provider, the <code>api_requests</code> history and cache, the Home, API keys and History screens, and the token ledger. One migration holds every table and column this plan needs, so phase 3 is code only. New accounts get 100 lookups of credit. At zero, a key gets a 402 until buying opens.</p>
+<ol>
+  <li><strong>Migration <code>0005_accounts.sql</code>.</strong> It adds Better Auth's <code>user</code>, <code>session</code>, <code>account</code>, <code>verification</code> and <code>apikey</code>, from <code>npx @better-auth/cli generate</code> into <code>src/db/auth-schema.ts</code>. <code>user</code> gets three extra fields, which the client can't set: <code>credit_micros</code> bigint, <code>geo_allowance_micros</code> bigint and <code>stripe_customer_id</code> text. It also adds <code>api_requests</code> as specified above, plus <code>charged_micros</code> and <code>geo_cost_micros</code>, and <code>credit_grants</code> (<code>id</code>, <code>user_id</code>, <code>kind</code> <code>trial | purchase | refund | adjust</code>, <code>micros</code>, <code>stripe_session_id</code> unique and nullable, <code>at</code>). <code>scripts/snapshot.sh</code>'s explicit table list keeps all of these out of data snapshots.</li>
+  <li><strong>Sign-up grant.</strong> Better Auth's <code>databaseHooks.user.create.after</code> inserts a <code>trial</code> grant of 100 × the price (195,000 µ$ at $1.95) and sets <code>credit_micros</code> in the same transaction.</li>
+  <li><strong>Charging a lookup.</strong> These are the tokens. In <code>resolveAccess</code>, after a dashboard key verifies (master keys skip this), one statement reserves the price and grows the allowance:<br><code>UPDATE "user" SET credit_micros = credit_micros - $price, geo_allowance_micros = geo_allowance_micros + $price * 0.8 WHERE id = $1 AND credit_micros &gt;= $price RETURNING …</code>. No row means 402 <code>NO_CREDITS</code>. If the lookup is declined (422) or fails (5xx), the same amounts are reversed, so declines are free. Cached repeats are charged.</li>
+  <li><strong>Spending the allowance.</strong> A new <code>accountBudget(userId)</code> wraps <code>postgresGeocodeBudget</code>. For a provider with <code>costPerCall &gt; 0</code>, <code>reserve()</code> first runs <code>UPDATE "user" SET geo_allowance_micros = geo_allowance_micros - $cost WHERE id = $1 AND geo_allowance_micros &gt;= $cost</code>, and only then takes the vendor cap. The standardizer and Jev reserve the same way. The locator already asks providers in cost order, so a thin allowance just means it stops at the free ones. Each row's <code>geo_cost_micros</code> records what was spent.</li>
+  <li><strong>Dashboard.</strong> <code>/login</code>, and <code>/dashboard</code> with Home (credit and lookups left, a request example, recent lookups), API keys and History, as in <code>artifacts/dashboard-mockup.html</code>. Signed in, the top bar has only the wordmark. "Add credit" shows "Buying opens soon" until phase 3.</li>
+</ol>
+<details class="more">
+  <summary>Files<span class="dim">phase 2</span></summary>
+  <div class="inner"><ul>
+    <li><strong>Data:</strong> <code>src/db/auth-schema.ts</code>, <code>src/db/schema.ts</code> (<code>api_requests</code>, <code>credit_grants</code>), <code>migrations/0005_accounts.sql</code>, <code>scripts/snapshot.sh</code> (a test that the list is unchanged).</li>
+    <li><strong>Server:</strong> <code>src/auth.ts</code> (Better Auth with <code>emailOTP</code>, <code>apiKey</code>, the verified-only hook, extra user fields, the trial grant), <code>src/mail.ts</code>, <code>src/access.ts</code> (key, charge, 401, 402, 429), <code>src/credits.ts</code> (<code>charge</code>, <code>refund</code>, <code>accountBudget</code>, <code>PRICE_MICROS</code>, 1,950 µ$, and <code>TRIAL_LOOKUPS</code>, 100, as constants), <code>src/requests.ts</code> (<code>cachedAnswer</code>, <code>logRequest</code>, <code>historyFor</code>, <code>monthTotals</code>, the 90-day prune), <code>src/geocoding/registry.ts</code> (list-price defaults), <code>src/server.ts</code> (mounts <code>/api/auth/*</code>, <code>/v1/account/*</code>).</li>
+    <li><strong>Edge and client:</strong> <code>landing/cloudflare/worker.js</code> (<code>/api/auth/*</code> and <code>/v1/account/*</code> with cookies), <code>landing/src/lib/auth.ts</code>, <code>landing/src/routes/login/</code>, <code>landing/src/routes/dashboard/</code> (<code>+layout.svelte</code>, <code>+page.svelte</code>, <code>keys/</code>, <code>history/</code>).</li>
+    <li><strong>Settings:</strong> <code>BETTER_AUTH_SECRET</code>, <code>BETTER_AUTH_URL</code>, <code>RESEND_API_KEY</code>. The price, the trial, the cache window and the providers' list prices are constants in the code, not settings.</li>
+    <li><strong>Tests:</strong> <code>test/auth.test.ts</code>, <code>test/access.test.ts</code>, <code>test/credits.test.ts</code>, <code>test/requests.test.ts</code>.</li>
+  </ul></div>
+</details>
+<p><strong>Done when:</strong></p>
+  <ul>
+    <li>Sign-up by code leaves 195,000 µ$.</li>
+    <li>100 answered lookups take it to 0, and the 101st gets a 402 while a keyless call still works.</li>
+    <li>A declined lookup leaves the balance unchanged.</li>
+    <li>With the allowance at 0, a stubbed Google is never called, but Census and Nominatim still are.</li>
+    <li>200 concurrent lookups on a 10-lookup balance answer exactly 10.</li>
+    <li>A repeat within 24 hours returns <code>X-OpenTaxRate-Cache: hit</code> and calls no geocoder.</li>
+    <li>The dashboard flow (sign in, create a key, curl, see it in History) works on a staging Worker in both themes.</li>
+  </ul>
+
+<h3>Phase 3: buying credit with Stripe</h3>
+<p>Top-ups of $10, $25 or $50 through Stripe Checkout, credited by webhook. Credit is a prepaid balance, so there are no subscriptions, invoices or meters, and the request path never calls Stripe. The ledger in Postgres decides who can make a lookup. Stripe only takes the money.</p>
+<ol>
+  <li><strong>Checkout.</strong> <code>POST /v1/account/checkout {"amount": 1000}</code> (cents; 1000, 2500 or 5000) uses the session cookie. The first time, it creates a Stripe customer (<code>stripe.customers.create({ email, metadata: { user_id } })</code>) and saves <code>stripe_customer_id</code>. Then it calls <code>stripe.checkout.sessions.create({ mode: "payment", customer, line_items: [{ price_data: { currency: "usd", unit_amount: amount, product_data: { name: "OpenTaxRate credit" } }, quantity: 1 }], metadata: { user_id }, success_url: "https://opentaxrate.com/dashboard?paid={CHECKOUT_SESSION_ID}", cancel_url: "https://opentaxrate.com/dashboard" })</code> and returns its <code>url</code>.</li>
+  <li><strong>Webhook.</strong> <code>POST https://api.opentaxrate.com/api/billing/webhook</code> comes straight from Stripe through Caddy, not the Worker, so the raw body reaches <code>stripe.webhooks.constructEvent(raw, signature, STRIPE_WEBHOOK_SECRET)</code> untouched. On <code>checkout.session.completed</code> with <code>payment_status === "paid"</code>, one transaction runs <code>INSERT credit_grants (kind 'purchase', micros = amount_total × 10,000, stripe_session_id) ON CONFLICT (stripe_session_id) DO NOTHING</code>, and only if a row went in, adds the same to <code>credit_micros</code>. A replayed event changes nothing. <code>charge.refunded</code> inserts a negative <code>refund</code> grant.</li>
+  <li><strong>Dashboard.</strong> Home's "Add credit" offers $10, $25 and $50, showing about 5,128, 12,820 and 25,641 lookups at $1.95. <code>?paid=</code> shows "Credit added" once the webhook lands; it polls <code>/v1/account/summary</code> for up to 10 s. <code>/pricing</code>'s button becomes "Get a key".</li>
+</ol>
+<details class="more">
+  <summary>Files and keys<span class="dim">phase 3</span></summary>
+  <div class="inner"><ul>
+    <li><strong>Server:</strong> <code>src/billing.ts</code> (new: <code>createCheckout</code>, <code>handleWebhook</code>), <code>src/server.ts</code> (the two routes; the webhook route reads <code>await c.req.text()</code> before anything parses it), <code>package.json</code> (<code>stripe</code>).</li>
+    <li><strong>Client:</strong> <code>landing/src/routes/dashboard/+page.svelte</code>, <code>landing/src/routes/pricing/+page.svelte</code>.</li>
+    <li><strong>Keys:</strong> <code>STRIPE_SECRET_KEY</code> comes from Infisical project "equated" (dev holds a <code>sk_test_</code> key; production needs the live key in its own environment). <code>STRIPE_WEBHOOK_SECRET</code> isn't in Infisical yet. Locally it comes from <code>stripe listen --forward-to localhost:8080/api/billing/webhook</code>. In production it comes from the endpoint created in the Stripe dashboard for <code>checkout.session.completed</code> and <code>charge.refunded</code>. Add both to Infisical and <code>deploy/.env.example</code>.</li>
+    <li><strong>Tests:</strong> <code>test/billing.test.ts</code> with signed fixtures (<code>stripe.webhooks.generateTestHeaderString</code>).</li>
+  </ul></div>
+</details>
+<p><strong>Done when:</strong> in test mode, card 4242 4242 4242 4242 on a $10 checkout adds exactly 10,000,000 µ$ once, even when <code>stripe events resend</code> replays it; a bad signature gets a 400 and changes nothing; a refund from the Stripe dashboard takes it back off; and a key that got a 402 works again right after paying.</p>
+
+<h2 id="questions">Open questions</h2>
+<ol>
+  <li><strong>Should the public tier keep Census?</strong> Recommended: no, as you asked, but decide after the phase 1 bench. Census is free, needs no key, and is the only TIGER dataset, so it's the one provider that gives Photon and Pelias an independent second opinion. If public refusals rise sharply without it, adding <code>census</code> to the public list is a one-line change. The public Nominatim stays out either way, because its usage policy allows one request a second.</li>
+  <li><strong>What about outside calls that aren't geocoders?</strong> These are the Census ZCTA check in <code>insideTypedZip</code> and California's CDTFA lookup. Recommended: keep them public. They're free government checks that a lookup's correctness depends on, not providers you pay for.</li>
+  <li><strong>Which mail sender?</strong> Recommended: Resend, one HTTP call from <code>src/mail.ts</code> with a verified opentaxrate.com domain. Cloudflare's email sending is the alternative if you'd rather keep everything in one account.</li>
+  <li><strong>Which key header?</strong> Recommended: accept both <code>x-api-key</code> (Better Auth's default) and <code>Authorization: Bearer</code>. Most HTTP clients make one or the other easy.</li>
+  <li><strong>Should the landing page use keyed lookups for a signed-in user?</strong> Recommended: not now. Keys are for servers. The browser stays public, so the demo shows exactly what an anonymous caller gets.</li>
+  <li><strong>Open sign-up or a waitlist?</strong> Recommended: open. Better Auth's own limit on code sends (by <code>X-Client-IP</code>) plus the Worker's <code>AUTH</code> limit cover abuse. Add Turnstile to <code>/login</code> only if you see it.</li>
+  <li><strong>Should credit expire?</strong> Recommended: no. Unused credit costs nothing to hold, and expiry is the kind of fine print the pricing table is meant to avoid.</li>
+  <li><strong>Should the vendors behind the key stay unnamed?</strong> Recommended: yes on the site. <code>/pricing</code> says "commercial geocoders". The API still names them in <code>/v1/coverage</code> and in <code>trace.geocoders[].source</code>. Hiding those means mapping provider ids to neutral labels in <code>geocoderCoverage()</code> and the trace before responding.</li>
+  <li><strong>Should a repeat answered from history be charged?</strong> Recommended: yes, at the same $0.00195. It's simplest to explain, and the margin pays for the misses. <code>cached</code> is on every row if you later want hits to be free.</li>
+</ol>
+
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-tier">Tier and policy</h3>
+    <p>A tier is what a request may use, and a policy is that tier turned into the set of provider ids the registry may return.</p>
+<pre class="snip">OPENTAXRATE_PUBLIC_PROVIDERS=photon,pelias
+policyFor({ tier: "public" }).allows("mapbox")  // false
+policyFor({ tier: "keyed" }).allows("mapbox")   // true
+unset variable → every id allowed (self-host default)</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-otp">Email OTP</h3>
+    <p>A one-time code sent by email. Typing it proves you own the address, so sign-in and verification are the same step.</p>
+<pre class="snip">emailOTP({ otpLength: 6, expiresIn: 300, allowedAttempts: 3,
+  storeOTP: "hashed",
+  sendVerificationOTP: ({ email, otp }) =&gt; sendMail(email, otp) })</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-apikey">Better Auth API key</h3>
+    <p>A random secret whose hash is stored. Verifying it looks up the hash, checks that it's enabled and not expired, and applies the per-key rate limit. Spending is checked separately, against the account's credit.</p>
+<pre class="snip">await auth.api.verifyApiKey({ body: { key } })
+→ { valid: true, key: { id: "key_71b0", userId: "usr_9f2c",
+    rateLimitMax: 120, metadata: {} } }</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-dataset">Independent dataset</h3>
+    <p>The locator counts agreement between datasets, not providers. Two OSM-backed geocoders that agree count as one vote.</p>
+<pre class="snip">photon  → osm            ┐ one dataset → single-dataset path
+pelias  → osm            ┘ (accept only inside Austin's outline)
+census  → tiger          ┐ two datasets → agreement within
+nominatim → osm          ┘ the coarser margin and 250 m</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-same-origin">Same-origin auth through the Worker</h3>
+    <p>The dashboard and <code>/api/auth</code> are both on opentaxrate.com, so the session cookie is first-party and needs no CORS credentials.</p>
+<pre class="snip">opentaxrate.com/api/auth/sign-in/email-otp
+  → Worker → API (VPC binding) /api/auth/…
+  ← Set-Cookie: better-auth.session_token=…; HttpOnly; Secure; SameSite=Lax</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-budget">Vendor cap</h3>
+    <p>The existing per-credential daily cap and spacing in <code>geocoder_usage</code>, reserved with one upsert before every call. It's shared by both tiers.</p>
+<pre class="snip">MAPBOX_DAILY_CAP=300 → the 301st Mapbox call today is skipped,
+whichever key or tier asked</pre>
+  </section>
+</div>
+
+<details class="more">
+  <summary>Sources<span class="dim">what this page was traced from</span></summary>
+  <div class="inner"><ul class="sources">
+    <li>Repository at <code>8f6e38e</code> on branch debug-rates: <code>src/server.ts</code>, <code>lookup.ts</code>, <code>limits.ts</code>, <code>cache.ts</code>, <code>geocoding/registry.ts</code>, <code>locator.ts</code>, <code>budget.ts</code>, <code>standardize/index.ts</code>, <code>rates/streets/correct.ts</code>, <code>jev.ts</code>, <code>landing/cloudflare/worker.js</code>, <code>wrangler.jsonc</code>, <code>deploy/compose.public.yml</code>, <code>Caddyfile</code>, <code>scripts/snapshot.sh</code>, <code>docs/context/api.md</code>, <code>geocoding.md</code>.</li>
+    <li>Better Auth v1.6 docs (email OTP plugin, API key plugin in <code>@better-auth/api-key</code>, Hono integration), fetched 2026-10-22.</li>
+    <li>Provider costs are the defaults in <code>registry.ts</code>, not current vendor prices.</li>
+  </ul></div>
+</details>
+
+</article>
+</div>
+
+<script>
+(() => {
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+})();
+</script>
