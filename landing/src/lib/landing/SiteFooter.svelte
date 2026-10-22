@@ -6,6 +6,8 @@
 	<nav class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
 		<a class="hover:text-[var(--text)]" href="/sources">Sources</a>
 		<span aria-hidden="true">·</span>
+		<a class="hover:text-[var(--text)]" href="/benchmarks">Benchmarks</a>
+		<span aria-hidden="true">·</span>
 		<a class="hover:text-[var(--text)]" href="{GITHUB}#quick-start" target="_blank" rel="noopener">Run it yourself</a>
 		<span aria-hidden="true">·</span>
 		<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/docs/context/api.md" target="_blank" rel="noopener">API</a>
