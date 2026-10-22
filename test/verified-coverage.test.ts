@@ -1,6 +1,6 @@
 /**
  * Verified tax areas and held coverage, through the whole range engine
- * (docs/plans/verified-tax-area-coverage.html). A synthetic Minnesota: state
+ * with a synthetic Minnesota: state
  * and county make 7%, a special district makes 9%, and no boundary-file area
  * includes the district. Held, 7% must never be the answer; complete and
  * dated, 9% must be.
