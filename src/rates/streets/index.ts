@@ -20,6 +20,7 @@ import { normalizeCity } from "../places.js";
 import { betweenAreas } from "./between.js";
 import { correctedStreet } from "./correct.js";
 import { exactAreas } from "./exact.js";
+import type { StreetPicker } from "./jev.js";
 
 export interface StreetQuery {
   state: string;
@@ -28,6 +29,9 @@ export interface StreetQuery {
   city: string;
   zip5: string | null;
   date: string;
+  /** Picks the street a misspelled one is when spelling can't: Jev by
+   *  default, null for spelling only. */
+  pickStreet?: StreetPicker | null;
 }
 
 export interface StreetFound {
@@ -46,7 +50,7 @@ export async function findStreet(q: StreetQuery): Promise<StreetFound | null> {
   if (own) return own;
   if (!q.zip5) return null;
 
-  const corrected = await correctedStreet(q.state, q.street, parsed, q.zip5, q.date);
+  const corrected = await correctedStreet(q.state, q.street, parsed, q.zip5, q.date, q.pickStreet);
   if (!corrected) return null;
   const filed = parseStreet(`1 ${corrected.street}`);
   if (!filed) return null;
@@ -81,7 +85,7 @@ export async function listedInZip(q: StreetQuery & { zip5: string }): Promise<bo
     .from(r)
     .where(and(eq(r.state, q.state), eq(r.zip5, q.zip5), inArray(r.streetKey, keys), lte(r.startsOn, q.date), gte(r.endsOn, q.date)))
     .limit(1);
-  return !!row || (await correctedStreet(q.state, q.street, parsed, q.zip5, q.date)) !== null;
+  return !!row || (await correctedStreet(q.state, q.street, parsed, q.zip5, q.date, q.pickStreet)) !== null;
 }
 
 async function onStreet(q: StreetQuery, street: StreetParts, city: string): Promise<StreetFound | null> {

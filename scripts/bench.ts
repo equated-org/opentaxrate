@@ -83,6 +83,14 @@ const PROVIDERS: Record<string, Provider> = {
   /** The same, for iterating on the engine: each provider's answer for each
    *  address is asked once and replayed from BENCH_GEOCODE_REPLAY after. */
   "opentaxrate-dev": { needs: ["BENCH_GEOCODE_REPLAY"], pauseMs: 0, fresh: true, ask: (c) => pipeline(c, env("BENCH_GEOCODE_REPLAY")) },
+  /** The public tier: a lookup without a key, limited to
+   *  OPENTAXRATE_PUBLIC_PROVIDERS (photon,pelias when unset here). */
+  "opentaxrate-public": {
+    needs: [],
+    pauseMs: 0,
+    fresh: true,
+    ask: (c) => pipeline(c, undefined, process.env.OPENTAXRATE_PUBLIC_PROVIDERS || "photon,pelias"),
+  },
   /** The engine alone, at the case's own address point. */
   "opentaxrate-point": {
     needs: [],
@@ -286,13 +294,17 @@ const PROVIDERS: Record<string, Provider> = {
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
-async function pipeline(c: Case, replayFile?: string): Promise<Answer> {
+async function pipeline(c: Case, replayFile?: string, publicProviders?: string): Promise<Answer> {
   const { addressRates } = await import("../src/rates/index.js");
   const { createLocator } = await import("../src/geocoding/locator.js");
   const { geocoderProviders } = await import("../src/geocoding/registry.js");
   const { addressStandardizer } = await import("../src/standardize/index.js");
+  const { EVERY_PROVIDER, policyFor } = await import("../src/access.js");
+  const policy = publicProviders
+    ? policyFor({ tier: "public" }, { OPENTAXRATE_PUBLIC_PROVIDERS: publicProviders })
+    : EVERY_PROVIDER;
   const replay: Record<string, unknown> = replayFile && fs.existsSync(replayFile) ? JSON.parse(fs.readFileSync(replayFile, "utf8")) : {};
-  const providers = geocoderProviders().map((p) => !replayFile ? p : {
+  const providers = geocoderProviders(policy).map((p) => !replayFile ? p : {
     ...p,
     async geocode(a: typeof c, signal: AbortSignal) {
       const key = `${p.id}|${c.id}`;
@@ -320,7 +332,7 @@ async function pipeline(c: Case, replayFile?: string): Promise<Answer> {
     },
     cache: { get: async () => undefined, put: async () => {} },
   });
-  const standardizer = addressStandardizer();
+  const standardizer = addressStandardizer(policy);
   const standardize = standardizer && (async () => {
     if (!replayFile) return standardizer(c);
     const key = `standardize|${c.id}`;
@@ -334,7 +346,7 @@ async function pipeline(c: Case, replayFile?: string): Promise<Answer> {
     }
     return found;
   });
-  return addressRates.at({ ...c, locate, standardize }, c.date).then(
+  return addressRates.at({ ...c, locate, standardize, pickStreet: policy.allows("jev") ? undefined : null }, c.date).then(
     (r) => ({ rate: r.rate, raw: { match: r.match, locationCode: r.locationCode, source: r.source, geocoders: locate.trace } }),
     (e: Error) => ({ refused: e.message, raw: { geocoders: locate.trace } }),
   );

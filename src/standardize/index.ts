@@ -13,8 +13,9 @@
  */
 
 import { geocoderProviders } from "../geocoding/registry.js";
-import { postgresGeocodeBudget } from "../geocoding/budget.js";
+import { postgresGeocodeBudget, type GeocodeBudget } from "../geocoding/budget.js";
 import { GeocoderError } from "../geocoding/types.js";
+import type { ProviderPolicy } from "../access.js";
 
 export interface AddressToStandardize {
   street: string;
@@ -45,10 +46,16 @@ const TIMEOUT_MS = 5_000;
 const MIN_ACCURACY = 0.9;
 const PLACED = ["rooftop", "point", "range_interpolation"];
 
-export function addressStandardizer(): Standardizer | undefined {
-  // The registry decides whether Geocodio is configured (a blank key is not).
-  const provider = geocoderProviders().find(p => p.id === "geocodio");
-  if (!provider) return undefined;
+export function addressStandardizer(
+  policy?: ProviderPolicy,
+  budget: GeocodeBudget = postgresGeocodeBudget,
+): Standardizer | undefined {
+  // The registry decides whether Geocodio is configured (a blank key is not)
+  // and whether the policy allows it.
+  const geocodio = geocoderProviders(policy).find(p => p.id === "geocodio");
+  if (!geocodio) return undefined;
+  // Asking for the zip4 field bills a second lookup.
+  const provider = { ...geocodio, pricePerCall: (geocodio.pricePerCall ?? geocodio.costPerCall) * 2 };
   const key = process.env.GEOCODIO_API_KEY!.trim();
   return async (a) => {
     const url = new URL(GEOCODIO);
@@ -63,14 +70,14 @@ export function addressStandardizer(): Standardizer | undefined {
     }).toString();
     try {
       // Standardization uses the same vendor quota as forward geocoding.
-      if (!await postgresGeocodeBudget.reserve(provider)) return null;
+      if (!await budget.reserve(provider)) return null;
       const response = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
       if (!response.ok) throw new GeocoderError(response.status);
       const result = fromGeocodio(await response.json(), a.state);
-      postgresGeocodeBudget.success(provider);
+      budget.success(provider);
       return result;
     } catch (error) {
-      postgresGeocodeBudget.failure(provider, error);
+      budget.failure(provider, error);
       return null;
     }
   };

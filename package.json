@@ -5,8 +5,12 @@
   "license": "Elastic-2.0",
   "packageManager": "pnpm@10.12.4",
   "type": "module",
-  "bin": { "opentaxrate": "dist/cli.js" },
-  "engines": { "node": ">=22" },
+  "bin": {
+    "opentaxrate": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -20,11 +24,14 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@better-auth/api-key": "^1.7.12",
     "@hono/node-server": "^1.13.0",
+    "better-auth": "^1.7.12",
     "drizzle-orm": "^0.41.0",
     "fflate": "^0.8.3",
     "hono": "^4.7.0",
     "postgres": "^3.4.0",
+    "stripe": "^23.0.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
