@@ -84,9 +84,12 @@ services:
     build: .
     entrypoint: ["node", "dist/cli.js", "refresh"]
     command: []
-    environment: *env
+    environment:
+      <<: *env
+      OPENTAXRATE_DOWNLOAD_DIR: ${OPENTAXRATE_DOWNLOAD_DIR:-/artifacts}
     volumes:
       - ./data:/data
+      - ./artifacts:/artifacts
     profiles: ["tools"]
     depends_on:
       migrate: { condition: service_completed_successfully }

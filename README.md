@@ -86,7 +86,7 @@ A refusal:
 ```bash
 opentaxrate serve                          # HTTP API on $PORT (8080)
 opentaxrate migrate                        # create or update the tables
-opentaxrate refresh [STATE...] [--dir D] [--force]   # download and load each state's newest data
+opentaxrate refresh [STATE...] [--dir D] [--download-dir D] [--force]   # download and load each state's newest data
 opentaxrate rate OH "90 W Broad St" Columbus 43215 [2025-06-01]
 opentaxrate check --cases cases.csv        # state,street,city,zip,date,expected
 ```
@@ -157,7 +157,30 @@ The 5 GB is almost all one thing: **15.4 million street house-number ranges** fr
 
 Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
 
+Refresh saves downloaded source files locally under `artifacts/` by default:
+
+```bash
+docker compose build refresh
+docker compose run --rm refresh
+# Or without Docker:
+DATABASE_URL=postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate \
+  pnpm refresh
+```
+
+Docker maps `/artifacts` to the checkout's `artifacts/` and uses it by default.
+Override the location with `--download-dir` or `OPENTAXRATE_DOWNLOAD_DIR`
+(Docker paths must be inside a mounted directory). Downloads keep their
+original filenames in separate URL-hash folders to avoid name collisions.
+Only completed downloads are saved. This covers SST/Missouri boundary files,
+TIGER ZIPs, and files read by the state file downloader; live GIS/API responses
+are not archived. Already-loaded sources skipped by refresh are not downloaded
+again unless `--force` is used. `--dir` still selects existing input files;
+`--download-dir` saves newly downloaded files. These local files are ignored by
+Git and are not uploaded by `publish.sh`.
+
 Geocoding reuses permitted cached results before asking providers. It starts with a cheap pair, preferring different datasets, and asks more only when it lacks independent agreement. The map and range engines request one refinement when a boundary prevents a rate decision. Refinement can move the point across the original line; all relevant outlines and rates are checked again.
+
+Google is a last-resort provider: routine providers run first, and an accepted placement stops before Google is called, including a lone dataset that passes the city/ZIP plausibility check. Google remains available when routine providers cannot place the address or provide a compatible precision refinement near a boundary. Cost overrides do not move Google into the routine stage.
 
 Only `geocode_results` and `geocoder_usage` are written by runtime geocoding. Run `pnpm migrate` before starting the new API. Missing usage tables or failed reservations skip providers rather than bypassing quotas. Keep cap/rate configuration consistent across replicas; the quota covers calls routed through this application, not other applications sharing a vendor account. Cache failures do not disable budget enforcement. Expired cache rows may be removed periodically with `DELETE FROM geocode_results WHERE expires_at < now()`.
 
