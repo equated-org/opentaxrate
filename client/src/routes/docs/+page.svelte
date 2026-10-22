@@ -9,6 +9,7 @@
 		{ id: 'auth', title: 'API keys' },
 		{ id: 'rate', title: 'Look up a rate' },
 		{ id: 'response', title: 'The response' },
+		{ id: 'regions', title: 'Regional data' },
 		{ id: 'parts', title: 'Parts' },
 		{ id: 'ids', title: "States' own codes" },
 		{ id: 'reporting', title: 'Reporting' },
@@ -106,7 +107,7 @@
 					<tr><td><code>city</code></td><td>City name.</td></tr>
 					<tr><td><code>zip</code></td><td>Five digits or ZIP+4. Recommended: without it, the address is placed by geocoding, and a few more are refused.</td></tr>
 					<tr><td><code>date</code></td><td><code>YYYY-MM-DD</code>. The rate on that day; today when absent.</td></tr>
-					<tr><td><code>include</code></td><td><code>trace</code> adds how the address was placed: geocoder points, the outlines tested, the street range used.</td></tr>
+					<tr><td><code>include</code></td><td><code>trace</code> adds placement evidence. <code>regions</code> adds supplemental regional boundaries and publisher attributes. Combine as <code>include=trace,regions</code>.</td></tr>
 				</tbody>
 			</table>
 
@@ -131,8 +132,16 @@
 					<tr><td><code>locationIds</code></td><td>The state's own ids for the whole location, where its data gives one: Washington's location code as <code>{'{"Composite SER Code": "01726"}'}</code>, Missouri's <code>Jurisdiction Code</code>. <code>{'{}'}</code> otherwise, or when the address could be in areas whose ids differ. See <a class="link" href="#ids">States' own codes</a>.</td></tr>
 					<tr><td><code>source</code></td><td>The files or service the rate came from, and the date.</td></tr>
 					<tr><td><code>reporting</code></td><td>Who you file with. See <a class="link" href="#reporting">Reporting</a>.</td></tr>
+					<tr><td><code>regions</code></td><td>Present with <code>include=regions</code>: <code>matches</code> contains confirmed regional memberships; <code>coverage</code> reports each source's evaluation status. See <a class="link" href="#regions">Regional data</a>.</td></tr>
 				</tbody>
 			</table>
+
+			<h2 id="regions">Regional data</h2>
+			<p><code>include=regions</code> returns supplemental geography using the same schema across states. Each match has <code>kind</code>, <code>type</code>, nullable <code>name</code>, publisher <code>ids</code>, snapshot-local <code>featureId</code>, original <code>attributes</code>, and <code>source</code>. Source details include <code>id</code>, <code>url</code>, <code>snapshotId</code>, <code>edition</code>, <code>observedAt</code>, known <code>startsOn</code>/<code>endsOn</code>, <code>dateBasis</code>, and qualifications in <code>note</code>. Original attribute names and units are preserved.</p>
+			<p>Coverage statuses are <code>evaluated</code>, <code>unavailable</code>, <code>date_uncovered</code>, <code>location_uncertain</code>, <code>incomplete</code>, or <code>error</code>. Only <code>evaluated</code> with no matches establishes no membership in that source's published polygons. Local coverage, such as Montgomery police jurisdictions, does not describe the rest of its state. States with no registered regional sources return empty matches and coverage.</p>
+			<p>Dated editions are selected for the requested date. Undated sources expose the latest snapshot for today's lookup with <code>dateBasis=latest_snapshot</code>; their observation date is not a legal effective date. Regional lookups may require additional geocoding under your provider policy. Placement uncertainty crossing a boundary suppresses that membership and marks the source uncertain.</p>
+			<p>Sources include Washington transit/city/location-code areas, Utah transit, Tennessee improvement districts and civil boundaries, Nebraska tax areas/Good Life districts, South Dakota cities/special districts, Vermont local-option areas, Montgomery police jurisdictions, California and Minnesota tax areas, Iowa local-option areas, Arkansas municipal boundaries/changes, Virginia county cross-checks, and West Virginia communities. <code>GET /v1/coverage</code> lists registered <code>regionSources</code> for each state; registration alone does not mean data is loaded.</p>
+			<p>Regional attributes describe published evidence. They do not change <code>rate</code> or <code>parts</code>, establish an exemption, or calculate an additional tax. Overlapping sources may describe the same area. Standalone rule documents are not address memberships.</p>
 
 			<h2 id="parts">Parts</h2>
 			<table>

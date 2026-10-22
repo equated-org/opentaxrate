@@ -71,10 +71,16 @@ describe("the API with a cache set", async () => {
     const traced = await (await app.request(`${url}&include=trace`)).json();
     expect(traced.trace).toEqual({ geocoders: [], outlines: [] });
     expect(calls() - before).toBe(2);
+    const regional = await (await app.request(`${url}&include=regions`)).json();
+    expect(regional.regions).toEqual({ matches: [], coverage: [] });
+    expect(regional).not.toHaveProperty("trace");
+    expect(await (await app.request(`${url}&include=regions`)).json()).toEqual(regional);
+    expect(calls() - before).toBe(3);
   });
 
   it("never keeps a refusal", async () => {
-    const url = "/v1/rate?state=MT&street=418+E+2nd+St&city=Whitefish&date=2026-10-21";
+    // An unsupported state always refuses, regardless of loaded data/geocoders.
+    const url = "/v1/rate?state=ZZ&street=1+Main+St&city=Unknown&date=2026-10-21";
     const before = calls();
     expect((await app.request(url)).status).toBe(422);
     expect((await app.request(url)).status).toBe(422);

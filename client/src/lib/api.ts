@@ -46,6 +46,37 @@ export interface AddressRate {
 	source: string;
 	/** Who the return goes to; absent from an API older than reporting. */
 	reporting?: Reporting | null;
+	/** Supplemental regional evidence, requested with include=regions. */
+	regions?: Regions;
+}
+
+export interface RegionSource {
+	id: string;
+	url: string;
+	snapshotId: string;
+	edition: string | null;
+	observedAt: string;
+	startsOn: string | null;
+	endsOn: string | null;
+	dateBasis: 'published_edition' | 'latest_snapshot';
+	note: string | null;
+}
+
+export interface Regions {
+	matches: Array<{
+		kind: 'transit' | 'tax_area' | 'special_district' | 'civil' | 'boundary_change' | 'police_jurisdiction';
+		type: string;
+		name: string | null;
+		ids: Record<string, string>;
+		featureId: string;
+		attributes: Record<string, unknown>;
+		source: RegionSource;
+	}>;
+	coverage: Array<{
+		source: string;
+		status: 'evaluated' | 'unavailable' | 'date_uncovered' | 'location_uncertain' | 'incomplete' | 'error';
+		details?: RegionSource;
+	}>;
 }
 
 export interface Reporting {

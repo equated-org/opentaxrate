@@ -12,6 +12,10 @@ import { geocoderProviders } from "./geocoding/registry.js";
 import { EVERY_PROVIDER, type ProviderPolicy } from "./access.js";
 import { JEV_PRICE, toMicros, type AccountBudget } from "./credits.js";
 import { jevChoice, type StreetPicker } from "./rates/streets/jev.js";
+import { regionsAt, type Regions } from "./regions.js";
+import type { LocatedPoint, Locate } from "./geocoding/types.js";
+
+export type LookupResult = AddressRate & { regions?: Regions };
 
 export interface RateQuery {
   state: string;
@@ -29,6 +33,7 @@ const TRACE_CLIP_METRES = { min: 3_000, max: 20_000 };
 
 export interface LookupOptions {
   trace?: Trace;
+  regions?: boolean;
   /** The outside services this lookup may use (access.ts); every one when
    *  absent, as for the CLI. */
   policy?: ProviderPolicy;
@@ -37,11 +42,17 @@ export interface LookupOptions {
   budget?: AccountBudget;
 }
 
-export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Promise<AddressRate> {
+export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Promise<LookupResult> {
   const { trace, policy = EVERY_PROVIDER, budget } = options;
   const state = q.state.toUpperCase();
   const date = q.date ?? new Date().toISOString().slice(0, 10);
-  const locate = createLocator({ street: q.street, city: q.city, state, zip: q.zip }, { trace, providers: geocoderProviders(policy), budget });
+  const locator = createLocator({ street: q.street, city: q.city, state, zip: q.zip }, { trace, providers: geocoderProviders(policy), budget });
+  let lastPoint: LocatedPoint | null = null;
+  const locate: Locate = async need => {
+    const point = await locator(need);
+    lastPoint = point;
+    return point;
+  };
   const standardizer = addressStandardizer(policy, budget);
   const found = addressRates.at(
     {
@@ -56,11 +67,13 @@ export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Pro
     },
     date,
   );
-  if (!trace) return found;
   try {
-    return await found;
+    const rate = await found;
+    if (!options.regions) return rate;
+    const regions = await regionsAt(state, date, () => lastPoint ? Promise.resolve(lastPoint) : locate());
+    return { ...rate, regions };
   } finally {
-    await drawOutlines(state, trace);
+    if (trace) await drawOutlines(state, trace);
   }
 }
 

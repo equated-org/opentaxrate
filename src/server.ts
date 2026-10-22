@@ -49,6 +49,7 @@ import { accountBudget, charge, meteredBudget, PRICE_MICROS, refund } from "./cr
 import { cachedAnswer, historyFor, logRequest, monthTotals, pruneRequests, type Caller } from "./requests.js";
 import { user } from "./db/auth-schema.js";
 import { eq } from "drizzle-orm";
+import { regionSourcesFor } from "./regions.js";
 
 const query = z.object({
   state: z.string().trim().length(2),
@@ -56,7 +57,7 @@ const query = z.object({
   city: z.string().trim().max(100).default(""),
   zip: z.string().trim().regex(/^\d{5}(?:-?\d{4})?$/).optional(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-  /** Comma-separated extras; only "trace" is known, others are ignored. */
+  /** Comma-separated extras: trace, regions. Others are ignored. */
   include: z.string().max(100).optional(),
 });
 
@@ -96,8 +97,8 @@ app.get("/v1/rate", async (c) => {
   const parsed = query.safeParse(c.req.query());
   if (!parsed.success) return c.json({ error: "Give state (two letters), street, city, and optionally zip and date (YYYY-MM-DD).", code: "BAD_REQUEST" }, 400);
   const { include: includeParam, ...q } = parsed.data;
-  const include = (includeParam ?? "").split(",").map((s) => s.trim()).filter((s) => s === "trace");
-  const trace = include.length ? emptyTrace() : undefined;
+  const include = [...new Set((includeParam ?? "").split(",").map((s) => s.trim()).filter((s) => s === "trace" || s === "regions"))];
+  const trace = include.includes("trace") ? emptyTrace() : undefined;
   const date = q.date ?? new Date().toISOString().slice(0, 10);
   c.header("X-OpenTaxRate-Tier", c.var.access.tier);
   if (c.var.access.tier === "keyed") return keyedLookup(c, c.var.access, { ...q, date }, include, trace);
@@ -107,7 +108,7 @@ app.get("/v1/rate", async (c) => {
   const cached = key ? answers!.get(key) : undefined;
   if (cached) return c.json(cached);
   try {
-    const rate = await lookUpRate({ ...q, date }, { trace, policy: policyFor(c.var.access) });
+    const rate = await lookUpRate({ ...q, date }, { trace, regions: include.includes("regions"), policy: policyFor(c.var.access) });
     const answer = trace ? { ...rate, trace } : rate;
     if (key) answers!.set(key, answer);
     return c.json(answer);
@@ -160,7 +161,7 @@ async function keyedLookup(
   const done = (status: number, response: unknown, charged: number) =>
     logRequest(caller, { ...logged, status, response, cached: false, providers: budget.paid, chargedMicros: charged, geoCostMicros: budget.spentMicros, ms: Date.now() - started });
   try {
-    const rate = await lookUpRate(q, { trace, policy: policyFor(a), budget });
+    const rate = await lookUpRate(q, { trace, regions: include.includes("regions"), policy: policyFor(a), budget });
     const answer = trace ? { ...rate, trace } : rate;
     await done(200, rate, price);
     return c.json(answer);
@@ -247,6 +248,7 @@ app.get("/v1/coverage", async (c) => {
       state,
       method: addressRates.method(state),
       geocoders: geocoderCoverage(policyFor(c.var.access)),
+      regionSources: regionSourcesFor(state),
       files: releases.filter((r) => r.state === state).map((r) => ({ kind: r.kind, file: r.file, rows: r.rows, loadedAt: r.loadedAt })),
     })),
   );

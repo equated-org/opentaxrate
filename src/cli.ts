@@ -8,7 +8,7 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *                                 download and load each state's newest data
  *   ingest [STATE...] [--source ID] [--dir D]
  *                                 index supplemental polygons (transaction rules unsupported)
- *   rate STATE "street" "city" [zip] [date]
+ *   rate STATE "street" "city" [zip] [date] [--include regions]
  *                                 look one address up
  *   check --cases file.csv        published cases against the lookup
  *                                 (columns state,street,city,zip,date,expected)
@@ -73,7 +73,8 @@ async function main() {
     }
     case "rate": {
       const [state, street, city, zip, date] = positional;
-      console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date }), null, 2));
+      const include = (flag("--include") ?? "").split(",");
+      console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date }, { regions: include.includes("regions") }), null, 2));
       return;
     }
     case "check":
