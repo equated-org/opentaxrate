@@ -71,18 +71,18 @@ describe("indexed tax polygons for range states", () => {
     expect(base.files).toContain(RANGE_POLYGON_SOURCES.MO.file);
     expect((await lookup("MO", 1.5)).rate).toBe(.08975);
   });
-  it("uses complete tax polygons to resolve a conflicting automatically looked-up ZIP+4", async () => {
+  it("declines when tax polygons and an automatically looked-up ZIP+4 disagree (zip4Conflict)", async () => {
     await db.delete(salesTaxZipRanges).where(eq(salesTaxZipRanges.state, "MO"));
     await db.insert(salesTaxZipRanges).values([29900001, 29900002].map((areaId, i) => ({
       state: "MO", areaId, zip5: "99999", plus4Low: i ? 5000 : 0, plus4High: i ? 9999 : 4999,
       kind: "zip4" as const, startsOn: "2020-01-01", endsOn: "9999-12-31",
     })));
-    const result = await sstRateAt({ state: "MO", street: "123 Missing Street", city: "Town", zip: "99999",
+    // The outlines may be stale (Missouri's are a 2023 archive), so the
+    // conflict is left to the state's own lookup.
+    await expect(sstRateAt({ state: "MO", street: "123 Missing Street", city: "Town", zip: "99999",
       locate: async () => ({ lon: .5, lat: 41.5, accuracy: "rooftop" }),
       standardize: async () => ({ street: "123 Missing Street", city: "Town", state: "MO", zip5: "99999", plus4: "5000", exact: true, source: "fixture" }),
-    }, "2026-10-21");
-    expect(result).toMatchObject({ rate: .07975, match: "map" });
-    expect(result.note).toContain("conflicting looked-up ZIP+4");
+    }, "2026-10-21")).rejects.toMatchObject({ status: 422, message: expect.stringContaining("isn't confirmed") });
   });
   it("does not interpret a missing district polygon as zero tax", async () => {
     await db.delete(salesTaxShapes).where(and(eq(salesTaxShapes.state, "MO"), eq(salesTaxShapes.fips, "rp:MO:CID:CID00120")));
