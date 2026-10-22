@@ -35,7 +35,7 @@
 			<Benchmark
 				compact
 				title="Accuracy"
-				lead="OpenTaxRate matched the state's own rate for 98.9% of 277 random addresses (92.8% with only its own self-hosted geocoders) and gave no wrong rates; when unsure, it declines rather than guesses."
+				lead="OpenTaxRate matched the state's own rate for 99.3% of 277 random addresses (97.1% with only its own self-hosted geocoders) and gave no wrong rates; when unsure, it declines rather than guesses."
 			/>
 		</div>
 

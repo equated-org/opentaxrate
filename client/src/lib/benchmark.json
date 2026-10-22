@@ -5,14 +5,14 @@
   "services": [
     {
       "id": "opentaxrate-providers",
-      "name": "OpenTaxRate \u2014 with geocoding providers",
-      "detail": "Self-hosted geocoders plus Census and commercial ones",
+      "name": "OpenTaxRate — with geocoding providers",
+      "detail": "Self-hosted geocoders plus Census and commercial ones; no state lookup",
       "ours": true,
       "asked": 277,
-      "right": 274,
+      "right": 275,
       "wrong": 0,
-      "refused": 3,
-      "pctCorrect": 98.9,
+      "refused": 2,
+      "pctCorrect": 99.3,
       "byMethod": {
         "statewide": {
           "asked": 48,
@@ -22,9 +22,9 @@
         },
         "ranges": {
           "asked": 140,
-          "right": 137,
+          "right": 138,
           "wrong": 0,
-          "refused": 3
+          "refused": 2
         },
         "map": {
           "asked": 83,
@@ -43,14 +43,14 @@
     },
     {
       "id": "opentaxrate-selfhosted",
-      "name": "OpenTaxRate \u2014 self-hosted geocoders only",
-      "detail": "Nominatim, Photon and Pelias on its own server; no Census, commercial geocoder or ZIP+4 lookup",
+      "name": "OpenTaxRate — self-hosted geocoders only",
+      "detail": "Nominatim, Photon and Pelias on its own server; no Census, commercial geocoder, ZIP+4 lookup or state lookup",
       "ours": true,
       "asked": 277,
-      "right": 257,
+      "right": 269,
       "wrong": 0,
-      "refused": 20,
-      "pctCorrect": 92.8,
+      "refused": 8,
+      "pctCorrect": 97.1,
       "byMethod": {
         "statewide": {
           "asked": 48,
@@ -60,15 +60,15 @@
         },
         "ranges": {
           "asked": 140,
-          "right": 131,
+          "right": 136,
           "wrong": 0,
-          "refused": 9
+          "refused": 4
         },
         "map": {
           "asked": 83,
-          "right": 72,
+          "right": 79,
           "wrong": 0,
-          "refused": 11
+          "refused": 4
         },
         "ca": {
           "asked": 6,
@@ -367,9 +367,9 @@
   ],
   "notes": [
     "Statewide: one rate everywhere (8 places, including DC). Street ranges: the state publishes address lists (25 states). Map: the address is placed on tax maps (17 states). California: the state's own lookup.",
-    "In Alaska, Colorado and Missouri the state's own lookup is run by Avalara, so Avalara is checked against itself there. Leaving out those 18 addresses, OpenTaxRate got 258 of 259 and Avalara 258 of 259.",
-    "OpenTaxRate ran with every geocoder it supports. It gave no wrong rates and refused 3 addresses. One is in Park City, Utah, a ZIP with six rates that Utah lists only by ZIP+4; the Postal Service has no ZIP+4 for the address, and the map can't separate those rates. The other two are Missouri addresses its files don't list, whose ZIP+4 the map couldn't confirm. Missouri's own lookup, which the hosted API now uses (STATE_LOOKUPS=MO), answers both correctly, but they aren't counted as correct here, since that lookup is also where Missouri's official rates come from.",
-    "Self-hosted geocoders only: 257 of 277 right, 0 wrong, 20 refused. Nine are in street-range states, where the street isn't listed and its ZIP has more than one rate, which only a ZIP+4 would split. Eleven are in map states: no geocoder found 6, Pelias's OpenAddresses points alone placed 4 (a lone dataset's point is trusted only inside the typed town's outline, or its ZIP where the town has none), and 1 lies 40 m from the Eunice, New Mexico city line. With the Census TIGER street ranges loaded, the self-hosted Nominatim found 94 of the 182 addresses it was asked, up from 36 without them.",
+    "In Alaska, Colorado and Missouri the state's own lookup is run by Avalara, so Avalara is checked against itself there. OpenTaxRate is shown without those lookups. Leaving out those 18 addresses, OpenTaxRate got 259 of 259 and Avalara 258 of 259.",
+    "OpenTaxRate ran with every geocoder it uses and without the states' own live lookups. It gave no wrong rates and refused 2 addresses, both in Missouri, whose files don't list the street and whose ZIP+4, looked up from Geocodio, the map doesn't confirm. Missouri's own lookup (STATE_LOOKUPS=MO, which the hosted API uses) answers both correctly; with it, OpenTaxRate gets all 277.",
+    "Self-hosted geocoders only: 269 of 277 right, 0 wrong, 8 refused. Four are in street-range states where the street isn't listed and its ZIP has more than one rate (two in Missouri, which its own lookup answers), three couldn't be placed by any of the three geocoders, and one lies 40 m from the Eunice, New Mexico city line.",
     "Zip-Tax and APIVerve weren't asked this sample: Zip-Tax's figure is from an earlier sample of 255 addresses, 5 per state, of which it was asked 71, and APIVerve's from a separate random sample of 87 addresses (it takes a ZIP code, not a street address). TaxCloud was asked 67 of the 277.",
     "Geoverio was asked the same 277 officially labeled evalA addresses with full street addresses and default caching. Resolved numeric rates and explicit no-sales-tax zero rates are answers; manual-lookup responses count as refusals. Raw responses are retained; rates were not corrected to match official labels."
   ],

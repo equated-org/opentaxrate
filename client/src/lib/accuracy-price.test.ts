@@ -20,7 +20,7 @@ describe('accuracy–price comparison', () => {
 	it('does not invent an accuracy for free, self-hosted or untested alternatives', () => {
 		expect(points.map((p) => p.id).sort()).toEqual(['apiverve', 'avalara', 'geoverio', 'opentaxrate-api', 'taxcloud', 'taxjar']);
 		const ours = points.find((p) => p.id === 'opentaxrate-api')!;
-		expect(ours.accuracy).toBeCloseTo(274 / 277 * 100);
+		expect(ours.accuracy).toBeCloseTo(275 / 277 * 100);
 		expect(ours.price).toBe(1.95);
 		expect(isDominated(ours, points)).toBe(false);
 		const cheaper = points.find((p) => p.id === 'geoverio')!;

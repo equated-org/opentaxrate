@@ -35,8 +35,8 @@
   <text x="730.0" y="348" text-anchor="middle">$100</text>
   <text x="80" y="25">Correct / asked (%) ↑</text>
   <text x="405" y="383" text-anchor="middle">Estimated USD / 1,000 lookups · log scale · ← cheaper</text>
-  <circle cx="359.5074991285456" cy="57.92418772563178" r="10" fill="#2563eb" stroke="#2563eb" stroke-width="2">
-    <title>OpenTaxRate API: 98.9%, $1.95/1,000. Keyed plan; first 100 free excluded. The measured run enabled all configured providers with Geocodio’s quota exhausted; production quotas and budgets can change coverage.</title>
+  <circle cx="359.5074991285456" cy="56.94945848375448" r="10" fill="#2563eb" stroke="#2563eb" stroke-width="2">
+    <title>OpenTaxRate API: 99.3%, $1.95/1,000. Keyed plan; first 100 free excluded. The measured run enabled all configured providers with Geocodio’s quota exhausted; production quotas and budgets can change coverage.</title>
   </circle>
   <text x="374.5074991285456" y="77.92418772563178" text-anchor="start">OpenTaxRate API</text>
   <circle cx="231.4435009394707" cy="102.76173285198556" r="7" fill="#6b6a63" stroke="#6b6a63" stroke-width="2">
