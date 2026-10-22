@@ -29,6 +29,9 @@
   }
 }`;
 
+	const LINE = `GET /v1/rate?address=1410+E+Pine+St,+Seattle,+WA+98122`;
+	const FIELDS = `GET /v1/rate?state=WA&street=1410+E+Pine+St&city=Seattle&zip=98122`;
+
 	const ERROR = `{ "error": "This address is within 12 m of a city line ...", "code": "ADDRESS_NEEDS_CONFIRMATION" }`;
 </script>
 
@@ -63,20 +66,26 @@
 <TryIt />
 
 <h3>Parameters</h3>
+<p>Give the address one of two ways. Both answer the same; with both, the fields win over the line.</p>
+<pre><code>{LINE}</code></pre>
+<pre><code>{FIELDS}</code></pre>
 <table>
 	<thead><tr><th>Name</th><th>Description</th></tr></thead>
 	<tbody>
+		<tr class="group"><td colspan="2">As one line</td></tr>
 		<tr>
 			<td><code>address</code></td>
 			<td>
-				The whole address on one line: <code>1410 E Pine St, Seattle, WA 98122</code>. Commas are optional; the state can be a code or
-				its name. Or give the parts below instead, which win over it.
+				The whole address: <code>1410 E Pine St, Seattle, WA 98122</code>. Commas are optional; the state can be a code or its name;
+				the ZIP is optional. A line that can't be read is a 400 saying what's missing.
 			</td>
 		</tr>
+		<tr class="group"><td colspan="2">Or as fields</td></tr>
 		<tr><td><code>state</code></td><td>Two-letter state code. Required without <code>address</code>.</td></tr>
 		<tr><td><code>street</code></td><td>House number and street, e.g. <code>1410 E Pine St</code>.</td></tr>
 		<tr><td><code>city</code></td><td>City name.</td></tr>
-		<tr><td><code>zip</code></td><td>Five digits or ZIP+4. Recommended: without it the address is geocoded, and a few more are refused.</td></tr>
+		<tr><td><code>zip</code></td><td>Five digits or ZIP+4. Recommended in either form: without it the address is geocoded, and a few more are refused.</td></tr>
+		<tr class="group"><td colspan="2">Either way</td></tr>
 		<tr><td><code>date</code></td><td><code>YYYY-MM-DD</code>; today when absent.</td></tr>
 		<tr>
 			<td><code>include</code></td>
@@ -136,3 +145,14 @@
 	<a class="link" href="{GITHUB}#quick-start" target="_blank" rel="noopener">run the API yourself</a>.
 </p>
 <pre><code>curl https://api.opentaxrate.com/v1/coverage</code></pre>
+
+<style>
+	.group td {
+		padding-top: 1.25rem;
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+	}
+</style>
