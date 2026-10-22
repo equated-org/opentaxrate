@@ -27,7 +27,8 @@ import { statewideRate, STATEWIDE_STATES } from "./statewide.js";
 import { MAP_STATES, RANGE_FIPS } from "../coverage.js";
 import { sstRateAt } from "./ranges.js";
 import { generalOnly, type RatePart, type RatesByType, type Trace } from "./types.js";
-import { type LocatedPoint, type Locate } from "../geocoding/types.js";
+import { marginOf, type LocatedPoint, type Locate } from "../geocoding/types.js";
+import { PARAMS } from "../params.js";
 import type { StandardAddress } from "../standardize/index.js";
 import type { StreetPicker } from "./streets/jev.js";
 import { districtNamed, geoRateAt } from "./map.js";
@@ -190,8 +191,17 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
   }
   // Other enabled state lookups answer at the map point when the rate is
   // consistent across its uncertainty margin; otherwise local data answers.
-  const point = lookup && query.locate ? await query.locate() : null;
-  const looked = lookup && point ? await stateLookupAt(lookup, point, date) : null;
+  let point = lookup && query.locate ? await query.locate() : null;
+  let looked = lookup && point ? await stateLookupAt(lookup, point, date) : null;
+  // Two rates across the margin may only mean the point is too vague: ask
+  // once for a sharper one, as the map does near a line.
+  if (lookup && point && looked === null && query.locate && PARAMS.lookupRefine > 0) {
+    const sharper = await query.locate({ marginUnder: Math.floor(marginOf(point) * PARAMS.lookupRefine) });
+    if (sharper && marginOf(sharper) < marginOf(point)) {
+      point = sharper;
+      looked = await stateLookupAt(lookup, sharper, date);
+    }
+  }
   if (lookup && point && looked !== null) {
     const stateRate = await loadedStateRate(state, date);
     const localRate = Math.round((looked - stateRate) * 1e6) / 1e6;
