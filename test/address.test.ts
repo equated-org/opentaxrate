@@ -177,3 +177,16 @@ describe("city names", () => {
     expect(normalizeCity("Fortuna")).toBe("FORTUNA");
   });
 });
+
+describe("spellings tried after the typed one", () => {
+  const variants = (line: string) => streetVariantsOf(parseStreet(line)!).map((v) => `${v.preDirectional}|${v.streetKey}|${v.suffix}`);
+  it("reads a state code and a number as that state's highway", () => {
+    expect(variants("48708 Sd 22")).toEqual(expect.arrayContaining(["|SD22|", "|SDHWY22|", "|HWY22|"]));
+    expect(variants("48708 Sd 22")[0]).toBe("|SD22|");
+  });
+  it("drops a unit typed between the house number and the street", () => {
+    expect(variants("330 D4 North 16th Street")).toContain("N|16|ST");
+    // A route name with only a type after it is left alone.
+    expect(variants("100 M43 Hwy")).not.toContain("||HWY");
+  });
+});

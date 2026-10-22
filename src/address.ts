@@ -10,6 +10,7 @@
  * through the same reading, so the file's "MC COLLISTER" "Dr" and a typed
  * "McCollister Drive" meet on one key.
  */
+import { STATE_FIPS } from "./coverage.js";
 
 export interface StreetParts {
   /** The house number when it is a plain number. */
@@ -25,7 +26,7 @@ export interface StreetParts {
    *  own key finds nothing: its words run together unabbreviated ("Oak
    *  Hollow" as "OAKHOLLOW"), and a last word read as the type kept in the
    *  name instead ("Oak Ridge" as "OAKRIDGE", any type). */
-  alternates?: { streetKey: string; suffix: string }[];
+  alternates?: { streetKey: string; suffix: string; preDirectional?: string; postDirectional?: string }[];
 }
 
 const DIRECTIONS: Record<string, string> = {
@@ -247,7 +248,7 @@ const NUMBER_WORDS: Record<string, string> = Object.fromEntries(
     .split(" ")
     .map((word, i) => [word, String(i + 1)]),
 );
-const HOUSE = /^(?:\d+(?:[A-Z]|-?\d+\/\d+)?|[NSEW]\d+[NSEW]?\d*)$/i;
+const HOUSE = /^(?:\d+(?:[A-Z]|-?\d+\/\d+|-\d+)?|[NSEW]\d+[NSEW]?\d*)$/i;
 
 /** Reads a typed street line, or null when it has no house number. A line
  *  may carry more than the street: a unit or care-of name before it, a unit
@@ -260,7 +261,14 @@ export function parseStreet(line: string): StreetParts | null {
   text = text.replace(new RegExp(`\\s(${DESIGNATORS})(\\d[A-Z0-9-]*)$`), " $1 $2");
   const tail = STATE_ZIP_TAIL.exec(text);
   if (tail) text = text.slice(0, tail.index);
-  const unitMatch = (tail ? UNIT_THEN_CITY : UNIT).exec(text);
+  let unitMatch = (tail ? UNIT_THEN_CITY : UNIT).exec(text);
+  // Not a unit when it would leave no street name ("2386 FL 73" is Florida
+  // 73, not floor 73) or its "number" is a street type ("Sand Lot Court",
+  // "Post Office Drive").
+  if (unitMatch) {
+    const named = text.slice(0, unitMatch.index).trim().split(" ").slice(1).some((w) => !DIRECTIONS[w]);
+    if (!named || SUFFIXES.has(unitMatch[1])) unitMatch = null;
+  }
   if (unitMatch) {
     unit = unitMatch[1];
     text = text.slice(0, unitMatch.index);
@@ -284,20 +292,28 @@ export function parseStreet(line: string): StreetParts | null {
   // A grid number typed with a space ("N78 W7008 Oak St") is one number.
   text = text.replace(/^([NSEW]\d+) ([NSEW]\d+) /, "$1$2 ");
   const [first, ...rest] = text.split(" ");
-  // "123", "123A", "123-1/2"; or a lettered grid number ("W258S7120").
-  const numbered = /^(\d+)(?:[A-Z]|-?\d+\/\d+)?$/.exec(first ?? "");
+  // "123", "123A", "123-1/2", a Queens or Hawaii "249-20"; or a lettered
+  // grid number ("W258S7120").
+  const numbered = /^(\d+)(?:[A-Z]|-?\d+\/\d+|-\d+)?$/.exec(first ?? "");
   const lettered = /^[NSEW]\d+[NSEW]?\d*$/.test(first ?? "");
   if ((!numbered && !lettered) || rest.length === 0) return null;
   if (rest[0] && /^\d+\/\d+$/.test(rest[0])) rest.shift();
+  const typed = [...rest];
   mendType(rest);
   const street = splitStreet(rest);
   if (!street.streetKey) return null;
+  // A mended type may have been the name's own last word ("Little Tree",
+  // its type left off, isn't "Little Trace"): the words as typed stay an
+  // alternate.
+  const unmended = typed.join(" ") === rest.join(" ") ? [] : [splitStreet(typed), ...alternateSpellings(typed, splitStreet(typed))];
   return {
     house: numbered ? Number(numbered[1]) : null,
     houseText: first,
     ...street,
     unit,
-    alternates: alternateSpellings(rest, street),
+    alternates: [...alternateSpellings(rest, street), ...unmended.map(({ streetKey, suffix }) => ({ streetKey, suffix }))]
+      .filter((a, i, all) => !(a.streetKey === street.streetKey && a.suffix === street.suffix)
+        && all.findIndex((b) => b.streetKey === a.streetKey && b.suffix === a.suffix) === i),
   };
 }
 
@@ -376,14 +392,49 @@ function alternateSpellings(
           { streetKey: raw([...tokens, typeWord]), suffix: "" },
         ]
       : []),
+    // A name ending in a type word, typed without its own type ("300 N
+    // Harbor" for N Harbor Dr): that word is the name, as the file reads it,
+    // with the direction still a direction.
+    ...(typeWord
+      ? [untypedName(input.filter(Boolean))].map((s) => ({ streetKey: s.streetKey, suffix: "", preDirectional: s.preDirectional, postDirectional: s.postDirectional }))
+      : []),
+    // A unit typed between the house number and the street ("330 D4 North
+    // 16th Street"): the street without it.
+    ...(input.length > 2 && /^[A-Z]{1,2}\d{1,4}[A-Z]?$/.test(input[0]) && !DIRECTIONS[input[0]]
+      ? [splitStreet(input.slice(1))].map((s) => ({ streetKey: s.streetKey, suffix: s.suffix, preDirectional: s.preDirectional, postDirectional: s.postDirectional }))
+      : []),
+    // A state's code and a number ("SD 22") is how people type its highway;
+    // files write it "SD HIGHWAY 22" or "HIGHWAY 22". Tried only after the
+    // typed spelling, so another state's code (Arkansas's "NC 8068", a
+    // county road) still finds its own range first.
+    ...(tokens.length === 2 && Object.hasOwn(STATE_FIPS, tokens[0]) && /^\d+[A-Z]?$/.test(tokens[1])
+      ? [
+          { streetKey: `${tokens[0]}HWY${tokens[1]}`, suffix: "" },
+          { streetKey: `HWY${tokens[1]}`, suffix: "" },
+        ]
+      : []),
+    // Nebraska's code is also a direction: "NE 281" may be its highway 281.
+    ...(input.filter(Boolean).length === 2 && input.filter(Boolean)[0] === "NE" && /^\d+[A-Z]?$/.test(input.filter(Boolean)[1])
+      ? [
+          { streetKey: `NEHWY${input.filter(Boolean)[1]}`, suffix: "", preDirectional: "" },
+          { streetKey: `HWY${input.filter(Boolean)[1]}`, suffix: "", preDirectional: "" },
+        ]
+      : []),
   ];
   return found.filter(
     (a, i) =>
       a.streetKey &&
-      !/^\d+$/.test(a.streetKey) &&
+      (!/^\d+$/.test(a.streetKey) || Boolean(a.suffix)) &&
       !(a.streetKey === street.streetKey && a.suffix === street.suffix) &&
       found.findIndex((b) => b.streetKey === a.streetKey && b.suffix === a.suffix) === i,
   );
+}
+
+/** A street's words read with a type after them, so the last word is part
+ *  of the name: "N HARBOR" as the file reads "N HARBOR DR", without the DR. */
+function untypedName(words: string[]) {
+  const post = words.length > 1 && DIRECTIONS[words.at(-1)!] ? words.slice(-1) : [];
+  return splitStreet([...words.slice(0, words.length - post.length), "ST", ...post]);
 }
 
 /** A lettered house number ("W5300", "N78W7008", "W258S7120") split into
