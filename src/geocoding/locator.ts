@@ -10,14 +10,47 @@ import { EDGE_METRES, marginOf, metresBetween, validPoint,
 
 /** The typed city is a plausibility check, never a precision upgrade. No
  * county-of-ZIP shortcut: a ZIP can span counties and county checks are weak. */
-export async function insideTypedCity(a: AddressToLocate, p: LocatedPoint) {
-  if (!a.city.trim()) return false;
-  const rows = await db.execute(sql`
-    select 1 from sales_tax_shapes where state = ${a.state}
+export async function insideTypedCity(a: AddressToLocate, p: LocatedPoint): Promise<"inside" | "outside" | "no outline"> {
+  if (!a.city.trim()) return "no outline";
+  const rows = await db.execute<{ inside: boolean }>(sql`
+    select st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326)) as inside
+    from sales_tax_shapes where state = ${a.state}
       and kind in ('place', 'cousub')
-      and regexp_replace(upper(name), '[^A-Z0-9]', '', 'g') = ${a.city.toUpperCase().replace(/[^A-Z0-9]/g, "")}
-      and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326)) limit 1`);
-  return rows.length > 0;
+      and regexp_replace(upper(name), '[^A-Z0-9]', '', 'g') = ${a.city.toUpperCase().replace(/[^A-Z0-9]/g, "")}`);
+  if (!rows.length) return "no outline";
+  return rows.some((r) => r.inside) ? "inside" : "outside";
+}
+/** Whether the point lies in the typed ZIP's area (its Census ZCTA), or in
+ * a Census place or county subdivision of the typed city's name, asked of
+ * the Census Bureau's free coordinates lookup. For an address in a place
+ * with no outline loaded (an unincorporated community, or a Pennsylvania
+ * township the rates don't need), these are the plausibility check the
+ * typed city's outline can't be. */
+export async function insideTypedArea(a: AddressToLocate, p: LocatedPoint) {
+  const zip = /^\d{5}/.exec(a.zip ?? "")?.[0];
+  const city = townName(a.city);
+  if (!zip && !city) return false;
+  const url = new URL("https://geocoding.geo.census.gov/geocoder/geographies/coordinates");
+  url.search = new URLSearchParams({ x: String(p.lon), y: String(p.lat), benchmark: "Public_AR_Current",
+    vintage: "Current_Current", layers: "all", format: "json" }).toString();
+  const response = await fetch(url, { signal: AbortSignal.timeout(6_000) });
+  if (!response.ok) return false;
+  const body = await response.json() as { result?: { geographies?: Record<string, Array<{ ZCTA5?: string; GEOID?: string; NAME?: string }>> } };
+  return Object.entries(body.result?.geographies ?? {}).some(([layer, geos]) =>
+    (/zip code tabulation/i.test(layer) && geos.some(g => (g.ZCTA5 ?? g.GEOID) === zip))
+    || (/places|county subdivisions/i.test(layer) && !!city && geos.some(g => townName(g.NAME ?? "") === city)));
+}
+/** A town's name without the Census's kind of place: "Hatfield township"
+ *  and "Hatfield borough" are both "HATFIELD". */
+const townName = (name: string) =>
+  name.toUpperCase().replace(/\b(CITY|TOWN|TOWNSHIP|BOROUGH|VILLAGE|CDP|PLANTATION|MUNICIPALITY)\b/g, "").replace(/[^A-Z0-9]/g, "");
+/** A lone dataset's point is plausible inside the typed city's outline; or,
+ * where the typed city has no outline loaded, inside the typed ZIP's area or
+ * a Census place or township of the typed name. Outside an outline the city
+ * does have is not. */
+async function plausible(a: AddressToLocate, p: LocatedPoint) {
+  const city = await insideTypedCity(a, p);
+  return city === "inside" || (city === "no outline" && await insideTypedArea(a, p));
 }
 interface Options {
   providers?: GeocoderProvider[];
@@ -28,6 +61,8 @@ interface Options {
   trace?: Trace;
 }
 export interface GeocodeTrace { provider: string; outcome: "cached" | "matched" | "no-match" | "skipped" | "failed" }
+/** The widest circle disagreeing datasets may be placed within. */
+const WIDE_METRES = 10_000;
 // Coalesce duplicate requests in this process, without retaining non-storable results.
 const inFlight = new Map<string, Promise<SourcedPoint | null | undefined>>();
 
@@ -35,7 +70,7 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
   const providers = options.providers ?? geocoderProviders();
   const cache = options.cache ?? postgresGeocodeCache;
   const budget = options.budget ?? postgresGeocodeBudget;
-  const checkSingle = options.checkSingle ?? insideTypedCity;
+  const checkSingle = options.checkSingle ?? plausible;
   const cacheEnabled = process.env.OPENTAXRATE_GEOCODE_CACHE !== "off";
   const readOnly = process.env.OPENTAXRATE_GEOCODE_READ_ONLY === "true";
   const key = addressCacheKey(address);
@@ -135,10 +170,23 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
       if (result) return result;
     }
     const remaining = points();
-    // Same-source duplicates are not corroboration, and conflicting points
-    // must not be reduced to an arbitrary single just because no pair won.
-    if (!remaining.length || new Set(remaining.map(p => p.source)).size > 1
-      || remaining.some(a => remaining.some(b => !compatible(a, b)))) return null;
+    if (!remaining.length) return null;
+    // Datasets that disagree still bound where the address is: the most
+    // precise point, with a margin reaching every other dataset's point. The
+    // engine answers only if no rate line crosses that circle, so a rural
+    // address the datasets place a few hundred metres apart still gets the
+    // one rate they all fall in.
+    if (new Set(remaining.map(p => p.source)).size > 1) {
+      // The circle reaches each dataset's point and that point's own margin,
+      // and these points are the evidence: a refinement must agree with all.
+      const wide = placement(remaining);
+      const metres = Math.ceil(Math.max(...remaining.map(p => metresBetween(wide, p) + marginOf(p))));
+      if (metres > WIDE_METRES) return null;
+      accepted = remaining;
+      return { ...wide, metres };
+    }
+    // One dataset: it must agree with itself, and pass the plausibility check.
+    if (remaining.some(a => remaining.some(b => !compatible(a, b)))) return null;
     const single = placement(remaining);
     try {
       if (await checkSingle(address, single)) { accepted = remaining; return single; }
