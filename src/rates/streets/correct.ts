@@ -1,6 +1,9 @@
 /**
  * A street the file doesn't know by its typed name ("Coffee Rd", "N Hihg
- * St"), read as one of the streets the file has in that ZIP:
+ * St"), read as one of the streets the file has in that ZIP that keeps what
+ * was typed besides the name's spelling: a numbered street keeps its number,
+ * and a typed direction isn't dropped or turned around (North Fifth St is
+ * neither NORTH ST nor S 5TH ST):
  *   1. by spelling: the street whose name shares the most three-letter runs
  *      with the typed one, when it stands clearly above the next;
  *   2. otherwise, when TYPESAFE_API_KEY is set, by Jev choosing among the
@@ -49,19 +52,15 @@ export async function correctedStreet(
         gte(salesTaxStreetRanges.endsOn, date),
       ),
     );
-  const streets = rows.map((r) => r.street).filter(Boolean);
-  if (!streets.length) return null;
-  const typedName = nameOf(typed);
+  const all = rows.map((r) => r.street).filter(Boolean);
   // The typed street is in the file already; its house number isn't, and
   // no other street's name will change that.
-  if (streets.some((s) => nameOf(parseStreet(`1 ${s}`)) === typedName)) return null;
+  if (all.some((s) => nameOf(parseStreet(`1 ${s}`)) === nameOf(typed))) return null;
+  const streets = all.filter((s) => keepsTyped(typed, parseStreet(`1 ${s}`)));
+  if (!streets.length) return null;
 
-  const scored = streets
-    .map((street) => ({ street, score: similarity(typedName, nameOf(parseStreet(`1 ${street}`))) }))
-    .sort((a, b) => b.score - a.score);
-  const [best, next] = scored;
-  if (best.score >= MIN_SIMILARITY && best.score - (next?.score ?? 0) >= MIN_LEAD)
-    return { street: best.street, by: "spelling", confidence: best.score };
+  const spelled = bySpelling(typed, streets);
+  if (spelled) return spelled;
 
   if (!pick || streets.length > MAX_CHOICES) return null;
   const picked = await pick(
@@ -72,6 +71,29 @@ export async function correctedStreet(
   );
   if (!picked || picked.choice === "NONE" || picked.confidence < MIN_CONFIDENCE) return null;
   return { street: picked.choice, by: "jev", confidence: picked.confidence };
+}
+
+/** The street spelling alone reads the typed one as, among `streets`. */
+export function bySpelling(typed: StreetParts, streets: string[]): Correction | null {
+  const scored = streets
+    .map((street) => ({ street, score: similarity(nameOf(typed), nameOf(parseStreet(`1 ${street}`))) }))
+    .sort((a, b) => b.score - a.score);
+  const [best, next] = scored;
+  if (!best || best.score < MIN_SIMILARITY || best.score - (next?.score ?? 0) < MIN_LEAD) return null;
+  return { street: best.street, by: "spelling", confidence: best.score };
+}
+
+/** Whether a filed street could be the typed one misspelled. A typo changes
+ *  letters of a name; it doesn't drop a numbered street's number, turn a
+ *  typed direction around, or make the direction the name (N Elm St isn't
+ *  NORTH ST). A file may leave out a typed direction. */
+export function keepsTyped(typed: StreetParts, filed: StreetParts | null): boolean {
+  if (!filed) return false;
+  if (/^\d+$/.test(typed.streetKey) && filed.streetKey !== typed.streetKey) return false;
+  const typedWays = [typed.preDirectional, typed.postDirectional].filter(Boolean);
+  const filedWays = [filed.preDirectional, filed.postDirectional].filter(Boolean);
+  if (typedWays.length && filedWays.length && !typedWays.some((way) => filedWays.includes(way))) return false;
+  return !typedWays.includes(filed.streetKey);
 }
 
 const nameOf = (p: StreetParts | null) =>
