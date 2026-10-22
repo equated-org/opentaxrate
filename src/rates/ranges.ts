@@ -98,16 +98,21 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
 
   let foundStreet = input.street;
   let found = await findStreet({ state: input.state, street: input.street, city: input.city, zip5, date, pickStreet: input.pickStreet });
-  // Off every street range with no ZIP+4 typed, the address's own ZIP+4, and
-  // its street as the Postal Service writes it, may still place it. A ZIP
-  // other than the typed one is a different address, not a correction.
+  // Off every street range with no ZIP+4 typed, the address's own ZIP (and
+  // ZIP+4, where it has one) and its street as the Postal Service writes it
+  // may still place it. A ZIP other than the typed one is a different
+  // address, not a correction.
   if (!found && !plus4 && input.standardize) {
     const standard = await input.standardize();
     if (standard && (!zip5 || standard.zip5 === zip5)) {
       zip5 = standard.zip5;
       plus4 = standard.plus4;
-      standardizedZip4 = true;
-      notes.push(`ZIP+4 ${zip5}-${plus4} from ${standard.source}${standard.exact ? "" : " (the building's; no unit given)"}`);
+      standardizedZip4 = plus4 !== null;
+      notes.push(
+        plus4
+          ? `ZIP+4 ${zip5}-${plus4} from ${standard.source}${standard.exact ? "" : " (the building's; no unit given)"}`
+          : `ZIP ${zip5} from ${standard.source}`,
+      );
       found = await findStreet({ state: input.state, street: standard.street, city: standard.city || input.city, zip5, date, pickStreet: input.pickStreet });
       if (found) foundStreet = standard.street;
       if (found) notes.push(`street as ${standard.source} writes it, ${standard.street}`);

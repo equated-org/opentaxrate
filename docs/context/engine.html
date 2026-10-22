@@ -276,8 +276,8 @@
 <p>California publishes no files to load, so it is read live from CDTFA's <code>GetRateByAddress</code> service, today's rate only.</p>
 <p><code>california(query, date)</code> in <code>index.ts</code>:</p>
 <ul>
-<li>refuses with 422 when there is no ZIP;</li>
-<li>calls <code>californiaSalesTaxService.lookup({ street, city, zip })</code>;</li>
+<li>with a ZIP, calls <code>californiaSalesTaxService.lookup({ street, city, zip })</code>; when CDTFA's match isn't confident (422), asks at the map point instead (<code>atMapPoint</code>);</li>
+<li>without a ZIP (CDTFA requires one), asks at the map point first: <code>atPoint</code> at the geocoded point and at the edges of its margin past CDTFA's 50 m buffer (<code>marginProbes</code>), answering only when every probe gives the same single tax area. If that doesn't settle it, the standardizer's ZIP goes to <code>lookup</code>; with neither, 422;</li>
 <li>splits the answer into a state part at <code>CA_STATE_RATE</code> (0.0725) and one district part <code>tac:&lt;code&gt;</code> for the rest;</li>
 <li>says in <code>source</code> when the date asked is not today ("today's rate, not dated to ...").</li>
 </ul>

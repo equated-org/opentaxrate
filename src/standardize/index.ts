@@ -30,7 +30,9 @@ export interface StandardAddress {
   city: string;
   state: string;
   zip5: string;
-  plus4: string;
+  /** Null where the Postal Service has no ZIP+4 for it (a new building,
+   *  a casino on tribal land); the ZIP and street still help. */
+  plus4: string | null;
   /** False when the ZIP+4 is the building's or block's rather than the
    *  address's own (Geocodio's exact_match). */
   exact: boolean;
@@ -113,14 +115,15 @@ export function fromGeocodio(body: unknown, state: string): StandardAddress | nu
   const c = r.address_components!;
   const zip5 = c.postal_code ?? c.zip;
   const plus4 = r.fields?.zip4?.plus4 ?? [];
-  if (plus4.length !== 1 || !/^\d{4}$/.test(plus4[0])) return null;
+  // Several ZIP+4s can't say which; none still leaves the ZIP and street.
+  if (plus4.length > 1 || (plus4.length === 1 && !/^\d{4}$/.test(plus4[0]))) return null;
   if (!c.number || !c.formatted_street || !zip5 || !/^\d{5}$/.test(zip5)) return null;
   return {
     street: `${c.number} ${c.formatted_street}`,
     city: c.city ?? "",
     state,
     zip5,
-    plus4: plus4[0],
+    plus4: plus4[0] ?? null,
     exact: r.fields?.zip4?.exact_match !== false,
     source: "Geocodio",
   };

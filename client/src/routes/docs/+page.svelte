@@ -104,7 +104,7 @@
 					<tr><td><code>state</code></td><td>Two-letter state code. Required.</td></tr>
 					<tr><td><code>street</code></td><td>House number and street, e.g. <code>1410 E Pine St</code>.</td></tr>
 					<tr><td><code>city</code></td><td>City name.</td></tr>
-					<tr><td><code>zip</code></td><td>Five digits or ZIP+4. Strongly recommended; California requires it.</td></tr>
+					<tr><td><code>zip</code></td><td>Five digits or ZIP+4. Recommended: without it, the address is placed by geocoding, and a few more are refused.</td></tr>
 					<tr><td><code>date</code></td><td><code>YYYY-MM-DD</code>. The rate on that day; today when absent.</td></tr>
 					<tr><td><code>include</code></td><td><code>trace</code> adds how the address was placed: geocoder points, the outlines tested, the street range used.</td></tr>
 				</tbody>

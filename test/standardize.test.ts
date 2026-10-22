@@ -41,13 +41,16 @@ describe("a Geocodio answer", () => {
     });
   });
 
+  it("keeps the ZIP and street of an address with no ZIP+4", () => {
+    expect(fromGeocodio({ results: [result({}, {})] }, "UT")).toMatchObject({ zip5: "84114", plus4: null });
+  });
+
   it.each([
     ["two matches", { results: [result(), result()] }],
     ["a ZIP-level match", { results: [result({ accuracy_type: "place" })] }],
     ["a weak match", { results: [result({ accuracy: 0.6 })] }],
     ["another state", { results: [result({ address_components: { number: "350", formatted_street: "N State St", state_province: "ID", postal_code: "83201" } })] }],
     ["several ZIP+4s", { results: [result({}, { plus4: ["2310", "2311"] })] }],
-    ["no ZIP+4", { results: [result({}, {})] }],
     ["nothing", {}],
   ])("is no answer with %s", (_, body) => {
     expect(fromGeocodio(body, "UT")).toBeNull();

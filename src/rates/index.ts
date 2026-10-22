@@ -244,30 +244,47 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
 }
 
 /** California's rate from its tax office's live lookup, which knows only
- *  today's; the source says so when the sale is dated otherwise. */
+ *  today's; the source says so when the sale is dated otherwise. The lookup
+ *  needs a ZIP; without one the address's map point is asked first, then
+ *  the ZIP its standardized form gives. */
 async function california(query: AddressRateQuery, date: string): Promise<EngineRate> {
-  if (!query.zip)
-    throw new RateError("California's lookup needs the address's ZIP code.", 422);
-  const found = await californiaSalesTaxService
-    .lookup({ street: query.street, city: query.city, zip: query.zip })
-    .catch(async (error) => {
-      // CDTFA's own address match wasn't confident: ask it at the address's
-      // map point instead, and at the edges of that point's margin past its
-      // 50 m buffer, answering only if every one is the same single area.
-      if (!(error instanceof RateError) || error.status !== 422 || !query.locate) throw error;
-      const point = await query.locate();
-      if (!point) throw error;
-      const areas = await Promise.all(marginProbes(point, 50).map((p) => californiaSalesTaxService.atPoint(p.lon, p.lat)));
-      const tacs = new Set(areas.flatMap((a) => (a && a.length === 1 ? [a[0].tac] : ["?"])));
-      if (tacs.size !== 1 || tacs.has("?")) throw error;
-      return {
-        rate: areas[0]![0].rate,
-        locationCode: areas[0]![0].tac,
-        locationCodeType: "ca_cdtfa_tax_area" as const,
-        lookedUpAt: new Date().toISOString(),
-        source: `the address's map point${point.placedBy?.length ? `, placed by ${point.placedBy.join(", ")}` : ""}`,
-      };
-    });
+  const byAddress = (zip: string) =>
+    californiaSalesTaxService.lookup({ street: query.street, city: query.city, zip });
+  // CDTFA's rate at the address's map point, and at the edges of that
+  // point's margin past its 50 m buffer, taken only if every one is the same
+  // single area; null when they aren't, or the address can't be placed.
+  const atMapPoint = async () => {
+    const point = query.locate ? await query.locate() : null;
+    if (!point) return null;
+    const areas = await Promise.all(marginProbes(point, 50).map((p) => californiaSalesTaxService.atPoint(p.lon, p.lat)));
+    const tacs = new Set(areas.flatMap((a) => (a && a.length === 1 ? [a[0].tac] : ["?"])));
+    if (tacs.size !== 1 || tacs.has("?")) return null;
+    return {
+      rate: areas[0]![0].rate,
+      locationCode: areas[0]![0].tac,
+      locationCodeType: "ca_cdtfa_tax_area" as const,
+      lookedUpAt: new Date().toISOString(),
+      source: `the address's map point${point.placedBy?.length ? `, placed by ${point.placedBy.join(", ")}` : ""}`,
+    };
+  };
+  const found = query.zip
+    ? await byAddress(query.zip).catch(async (error) => {
+        // CDTFA's own address match wasn't confident: ask at the map point.
+        if (!(error instanceof RateError) || error.status !== 422) throw error;
+        const placed = await atMapPoint();
+        if (!placed) throw error;
+        return placed;
+      })
+    : ((await atMapPoint()) ??
+      (await (async () => {
+        const standard = query.standardize ? await query.standardize() : null;
+        if (!standard?.zip5)
+          throw new RateError(
+            "California's lookup needs the address's ZIP code, and this address couldn't be placed in one tax area without it. Add the ZIP.",
+            422,
+          );
+        return byAddress(standard.zip5);
+      })()));
   const today = found.lookedUpAt.slice(0, 10);
   return {
     state: "CA",
