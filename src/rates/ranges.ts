@@ -56,6 +56,9 @@ export interface SstRate {
    *  SER column, Missouri's jurisdiction code); {} when the matched areas
    *  differ. */
   locationIds: Record<string, string>;
+  /** The address's ZIP+4 ("98109-4607"): the matched street range's, or
+   *  the ZIP+4 range's that answered; absent otherwise. */
+  zip4?: string;
   files: string[];
   /** How the address was found when not by its own typed street, e.g. "street
    *  read as COFFEY RD (closest spelling in the ZIP)". */
@@ -139,6 +142,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       match,
       locationCode: rated.length === 1 ? rated[0].locationCode : null,
       locationIds: new Set(rated.map((a) => JSON.stringify(a.locationIds))).size === 1 ? rated[0].locationIds : {},
+      ...(match === "zip4" && zip5 && plus4 ? { zip4: `${zip5}-${plus4}` } : {}),
       files,
       ...(notes.length ? { note: notes.join("; ") } : {}),
     };
@@ -199,8 +203,9 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       }
     }
     if (byStreet) {
-      if (input.trace) input.trace.range = await rangeAt(input.state, foundStreet, zip5, streetAreas, date, releases);
-      return traced(byStreet, input.trace);
+      const range = await rangeAt(input.state, foundStreet, zip5, streetAreas, date, releases);
+      if (input.trace && range) input.trace.range = range.trace;
+      return traced({ ...byStreet, ...(range?.zip4 ? { zip4: range.zip4 } : {}) }, input.trace);
     }
     throw await refusal(
       input,
@@ -618,10 +623,11 @@ async function releaseFiles(state: string) {
     .orderBy(salesTaxDataReleases.kind);
 }
 
-/** The street range a trace shows for a street match: the narrowest range
- *  on the matched street that holds the house and is in one of the areas
- *  that decided. None when the address was found another way (between
- *  listed houses, or under a corrected name the typed key doesn't share). */
+/** The street range a street match was read from: the narrowest range on
+ *  the matched street and the house's side that holds the house and is in
+ *  one of the areas that decided, as a trace shows it, with its ZIP+4. None
+ *  when the address was found another way (between listed houses, or under
+ *  a corrected name the typed key doesn't share). */
 async function rangeAt(
   state: string,
   line: string,
@@ -629,7 +635,7 @@ async function rangeAt(
   areaIds: number[],
   date: string,
   releases: Array<{ kind: string; file: string }>,
-): Promise<Trace["range"]> {
+): Promise<{ trace: NonNullable<Trace["range"]>; zip4: string | null } | undefined> {
   const street = parseStreet(line);
   if (!street || street.house === null || !areaIds.length) return undefined;
   const r = salesTaxStreetRanges;
@@ -645,6 +651,7 @@ async function rangeAt(
         gte(r.endsOn, date),
         lte(r.houseLow, street.house),
         gte(r.houseHigh, street.house),
+        inArray(r.parity, ["B", street.house % 2 ? "O" : "E"]),
         zip5 ? eq(r.zip5, zip5) : undefined,
       ),
     )
@@ -652,12 +659,15 @@ async function rangeAt(
     .limit(1);
   if (!row) return undefined;
   return {
-    street: row.street,
-    low: row.houseLow ?? street.house,
-    high: row.houseHigh ?? street.house,
-    side: row.parity === "O" ? "odd" : row.parity === "E" ? "even" : "both",
-    zip: row.zip5 || null,
-    file: releases.find((x) => x.kind === "boundaries")?.file ?? releases[0]?.file ?? "",
+    trace: {
+      street: row.street,
+      low: row.houseLow ?? street.house,
+      high: row.houseHigh ?? street.house,
+      side: row.parity === "O" ? "odd" : row.parity === "E" ? "even" : "both",
+      zip: row.zip5 || null,
+      file: releases.find((x) => x.kind === "boundaries")?.file ?? releases[0]?.file ?? "",
+    },
+    zip4: /^\d{5}$/.test(row.zip5) && /^\d{4}$/.test(row.plus4 ?? "") ? `${row.zip5}-${row.plus4}` : null,
   };
 }
 

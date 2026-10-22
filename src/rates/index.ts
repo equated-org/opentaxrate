@@ -89,6 +89,10 @@ export interface AddressRate {
    *  Missouri's {"Jurisdiction Code": …}. {} where the data gives none, or
    *  when the address could be in areas whose ids differ. */
   locationIds: Record<string, string>;
+  /** The address's ZIP+4 ("98109-4607") where the state's address files
+   *  give it: the matched street range's, or the ZIP+4 range's that
+   *  answered. Null otherwise, and outside the Streamlined states. */
+  zip4: string | null;
   /** Where the rate came from, for a tax line's note. */
   source: string;
   /** Who the state return goes to, the return, and filing outside it
@@ -130,15 +134,15 @@ export const addressRates = {
    *  address that needs confirming or an unsupported state, 502 when the
    *  state's files aren't loaded. */
   async at(query: AddressRateQuery, date: string): Promise<AddressRate> {
-    const { locationIds, ...found } = await rateAt(query, date);
+    const { locationIds, zip4, ...found } = await rateAt(query, date);
     const parts = await describeParts(found.state, found.parts);
-    return { ...found, parts, locationIds: locationIds ?? {}, reporting: reportingFor(found.state) };
+    return { ...found, parts, locationIds: locationIds ?? {}, zip4: zip4 ?? null, reporting: reportingFor(found.state) };
   },
 };
 
 /** An engine's answer, before its parts are described; only the range
- *  engine has location ids. */
-type EngineRate = Omit<AddressRate, "reporting" | "locationIds"> & { locationIds?: Record<string, string> };
+ *  engine has location ids and a ZIP+4. */
+type EngineRate = Omit<AddressRate, "reporting" | "locationIds" | "zip4"> & { locationIds?: Record<string, string>; zip4?: string };
 
 async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate> {
   const state = query.state.toUpperCase();
@@ -273,6 +277,7 @@ async function rangeRate(query: AddressRateQuery, state: string, date: string): 
     match: found.match,
     locationCode: found.locationCode,
     locationIds: found.locationIds,
+    zip4: found.zip4,
     source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,
   };
 }

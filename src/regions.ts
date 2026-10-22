@@ -5,7 +5,7 @@ import { taxSourceSnapshots } from "./db/schema.js";
 import { marginOf, validPoint, type LocatedPoint, type Locate } from "./geocoding/types.js";
 import { SUPPLEMENTAL_POLYGONS } from "./ingest/supplemental-sources.js";
 
-type Kind = "transit" | "tax_area" | "special_district" | "civil" | "boundary_change" | "police_jurisdiction";
+type Kind = "transit" | "tax_area" | "special_district" | "civil" | "boundary_change" | "police_jurisdiction" | "incentive_zone";
 interface Definition { id: string; state: string; kind: Kind; type: string; names: string[]; ids: string[]; edition?: string }
 const definition = (id: string, kind: Kind, type: string, names: string[], ids: string[] = [], edition?: string): Definition =>
   ({ id, state: id.slice(0, 2).toUpperCase(), kind, type, names, ids, edition });
@@ -15,6 +15,7 @@ export const REGION_SOURCES: readonly Definition[] = [
   definition("wa-ptba", "transit", "public_transportation_benefit_area", ["PTBA_NAME"], ["PTBA_LOC", "GlobalID"]),
   definition("wa-cities", "civil", "city", ["CITY_NAME"], ["CITY", "PLACE", "GNIS", "GlobalID"]),
   definition("wa-loccode_public", "tax_area", "location_code_area", [], ["LOCCODE"]),
+  definition("wa-cez", "incentive_zone", "community_empowerment_zone", ["CEZ_NAME"], ["TRC_KEY", "TRACT"]),
   definition("ut-transit", "transit", "transit_special_tax_area", ["SHORTDESC"], ["TAXDIST", "ENTITYNBR", "COUNTYNBR"]),
   definition("tn-cbid-2026", "special_district", "central_business_improvement_district", ["Name"], ["GlobalID"], "2026"),
   definition("tn-cbid-2027", "special_district", "central_business_improvement_district", ["Name"], ["GlobalID"], "2027"),

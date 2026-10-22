@@ -25,6 +25,7 @@ const ca = "https://services6.arcgis.com/snwvZ3EmaoXJiugR/arcgis/rest/services";
 const mn = "https://services9.arcgis.com/LLh6i97mwBitl1k5/arcgis/rest/services";
 const sd = "https://sdgis.sd.gov/host/rest/services/Hosted";
 const tn = "https://tnmap.tn.gov/arcgis/rest/services/COMMUNITY/SST/MapServer";
+const wa = "https://webgis.dor.wa.gov/ArcGIS/rest/services/Programs/WADOR_SalesTax/MapServer";
 const ar = "https://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Boundaries/FeatureServer";
 const ut = "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services";
 
@@ -33,6 +34,7 @@ export const SUPPLEMENTAL_POLYGONS: PolygonSource[] = [
   { id: "ca-tax-history", state: "CA", url: `${ca}/CA_SalesandUsetaxRates_2017toPresent/FeatureServer/0`, role: "tax-area", latestDateField: "DateStamp", note: "Service contains quarterly geometries from 2017. Refresh acquires the latest DateStamp; START_DATE alone does not date geometry. Older quarters require a historical backfill." },
   { id: "mn-tax-areas", state: "MN", url: `${mn}/locgnrl_sales_usetax_areas_2026Q4/FeatureServer/0`, role: "tax-area", note: "2026Q4 combined areas; crosswalk sst_code and component codes before promotion." },
   { id: "ne-tax-areas", state: "NE", url: "https://gis.ne.gov/agency3/rest/services/SalesTaxWebLayerREV/FeatureServer/0", role: "tax-area", note: "Nested state/county/city/Good Life districts; decimal and percent fields differ. GLD requires transaction rules." },
+  { id: "wa-cez", state: "WA", url: `${wa}/0`, role: "validation", note: "DOR's Community Empowerment Zones, by census tract, as its address lookup's cez flag reads them. A zone makes a business eligible for credits and deferrals; it doesn't change the sales tax rate." },
   { id: "ia-local-option", state: "IA", url: "https://geoservices.iowa.gov/arcgis/rest/services/revenue/SalesTaxRates/FeatureServer/1", role: "tax-area", allowMissingGeometry: true, note: "Reconcile dates/rates with current DOR LOST status spreadsheet; geometry attributes can be stale. Attribute-only placeholders are retained in metadata, not mapped as tax-free." },
   { id: "sd-cities", state: "SD", url: `${sd}/citys_joined2/FeatureServer/0`, role: "tax-area", note: "General, BBB, reservation and special rates have different scopes; do not sum every rate field." },
   { id: "sd-special-districts", state: "SD", url: `${sd}/Special_Tax_Districts/FeatureServer/0`, role: "conditional-charge", note: "Tribal and special jurisdiction treatment depends on transaction/customer status." },

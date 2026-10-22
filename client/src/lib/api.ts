@@ -43,6 +43,8 @@ export interface AddressRate {
 	/** The state's own ids for the whole location, e.g. Washington's
 	 *  {"Composite SER Code": "01726"}; {} where it gives none. */
 	locationIds?: Record<string, string>;
+	/** "98109-4607" where the state's address files give it. */
+	zip4?: string | null;
 	source: string;
 	/** Who the return goes to; absent from an API older than reporting. */
 	reporting?: Reporting | null;
@@ -64,7 +66,7 @@ export interface RegionSource {
 
 export interface Regions {
 	matches: Array<{
-		kind: 'transit' | 'tax_area' | 'special_district' | 'civil' | 'boundary_change' | 'police_jurisdiction';
+		kind: 'transit' | 'tax_area' | 'special_district' | 'civil' | 'boundary_change' | 'police_jurisdiction' | 'incentive_zone';
 		type: string;
 		name: string | null;
 		ids: Record<string, string>;

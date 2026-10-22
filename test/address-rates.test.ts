@@ -216,8 +216,10 @@ describe("a Streamlined state's address", () => {
       { state: "WY", street: "150 Main Street", city: "Cheyenne", zip: "82001" },
       ON,
     );
-    expect(found).toMatchObject({ rate: 0.07, match: "street", locationCode: "56-021-13900" });
+    expect(found).toMatchObject({ rate: 0.07, match: "street", locationCode: "56-021-13900", zip4: "82001-1234" });
     expect(found.source).toContain("WYR-fixture");
+    // A range the file gives no ZIP+4 says none.
+    expect((await addressRates.at({ state: "WY", street: "250 Main St", city: "Cheyenne", zip: "82001" }, ON)).zip4).toBeNull();
   });
 
   it("takes the map over its street range when two datasets place it clear of the line", async () => {
@@ -325,7 +327,7 @@ describe("a Streamlined state's address its typed street doesn't find", () => {
   it("is placed by its standardized ZIP+4, but not one in another ZIP", async () => {
     const standard = (zip5: string) => async () => ({ street: "9 Elm St", city: "Cheyenne", state: "WY", zip5, plus4: "1500", exact: true, source: "Geocodio" });
     const found = await cheyenne("9 Elm St", { standardize: standard("82001") });
-    expect(found).toMatchObject({ rate: 0.07, match: "zip4" });
+    expect(found).toMatchObject({ rate: 0.07, match: "zip4", zip4: "82001-1500" });
     expect(found.source).toContain("ZIP+4 82001-1500 from Geocodio");
     await expect(cheyenne("9 Elm St", { standardize: standard("82009") })).rejects.toThrow(/more than one rate/);
   });
