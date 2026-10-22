@@ -73,6 +73,6 @@ pnpm rates install https://github.com/equated-org/opentaxrate/releases/download/
 docker compose up -d
 ```
 
-**Who can do what.** Only the maintainers (`MAINTAINERS` in `scripts/rates`, GitHub logins) publish releases or pull into production. Anyone else gets a plain refusal before anything is dumped, downloaded or uploaded. The script's check is only a courtesy: the real limits are GitHub's write permission on the repository and SSH access to the production host. `status`, `pull --local` and `load` work for anyone who can read the releases.
+**Who can do what.** Only the repository's maintainers (a GitHub login with write access) publish releases or pull into production. Anyone else gets a plain refusal before anything is dumped, downloaded or uploaded. The script's check is only a courtesy: the real limits are GitHub's write permission on the repository and SSH access to the production host. `status`, `pull --local` and `load` work for anyone who can read the releases.
 
 Set `COMPOSE` for a stack with another compose command, and `OPENTAXRATE_HOST` for another production host. `OPENTAXRATE_REPO` sets the releases' repository.

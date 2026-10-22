@@ -22,9 +22,10 @@
 # `install` replaces every table, so it refuses a database with accounts:
 # it is for new installs, never production.
 #
-# Only MAINTAINERS (GitHub logins) publish releases or load production.
-# GitHub's write permission and production's SSH access are what enforce
-# it; the checks here only stop anyone else early, with a plain message.
+# Only the repository's maintainers (a GitHub login with write access)
+# publish releases or load production. GitHub's permission and production's
+# SSH access are what enforce it; the checks here only stop anyone else
+# early, with a plain message.
 # Reading releases needs read access while the repository is private.
 #
 # Environment: COMPOSE, the compose command (default `docker compose`);
@@ -44,7 +45,6 @@ EMPTY_TABLES="geocode_results geocoder_usage user session account verification
 COMPOSE=${COMPOSE:-docker compose}
 HOST=${OPENTAXRATE_HOST:-opentaxrate}
 REPO=${OPENTAXRATE_REPO:-equated-org/opentaxrate}
-MAINTAINERS="Winxton"
 SERVER_DIR=/opt/opentaxrate
 SERVER_COMPOSE="docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml"
 db=opentaxrate
@@ -58,11 +58,8 @@ reachable() { ssh -o BatchMode=yes -o ConnectTimeout=10 "$HOST" true 2> /dev/nul
 # Stops anyone but a maintainer before they $1.
 maintainer() {
   gh auth status > /dev/null 2>&1 || die "To $1 you need a GitHub login: run gh auth login."
-  login=$(gh api user --jq .login)
-  case " $MAINTAINERS " in
-    *" $login "*) ;;
-    *) die "Only $MAINTAINERS can $1; you're signed in to GitHub as $login. Send data changes as a pull request instead." ;;
-  esac
+  [ "$(gh api "repos/$REPO" --jq .permissions.push 2> /dev/null)" = true ] ||
+    die "Only $REPO's maintainers can $1, and your GitHub login can't write to it. Send data changes as a pull request instead."
 }
 
 # Writes data/opentaxrate-DATE.dump: TAX_TABLES' rows, every other table
@@ -113,8 +110,6 @@ publish() {
   case "$tag" in ''|-*) die "A release tag must be nonempty and can't start with '-'." ;; esac
   maintainer "publish rate releases"
   repo=$REPO
-  [ "$(gh api "repos/$repo" --jq .permissions.push 2> /dev/null)" = true ] ||
-    die "$login has no write access to $repo, so GitHub would refuse the release."
   if gh release view "$tag" --repo "$repo" > /dev/null 2>&1; then
     die "Release $tag already exists; choose a new tag. Nothing was changed."
   fi
