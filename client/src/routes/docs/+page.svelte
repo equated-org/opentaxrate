@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { GITHUB } from '$lib/examples';
+	import RateTryIt from '$lib/docs/RateTryIt.svelte';
 	import TryIt from '$lib/docs/TryIt.svelte';
 
 	const RESPONSE = `{
@@ -71,7 +72,7 @@
 
 <h2 id="rate">GET /v1/rate</h2>
 <p>The rate at an address on a given day.</p>
-<TryIt />
+<RateTryIt />
 
 <h3>Parameters</h3>
 <p>Give the address one of two ways. Both answer the same; with both, the fields win over the line.</p>
@@ -152,7 +153,7 @@
 	<a class="link" href="/sources">Sources</a> for where each state's data comes from, or
 	<a class="link" href="{GITHUB}#quick-start" target="_blank" rel="noopener">run the API yourself</a>.
 </p>
-<pre><code>curl https://api.opentaxrate.com/v1/coverage</code></pre>
+<TryIt path="/v1/coverage" />
 
 <style>
 	.group td {
