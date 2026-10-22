@@ -318,8 +318,7 @@
 <li>A 422 or 5xx is refunded (<code>refund</code>). Every outcome is one <code>api_requests</code> row: query, status, response, <code>providers</code> paid, <code>charged_micros</code>, <code>geo_cost_micros</code>, <code>ms</code>. Rows older than 90 days are pruned a minute after start and daily.</li>
 </ol>
 <p>Session routes (cookie; 401 <code>SIGNED_OUT</code> without one): <code>GET /v1/account/summary</code> (email, <code>creditMicros</code>, <code>priceMicros</code>, <code>lookupsLeft</code>, this month's totals, lookups by key, <code>canBuy</code>, <code>topUpCents: {min, max}</code>), <code>GET /v1/account/requests?before=&amp;key=&amp;result=rate|declined|error&amp;q=</code> (50 a page, newest first), and with Stripe set <code>POST /v1/account/checkout {"amount": &lt;cents&gt;}</code> (whole dollars, $5 to $1,000, <code>validTopUp</code>) → <code>{ url }</code> of a Stripe Checkout session (mode <code>payment</code>, <code>metadata.opentaxrate_user_id</code> on the session and its payment intent).</p>
-<p><code>POST /v1/account/checkout/confirm {"session": "cs_…"}</code> → <code>{ paid }</code>: the dashboard calls it on return (<code>?paid=&lt;session&gt;</code>); it retrieves the session from Stripe and credits it when it's paid and its metadata names the signed-in user. Purchases are credited through <code>creditSession</code>, keyed by session id, so confirm and the webhook can't both credit one.</p>
-<p><code>POST /api/billing/webhook</code> (only with <code>STRIPE_WEBHOOK_SECRET</code>) checks <code>stripe-signature</code> against <code>STRIPE_WEBHOOK_SECRET</code> (400 when wrong). <code>checkout.session.completed</code> or <code>…async_payment_succeeded</code> with <code>payment_status: "paid"</code> calls <code>addCredit(userId, "purchase", amount_total × 10,000, session.id)</code>; <code>credit_grants.stripe_id</code> is unique, so a resent event is a no-op. <code>charge.refunded</code> takes back the newly refunded amount once (<code>refund:&lt;charge&gt;:&lt;total refunded&gt;</code>).</p>
+<p><code>POST /v1/account/checkout/confirm {"session": "cs_…"}</code> → <code>{ paid }</code>: the dashboard calls it on return (<code>?paid=&lt;session&gt;</code>); it retrieves the session from Stripe and credits it when it's paid and its metadata names the signed-in user. Someone else's session id credits no one (<code>{ paid: false }</code>). This is the only way a purchase is credited; there is no Stripe webhook. <code>creditSession</code> calls <code>addCredit(userId, "purchase", amount_total × 10,000, session.id)</code>, and <code>credit_grants.stripe_id</code> is unique, so the dashboard polling a paid session again credits it once. A refund made in Stripe isn't taken back automatically.</p>
 
 <h2 id="public-deployment">Public deployment</h2>
 <p>Each is off when its variable is unset, so a self-hosted API behaves as before.</p>
@@ -544,7 +543,7 @@
 <td><code>mail.ts</code></td>
 </tr>
 <tr>
-<td><code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code></td>
+<td><code>STRIPE_SECRET_KEY</code></td>
 <td>unset (no buying)</td>
 <td><code>billing.ts</code></td>
 </tr>
