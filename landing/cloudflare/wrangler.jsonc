@@ -2,7 +2,8 @@
 	// The landing page on Cloudflare Workers, served at opentaxrate.com: the
 	// static build plus worker.js forwarding /v1 and /photon to the API at
 	// API_ORIGIN (deploy/compose.public.yml behind Cloudflare). Build in
-	// landing/ (pnpm build), then from this folder: wrangler deploy. The
+	// landing/ (PUBLIC_ACCOUNTS=on pnpm build, for sign-in and the
+	// dashboard), then from this folder: wrangler deploy. The
 	// PROXY_SECRET secret (wrangler secret put) matches the server's.
 	// The account comes from CLOUDFLARE_ACCOUNT_ID, in the shell or in a
 	// git-ignored .env here (wrangler reads it from this folder; see

@@ -20,8 +20,9 @@ export interface Summary {
 	lookupsLeft: number;
 	month: { lookups: number; charged: number; declined: number; chargedMicros: number };
 	lookupsByKey: Record<string, number>;
-	/** Whether credit can be bought yet. */
+	/** Whether credit can be bought yet, and in what range (whole dollars). */
 	canBuy: boolean;
+	topUpCents: { min: number; max: number };
 }
 
 export interface RequestRow {
@@ -47,6 +48,18 @@ export async function account<T>(path: string): Promise<T | null> {
 
 export const dollars = (micros: number) => `$${(micros / 1_000_000).toFixed(2)}`;
 export const perThousand = (priceMicros: number) => `$${(priceMicros / 1000).toFixed(2)}`;
+
+/** Credits the Checkout session the buyer came back from; true once it's
+ *  paid. */
+export async function confirmPayment(session: string) {
+	const response = await fetch('/v1/account/checkout/confirm', {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: { 'content-type': 'application/json' },
+		body: JSON.stringify({ session })
+	});
+	return response.ok && ((await response.json()) as { paid?: boolean }).paid === true;
+}
 
 /** Starts a Stripe Checkout for a top-up (cents) and goes there. */
 export async function buyCredit(cents: number) {

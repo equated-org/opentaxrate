@@ -6,7 +6,9 @@
 	 * shared; loading a URL with ?q= runs that search.
 	 */
 	import { page } from '$app/state';
-	import { pushState } from '$app/navigation';
+	import { goto, pushState } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { seemsSignedIn } from '$lib/accounts';
 	import { lookUp, type LookupResult } from '$lib/api';
 	import { EXAMPLES, GITHUB } from '$lib/examples';
 	import Benchmark from '$lib/landing/Benchmark.svelte';
@@ -23,6 +25,12 @@
 	import { resolve, type Suggestion } from '$lib/search/suggest';
 	import { stateName } from '$lib/states';
 	import { theme } from '$lib/theme.svelte';
+
+	// Signed in, the home page is the dashboard; a shared lookup (?q=) still
+	// opens here.
+	onMount(() => {
+		if (seemsSignedIn() && !page.url.search) goto('/dashboard', { replaceState: true });
+	});
 
 	let text = $state('');
 	let loading = $state(false);

@@ -45,7 +45,7 @@ import { geocoderCoverage } from "./geocoding/registry.js";
 import { suggestFromEnv } from "./suggest.js";
 import { policyFor, resolveAccess, type Access, type AccessVariables } from "./access.js";
 import { authFromEnv } from "./auth.js";
-import { billingFromEnv, TOP_UPS } from "./billing.js";
+import { billingFromEnv, MAX_CENTS, MIN_CENTS, validTopUp } from "./billing.js";
 import { accountBudget, charge, meteredBudget, PRICE_MICROS, refund } from "./credits.js";
 import { cachedAnswer, historyFor, logRequest, monthTotals, pruneRequests, type Caller } from "./requests.js";
 import { user } from "./db/auth-schema.js";
@@ -198,8 +198,9 @@ if (auth) {
       lookupsLeft: Math.max(0, Math.floor(account.creditMicros / price)),
       month: month.total,
       lookupsByKey: month.byKey,
-      /** Whether credit can be bought (Stripe is configured). */
+      /** Whether credit can be bought (Stripe is configured), and how much. */
       canBuy: !!billing,
+      topUpCents: { min: MIN_CENTS, max: MAX_CENTS },
     });
   });
 
@@ -221,14 +222,23 @@ if (auth && billing) {
   app.post("/v1/account/checkout", async (c) => {
     const body = await c.req.json().catch(() => ({}));
     const amount = Number((body as { amount?: unknown }).amount);
-    if (!(TOP_UPS as readonly number[]).includes(amount))
-      return c.json({ error: `Choose a top-up of ${TOP_UPS.map((t) => `$${t / 100}`).join(", ")}.`, code: "BAD_REQUEST" }, 400);
-    return c.json({ url: await billing.createCheckout(c.var.access.userId!, amount) });
+    if (!validTopUp(amount))
+      return c.json({ error: `Choose whole dollars from $${MIN_CENTS / 100} to $${(MAX_CENTS / 100).toLocaleString("en-US")}.`, code: "BAD_REQUEST" }, 400);
+    return c.json({ url: await billing.createCheckout(c.var.access.userId!, amount, c.req.header("origin")) });
+  });
+
+  // Back from Checkout with ?paid=<session id>: credit it now rather than
+  // wait for the webhook (or without one).
+  app.post("/v1/account/checkout/confirm", async (c) => {
+    const body = await c.req.json().catch(() => ({}));
+    const session = String((body as { session?: unknown }).session ?? "");
+    if (!/^cs_(test|live)_[A-Za-z0-9]{1,200}$/.test(session)) return c.json({ error: "Bad session id.", code: "BAD_REQUEST" }, 400);
+    return c.json({ paid: await billing.confirm(c.var.access.userId!, session) });
   });
 
   // From Stripe directly (through Caddy, not the Worker), so the body is
-  // byte for byte what Stripe signed.
-  app.post("/api/billing/webhook", async (c) => {
+  // byte for byte what Stripe signed. Only with STRIPE_WEBHOOK_SECRET.
+  if (billing.webhooks) app.post("/api/billing/webhook", async (c) => {
     const signature = c.req.header("stripe-signature");
     if (!signature) return c.json({ error: "Missing signature.", code: "BAD_REQUEST" }, 400);
     try {

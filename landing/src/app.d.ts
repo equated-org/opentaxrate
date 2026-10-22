@@ -8,6 +8,7 @@ declare global {
 		readonly PUBLIC_SUGGEST?: 'photon' | 'geoapify' | string;
 		readonly PUBLIC_PHOTON_URL?: string;
 		readonly PUBLIC_GEOAPIFY_KEY?: string;
+		readonly PUBLIC_ACCOUNTS?: 'on' | string;
 	}
 }
 

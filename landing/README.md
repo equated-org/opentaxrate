@@ -54,6 +54,7 @@ set them in the host's build environment. Changing one takes a rebuild.
 | `PUBLIC_API_URL` | `http://localhost:8080` | Base URL of the OpenTaxRate API. Empty means this page's own origin. |
 | `PUBLIC_SUGGEST` | `photon` | Autocomplete provider: `photon` or `geoapify`. |
 | `PUBLIC_PHOTON_URL` | `https://photon.komoot.io` | A Photon instance. Self-hosted ones need `-cors-any` to be called from a browser. |
+| `PUBLIC_ACCOUNTS` | off | `on` shows "Sign in" and builds `/login` and `/dashboard`. Turn it on only for an API with accounts (`BETTER_AUTH_SECRET`); off, those pages send visitors home. opentaxrate.com builds with it on. |
 | `PUBLIC_GEOAPIFY_KEY` | (none) | Required for `geoapify`. It ships in the bundle, so restrict it to your site's origins in Geoapify's console. The free plan stops at its daily cap rather than billing. |
 | `API_PROXY_TARGET` | `http://localhost:8080` | Dev server only: where `/v1/*` is forwarded. |
 | `PHOTON_PROXY_TARGET` | `https://photon.komoot.io` | Dev server only: where `/photon/*` is forwarded. Set `PUBLIC_PHOTON_URL=/photon` to reach a Photon that sends no CORS headers. |

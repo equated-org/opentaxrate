@@ -1,5 +1,7 @@
 <script lang="ts">
 	/** "Copy as curl" and "Raw JSON" for any response. */
+	import { copyText } from '$lib/clipboard';
+
 	let { url, raw }: { url: string; raw: unknown } = $props();
 
 	let copied = $state(false);
@@ -10,10 +12,8 @@
 	const curl = $derived(`curl '${url.replaceAll("'", "'\\''")}'`);
 
 	async function copy() {
-		try {
-			await navigator.clipboard.writeText(curl);
-		} catch {
-			// Clipboard blocked (http or permissions): show the command instead.
+		if (!(await copyText(curl))) {
+			// Clipboard blocked: show the command instead.
 			prompt('Copy this command', curl);
 			return;
 		}
