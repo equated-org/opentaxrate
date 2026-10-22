@@ -1,0 +1,13 @@
+{
+  "about": "Addresses where official sources disagree with each other, so neither our answer nor the label can be called wrong. score.py counts these as disputed, apart from right and wrong. An entry names the bench id (sha256 of STATE|street|city|zip|date, first 16 hex), the address, both official answers, and what other services said.",
+  "disputes": [
+    {
+      "id": "47819ad7784935f4",
+      "split": "round2",
+      "address": "647 Nicholas Street, Rupert WV 25984",
+      "label": "6%: the WV Tax Department's municipal sales tax list leaves Rupert out (labelled 2026-10-21)",
+      "other": "7%: WV's Streamlined rate file (WVR2026Q3FEB25) taxes Rupert 1%",
+      "services": "OpenTaxRate 7%, Avalara 7%, TaxJar 7% (2026-10-22)"
+    }
+  ]
+}
