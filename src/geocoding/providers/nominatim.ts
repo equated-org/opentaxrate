@@ -8,7 +8,7 @@ import { matchesAddress } from "./match.js";
 import { GeocoderError, metresBetween, type AddressToLocate, type SourcedPoint } from "../types.js";
 
 export const PUBLIC_NOMINATIM = "https://nominatim.openstreetmap.org";
-const USER_AGENT = process.env.OPENTAXRATE_USER_AGENT || "opentaxrate (+https://github.com/opentaxrate/opentaxrate)";
+const USER_AGENT = process.env.OPENTAXRATE_USER_AGENT || "opentaxrate (+https://github.com/equated-org/opentaxrate)";
 
 interface Result {
   lat?: string;

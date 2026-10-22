@@ -15,7 +15,7 @@ import { archiveResponse, downloadedBytes, keepLocalCopy, savedBytes } from "../
 
 const USER_AGENT =
   process.env.OPENTAXRATE_USER_AGENT ||
-  "Mozilla/5.0 (compatible; opentaxrate data loader; +https://github.com/opentaxrate/opentaxrate)";
+  "Mozilla/5.0 (compatible; opentaxrate data loader; +https://github.com/equated-org/opentaxrate)";
 
 /** A published file's bytes, from `dir` when it holds a file of that name. */
 export async function fetchFile(url: string, dir?: string, name?: string) {

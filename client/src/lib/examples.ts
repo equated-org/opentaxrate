@@ -19,4 +19,4 @@ export const EXAMPLES: Array<{ name: string; note: string; suggestion: Suggestio
 	}
 ];
 
-export const GITHUB = 'https://github.com/opentaxrate/opentaxrate';
+export const GITHUB = 'https://github.com/equated-org/opentaxrate';

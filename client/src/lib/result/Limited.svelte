@@ -4,7 +4,7 @@
 
 	let { message, retryAfter, onretry }: { message: string; retryAfter: number | null; onretry: () => void } = $props();
 
-	const SELF_HOST = 'https://github.com/opentaxrate/opentaxrate#quick-start';
+	const SELF_HOST = 'https://github.com/equated-org/opentaxrate#quick-start';
 	const startedAt = Date.now();
 	let now = $state(Date.now());
 	const timer = setInterval(() => (now = Date.now()), 1000);
