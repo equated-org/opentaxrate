@@ -1,0 +1,44 @@
+# Data maintenance
+
+[← README](../README.md)
+
+A full load is about 5 GB, mostly street and ZIP+4 ranges. Source data is downloaded from publishers and is not committed to Git.
+
+## Refresh
+
+```bash
+docker compose build refresh
+docker compose run --rm refresh          # all states
+docker compose run --rm refresh OH TX WA # selected states
+```
+
+Downloads are saved under `artifacts/`, mounted as `/artifacts` in Docker. Use `--download-dir` or `OPENTAXRATE_DOWNLOAD_DIR` to change the destination; Docker paths must be mounted. `--dir` selects existing input files instead.
+
+Already-loaded sources are skipped unless `--force` is used. Downloaded files keep their original names in URL-hash folders; live GIS/API responses are not archived. Artifacts are ignored by Git and excluded from snapshots.
+
+Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to reduce SST/Missouri history and roughly halve the street ranges. Map-state history is kept in full.
+
+## Snapshots
+
+For a new installation, restore a published snapshot instead of refreshing:
+
+```bash
+scripts/restore.sh https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22/opentaxrate-2026-10-22.dump
+```
+
+Snapshots replace the included tables. They contain tax data and migrations, with account, key, request, credit, and geocoding tables empty. Restore refuses databases with accounts or keyed lookups.
+
+To verify a downloaded dump, download its `.sha256` asset alongside it and run:
+
+```bash
+sha256sum -c opentaxrate-YYYY-MM-DD.dump.sha256
+scripts/restore.sh opentaxrate-YYYY-MM-DD.dump
+```
+
+To publish the currently loaded database, authenticate with `gh auth login`, check `/v1/coverage`, then run:
+
+```bash
+scripts/publish.sh # release data-YYYY-MM-DD with dump + SHA-256
+```
+
+Publishing does not refresh data or overwrite existing releases. Supply a new tag to publish again the same day. Set `COMPOSE_PROJECT_NAME` if the stack uses a custom project name. Private releases require authenticated `gh release download` before restoring.
