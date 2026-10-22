@@ -8,43 +8,22 @@
   <img src="https://img.shields.io/badge/docker%20compose-up-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="docker compose">
 </p>
 
-**US sales tax rates by street address, from the states' own data.** Give it an address and a date; it returns the combined general sales tax rate, every jurisdiction in it, how the address was placed, and the published file each rate came from. When the data can't settle one rate, it says so and names the rates it could be. No API keys, no per-call fees, no guessing.
+**US sales tax rates by street address, from the states’ own data.**
 
-It reads what states already publish for free: the Streamlined Sales Tax rate and boundary files, each tax office's own rate tables and GIS layers, and Census county and city outlines. A refresh job loads them into Postgres with PostGIS; the API answers from there in milliseconds.
+Look up an address and date to get the combined rate, jurisdiction breakdown, and sources. Covers all 50 states + DC using address ranges, mapped boundaries, or state lookups. Ambiguous addresses return `422` rather than a guessed rate.
 
-<table>
-<tr><td><b>Address-level, not ZIP-level</b></td><td>Street house-number ranges for the 24 Streamlined states and Missouri; county, city and district outlines for the rest. A ZIP that crosses a city line isn't averaged or rounded down; the street decides.</td></tr>
-<tr><td><b>Dated</b></td><td>Every rate carries its effective span. Ask for a sale's date and get the rate in force that day, back to 2020 for most states.</td></tr>
-<tr><td><b>Refuses instead of guessing</b></td><td>Near a city line, in a district no one publishes an outline for, or when geocoders disagree, it returns <code>422</code> with the candidate rates. Missing data is never read as zero.</td></tr>
-<tr><td><b>Explains itself</b></td><td>Each answer lists the state, county, city and district parts, the match type (<code>street</code>, <code>zip4</code>, <code>zip5</code>, <code>map</code>, <code>statewide</code>, <code>authority</code>) and the source files.</td></tr>
-<tr><td><b>Checked against the states</b></td><td>40/40 Washington addresses match WA DOR; 289/291 Texas points match the Comptroller; 211/213 Illinois addresses match IDOR's address file.</td></tr>
-<tr><td><b>Runs anywhere</b></td><td><code>docker compose up</code>: one Postgres with PostGIS, one API container, one refresh job. About 5 GB of data with every state, or 570 MB as a compressed snapshot.</td></tr>
-</table>
-
----
+Self-host with Postgres + PostGIS. No API key required; paid geocoders are optional.
 
 ## Quick start
 
 ```bash
 git clone https://github.com/opentaxrate/opentaxrate && cd opentaxrate
-cp .env.example .env              # optional: PHOTON_URL, MAPBOX_ACCESS_TOKEN, contact
-docker compose up -d              # Postgres, migrations, API on :8080
-docker compose run --rm refresh   # download and load every state (~45 min the first time)
-```
-
-Or load a few states to try it:
-
-```bash
+cp .env.example .env
+docker compose up -d
 docker compose run --rm refresh OH TX WA
 ```
 
-Or skip the first load with a snapshot:
-
-```bash
-scripts/restore.sh https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22/opentaxrate-2026-10-22.dump
-```
-
-Then:
+The API runs on `localhost:8080`. Omit the state codes to load every state (~45 minutes, ~5 GB), or [restore a snapshot](docs/data.md#snapshots).
 
 ```bash
 curl -G localhost:8080/v1/rate \
@@ -52,291 +31,61 @@ curl -G localhost:8080/v1/rate \
   --data-urlencode city=Columbus --data-urlencode zip=43215
 ```
 
-```json
-{
-  "state": "OH",
-  "rate": 0.08,
-  "stateRate": 0.0575,
-  "localRate": 0.0225,
-  "byType": { "general": 0.08, "generalInterstate": 0.08, "foodDrug": 0.08, "foodDrugInterstate": 0.08 },
-  "parts": [
-    { "kind": "state", "code": "45:39", "rate": 0.0575 },
-    { "kind": "county", "code": "00:049", "rate": 0.0125 },
-    { "kind": "district", "code": "63:25000", "rate": 0.01 }
-  ],
-  "match": "street",
-  "locationCode": "39-049-00000-25000",
-  "source": "Streamlined Sales Tax files OHR2026Q4SEP17 + OHB2026Q4SEP17, street match on 2026-10-21"
-}
-```
+Responses include `rate` (a decimal: `0.08` = 8%), `parts`, `match`, and `source`. Add `date=YYYY-MM-DD` for a historical rate or `include=trace` for lookup details.
 
-A refusal:
+## API and CLI
 
-```json
-{
-  "error": "Lafayette is 9%, or 10% in one of its districts, which have no published outlines. Confirm which applies.",
-  "code": "ADDRESS_NEEDS_CONFIRMATION"
-}
-```
-
----
-
-## Commands
-
-```bash
-opentaxrate serve                          # HTTP API on $PORT (8080)
-opentaxrate migrate                        # create or update the tables
-opentaxrate refresh [STATE...] [--dir D] [--download-dir D] [--force]   # download and load each state's newest data
-opentaxrate rate OH "90 W Broad St" Columbus 43215 [2025-06-01]
-opentaxrate check --cases cases.csv        # state,street,city,zip,date,expected
-```
-
-In Docker, each runs as `docker compose run --rm api <command>`; `refresh` has its own service.
-
-| Endpoint | Returns |
+| Endpoint | Purpose |
 |---|---|
-| `GET /v1/rate?state=&street=&city=&zip=&date=` | the rate, its parts, match type and sources; `422` with candidates when it can't settle one; `400` (`BAD_REQUEST`) for a malformed query; `502` when the state isn't loaded; add `include=trace` for how the address was placed (geocoder points, outlines, the deciding street range) |
-| `GET /v1/suggest?q=` | address suggestions as you type, relayed to a Photon geocoder; only when `OPENTAXRATE_PHOTON_URL` is set |
-| `GET /v1/coverage` | every state, how it's placed, and the files loaded for it |
-| `GET /health` | `{ "ok": true }` once the database answers |
+| `GET /v1/rate` | Rate by `state`, `street`, `city`, `zip`, and optional `date` |
+| `GET /v1/coverage` | Loaded states and source files |
+| `GET /v1/suggest?q=` | Address autocomplete, when configured |
+| `GET /health` | Database health |
 
----
-
-## How it works
-
-```mermaid
-flowchart LR
-  app([your app]) -->|GET /v1/rate| api[api]
-  api --> sw[statewide tables<br/>DE NH OR MT CT ME MD MA DC]
-  api --> rg[range engine<br/>24 SST states + MO]
-  api --> mp[map engine<br/>TX FL NY PA IL VA AZ NM CO AK AL LA SC MS ID HI]
-  api -. CA .-> cdtfa[[CDTFA live]]
-  rg --> db[(Postgres)]
-  mp --> db
-  mp -. place the address .-> geo[[Census · OSM · Mapbox]]
-  refresh[refresh job] -->|quarterly| db
-  refresh -. downloads .-> src[[tax offices · SST · Census TIGER]]
-```
-
-1. **Statewide.** States with no sales tax or one rate everywhere are a dated table; no lookup needed.
-2. **Ranges.** In Streamlined states and Missouri the street is matched to its house-number range, then its ZIP+4, then its ZIP if the whole ZIP has one rate, then its point on the map.
-3. **Map.** Elsewhere the address is geocoded by every configured geocoder at once (kept only where they agree), tested against county, city and district outlines in PostGIS, and each outline's dated rate is stacked by that state's rules: a city in place of its county, a parish only outside towns, a Texas combined area that keeps only some districts, an Illinois business district at listed addresses.
-4. **Edges.** Near a line, the rate a few metres across is computed too; only if it differs is the address refused.
-
-The full design, with the stacking rules and tables: **[docs/architecture.html](docs/architecture.html)**.
-
-State-by-state sources, lookup methods, and limitations: **[State coverage](docs/state-coverage.html)**.
-
----
-
-## Coverage
-
-| Method | States | Placed by | Rates since |
-|---|---|---|---|
-| Statewide | DE, NH, OR, MT, CT, ME, MD, MA, DC | nothing needed (Montana resort towns refused) | 2008–2013 |
-| Address ranges | AR, GA, IN, IA, KS, KY, MI, MN, NE, NV, NJ, NC, ND, OH, OK, RI, SD, TN, UT, VT, WA, WV, WI, WY, MO | street, ZIP+4, ZIP, map | 2020 |
-| Map | TX, FL, NY, PA, IL, VA, AZ, NM, CO, AK, AL, LA, SC, MS, ID, HI | geocoded point in outlines | 2022–2026, by state |
-| Authority | CA | CDTFA's live lookup | today only |
-
-**Known gaps, refused with candidates:** Alabama police jurisdictions and 13 split counties, Louisiana economic development districts, Illinois business districts off IDOR's address list, Missouri transportation districts in split ZIPs. **Rates by type of sale:** in the Streamlined states, `byType` (on the answer and on each part) also gives the files' interstate and food-and-drug rates, e.g. Tennessee's 4% state food rate. A food rate is the rate where a state taxes food at that rate, not whether it does: Ohio's equals its general rate though Ohio exempts groceries. Elsewhere only `general` is filled. **Not covered at all:** taxability, exemptions, single-item caps (Florida's $5,000, Tennessee's), sourcing rules, and tribal taxes. This is the general rate.
-
----
-
-## The data
-
-The 5 GB is almost all one thing: **15.4 million street house-number ranges** from the Streamlined states and Missouri (3.65 GB), plus 5.3 million ZIP+4 ranges (0.7 GB) and county, city and district outlines (0.6 GB). Rates themselves are 116 thousand rows.
-
-| | Downloaded | In Postgres |
-|---|---:|---:|
-| Streamlined rate + boundary files (24 states) | 350 MB zipped, 3.3 GB unzipped | 4.3 GB |
-| Census TIGER counties, places, county subdivisions | ~250 MB | 0.5 GB |
-| State GIS layers (TX, IL, AZ, NM, CO, AK) | ~150 MB | 0.1 GB |
-| State rate files and forms | under 20 MB | 20 MB |
-
-**Nothing is committed to this repo.** The data changes every quarter, several files are over GitHub's 100 MB limit, and each state should be fetched from its source so you know where every rate came from. `refresh` downloads straight from the publishers; `scripts/snapshot.sh` writes a compressed dump (about 570 MB) for a release download, and `scripts/restore.sh` loads one.
-
-To publish a downloadable snapshot, authenticate GitHub CLI (`gh auth login`),
-then load and publish the database:
+Rate lookups return `400` for invalid input, `422` when confirmation is needed, and `502` when state data is missing.
 
 ```bash
-docker compose up -d db
-docker compose run --rm migrate
-docker compose run --rm refresh
-scripts/publish.sh                 # creates release data-YYYY-MM-DD with dump + SHA-256
-# scripts/publish.sh data-2026-10-22-v2   # use a new tag to publish again that day
+docker compose run --rm api rate OH "90 W Broad St" Columbus 43215
+docker compose run --rm api check --cases cases.csv
+docker compose run --rm refresh [STATE...] [--force]
 ```
-
-`publish.sh` exports the currently loaded database; it does not refresh it. Check
-the refresh output and `/v1/coverage` before publishing. If the stack uses a
-different Compose project name, set `COMPOSE_PROJECT_NAME` when running the script.
-Existing releases are never overwritten. The release has the repository's visibility.
-For a private repository, download with authenticated GitHub CLI before restoring:
-
-```bash
-gh release download data-2026-10-22 --pattern 'opentaxrate-2026-10-22.dump*' --dir data
-(cd data && sha256sum -c opentaxrate-2026-10-22.dump.sha256)
-scripts/restore.sh data/opentaxrate-2026-10-22.dump
-```
-
-Snapshots hold rows only for the eight tax-data tables, migration metadata, and
-standard PostGIS reference data. Every other table (geocoding cache and usage,
-accounts, keys, request history, credit) is included empty, so a restored
-database matches its migrations. `snapshot.sh` stops on a table it doesn't
-classify, and `restore.sh` refuses a database that already has accounts or
-keyed lookups, since restoring replaces those tables. Street ranges describe
-the states' published tax boundaries. After downloading both assets, verify with
-`sha256sum -c opentaxrate-YYYY-MM-DD.dump.sha256` and load the dump with
-`scripts/restore.sh path/to/opentaxrate-YYYY-MM-DD.dump`.
-
-Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to keep less history and roughly halve the street ranges. It drops Streamlined and Missouri rows that ended before that date; map-state rates are kept in full.
-
-Refresh saves downloaded source files locally under `artifacts/` by default:
-
-```bash
-docker compose build refresh
-docker compose run --rm refresh
-# Or without Docker:
-DATABASE_URL=postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate \
-  pnpm refresh
-```
-
-Docker maps `/artifacts` to the checkout's `artifacts/` and uses it by default.
-Override the location with `--download-dir` or `OPENTAXRATE_DOWNLOAD_DIR`
-(Docker paths must be inside a mounted directory). Downloads keep their
-original filenames in separate URL-hash folders to avoid name collisions.
-Only completed downloads are saved. This covers SST/Missouri boundary files,
-TIGER ZIPs, and files read by the state file downloader; live GIS/API responses
-are not archived. Already-loaded sources skipped by refresh are not downloaded
-again unless `--force` is used. `--dir` still selects existing input files;
-`--download-dir` saves newly downloaded files. These local files are ignored by
-Git and are not uploaded by `publish.sh`.
-
-Geocoding reuses permitted cached results before asking providers. It starts with a cheap pair, preferring different datasets, and asks more only when it lacks independent agreement. The map and range engines request one refinement when a boundary prevents a rate decision. Refinement can move the point across the original line; all relevant outlines and rates are checked again.
-
-Google is a last-resort provider: routine providers run first, and an accepted placement stops before Google is called, including a lone dataset that passes the city/ZIP plausibility check. Google remains available when routine providers cannot place the address or provide a compatible precision refinement near a boundary. Cost overrides do not move Google into the routine stage.
-
-Only `geocode_results` and `geocoder_usage` are written by runtime geocoding. Run `pnpm migrate` before starting the new API. Missing usage tables or failed reservations skip providers rather than bypassing quotas. Keep cap/rate configuration consistent across replicas; the quota covers calls routed through this application, not other applications sharing a vendor account. Cache failures do not disable budget enforcement. Expired cache rows may be removed periodically with `DELETE FROM geocode_results WHERE expires_at < now()`.
-
-Provider IDs are `CENSUS`, `PHOTON`, `PELIAS`, `GEOCODIO`, `SMARTY`, `MAPBOX`, `HERE`, `GOOGLE`; Esri uses `ARCGIS`. A zero cap or rate prevents external calls. Default caps are conservative application budgets, not promises about vendor free tiers. Google, HERE and Smarty results stay in request memory; operators must use providers under their account's applicable terms. Mapbox and Esri caching require their explicit storage modes.
-
-To measure coordinate error against benchmark CSV cases containing trusted `lon,lat`, run `pnpm exec tsx scripts/bench.ts geocode --provider photon --per-state 20 --budget 100`. It prints p95 error by provider and accuracy and never writes returned coordinates to benchmark files. Baseline margins remain rooftop 15 m, parcel 25 m, point 40 m and interpolated 75 m until a representative dataset supports changing them.
-
----
 
 ## Configuration
 
-Use one private configuration file per environment: local `.env` contains
-development keys and local settings; production `deploy/.env` stays on the
-server and contains production keys and server settings. Both are ignored by
-Git. `.env.example` is the committed template with empty key placeholders.
-The CLI scripts load local `.env` when present; exported environment variables
-take precedence. Use Stripe test keys locally. Code deployments must preserve
-the server's `deploy/.env` rather than copy local `.env` over it.
+Edit `.env` locally; keep production settings in the server’s `deploy/.env`. Restart the API after changes.
 
-| Variable | Default | Purpose |
-|---|---|---|
-| `DATABASE_URL` | `postgres://opentaxrate:opentaxrate@localhost:5432/opentaxrate` | Postgres |
-| `PORT` | `8080` | API port |
-| `MAPBOX_ACCESS_TOKEN` | unset | optional precise provider after cheaper providers |
-| `PHOTON_URL` | unset | internal Photon base URL, e.g. `http://geocoder.example.test:2322`; enables OSM address geocoding |
-| `PELIAS_URL` | unset | optional internal Pelias base URL, e.g. `http://geocoder.example.test:4000` |
-| `NOMINATIM_URL` | public server | self-hosted Nominatim base URL, e.g. `http://geocoder.example.test:8080`; see [docs/self-hosted-geocoders.html](docs/self-hosted-geocoders.html) |
-| `SMARTY_AUTH_ID`, `SMARTY_AUTH_TOKEN` | unset | enable Smarty together |
-| `HERE_API_KEY`, `ARCGIS_API_KEY`, `GOOGLE_MAPS_API_KEY` | unset | enable the respective provider |
-| `MAPBOX_PERMANENT`, `ARCGIS_FOR_STORAGE` | `false` | request paid storage rights and enable caching for that provider |
-| `OPENTAXRATE_GEOCODE_CACHE` | `on` | `off` disables result cache reads/writes; shared budget reservations remain required |
-| `OPENTAXRATE_GEOCODE_READ_ONLY` | `false` | `true` uses cache only, without geocoding or budget writes |
-| `CENSUS_DISABLED` | `false` | disable Census |
-| `<ID>_DAILY_CAP` | see `.env.example` | atomic shared daily request cap, resetting at UTC midnight; includes Geocodio standardization |
-| `<ID>_RATE_PER_SECOND` | Census/Photon/Pelias: `10`; others: `5` | shared minimum spacing; unavailable slots are skipped |
-| `<ID>_COST_PER_CALL` | provider ordering estimate | override call order; internal services and Census default to zero |
-| `GEOCODIO_API_KEY` | unset | enables precise geocoding and ZIP+4 standardization, sharing one request budget |
-| `TYPESAFE_API_KEY` | unset | Jev picks the ZIP's street a misspelled one is, when spelling alone can't |
-| `OPENTAXRATE_USER_AGENT` | `opentaxrate (+https://github.com/opentaxrate/opentaxrate)` | sent to tax offices; put your contact here |
-| `OPENTAXRATE_HISTORY_FROM` | `2020-01-01` | Streamlined and Missouri rows that ended before this date aren't loaded |
-| `DATABASE_POOL` | `10` | Postgres connections per process |
-| `OPENTAXRATE_CORS_ORIGINS` | unset | comma-separated origins allowed to call the API from a browser; unset sends no CORS headers |
-| `OPENTAXRATE_PUBLIC_LIMIT` | unset | per-IP limit on `/v1/rate`, e.g. `10/min,200/day`; over it is a `429` (`RATE_LIMITED`) with `Retry-After` |
-| `OPENTAXRATE_TRUST_CF` | unset | `1` counts the limit by Cloudflare's `CF-Connecting-IP` instead of the socket address |
-| `OPENTAXRATE_CLIENT_IP_HEADER` | unset | count the limits by this header (e.g. `X-Client-IP`) when the API's only caller is a proxy that sets it |
-| `OPENTAXRATE_CACHE_HOURS` | unset | keep successful `/v1/rate` answers in memory this long (up to 5,000) |
-| `OPENTAXRATE_PHOTON_URL` | unset | a Photon geocoder that `/v1/suggest` relays to, e.g. over Tailscale |
-| `OPENTAXRATE_SUGGEST_LIMIT` | unset | per-IP limit on `/v1/suggest`, like `OPENTAXRATE_PUBLIC_LIMIT` |
-| `OPENTAXRATE_PUBLIC_PROVIDERS` | unset (all) | providers a lookup without a key may use, e.g. `photon,pelias`; ids are the geocoders' plus `jev` |
-| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` | unset | turn on accounts: sign-in by emailed code, API keys (`otr_live_…`) and prepaid credit, at `/api/auth/*` and `/v1/account/*` |
-| `RESEND_API_KEY` | unset | send sign-in codes; outside production they're printed instead. Keyed lookups are $1.95 per 1,000 (declines refunded), new accounts start with 100, and a repeat within 24 hours is answered from the caller's history |
-| `STRIPE_SECRET_KEY` | unset | buy credit through Stripe Checkout, any whole-dollar amount from $5 to $1,000, credited when the buyer returns to the dashboard |
-| `OPENTAXRATE_MASTER_KEYS` | unset | keys for your own apps, `name=otr_master_…` comma-separated; each gets every provider, no per-IP limit. Make one with `echo otr_master_$(openssl rand -hex 24)`; any other key is a `401` (`INVALID_API_KEY`) |
+See the [configuration guide](docs/configuration.md) for geocoders, limits, keys, and accounts. Available settings are listed in [.env.example](.env.example) and [deploy/.env.example](deploy/.env.example).
 
-### Keys and accounts
+## Coverage and limits
 
-Self-hosting needs no sign-in, no accounts and no Stripe. Each of these is off until you set its secret:
+Uses published SST/state address ranges, PostGIS boundaries, and California’s live CDTFA lookup. Historical coverage varies by state; SST and Missouri generally go back to 2020.
 
-| You want | Set | You get |
-|---|---|---|
-| A private API for your own apps | `OPENTAXRATE_MASTER_KEYS` | Callers send a master key as `x-api-key` or `Authorization: Bearer`. A master key gets every geocoder you configured, no per-IP limit and no charge. Lookups made with a key are logged in `api_requests` for 90 days. |
-| An open API anyone can call | nothing | Lookups without a key use the public tier. Narrow it with `OPENTAXRATE_PUBLIC_PROVIDERS` and `OPENTAXRATE_PUBLIC_LIMIT`. |
-| Sign-up, a dashboard and per-user keys | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `RESEND_API_KEY` | Sign-in by emailed code at `/api/auth/*`, `otr_live_…` keys and prepaid credit. Build the site with `PUBLIC_ACCOUNTS=on` (`client/README.md`) so it shows "Sign in". |
-| Selling credit | the above plus `STRIPE_SECRET_KEY` (a live key for production) | Top-ups through Stripe Checkout, any whole-dollar amount from $5 to $1,000. The dashboard polls the Checkout session when the buyer returns and credits each paid session once. |
-
-Without `BETTER_AUTH_SECRET`, `/api/auth/*` and `/v1/account/*` don't exist, and an `otr_live_…` key gets a `401`. A private API for yourself takes two steps:
-
-```bash
-echo "OPENTAXRATE_MASTER_KEYS=me=otr_master_$(openssl rand -hex 24)" >> .env
-docker compose up -d
-curl "http://localhost:8080/v1/rate?state=TX&street=301+W+2nd+St&city=Austin&zip=78701" \
-  -H "x-api-key: otr_master_…"
-```
-
-Every setting is read at startup, so restart the API after changing one.
-
-For a public server, `deploy/compose.public.yml` layers these on the stack: the API on `127.0.0.1:8080` only, no published Postgres port, Postgres sized for 2 GB, the limits, the cache and the Photon relay (settings in `deploy/.env`; see `deploy/.env.example`):
-
-```bash
-docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml up -d
-```
-
----
+This is the general sales tax rate. Taxability, exemptions, item caps, sourcing rules, and tribal taxes are outside scope. Missing boundaries or conflicting placements can require confirmation. See [state coverage](docs/state-coverage.html) for specifics.
 
 ## Development
 
+Requires Node 22+ and pnpm.
+
 ```bash
 pnpm install
-cp .env.example .env # first setup only; fill in development keys
+cp .env.example .env # first setup only
+export DATABASE_URL=postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate
 docker compose up -d db
-DATABASE_URL=postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate pnpm migrate
-DATABASE_URL=... pnpm refresh WY PA
-DATABASE_URL=... pnpm test
+pnpm migrate
+pnpm refresh OH
+pnpm test
 pnpm dev
 ```
 
-The source follows the two jobs: `ingest/` fills Postgres, `rates/` answers from it, and neither imports the other.
+## Documentation
 
-```
-src/
-  cli.ts server.ts lookup.ts   entry points; lookup.ts wires geocoding into rates
-  coverage.ts                  state FIPS codes and which method reads each state, shared by both sides
-  address.ts                   street parsing, for typed addresses and state files alike
-  db/                          client.ts, schema.ts
-  geocoding/                   types.ts, locator.ts, registry.ts, cache.ts, budget.ts, providers/
-  rates/                       lookup: index.ts routes a state to statewide.ts, california.ts,
-                               ranges.ts (Streamlined + Missouri) or map.ts; shapes.ts queries PostGIS
-  ingest/                      refresh: refresh.ts, downloads.ts, sst-files.ts, missouri.ts, tiger.ts,
-                               load.ts, geometry.ts, and states/ (one adapter per map-read state)
-```
+- [Architecture](docs/architecture.html) — lookup engines, tables, and stacking rules
+- [Data maintenance](docs/data.md) — refresh, downloads, and snapshots
+- [Self-hosted geocoders](docs/self-hosted-geocoders.html)
+- [Web client](client/README.md)
 
-Adding a map-read state means writing an adapter in `src/ingest/states/` that returns dated rate rows and, if the state publishes them, its own outlines, and adding it to `MAP_STATES` in `src/coverage.ts`; see `virginia.ts` (a workbook keyed by FIPS) or `texas.ts` (rates plus the Comptroller's GIS layers).
+## Sources and license
 
----
+Data comes from [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/), [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), and state tax offices. Provider terms apply; see [configuration](docs/configuration.md#geocoding). **Not tax advice:** verify the sources returned with each rate.
 
-## Sources and terms
-
-Rates and boundaries come from public sources: [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/), the [Census Bureau's TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), and each state's tax office (Texas Comptroller, Illinois IDOR, Arizona ADOR, New Mexico TRD, Virginia Tax, Missouri DOR, Alabama DOR, Florida DOR, New York DTF, Louisiana Remote Sellers Commission, Colorado DOR, the Alaska Remote Seller Sales Tax Commission). Colorado and Alaska are read from their official lookups' services, which aren't documented as bulk APIs; ask them before running it at scale.
-
-Geocoding uses the Census Bureau's free geocoder and OpenStreetMap's [Nominatim](https://operations.osmfoundation.org/policies/nominatim/): the public server by default, whose policy allows one request a second (put your contact in `OPENTAXRATE_USER_AGENT`), or your own with `NOMINATIM_URL`. Your internal [Photon](https://github.com/komoot/photon) and Pelias are used when `PHOTON_URL` and `PELIAS_URL` are set. A provider's result must match the requested state, house number and street, and the typed city or ZIP; street-only and ambiguous results are refused. Mapbox is optional and under your own account's terms.
-
-**Not tax advice.** Rates are as published by the states and can be wrong or late; every answer names its source so you can check it.
-
-## License
-
-[Elastic License 2.0](LICENSE). Use it, change it, and run it for your own business, including behind your own checkout, ERP or product. You may not offer OpenTaxRate itself to others as a hosted or managed service, such as a public tax rate API built on it. This is source-available, not an OSI open source license. For a hosting license, open an issue.
+[Elastic License 2.0](LICENSE). Use, modify, and run it for your business. Offering OpenTaxRate as a hosted or managed service requires a hosting license; open an issue to discuss.
