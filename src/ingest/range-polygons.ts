@@ -1,5 +1,12 @@
-/** Extra tax outlines for range states. Rates still come from their dated
- * workbooks/SST files; the layers' undated rate attributes are never loaded. */
+/**
+ * Tax-zone outlines for two range states, Missouri and Utah, from the map
+ * layers named in range-polygon-sources.ts: fetched, read into county,
+ * place or district outlines under an "rp:<state>:" code, and loaded into
+ * sales_tax_shapes, replacing the state's previous ones. They only narrow a
+ * ZIP's candidate areas at lookup (rates/range-polygons.ts); rates still
+ * come from the dated workbook and SST files, and the layers' undated rate
+ * attributes are never loaded.
+ */
 import { and, eq, like } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxShapes } from "../db/schema.js";

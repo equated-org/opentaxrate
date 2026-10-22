@@ -12,11 +12,19 @@ set -eu
 cd "$(dirname "$0")/.."
 
 TAX_TABLES="sales_tax_areas sales_tax_data_releases sales_tax_jurisdiction_rates
-  sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges zip_areas zip_street_names"
+  sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges zip_areas zip_street_names
+  tax_source_snapshots tax_source_features"
 EMPTY_TABLES="geocode_results geocoder_usage user session account verification
-  apikey api_requests credit_grants"
+  apikey api_requests credit_grants tax_rule_rows"
 
 psql() { docker compose exec -T db psql -U opentaxrate -d opentaxrate -At -v ON_ERROR_STOP=1 "$@"; }
+
+# Transaction policies are documentation/research only. Do not publish their
+# metadata through the shared snapshot table, even if an older importer ran.
+if [ "$(psql -c "select exists(select 1 from tax_source_snapshots where source like 'sst-%' or metadata->>'status' in ('evidence-only', 'needs-normalization'))")" = "t" ]; then
+  echo "Research-only tax policy snapshots must be moved out of the export database before publishing." >&2
+  exit 1
+fi
 
 unknown=""
 # Tables an extension owns (PostGIS's spatial_ref_sys) come with --extension.
@@ -32,6 +40,11 @@ done
 if [ -n "$unknown" ]; then
   echo "Tables not in TAX_TABLES or EMPTY_TABLES:$unknown. Classify them in scripts/snapshot.sh." >&2
   exit 1
+fi
+
+if [ "${1:-}" = "--check" ]; then
+  echo "Export checks passed: known tables only; transaction policy rows excluded."
+  exit 0
 fi
 
 set --

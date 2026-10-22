@@ -7,7 +7,9 @@
  *      features;
  *   5. the Census Bureau's newest county, city and town outlines for all of
  *      them;
- *   6. the Census Bureau's ZIP areas reaching into the map-read states.
+ *   6. the Census Bureau's ZIP areas reaching into the map-read states;
+ *   7. the supplemental tax-area polygons (supplemental.ts), then verifies
+ *      them against the dated rate files (verify-polygons.ts).
  * A file already loaded is skipped unless `force`; a map-read state is
  * fetched again every run, since its sources don't name versions alike.
  */
@@ -23,6 +25,8 @@ import { fetchRangePolygons, loadRangePolygons } from "./range-polygons.js";
 import { RANGE_POLYGON_SOURCES, type RangePolygonState } from "../range-polygon-sources.js";
 import { missouriFiles } from "./missouri.js";
 import { RANGE_FIPS, STATE_FIPS } from "../coverage.js";
+import { refreshSupplemental } from "./supplemental.js";
+import { indexVerifiedPolygons } from "./verify-polygons.js";
 
 export interface RefreshOptions {
   /** Two-letter codes; every state when empty. */
@@ -151,4 +155,10 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     const kept = await loadZipAreas({ name: ZIP_AREA_FILE, bytes: await zipAreaFile(dir) }, geoStates);
     log(`${ZIP_AREA_FILE}: ${kept} ZIP areas in map-read states in ${seconds(started)}`);
   }
+
+  // Acquisition evidence is versioned separately from approved lookup data.
+  // Transaction rules are deliberately excluded: the partial research
+  // inventory is not nationwide calculation support.
+  await refreshSupplemental({ states, dir, log });
+  await indexVerifiedPolygons({ states, log });
 }

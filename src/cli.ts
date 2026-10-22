@@ -1,10 +1,13 @@
 #!/usr/bin/env node
+import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
 /**
  * opentaxrate <command>
  *   serve                         start the HTTP API on PORT (default 8080)
  *   migrate                       create or update the tables
  *   refresh [STATE...] [--dir D] [--download-dir D] [--force]
  *                                 download and load each state's newest data
+ *   ingest [STATE...] [--source ID] [--dir D]
+ *                                 index supplemental polygons (transaction rules unsupported)
  *   rate STATE "street" "city" [zip] [date]
  *                                 look one address up
  *   check --cases file.csv        published cases against the lookup
@@ -16,6 +19,9 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { client, db } from "./db/client.js";
 import { refreshAddressRates } from "./ingest/refresh.js";
 import { lookUpRate } from "./lookup.js";
+import { refreshSupplemental } from "./ingest/supplemental.js";
+import { STATE_FIPS } from "./coverage.js";
+import { SUPPLEMENTAL_POLYGONS } from "./ingest/supplemental-sources.js";
 
 const [command, ...args] = process.argv.slice(2);
 const flag = (name: string) => {
@@ -49,6 +55,22 @@ async function main() {
         force: args.includes("--force"),
       });
       return;
+    case "ingest": {
+      const states = positional.map((s) => s.toUpperCase());
+      for (const state of states) if (!STATE_FIPS[state]) throw new Error(`Unknown state ${state}`);
+      const kind = flag("--kind") ?? "polygons";
+      if (kind === "rules" || kind === "all")
+        throw new Error("Transaction-rule ingestion is disabled: nationwide policy coverage and calculation support are incomplete. Only supplemental polygons are enabled.");
+      if (kind !== "polygons") throw new Error("Only --kind polygons is supported");
+      const source = flag("--source");
+      if (source && ![...SUPPLEMENTAL_POLYGONS.map((s) => s.id), "wa-loccode_public", "wa-cities", "wa-ptba", "wa-rta"].includes(source))
+        throw new Error(`Unknown supplemental source ${source}`);
+      const sourceState = source?.startsWith("wa-") ? "WA" : SUPPLEMENTAL_POLYGONS.find((s) => s.id === source)?.state;
+      if (sourceState && states.length && !states.includes(sourceState)) throw new Error(`Source ${source} belongs to ${sourceState}`);
+      await refreshSupplemental({ states, dir: flag("--dir"), sources: source ? [source] : [] });
+      await indexVerifiedPolygons({ states });
+      return;
+    }
     case "rate": {
       const [state, street, city, zip, date] = positional;
       console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date }), null, 2));

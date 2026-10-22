@@ -18,6 +18,7 @@
     "start": "node --env-file-if-exists=.env dist/cli.js serve",
     "migrate": "tsx --env-file-if-exists=.env src/cli.ts migrate",
     "refresh": "tsx --env-file-if-exists=.env src/cli.ts refresh",
+    "ingest": "tsx --env-file-if-exists=.env src/cli.ts ingest",
     "rate": "tsx --env-file-if-exists=.env src/cli.ts rate",
     "check": "tsx --env-file-if-exists=.env src/cli.ts check",
     "db:generate": "drizzle-kit generate",

@@ -10,8 +10,8 @@
  *   - states whose local taxes follow county, city and district lines, from
  *     each state's own rate table (ingest/states) and the address's place
  *     on the map (map.ts, geocoding);
- *   - California, from the CDTFA's live address lookup (today's rate only;
- *     it publishes no files to load).
+ *   - California, from verified dated CDTFA tax-area polygons, with
+ *     the official live lookup as a fallback (today's rate only).
  * Any other state is refused as unsupported. An address the data can't place
  * in one rate is refused with the rates it could be; it never gets a guess,
  * and missing data is never read as no tax.
@@ -32,7 +32,7 @@ import { PARAMS } from "../params.js";
 import type { StandardAddress } from "../standardize/index.js";
 import type { StreetPicker } from "./streets/jev.js";
 import { districtNamed, geoRateAt } from "./map.js";
-import { californiaSalesTaxService } from "./california.js";
+import { californiaIndexedOn, californiaIndexedRate, californiaSalesTaxService } from "./california.js";
 import { marginProbes, stateLookup, stateLookupAt } from "./state-lookups.js";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "../db/client.js";
@@ -277,18 +277,38 @@ async function rangeRate(query: AddressRateQuery, state: string, date: string): 
   };
 }
 
-/** California's rate from its tax office's live lookup, which knows only
- *  today's; the source says so when the sale is dated otherwise. The lookup
+/** California uses a verified dated polygon first. Its official live
+ *  fallback knows today's rate; the source identifies that limitation. The lookup
  *  needs a ZIP; without one the address's map point is asked first, then
  *  the ZIP its standardized form gives. */
 async function california(query: AddressRateQuery, date: string): Promise<EngineRate> {
+  // With no tax area indexed for the date, the address isn't placed for
+  // one; the official lookup below needs only the address.
+  let point = query.locate && (await californiaIndexedOn(date)) ? await query.locate() : null;
+  let local = point ? await californiaIndexedRate(point, date, query.trace) : null;
+  if (local?.status === "near_edge" && point && query.locate) {
+    point = (await query.locate({ marginUnder: marginOf(point) })) ?? point;
+    local = await californiaIndexedRate(point, date, query.trace);
+  }
+  // Held, conflicting or still too near a line, the indexed areas can't
+  // answer; nor can a smaller total. CDTFA's own lookup is asked instead.
+  if (local?.status === "verified") {
+    const districtRate = Math.round((local.rate - CA_STATE_RATE) * 1e6) / 1e6;
+    return { state: "CA", rate: local.rate, stateRate: CA_STATE_RATE, localRate: districtRate,
+      byType: generalOnly(local.rate), parts: [
+        { kind: "state", code: "CA", rate: CA_STATE_RATE },
+        { kind: "district", code: `tac:${local.code}`, rate: districtRate },
+      ], match: "map", locationCode: local.code,
+      source: `CDTFA indexed tax area ${local.code}, ${local.file}, on ${date}` };
+  }
+
   const byAddress = (zip: string) =>
     californiaSalesTaxService.lookup({ street: query.street, city: query.city, zip });
   // CDTFA's rate at the address's map point, and at the edges of that
   // point's margin past its 50 m buffer, taken only if every one is the same
   // single area; null when they aren't, or the address can't be placed.
   const atMapPoint = async () => {
-    const point = query.locate ? await query.locate() : null;
+    point ??= query.locate ? await query.locate() : null;
     if (!point) return null;
     const areas = await Promise.all(marginProbes(point, 50).map((p) => californiaSalesTaxService.atPoint(p.lon, p.lat)));
     const tacs = new Set(areas.flatMap((a) => (a && a.length === 1 ? [a[0].tac] : ["?"])));

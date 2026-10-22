@@ -8,7 +8,7 @@ import { RANGE_POLYGON_SOURCES, rangePolygonPrefix, type RangePolygonState } fro
 import { marginOf, type LocatedPoint } from "../geocoding/types.js";
 import { traceOutline, type Trace } from "./types.js";
 import { WHOLE_CODE_TYPE } from "../coverage.js";
-import type { PlacedShape } from "./shapes.js";
+import { HELD_PREFIX, isHeld, type PlacedShape } from "./shapes.js";
 
 type Area = typeof salesTaxAreas.$inferSelect;
 
@@ -46,16 +46,21 @@ export function missouriPolygonCandidates(
 
 export async function rangePolygonAreas(
   state: string, areaIds: number[], point: LocatedPoint, date: string, trace?: Trace,
-): Promise<{ areas: number[] | "near_edge"; file: string } | null> {
-  if (!(state in RANGE_POLYGON_SOURCES) || !areaIds.length) return null;
+): Promise<{ areas: number[] | "near_edge" | "unresolved"; file: string; held?: boolean } | null> {
+  if (!areaIds.length) return null;
+  const indexed = await indexedTaxAreas(state, areaIds, point, date, trace);
+  if (indexed?.status === "verified") return { areas: indexed.areas, file: indexed.file };
+  if (indexed?.status === "near_edge") return { areas: "near_edge", file: indexed.file, held: indexed.held };
+  if (indexed) return { areas: "unresolved", file: indexed.file, held: true };
+  if (!(state in RANGE_POLYGON_SOURCES)) return null;
   const source = RANGE_POLYGON_SOURCES[state as RangePolygonState];
   // A boundary snapshot must not be projected backward onto earlier sales.
   if (date < source.from) return null;
   const prefix = rangePolygonPrefix(state);
-  const indexed = await db.select({ fips: salesTaxShapes.fips, file: salesTaxShapes.file }).from(salesTaxShapes)
+  const legacy = await db.select({ fips: salesTaxShapes.fips, file: salesTaxShapes.file }).from(salesTaxShapes)
     .where(and(eq(salesTaxShapes.state, state), like(salesTaxShapes.fips, `${prefix}%`)));
-  if (!indexed.length || indexed.some((s) => s.file !== source.file)) return null;
-  const known = new Set(indexed.map((s) => s.fips));
+  if (!legacy.length || legacy.some((s) => s.file !== source.file)) return null;
+  const known = new Set(legacy.map((s) => s.fips));
   const margin = marginOf(point);
   const pad = Math.max(0.003, margin / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
   const rows = await db.execute<{
@@ -111,4 +116,65 @@ async function mayLevy(state: string, town: string, date: string) {
     .where(and(eq(salesTaxJurisdictionRates.state, state), like(salesTaxJurisdictionRates.code, `${town.slice(0, 4)}%`),
       lte(salesTaxJurisdictionRates.startsOn, date), gte(salesTaxJurisdictionRates.endsOn, date)));
   return rows.some((r) => /^\d{5}$/.test(r.code));
+}
+
+/** Verification builds a tax area the boundary files don't list (its
+ *  complete components dated in the state's rate file) under ids from
+ *  state FIPS × 1,000,000 + 900,001; the loader's own count from + 1. No
+ *  ZIP's ranges name such an area, so a ZIP's candidates can't exclude it. */
+export const BUILT_AREA_BASE = 900_000;
+export const isBuiltArea = (id: number) => id % 1_000_000 > BUILT_AREA_BASE;
+
+/** What the indexed supplemental outlines say at a point:
+ *   - verified: the complete tax areas holding it (none when they and the
+ *     ZIP's candidates disagree);
+ *   - near_edge: its margin reaches an outline's edge; `held` when that
+ *     outline is coverage ingestion couldn't verify;
+ *   - unresolved: it is inside such coverage, which outranks any verified
+ *     outline there. A smaller total from other data is never the answer.
+ *  Null where no indexed coverage applies, for the ordinary paths. */
+export type IndexedAreas =
+  | { status: "verified"; areas: number[]; file: string }
+  | { status: "near_edge"; held: boolean; file: string }
+  | { status: "unresolved"; file: string };
+
+/** Complete, verified tax areas and unverified coverage use the existing
+ * shapes/area tables. No source snapshots, feature attributes or mapping
+ * blobs are read at lookup. */
+export async function indexedTaxAreas(
+  state: string, candidates: number[], point: LocatedPoint, date: string, trace?: Trace,
+): Promise<IndexedAreas | null> {
+  const margin = marginOf(point);
+  const pad = Math.max(.003, margin/(110000*Math.max(.1,Math.cos(point.lat*Math.PI/180))));
+  const rows = await db.execute<{fips:string;name:string;area_id:number|null;file:string;inside:boolean;edge:number;lon:number;lat:number}>(sql`
+    with p as (select st_setsrid(st_point(${point.lon},${point.lat}),4326) as g)
+    select s.fips,s.name,s.area_id,s.file,st_covers(s.geom,p.g) as inside,
+      st_distance(st_boundary(s.geom)::geography,p.g::geography) as edge,
+      st_x(st_closestpoint(st_boundary(s.geom),p.g)) as lon,st_y(st_closestpoint(st_boundary(s.geom),p.g)) as lat
+    from sales_tax_shapes s cross join p where s.state=${state}
+      and (s.area_id is not null or s.fips like ${`${HELD_PREFIX}%`})
+      and ${date} between s.starts_on and s.ends_on and st_dwithin(s.geom,p.g,${pad})`);
+  const result = indexedOutcome(rows.map(r => ({ ...r, edge: Number(r.edge) })), candidates, margin);
+  if (trace) for (const r of rows) {
+    const outline = traceOutline(trace, { kind: "district", fips: r.fips, name: r.name, inside: r.inside,
+      edgeMetres: Number(r.edge), foot: { lon: Number(r.lon), lat: Number(r.lat) } });
+    outline.levies = result?.status === "verified" && r.inside && r.area_id !== null && result.areas.includes(r.area_id);
+  }
+  return result;
+}
+
+/** indexedTaxAreas' decision from the outlines near the point. */
+export function indexedOutcome(
+  rows: Array<{ fips: string; area_id: number | null; file: string; inside: boolean; edge: number }>,
+  candidates: number[], margin: number,
+): IndexedAreas | null {
+  const held = rows.filter(r => isHeld(r.fips)), verified = rows.filter(r => r.area_id !== null);
+  const file = (of: typeof rows) => [...new Set(of.map(r => r.file))].join(" + ");
+  if (held.some(r => r.inside && r.edge > margin)) return { status: "unresolved", file: file(held) };
+  if (held.some(r => r.edge <= margin)) return { status: "near_edge", held: true, file: file(held) };
+  const inside = verified.filter(r => r.inside);
+  if (!inside.length) return null;
+  if (verified.some(r => r.edge <= margin)) return { status: "near_edge", held: false, file: file(inside) };
+  return { status: "verified", file: file(inside), areas: [...new Set(inside.map(r => r.area_id!))]
+    .filter(id => candidates.includes(id) || isBuiltArea(id)) };
 }

@@ -176,7 +176,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
           : null;
       const onMap = refined ? refined.areas : [];
       const mappedPoint = refined?.point;
-      if (onMap !== "near_edge" && onMap.length) {
+      if (Array.isArray(onMap) && onMap.length) {
         const byMap = await answer(onMap, "map").catch(() => null);
         // Street ranges are filed by the hundred-block; a precise point that
         // two datasets agree on, clear of every line, says which side of the
@@ -219,7 +219,11 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
       const inZip = await zipAreas(input.state, zip5, date);
       const point = input.locate ? await input.locate() : null;
       const mapped = point ? await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace, files) : null;
-      const byMap = mapped && mapped.areas !== "near_edge" && mapped.areas.length ? await answer(mapped.areas, "map") : null;
+      // Coverage that ingestion couldn't verify can't be confirmed by the
+      // ZIP+4 that may leave its district out.
+      if (mapped?.areas === "unresolved") throw unresolved(input.state, date, mapped.file);
+      const onMap = mapped && Array.isArray(mapped.areas) ? mapped.areas : [];
+      const byMap = onMap.length ? await answer(onMap, "map") : null;
       // An automatically obtained ZIP+4 is only a lead. Complete tax
       // polygons may settle its conflict; a caller-supplied ZIP+4 and a
       // published street range are not overridden by this fallback.
@@ -232,7 +236,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
         throw await refusal(
           input,
           `${input.state}'s files have no range for this street, and its ZIP+4 ${zip5}-${plus4} isn't confirmed by the address's place on the map.`,
-          [...zip4Areas, ...(mapped && mapped.areas !== "near_edge" ? mapped.areas : [])],
+          [...zip4Areas, ...onMap],
           fips,
           date,
         );
@@ -290,6 +294,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     const mapped = await mapWithRefinement(input.state, inZip, point, date, input.locate, input.trace, files);
     const onMap = mapped.areas;
     point = mapped.point;
+    if (onMap === "unresolved") throw unresolved(input.state, date, mapped.file);
     if (onMap === "near_edge")
       throw await refusal(
         input,
@@ -330,11 +335,11 @@ async function mapWithRefinement(state: string, areaIds: number[], point: Locate
     const polygon = useTaxPolygons ? await rangePolygonAreas(state, areaIds, point, date, trace) : null;
     if (polygon) {
       if (files && !files.includes(polygon.file)) files.push(polygon.file);
-      return { areas: polygon.areas, taxPolygons: true };
+      return { areas: polygon.areas, taxPolygons: true, held: polygon.held ?? false, file: polygon.file };
     }
-    return { areas: await mapAreas(state, areaIds, point, date, trace), taxPolygons: false };
+    return { areas: await mapAreas(state, areaIds, point, date, trace), taxPolygons: false, held: false, file: "" };
   };
-  let mapped = await map();
+  let mapped: Awaited<ReturnType<typeof map>> = await map();
   if (mapped.areas === "near_edge" && locate) {
     const sharper = await locate({ marginUnder: marginOf(point) });
     if (sharper) {
@@ -342,7 +347,20 @@ async function mapWithRefinement(state: string, areaIds: number[], point: Locate
       mapped = await map();
     }
   }
+  // Still within its margin of coverage that couldn't be verified, the
+  // address may be in it: unresolved, never the ordinary map's smaller total.
+  if (mapped.areas === "near_edge" && mapped.held) mapped = { ...mapped, areas: "unresolved" };
   return { ...mapped, point };
+}
+
+/** A refusal for an address in, or too near, a district ingestion found but
+ *  couldn't verify a complete rate for: the rates the ZIP's files give may
+ *  leave it out, so none is offered. */
+function unresolved(state: string, date: string, file: string) {
+  return new RateError(
+    `${state}'s tax-area outlines (${file}) put this address in or near a taxing district whose complete rate on ${date} this service couldn't verify. Confirm the rate with ${state}'s own lookup; no partial rate has been returned.`,
+    422,
+  );
 }
 
 /** The candidate areas whose county and city (or town) hold the point. An
@@ -426,7 +444,7 @@ const NOT_DISTRICTS = ["00", "01", "45"];
  *  no rate on the date levies none. Some states file a place or district
  *  under a different type in the two files, so a code not found under its
  *  own type is looked up among the district types. */
-async function rateAreas(
+export async function rateAreas(
   state: string,
   fips: string,
   areaIds: number[],
@@ -646,7 +664,8 @@ async function rangeAt(
 /** Marks the traced outlines whose county or city is one of the answer's
  *  parts. */
 function traced(found: SstRate, trace?: Trace): SstRate {
-  for (const o of trace?.outlines ?? []) {
+  // A tax-area outline's `levies` is set where it was tested.
+  for (const o of trace?.outlines.filter((o) => o.kind !== "district") ?? []) {
     const kind = o.kind === "county" ? "county" : "city";
     o.levies = found.parts.some((p) => p.kind === kind && p.code.split(":")[1] === o.fips);
   }

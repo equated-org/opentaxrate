@@ -15,7 +15,9 @@ import {
   bigint,
   bigserial,
   boolean,
+  check,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 import type { SourcedPoint } from "../geocoding/types.js";
 
 /** Runtime-only tables: refresh never reads or replaces these rows. */
@@ -267,6 +269,42 @@ const multiPolygon = customType<{ data: string }>({
   dataType: () => "geometry(MultiPolygon, 4326)",
 });
 
+/** Immutable evidence snapshots. These are acquisition/verification data,
+ * not automatically approved rate-engine inputs. A changed source keeps its
+ * previous geometry and attributes instead of rewriting history. */
+export const taxSourceSnapshots = pgTable("tax_source_snapshots", {
+  id: text("id").primaryKey(),
+  source: text("source").notNull(),
+  state: text("state").notNull(),
+  url: text("url").notNull(),
+  sha256: text("sha256").notNull(),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>().notNull(),
+  rows: integer("rows").notNull(),
+  observedAt: timestamp("observed_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [index("idx_tax_source_snapshots_source").on(t.source, t.observedAt),
+  check("ck_tax_source_snapshots_no_policies", sql`${t.source} not like 'sst-%' and coalesce(${t.metadata}->>'status', '') not in ('evidence-only', 'needs-normalization')`),
+]);
+
+export const taxSourceFeatures = pgTable("tax_source_features", {
+  snapshotId: text("snapshot_id").notNull().references(() => taxSourceSnapshots.id, { onDelete: "cascade" }),
+  featureId: text("feature_id").notNull(),
+  /** Publisher identifiers and rates, with original field names and units. */
+  attributes: jsonb("attributes").$type<Record<string, unknown>>().notNull(),
+  geom: multiPolygon("geom").notNull(),
+}, t => [primaryKey({ columns: [t.snapshotId, t.featureId] }), index("idx_tax_source_features_geom").using("gist", t.geom)]);
+
+/** Legacy experimental research storage. No importer or API consumer is
+ * enabled; public snapshots exclude these rows. Retained for migration
+ * compatibility, not as a supported transaction-policy feature. */
+export const taxRuleRows = pgTable("tax_rule_rows", {
+  snapshotId: text("snapshot_id").notNull().references(() => taxSourceSnapshots.id, { onDelete: "cascade" }),
+  rowId: text("row_id").notNull(),
+  reference: text("reference"),
+  definition: text("definition").notNull(),
+  cells: jsonb("cells").$type<Array<Record<string, unknown>>>().notNull(),
+  context: jsonb("context").$type<Record<string, unknown>>().notNull(),
+}, t => [primaryKey({ columns: [t.snapshotId, t.rowId] }), index("idx_tax_rule_rows_reference").on(t.reference)]);
+
 /** Each ZIP's area as the Census Bureau draws it (a ZIP Code Tabulation
  *  Area: the census blocks where most addresses use that ZIP), from its
  *  cartographic boundary file, kept for ZIPs in the map-read states. Read
@@ -299,6 +337,11 @@ export const salesTaxShapes = pgTable(
      *  district, the code its state's rate table uses. */
     fips: text("fips").notNull(),
     name: text("name").notNull(),
+    /** A verified complete tax-area outline; removed when its SST area is rebuilt. */
+    areaId: integer("area_id").references(() => salesTaxAreas.id, { onDelete: "cascade" }),
+    /** Native dated editions constrain supplemental geometry; legacy outlines are undated. */
+    startsOn: date("starts_on").notNull().default("0001-01-01"),
+    endsOn: date("ends_on").notNull().default("9999-12-31"),
     geom: multiPolygon("geom").notNull(),
     /** The file it came from, e.g. "tl_2026_49_place". */
     file: text("file").notNull(),
@@ -306,5 +349,6 @@ export const salesTaxShapes = pgTable(
   (t) => [
     unique("uq_sales_tax_shapes_state_kind_fips").on(t.state, t.kind, t.fips),
     index("idx_sales_tax_shapes_geom").using("gist", t.geom),
+    index("idx_sales_tax_shapes_area").on(t.areaId),
   ],
 );

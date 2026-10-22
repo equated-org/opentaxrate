@@ -1,0 +1,1 @@
+ALTER TABLE "tax_source_snapshots" ADD CONSTRAINT "ck_tax_source_snapshots_no_policies" CHECK ("tax_source_snapshots"."source" not like 'sst-%' and coalesce("tax_source_snapshots"."metadata"->>'status', '') not in ('evidence-only', 'needs-normalization'));

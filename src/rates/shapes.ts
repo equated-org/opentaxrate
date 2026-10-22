@@ -13,6 +13,14 @@ import type { OutlineGeometry } from "./types.js";
 
 type Point = { lon: number; lat: number };
 
+/** A supplemental tax-area feature that ingestion found but couldn't verify
+ *  is kept as a coverage marker: "held:<source>:<feature>:<from>", with no
+ *  area. It says only that a tax here needs verification; it never carries
+ *  a rate, and it outranks verified outlines it overlaps. */
+export const HELD_PREFIX = "held:";
+export const heldFips = (source: string, feature: string, from: string) => `${HELD_PREFIX}${source}:${feature}:${from}`;
+export const isHeld = (fips: string) => fips.startsWith(HELD_PREFIX);
+
 export interface PlacedShape {
   kind: "county" | "place" | "cousub" | "district";
   fips: string;
@@ -49,7 +57,7 @@ export async function shapesAround(state: string, p: Point, padDegrees: number):
       select st_boundary(s.geom) as edge,
              st_closestpoint(st_boundary(s.geom), p.g) as foot
     ) b
-    where s.state = ${state} and st_dwithin(s.geom, p.g, ${padDegrees})`);
+    where s.state = ${state} and s.fips not like ${`${HELD_PREFIX}%`} and st_dwithin(s.geom, p.g, ${padDegrees})`);
   return rows.map((r) => ({
     kind: r.kind,
     fips: r.fips,
@@ -65,7 +73,8 @@ export async function shapesAround(state: string, p: Point, padDegrees: number):
 export async function shapesHolding(state: string, p: Point): Promise<Set<string>> {
   const rows = await db.execute<{ kind: string; fips: string }>(sql`
     select kind, fips from sales_tax_shapes
-    where state = ${state} and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))`);
+    where state = ${state} and fips not like ${`${HELD_PREFIX}%`}
+      and st_covers(geom, st_setsrid(st_point(${p.lon}, ${p.lat}), 4326))`);
   return new Set(rows.map((r) => `${r.kind}:${r.fips}`));
 }
 
