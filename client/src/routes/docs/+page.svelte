@@ -10,6 +10,7 @@
 		{ id: 'rate', title: 'Look up a rate' },
 		{ id: 'response', title: 'The response' },
 		{ id: 'parts', title: 'Parts' },
+		{ id: 'ids', title: "States' own codes" },
 		{ id: 'reporting', title: 'Reporting' },
 		{ id: 'errors', title: 'Errors' },
 		{ id: 'coverage', title: 'Coverage' }
@@ -30,37 +31,34 @@
     "foodDrugInterstate": 0.1055
   },
   "parts": [
-    { "kind": "state", "name": "Washington", "code": "45:53", "rate": 0.065 },
-    { "kind": "city", "name": "Seattle", "code": "01:63000", "rate": 0.0405 }
+    { "kind": "state", "name": "Washington", "code": "45:53", "rate": 0.065, "ids": {} },
+    { "kind": "city", "name": "Seattle", "code": "01:63000", "rate": 0.0405, "ids": {} }
   ],
   "match": "street",
   "locationCode": "53-000-63000",
+  "locationIds": { "Composite SER Code": "01726" },
   "source": "Streamlined Sales Tax files WAB2026Q4AUG27 + WAR2026Q4AUG27, street match on 2026-10-22",
   "reporting": {
-    "status": "complete",
     "agency": { "name": "Washington Department of Revenue", "url": "https://dor.wa.gov/..." },
     "form": "Combined Excise Tax Return",
-    "codes": [
-      {
-        "scheme": "wa-dor-location",
-        "label": "Location code",
-        "value": "1726",
-        "parts": ["45:53", "01:63000"],
-        "verified": true
-      }
-    ],
-    "missing": [],
-    "fromAccount": [],
     "notes": []
   }
 }`;
+
+	const ALABAMA = `"parts": [
+  { "kind": "state", "name": "Alabama", "code": "45:01", "rate": 0.04, "ids": {} },
+  { "kind": "county", "name": "MONTGOMERY COUNTY", "code": "00:101", "rate": 0.025,
+    "ids": { "Locality Code": "7051", "County Number": "51", "Administered": "SELF" } },
+  { "kind": "city", "name": "MONTGOMERY", "code": "01:51000", "rate": 0.035,
+    "ids": { "Locality Code": "9454", "County Number": "51", "Administered": "SELF" } }
+]`;
 
 	const ERROR = `{ "error": "This address is within 12 m of a city line ...", "code": "ADDRESS_NEEDS_CONFIRMATION" }`;
 </script>
 
 <svelte:head>
 	<title>Docs · OpenTaxRate</title>
-	<meta name="description" content="The OpenTaxRate API: look up the sales tax rate at a US address, its parts, and the codes your return files it under." />
+	<meta name="description" content="The OpenTaxRate API: look up the sales tax rate at a US address, its parts, and each state's own codes for them." />
 </svelte:head>
 
 <div class="flex min-h-dvh flex-col">
@@ -80,7 +78,7 @@
 			<h1 id="intro" class="text-[34px] leading-tight font-semibold tracking-tight">OpenTaxRate API</h1>
 			<p class="lead">
 				One call gives the sales tax rate at a US street address, split into the state, county, city and district taxes that make
-				it up, and the codes your state's return files it under.
+				it up, each with the state's own codes for it.
 			</p>
 			<p>
 				Every answer comes from the state's own published data. When the data can't place an address in a single rate, the API
@@ -129,9 +127,10 @@
 							<code>authority</code> (the state's own lookup).
 						</td>
 					</tr>
-					<tr><td><code>locationCode</code></td><td>Our own identifier for the combination of taxes (state, county, city FIPS). Not a filing code; use <code>reporting</code> for that.</td></tr>
+					<tr><td><code>locationCode</code></td><td>Our own identifier for the combination of taxes (state, county, city FIPS; California's tax area code). Not a filing code.</td></tr>
+					<tr><td><code>locationIds</code></td><td>The state's own ids for the whole location, where its data gives one: Washington's location code as <code>{'{"Composite SER Code": "01726"}'}</code>, Missouri's <code>Jurisdiction Code</code>. <code>{'{}'}</code> otherwise, or when the address could be in areas whose ids differ. See <a class="link" href="#ids">States' own codes</a>.</td></tr>
 					<tr><td><code>source</code></td><td>The files or service the rate came from, and the date.</td></tr>
-					<tr><td><code>reporting</code></td><td>Who you file with and the codes the return needs. See <a class="link" href="#reporting">Reporting</a>.</td></tr>
+					<tr><td><code>reporting</code></td><td>Who you file with. See <a class="link" href="#reporting">Reporting</a>.</td></tr>
 				</tbody>
 			</table>
 
@@ -140,7 +139,7 @@
 				<thead><tr><th>Field</th><th>Description</th></tr></thead>
 				<tbody>
 					<tr><td><code>kind</code></td><td><code>state</code>, <code>county</code>, <code>city</code> or <code>district</code>.</td></tr>
-					<tr><td><code>name</code></td><td>The jurisdiction's name, or <code>null</code> where no published source names it (many special districts).</td></tr>
+					<tr><td><code>name</code></td><td>The jurisdiction's name as the state's data writes it (<code>MONTGOMERY COUNTY</code>), else the Census outline's, or <code>null</code> where no published source names it (many special districts).</td></tr>
 					<tr>
 						<td><code>code</code></td>
 						<td>
@@ -150,56 +149,47 @@
 					</tr>
 					<tr><td><code>rate</code></td><td>This part's rate.</td></tr>
 					<tr><td><code>byType</code></td><td>This part's rate by kind of sale, where its file gives one.</td></tr>
+					<tr><td><code>ids</code></td><td>The state's own ids for this tax: see <a class="link" href="#ids">States' own codes</a>. <code>{'{}'}</code> where its data gives none.</td></tr>
+				</tbody>
+			</table>
+
+			<h2 id="ids">States' own codes</h2>
+			<p>
+				Each part's <code>ids</code> repeats what the state's own rate data says about that tax: its codes, and who collects it.
+				Keys are the publisher's own column names and values are exactly as published, leading zeros and all. We don't rename,
+				reformat or check them against a return's code list, so match them to your return yourself. A Census FIPS code is never
+				given as an id; it's already in <code>code</code>.
+			</p>
+			<pre><code>{ALABAMA}</code></pre>
+			<table>
+				<thead><tr><th>State</th><th>Keys in <code>ids</code></th></tr></thead>
+				<tbody>
+					<tr><td>Alabama</td><td><code>Locality Code</code>, <code>County Number</code>, <code>Administered</code> (<code>STATE</code>, <code>SELF</code> or a private collector). A county rate made of several codes lists each, comma-separated.</td></tr>
+					<tr><td>Texas</td><td><code>TAID</code>; <code>CMPTRL_CNTY_NBR</code> and <code>FIPS_ST_CNTY_CD</code> for counties, <code>Transit_Type</code>, <code>SPD_Type</code></td></tr>
+					<tr><td>Illinois</td><td><code>Location Code</code> with its check digit (<code>048-0002-8</code>), <code>County Name</code></td></tr>
+					<tr><td>Louisiana</td><td><code>Domicile Code</code>, <code>Parish</code>, <code>Parish Code</code></td></tr>
+					<tr><td>Arizona</td><td><code>RegionCode</code>, and <code>County</code> or <code>FIPS</code></td></tr>
+					<tr><td>New Mexico</td><td><code>locat_cdr</code>, <code>locat_cd1</code>, <code>locat_cd2</code></td></tr>
+					<tr><td>Colorado, Alaska</td><td><code>placeId</code>, <code>placeTypeId</code> (the state lookup's own ids)</td></tr>
+					<tr><td>Missouri</td><td><code>Jurisdiction Code</code>, <code>District Code 1</code> to <code>5</code>; the location's <code>Jurisdiction Code</code> is also in <code>locationIds</code></td></tr>
+					<tr><td>Streamlined states (WA, KS, OH, GA, ...)</td><td>None on parts; the location's <code>Composite SER Code</code> in <code>locationIds</code> where the state fills it (Washington's is its location code, zero-padded: <code>01726</code> is location 1726)</td></tr>
+					<tr><td>Everywhere else</td><td>None yet: <code>{'{}'}</code></td></tr>
 				</tbody>
 			</table>
 
 			<h2 id="reporting">Reporting</h2>
 			<p>
-				The rate tells you what to charge. <code>reporting</code> tells you how to file it: which agency, which return, and the code
-				the return files this address's local tax under. Every state is different, so the shape is the same everywhere and says
-				plainly what it doesn't cover.
+				<code>reporting</code> says where the tax is filed. The codes the return asks for are each part's <code>ids</code> and the
+				answer's <code>locationIds</code>.
 			</p>
 			<table>
 				<thead><tr><th>Field</th><th>Description</th></tr></thead>
 				<tbody>
-					<tr>
-						<td><code>status</code></td>
-						<td>
-							<code>complete</code>: every code the return needs for this address is here and verified.
-							<code>not_needed</code>: no local tax to report by code. <code>partial</code>: something is missing or unverified.
-						</td>
-					</tr>
 					<tr><td><code>agency</code></td><td>The state agency the return goes to, and its sales tax page.</td></tr>
 					<tr><td><code>form</code></td><td>The return most sellers file there.</td></tr>
-					<tr>
-						<td><code>codes</code></td>
-						<td>
-							Each code the return files this address under: <code>scheme</code> (which list it is from), <code>label</code> (what the
-							return calls it), <code>value</code>, <code>parts</code> (the part <code>code</code>s it reports) and
-							<code>verified</code> (we've checked the value is what the return asks for).
-						</td>
-					</tr>
-					<tr><td><code>missing</code></td><td>Codes the return needs for this address that the answer doesn't give yet.</td></tr>
-					<tr><td><code>fromAccount</code></td><td>What the return needs from your own registration, which no address can give: an outlet number, a site code.</td></tr>
 					<tr><td><code>notes</code></td><td>Filing that doesn't go through the state: cities that collect their own tax, a separate program for remote sellers.</td></tr>
 				</tbody>
 			</table>
-			<p>Codes we give today:</p>
-			<table>
-				<thead><tr><th>State</th><th>Scheme</th><th>Code</th></tr></thead>
-				<tbody>
-					<tr><td>Washington</td><td><code>wa-dor-location</code></td><td>The Department of Revenue's four-digit location code, verified.</td></tr>
-					<tr><td>Texas</td><td><code>tx-local-code</code></td><td>The Comptroller's local code for each city, county, transit and special district, verified.</td></tr>
-					<tr><td>New Mexico</td><td><code>nm-grt-location</code></td><td>The GRT location code, verified.</td></tr>
-					<tr><td>California</td><td><code>ca-cdtfa-tac</code></td><td>The CDTFA tax area code. Schedule A district codes aren't given yet.</td></tr>
-					<tr><td>Missouri</td><td><code>mo-dor-jurisdiction</code></td><td>The DOR's jurisdiction code, from its boundary file; unverified.</td></tr>
-					<tr><td>Arizona, Illinois</td><td><code>az-tpt-region-city</code>, <code>il-idor-location</code></td><td>The codes in the state's own rate table; unverified.</td></tr>
-					<tr><td>Kansas</td><td><code>sst-ser</code></td><td>The Streamlined composite SER code; unverified.</td></tr>
-				</tbody>
-			</table>
-			<p>
-				Everywhere else, <code>missing</code> names the code the return asks for. We never pass off a Census FIPS code as a filing code.
-			</p>
 
 			<h2 id="errors">Errors</h2>
 			<pre><code>{ERROR}</code></pre>

@@ -14,6 +14,10 @@ export interface RatePart {
   rate: number;
   /** This part's rate for each kind of sale, where its file rates them apart. */
   byType?: RatesByType;
+  /** The state's own ids for this jurisdiction, keyed by its data's column
+   *  names and unchanged ({"Locality Code": "9454", "Administered": "SELF"});
+   *  {} where its data publishes none. Set on every answered part. */
+  ids?: Record<string, string>;
 }
 
 /** A rate for each kind of sale the Streamlined files rate apart. `general`

@@ -1,8 +1,8 @@
 /**
- * Loading each source's own jurisdiction ids: the Streamlined boundary
+ * Each source's own jurisdiction ids: loaded (the Streamlined boundary
  * file's composite SER code onto its area, a source's names and ids into
- * sales_tax_jurisdictions beside the rates, and both replaced with the next
- * load. Runs on a *_test database, as Vermont (Streamlined) and "XJ" (a
+ * sales_tax_jurisdictions beside the rates, both replaced with the next
+ * load), and given to an answer's parts. Runs on a *_test database, as Vermont (Streamlined) and "XJ" (a
  * map-read state no other test uses).
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -18,6 +18,8 @@ import {
   salesTaxZipRanges,
 } from "../src/db/schema.js";
 import { loadGeoState, loadSstState } from "../src/ingest/load.js";
+import { describeParts } from "../src/rates/names.js";
+import { geometryOf } from "../src/ingest/geometry.js";
 
 const STATES = ["VT", "XJ"];
 
@@ -109,5 +111,54 @@ describe("loading a map-read state", () => {
   it("replaces them on the next load", async () => {
     await loadGeoState("XJ", data(null));
     expect(await db.select().from(salesTaxJurisdictions).where(inArray(salesTaxJurisdictions.state, ["XJ"]))).toEqual([]);
+  });
+});
+
+describe("describing an answer's parts", () => {
+  beforeAll(async () => {
+    await loadGeoState("XJ", {
+      rates: [
+        { type: "45", code: "99", rate: 0.04, startsOn: "2020-01-01", endsOn: "9999-12-31" },
+        { type: "00", code: "101", rate: 0.025, startsOn: "2020-01-01", endsOn: "9999-12-31" },
+        { type: "kx", code: "2227016>3227999", rate: 0.01, startsOn: "2020-01-01", endsOn: "9999-12-31" },
+      ],
+      jurisdictions: [
+        { type: "00", code: "101", name: "MONTGOMERY COUNTY", ids: { "Locality Code": "7051", Administered: "SELF" } },
+        { type: "kx", code: "2227016>3227999", name: "Austin MTA", ids: { TAID: "3227999", Transit_Type: "MTA" } },
+      ],
+      shapes: [],
+      files: { rates: "taxrates.csv" },
+    });
+    // A Census outline for a part the source doesn't name.
+    await db.insert(salesTaxShapes).values({
+      state: "XJ",
+      kind: "place",
+      fips: "63000",
+      name: "Seattle",
+      geom: geometryOf([[[0, 0], [1, 0], [1, 1], [0, 0]]]),
+      file: "tl_fixture",
+    });
+  });
+
+  it("gives each part its row's name and ids, keyed by the whole type:code", async () => {
+    const parts = await describeParts("XJ", [
+      { kind: "state", code: "45:99", rate: 0.04 },
+      { kind: "county", name: "Montgomery County", code: "00:101", rate: 0.025 },
+      { kind: "district", code: "kx:2227016>3227999", rate: 0.01 },
+    ]);
+    expect(parts).toEqual([
+      { kind: "state", name: "XJ", code: "45:99", rate: 0.04, ids: {} },
+      { kind: "county", name: "MONTGOMERY COUNTY", code: "00:101", rate: 0.025, ids: { "Locality Code": "7051", Administered: "SELF" } },
+      { kind: "district", name: "Austin MTA", code: "kx:2227016>3227999", rate: 0.01, ids: { TAID: "3227999", Transit_Type: "MTA" } },
+    ]);
+  });
+
+  it("names a part with no row from its outline, with no ids", async () => {
+    const [city, other] = await describeParts("XJ", [
+      { kind: "city", code: "01:63000", rate: 0.0405 },
+      { kind: "district", code: "63:31000", rate: 0.01 },
+    ]);
+    expect(city).toMatchObject({ name: "Seattle", ids: {} });
+    expect(other).toMatchObject({ name: null, ids: {} });
   });
 });

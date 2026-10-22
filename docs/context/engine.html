@@ -232,7 +232,7 @@
 </tr>
 <tr>
 <td><code>parts</code></td>
-<td><code>RatePart[]</code>: <code>{ kind: "state" | "county" | "city" | "district", name, code, rate, byType? }</code> (<code>types.ts</code>). <code>name</code> is filled by <code>nameParts</code> (<code>names.ts</code>) after the engine answers: the state's name, else the map engine's shape name, else the loaded outline (<code>sales_tax_shapes</code>) whose fips is the code's last piece (county → <code>county</code>, city → <code>place</code>/<code>cousub</code>, district → <code>district</code>/<code>place</code>/<code>cousub</code>); null when none (most Streamlined districts)</td>
+<td><code>RatePart[]</code>: <code>{ kind: "state" | "county" | "city" | "district", name, code, rate, byType?, ids }</code> (<code>types.ts</code>). <code>describeParts</code> (<code>names.ts</code>) fills <code>name</code> and <code>ids</code> after the engine answers, from the <code>sales_tax_jurisdictions</code> row keyed by the part's code split at its first colon (<code>kx:2227016&gt;3227999</code> → type <code>kx</code>, code <code>2227016&gt;3227999</code>): the row's name and ids. With no row, <code>ids</code> is <code>{}</code> and the name is the engine's (the map engine's shape name), else the state's name, else the loaded outline (<code>sales_tax_shapes</code>) whose fips is the code's last piece (county → <code>county</code>, city → <code>place</code>/<code>cousub</code>, district → <code>district</code>/<code>place</code>/<code>cousub</code>); null when none (most Streamlined districts)</td>
 </tr>
 <tr>
 <td><code>match</code></td>
@@ -241,6 +241,10 @@
 <tr>
 <td><code>locationCode</code></td>
 <td>statewide: the state code; ranges: <code>fips-county-place[-districts]</code> or null when several areas share the rate; map: state code then each part's code; CA: the CDTFA tax area code</td>
+</tr>
+<tr>
+<td><code>locationIds</code></td>
+<td>the range engine's matched area's <code>sales_tax_areas.ids</code> (<code>{"Composite SER Code": "01726"}</code>, Missouri's <code>{"Jurisdiction Code": …}</code>) when every matched area has the same ids; <code>{}</code> otherwise and for every other engine</td>
 </tr>
 <tr>
 <td><code>source</code></td>
@@ -252,49 +256,10 @@
 </tr>
 </tbody>
 </table></div>
-<p><code>addressRates.at</code> calls <code>rateAt</code> (the engines), then <code>nameParts</code>, then <code>reportingFor(state, match, parts, locationCode, reportingCode)</code>. <code>reportingCode</code> is read from the range engine's internal <code>locationIds</code> (<code>sales_tax_areas.ids</code>: its <code>Composite SER Code</code>, or Missouri's <code>Jurisdiction Code</code>), set only when every matched area has the same ids. The engine doesn't yet read <code>sales_tax_jurisdictions</code>; returning each part's ids is phase 3 of the source ids plan (maintained privately).</p>
+<p><code>addressRates.at</code> calls <code>rateAt</code> (the engines), then <code>describeParts(state, parts)</code>, then <code>reportingFor(state)</code>.</p>
 
 <h2 id="reporting-src-rates-reporting-ts">Reporting (<code>src/rates/reporting.ts</code>)</h2>
-<p><code>STATE_REPORTING</code> holds every state and DC: the agency, its sales tax page, the usual return (<code>form</code>), the local code the return asks for that we don't give (<code>needs</code>), what only the seller's registration gives (<code>account</code>), and filing outside the state return (<code>notes</code>). <code>reportingFor</code> returns:</p>
-<div class="scroll"><table class="grid-table">
-<thead>
-<tr>
-<th>Field</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>status</code></td>
-<td><code>not_needed</code> when no part but the state levies anything (and no code was given); <code>complete</code> when nothing is <code>missing</code> and every code is <code>verified</code>; else <code>partial</code></td>
-</tr>
-<tr>
-<td><code>agency</code></td>
-<td><code>{ name, url }</code></td>
-</tr>
-<tr>
-<td><code>form</code></td>
-<td>the return, or null where there's no general sales tax return</td>
-</tr>
-<tr>
-<td><code>codes</code></td>
-<td><code>{ scheme, label, value, parts, verified }[]</code>. WA: <code>wa-dor-location</code>, the SER code without its leading zero, covering every part, verified against DOR's AddressRates API. MO: <code>mo-dor-jurisdiction</code> (unverified). CA: <code>ca-cdtfa-tac</code>. Other SER codes (Kansas): <code>sst-ser</code>, unverified. Part by part (<code>PART_CODES</code>, not for <code>authority</code> answers): TX <code>tx-local-code</code> and NM <code>nm-grt-location</code> (verified), AZ and IL (unverified), the value being the part code's last piece</td>
-</tr>
-<tr>
-<td><code>missing</code></td>
-<td>the state's <code>needs</code> when there's local tax, plus <code>OWN_CODE[state]</code> when a state that has its own code got none (several areas matched)</td>
-</tr>
-<tr>
-<td><code>fromAccount</code></td>
-<td>the state's <code>account</code></td>
-</tr>
-<tr>
-<td><code>notes</code></td>
-<td>the state's <code>notes</code></td>
-</tr>
-</tbody>
-</table></div>
-<p>A Census FIPS code is never offered as a filing code.</p>
+<p>A directory. <code>STATE_REPORTING</code> holds every state and DC; <code>reportingFor(state)</code> returns <code>{ agency: { name, url }, form, notes }</code>, or null for a state with no entry. <code>form</code> is null where there's no general sales tax return; <code>notes</code> is filing outside it (self-collected cities, remote seller programs). The codes a return files the tax under are the parts' <code>ids</code> and <code>locationIds</code>, passed through from each state's data; nothing here maps, renames or verifies them, and a Census FIPS code is never given as one.</p>
 <p>The <code>source</code> match phrases come from <code>MATCH_NAMES</code>.</p>
 
 <h2 id="statewide-src-rates-statewide-ts">Statewide (<code>src/rates/statewide.ts</code>)</h2>
