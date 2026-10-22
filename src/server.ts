@@ -1,6 +1,7 @@
 /**
  * The HTTP API:
  *   GET /v1/rate?street=&city=&state=&zip=&date=  the rate at an address
+ *       or ?address=1410 E Pine St, Seattle, WA   ...given as one line
  *       &include=trace                            ...and how it was placed
  *   GET /v1/coverage                              each state's method and files
  *   GET /v1/suggest?q=                            address suggestions (suggest.ts)
@@ -50,9 +51,12 @@ import { cachedAnswer, historyFor, logRequest, monthTotals, pruneRequests, type 
 import { user } from "./db/auth-schema.js";
 import { eq } from "drizzle-orm";
 import { regionSourcesFor } from "./regions.js";
+import { PARSE_HINT, parseAddress } from "./address-text.js";
 
 const query = z.object({
-  state: z.string().trim().length(2),
+  /** One line, read by address-text.ts; the separate fields win over it. */
+  address: z.string().trim().max(300).optional(),
+  state: z.string().trim().length(2).optional(),
   street: z.string().trim().max(200).default(""),
   city: z.string().trim().max(100).default(""),
   zip: z.string().trim().regex(/^\d{5}(?:-?\d{4})?$/).optional(),
@@ -95,8 +99,22 @@ app.get("/health", async (c) => {
 
 app.get("/v1/rate", async (c) => {
   const parsed = query.safeParse(c.req.query());
-  if (!parsed.success) return c.json({ error: "Give state (two letters), street, city, and optionally zip and date (YYYY-MM-DD).", code: "BAD_REQUEST" }, 400);
-  const { include: includeParam, ...q } = parsed.data;
+  const badRequest = (error: string) => c.json({ error, code: "BAD_REQUEST" }, 400);
+  const usage = "Give state (two letters), street, city, or the whole address as address=, and optionally zip and date (YYYY-MM-DD).";
+  if (!parsed.success) return badRequest(usage);
+  const { include: includeParam, address, ...fields } = parsed.data;
+  const line = address ? parseAddress(address) : undefined;
+  if (line && !line.ok) return badRequest(PARSE_HINT[line.reason]);
+  const from = line?.ok ? line.address : undefined;
+  const state = fields.state ?? from?.state;
+  if (!state) return badRequest(usage);
+  const q = {
+    ...fields,
+    state,
+    street: fields.street || from?.street || "",
+    city: fields.city || from?.city || "",
+    zip: fields.zip ?? (from?.zip || undefined),
+  };
   const include = [...new Set((includeParam ?? "").split(",").map((s) => s.trim()).filter((s) => s === "trace" || s === "regions"))];
   const trace = include.includes("trace") ? emptyTrace() : undefined;
   const date = q.date ?? new Date().toISOString().slice(0, 10);
@@ -119,7 +137,7 @@ app.get("/v1/rate", async (c) => {
   }
 });
 
-type Query = z.infer<typeof query> & { date: string };
+type Query = Omit<z.infer<typeof query>, "address" | "state"> & { state: string; date: string };
 
 /** A lookup with a key: charged, answered from the caller's own recent
  *  answers when it can, and logged. */

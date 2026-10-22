@@ -189,6 +189,7 @@
 				</div>
 				<div class="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
 					{#if ACCOUNTS}<a class="btn primary" href="/login">Get an API key <span aria-hidden="true">→</span></a>{/if}
+					<a class="btn" href="/docs">Read the docs</a>
 					<a
 						href={GITHUB}
 						target="_blank"

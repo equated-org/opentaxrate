@@ -2,7 +2,8 @@
  * Typed text → the fields /v1/rate asks for, with no network call. The
  * autocomplete often lacks the exact house, so Enter on typed text must work
  * on its own. Accepts "number street, city, ST 12345" with commas optional,
- * the state as a code or a full name, and the ZIP optional.
+ * the state as a code or a full name, and the ZIP optional. The API reads
+ * ?address= the same way (src/address-text.ts): change one, change the other.
  */
 import { STATE_NAMES } from '$lib/states';
 

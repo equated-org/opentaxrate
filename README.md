@@ -41,7 +41,7 @@ Responses include `rate` (a decimal: `0.08` = 8%), `parts`, `match`, and `source
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /v1/rate` | Rate by `state`, `street`, `city`, `zip`, and optional `date` |
+| `GET /v1/rate` | Rate by `state`, `street`, `city`, `zip` (or one-line `address`), and optional `date` |
 | `GET /v1/coverage` | Loaded states and source files |
 | `GET /v1/suggest?q=` | Address autocomplete, when configured |
 | `GET /health` | Database health |
