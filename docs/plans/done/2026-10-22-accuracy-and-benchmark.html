@@ -276,7 +276,7 @@
 <article>
 
 <header class="page-head">
-  <p class="eyebrow">Design plan · accuracy pass and benchmark · branch debug-rates (PR #4) · 2026-10-22</p>
+  <p class="eyebrow">Design plan · shipped · accuracy pass and benchmark · PR #4, merged into main · 2026-10-22</p>
   <h1>Answer what the data supports, refuse the rest, and measure it on addresses nobody tuned on</h1>
   <p class="lede">OpenTaxRate refused about one address in ten that the state's data could settle, mostly rural points the geocoders disagree on and places with no outline of their own. This branch fixes the bugs behind those refusals without guessing, and the plan builds a benchmark of random easy and hard addresses with a sealed evaluation set, so accuracy claims can't come from tuning to the test.</p>
   <p class="meta">Traced from <code>src/geocoding/locator.ts</code>, <code>src/geocoding/agreement.ts</code>, <code>src/rates/{index,map,ranges}.ts</code>, <code>src/ingest/states/montana.ts</code>, the bench in <code>scripts/bench.ts</code>, stored answers in <code>artifacts/bench/answers/</code>, read-only queries on the live database (2026-10-21/22), a Codex review of the branch, and web research cited in place.</p>

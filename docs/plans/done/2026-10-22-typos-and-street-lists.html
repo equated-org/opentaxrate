@@ -1,0 +1,572 @@
+<title>Typos and street lists · OpenTaxRate design record</title>
+<meta name="description" content="How OpenTaxRate tells a typed street's typo from a real street next door, using each ZIP's street list, and what it changed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (~/.claude/skills/html-plan/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#model">The model</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#flows">Workflows</a></li>
+    <li><a class="sub" href="#flow-typo">A lookup with a typo</a></li>
+    <li><a class="sub" href="#flow-twin">A lookup on a twin street</a></li>
+    <li><a class="sub" href="#flow-refresh">Refresh loads the lists</a></li>
+    <li><a class="sub" href="#flow-deploy">Deploy</a></li>
+    <li><a href="#audit">The address-reading audit</a></li>
+    <li><a href="#llm">Why not an LLM</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases as shipped</a></li>
+    <li><a href="#open">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Design record · shipped in PRs #5 and #6 · deployed 47495ba · 2026-10-22</p>
+  <h1>Typos and street lists: reading addresses the way people type them</h1>
+  <p class="lede">A geocoder that corrects "Wilolw Branch Lane" to the real Willow Branch used to be thrown away, because our matcher demanded the exact street. Now it takes a street one letter off the typed one only when the typed ZIP's own street list has the found street and not the typed one. That tells a typo from a real street next door, which no model we tried could do.</p>
+  <p class="meta">Traced from <code>src/geocoding/providers/match.ts</code>, <code>src/geocoding/locator.ts</code>, <code>src/geocoding/zip-streets.ts</code>, <code>src/ingest/street-names.ts</code>, <code>src/address.ts</code> and <code>scripts/audit-address.ts</code> on main at 47495ba. Numbers measured on 2026-10-22 against the local database and live geocoders.</p>
+</header>
+
+<h2 id="why">Why</h2>
+<p>Every geocoder answer passes through one gate, <code>matchesAddress()</code>, before its point is used. The gate compares the address the geocoder says it found with the one the customer typed, part by part: house number, street name, type, directions, and city or ZIP. It was strict on purpose. A geocoder that returns a nearby house on a different street would otherwise put the address on the wrong side of a city line, and the rate would be wrong.</p>
+<p>Strict also meant that a one-letter typo cost the whole lookup. Typed "22419 Wilolw Branch Lane, Tomball, TX 77375", every geocoder that found the house answered with the correct spelling, Willow Branch, so every answer failed the gate, nothing placed the address, and the API refused it with a 422. Spelling alone can't fix this. "Byers Ln" and "Myers Ln" are one letter apart and are both real streets in Arkansas ZIP 72063, so a rule that accepts any one-letter difference accepted 460 of 600 real twins and near-misses in our test.</p>
+<ul>
+  <li><em>The decision.</em> Accept a geocoder's street one letter from the typed one only when the typed ZIP's street list has the found street and doesn't have the typed one. The list is the evidence of which streets exist there.</li>
+  <li><em>Why not an LLM.</em> Six small models on OpenRouter each mistook 12 to 138 of 300 real twins for typos, even when told about twins (<a href="#llm">below</a>). The list costs nothing per call and was wrong on none of them.</li>
+  <li><em>Why not Jev.</em> TypeSafe's Jev decided one answer in every bench run (Iowa State Highway 92), and the current code answers that address without it.</li>
+  <li><em>Out of scope.</em> The public tier's geocoders (Photon and Pelias) rarely find a misspelled house at all, so a lookup without a key gets no answer to check. Typos of two letters or more stay refused.</li>
+</ul>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Typed</th><th scope="col">Geocoder found</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">22419 Wilolw Branch Lane, Tomball TX 77375</th><td>22419 Willow Branch (correct spelling)</td><td>refused: couldn't be placed</td><td>8.25%, the state's rate</td></tr>
+    <tr><th scope="row">42725 Londnn, Parker CO 80138</th><td>42725 London Dr</td><td>refused</td><td>3.9%</td></tr>
+    <tr><th scope="row">186 Byers Ln (a real street)</th><td>186 Myers Ln (also real)</td><td>rejected</td><td>rejected: both are in the ZIP's list</td></tr>
+    <tr><th scope="row">300 S Harbor Dr</th><td>300 N Harbor Dr</td><td>rejected</td><td>rejected: directions differ</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="model">The model</h2>
+<p>Figure 1 shows the objects a lookup touches. The street list is new: for each lookup, the locator loads the street keys in the typed ZIP once, from two tables, and hands them to every geocoder call with the address. A street key is the street's name as matching compares it, so "Forest" and "FRST" are one key (see the <a href="#t-key">appendix</a>).</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 900px">
+    <p class="fig-title">One lookup, its ZIP's street list, and the gate every geocoder answer passes</p>
+    <svg viewBox="0 0 1000 330" role="img" aria-label="The typed address goes to the locator, which loads the ZIP's street keys from zip_street_names and sales_tax_street_ranges and passes them with the address to each geocoder; each answer is checked by matchesAddress against the list.">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-box" x="20" y="40" width="200" height="74" rx="8"/>
+      <text class="d-t" x="36" y="68">Typed address</text>
+      <text class="d-m" x="36" y="88">22419 Wilolw Branch Lane</text>
+      <text class="d-m" x="36" y="104">Tomball TX 77375</text>
+      <rect class="d-box" x="290" y="40" width="210" height="74" rx="8"/>
+      <text class="d-t" x="306" y="68">Locator</text>
+      <text class="d-m" x="306" y="88">createLocator()</text>
+      <text class="d-s" x="306" y="104">loads the list once</text>
+      <path class="d-edge" d="M220,77 L288,77" marker-end="url(#ah)"/>
+      <rect class="d-group g2" x="250" y="160" width="300" height="158" rx="10"/>
+      <text class="d-group-label g2" x="266" y="184">The ZIP's street list</text>
+      <rect class="d-box acc" x="266" y="196" width="268" height="50" rx="8"/>
+      <text class="d-t" x="280" y="218">TIGER streets, 17 map states</text>
+      <text class="d-m" x="280" y="236">zip_street_names (new)</text>
+      <rect class="d-box" x="266" y="256" width="268" height="50" rx="8"/>
+      <text class="d-t" x="280" y="278">Range files, 25 states + MO</text>
+      <text class="d-m" x="280" y="296">sales_tax_street_ranges</text>
+      <path class="d-edge" d="M395,158 L395,116" marker-end="url(#ah)"/>
+      <text class="d-el" x="440" y="140" text-anchor="middle">streetsInZip()</text>
+      <rect class="d-box" x="570" y="40" width="180" height="74" rx="8"/>
+      <text class="d-t" x="586" y="68">Each geocoder</text>
+      <text class="d-s" x="586" y="88">Census, Geocodio, HERE…</text>
+      <text class="d-m" x="586" y="104">found: Willow Branch</text>
+      <path class="d-edge" d="M500,77 L568,77" marker-end="url(#ah)"/>
+      <text class="d-el" x="534" y="32" text-anchor="middle">address + list</text>
+      <rect class="d-box acc" x="790" y="40" width="190" height="74" rx="8"/>
+      <text class="d-t" x="806" y="68">The gate</text>
+      <text class="d-m" x="806" y="88">matchesAddress()</text>
+      <text class="d-s" x="806" y="104">exact, else typo rule</text>
+      <path class="d-edge" d="M750,77 L788,77" marker-end="url(#ah)"/>
+      <rect class="d-box" x="790" y="200" width="190" height="74" rx="8"/>
+      <text class="d-t" x="806" y="228">Point, then the rate</text>
+      <text class="d-s" x="806" y="248">agreement, outlines</text>
+      <text class="d-s" x="806" y="264">8.25%</text>
+      <path class="d-edge acc" d="M885,114 L885,198" marker-end="url(#ah)"/>
+      <text class="d-el" x="885" y="160" text-anchor="middle">accepted</text>
+    </svg>
+  </div>
+  <figcaption>The accent marks what's new: the TIGER street table and the typo rule in the gate. The list is loaded once per lookup, only when a geocoder is actually called, and a database error leaves the gate exact.</figcaption>
+</figure>
+<details class="more">
+  <summary>The new table<span class="dim">migration 0008_zip_street_names</span></summary>
+  <div class="inner">
+    <div class="scroll"><table class="grid-table">
+      <thead><tr><th scope="col">Column</th><th scope="col">Example</th><th scope="col">Meaning</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>state</code></th><td>TX</td><td>two-letter state</td></tr>
+        <tr><th scope="row"><code>zip5</code></th><td>77375</td><td>a ZIP on either side of the street segment (TIGER's ZIPL or ZIPR)</td></tr>
+        <tr><th scope="row"><code>street_key</code></th><td>WILLOWBR</td><td>the street's key, from <code>parseStreet("1 " + FULLNAME)</code></td></tr>
+        <tr><th scope="row"><code>street</code></th><td>Willow Branch Dr</td><td>TIGER's FULLNAME, for reading</td></tr>
+        <tr><th scope="row"><code>file</code></th><td>tl_2026_48_addrfeat</td><td>the TIGER year and state it came from; refresh skips a state already loaded from it</td></tr>
+      </tbody>
+    </table></div>
+    <p>Primary key (state, zip5, street_key). 2,313,037 rows for 17 states, 289 MB. Listed in <code>scripts/snapshot.sh</code> as a tax-data table, so snapshots carry it.</p>
+  </div>
+</details>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>Exact first.</em> A geocoder's street that matches the typed one, allowing abbreviations, a type left off, or a type word dropped from anywhere ("Forest Extension" for Forest Avenue Extension), is taken as before. An Extension is never dropped: Forest Ave Extension isn't Forest Ave.</li>
+  <li><em>A typo needs the list.</em> A one-letter difference is taken only if the found street's key is in the typed ZIP's list and neither the typed key nor any of its alternate readings is.</li>
+  <li><em>Everything else must agree.</em> Same house number, same ZIP (a matching city isn't enough here), same directions, same type or a typed line with no type.</li>
+  <li><em>One letter.</em> One letter added, dropped or changed, or two neighbours swapped, measured on the name's own words ("Forset" against "Forest", not their keys).</li>
+  <li><em>Five letters.</em> The real street's name must have five letters or more, so short pairs like Elm and Elk never ride on an incomplete list.</li>
+  <li><em>No list, no rule.</em> Without a list for the ZIP (no ZIP typed, or a database error) the gate stays exact.</li>
+</ul>
+
+<h2 id="flows">Workflows</h2>
+
+<h3 id="flow-typo">A lookup with a typo</h3>
+<p>A keyed caller asks for the rate at "22419 Wilolw Branch Lane, Tomball, TX 77375".</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">What the lookup reads and decides</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">request</span><span class="id">GET /v1/rate</span><span class="field">22419 Wilolw Branch Lane · 77375</span></div>
+          <ul>
+            <li><div class="obj new"><span class="kind">loaded</span><span class="id">ZIP 77375 list</span><span class="field">1,109 keys · WILLOWBR in, WILOLWBR out</span></div></li>
+            <li><div class="obj"><span class="kind">geocoder</span><span class="id">esri</span><span class="field">22419 Willow Branch · accepted as typo</span></div></li>
+            <li><div class="obj"><span class="kind">geocoder</span><span class="id">geocodio</span><span class="field">22419 Willow Branch · accepted as typo</span></div></li>
+            <li><div class="obj changed"><span class="kind">answer</span><span class="id">8.25%</span><span class="field">placed by esri, geocodio · TX outlines</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>The blue box is what this change adds: the ZIP's list, read once. The answer is unchanged in form; it exists now because two geocoders' corrections passed the gate and agreed on the point.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls<span class="dim">entry point to the decision</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">route</span>GET /v1/rate                          <span class="n">src/server.ts → lookup.ts</span>
+└─ <span class="layer">rates</span>addressRates.at(query)          <span class="n">rates/index.ts → map.ts (TX)</span>
+   └─ <span class="layer">geo</span>locate()                       <span class="n">geocoding/locator.ts</span>
+      ├─ <span class="layer">sql</span>streetsInZip(address)        <span class="n">zip-streets.ts: zip_street_names ∪ range keys</span>
+      ├─ <span class="layer">geo</span>provider.geocode(address + zipStreets)
+      │  └─ <span class="layer">rule</span>matchesAddress()          <span class="n">providers/match.ts: exact → type word → typo</span>
+      └─ <span class="layer">geo</span>agreeingGroup() → placement  <span class="n">two datasets agree</span></pre>
+  </div>
+</details>
+<p>The caller gets 8.25%, which is Texas's own rate for that house.</p>
+
+<h3 id="flow-twin">A lookup on a twin street</h3>
+<p>A caller types "186 Byers Ln" in Arkansas ZIP 72063, where Byers Ln and Myers Ln both exist, and a geocoder answers "186 Myers Ln".</p>
+<p>The names are one letter apart, but the typed key BYERS is in the ZIP's list, so the typed street is real and the answer is for a different street. The gate rejects it, exactly as before, and the lookup goes on with the other geocoders' answers. This is the case every LLM got wrong in up to 46% of tries.</p>
+
+<h3 id="flow-refresh">Refresh loads the lists</h3>
+<p>An operator runs <code>refresh</code>. Its new step 4 loads, for each of the 17 map-read states, the Census Bureau's TIGER address features for every county, reading only each file's attribute table (FULLNAME, ZIPL, ZIPR).</p>
+<ol>
+  <li><strong>List the files.</strong> <code>latestTigerAddressFiles()</code> reads the ADDRFEAT folder for the newest TIGER year: 254 county files for Texas.</li>
+  <li><strong>Skip what's loaded.</strong> A state whose rows came from the same TIGER year is skipped unless <code>--force</code>.</li>
+  <li><strong>Read six at a time.</strong> Each street name becomes a key for each ZIP beside it. Texas: 463,101 street-ZIP pairs in 33 seconds.</li>
+  <li><strong>Replace the state's rows</strong> in one transaction.</li>
+</ol>
+<p>In 2026 the Census site answers one file each in VA, AL, LA, AK and MS with a 247-byte "Request Rejected" page and status 200, every time, from every client. The loader now counts only a zip, retries once, and then takes that county's 2025 file, whose streets are near enough the same. Before that fix those five states failed with "invalid zip data".</p>
+
+<h3 id="flow-deploy">Deploy</h3>
+<p>Production runs the stack from <code>/opt/opentaxrate</code> on the <code>opentaxrate</code> host. The code was deployed the way the other deploys that day were: a backup tarball of the tree, <code>git archive</code> of main copied over it with <code>deploy/.env</code> kept, then <code>build migrate api</code>, <code>run migrate</code>, <code>up -d api</code>. Rather than download 1,300 county files again on the server, the 2.31 million rows were copied from the local load with <code>pg_dump -t zip_street_names --data-only</code> into <code>pg_restore --single-transaction</code>, which took 15 seconds.</p>
+<details class="more">
+  <summary>Commands<span class="dim">as run on 2026-10-22</span></summary>
+  <div class="inner">
+<pre class="calls">git archive origin/main | ssh opentaxrate 'tar -x -C /opt/opentaxrate && echo 47495ba > DEPLOYED_REVISION
+  && C="docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml"
+  && $C build migrate api && $C run --rm --no-deps migrate && $C up -d --no-deps api'
+
+docker exec opentaxrate-db-1 pg_dump -t public.zip_street_names --data-only -Fc \
+  | ssh opentaxrate 'docker exec -i opentaxrate-db-1 pg_restore --data-only --single-transaction'</pre>
+  </div>
+</details>
+
+<h2 id="audit">The address-reading audit</h2>
+<p>The typo rule came out of a broader question: how do we know the parser and the gate handle addresses the way people type them? The answer was a new script, <code>scripts/audit-address.ts</code>. It reads real addresses from the National Address Database (NAD), which files every address already split into its parts, and checks two things with no network calls.</p>
+<ol>
+  <li><strong>Parts.</strong> The house number, directions and street type <code>parseStreet()</code> reads must be NAD's.</li>
+  <li><strong>Typings.</strong> The same address typed the ways people type it must still be the same street and still pass the gate against the address as filed: type abbreviated, spelled out or left off, directions spelled out, a unit before or after, lower case, periods, city and ZIP on the line, numbers spelled out, Saint and Mount and Fort, every highway and county road form, and a one-letter typo.</li>
+</ol>
+<p>On 9,200 addresses from 46 states (57,262 typings) it found 1,435 failures in 10 kinds; after the fixes, 49 rare ones remain. A second, fresh sample of 10,120 addresses with the added typings then found the highway, unit and fraction cases in the table below.</p>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Found by the audit</th><th scope="col">Cause</th><th scope="col">Fix</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">"10522 Ridge Park" for Ridge Park Dr rejected (1,005 typings)</th><td>A name ending in a type word parses differently with and without its own type</td><td>Compare against the found street with a type word taken out</td></tr>
+    <tr><th scope="row">"300 N Harbor" not found in range files</th><td>Read as a street named "N" of type Harbor</td><td>An alternate reading: last word is the name, direction stays</td></tr>
+    <tr><th scope="row">"Little Tree" read as "Little Trace"</th><td>The type-typo mender ran before alternates were built</td><td>The unmended words stay an alternate</td></tr>
+    <tr><th scope="row">"249-20 37 Avenue" not read</th><td>Queens and Hawaii hyphenated house numbers didn't parse</td><td>Allowed in the house-number pattern</td></tr>
+    <tr><th scope="row">"WI 91" ≠ "State Road 91"</th><td>State-code highway forms; WY also reads as Way, NE as northeast</td><td>One highway key, by the address's own state's code only</td></tr>
+    <tr><th scope="row">"2386 FL 73" read as floor 73</th><td>FL, LOT, OFFICE, APARTMENT are unit words</td><td>Not a unit when it leaves no street name, or its value is a street type</td></tr>
+    <tr><th scope="row">"Apt 4, 3281 1/2 M St NW" lost its half</th><td>The fraction was read from the start of the line</td><td>Read from the street piece</td></tr>
+    <tr><th scope="row">6,075 one-letter typos rejected</th><td>The gate is exact</td><td>The street-list rule on this page</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="llm">Why not an LLM</h2>
+<p>We tested the alternative directly. Each model got the same question with a structured yes or no answer ("Is the found address the same postal address as the typed one?"), including a warning that two real streets can differ by one letter. The 900 cases were built from real streets in our range files: 300 typos of real streets that no street in their ZIP is spelled as, 300 pairs of real twin names in one ZIP (both names found in at least three ZIPs), 50 lettered roads, 150 same-name streets with another type, 100 with another direction, plus 10 rare forms from the audit.</p>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Verifier</th><th scope="col" class="num">Typos taken</th><th scope="col" class="num">Real twins wrongly taken</th><th scope="col" class="num">Per 1,000 checks</th><th scope="col" class="num">Per call</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Code with the street list</th><td class="num">300 / 300</td><td class="num">0 / 300</td><td class="num">$0</td><td class="num">under 1 ms</td></tr>
+    <tr><th scope="row">GPT-5 nano</th><td class="num">278 / 300</td><td class="num">124 / 300</td><td class="num">$0.59</td><td class="num">18.6 s</td></tr>
+    <tr><th scope="row">GPT-OSS-120B</th><td class="num">277 / 300</td><td class="num">138 / 300</td><td class="num">$0.05</td><td class="num">2.4 s</td></tr>
+    <tr><th scope="row">GPT-OSS-20B</th><td class="num">264 / 300</td><td class="num">128 / 300</td><td class="num">$0.05</td><td class="num">4.9 s</td></tr>
+    <tr><th scope="row">Gemma 3 12B</th><td class="num">263 / 300</td><td class="num">47 / 300</td><td class="num">$0.01</td><td class="num">0.6 s</td></tr>
+    <tr><th scope="row">DeepSeek V4 Flash</th><td class="num">262 / 300</td><td class="num">51 / 300</td><td class="num">$0.44</td><td class="num">9.4 s</td></tr>
+    <tr><th scope="row">Mistral Small 3.2</th><td class="num">164 / 300</td><td class="num">12 / 300</td><td class="num">$0.02</td><td class="num">0.6 s</td></tr>
+  </tbody>
+</table>
+</div>
+<ul>
+  <li><em>Every model takes real twins for typos.</em> Any one of them alone would turn some refusals into wrong rates.</li>
+  <li><em>Behind the list, a model only loses typos.</em> With the list checked first, each model wrongly accepted nothing more, but caught fewer typos than the list alone.</li>
+  <li><em>Gemini wasn't tested.</em> The OpenRouter account's zero-data-retention guardrail excludes its endpoint, a sensible setting for customer addresses that was left as is.</li>
+  <li><em>The whole test cost about $1.10,</em> mostly GPT-5 nano and DeepSeek, which reason at length before answering.</li>
+</ul>
+
+<h2 id="results">Results</h2>
+<p>Three checks, each before and after, all on 2026-10-22.</p>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Check</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">900 verifier cases, real code and real lists</th><td>2 / 300 typos taken</td><td>300 / 300 typos taken; 0 of 600 twins and near-misses (Center and Centre, one street spelled two ways, is taken both times)</td></tr>
+    <tr><th scope="row">373 dev-set addresses with a typo, live geocoders</th><td>348 right (93.3%), 0 wrong, 25 refused</td><td>361 right (96.8%), 0 wrong, 12 refused; map states 97 → 110 of 113</td></tr>
+    <tr><th scope="row">Clean sets, live geocoders</th><td colspan="2">Unchanged: dev set 501 / 506, batch 1 257 / 259, eval-A 274 / 277 (98.9%), 0 wrong in each</td></tr>
+    <tr><th scope="row">Production, keyed, four typo'd addresses</th><td>refused</td><td>9.1%, 3.9%, 8.25%, 8.25%, each the state's own rate</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The typo set put one letter wrong in a name word of five letters or more in each dev-set address, never making a name that's a real street in its ZIP; 133 addresses had no such word. Range states held at 170 of 179, because their street files already correct a misspelled street by spelling; the 9 left there are other refusals.</p>
+
+<h2 id="boundaries">Boundaries</h2>
+<div class="scroll">
+<table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Ingest</th><td><code>ingest/street-names.ts</code>, <code>downloads.ts</code></td><td>Reading TIGER ADDRFEAT, the Census refusal fallback, replacing a state's rows</td><td>Rows in <code>zip_street_names</code></td></tr>
+    <tr><th scope="row">Data</th><td><code>db/schema.ts</code>, migration 0008</td><td>The table and its key</td><td>Indexed reads by state and ZIP</td></tr>
+    <tr><th scope="row">Lookup</th><td><code>geocoding/zip-streets.ts</code></td><td>One ZIP's keys from both sources</td><td>A set, or null</td></tr>
+    <tr><th scope="row">Locator</th><td><code>geocoding/locator.ts</code></td><td>Loading the set once per lookup</td><td>Address with <code>zipStreets</code> to each geocoder</td></tr>
+    <tr><th scope="row">Gate</th><td><code>geocoding/providers/match.ts</code></td><td>Exact match, type-word rule, typo rule</td><td>Accept or reject one answer</td></tr>
+    <tr><th scope="row">Reading</th><td><code>address.ts</code></td><td>Street keys and alternate readings</td><td>Parts to the gate and the range engine</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="phases">Phases as shipped</h2>
+<ol>
+  <li><strong>Read addresses as people type them</strong> (caf165c, 2e49667, in main through PR #4 and #5). The audit script and the reading fixes in its table. <em>Done when</em> both NAD samples were down to rare forms and the bench had 0 wrong.</li>
+  <li><strong>The street list and the typo rule</strong> (PR #5, dc1a8d4). Table, migration, loader, refresh step, locator plumbing, gate rule, tests. <em>Done when</em> 253 tests passed and 300 of 300 verifier typos were taken with no twin.</li>
+  <li><strong>Every map state loads; length judged on the real name</strong> (PR #6, f845bf0 and 264ba3f). <em>Done when</em> all 17 states loaded and the live typo set gained 13 answers with 0 wrong.</li>
+  <li><strong>Deploy</strong> (47495ba on the server, table copied). <em>Done when</em> health was ok and keyed typo lookups answered the state's rates.</li>
+</ol>
+<details class="more">
+  <summary>Files<span class="dim">by layer</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">data</span>src/db/schema.ts · migrations/0008_zip_street_names.sql · scripts/snapshot.sh
+<span class="layer">ingest</span>src/ingest/street-names.ts · src/ingest/downloads.ts · src/ingest/tiger.ts · src/ingest/refresh.ts
+<span class="layer">geo</span>src/geocoding/zip-streets.ts · src/geocoding/locator.ts · src/geocoding/types.ts · src/geocoding/providers/match.ts
+<span class="layer">read</span>src/address.ts
+<span class="layer">tools</span>scripts/audit-address.ts · scripts/nad-parts.py
+<span class="layer">tests</span>test/typo-streets.test.ts · test/address-typings.test.ts · test/plausibility.test.ts</pre>
+  </div>
+</details>
+
+<h2 id="open">Open questions</h2>
+<ul>
+  <li><em>Should the public tier catch typos?</em> Recommended: no change for now. Photon and Pelias find too few misspelled houses for the rule to see an answer; a keyed lookup is where it works.</li>
+  <li><em>Should the range states' list come from the new table too?</em> Recommended: yes, later. Reading distinct keys from the range table takes about 16 ms for a large Ohio ZIP against 0.3 ms from the new table.</li>
+  <li><em>Should the audit run in CI?</em> Recommended: yes, with a committed fixture of a few hundred NAD addresses and a failure budget, so a parser change that breaks a typing fails the build.</li>
+  <li><em>What about the production reload started before this deploy?</em> Its image predates the Census refusal fallback, so its street-name step fails at Virginia and stops before the outline step. Recommended: once it ends, run <code>refresh</code> again without <code>--force</code>; street names are skipped as already loaded and the outlines step runs.</li>
+  <li><em>Is Jev still needed?</em> Recommended: remove it. It decided one answer in every bench run, and that address is answered without it now.</li>
+</ul>
+
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-key">Street key</h3>
+    <p>The street's name as matching compares it: upper case, standard abbreviations, words run together. Two spellings of one street share a key.</p>
+<pre class="snip">parseStreet("88 Forest Lane").streetKey  → "FRST"
+parseStreet("10522 Ridge Park Drive")    → key "RIDGEPARK", type "DR"</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-tiger">TIGER address features</h3>
+    <p>The Census Bureau's per-county files of named street segments, each with the ZIP on its left and right side. Only the attribute table is read.</p>
+<pre class="snip">tl_2026_48201_addrfeat.zip  (Harris County, TX; 14.8 MB)
+FULLNAME="Willow Branch Dr"  ZIPL="77375"  ZIPR="77375"</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-edit">One letter apart</h3>
+    <p>One letter added, dropped or changed, or two neighbours swapped (a Damerau edit distance of one), measured on the name's words without house, unit, directions or type.</p>
+<pre class="snip">WILOLW  vs WILLOW   → "OL" and "LO" swapped → one letter apart
+CHESTNOT vs CHESTNUT → one change    → one letter apart
+MAON vs MAIN          → one change, but MAIN has 4 letters → not taken</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-nad">National Address Database</h3>
+    <p>The US Department of Transportation's public address points, contributed by states and counties, with each address split into its parts. The audit sampled it by OBJECTID ranges per state.</p>
+<pre class="snip">AddNo_Full="5261"  St_Name="LITTLE TREE"  St_PosTyp="Street"
+St_PreDir=""  St_PosDir=""  Zip_Code="…"</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-map">Map-read and range states</h3>
+    <p>Range states (24 Streamlined members and Missouri) publish files listing streets and house ranges by rate area. Map-read states publish rate tables and outlines, so an address is placed on a map; they had no street list until this change.</p>
+<pre class="snip">range: AR GA IA IN KS KY MI MN MO NC ND NE NJ NV OH OK RI SD TN UT VT WA WI WV WY
+map:   AK AL AZ CO FL HI ID IL LA MS MT NM NY PA SC TX VA</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-twin">Twin streets</h3>
+    <p>Two real streets in one ZIP whose names differ by one letter. The test kept only pairs whose names each appear in at least three ZIPs, so a single file's misspelling doesn't count as a twin.</p>
+<pre class="snip">HAYNES LN / WAYNES LN   BYERS LN / MYERS LN
+BELTON ST / BENTON ST   KENTWOOD DR / KENWOOD DR</pre>
+  </section>
+</div>
+
+<details class="more">
+  <summary>Sources<span class="dim">what this page was traced from</span></summary>
+  <div class="inner"><ul class="sources">
+    <li>main at 47495ba: the files under Phases; PRs #5 and #6 on equated-org/opentaxrate.</li>
+    <li>Local database on 2026-10-22: <code>zip_street_names</code> counts and query plans; the verifier and typo-set runs, kept under <code>artifacts/bench/</code>.</li>
+    <li>NAD feature service (Address_Points_from_National_Address_Database_view), sampled 2026-10-22: 9,200 and 10,120 addresses.</li>
+    <li>Census TIGER 2026 ADDRFEAT folder, read 2026-10-22; 2025 files for the five refused counties.</li>
+    <li>OpenRouter model list and prices, read 2026-10-22; TypeSafe Jev docs at docs.typesafe.ai.</li>
+  </ul></div>
+</details>
+
+</article>
+</div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
