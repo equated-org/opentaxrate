@@ -28,6 +28,7 @@
 		{/if}
 		<nav class="ml-auto flex shrink-0 items-center gap-5 text-sm text-[var(--text-muted)]">
 			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/sources">Sources</a>
+			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/benchmarks">Benchmarks</a>
 			<a
 				class="hidden hover:text-[var(--text)] {center ? 'lg:inline' : 'sm:inline'}"
 				href="{GITHUB}/blob/main/docs/context/api.md"

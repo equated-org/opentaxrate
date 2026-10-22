@@ -1,0 +1,585 @@
+<title>Accuracy pass and benchmark plan · OpenTaxRate</title>
+<meta name="description" content="One sentence: what this page explains.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (~/.claude/skills/html-plan/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  /* Timeline of statements */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; max-width: none; }
+  .timeline li { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); gap: 0 12px; padding-bottom: 18px; margin: 0; }
+  .tl-when { font-family: var(--mono); font-size: 0.82rem; color: var(--text-3); text-align: right; padding-top: 3px; }
+  .tl-mark { position: relative; }
+  .tl-mark::before { content: ""; position: absolute; left: 11px; top: 0; bottom: -18px; border-left: 1px solid var(--edge); }
+  .timeline li:last-child .tl-mark::before { display: none; }
+  .tl-mark::after { content: ""; position: absolute; left: 5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--edge); }
+  .timeline li.you .tl-mark::after { background: var(--ink); border-color: var(--ink); }
+  .timeline li.note .tl-mark::after { border-radius: 3px; background: var(--accent); border-color: var(--accent); }
+  .timeline li.ship .tl-mark::after { border-radius: 3px; border: 1.5px solid var(--ink); }
+  .tl-body { min-width: 0; }
+  .tl-who { font-size: 0.82rem; font-weight: 600; color: var(--text-2); }
+  .tl-quote { margin: 0; max-width: 80ch; }
+
+  /* Axis map (explainers with an overloaded term) */
+  .axismap { display: grid; gap: 14px; }
+  .map-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button { font: inherit; font-size: 0.86rem; font-weight: 500; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--box); color: var(--text-2); cursor: pointer; }
+  .presets button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .map-controls label { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; color: var(--text-2); }
+  .map-controls select { font: inherit; font-size: 0.86rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--box); color: var(--ink); }
+  .map-wrap { overflow-x: auto; }
+  .map-wrap svg { display: block; width: 100%; height: auto; min-width: 880px; }
+  .m-row, .m-row.alt { fill: none; stroke: var(--line); stroke-width: 1; }
+  .m-vline { stroke: var(--line); stroke-width: 1; }
+  .m-frame { fill: none; stroke: var(--edge); }
+  .m-bin { font: 12px var(--sans); fill: var(--text-2); }
+  .m-axis { font: 600 12.5px var(--sans); fill: var(--ink); }
+  .m-chip { cursor: pointer; transition: transform 460ms var(--ease); outline: none; }
+  .m-chip rect { fill: var(--box); stroke: var(--edge); stroke-width: 1; }
+  .m-chip text { font: 500 11.5px var(--sans); fill: var(--ink); pointer-events: none; }
+  .m-chip.mem rect { stroke: var(--accent); stroke-width: 1.8; }
+  .m-chip.mem text { fill: var(--accent-ink); }
+  .m-chip.off rect { stroke-dasharray: 4 3; }
+  .m-chip:hover rect { stroke: var(--ink); }
+  .m-chip:focus-visible rect { stroke: var(--accent); stroke-width: 2.6; }
+  .m-chip.on rect { stroke: var(--ink); stroke-width: 2.2; }
+  .map.settling .m-chip { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .m-chip { transition: none; } }
+  .map-detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 760px) { .map-detail { grid-template-columns: minmax(0, 1fr); } }
+  .map-detail .who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .map-detail h3 { margin: 0; font-size: 1.05rem; }
+  .map-detail .left { display: grid; gap: 6px; align-content: start; color: var(--text-2); }
+  .map-detail .left p { margin: 0; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; background: var(--code); color: var(--text-2); }
+  .tag.mem { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .axes-dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.88rem; }
+  .axes-dl dt { color: var(--text-3); }
+  .axes-dl dd { margin: 0; color: var(--text-2); }
+  .axes-dl .plotted { color: var(--ink); font-weight: 600; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--text-2); }
+  .legend .chipk { display: inline-block; width: 22px; height: 11px; border-radius: 3px; border: 1px solid var(--edge); vertical-align: -1px; margin-right: 7px; }
+  .legend .chipk.mem { border: 1.8px solid var(--accent); }
+  .legend .chipk.off { border-style: dashed; }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#model">How a lookup is placed now</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#bugs">Bugs found and fixed</a></li>
+    <li><a class="sub" href="#review">Codex review</a></li>
+    <li><a href="#data">Data gaps and PostGIS</a></li>
+    <li><a href="#seeds">No rules in code: seeds per state</a></li>
+    <li><a href="#bench">Benchmark dataset</a></li>
+    <li><a class="sub" href="#official">Official-rate labels</a></li>
+    <li><a class="sub" href="#vendors">Vendor answers and their shapes</a></li>
+    <li><a href="#pricing">Price per 1,000 lookups</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases</a></li>
+    <li><a href="#open">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Design plan · accuracy pass and benchmark · branch debug-rates (PR #4) · 2026-10-22</p>
+  <h1>Answer what the data supports, refuse the rest, and measure it on addresses nobody tuned on</h1>
+  <p class="lede">OpenTaxRate refused about one address in ten that the state's data could settle, mostly rural points the geocoders disagree on and places with no outline of their own. This branch fixes the bugs behind those refusals without guessing, and the plan builds a benchmark of random easy and hard addresses with a sealed evaluation set, so accuracy claims can't come from tuning to the test.</p>
+  <p class="meta">Traced from <code>src/geocoding/locator.ts</code>, <code>src/geocoding/agreement.ts</code>, <code>src/rates/{index,map,ranges}.ts</code>, <code>src/ingest/states/montana.ts</code>, the bench in <code>scripts/bench.ts</code>, stored answers in <code>artifacts/bench/answers/</code>, read-only queries on the live database (2026-10-21/22), a Codex review of the branch, and web research cited in place.</p>
+</header>
+
+<h2 id="why">Why</h2>
+<p>A lookup has three steps: read the street, place the address on a map when the street alone can't settle the rate, and stack the rates of the outlines it falls in. The engine refuses whenever it can't be sure, and that rule stays. What this pass found is that many refusals were not uncertainty in the data but bugs in how the evidence was read: a strict street-name match threw away correct geocodes, a tie rule refused providers that agreed, and a margin rule widened a precise point because a coarse one sat inside its own error.</p>
+<p>The goal is the user's: fix legitimate bugs, not benchmark-max. So every change below is a rule that would be right on an address the bench never saw, and the plan's second half builds a sealed evaluation set to keep it that way.</p>
+<ul>
+  <li><em>Safety first.</em> A wrong rate is worse than a refusal: every change was checked for new wrong answers, and two that produced them were narrowed or reverted.</li>
+  <li><em>Out of scope.</em> Taxability, sourcing and caps stay the caller's; this is the general rate at an address.</li>
+</ul>
+<details class="more">
+  <summary>Before and after on the bench<span class="dim">5 addresses per state, judged against each state's own published rate</span></summary>
+  <div class="inner"><div class="scroll">
+    <table class="grid-table">
+      <thead><tr><th scope="col">Run (Google off)</th><th scope="col" class="num">Right</th><th scope="col" class="num">Wrong</th><th scope="col" class="num">Refused</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">main before this pass, addresses 1–5 per state</th><td class="num">230 / 255</td><td class="num">0</td><td class="num">25</td></tr>
+        <tr><th scope="row">debug-rates, same addresses</th><td class="num">241 / 255</td><td class="num">0</td><td class="num">14</td></tr>
+        <tr><th scope="row">debug-rates, held-out addresses 6–10 per state</th><td class="num">241 / 255</td><td class="num">1</td><td class="num">13</td></tr>
+        <tr><th scope="row">debug-rates, open source geocoders only, addresses 1–5</th><td class="num">227 / 255</td><td class="num">2</td><td class="num">26</td></tr>
+        <tr><th scope="row">Avalara, addresses it answered of 1–5</th><td class="num">195 / 206</td><td class="num">11</td><td class="num">0</td></tr>
+      </tbody>
+    </table></div>
+    <p>An intermediate version reached 247 right; the Codex review found that some of those answers rested on unsound rules (below), and fixing them cost six. The one held-out wrong answer, Lignite ND, is a Census town outline that disagrees with North Dakota's ZIP+4-based lookup.</p>
+  </div>
+</details>
+
+<h2 id="model">How a lookup is placed now</h2>
+<p>Figure 1 follows one address the old code refused: 3030 Courtney Gr, Perry FL 32348. Four datasets found it, 34 to 219 m apart (Mapbox, Geocodio, Pelias on OpenAddresses, Census). None agreed within its margin, so the old locator returned nothing. Now it returns the most precise point with a circle reaching every other point plus that point's own margin. Taylor County has one rate everywhere inside that circle, so the engine answers 7%, the state's answer.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 860px">
+    <p class="fig-title">A disagreement becomes a circle; the engine answers only if no rate line crosses it</p>
+    <svg viewBox="0 0 1000 300" role="img" aria-label="Datasets feed the locator, which returns an agreed point or a wide circle; the engine tests every rate line inside the margin and answers or refuses.">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-group g1" x="12" y="16" width="250" height="268" rx="10"/>
+      <text class="d-group-label g1" x="28" y="42">Datasets</text>
+      <rect class="d-box" x="28" y="60" width="218" height="48" rx="8"/><text class="d-t" x="42" y="82">Census (TIGER)</text><text class="d-m" x="42" y="98">providers/census.ts</text>
+      <rect class="d-box" x="28" y="120" width="218" height="48" rx="8"/><text class="d-t" x="42" y="142">OpenStreetMap</text><text class="d-m" x="42" y="158">Nominatim, Photon, Pelias</text>
+      <rect class="d-box" x="28" y="180" width="218" height="48" rx="8"/><text class="d-t" x="42" y="202">Paid, only when needed</text><text class="d-m" x="42" y="218">Geocodio, HERE, Mapbox, Google</text>
+      <rect class="d-group g2" x="300" y="16" width="330" height="268" rx="10"/>
+      <text class="d-group-label g2" x="316" y="42">Locator</text>
+      <rect class="d-box" x="318" y="62" width="294" height="62" rx="8"/><text class="d-t" x="332" y="88">Agreed point</text><text class="d-s" x="332" y="108">precise point + datasets within its margin</text>
+      <rect class="d-box acc" x="318" y="140" width="294" height="62" rx="8"/><text class="d-t" x="332" y="166">Wide placement (new)</text><text class="d-s" x="332" y="186">reaches every point and its margin</text>
+      <rect class="d-box ghost" x="318" y="216" width="294" height="52" rx="8"/><text class="d-t" x="332" y="240">One dataset</text><text class="d-s" x="332" y="258">inside typed city, or ZIP if no outline</text>
+      <path class="d-edge" d="M246,84 L316,92" marker-end="url(#ah)"/>
+      <path class="d-edge" d="M246,144 L316,168" marker-end="url(#ah)"/>
+      <path class="d-edge dash" d="M246,204 L316,176" marker-end="url(#ah)"/>
+      <rect class="d-group g3" x="668" y="16" width="320" height="268" rx="10"/>
+      <text class="d-group-label g3" x="684" y="42">Engine</text>
+      <rect class="d-box" x="686" y="62" width="284" height="62" rx="8"/><text class="d-t" x="700" y="88">Rate lines within the margin</text><text class="d-m" x="700" y="108">shapesAround + pointsAcross</text>
+      <rect class="d-box acc" x="686" y="140" width="284" height="56" rx="8"/><text class="d-t" x="700" y="164">Same rate across all: answer</text><text class="d-s" x="700" y="182">Perry FL → 7% (Taylor County)</text>
+      <rect class="d-box" x="686" y="210" width="284" height="56" rx="8"/><text class="d-t" x="700" y="234">A line changes it: refuse</text><text class="d-s" x="700" y="252">with the candidate rates</text>
+      <path class="d-edge acc" d="M612,171 L684,94" marker-end="url(#ah)"/>
+      <path class="d-edge" d="M828,124 L828,138" marker-end="url(#ah)"/>
+    </svg>
+  </div>
+  <figcaption>The accent marks the new path. The circle is sound only because the engine tests every line inside it; the locator records the disagreeing points as evidence, so a later refinement can't quietly pick one side.</figcaption>
+</figure>
+<details class="more">
+  <summary>Call tree for one lookup<span class="dim">entry to answer</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">entry</span>lookUpRate(q, { trace })                    <span class="n">src/lookup.ts</span>
+└─ <span class="layer">rates</span>addressRates.at(query, date)            <span class="n">rates/index.ts: statewide, CA, map or ranges</span>
+   ├─ <span class="layer">ranges</span>sstRateAt → findStreet               <span class="n">exact, between neighbours, corrected</span>
+   │  ├─ standardize() → ZIP+4                <span class="n">only if the street isn't found; map must not contradict</span>
+   │  └─ mapWithRefinement → mapAreas          <span class="n">split ZIP: outlines at the point</span>
+   └─ <span class="layer">map</span>geoRateAt(state, locate, date)         <span class="n">rates/map.ts</span>
+      ├─ <span class="layer">geo</span>createLocator(address)()           <span class="n">locator.ts: cached → cheap pair → more → wide → single</span>
+      │  └─ agreeingGroup / placement          <span class="n">agreement.ts</span>
+      ├─ shapesAround(state, point, pad)       <span class="n">PostGIS: GiST, ST_Covers, edge distance</span>
+      └─ near an edge: pointsAcross → rate across; locate({ marginUnder }) once</pre>
+  </div>
+</details>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>No point is better than a wrong point.</em> A circle is never smaller than the evidence: each other dataset's distance plus its own margin, capped at 10 km.</li>
+  <li><em>Datasets, not providers, vote.</em> Geocodio's TIGER interpolations are Census's data; Nominatim, Photon and Pelias on OSM are one dataset.</li>
+  <li><em>A point outside the typed city's outline is evidence against it.</em> The ZIP check applies only where the city has no outline of its own.</li>
+  <li><em>A looked-up ZIP+4 is a lead, a typed one is a fact.</em> A ZIP+4 from standardization answers unless the map contradicts it.</li>
+  <li><em>An unconfirmed rate is refused inside its outline and near its edge.</em> Outside every such outline the base rate stands.</li>
+  <li><em>Data is read at sync, not listed in code.</em> Special areas, their names and their outlines come from each state's seed.</li>
+</ul>
+
+<h2 id="bugs">Bugs found and fixed</h2>
+<p>Each row is a rule that was wrong for a reason that holds off the bench. The commit is on <code>debug-rates</code> unless marked main.</p>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Bug</th><th scope="col">Example</th><th scope="col">Fix</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">"Lake Saint Louis" never met the file's "LAKE ST LOUIS"</th><td>464 Hawk Ridge Trl, MO: refused</td><td><code>normalizeCity</code> abbreviates Saint/Mount/Fort anywhere (main)</td></tr>
+    <tr><th scope="row">Providers' city and ZIP both had to equal the typed ones</th><td>14 of Google's 34 misses were correct points</td><td>city or ZIP must agree (main)</td></tr>
+    <tr><th scope="row">Overlapping agreeing groups tied, and a tie refused</th><td>Alamogordo NM: Mapbox and Google 4 m apart, refused</td><td>most precise point plus everyone agreeing with it (main)</td></tr>
+    <tr><th scope="row">Rate lines inside a disagreement were never tested</th><td>Perry FL, Summit MS: not placed</td><td>wide placement, the engine tests the circle</td></tr>
+    <tr><th scope="row">Hundred-block street ranges trumped a precise map</th><td>Rapid City SD: six datasets within 4 m say 6.2%, file 4.2%</td><td>two datasets, margin ≤ 40 m, clear of lines: map wins, source says so</td></tr>
+    <tr><th scope="row">Missouri's ZIP+4 ranges misplaced looked-up ZIP+4s</th><td>3303 N Dysart Ave, Springfield: 5.975% vs 8.1%</td><td>a looked-up ZIP+4 must be confirmed by the map in MO, not contradicted elsewhere</td></tr>
+    <tr><th scope="row">Montana resort areas were refused by name, wrongly both ways</th><td>165 Fonner Rd "Whitefish" is outside the town, 0%</td><td>outlines read at sync; 0% outside, refused inside</td></tr>
+    <tr><th scope="row">The state's resort rates are out of date</th><td>West Yellowstone: state table 3%, town page 4% since 2019</td><td>rates stored but unconfirmed: refused inside</td></tr>
+  </tbody>
+</table></div>
+
+<h3 id="review">Codex review</h3>
+<p>Codex reviewed the branch diff (run through the Codex CLI; <code>pi</code> has no provider logged in yet). Its five findings were real, and all five were fixed before this page was written:</p>
+<ol>
+  <li><strong>Refinement could erase a disagreement.</strong> The wide placement didn't record its points, so <code>sharpen()</code> could pick one of them as a precise answer. It now records them, and a refinement must agree with all.</li>
+  <li><strong>The circle omitted the other points' own margins.</strong> A point 300 m away with a 250 m margin needs 550 m. Fixed in <code>locator.ts</code>.</li>
+  <li><strong>"Two datasets" counted providers.</strong> Census plus Geocodio-on-TIGER could overrule a state file. Now distinct datasets.</li>
+  <li><strong>The ZIP check overrode a contradicting city.</strong> <code>insideTypedCity</code> now answers inside, outside or no outline.</li>
+  <li><strong>West Yellowstone's rate.</strong> Confirmed against the town's own page; Montana rates are no longer used.</li>
+</ol>
+<p>It also suggested carrying dataset identity as structured data rather than parsing display labels, and testing adversarial cases (shared-source providers, competing clusters, refinement after disagreement). Both are in the phases below.</p>
+
+<h2 id="data">Data gaps and PostGIS</h2>
+<p>The stored geometry is sound: read-only checks found 0 invalid and 0 empty outlines among about 17,600 across 42 states, all SRID 4326. Storing NAD83 TIGER data as WGS84 shifts it about 1–2 m in the lower 48, far below geocoder error. Simplifying each outline on its own at 1e-5° (about 1 m) leaves slivers between neighbours (83 county pairs in Alabama, 2.6 ha in total), which sit inside the 2 m probe across an edge. What's missing matters more:</p>
+<ul>
+  <li><em>Alabama police jurisdictions.</em> No published outlines; Act 2021-297 froze each at its 2021 extent, and ALDOR posts reductions as PDFs. Buffering 2021 TIGER places by 1.5 or 3 miles less city limits and posted reductions would settle most (3 held-out refusals).</li>
+  <li><em>Annexations lag in TIGER.</em> <code>tl_2026</code> is as of 1 January and voluntary. State layers already used as oracles (SD DOR, NE, TN, SC, Iowa) could be loaded as outlines; in South Dakota, TIGER sided with the DOR in 23 of 26 disagreements with the SST file.</li>
+  <li><em>Old SST files.</em> Iowa, Nevada, West Virginia, North Carolina and South Dakota files are the newest posted but months old; a staleness check against each state's own rate-change list would catch missed changes.</li>
+  <li><em>Overlapping city outlines in state layers.</em> Texas (Weslaco/Donna 15.9 ha) and Colorado (Arvada/Westminster 4.6 ha): confirm stacking refuses or follows the state's precedence.</li>
+  <li><em>Hawaii and tribal areas.</em> Hawaii's 4.712% is the maximum pass-on, not the tax; the Navajo Nation's 6% isn't in Arizona's tables. Both should be documented.</li>
+</ul>
+<details class="more">
+  <summary>Sources for this section<span class="dim">fetched 2026-10-22</span></summary>
+  <div class="inner"><ul class="sources">
+    <li><a href="https://revenue.alabama.gov/sales-use/police-jurisdictions">ALDOR police jurisdictions</a>; <a href="https://www.revenue.alabama.gov/sales-use/2026-police-jurisdiction-deannexations-ordinances-and-maps/">2026 deannexations</a></li>
+    <li><a href="https://www.census.gov/geo/maps-data/data/tiger-line.html">TIGER/Line</a>; <a href="https://census.gov/geographies/reference-files/time-series/geo/bas/annex.html">BAS annexation tables</a></li>
+    <li><a href="https://courses.ems.psu.edu/geog862/node/1804">NAD83 vs WGS84 (PSU GEOG862)</a></li>
+    <li><a href="https://tax.hawaii.gov/geninfo/countysurcharge/">Hawaii county surcharge</a>; <a href="https://www.townofwestyellowstone.com/resort-tax-information/">West Yellowstone resort tax</a>; <a href="https://revenuefiles.mt.gov/taxes/miscellaneous/local-resort-tax">MT DOR resort tax table</a></li>
+  </ul></div>
+</details>
+
+<h2 id="seeds">No rules in code: seeds per state</h2>
+<p>A state's special rules belong in its seed, the adapter under <code>src/ingest/states/</code> that runs at refresh, and should be read from the state's own sources rather than listed in code. Montana now works this way: <code>montana.ts</code> reads the Department of Revenue's resort table (name, rate, year enacted), matches each area to its outline (a town's own outline, else the resort districts named for it), and stores both in PostGIS: the outline as a district shape and the rate as a resort-tax row. Inside an area the engine answers the table's rate, near its edge it refuses, and outside every area it is 0%. Craig and Wolf Creek publish no outline and are refused by name. The router learns which cities are resort areas from those rows, so <code>statewide.ts</code> no longer lists any. On Montana's 46 bench cases this gives 43 right, 0 wrong, 3 refused. Two lists remain in code and should move the same way:</p>
+<ul>
+  <li><em>Statewide rates.</em> <code>statewide.ts</code> holds DE, NH, OR, CT, ME, MD, MA and DC; each could be read from the state's published rate at sync, with an end date where one is announced (DC's rate is set through 2027-09-30).</li>
+  <li><em>Missouri's ZIP+4 rule.</em> <code>UNCONFIRMED_ZIP4_STATES</code> in <code>ranges.ts</code> should be a flag row Missouri's seed writes, with the evidence in its comment.</li>
+</ul>
+
+<h2 id="bench">Benchmark dataset</h2>
+<p>The current bench grew from cases each session chose, and the rules above were tuned on its first five addresses per state. To measure honestly, the plan builds a new pool of random addresses, labels them once, and seals part of it.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 820px">
+    <p class="fig-title">One random pool, split once: dev batches to iterate on, a sealed evaluation set to report</p>
+    <svg viewBox="0 0 1000 250" role="img" aria-label="Address sources feed a pool tagged easy or hard, split into five dev batches and two sealed evaluation halves, each labelled with official rates and vendor answers.">
+      <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-box" x="16" y="70" width="190" height="96" rx="8"/><text class="d-t" x="30" y="98">Random addresses</text><text class="d-s" x="30" y="120">state address points,</text><text class="d-s" x="30" y="138">NAD, OpenAddresses</text><text class="d-m" x="30" y="156">pool/candidates.csv</text>
+      <rect class="d-box" x="246" y="70" width="190" height="96" rx="8"/><text class="d-t" x="260" y="98">Tagged easy / hard</text><text class="d-s" x="260" y="120">distance to a line, split</text><text class="d-s" x="260" y="138">ZIP, unincorporated</text><text class="d-m" x="260" y="156">from our PostGIS</text>
+      <rect class="d-group g1" x="476" y="16" width="250" height="218" rx="10"/><text class="d-group-label g1" x="492" y="40">Dev (70%)</text>
+      <rect class="d-box" x="492" y="52" width="218" height="34" rx="6"/><text class="d-t" x="506" y="74">batch 1 · 14%</text>
+      <rect class="d-box" x="492" y="94" width="218" height="34" rx="6"/><text class="d-t" x="506" y="116">batch 2 · 14%</text>
+      <rect class="d-box" x="492" y="136" width="218" height="34" rx="6"/><text class="d-t" x="506" y="158">batches 3–5 · 42%</text>
+      <rect class="d-box ghost" x="492" y="178" width="218" height="44" rx="6"/><text class="d-s" x="506" y="204">labelled one batch at a time</text>
+      <rect class="d-group g2" x="756" y="16" width="230" height="218" rx="10"/><text class="d-group-label g2" x="772" y="40">Sealed eval (30%)</text>
+      <rect class="d-box acc" x="772" y="56" width="198" height="62" rx="6"/><text class="d-t" x="786" y="82">eval-A · 15%</text><text class="d-s" x="786" y="102">scored when a change ships</text>
+      <rect class="d-box acc" x="772" y="132" width="198" height="62" rx="6"/><text class="d-t" x="786" y="158">eval-B · 15%</text><text class="d-s" x="786" y="178">last check, rarely opened</text>
+      <path class="d-edge" d="M206,118 L244,118" marker-end="url(#ah2)"/>
+      <path class="d-edge" d="M436,118 L490,110" marker-end="url(#ah2)"/>
+      <path class="d-edge acc" d="M436,124 L770,124" marker-end="url(#ah2)"/>
+    </svg>
+  </div>
+  <figcaption>Every address is assigned once, stratified by state and difficulty, by a seeded hash; the assignment never changes. Nothing in eval-A or eval-B is used to choose a rule.</figcaption>
+</figure>
+<p>"Random" here has a precise meaning: for each state, a uniform draw by row id, with a fixed seed, from the USDOT National Address Database (about 98 million official address points), and from OpenStreetMap where NAD has no data (HI, MI, NH, NV) or covers only a few counties (FL, GA, LA, SC, SD). The draw is reproducible and documented in <code>pool/README.md</code>. Random addresses are not weighted by where sales happen, and a third-party "random address" generator would add an unverifiable method and licence without fixing either.</p>
+<ol>
+  <li><strong>Sample.</strong> 40 addresses per state (2,040), excluding the existing cases, written to <code>artifacts/bench/pool/candidates.csv</code>: 1,380 easy and 660 hard.</li>
+  <li><strong>Tag.</strong> Hard means within 150 m of a county, city or district line, in a split ZIP, unincorporated next to a special district, or a lettered or fractional house number.</li>
+  <li><strong>Split.</strong> Dev batches 1–5 at 14% each, eval-A and eval-B at 15% each, by <code>sha256("split1|" + id)</code> within each state and difficulty.</li>
+  <li><strong>Label.</strong> The state's own rate where it can be fetched automatically, then vendor answers, one batch at a time within budget. Everything lands in <code>artifacts/bench/answers/</code> in the format <code>scripts/bench.ts</code> reads.</li>
+  <li><strong>Score.</strong> Right, wrong and refused per batch; the eval sets only when a change is ready.</li>
+</ol>
+
+<h3 id="official">Official-rate labels</h3>
+<p>The truth label should be the state's own published answer. For each state the pool records its oracle: an official address lookup API (Washington DOR, the Texas Comptroller's lat/long rate service, California's CDTFA), a GIS rate layer (South Dakota, Nebraska, Utah's sales tax areas), or a published rate table matched to an official boundary. States with no automatable oracle are labelled only by agreement between vendors and marked as weaker evidence. <code>artifacts/bench/pool/OFFICIAL-ORACLES.md</code> lists which states are automatable.</p>
+
+<h3 id="vendors">Vendor answers and their shapes</h3>
+<p>Batch 1 (286 addresses) is labelled by Avalara, Lovat and TaxJar's sandbox; TaxCloud v1 answers only in the 8 states its account collects in (AZ, IL, MO, MS, NY, PA, TX, VA). Budgets stay under 80% of each account's credits. Zip-Tax has used 73 of 100 lifetime requests, so it sits this round out. TaxJar's sandbox token returns the same rates and doesn't bill. Avalara is a free trial with no reported limit, so it gets a fixed number of calls per batch. TaxCloud v1 works but returns $0 outside the states the account collects in.</p>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Service</th><th scope="col">Answer</th><th scope="col">Granularity</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Avalara <code>taxrates/byaddress</code></th><td><code>{ totalRate, rates: [{ rate, name, type }] }</code></td><td>address</td></tr>
+    <tr><th scope="row">TaxJar <code>/v2/rates/:zip</code></th><td><code>{ rate: { combined_rate, state_rate, county_rate, city_rate, combined_district_rate, zip } }</code>, rates as strings</td><td>address with ZIP+4</td></tr>
+    <tr><th scope="row">Zip-Tax v60</th><td><code>{ baseRates[], taxSummaries[], addressDetail: { normalizedAddress, geoLat, geoLng } }</code></td><td>address</td></tr>
+    <tr><th scope="row">Lovat <code>/api/1/tax_rate</code></th><td><code>{ tax_rate (percent), taxable_zip, transaction_type }</code>, nexus applies</td><td>ZIP</td></tr>
+    <tr><th scope="row">TaxCloud v1 <code>Lookup</code></th><td><code>{ CartItemsResponse: [{ TaxAmount }] }</code>, an amount, not a rate</td><td>address, nexus applies</td></tr>
+    <tr><th scope="row">OpenTaxRate <code>/v1/rate</code></th><td><code>{ rate, parts[], byType, match, locationCode, source }</code></td><td>address, with its evidence</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="pricing">Price per 1,000 lookups</h2>
+<p>About 45% of lookups need a map point. The locator asks a free pair first and paid providers only when the free ones can't settle it; scaling the bench's call counts (Census 329, OSM 300 to 330, Geocodio about 300 including standardization, HERE 129, Mapbox 75, Google 27 per 1,000 lookups) to list prices gives:</p>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Configuration</th><th scope="col" class="num">Per 1,000 lookups</th><th scope="col">Free tiers cover</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Open source only (Census, Nominatim, Photon, Pelias)</th><td class="num">$0 in API fees</td><td>public Nominatim limits throughput to about 1 request a second; self-hosting is a 64–128 GB box</td></tr>
+    <tr><th scope="row">+ Geocodio and HERE</th><td class="num">about $0.41–0.46</td><td>Geocodio 2,500 a day (about 8,000 lookups), HERE 30,000 a month</td></tr>
+    <tr><th scope="row">+ Mapbox and Google as backup</th><td class="num">about $0.6–1.0</td><td>Mapbox 100,000 a month (temporary results), Google 10,000 a month</td></tr>
+    <tr><th scope="row">TaxJar, TaxCloud, Stripe Tax</th><td class="num">about $32–50</td><td>calls count as fractions of orders on their plans</td></tr>
+  </tbody>
+</table></div>
+<p>Below the free tiers OpenTaxRate's API cost is $0. Two terms constrain caching: storing Mapbox results needs its permanent tier at $5 per 1,000, and Google restricts caching, so neither is stored. Prices marked unverified in the research (HERE, Google volume tiers, TaxJar's per-call share) should be confirmed before publishing.</p>
+
+<h2 id="boundaries">Boundaries</h2>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Seeds</th><td><code>src/ingest/states/*.ts</code>, <code>missouri.ts</code>, <code>sst-files.ts</code></td><td>reading each state's sources at refresh: rates, outlines, special areas</td><td>rows and outlines to <code>load.ts</code></td></tr>
+    <tr><th scope="row">Geocoding</th><td><code>src/geocoding/</code></td><td>points, agreement, wide placements, budgets</td><td>a point with a margin and its evidence</td></tr>
+    <tr><th scope="row">Rates</th><td><code>src/rates/</code></td><td>street matching, map tests, stacking, refusals</td><td>an answer with its source, or a refusal with candidates</td></tr>
+    <tr><th scope="row">Bench</th><td><code>scripts/bench.ts</code>, <code>artifacts/bench/</code></td><td>pool, splits, labels, scoring, usage log</td><td>reports, never production data</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="phases">Phases</h2>
+<p><strong>1. Merge the accuracy pass (PR #4).</strong> Delivers the fixes above, with Montana read at sync.</p>
+<details class="more"><summary>Files<span class="dim">already on debug-rates</span></summary><div class="inner"><ul class="sources">
+  <li>geocoding: <code>src/geocoding/locator.ts</code></li>
+  <li>rates: <code>src/rates/{index,map,ranges,statewide}.ts</code>, <code>src/coverage.ts</code></li>
+  <li>seeds: <code>src/ingest/states/{montana,index}.ts</code></li>
+  <li>tests: <code>test/{locator,address-rates}.test.ts</code>; bench: <code>scripts/bench.ts</code></li>
+</ul></div></details>
+<p><em>Done when</em> the suite passes, <code>refresh MT</code> runs on the deploy, and the held-out score shows no new wrong answers.</p>
+<p><strong>2. Build the pool and seal the evaluation set.</strong> Delivers <code>artifacts/bench/pool/</code> with candidates, difficulty, the split file and the oracle table. <em>Done when</em> every address has a split, and eval-A/B ids are written once and never regenerated.</p>
+<p><strong>3. Label batch 1 and eval-A.</strong> Official oracles first, then vendors within budget. <em>Done when</em> the usage log shows every call and no account passes 80%.</p>
+<p><strong>4. Move the remaining lists into seeds.</strong> Statewide rates and Missouri's ZIP+4 rule, read or written at sync. <em>Done when</em> no state's rate or rule is a literal in <code>src/rates/</code>.</p>
+<p><strong>5. Close the largest data gaps.</strong> Alabama police jurisdictions from 2021 places and ALDOR reductions, and state outline layers where TIGER lags. <em>Done when</em> each is measured on eval-A with no new wrong answers.</p>
+<p><strong>6. Structured provenance and adversarial tests.</strong> Carry each point's dataset as data, not a label, and add the review's adversarial cases. <em>Done when</em> those tests run in CI.</p>
+
+<h2 id="open">Open questions</h2>
+<ul>
+  <li><em>Montana's table rates.</em> They are now used, with the table named in each answer's source. The Department says the table may be out of date, and West Yellowstone's own page says 4% since a 2019 vote where the table says 3%. Recommended: a seed check that reads each area's own page where one exists and fails the refresh on a mismatch, rather than a correction in code.</li>
+  <li><em>Keep Missouri's ZIP+4 exception?</em> Recommended: yes, as a seed flag with its evidence, until Missouri's own address-level data replaces it.</li>
+  <li><em>Is the 10 km circle cap right?</em> Recommended: keep it, since the engine tests the whole circle, but report how many answers came from circles over 2 km on eval-A.</li>
+  <li><em>Refuse a street-file answer the map can't confirm in a split ZIP?</em> With open-source geocoders only, two answers are wrong because the state's hundred-block range disagrees with its own lookup (3622 Bellamys Mill Rd, Whitakers NC: 6.75% vs 7%; 6201 Magic Canyon Rd, Rapid City SD: 4.2% vs 6.2%), and Census's point 5 km off makes the circle too wide to confirm. Recommended: measure on eval-A how many right street answers such a rule would refuse before deciding; the precise providers already settle both.</li>
+  <li><em>TaxCloud as a label?</em> Recommended: only in the states the account collects in, since elsewhere it returns $0.</li>
+</ul>
+
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-margin">Margin</h3>
+    <p>How far from a point the address could really be. A line closer than the margin could put the address on either side.</p>
+<pre class="snip">rooftop 15 m · parcel 25 m · point 40 m · interpolated 75 m
+wide: max over others(distance + their margin), e.g. 300 + 250 = 550 m</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-dataset">Dataset vs provider</h3>
+    <p>Providers are services; datasets are where their points come from. Agreement only counts between datasets.</p>
+<pre class="snip">census (tiger) + geocodio (tiger)      → 1 dataset
+mapbox (mapbox) + google (google)      → 2 datasets</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-hundred">Hundred-block range</h3>
+    <p>A state file's row for a run of house numbers on one street, filed by the hundred. A block can cross a city or county line.</p>
+<pre class="snip">BELLAMY MILL RD 3600–3699 both sides → one area (Nash County)
+3622 is in Edgecombe County: 7.0%, not 6.75%</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-zcta">ZCTA</h3>
+    <p>The Census Bureau's approximation of a ZIP code's area, used here only as a plausibility check for a lone point.</p>
+<pre class="snip">GET geocoding.geo.census.gov/geocoder/geographies/coordinates
+  ?x=-158.2&amp;y=21.4&amp;layers=all → "2020 Census ZIP Code Tabulation Areas": 96792</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-holdout">Held-out and sealed sets</h3>
+    <p>Addresses never used to choose a rule. Scoring on them shows whether a change generalizes or just fits the cases it was built on.</p>
+<pre class="snip">split = sha256("split1|" + id) mod 100 within (state, difficulty)
+0–69 dev batches 1–5 · 70–84 eval-A · 85–99 eval-B</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-no">"no" rows</h3>
+    <p>A rate row that says a jurisdiction exists but its rate can't be given. Inside its outline, or within the margin of it, the address is refused.</p>
+<pre class="snip">MT | no | WEST_YELLOWSTONE | 0.03 (state table, unconfirmed)
+→ "This address is in West Yellowstone, which levies its own tax ..."</pre>
+  </section>
+</div>
+
+</article>
+</div>
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+})();
+</script>

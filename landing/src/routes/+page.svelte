@@ -9,6 +9,7 @@
 	import { pushState } from '$app/navigation';
 	import { lookUp, type LookupResult } from '$lib/api';
 	import { EXAMPLES, GITHUB } from '$lib/examples';
+	import Benchmark from '$lib/landing/Benchmark.svelte';
 	import Features from '$lib/landing/Features.svelte';
 	import Showcase from '$lib/landing/Showcase.svelte';
 	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
@@ -151,7 +152,7 @@
 					Sales tax for any US address
 				</h1>
 				<p class="mt-4 max-w-[44rem] text-center text-[17px] text-balance leading-relaxed text-[var(--text-muted)]">
-					Rates based on public data from state tax agencies.
+					Open-source sales tax lookup, powered by public data from state tax agencies.
 					<a
 						href="/sources"
 						class="underline underline-offset-4 hover:text-[var(--text)]"
@@ -178,6 +179,14 @@
 						{/each}
 					</ul>
 				</div>
+				<a
+					href={GITHUB}
+					target="_blank"
+					rel="noopener"
+					class="mt-6 rounded text-sm text-[var(--text-muted)] underline-offset-4 hover:text-[var(--text)] hover:underline"
+				>
+					Open source · View on GitHub <span aria-hidden="true">↗</span>
+				</a>
 			</section>
 
 			<section class="px-4 sm:px-8" aria-label="What a lookup shows">
@@ -186,6 +195,9 @@
 				</div>
 				<div class="mx-auto mt-12 max-w-[1000px] px-2 sm:px-6">
 					<Features />
+				</div>
+				<div class="mx-auto mt-16 max-w-[1000px] px-2 sm:px-6">
+					<Benchmark />
 				</div>
 			</section>
 		</main>

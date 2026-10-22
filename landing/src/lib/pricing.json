@@ -1,0 +1,279 @@
+{
+  "asOf": "2026-10-22",
+  "rows": [
+    {
+      "id": "opentaxrate",
+      "name": "OpenTaxRate",
+      "ours": true,
+      "published": "Free. $0 with only its own geocoders (Nominatim, Photon, Pelias), or the providers' prices for any commercial geocoders you add keys for",
+      "estimate": "$0–1.14 + hosting",
+      "notes": [],
+      "method": "No fee from us. What the commercial geocoders bill, per 1,000 lookups, measured on 309 random addresses with every provider on (Census, OpenStreetMap, Geocodio, HERE, Mapbox, Esri, Google):",
+      "sources": [
+        {
+          "label": "Geocodio",
+          "url": "https://www.geocod.io/pricing/",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "HERE",
+          "url": "https://www.here.com/get-started/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Mapbox",
+          "url": "https://www.mapbox.com/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Google Maps Platform",
+          "url": "https://developers.google.com/maps/billing-and-pricing/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Esri ArcGIS",
+          "url": "https://location.arcgis.com/pricing/",
+          "checked": "2026-10-22"
+        }
+      ],
+      "estimateNote": "$0 within free tiers; at most about $1.14 once every free tier is used up",
+      "breakdown": [
+        "With only its own geocoders, no provider is paid: $0 plus hosting.",
+        "Geocodio: 252 calls × $1.00 per 1,000 = $0.25",
+        "Geocodio ZIP+4 standardization: 243 × 2 lookups × $1.00 per 1,000 = $0.49",
+        "HERE: 246 calls × $0.83 per 1,000 = $0.20",
+        "Mapbox: 104 calls × $0.75 per 1,000 = $0.08",
+        "Esri: 42 calls × $0.50 per 1,000 = $0.02",
+        "Google: 19 calls × $5.00 per 1,000 = $0.10",
+        "Census and OpenStreetMap (Pelias, Photon): free",
+        "Total about $1.14; without Google, about $1.04. Free tiers first: Geocodio 2,500 a day, HERE 30,000 a month, Mapbox 100,000 a month, Esri 20,000 a month, Google 10,000 a month. Hosting is not included."
+      ]
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe Tax",
+      "published": "$0.05 per calculation",
+      "estimate": "$50",
+      "notes": [],
+      "method": "$0.05 × 1,000, using the Calculations API alone. With the Transaction API, each $0.50 transaction includes 10 calculations.",
+      "sources": [
+        {
+          "label": "Stripe Tax pricing",
+          "url": "https://stripe.com/tax/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Stripe: how Tax is billed",
+          "url": "https://support.stripe.com/questions/understanding-stripe-tax-pricing",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "ziptax",
+      "name": "Zip-Tax",
+      "published": "$29/mo, then from $0.0242 per call",
+      "estimate": "$2–24",
+      "notes": [],
+      "method": "The plan doesn't state its included calls; the low end assumes the pricing calculator's default of 15,000 a month, the high end is the overage rate. The free plan says 100 calls a month, but on our account it was 100 calls in total.",
+      "sources": [
+        {
+          "label": "Zip-Tax pricing",
+          "url": "https://www.zip.tax/pricing",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "quaderno",
+      "name": "Quaderno",
+      "published": "$83/mo for 1,000 transactions",
+      "estimate": "$8.30",
+      "notes": [
+        "bundle"
+      ],
+      "method": "API calls are capped at 10× the plan's transactions: $83 ÷ 10,000. The smallest plan works out to $96.",
+      "sources": [
+        {
+          "label": "Quaderno pricing",
+          "url": "https://quaderno.io/pricing/",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "taxcloud",
+      "name": "TaxCloud",
+      "published": "$79/mo for 200 orders",
+      "estimate": "$39.50",
+      "notes": [
+        "bundle",
+        "fraction"
+      ],
+      "method": "$79 ÷ 2,000 lookups. The price is from our 2026-10-21 reading; on 2026-10-22 the page showed order tiers without prices.",
+      "sources": [
+        {
+          "label": "TaxCloud pricing",
+          "url": "https://taxcloud.com/taxcloud-pricing/",
+          "checked": "2026-10-21"
+        }
+      ]
+    },
+    {
+      "id": "taxjar",
+      "name": "TaxJar",
+      "published": "$99/mo for 200 orders",
+      "estimate": "$49.50",
+      "notes": [
+        "bundle",
+        "fraction"
+      ],
+      "method": "$99 ÷ 2,000 lookups, on Professional, the cheapest plan with the API.",
+      "sources": [
+        {
+          "label": "TaxJar pricing",
+          "url": "https://support.taxjar.com/article/139-how-much-does-taxjar-cost",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "avalara",
+      "name": "Avalara AvaTax",
+      "published": "From $69 per state per month",
+      "estimate": "~$58",
+      "notes": [
+        "bundle"
+      ],
+      "method": "The rates-by-address call is free but needs a paid AvaTax account. One state at $699 a year over 1,000 lookups a month; each state adds a fee.",
+      "sources": [
+        {
+          "label": "Avalara pricing",
+          "url": "https://www.avalara.com/us/en/products/sales-and-use-tax/pricing.html",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "AvaTax rates by address",
+          "url": "https://developer.avalara.com/api-reference/avatax/rest/v2/methods/Free/TaxRatesByAddress/",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "lovat",
+      "name": "Lovat",
+      "published": "€20 per 5,000 extra transactions, plus a plan fee",
+      "estimate": "€0.40 + plan",
+      "notes": [
+        "fraction",
+        "zip"
+      ],
+      "method": "10 lookups count as one transaction, so €20 covers 50,000 lookups past the plan's allowance. The plan fee isn't published. Lovat is now called Lappa.",
+      "sources": [
+        {
+          "label": "Lovat transaction pricing",
+          "url": "https://vatcompliance.co/transaction-based-pricing/",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "apiverve",
+      "name": "APIVerve",
+      "published": "$29.99/mo for 200,000 credits (2 per call); free plan 200 credits a month",
+      "estimate": "$0.30",
+      "notes": [
+        "zip"
+      ],
+      "method": "$29.99 ÷ 100,000 calls on Starter, the vendor's own figure. Larger plans come to $0.20 and $0.15. The API takes a 5-digit ZIP code.",
+      "sources": [
+        {
+          "label": "APIVerve pricing",
+          "url": "https://apiverve.com/pricing",
+          "checked": "2026-10-22"
+        },
+        {
+          "label": "Sales tax API",
+          "url": "https://apiverve.com/marketplace/salestax",
+          "checked": "2026-10-22"
+        }
+      ]
+    },
+    {
+      "id": "anrok",
+      "name": "Anrok",
+      "published": "$100 per market per month",
+      "estimate": "$10–100",
+      "notes": [
+        "bundle"
+      ],
+      "method": "Calculations aren't metered, so the cost depends on volume: $100 at 1,000 lookups a month in one market, $10 at 10,000. From our 2026-10-21 reading; the page refused our request on 2026-10-22.",
+      "sources": [
+        {
+          "label": "Anrok pricing",
+          "url": "https://www.anrok.com/pricing",
+          "checked": "2026-10-21"
+        }
+      ]
+    },
+    {
+      "id": "zip2tax",
+      "name": "Zip2Tax",
+      "published": "$1,500/yr for 1,000 lookups a month",
+      "estimate": "$125",
+      "notes": [],
+      "method": "$1,500 ÷ 12,000 lookups, for the street-address database. The ZIP-level one is $389 a year.",
+      "sources": [
+        {
+          "label": "Zip2Tax pricing",
+          "url": "https://www.zip2tax.com/pages/sales-tax-rate-api",
+          "checked": "2026-10-22"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "id": "bundle",
+      "text": "The plan also covers filing, registration or other compliance work, so this is the whole plan fee spread over lookups, not a per-call price like Stripe's."
+    },
+    {
+      "id": "fraction",
+      "text": "A lookup counts as a fraction of an order or transaction (1/10)."
+    },
+    {
+      "id": "zip",
+      "text": "Rates by ZIP code, not street address."
+    }
+  ],
+  "quoteOnly": [
+    {
+      "name": "Kintsugi",
+      "url": "https://trykintsugi.com/pricing"
+    },
+    {
+      "name": "Vertex",
+      "url": "https://www.vertexinc.com/"
+    },
+    {
+      "name": "Sovos",
+      "url": "https://sovos.com/sut/products/sales-use-tax-filing/"
+    },
+    {
+      "name": "CereTax",
+      "url": "https://www.ceretax.com/"
+    },
+    {
+      "name": "Fonoa",
+      "url": "https://www.fonoa.com/platform/tax-engine"
+    },
+    {
+      "name": "Numeral",
+      "url": "https://www.numeral.com/pricing"
+    },
+    {
+      "name": "Zamp",
+      "url": "https://zamp.com/"
+    }
+  ]
+}
