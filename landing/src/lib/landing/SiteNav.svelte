@@ -30,7 +30,7 @@
 			<a class="hover:text-[var(--text)] {center ? 'hidden md:inline' : ''}" href="/sources">Sources</a>
 			<a
 				class="hidden hover:text-[var(--text)] {center ? 'lg:inline' : 'sm:inline'}"
-				href="{GITHUB}/blob/main/docs/context/api.md"
+				href="{GITHUB}#quick-start"
 				target="_blank"
 				rel="noopener">API</a
 			>

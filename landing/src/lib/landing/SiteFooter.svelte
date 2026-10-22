@@ -8,7 +8,7 @@
 		<span aria-hidden="true">·</span>
 		<a class="hover:text-[var(--text)]" href="{GITHUB}#quick-start" target="_blank" rel="noopener">Run it yourself</a>
 		<span aria-hidden="true">·</span>
-		<a class="hover:text-[var(--text)]" href="{GITHUB}/blob/main/docs/context/api.md" target="_blank" rel="noopener">API</a>
+		<a class="hover:text-[var(--text)]" href="{GITHUB}#quick-start" target="_blank" rel="noopener">API</a>
 		<span aria-hidden="true">·</span>
 		<a class="hover:text-[var(--text)]" href="{GITHUB}#coverage" target="_blank" rel="noopener">Coverage</a>
 		<span aria-hidden="true">·</span>

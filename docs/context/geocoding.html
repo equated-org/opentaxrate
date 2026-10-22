@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geocoding · OpenTaxRate</title>
+<meta name="description" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* Shared style for explainers and plans (.agent-skills/shared/html-design/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+
+  .scroll { margin: 24px 0; }
+  .grid-table { min-width: 560px; }
+  .grid-table td { color: var(--text-2); }
+  .state-code { color: var(--text-3); font-size: .8em; font-family: var(--mono); }
+  .inner p { max-width: 76ch; }
+  .source-links { font-size: .85rem; overflow-wrap: anywhere; }
+  .source-links a { display: inline-block; margin: 0 12px 6px 0; }
+  .page-foot { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--text-3); font-size: .85rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 20px; top: 12px; background: var(--bg); padding: 10px; }
+  @media print { .toc, .skip { display: none; } .layout { display: block; padding: 0; } details.more > .inner { display: block; } h2 { margin-top: 32px; } }
+  pre.cmd { margin: 0 0 24px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.65; color: var(--ink); max-width: 100%; }
+  pre.cmd code { background: none; padding: 0; font-size: inherit; }
+  pre.mermaid { margin: 0 0 28px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; text-align: center; font-family: var(--mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><p class="toc-title">Geocoding</p><ol>
+<li><a href="#wiring-and-stages">Wiring and stages</a></li>
+<li><a href="#providers-and-validation">Providers and validation</a></li>
+<li><a href="#storage-and-quotas">Storage and quotas</a></li>
+<li><a href="#margins-and-evidence">Margins and evidence</a></li>
+</ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
+<article id="content">
+<header class="page-head"><p class="eyebrow">OpenTaxRate · Design notes</p><h1>Geocoding</h1>
+<p class="meta">Sources: <code>src/geocoding/types.ts</code>, <code>locator.ts</code>, <code>registry.ts</code>, <code>agreement.ts</code>, <code>cache.ts</code>, <code>budget.ts</code>, <code>providers/</code>, <code>src/lookup.ts</code>, <code>src/rates/map.ts</code>, <code>src/rates/ranges.ts</code>.</p>
+</header>
+
+<h2 id="wiring-and-stages">Wiring and stages</h2>
+<p><code>lookUpRate()</code> creates one lazy locator per request. The rate engines use it only when published street/ZIP data or statewide rates cannot settle the lookup. <code>Locate</code> returns <code>{ lon, lat, accuracy, metres?, placedBy? }</code> or null. <code>index.ts</code> re-exports the contracts; it no longer implements an all-provider fanout.</p>
+<ol>
+<li>Read permitted cached results for every enabled provider. Cache keys include the full address identity (state, city, complete street including house letters/fractions, directions, suffix, unit and ZIP), a normalization version, and a fingerprint of provider credentials/endpoint and storage mode. Conservative spelling aliases share rows; fuzzy street-range keys are never used as address identity.</li>
+<li>If cached points do not agree, ask a cheap pair, preferring different potential datasets. Census and Nominatim are enabled unless <code>CENSUS_DISABLED</code>/<code>NOMINATIM_DISABLED=true</code>; Nominatim uses <code>NOMINATIM_URL</code>, or the public server at one request a second. Every other provider requires its key/URL. Calls queue for a provider's next slot (up to 2 s) rather than skipping it. Further providers are asked in cost order only until agreement is established or the enabled list is exhausted.</li>
+<li>Collapse repeated dataset results to one representative, widening its margin to their spread. Contradictory results from one dataset remove that dataset. Unknown provenance supplies no independent vote. Enumerate pairwise-compatible groups (not transitive chains): every pair must be within the coarser margin and no more than 250 m apart. Select the unique largest group; tied groups refuse. The most precise representative supplies the point, with its margin widened to accepted spread.</li>
+<li>One dataset alone is accepted only if its points agree and its placement is inside a loaded outline whose name matches the typed city. No city/outline means refusal. Conflicting independent sources cannot fall back to a single.</li>
+<li>A deciding boundary lets the engine call <code>locate({ marginUnder })</code> once. This distance is advisory: candidates qualify by whether they can improve the current placement, not whether their margin beats the old edge distance. A more precise point must remain within the previous placement's margin and compatible with every accepted representative. Its own margin replaces the coarse margin; provider provenance is retained. All outlines and rates are recomputed at the new point, which can move across the original line. A still-ambiguous point is refused.</li>
+</ol>
+<p>Initial and refinement calls are memoized separately. Concurrent matching requests in one process share in-flight provider work; non-storable results are discarded when those requests finish.</p>
+<h2 id="providers-and-validation">Providers and validation</h2>
+<p>The registry supports Census, Photon, Pelias, Geocodio, Smarty, Mapbox, HERE, Esri and Google. Disabled providers are never called. Exact/high-confidence address matches only: street/city centroids and ambiguous candidates are refused. Vendor adapters validate returned address components and normalize accuracy labels. Photon accepts house-level points only and requires matching house number, street, directions, suffix, state, city and supplied ZIP. Nearby duplicate OSM features are allowed within 50 m, with their spread preserved; distant ones refuse.</p>
+<p>Pelias records use their returned dataset (<code>osm</code> or <code>openaddresses</code>). Geocodio TIGER/OSM/OpenAddresses/local-government attribution is distinguished when recognized; otherwise provenance is unknown. The registry's vendor identities describe the plan's independence assumptions, not a guarantee that proprietary vendors never share upstream data.</p>
+<h2 id="storage-and-quotas">Storage and quotas</h2>
+<p>Migration <code>0004_geocoding.sql</code> adds runtime tables <code>geocode_results</code> and <code>geocoder_usage</code>. Refresh never reads or replaces them. Storable points expire after a year; confirmed negative results after 30 days. HTTP errors, timeouts, malformed responses, budget skips and breaker skips are not negative results and are never cached.</p>
+<p>Census, Photon, Pelias and Geocodio results can be cached. Mapbox needs <code>MAPBOX_PERMANENT=true</code> (request includes <code>permanent=true</code>); Esri needs <code>ARCGIS_FOR_STORAGE=true</code> (request includes <code>forStorage=true</code>). Google, HERE and Smarty are non-storable. Storage permissions also apply to negative results.</p>
+<p>Before any provider request, a single Postgres upsert reserves a daily call and its next allowed request time. Caps and request spacing are shared by all containers using that provider credential/endpoint fingerprint. Slots are never refunded after timeouts because a vendor may have billed the call. Missing tables, read-only permissions and database errors skip the provider; quotas are never replaced by an uncapped in-memory fallback. Geocodio standardization reserves from the same budget. Separate applications sharing the credentials are outside this counter.</p>
+<p><code>&lt;ID&gt;_DAILY_CAP</code>, <code>&lt;ID&gt;_RATE_PER_SECOND</code> and <code>&lt;ID&gt;_COST_PER_CALL</code> configure limits/order (<code>ARCGIS_</code> for Esri). Defaults are application budgets, not current vendor free-tier claims. Rate spacing has no queue: unavailable providers are skipped. Daily dates use UTC. Keep configuration consistent across replicas. A process-local breaker opens for 60 seconds after five errors or one HTTP 429, then admits one trial request. Success closes it; failure reopens it.</p>
+<p><code>OPENTAXRATE_GEOCODE_CACHE=off</code> disables result-cache reads/writes only; quota writes still apply. <code>OPENTAXRATE_GEOCODE_READ_ONLY=true</code> disables all external calls and runtime writes, but can use existing permitted cache entries. Runtime writes are limited to the two geocoding tables. Expired rows can be pruned separately.</p>
+<h2 id="margins-and-evidence">Margins and evidence</h2>
+<p><code>marginOf(p)</code> is at least <code>EDGE_METRES[p.accuracy]</code>: rooftop 15 m, parcel 25 m, point 40 m, interpolated 75 m. These are operational margins, not proof of physical accuracy. Agreement only widens a placement's margin. An explicitly validated refinement can replace a coarse placement with a sharper one.</p>
+<p><code>scripts/bench.ts geocode --provider photon --budget 100</code> measures p95 distance to benchmark cases with trusted <code>lon,lat</code>, grouped by provider and accuracy. It uses the same cache and budgets and prints aggregate measurements without persisting returned coordinates. Representative coordinate fixtures and enabled vendor credentials are required before claiming calibrated margins or improved real-world refusal/error rates.</p>
+<p>Provider metadata is included in <code>/v1/coverage</code>. Successful map placements name supporting providers/datasets in <code>source</code>. Credentials and raw vendor responses are not exposed.</p>
+<p>With a trace (<code>createLocator(address, { trace })</code>), every provider's point is recorded in <code>trace.geocoders</code> and the placement in <code>trace.point</code> (<code>source</code> lists the agreeing providers, <code>spreadMetres</code> their widest spread). A trace only records; the point is the same with or without one.</p>
+</article></div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
+</body>
+</html>
