@@ -156,7 +156,9 @@
 <li><a href="#pelias">Pelias</a></li>
 <li><a class="sub" href="#pelias-build">Build</a></li>
 <li><a class="sub" href="#pelias-update">Keeping it current</a></li>
-<li><a href="#schedule">Schedule</a></li>
+<li><a href="#automation">Automatic updates</a></li>
+<li><a class="sub" href="#automation-install">Install</a></li>
+
 <li><a href="#trouble">Troubleshooting</a></li>
 </ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
 <article id="content">
@@ -168,8 +170,8 @@
 
 <h2 id="overview">Three geocoders</h2>
 <div class="scroll"><table class="grid-table"><thead><tr><th scope="col">Service</th><th scope="col">Data</th><th scope="col">Port</th><th scope="col">Built on the host?</th><th scope="col">How it stays current</th></tr></thead><tbody>
-<tr><th scope="row">Nominatim 5.3</th><td>OpenStreetMap, Census TIGER house-number ranges, US ZIP centroids</td><td class="num">8080</td><td>Yes, about 6 h</td><td>Daily OSM diffs (minutes); TIGER once a year</td></tr>
-<tr><th scope="row">Photon 1.3</th><td>OpenStreetMap, exported from a Nominatim database</td><td class="num">2322</td><td>No, a 14 GB prebuilt download</td><td>Re-download weekly, or build from your Nominatim</td></tr>
+<tr><th scope="row">Nominatim 5.3</th><td>OpenStreetMap, Census TIGER house-number ranges, US ZIP centroids</td><td class="num">8080</td><td>Yes, about 6 h</td><td>Updates itself from OpenStreetMap’s daily changes; TIGER once a year</td></tr>
+<tr><th scope="row">Photon 1.3</th><td>OpenStreetMap, exported from a Nominatim database</td><td class="num">2322</td><td>No, a 14 GB prebuilt download</td><td>Swap in GraphHopper’s newer build when one appears</td></tr>
 <tr><th scope="row">Pelias</th><td>OpenStreetMap, OpenAddresses, Who’s On First, TIGER interpolation</td><td class="num">4000</td><td>Yes, about 3 h plus interpolation</td><td>Full rebuild every few months</td></tr>
 </tbody></table></div>
 <p>The Census Bureau’s geocoder has no self-hosted edition; OpenTaxRate keeps calling it directly.</p>
@@ -215,13 +217,13 @@ docker run -d --name nominatim --restart unless-stopped --shm-size=4g \
   -p 8080:8080 mediagis/nominatim:5.3
 docker logs -f nominatim</pre>
 <p>The API answers once the log says <code>Import completed successfully</code>. On geocoder.example.test the 2026-10-21 import took 5 h 50 min: download 20 min, osm2pgsql 32 min, streets 84 min, house numbers and points of interest 2 h 20 min, search indexes 12 min.</p>
-<p>Three of those flags decide accuracy:</p>
+<p>Three of those flags matter most:</p>
 <ul>
 <li><em><code>IMPORT_TIGER_ADDRESSES=true</code></em> adds the Census house-number ranges for every US street segment. Without them Nominatim knows only the house numbers mapped in OpenStreetMap, which most of the US lacks.</li>
+<li><em><code>UPDATE_MODE=continuous</code></em> keeps the data current: the container applies Geofabrik’s daily US changes itself (see <a href="#nominatim-update">Keeping it current</a>).</li>
 <li><em><code>IMPORT_WIKIPEDIA=true</code></em> loads place importance. Without it “350 5th Ave, New York, NY” resolves to Smithtown, Long Island, because nothing ranks Manhattan above it.</li>
-<li><em><code>UPDATE_MODE=continuous</code></em> applies Geofabrik’s daily diffs inside the container. Leave it out and the data stays as it was at import.</li>
 </ul>
-<div class="callout"><p>The geocoder.example.test import ran without these three. TIGER was added afterwards (below); Wikipedia importance and <code>UPDATE_MODE</code> are still missing.</p></div>
+<div class="callout"><p>The geocoder.example.test import ran without TIGER, Wikipedia importance or continuous updates. TIGER 2025 was added and the container recreated with <code>UPDATE_MODE=continuous</code> and <code>IMPORT_TIGER_ADDRESSES=true</code> on 2026-10-22. Wikipedia importance is still missing (below).</p></div>
 
 <h3 id="nominatim-tiger">Adding TIGER to an existing database</h3>
 <p>Nominatim publishes the Census TIGER address ranges preprocessed. <code>nominatim.org</code> returns 403 without a User-Agent.</p>
@@ -235,7 +237,7 @@ docker exec nominatim bash -c 'grep -q USE_US_TIGER /nominatim/.env ||
 docker exec nominatim bash -c 'cd /nominatim &amp;&amp; sudo -E -u nominatim nominatim refresh --functions'
 docker restart nominatim</pre>
 <p>The API keeps serving during <code>add-data</code>. <code>.env</code> lives in the container, not on a volume: if you ever recreate the container, pass <code>-e IMPORT_TIGER_ADDRESSES=true</code> so the start script writes that line again. It won’t re-import anything; the import only runs when <code>pgdata</code> is empty.</p>
-<p>A new TIGER release appears each autumn as <code>tigerYYYY-nominatim-preprocessed.csv.tar.gz</code>. List them with <code>curl -sA x https://nominatim.org/data/ | grep -o 'tiger[0-9]*-nominatim[^"]*'</code>. Loading a new one replaces the old ranges.</p>
+<p>A new TIGER release appears each autumn as <code>tigerYYYY-nominatim-preprocessed.csv.tar.gz</code>; load it the same way, and it replaces the old ranges. List them with <code>curl -sA x https://nominatim.org/data/ | grep -o 'tiger[0-9]*-nominatim[^"]*' | sort -u</code>. Delete the downloaded file afterwards (<code>docker exec nominatim rm /nominatim/tiger.csv.tar.gz</code>).</p>
 
 <h3 id="nominatim-wiki">Adding Wikipedia importance to an existing database</h3>
 <pre class="cmd">docker exec nominatim bash -c 'cd /nominatim &amp;&amp;
@@ -243,13 +245,16 @@ docker restart nominatim</pre>
     https://nominatim.org/data/wikimedia-importance.csv.gz &amp;&amp;
   chown nominatim wikimedia-importance.csv.gz &amp;&amp;
   sudo -E -u nominatim nominatim refresh --wiki-data --importance'</pre>
-<p>This recomputes importance for every place, which takes about an hour. Refresh it yearly.</p>
+<p>This recomputes importance for every place, which takes about an hour; searches keep working. Refresh it yearly.</p>
 
 <h3 id="nominatim-update">Keeping it current</h3>
-<p>With <code>UPDATE_MODE=continuous</code> the container pulls Geofabrik’s daily US diff and applies it, usually in minutes. Without it, run updates by hand or from cron:</p>
-<pre class="cmd">docker exec nominatim sudo -E -u nominatim nominatim replication --project-dir /nominatim --once</pre>
-<p><code>/status?format=json</code> reports <code>data_updated</code>; alert if it is more than three days old.</p>
-<p>To switch an existing container to continuous updates, recreate it with the same volumes and <code>-e UPDATE_MODE=continuous</code> added, plus <code>-e IMPORT_TIGER_ADDRESSES=true</code> as above. The data stays in <code>pgdata</code>.</p>
+<p>With <code>UPDATE_MODE=continuous</code> the container checks Geofabrik every 15 minutes and applies each day’s US changes as they appear, usually in a few minutes. Nothing else is needed. <code>/status?format=json</code> reports <code>data_updated</code>; Geofabrik publishes about a day behind, so up to two days old is normal.</p>
+<pre class="cmd">curl -s 'http://geocoder.example.test:8080/status?format=json'
+docker exec nominatim tail -5 /var/log/replication.log   <span class="c"># "No new changes. Sleeping for 900 sec." when current</span></pre>
+<p>Each container start re-reads the data’s date and re-applies the latest day of changes, which is harmless. If the updater stops, the container keeps serving the old data; a restart (<code>docker restart nominatim</code>) starts it again.</p>
+<p>To turn continuous updates on for an existing database, recreate the container with the same volumes and the flags above; the import doesn’t run again because <code>pgdata</code> already holds the data.</p>
+<pre class="cmd">docker stop nominatim &amp;&amp; docker rm nominatim
+docker run -d --name nominatim … -e UPDATE_MODE=continuous -e IMPORT_TIGER_ADDRESSES=true …   <span class="c"># same command as First install</span></pre>
 
 <h2 id="photon">Photon</h2>
 <h3 id="photon-install">Install from the prebuilt US dump</h3>
@@ -265,8 +270,20 @@ docker run -d --name photon --restart unless-stopped -p 2322:2322 \
   java -Xmx8g -jar photon-1.3.0.jar serve -data-dir /photon -listen-ip 0.0.0.0</pre>
 
 <h3 id="photon-update">Keeping it current</h3>
-<p>Either re-download weekly: unpack into a new directory, stop <code>photon</code>, swap <code>photon_data</code>, start it.</p>
-<p>Or build Photon from your own Nominatim, so both share one dataset (including TIGER) and Photon follows Nominatim’s diffs. This needs Nominatim’s Postgres port reachable from the Photon container; the <code>mediagis</code> image doesn’t publish 5432, so add <code>-p 127.0.0.1:5432:5432</code>.</p>
+<p>GraphHopper rebuilds the US dump every few days. A newer one is available when the dump’s <code>Last-Modified</code> is later than Photon’s <code>import_date</code>:</p>
+<pre class="cmd">curl -sI https://download1.graphhopper.com/public/north-america/usa/photon-db-usa-1.0-latest.tar.bz2 | grep -i last-modified
+curl -s http://localhost:2322/status</pre>
+<p>To swap it in, unpack it beside the live database (about 20 minutes), then swap with Photon stopped (about a minute of downtime) and keep the old database until the new one works:</p>
+<pre class="cmd">cd ~/photon &amp;&amp; rm -rf next &amp;&amp; mkdir next
+docker run --rm -v ~/photon/next:/w -w /w debian:stable-slim sh -c '
+  apt-get update -qq &amp;&amp; apt-get install -y -qq curl lbzip2 ca-certificates &gt;/dev/null &amp;&amp;
+  curl -sSL https://download1.graphhopper.com/public/north-america/usa/photon-db-usa-1.0-latest.tar.bz2 |
+  lbzip2 -d | tar x &amp;&amp; chown -R 1000:1000 /w'
+docker stop photon &amp;&amp; mv photon_data photon_data.prev &amp;&amp; mv next/photon_data photon_data &amp;&amp; docker start photon
+curl -s 'http://localhost:2322/api?q=1600+Pennsylvania+Ave+Washington&amp;limit=1'   <span class="c"># must return a Feature</span>
+rm -rf photon_data.prev next
+<span class="c"># if the search fails instead: docker stop photon; rm -rf photon_data; mv photon_data.prev photon_data; docker start photon</span></pre>
+<p>Alternatively, build Photon from your own Nominatim, so both share one dataset (including TIGER) and Photon follows Nominatim’s changes. This needs Nominatim’s Postgres port reachable from the Photon container; the <code>mediagis</code> image doesn’t publish 5432, so add <code>-p 127.0.0.1:5432:5432</code>.</p>
 <pre class="cmd"><span class="c"># once: export Nominatim into a fresh Photon database</span>
 java -jar photon-1.3.0.jar import -host 127.0.0.1 -database nominatim -user nominatim \
   -password '&lt;password&gt;' -country-codes us -languages en -data-dir /photon/new -j 16
@@ -305,25 +322,67 @@ $P compose up -d api interpolation</pre>
 </ul>
 
 <h3 id="pelias-update">Keeping it current</h3>
-<p>Pelias has no incremental updates. Rebuild every three to six months, or when OpenAddresses publishes a large new batch:</p>
-<ol>
-<li>Re-run the downloads (<code>dl_osm.sh</code>, <code>dl_oa.sh</code> + <code>extract_oa.sh</code>, <code>pelias download wof</code>, <code>pelias download tiger</code>) and <code>polylines_big.sh</code>.</li>
-<li>Create a fresh index alongside the live one rather than in place: set <code>"schema": { "indexName": "pelias_YYYYMMDD" }</code> in a copy of <code>pelias.json</code>, then run <code>pelias elastic create</code> and the imports with that copy.</li>
-<li>Build interpolation into a new <code>BUILDDIR</code>.</li>
-<li>Point the live <code>pelias.json</code> at the new index name and interpolation directory, run <code>pelias compose up -d api interpolation</code>, then delete the old index (<code>curl -XDELETE localhost:9200/pelias</code>).</li>
-</ol>
-<p>Rebuilding into the live index also works, but searches return a mix of old and new data until it finishes, and deleted places linger.</p>
+<p>Pelias has no incremental updates. Rebuild it from fresh downloads every three months, into a second index beside the live one so searches keep working, then switch over. A rebuild takes most of a day and needs about 150 GB free for the second index. Run from <code>~/pelias/project</code>:</p>
+<pre class="cmd">D=~/pelias/data; NEXT=pelias_$(date -u +%Y%m%d)
+LIVE=$(jq -r '.schema.indexName // "pelias"' pelias.json)
+jq --arg i $NEXT '.schema.indexName = $i' pelias.json &gt; pelias.next.json
+<span class="c"># run an importer against the new index</span>
+next() { docker compose run --rm -T -v $PWD/pelias.next.json:/code/pelias.next.json:ro -e PELIAS_CONFIG=/code/pelias.next.json "$@"; }
 
-<h2 id="schedule">Schedule</h2>
-<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">What</th><th scope="col">How often</th><th scope="col">Command</th></tr></thead><tbody>
-<tr><th scope="row">Nominatim OSM diffs</th><td>Daily; automatic with <code>UPDATE_MODE=continuous</code></td><td><code>nominatim replication --once</code></td></tr>
-<tr><th scope="row">Photon</th><td>Weekly</td><td>Re-download, or <code>photon update</code> after Nominatim</td></tr>
-<tr><th scope="row">Nominatim TIGER</th><td>Yearly, when <code>tigerYYYY</code> appears (autumn)</td><td><code>nominatim add-data --tiger-data</code></td></tr>
-<tr><th scope="row">Nominatim Wikipedia importance</th><td>Yearly</td><td><code>nominatim refresh --wiki-data --importance</code></td></tr>
-<tr><th scope="row">Pelias</th><td>Every 3–6 months</td><td>Full rebuild into a new index</td></tr>
-<tr><th scope="row">Images</th><td>With each rebuild</td><td><code>docker pull mediagis/nominatim:5.3</code>, <code>pelias compose pull</code></td></tr>
-</tbody></table></div>
-<p>After any update, rerun the geocoder benchmark (<code>tsx scripts/bench.ts geocode</code>) to confirm nothing regressed.</p>
+<span class="c"># 1. fresh downloads (about 1 h)</span>
+docker compose run --rm -T whosonfirst ./bin/download
+docker compose run --rm -T interpolation ./bin/download-tiger
+bash ~/pelias/dl_osm.sh
+rm -rf $D/openaddresses.next &amp;&amp; mkdir $D/openaddresses.next
+for c in us-west us-south us-midwest us-northeast; do
+  curl -sSLf -o $D/raw/oa/collection-$c.zip https://v2.openaddresses.io/batch-prod/collection-$c.zip
+  unzip -o -qq $D/raw/oa/collection-$c.zip 'us/*-addresses-*.geojson' -x '*.meta' -d $D/openaddresses.next
+done
+rm -rf $D/openaddresses &amp;&amp; mv $D/openaddresses.next $D/openaddresses
+bash ~/pelias/polylines_big.sh
+
+<span class="c"># 2. admin areas (placeholder is down for a few minutes)</span>
+docker compose stop placeholder &amp;&amp; ~/pelias/src/pelias prepare placeholder
+docker compose up -d placeholder pip libpostal
+
+<span class="c"># 3. import into the new index (about 4 h; OSM and OpenAddresses can run together)</span>
+next schema ./bin/create_index
+next whosonfirst ./bin/start
+next openstreetmap ./bin/start
+next openaddresses ./bin/parallel 6 /data/openaddresses
+next polylines ./bin/start
+
+<span class="c"># 4. interpolation into a new directory (several hours)</span>
+docker compose run --rm -T -e BUILDDIR=/data/interpolation.next interpolation bash ./docker_build.sh
+
+<span class="c"># 5. switch over, only if the new index has over 100 million documents</span>
+curl -s localhost:9200/_cat/count/$NEXT
+cp pelias.json pelias.json.prev &amp;&amp; cp pelias.next.json pelias.json
+docker compose stop interpolation
+mv $D/interpolation $D/interpolation.prev &amp;&amp; mv $D/interpolation.next $D/interpolation
+docker compose up -d --force-recreate api interpolation
+curl -s 'localhost:4000/v1/search?text=1600+Pennsylvania+Ave+NW,+Washington+DC&amp;size=1'   <span class="c"># must return a Feature</span>
+curl -XDELETE localhost:9200/$LIVE &amp;&amp; rm -rf $D/interpolation.prev pelias.json.prev pelias.next.json
+<span class="c"># if the search fails instead: restore pelias.json.prev and interpolation.prev, recreate api and interpolation</span></pre>
+<p>Rebuilding into the live index instead would mix old and new data until it finished, and deleted places would linger.</p>
+<div class="callout"><p>This rebuild hasn’t been run end to end on geocoder.example.test; the first build used the separate steps under <a href="#pelias-build">Build</a>.</p></div>
+
+<h2 id="automation">Automatic updates</h2>
+<p>Nominatim updates itself (<a href="#nominatim-update">above</a>). Everything else runs from a prompt: once a week, cron starts Claude Code on geocoder.example.test with <a href="../deploy/geocoders/maintain.md"><code>deploy/geocoders/maintain.md</code></a>, which follows this guide to:</p>
+<ul>
+<li>check each geocoder answers a test search, Nominatim’s data is under 3 days old, interpolation is running and disk is not low;</li>
+<li>swap in a newer Photon build;</li>
+<li>load a new TIGER release into Nominatim, October to December;</li>
+<li>rebuild Pelias when its index is over 3 months old, one long step per run, recording progress in <code>~/geocoders/notes.md</code>;</li>
+<li>append a report of what it found and did to <code>~/geocoders/logs/maintain.log</code>.</li>
+</ul>
+<h3 id="automation-install">Install</h3>
+<p>The prompt reads this guide, so copy both to geocoder.example.test (again whenever either changes), then add the cron line:</p>
+<pre class="cmd">scp deploy/geocoders/maintain.md docs/self-hosted-geocoders.html geocoder.example.test:geocoders/
+ssh geocoder.example.test crontab -e
+0 6 * * 1 cd ~/geocoders &amp;&amp; { date -u; ~/.local/bin/claude -p "$(cat maintain.md)" --dangerously-skip-permissions; } &gt;&gt; logs/maintain.log 2&gt;&amp;1</pre>
+<p>That runs every Monday at 06:00 UTC. Claude Code must be logged in on geocoder.example.test: run <code>claude</code> there once and use <code>/login</code>. To run it now, paste the same command into a shell. To see what it did, <code>tail -50 ~/geocoders/logs/maintain.log</code>.</p>
+<p>The run makes changes without asking, so it uses <code>--dangerously-skip-permissions</code>; the prompt limits it to the geocoders, one change per run, and deleting only what this guide says to delete. After a Pelias rebuild or a new TIGER release, rerun the geocoder benchmark (<code>tsx scripts/bench.ts geocode</code>) to confirm nothing regressed.</p>
 
 <h2 id="trouble">Troubleshooting</h2>
 <ul>
@@ -331,6 +390,7 @@ $P compose up -d api interpolation</pre>
 <li><em><code>Control server error: Permission denied: '/root/.gunicorn'</code></em> in the Nominatim log is harmless; the API works.</li>
 <li><em><code>du</code> shows <code>~/nominatim/pgdata</code> as 4 KB.</em> The directory belongs to the container’s Postgres user. Use <code>docker exec nominatim du -sh /var/lib/postgresql/16/main</code>.</li>
 <li><em>Downloads from <code>nominatim.org</code> return 403.</em> Send a User-Agent (<code>curl -A …</code>).</li>
+<li><em>The weekly run did nothing.</em> Check <code>~/geocoders/logs/maintain.log</code>; “Not logged in” means Claude Code on geocoder.example.test needs <code>/login</code>.</li>
 <li><em>Pelias returns results without house-number interpolation.</em> The <code>interpolation</code> service isn’t running or its build is unfinished: <code>docker ps | grep interpolation</code>, <code>tail ~/pelias/logs/build_interpolation.log</code>.</li>
 </ul>
 <p class="page-foot">Written 2026-10-22 from the geocoder.example.test install. Commands marked as untried on geocoder.example.test follow the tools’ own help output and haven’t been run end to end.</p>
