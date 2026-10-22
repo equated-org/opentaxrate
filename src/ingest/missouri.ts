@@ -117,6 +117,7 @@ export async function missouriFiles(dir?: string): Promise<StateFiles> {
         state: "MO",
         kind: "boundaries",
         name: newestBoundary,
+        url: `${DOCUMENTS}/${newestBoundary}`,
         location:
           dir && fs.existsSync(path.join(dir, newestBoundary))
             ? path.join(dir, newestBoundary)

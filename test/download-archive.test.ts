@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { readFileSync } from "node:fs";
@@ -155,12 +155,11 @@ describe("keeping every version", () => {
     expect(saved.map((f) => path.basename(f)).sort()).toEqual([expect.stringMatching(/^\d{4}-\d{2}-\d{2}-\w{8}-taxrates\.csv$/), "taxrates.csv"]);
     expect(await readFile(saved.find((f) => f.includes("previous"))!, "utf8")).toBe("v1");
     expect(await readFile(saved.find((f) => !f.includes("previous"))!, "utf8")).toBe("v2");
-    const manifest = (await readFile(path.join(directory, "manifest.jsonl"), "utf8")).trim().split("\n").map((l) => JSON.parse(l));
+    const manifest = (await readFile(path.join(directory, "sources", "manifest.jsonl"), "utf8")).trim().split("\n").map((l) => JSON.parse(l));
     expect(manifest).toHaveLength(3);
     expect(manifest[2]).toMatchObject({ url, bytes: 2, previous: expect.stringContaining("previous/") });
     expect(manifest[1].previous).toBeUndefined();
-    const folder = path.dirname(saved.find((f) => !f.includes("previous"))!);
-    expect(await readFile(path.join(folder, "url.txt"), "utf8")).toBe(`${url}\n`);
+    expect(saved.find((f) => !f.includes("previous"))).toBe(path.join(directory, "sources", "revenue.example", "taxrates.csv"));
   });
 
   it("keeps a live answer gzipped, keyed by what a POST asked", async () => {
@@ -171,5 +170,29 @@ describe("keeping every version", () => {
     const saved = await files(directory);
     expect(saved).toHaveLength(2);
     expect(saved.map((f) => gunzipSync(readFileSync(f)).toString()).sort()).toEqual(['{"rate":0.03}', '{"rate":0.04}']);
+  });
+});
+
+describe("the sources layout", () => {
+  it("files each download where its URL says, and each query in a folder of its own", async () => {
+    const directory = await setup();
+    await downloadedBytes("https://www2.census.example/geo/tiger/TIGER2026/COUNTY/tl_2026_us_county.zip", new Response("zip"));
+    await archiveResponse({ url: "https://gis.example/rest/services/Layer/FeatureServer/1/query?where=1%3D1&resultOffset=0" }, "{}", "Layer-1-0.geojson");
+    const saved = (await files(directory)).map((f) => path.relative(directory, f));
+    expect(saved).toContain("sources/www2.census.example/geo/tiger/TIGER2026/COUNTY/tl_2026_us_county.zip");
+    const page = saved.find((f) => f.endsWith("Layer-1-0.geojson.gz"))!;
+    expect(page).toMatch(/^sources\/gis\.example\/rest\/services\/Layer\/FeatureServer\/1\/query\/[0-9a-f]{16}\/Layer-1-0\.geojson\.gz$/);
+    expect(await readFile(path.join(directory, path.dirname(page), "url.txt"), "utf8")).toMatch(/resultOffset=0/);
+  });
+
+  it("copies a file read from a local folder in under the URL it comes from", async () => {
+    const directory = await setup();
+    const local = await mkdtemp(path.join(tmpdir(), "opentaxrate-local-"));
+    await writeFile(path.join(local, "taxrates.csv"), "local");
+    vi.stubGlobal("fetch", vi.fn());
+    expect(new TextDecoder().decode(await fetchFile("https://revenue.example/data/taxrates.csv", local))).toBe("local");
+    expect(await readFile(path.join(directory, "sources", "revenue.example", "data", "taxrates.csv"), "utf8")).toBe("local");
+    expect(fetch).not.toHaveBeenCalled();
+    await rm(local, { recursive: true, force: true });
   });
 });

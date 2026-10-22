@@ -8,7 +8,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { archiveResponse, downloadedBytes, downloadedChunks, savedBytes, savedDownload } from "./archive.js";
+import { archiveResponse, downloadedBytes, downloadedChunks, keepLocalCopy, savedBytes, savedDownload } from "./archive.js";
 import { Unzip, UnzipInflate } from "fflate";
 import type { Shape } from "./tiger.js";
 
@@ -21,6 +21,8 @@ export interface SstFile {
   /** File name without its extension, e.g. "OHB2026Q4SEP17". */
   name: string;
   location: string;
+  /** Where the file is published, for keeping a local copy under it. */
+  url?: string;
 }
 
 /** "OHB2026Q4SEP17.zip": state, R or B, year and quarter, publication day. */
@@ -49,7 +51,7 @@ export async function latestSstFiles(dir?: string): Promise<SstFile[]> {
     if (!current || version > current.version)
       newest.set(key, {
         version,
-        file: { state, kind, name: name.replace(/\.\w+$/, ""), location },
+        file: { state, kind, name: name.replace(/\.\w+$/, ""), location, url: `${SITE}/${kind === "rates" ? "Rates" : "Boundary"}/${name}` },
       });
   }
   return [...newest.values()].map((v) => v.file);
@@ -57,7 +59,7 @@ export async function latestSstFiles(dir?: string): Promise<SstFile[]> {
 
 /** The file's lines, unzipping a .zip as it streams. */
 export async function* sstFileLines(file: SstFile): AsyncGenerator<string> {
-  const bytes = await open(file.location);
+  const bytes = await open(file.location, file.url);
   const zipped = /\.zip$/i.test(file.location);
   const decoder = new TextDecoder();
   let rest = "";
@@ -112,10 +114,13 @@ export async function latestTigerFiles(
   return files.map((f) => ({
     ...f,
     bytes: async () => {
-      const found = local.find((l) => l.name === `${f.name}.zip`);
-      if (found) return new Uint8Array(fs.readFileSync(found.location));
       const folder = f.kind.toUpperCase();
       const url = `${TIGER}/TIGER${year}/${folder}/${f.name}.zip`;
+      const found = local.find((l) => l.name === `${f.name}.zip`);
+      if (found) {
+        await keepLocalCopy(url, found.location);
+        return new Uint8Array(fs.readFileSync(found.location));
+      }
       const saved = savedBytes(url);
       if (saved) return saved;
       const response = await fetch(url);
@@ -145,7 +150,10 @@ export async function latestTigerAddressFiles(
       name,
       bytes: async () => {
         const found = local.find((l) => l.name === name);
-        if (found) return new Uint8Array(fs.readFileSync(found.location));
+        if (found) {
+          await keepLocalCopy(folder + name, found.location);
+          return new Uint8Array(fs.readFileSync(found.location));
+        }
         // The Census site answers some files with a short "Request Rejected"
         // page and a 200 (in 2026, one county each in VA, AL, LA, AK and MS,
         // every time): only a zip counts, and after a retry the county's file
@@ -177,9 +185,14 @@ export async function latestTigerAddressFiles(
 export const ZIP_AREA_FILE = "cb_2020_us_zcta520_500k";
 
 export async function zipAreaFile(dir?: string): Promise<Uint8Array> {
-  const found = (dir ? listDir(dir) : []).find((l) => l.name === `${ZIP_AREA_FILE}.zip`);
-  if (found) return new Uint8Array(fs.readFileSync(found.location));
   const url = `${TIGER}/GENZ2020/shp/${ZIP_AREA_FILE}.zip`;
+  const found = (dir ? listDir(dir) : []).find((l) => l.name === `${ZIP_AREA_FILE}.zip`);
+  if (found) {
+    await keepLocalCopy(url, found.location);
+    return new Uint8Array(fs.readFileSync(found.location));
+  }
+  const saved = savedBytes(url);
+  if (saved) return saved;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${ZIP_AREA_FILE} answered ${response.status}`);
   const bytes = await downloadedBytes(url, response);
@@ -199,8 +212,11 @@ async function tigerYear(local: Array<{ name: string }>) {
   throw new Error("No TIGER county file found");
 }
 
-async function open(location: string): Promise<AsyncIterable<Uint8Array>> {
-  if (!/^https?:/.test(location)) return fs.createReadStream(location);
+async function open(location: string, url?: string): Promise<AsyncIterable<Uint8Array>> {
+  if (!/^https?:/.test(location)) {
+    if (url) await keepLocalCopy(url, location);
+    return fs.createReadStream(location);
+  }
   const saved = savedDownload(location);
   if (saved) return fs.createReadStream(saved);
   const response = await fetch(location);
