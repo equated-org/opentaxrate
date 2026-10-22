@@ -270,9 +270,9 @@ docker run -d --name photon --restart unless-stopped -p 2322:2322 \
   java -Xmx8g -jar photon-1.3.0.jar serve -data-dir /photon -listen-ip 0.0.0.0</pre>
 
 <h3 id="photon-update">Keeping it current</h3>
-<p>GraphHopper rebuilds the US dump every few days. A newer one is available when the dump’s <code>Last-Modified</code> is later than Photon’s <code>import_date</code>:</p>
+<p>GraphHopper rebuilds the US dump every few days. Photon’s <code>import_date</code> is when GraphHopper took its OpenStreetMap data, not when it published the dump, so compare the dump’s <code>Last-Modified</code> with the one recorded at the last swap instead. A different value means a new build:</p>
 <pre class="cmd">curl -sI https://download1.graphhopper.com/public/north-america/usa/photon-db-usa-1.0-latest.tar.bz2 | grep -i last-modified
-curl -s http://localhost:2322/status</pre>
+grep -i 'photon dump' ~/geocoders/notes.md   <span class="c"># Last-Modified of the installed dump</span></pre>
 <p>To swap it in, unpack it beside the live database (about 20 minutes), then swap with Photon stopped (about a minute of downtime) and keep the old database until the new one works:</p>
 <pre class="cmd">cd ~/photon &amp;&amp; rm -rf next &amp;&amp; mkdir next
 docker run --rm -v ~/photon/next:/w -w /w debian:stable-slim sh -c '
@@ -281,7 +281,7 @@ docker run --rm -v ~/photon/next:/w -w /w debian:stable-slim sh -c '
   lbzip2 -d | tar x &amp;&amp; chown -R 1000:1000 /w'
 docker stop photon &amp;&amp; mv photon_data photon_data.prev &amp;&amp; mv next/photon_data photon_data &amp;&amp; docker start photon
 curl -s 'http://localhost:2322/api?q=1600+Pennsylvania+Ave+Washington&amp;limit=1'   <span class="c"># must return a Feature</span>
-rm -rf photon_data.prev next
+rm -rf photon_data.prev next   <span class="c"># then record the new Last-Modified in ~/geocoders/notes.md</span>
 <span class="c"># if the search fails instead: docker stop photon; rm -rf photon_data; mv photon_data.prev photon_data; docker start photon</span></pre>
 <p>Alternatively, build Photon from your own Nominatim, so both share one dataset (including TIGER) and Photon follows Nominatim’s changes. This needs Nominatim’s Postgres port reachable from the Photon container; the <code>mediagis</code> image doesn’t publish 5432, so add <code>-p 127.0.0.1:5432:5432</code>.</p>
 <pre class="cmd"><span class="c"># once: export Nominatim into a fresh Photon database</span>
