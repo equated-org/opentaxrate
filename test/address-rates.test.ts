@@ -14,7 +14,7 @@
  *     district T1 (lon 0..0.5) 0.5%.
  */
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { inArray, sql } from "drizzle-orm";
+import { inArray, like, sql } from "drizzle-orm";
 import { db } from "../src/db/client.js";
 import {
   salesTaxAreas,
@@ -23,6 +23,8 @@ import {
   salesTaxShapes,
   salesTaxStreetRanges,
   salesTaxZipRanges,
+  zipAreas,
+  zipStreetNames,
 } from "../src/db/schema.js";
 import { addressRates } from "../src/rates/index.js";
 import { geoRateAt } from "../src/rates/map.js";
@@ -113,6 +115,8 @@ async function clear() {
     salesTaxDataReleases,
   ])
     await db.delete(table).where(inArray(table.state, STATES));
+  await db.delete(zipAreas).where(like(zipAreas.zip5, "990%"));
+  await db.delete(zipStreetNames).where(inArray(zipStreetNames.state, STATES));
 }
 
 beforeAll(async () => {
@@ -179,6 +183,22 @@ beforeAll(async () => {
     shape("XT", "district", "T1", 0, 0.5),
     shape("MT", "county", "029", 10, 12),
     shape("MT", "district", "WHITEFISH", 10, 11),
+  ]);
+  // ZIP areas in XT, 0.2° of latitude tall (lat 41.4-41.6).
+  const zipArea = (zip5: string, lon0: number, lon1: number) => ({
+    zip5, geom: geometryOf(square(lon0, lon1, 41.4, 41.6)), file: "fixture",
+  });
+  await db.insert(zipAreas).values([
+    zipArea("99001", 2.2, 2.6), // county 003, outside every rated city
+    zipArea("99002", 0.4, 0.6), // across district T1's line at lon 0.5
+    zipArea("99003", 0.6, 0.9), // inside city 10000, clear of T1
+    zipArea("99004", 2.01, 2.5), // ~800 m from county 001's line
+  ]);
+  // The Census lists Elm St only in ZIP 99003, far from 99001, and Main St
+  // in 99001.
+  await db.insert(zipStreetNames).values([
+    { state: "XT", zip5: "99003", streetKey: "ELM", street: "Elm St", file: "fixture" },
+    { state: "XT", zip5: "99001", streetKey: "MAIN", street: "Main St", file: "fixture" },
   ]);
 });
 
@@ -355,6 +375,35 @@ describe("a map-read state's address", () => {
 
   it("is refused without a map point", async () => {
     await expect(geoRateAt("XT", null, ON)).rejects.toThrow(/couldn't be placed on the map/);
+  });
+
+  it("without a map point, takes the rate its whole ZIP has", async () => {
+    const byZip = (zip: string, city = "Rural") => geoRateAt("XT", null, ON, undefined, undefined, { zip, city });
+    // State 5% + county 003's remainder 1%.
+    expect(await byZip("99001")).toMatchObject({ rate: 0.06, wholeZip: "99001", placedBy: [] });
+    // County 2% + city 1%, ZIP+4 typed.
+    expect((await byZip("99003-1234")).rate).toBe(0.08);
+    // A district line crosses the ZIP; within the margin of a county line.
+    await expect(byZip("99002")).rejects.toThrow(/couldn't be placed on the map/);
+    await expect(byZip("99004")).rejects.toThrow(/couldn't be placed on the map/);
+    // No area for the ZIP, or none typed.
+    await expect(byZip("99999")).rejects.toThrow(/couldn't be placed on the map/);
+    await expect(geoRateAt("XT", null, ON)).rejects.toThrow(/couldn't be placed on the map/);
+  });
+
+  it("without a map point, doesn't trust a ZIP that doesn't reach the typed city", async () => {
+    // City 10000 has an outline, and it is nowhere near ZIP 99001.
+    await expect(geoRateAt("XT", null, ON, undefined, undefined, { zip: "99001", city: "place 10000" }))
+      .rejects.toThrow(/couldn't be placed on the map/);
+    expect((await geoRateAt("XT", null, ON, undefined, undefined, { zip: "99003", city: "place 10000" })).rate).toBe(0.08);
+  });
+
+  it("without a map point, doesn't trust a ZIP the typed street is listed only far from", async () => {
+    const byZip = (street: string) => geoRateAt("XT", null, ON, street, undefined, { zip: "99001", city: "Rural" });
+    await expect(byZip("12 Elm St")).rejects.toThrow(/couldn't be placed on the map/);
+    expect((await byZip("12 Main St")).rate).toBe(0.06);
+    // A street the Census lists nowhere says nothing either way.
+    expect((await byZip("12 Coronel Corte")).rate).toBe(0.06);
   });
 });
 

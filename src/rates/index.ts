@@ -79,7 +79,7 @@ export interface AddressRate {
   /** How precisely the address was placed: one rate for the whole state, a
    *  street range, a ZIP+4 range, a ZIP whose ranges all share one rate, or
    *  the county and city outlines its map point falls in. */
-  match: "statewide" | "street" | "zip4" | "zip5" | "map" | "authority";
+  match: "statewide" | "street" | "zip4" | "zip5" | "map" | "zip_area" | "authority";
   /** OpenTaxRate's own key for the combination of taxes (FIPS codes, or
    *  California's tax area code); not a filing code. */
   locationCode: string | null;
@@ -217,6 +217,7 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
       date,
       query.street,
       query.trace,
+      { zip: query.zip, city: query.city },
     );
     const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
     return {
@@ -226,9 +227,11 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
       localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
       byType: generalOnly(found.rate),
       parts: found.parts,
-      match: "map",
+      match: found.wholeZip ? "zip_area" : "map",
       locationCode: found.locationCode,
-      source: `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
+      source: found.wholeZip
+        ? `${state} rate table ${found.files.join(" + ")}, on ${date}: no geocoder placed the address, and every part of ZIP ${found.wholeZip}'s Census area has this rate`
+        : `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
     };
   }
   if (!RANGE_FIPS[state])

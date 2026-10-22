@@ -267,6 +267,22 @@ const multiPolygon = customType<{ data: string }>({
   dataType: () => "geometry(MultiPolygon, 4326)",
 });
 
+/** Each ZIP's area as the Census Bureau draws it (a ZIP Code Tabulation
+ *  Area: the census blocks where most addresses use that ZIP), from its
+ *  cartographic boundary file, kept for ZIPs in the map-read states. Read
+ *  only to tell whether a whole ZIP has one rate, for an address no
+ *  geocoder could place (rates/map.ts). */
+export const zipAreas = pgTable(
+  "zip_areas",
+  {
+    zip5: text("zip5").primaryKey(),
+    geom: multiPolygon("geom").notNull(),
+    /** The file it came from, e.g. "cb_2020_us_zcta520_500k". */
+    file: text("file").notNull(),
+  },
+  (t) => [index("idx_zip_areas_geom").using("gist", t.geom)],
+);
+
 /** A county's, city's or town's outline from the Census Bureau's TIGER files,
  *  or a special district's from its state, repaired, with seams between its
  *  pieces dissolved, and simplified to about a metre. A town is a county

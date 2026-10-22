@@ -6,14 +6,16 @@
  *   4. the streets in each ZIP of the map-read states, from TIGER address
  *      features;
  *   5. the Census Bureau's newest county, city and town outlines for all of
- *      them.
+ *      them;
+ *   6. the Census Bureau's ZIP areas reaching into the map-read states.
  * A file already loaded is skipped unless `force`; a map-read state is
  * fetched again every run, since its sources don't name versions alike.
  */
 import { and, eq } from "drizzle-orm";
 import { db } from "../db/client.js";
-import { salesTaxDataReleases, salesTaxShapes, zipStreetNames } from "../db/schema.js";
-import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines } from "./downloads.js";
+import { salesTaxDataReleases, salesTaxShapes, zipAreas, zipStreetNames } from "../db/schema.js";
+import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines, ZIP_AREA_FILE, zipAreaFile } from "./downloads.js";
+import { loadZipAreas } from "./zip-areas.js";
 import { loadStreetNames } from "./street-names.js";
 import { GEO_STATES } from "./states/index.js";
 import { loadGeoState, loadSstState, loadTigerShapes } from "./load.js";
@@ -132,4 +134,20 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     log(`${file.name}: ${count} outlines`);
   }
 
+  // Kept for every map-read state at once, whichever were asked for: one
+  // national file, and an area can reach into two states. Which areas are
+  // kept depends on the counties loaded, so not until all of them are.
+  const geoStates = GEO_STATES.map((g) => g.state);
+  const counties = new Set(
+    (await db.selectDistinct({ state: salesTaxShapes.state }).from(salesTaxShapes).where(eq(salesTaxShapes.kind, "county"))).map((r) => r.state),
+  );
+  const missing = geoStates.filter((s) => !counties.has(s));
+  const [zipLoaded] = await db.select({ file: zipAreas.file }).from(zipAreas).limit(1);
+  if (missing.length) log(`${ZIP_AREA_FILE}: waits for county outlines in ${missing.join(", ")}`);
+  else if (!force && zipLoaded?.file === ZIP_AREA_FILE) log(`${ZIP_AREA_FILE} already loaded`);
+  else {
+    const started = Date.now();
+    const kept = await loadZipAreas({ name: ZIP_AREA_FILE, bytes: await zipAreaFile(dir) }, geoStates);
+    log(`${ZIP_AREA_FILE}: ${kept} ZIP areas in map-read states in ${seconds(started)}`);
+  }
 }

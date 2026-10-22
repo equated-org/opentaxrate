@@ -187,6 +187,8 @@
 			case 'zip4':
 			case 'zip5':
 				return `The street range decided the rate, not the map. The pin is where the search box put the address${where}, only to center the map.`;
+			case 'zip_area':
+				return `No geocoder placed the address; its whole ZIP has one rate, so the outlines its ZIP area touches decided it. The pin is where the search box put the address${where}.`;
 			case 'statewide':
 				return `One rate across ${stateName}. The pin is where the search box put the address${where}.`;
 			case 'authority':

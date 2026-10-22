@@ -94,7 +94,7 @@ function bboxOf(rings: Shape["rings"]): Shape["bbox"] {
 }
 
 /** Each record's polygon rings, in file order; null for a null shape. */
-function readPolygons(buffer: Uint8Array) {
+export function readPolygons(buffer: Uint8Array) {
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
   const polygons: Array<Shape["rings"] | null> = [];
   let at = 100;

@@ -2,7 +2,8 @@
  * Finds and reads the public files address rates are built from:
  *   - each Streamlined state's newest rate and boundary file, as text lines,
  *     unzipped on the way in so a 400 MB boundary file is never held whole;
- *   - the Census Bureau's newest TIGER county, city and town outlines.
+ *   - the Census Bureau's newest TIGER county, city and town outlines, and
+ *     its ZIP areas.
  * A local folder of the same files can stand in for either site.
  */
 import fs from "node:fs";
@@ -164,6 +165,24 @@ export async function latestTigerAddressFiles(
       },
     })),
   };
+}
+
+/** The Census Bureau's ZIP areas (ZIP Code Tabulation Areas), as zip bytes,
+ *  from `dir` when it holds them. They are drawn once a decade; the
+ *  cartographic file is used because the full TIGER one (530 MB) is too
+ *  large to read whole, and its simplification is well inside the margin
+ *  they are read with (rates/map.ts). */
+export const ZIP_AREA_FILE = "cb_2020_us_zcta520_500k";
+
+export async function zipAreaFile(dir?: string): Promise<Uint8Array> {
+  const found = (dir ? listDir(dir) : []).find((l) => l.name === `${ZIP_AREA_FILE}.zip`);
+  if (found) return new Uint8Array(fs.readFileSync(found.location));
+  const url = `${TIGER}/GENZ2020/shp/${ZIP_AREA_FILE}.zip`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${ZIP_AREA_FILE} answered ${response.status}`);
+  const bytes = await downloadedBytes(url, response);
+  if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error(`${ZIP_AREA_FILE} answered with something other than a zip`);
+  return bytes;
 }
 
 async function tigerYear(local: Array<{ name: string }>) {

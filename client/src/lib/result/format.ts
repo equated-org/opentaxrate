@@ -116,6 +116,7 @@ export const MATCH_SHORT: Record<string, string> = {
 	zip4: 'matched by ZIP+4',
 	zip5: 'one rate across the ZIP',
 	map: 'placed on the map',
+	zip_area: 'one rate across the ZIP',
 	authority: "from the state's own lookup"
 };
 
@@ -156,6 +157,8 @@ export function howPlaced(rate: AddressRate, trace: Trace | null): string[] {
 			return [`Every range in ${range?.zip ? `ZIP ${range.zip}` : 'the ZIP'} has this rate, so the street didn't need to match.`];
 		case 'map':
 			return mapLines(trace);
+		case 'zip_area':
+			return ['No geocoder placed the address, and every part of its ZIP\'s area has this rate.'];
 	}
 	return [];
 }

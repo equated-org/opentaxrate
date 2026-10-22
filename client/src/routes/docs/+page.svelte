@@ -123,7 +123,7 @@
 						<td><code>match</code></td>
 						<td>
 							How the address was placed: <code>statewide</code> (one rate), <code>street</code> (street range), <code>zip4</code>,
-							<code>zip5</code> (every range in the ZIP agrees), <code>map</code> (county, city and district outlines), or
+							<code>zip5</code> (every range in the ZIP agrees), <code>map</code> (county, city and district outlines), <code>zip_area</code> (no geocoder placed the address, but its ZIP's whole area has one rate), or
 							<code>authority</code> (the state's own lookup).
 						</td>
 					</tr>

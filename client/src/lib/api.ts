@@ -5,7 +5,7 @@
 import type { Geometry, MultiPolygon, Polygon } from 'geojson';
 
 export type RateKind = 'state' | 'county' | 'city' | 'district';
-export type Match = 'statewide' | 'street' | 'zip4' | 'zip5' | 'map' | 'authority';
+export type Match = 'statewide' | 'street' | 'zip4' | 'zip5' | 'map' | 'zip_area' | 'authority';
 export type Accuracy = 'rooftop' | 'parcel' | 'point' | 'interpolated';
 
 export interface RatesByType {
