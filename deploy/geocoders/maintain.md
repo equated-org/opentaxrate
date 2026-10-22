@@ -4,13 +4,15 @@ The US supplement pipeline lives in `~/geocoders/extra`. Read its `status.txt`, 
 
 The US/Canada additions live in `~/geocoders/strongest`; also check its `status.txt` and logs. Don't compete with those imports. Once complete, test a Canadian address as well as the US search, and preserve both countries in future rebuilds.
 
+Pelias fresh-data cycles are owned by `refresh.md`, scheduled daily. Read `refresh-state.json`; while a refresh is active, limit this run to read-only checks. Do not start a second Pelias rebuild.
+
 Do these in order. Make at most one change per run.
 
 1. Check that Nominatim, Photon and Pelias each answer a test search for "1600 Pennsylvania Ave NW, Washington DC", that Pelias's `pelias_interpolation` container is running, and that the disk has at least 300 GB free. If something is down, try restarting its container once; don't rebuild anything to fix it.
 2. Check Nominatim's data is under 3 days old (`/status?format=json`, `data_updated`). Nominatim updates itself (`UPDATE_MODE=continuous`); if it's behind, read `/var/log/replication.log` in the container and report why. Don't run replication yourself.
 3. If the `Last-Modified` of GraphHopper's US Photon dump differs from the one recorded in `notes.md`, swap it in as the guide's Photon section describes, keeping the old database until the new one answers the test search, then record the new value. (Photon's `import_date` is GraphHopper's data date, not the dump's, so don't compare against it.)
 4. From October to December, if nominatim.org has a newer `tigerYYYY-nominatim-preprocessed.csv.tar.gz` than the release recorded in `notes.md`, load it as the guide describes.
-5. If the live Pelias index (`curl localhost:9200/_cat/indices?h=index,creation.date.string`) is more than 3 months old, or `notes.md` says a rebuild is in progress, follow the guide's Pelias rebuild. It takes most of a day: start each long step with `nohup` and its log in `~/pelias/logs/`, record the step in `notes.md`, and on the next run check it and carry on. Switch the API over only when the new index has over 100 million documents and passes the test search.
+5. Check `refresh-state.json` and `logs/refresh.log`: monthly Pelias refreshes must cover every US/Canada source, and unfinished cycles should advance through the daily refresh job. Report overdue dates, FAILED/BLOCKED stages, or a missing daily cron entry. Leave rebuilds and cutovers to `refresh.md`.
 
 Never touch other containers or services on this machine, and never delete data the guide doesn't say to delete. If something needs a decision, stop and say so.
 

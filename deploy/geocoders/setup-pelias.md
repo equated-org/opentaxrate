@@ -14,4 +14,4 @@ Set up self-hosted Pelias for the United States and Canada using the latest avai
 
 Follow `docs/self-hosted-geocoders.html`. Include both countries in the administrative hierarchy and search configuration. Enable interpolation using OSM streets, US TIGER and address points. Convert OpenAddresses GeoJSON to interpolation-compatible CSV. Register the extra sources, preserve provenance, coordinate quality and licenses, and deduplicate overlapping records conservatively.
 
-Keep imports running in the background with progress logs. Validate searches before switching an existing service to rebuilt data, and retain rollback data. Schedule fresh downloads and rebuilds for every source. Report what is searchable, what is still importing and the update schedule.
+Keep imports running in the background with progress logs. Validate searches before switching an existing service to rebuilt data, and retain rollback data. Install the daily `deploy/geocoders/refresh.md` job for monthly fresh-data cycles covering every source, alongside weekly maintenance. Report what is searchable, what is still importing and the update schedule.

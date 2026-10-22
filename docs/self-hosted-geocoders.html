@@ -323,7 +323,7 @@ $P compose up -d api interpolation</pre>
 </ul>
 
 <h3 id="pelias-update">Keeping it current</h3>
-<p>Pelias has no incremental updates. Rebuild it from fresh downloads every three months, into a second index beside the live one so searches keep working, then switch over. A rebuild takes most of a day and needs about 150 GB free for the second index. Run from <code>~/pelias/project</code>:</p>
+<p>This installation refreshes Pelias through full replacements. Rebuild it from fresh downloads monthly, into a second index beside the live one so searches keep working, then switch over. A rebuild can take a day or more. Size the spare space from the current index, new inputs and staged interpolation database, and retain at least 300 GB free; the expanded US/Canada dataset exceeds the original capacity estimate. Run from <code>~/pelias/project</code>:</p>
 <pre class="cmd">D=~/pelias/data; NEXT=pelias_$(date -u +%Y%m%d)
 LIVE=$(jq -r '.schema.indexName // "pelias"' pelias.json)
 jq --arg i $NEXT '.schema.indexName = $i' pelias.json &gt; pelias.next.json
@@ -380,7 +380,7 @@ cat ~/geocoders/extra/*.done.json
 tail -20 ~/geocoders/logs/extra-nad.log
 tail -20 ~/geocoders/logs/extra-interpolation.log
 curl -s 'localhost:9200/_cat/count/pelias'</pre>
-<p>On geocoder.example.test, the Compose <code>csv</code> service imports the verified supplemental CSVs. Include <code>next csv ./bin/start</code> in replacement index builds. This replays saved data; recurring fresh downloads for the supplemental sources still need to be scheduled. Nominatim replication resumes automatically after the Wikipedia importance refresh.</p>
+<p>On geocoder.example.test, the Compose <code>csv</code> service imports the verified supplemental CSVs. Include <code>next csv ./bin/start</code> in replacement index builds. This replays saved data. Fresh downloads and replacement index builds are owned by the daily <a href="../deploy/geocoders/refresh.md">refresh prompt</a>, with a new cycle due monthly and release checks for every source. State and pinned release manifests live under <code>~/geocoders/refresh-state.json</code> and <code>~/geocoders/refreshes/</code>. Nominatim replication resumes automatically after the Wikipedia importance refresh.</p>
 
 <p>The strongest US/Canada additions are managed on geocoder.example.test under <code>~/geocoders/strongest</code>: Statistics Canada's June 2026 National Address Register, Québec's October 2026 RQA snapshot, recent Tennessee and New Jersey NG911 changes, and the Canadian OSM extract. The Canadian Who's on First hierarchy is loaded alongside the US hierarchy, and placeholder and point-in-polygon services support both countries. The source IDs are <code>nar</code>, <code>rqa</code>, <code>ng911tn</code> and <code>ng911nj</code>. Check that directory's <code>status.txt</code>, <code>pipeline.log</code> and <code>osm-canada-import.log</code>; verified CSV checkpoints remain under <code>~/geocoders/extra</code>. NAR prefers building coordinates and retains whether it had to fall back to a blockface point. These are not all rooftop locations. The new interpolation inputs are stored separately under <code>~/pelias/data/strongest-interpolation-inputs</code>; the current US interpolation rebuild does not include them. Future full rebuilds must import both OSM extracts and all verified supplemental CSVs.</p>
 
@@ -390,15 +390,17 @@ curl -s 'localhost:9200/_cat/count/pelias'</pre>
 <li>check each geocoder answers a test search, Nominatim’s data is under 3 days old, interpolation is running and disk is not low;</li>
 <li>swap in a newer Photon build;</li>
 <li>load a new TIGER release into Nominatim, October to December;</li>
-<li>rebuild Pelias when its index is over 3 months old, one long step per run, recording progress in <code>~/geocoders/notes.md</code>;</li>
+<li>check the separate daily Pelias refresh job, its monthly due date and any failures;</li>
 <li>append a report of what it found and did to <code>~/geocoders/logs/maintain.log</code>.</li>
 </ul>
 <h3 id="automation-install">Install</h3>
-<p>The prompt reads this guide, so copy both to geocoder.example.test (again whenever either changes), then add the cron line:</p>
-<pre class="cmd">scp deploy/geocoders/maintain.md docs/self-hosted-geocoders.html geocoder.example.test:geocoders/
+<p>The prompt reads this guide, so copy the prompts and guide to geocoder.example.test (again whenever they change), then add both cron entries:</p>
+<pre class="cmd">scp deploy/geocoders/maintain.md deploy/geocoders/refresh.md docs/self-hosted-geocoders.html geocoder.example.test:geocoders/
 ssh geocoder.example.test crontab -e
-0 6 * * 1 cd ~/geocoders &amp;&amp; { date -u; ~/.local/bin/claude -p "$(cat maintain.md)" --dangerously-skip-permissions; } &gt;&gt; logs/maintain.log 2&gt;&amp;1</pre>
-<p>That runs every Monday at 06:00 UTC. Claude Code must be logged in on geocoder.example.test: run <code>claude</code> there once and use <code>/login</code>. To run it now, paste the same command into a shell. To see what it did, <code>tail -50 ~/geocoders/logs/maintain.log</code>.</p>
+0 6 * * 1 cd ~/geocoders &amp;&amp; flock -n maintenance.lock sh -c '{ date -u; ~/.local/bin/claude -p "$(cat maintain.md)" --dangerously-skip-permissions; }' &gt;&gt; logs/maintain.log 2&gt;&amp;1
+30 6 * * * cd ~/geocoders &amp;&amp; flock -n maintenance.lock sh -c '{ date -u; ~/.local/bin/claude -p "$(cat refresh.md)" --dangerously-skip-permissions; }' &gt;&gt; logs/refresh.log 2&gt;&amp;1</pre>
+<p>The maintenance check runs every Monday at 06:00 UTC; the fresh-data check runs daily at 06:30 UTC. Both use the same lock. The refresh job checks releases monthly, resumes unfinished background stages on subsequent days, and defers while another builder is active. It prepares a replacement index and interpolation database, validates counts and US/Canada searches, then switches with rollback data retained. Upstream releases that have not changed are reused. The initial next due date for this installation is 2026-11-22; later due dates are one calendar month after successful cutover.</p>
+<p>Claude Code must be logged in on geocoder.example.test: run <code>claude</code> there once and use <code>/login</code>. To run it now, paste the same command into a shell. To see what it did, <code>tail -50 ~/geocoders/logs/maintain.log</code>.</p>
 <p>The run makes changes without asking, so it uses <code>--dangerously-skip-permissions</code>; the prompt limits it to the geocoders, one change per run, and deleting only what this guide says to delete. After a Pelias rebuild or a new TIGER release, rerun the geocoder benchmark (<code>tsx scripts/bench.ts geocode</code>) to confirm nothing regressed.</p>
 
 <h2 id="trouble">Troubleshooting</h2>
