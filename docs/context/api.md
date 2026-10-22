@@ -1,6 +1,6 @@
 # API, CLI and errors
 
-Sources: `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts`, `src/limits.ts`, `src/cache.ts`, `src/suggest.ts` (and `src/db/client.ts` for the pool)
+Sources: `src/server.ts`, `src/cli.ts`, `src/lookup.ts`, `src/errors.ts`, `src/limits.ts`, `src/cache.ts`, `src/suggest.ts`, `src/access.ts`, `src/auth.ts`, `src/mail.ts`, `src/credits.ts`, `src/requests.ts`, `src/billing.ts` (and `src/db/client.ts` for the pool)
 
 The outside of the service. The HTTP API and the CLI both turn a request into one call to `lookUpRate` (`src/lookup.ts`), which calls `addressRates.at` in the engine. Neither writes rate data; loading is the CLI's `refresh` command (see [refresh.md](refresh.md)).
 
@@ -39,6 +39,36 @@ Without it the response is exactly what it was before traces existed. With it, t
 
 Coordinates are rounded to 5 decimals, metres to 0.1. `outlines` is empty when no point was used (a street or ZIP match never geocodes for display). After the engine returns or throws, `lookUpRate` adds `geometry` with `outlineGeometry` (`src/rates/shapes.ts`): each outline clipped to a square around `point` reaching 3 km, or 1.25 × the nearest levying edge + 500 m when that is further, up to 20 km (`TRACE_CLIP_METRES`), and simplified to about 5 m per 3 km of reach, as GeoJSON; an outline with nothing in the square gets none. A geometry query that fails is logged and only leaves the shapes out.
 
+## Access (`src/access.ts`)
+
+`resolveAccess()` runs on `/v1/rate` and `/v1/coverage`, before the per-IP limit, and sets `c.var.access`:
+
+| Request | Access | Providers (`policyFor`) | Per-IP limit | Answer cache |
+|---|---|---|---|---|
+| no key | `{ tier: "public" }` | `OPENTAXRATE_PUBLIC_PROVIDERS`, or every one when unset | yes | yes |
+| a key in `OPENTAXRATE_MASTER_KEYS` | `{ tier: "keyed", master: name }` | every configured one | no | `api_requests` |
+| an account's key (`otr_live_…`, `auth.api.verifyApiKey`) | `{ tier: "keyed", userId, keyId }` | every configured one, paid from the allowance | no; 120 a minute per key (429 `KEY_LIMITED`) | `api_requests` |
+| any other key | 401 `{ code: "INVALID_API_KEY" }` | — | — | — |
+
+The key is read from `x-api-key` or `Authorization: Bearer` (`presentedKey`). `OPENTAXRATE_MASTER_KEYS` is `name=key` pairs, comma-separated (a bare key is named `master`); `masterKeys()` throws at start unless each key is `otr_master_` plus at least 32 characters, and holds only their SHA-256 digests. A key never falls back to the public tier. `/v1/rate` answers carry `X-OpenTaxRate-Tier: public|keyed`.
+
+The policy is a set of ids: the registry's geocoders plus `jev`. `lookUpRate(q, { trace, policy })` passes it to `createLocator` (`geocoderProviders(policy)`), to `addressStandardizer(policy)` (only when `geocodio` is allowed), and as `pickStreet: null` when `jev` isn't allowed, so `correctedStreet` reads by spelling only. Without a policy (the CLI), every provider is allowed.
+
+## Accounts, keys and credit (`src/auth.ts`, `credits.ts`, `requests.ts`, `billing.ts`)
+
+On only with `BETTER_AUTH_SECRET`. Better Auth (drizzle adapter, tables in `src/db/auth-schema.ts`) is mounted at `/api/auth/*`: `emailOTP` (6 digits, 5 minutes, 3 tries, stored hashed; `sendMail` in `mail.ts`) signs in and signs up in one step and sets `emailVerified`; `@better-auth/api-key` makes `otr_live_` keys (hashed, `start` keeps 13 characters, 120 a minute). A before-hook refuses `/api-key/create` for an unverified user. `databaseHooks.user.create.after` grants the trial (`grantTrial`).
+
+A keyed `/v1/rate` (`keyedLookup` in `server.ts`):
+
+1. An account's key: `charge(userId)` takes `PRICE_MICROS` (1,950 µ$, $1.95 per 1,000; a new account starts with `TRIAL_LOOKUPS`, 100) and adds 80% of it to `geo_allowance_micros`, in one `UPDATE … WHERE credit_micros >= price`; no row is 402 `NO_CREDITS`. Master keys aren't charged.
+2. `cachedAnswer(caller, answerKey)`: the caller's own last 200 for the same key within `CACHE_HOURS` (24) is returned with `X-OpenTaxRate-Cache: hit`, charged, and logged with `cached`. Only the tax answer is stored: a traced lookup's trace (geocoder points, outlines) is dropped before logging, and traced lookups are never answered from history.
+3. Otherwise `lookUpRate` with `accountBudget(userId)` (or `meteredBudget()` for a master key): a provider with a list price (`pricePerCall`, fixed in the registry) is reserved from the allowance before the vendor cap, and the Geocodio standardizer (twice Geocodio's price, for the zip4 field) and Jev (`JEV_PRICE`) the same way. A thin allowance means only the free providers are asked.
+4. A 422 or 5xx is refunded (`refund`). Every outcome is one `api_requests` row: query, status, response, `providers` paid, `charged_micros`, `geo_cost_micros`, `ms`. Rows older than 90 days are pruned a minute after start and daily.
+
+Session routes (cookie; 401 `SIGNED_OUT` without one): `GET /v1/account/summary` (email, `creditMicros`, `priceMicros`, `lookupsLeft`, this month's totals, lookups by key, `canBuy`), `GET /v1/account/requests?before=&key=&result=rate|declined|error&q=` (50 a page, newest first), and with Stripe set `POST /v1/account/checkout {"amount": 1000|2500|5000}` → `{ url }` of a Stripe Checkout session (mode `payment`, `metadata.user_id` on the session and its payment intent).
+
+`POST /api/billing/webhook` checks `stripe-signature` against `STRIPE_WEBHOOK_SECRET` (400 when wrong). `checkout.session.completed` or `…async_payment_succeeded` with `payment_status: "paid"` calls `addCredit(userId, "purchase", amount_total × 10,000, session.id)`; `credit_grants.stripe_id` is unique, so a resent event is a no-op. `charge.refunded` takes back the newly refunded amount once (`refund:<charge>:<total refunded>`).
+
 ## Public deployment
 
 Each is off when its variable is unset, so a self-hosted API behaves as before.
@@ -59,6 +89,11 @@ Every error body is `{ "error": <message for a person>, "code": <stable code> }`
 | `UPSTREAM_UNAVAILABLE` | 502 | default for status 502: state not loaded, missing state rate row, CDTFA down |
 | `UPSTREAM_TIMEOUT` | 504 | default for status 504: CDTFA timed out |
 | `RATE_LIMITED` | 429 | the per-IP limit (`limits.ts`), with `Retry-After` |
+| `INVALID_API_KEY` | 401 | a key that isn't a master key or a live account key (`access.ts`) |
+| `KEY_LIMITED` | 429 | an account key over 120 lookups a minute, with `Retry-After` |
+| `NO_CREDITS` | 402 | an account key whose credit doesn't cover a lookup |
+| `SIGNED_OUT` | 401 | a `/v1/account/*` call without a session |
+| `USE_API_HOST` | 400 | from the landing's Worker, not the API: a request to opentaxrate.com/v1/* carrying a key (keys go to api.opentaxrate.com) |
 | `INTERNAL` | 500 | any non-`RateError` throw, logged by `app.onError` |
 
 `RATE_ERROR_CODES` lists the four `RateError` codes and `RATE_LIMITED`, which `limits.ts` writes directly rather than throwing; `BAD_REQUEST` and `INTERNAL` are written by `server.ts` directly.
@@ -117,3 +152,8 @@ After any command but `serve`, the Postgres `client` is closed; a thrown error s
 | `OPENTAXRATE_CACHE_HOURS` | unset (no cache) | `cache.ts`, via `server.ts` |
 | `OPENTAXRATE_PHOTON_URL` | unset (`/v1/suggest` off) | `suggest.ts`, via `server.ts` |
 | `OPENTAXRATE_SUGGEST_LIMIT` | unset (no limit) | `limits.ts`, via `server.ts` |
+| `OPENTAXRATE_PUBLIC_PROVIDERS` | unset (every provider) | `access.ts`, via `server.ts` |
+| `OPENTAXRATE_MASTER_KEYS` | unset (none) | `access.ts`, via `server.ts` |
+| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` | unset (accounts off) | `auth.ts` |
+| `RESEND_API_KEY` | unset (codes printed outside production) | `mail.ts` |
+| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | unset (no buying) | `billing.ts` |
