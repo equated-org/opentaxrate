@@ -4,7 +4,10 @@
 //   npx tsx scripts/tuning/one.mts REPLAY_FILE ID STATE "STREET" CITY ZIP
 //
 // REPLAY_FILE is a trial's artifacts/tuning/replay-<split>.json and ID the
-// address's bench id; OTR_PARAMS and STATE_LOOKUPS apply as in a trial.
+// address's bench id. OTR_PARAMS and STATE_LOOKUPS apply, but the state
+// lookups, the Census's checks and Jev are asked live, not replayed, and a
+// geocoder missing from the file fails: an answer can differ from a trial's.
+// DATE (default 2026-10-21) is the sale date.
 import fs from "node:fs";
 import { addressRates, emptyTrace } from "../../src/rates/index.ts";
 import { createLocator } from "../../src/geocoding/locator.ts";
@@ -19,7 +22,7 @@ const wrapped = async (need?: any) => { const p = await locate(need); ltrace.pus
 const std = replay[`standardize|${id}`];
 const trace = emptyTrace();
 try {
-  const r = await addressRates.at({ ...c, locate: wrapped, standardize: async () => std ?? null, trace } as any, "2026-10-21");
+  const r = await addressRates.at({ ...c, locate: wrapped, standardize: async () => std ?? null, trace } as any, process.env.DATE ?? "2026-10-21");
   console.log("ANSWER", r.rate, r.match, r.source);
 } catch (e: any) { console.log("REFUSED", e.message); }
 console.log("locate calls", JSON.stringify(ltrace));

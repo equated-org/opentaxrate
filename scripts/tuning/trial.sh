@@ -21,7 +21,12 @@ TUNE_DIR=${TUNE_DIR:-$ROOT/artifacts/tuning}
 POOL=$ROOT/artifacts/bench/pool
 SPLITS=${SPLITS:-batch1 batch-dev batch2 batch3 batch4 batch5 round2}
 DB=${DATABASE_URL:-postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate}
-n=0
+mkdir -p "$TUNE_DIR"
+# Trials share the replay files, which each rewrites as answers arrive: one
+# at a time.
+exec 9>"$TUNE_DIR/.lock"
+flock -n 9 || { echo "Another trial is running in $TUNE_DIR" >&2; exit 1; }
+n=0; finished=0
 for split in $SPLITS; do
   n=$((n + 1))
   dir=$TUNE_DIR/$NAME/$split; rm -rf "$dir"; mkdir -p "$dir"
@@ -37,4 +42,6 @@ for split in $SPLITS; do
     npx tsx scripts/bench.ts ask opentaxrate-dev --per-state 99 --budget 5000 > "$dir.log" 2>&1 ) &
 done
 wait
-echo "$NAME: $(cat "$TUNE_DIR/$NAME"/*.log | grep -c ' kept$')/$n splits finished"
+for split in $SPLITS; do grep -q ' kept$' "$TUNE_DIR/$NAME/$split.log" && finished=$((finished + 1)); done
+echo "$NAME: $finished/$n splits finished"
+[ "$finished" = "$n" ]

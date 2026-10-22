@@ -294,34 +294,42 @@ const PROVIDERS: Record<string, Provider> = {
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
-/** With BENCH_LOOKUP_REPLAY, the states' live lookups (Missouri's, and the
- *  TTR services Colorado and Alaska run on) are answered once and replayed
- *  from that file after, so a tuning trial isn't moved by a lookup's
- *  timeout. A failed call isn't kept. */
-const LOOKUP_HOSTS = ["missouri.atr.avalara.com", "alaska.atr.avalara.com", "salestaxlookup.colorado.gov"];
-let lookupsReplayed = false;
-function replayStateLookups(file: string) {
-  if (lookupsReplayed) return;
-  lookupsReplayed = true;
+/** With BENCH_LOOKUP_REPLAY, the live services an answer depends on besides
+ *  the geocoders (the states' lookups, California's, the Census's check of
+ *  a lone point's ZIP and place, and Jev's street pick) are asked once per
+ *  request and answered from that file after, so a tuning trial isn't moved
+ *  by a timeout. A failed call isn't kept. The file is re-read and written
+ *  straight after each answer, with no wait between, so answers arriving at
+ *  once (a lookup's five margin probes) are all kept. */
+const LIVE_HOSTS = ["missouri.atr.avalara.com", "alaska.atr.avalara.com", "salestaxlookup.colorado.gov",
+  "services.maps.cdtfa.ca.gov", "geocoding.geo.census.gov/geocoder/geographies", "api.typesafe.ai"];
+let liveReplayed = false;
+function replayLiveServices(file: string) {
+  if (liveReplayed) return;
+  liveReplayed = true;
   const live = globalThis.fetch;
+  const read = (): Record<string, { status: number; body: string }> =>
+    fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : {};
   globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
     const url = String(input instanceof Request ? input.url : input);
-    if (!LOOKUP_HOSTS.some((h) => url.includes(h))) return live(input, init);
+    if (!LIVE_HOSTS.some((h) => url.includes(h))) return live(input, init);
     const key = `${init?.method ?? "GET"} ${url} ${typeof init?.body === "string" ? init.body : ""}`;
-    const kept: Record<string, { status: number; body: string }> = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : {};
-    if (!kept[key]) {
+    let hit = read()[key];
+    if (!hit) {
       const response = await live(input, init);
       const body = await response.text();
       if (!response.ok) return new Response(body, { status: response.status });
-      kept[key] = { status: response.status, body };
+      hit = { status: response.status, body };
+      const kept = read();
+      kept[key] = hit;
       fs.writeFileSync(file, JSON.stringify(kept));
     }
-    return new Response(kept[key].body, { status: kept[key].status, headers: { "content-type": "application/json" } });
+    return new Response(hit.body, { status: hit.status, headers: { "content-type": "application/json" } });
   }) as typeof fetch;
 }
 
 async function pipeline(c: Case, replayFile?: string, publicProviders?: string): Promise<Answer> {
-  if (process.env.BENCH_LOOKUP_REPLAY) replayStateLookups(process.env.BENCH_LOOKUP_REPLAY);
+  if (process.env.BENCH_LOOKUP_REPLAY) replayLiveServices(process.env.BENCH_LOOKUP_REPLAY);
   const { addressRates } = await import("../src/rates/index.js");
   const { createLocator } = await import("../src/geocoding/locator.js");
   const { geocoderProviders } = await import("../src/geocoding/registry.js");

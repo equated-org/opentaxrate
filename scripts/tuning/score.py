@@ -60,6 +60,9 @@ t = collections.Counter(grades.values())
 n, answered = len(official), t["right"] + t["wrong"]
 print(f"{name}: n={n} right {t['right']} ({100 * t['right'] / n:.2f}%) wrong {t['wrong']} declined {t['declined']} "
       f"missing {t['missing']} | wrong-rate upper95 {100 * upper(t['wrong'], answered):.2f}% of answered")
+# A split that stopped early has fewer wrong rates, not more right ones.
+if t["missing"]:
+    print(f"  {t['missing']} labelled addresses have no answer: a split stopped early; see its log", file=sys.stderr)
 if len(sys.argv) > 2:
     base = run(sys.argv[2])
     for i, w in official.items():
@@ -73,3 +76,5 @@ if os.environ.get("LIST"):
             c, a = cases[i], answers.get(i) or {}
             got = "" if grades[i] == "declined" else f" got {pct(a['rate'])}"
             print(f"  {grades[i]:8s} {c['state']} {c['street']}, {c['city']} {c['zip']} official {pct(w)}{got} | {why(a)}")
+if t["missing"]:
+    sys.exit(1)
