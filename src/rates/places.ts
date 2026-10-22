@@ -3,7 +3,7 @@
  * engine and street matching: the areas a ZIP (or one ZIP+4) holds, the
  * cities its ranges name, and a city name as both sides compare it.
  */
-import { and, eq, gte, lte, sql } from "drizzle-orm";
+import { and, eq, gte, lte, or, sql } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxStreetRanges, salesTaxZipRanges } from "../db/schema.js";
 
@@ -48,6 +48,26 @@ export async function zipAreas(
   return [...new Set([...zipRows, ...streetRows].map((r) => r.areaId))];
 }
 
+
+/** The areas of a ZIP's default: the row the publisher files for the whole
+ *  ZIP (a ZIP row, or a ZIP+4 row spanning 0000-9999), which the Streamlined
+ *  files apply to any address they don't list more closely. */
+export async function zipDefaultAreas(state: string, zip5: string, date: string): Promise<number[]> {
+  const z = salesTaxZipRanges;
+  const rows = await db
+    .selectDistinct({ areaId: z.areaId })
+    .from(z)
+    .where(
+      and(
+        eq(z.state, state),
+        eq(z.zip5, zip5),
+        lte(z.startsOn, date),
+        gte(z.endsOn, date),
+        or(eq(z.kind, "zip5"), and(eq(z.plus4Low, 0), eq(z.plus4High, 9999))),
+      ),
+    );
+  return rows.map((r) => r.areaId);
+}
 
 /** The cities a ZIP's street ranges name, as normalizeCity writes them. */
 export async function citiesInZip(state: string, zip5: string, date: string) {

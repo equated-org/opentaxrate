@@ -104,7 +104,7 @@ export const illinois: GeoState = {
     const shapes: GeoStateData["shapes"] = (await fetchLayer(POLYGONS)).flatMap((f) => {
       const code = String(f.attributes.CC_CODE ?? "").trim();
       if (!/^\d{7}$/.test(code)) return [];
-      return [{ kind: "district" as const, fips: code, name: `${f.attributes.CITY_NAME} (${f.attributes.COUNTY_NAM})`, rings: f.rings, bbox: bboxOf(f.rings) }];
+      return [{ kind: "district" as const, fips: code, name: `${String(f.attributes.CITY_NAME ?? "").trim() || "Unincorporated"} (${f.attributes.COUNTY_NAM})`, rings: f.rings, bbox: bboxOf(f.rings) }];
     });
     rates.unshift(
       { type: "45", code: "17", rate: STATE, startsOn: coverFrom, endsOn: "9999-12-31" },

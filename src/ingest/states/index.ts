@@ -47,6 +47,7 @@ import { idaho } from "./idaho.js";
 import { illinois } from "./illinois.js";
 import { louisiana } from "./louisiana.js";
 import { mississippi } from "./mississippi.js";
+import { montana } from "./montana.js";
 import { newMexico } from "./new-mexico.js";
 import { newYork } from "./new-york.js";
 import { pennsylvania } from "./pennsylvania.js";
@@ -56,6 +57,7 @@ import { virginia } from "./virginia.js";
 
 export const GEO_STATES: GeoState[] = [
   texas,
+  montana,
   florida,
   newYork,
   virginia,
