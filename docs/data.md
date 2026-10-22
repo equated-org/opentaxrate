@@ -46,30 +46,30 @@ The script creates dated snapshots without pruning them. It ignores unrelated
 
 ## Snapshots and releases
 
-`scripts/data` (also `pnpm data`) moves the published data between this machine, GitHub Releases and production. Data reaches production only as a release: load and benchmark it locally, publish it, then pull it. Never refresh or ingest on the server.
+`scripts/rates` (also `pnpm rates`) moves the published data between this machine, GitHub Releases and production. Data reaches production only as a release: load and benchmark it locally, publish it, then pull it. Never refresh or ingest on the server.
 
 ```bash
-pnpm data status                      # newest release; what production runs and serves
-pnpm data snapshot [--check]          # this stack's data to data/opentaxrate-DATE.dump
-pnpm data publish [TAG]               # snapshot, then GitHub Release TAG (default data-DATE)
-pnpm data pull TAG --prod             # load release TAG into production
-pnpm data pull TAG --local [--db D]   # load it into this stack (database D), to try it first
-pnpm data load DUMP [--db D]          # replace this stack's published data with DUMP's
-pnpm data install DUMP|URL            # fill a new, empty install from a dump
+pnpm rates status                      # newest release; what production runs and serves
+pnpm rates snapshot [--check]          # this stack's data to data/opentaxrate-DATE.dump
+pnpm rates publish [TAG]               # snapshot, then GitHub Release TAG (default data-DATE)
+pnpm rates pull TAG --prod             # load release TAG into production
+pnpm rates pull TAG --local [--db D]   # load it into this stack (database D), to try it first
+pnpm rates load DUMP [--db D]          # replace this stack's published data with DUMP's
+pnpm rates install DUMP|URL            # fill a new, empty install from a dump
 ```
 
-**What a snapshot holds.** The published data (`TAX_TABLES` in `scripts/data`: rates, jurisdictions, areas and shapes, street and ZIP ranges, ZIP street lists, supplemental source polygons) plus the migration history. Every other table (`EMPTY_TABLES`: accounts, keys, request history, credit, the geocoding cache, rule rows) is dumped empty. A table in neither list stops the snapshot, so nothing new reaches a dump by default; `snapshot --check` runs that check and the one below without dumping. Transaction-policy research is excluded, and a database holding experimental policy snapshots is refused, so their metadata can't leak through the source table.
+**What a snapshot holds.** The published data (`TAX_TABLES` in `scripts/rates`: rates, jurisdictions, areas and shapes, street and ZIP ranges, ZIP street lists, supplemental source polygons) plus the migration history. Every other table (`EMPTY_TABLES`: accounts, keys, request history, credit, the geocoding cache, rule rows) is dumped empty. A table in neither list stops the snapshot, so nothing new reaches a dump by default; `snapshot --check` runs that check and the one below without dumping. Transaction-policy research is excluded, and a database holding experimental policy snapshots is refused, so their metadata can't leak through the source table.
 
 **Publishing** needs `gh auth login`; check `/v1/coverage` and benchmark first. It never overwrites a release: give a new tag to publish again the same day. Each release has the dump and its SHA-256.
 
-**Pulling** downloads the release here (the repository is private and the server has no GitHub login), checks its SHA-256 (downloading again once if it fails), copies it to the server unless the same file is there, and runs `scripts/data load` there. It stops if the deployed revision has no `scripts/data` or a refresh or ingest job is running. The server's `DATA_RELEASE` then names the release it serves.
+**Pulling** downloads the release here (the repository is private and the server has no GitHub login), checks its SHA-256 (downloading again once if it fails), copies it to the server unless the same file is there, and runs `scripts/rates load` there. It stops if the deployed revision has no `scripts/rates` or a refresh or ingest job is running. The server's `DATA_RELEASE` then names the release it serves.
 
 **Loading** replaces the published-data tables and nothing else, so accounts, keys, request history, credit and the geocoding cache are kept. It is idempotent: loading the same dump twice leaves the same rows and sequence positions. It refuses a dump whose migrations differ from the database's (deploy the revision the dump was made with first). Everything happens in one transaction, about 75 s for every state: lookups wait meanwhile, and a failure anywhere rolls it all back. It then refreshes the planner's statistics and restarts a running API, whose caches hold answers from the old data.
 
 **Installing** is for a new, empty database: it replaces every table the dump holds, accounts included, so it refuses a database with accounts, requests or credit. Never use it on production; use `pull` there. A release URL downloads without a login only while the repository is public; otherwise `gh release download TAG` first and give the file.
 
 ```bash
-pnpm data install https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22-regions/opentaxrate-2026-10-22.dump
+pnpm rates install https://github.com/equated-org/opentaxrate/releases/download/data-2026-10-22-regions/opentaxrate-2026-10-22.dump
 docker compose up -d
 ```
 

@@ -3,13 +3,13 @@
 # production. Data reaches production only as a release: load and benchmark
 # it here, publish it, then pull it there. Never refresh or ingest there.
 #
-#   scripts/data status                      newest release; what production runs and serves
-#   scripts/data snapshot [--check]          this stack's data to data/opentaxrate-DATE.dump
-#   scripts/data publish [TAG]               snapshot, then GitHub Release TAG (default data-DATE)
-#   scripts/data pull TAG --prod             load release TAG into production
-#   scripts/data pull TAG --local [--db D]   load it into this stack (database D), to try it first
-#   scripts/data load DUMP [--db D]          replace this stack's published data with DUMP's
-#   scripts/data install DUMP|URL            fill a new, empty install from a dump
+#   scripts/rates status                      newest release; what production runs and serves
+#   scripts/rates snapshot [--check]          this stack's data to data/opentaxrate-DATE.dump
+#   scripts/rates publish [TAG]               snapshot, then GitHub Release TAG (default data-DATE)
+#   scripts/rates pull TAG --prod             load release TAG into production
+#   scripts/rates pull TAG --local [--db D]   load it into this stack (database D), to try it first
+#   scripts/rates load DUMP [--db D]          replace this stack's published data with DUMP's
+#   scripts/rates install DUMP|URL            fill a new, empty install from a dump
 #
 # Published data is TAX_TABLES below. The rest (EMPTY_TABLES) belongs to the
 # server that holds it: accounts, keys, request history, credit, the
@@ -66,7 +66,7 @@ snapshot() {
       *) unknown="$unknown $t" ;;
     esac
   done
-  [ -z "$unknown" ] || die "Tables in neither TAX_TABLES nor EMPTY_TABLES:$unknown. Classify them in scripts/data."
+  [ -z "$unknown" ] || die "Tables in neither TAX_TABLES nor EMPTY_TABLES:$unknown. Classify them in scripts/rates."
   if [ "${1:-}" = --check ]; then
     echo "Export checks passed: known tables only; transaction policy rows excluded." >&2
     return
@@ -110,10 +110,10 @@ supplemental source polygons, source-file metadata, and database migration
 metadata. Runtime geocoding cache, account and usage tables are empty.
 
 Load into production (replaces the tax data only):
-scripts/data pull $tag --prod
+scripts/rates pull $tag --prod
 
 Fill a new, empty install:
-scripts/data install https://github.com/$repo/releases/download/$tag/$name
+scripts/rates install https://github.com/$repo/releases/download/$tag/$name
 EOF
   # Stage both assets before making the release visible.
   gh release create "$tag" "$dump" "$dump.sha256" \
@@ -202,14 +202,14 @@ pull() {
     esac
     shift
   done
-  [ -n "$tag" ] && [ -n "$where" ] || die "Usage: scripts/data pull TAG --prod | --local [--db D]"
+  [ -n "$tag" ] && [ -n "$where" ] || die "Usage: scripts/rates pull TAG --prod | --local [--db D]"
   dump=$(download "$tag")
   if [ "$where" = local ]; then
     load "$dump"
     return
   fi
   [ "$db" = opentaxrate ] || die "--db is for --local; production loads its own database."
-  on "test -x scripts/data" || die "$HOST's revision has no scripts/data: deploy first."
+  on "test -x scripts/rates" || die "$HOST's revision has no scripts/rates: deploy first."
   jobs=$(on "docker ps --filter label=com.docker.compose.oneoff=True --format '{{.Names}}'")
   [ -z "$jobs" ] || die "Jobs running on $HOST: $jobs. Pull once they finish."
   remote="data/$tag-$(basename "$dump")"
@@ -217,7 +217,7 @@ pull() {
     on "mkdir -p data"
     scp "$dump" "$HOST:$SERVER_DIR/$remote"
   fi
-  on "COMPOSE='$SERVER_COMPOSE' scripts/data load $remote && echo $tag > DATA_RELEASE"
+  on "COMPOSE='$SERVER_COMPOSE' scripts/rates load $remote && echo $tag > DATA_RELEASE"
   tries=0
   until on "curl -fs -o /dev/null http://127.0.0.1:8080/v1/coverage"; do
     tries=$((tries + 1))
@@ -228,7 +228,7 @@ pull() {
 }
 
 install() {
-  src=${1:?Usage: scripts/data install DUMP|URL}
+  src=${1:?Usage: scripts/rates install DUMP|URL}
   if [ "${src#http}" != "$src" ]; then
     mkdir -p data
     curl -fL "$src" -o data/install.dump
@@ -249,7 +249,7 @@ install() {
       from unnest(array['user', 'api_requests', 'credit_grants']) t
       where to_regclass(format('public.%I', t)) is not null
     ) counts")
-  [ "$in_use" = 0 ] || die "This database has $in_use account, request or credit rows; install would erase them. Use 'scripts/data load' to replace only the tax data."
+  [ "$in_use" = 0 ] || die "This database has $in_use account, request or credit rows; install would erase them. Use 'scripts/rates load' to replace only the tax data."
   # Table-selected dumps carry migration history but not its parent schema.
   psql -c 'create schema if not exists drizzle' > /dev/null
   $COMPOSE exec -T db pg_restore -U opentaxrate -d "$db" \
