@@ -10,7 +10,6 @@
  *   GET /v1/account/summary                       credit and this month's lookups
  *   GET /v1/account/requests                      history (requests.ts)
  *   POST /v1/account/checkout {"amount": 1000}    a Stripe Checkout URL to buy credit
- *   POST /api/billing/webhook                     Stripe's events (billing.ts)
  * A refusal is a 422 whose message names the candidate rates; missing data
  * is a 502. Runtime writes are limited to the geocoding cache and budgets;
  * loading tax data is the CLI's.
@@ -227,28 +226,12 @@ if (auth && billing) {
     return c.json({ url: await billing.createCheckout(c.var.access.userId!, amount, c.req.header("origin")) });
   });
 
-  // Back from Checkout with ?paid=<session id>: credit it now rather than
-  // wait for the webhook (or without one).
+  // Back from Checkout with ?paid=<session id>: poll until paid and credit it once.
   app.post("/v1/account/checkout/confirm", async (c) => {
     const body = await c.req.json().catch(() => ({}));
     const session = String((body as { session?: unknown }).session ?? "");
     if (!/^cs_(test|live)_[A-Za-z0-9]{1,200}$/.test(session)) return c.json({ error: "Bad session id.", code: "BAD_REQUEST" }, 400);
     return c.json({ paid: await billing.confirm(c.var.access.userId!, session) });
-  });
-
-  // From Stripe directly (through Caddy, not the Worker), so the body is
-  // byte for byte what Stripe signed. Only with STRIPE_WEBHOOK_SECRET.
-  if (billing.webhooks) app.post("/api/billing/webhook", async (c) => {
-    const signature = c.req.header("stripe-signature");
-    if (!signature) return c.json({ error: "Missing signature.", code: "BAD_REQUEST" }, 400);
-    try {
-      await billing.handleWebhook(await c.req.text(), signature);
-    } catch (error) {
-      if (error instanceof Error && /signature/i.test(error.message))
-        return c.json({ error: "Bad signature.", code: "BAD_REQUEST" }, 400);
-      throw error;
-    }
-    return c.json({ received: true });
   });
 }
 
