@@ -78,14 +78,15 @@ export function matchesAddress(a: AddressToLocate, found: { street?: string; hou
   // A one-letter typo in the name ("Mian St" for Main St), told from another
   // real street one letter away ("Byers Ln" beside "Myers Ln") by the ZIP's
   // own street list: the found street must be in it and the typed one not,
-  // in the typed ZIP, with the same direction and type.
+  // in the typed ZIP, with the same direction and type, the real name five
+  // letters or more.
   const streets = a.zipStreets;
   if (!streets?.size || !zipAgrees || !a.zip) return false;
   const typedNames = [requested.streetKey, ...(requested.alternates ?? []).map((x) => x.streetKey)];
   return want.preDirectional === road(parsed).preDirectional && want.postDirectional === road(parsed).postDirectional
     && (!requested.suffix || parsed.suffix === requested.suffix)
     && streets.has(parsed.streetKey) && !typedNames.some((k) => streets.has(k))
-    && nameOf(a.street, requested).length >= 5 && oneLetterApart(nameOf(a.street, requested), nameOf(line, parsed));
+    && nameOf(line, parsed).length >= 5 && oneLetterApart(nameOf(a.street, requested), nameOf(line, parsed));
 }
 
 const DIRECTION_WORDS: Record<string, string> = {
