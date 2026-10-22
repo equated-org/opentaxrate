@@ -1,0 +1,695 @@
+<title>Keep every source's own jurisdiction ids · OpenTaxRate</title>
+<meta name="description" content="Plan: store each rate source's jurisdiction names and ids in sales_tax_jurisdictions and return them on every part, unchanged.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Shared style for explainers and plans (~/.claude/skills/html-plan/STYLE.md).
+     An article with a contents rail: prose that explains, figures that show the mechanism.
+     Tokens: the light palette on :root; dark redefines tokens only. */
+  :root {
+    --bg: #ffffff; --panel: #f6f6f5; --box: #ffffff;
+    --ink: #111111; --text-2: #454545; --text-3: #6b6b6b;
+    --line: #e4e4e4; --edge: #767676; --stroke: #1f1f1f;
+    --accent: #2563eb; --accent-ink: #1d4ed8;
+    --g1: #e8f2ea; --g1-ink: #2e6b3a; --g2: #e7eef9; --g2-ink: #29508a; --g3: #f8e9eb; --g3-ink: #8c3441;
+    --code: #eeeeec;
+    --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --panel: #0c0c0c; --box: #141414;
+      --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+      --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+      --accent: #6ea8fe; --accent-ink: #9cc3ff;
+      --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+      --code: #242424;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --panel: #0c0c0c; --box: #141414;
+    --ink: #f2f2f2; --text-2: #cfcfcf; --text-3: #a3a3a3;
+    --line: #2c2c2c; --edge: #8c8c8c; --stroke: #e6e6e6;
+    --accent: #6ea8fe; --accent-ink: #9cc3ff;
+    --g1: #15241a; --g1-ink: #8fd19e; --g2: #142034; --g2-ink: #9dbcf0; --g3: #2a1619; --g3-ink: #f0a3ad;
+    --code: #242424;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--edge); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  code, .mono { font-family: var(--mono); font-size: 0.85em; }
+  :where(p, li, td, th, dd, figcaption, summary) code { background: var(--code); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+  strong { font-weight: 600; }
+
+  /* Layout: contents rail + article */
+  .layout { max-width: 1360px; margin: 0 auto; padding: 56px 32px 140px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-inline: 20px; padding-top: 32px; } }
+  .toc { position: sticky; top: 32px; align-self: start; display: grid; gap: 16px; font-size: 0.9rem; max-height: calc(100vh - 64px); overflow: auto; }
+  @media (max-width: 1000px) { .toc { position: static; max-height: none; border-bottom: 1px solid var(--line); padding-bottom: 20px; } }
+  .toc-title { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+  .toc a { display: block; padding: 5px 12px; border-left: 2px solid var(--line); color: var(--text-2); text-decoration: none; line-height: 1.35; transition: color 160ms, border-color 200ms var(--ease); }
+  .toc a.sub { padding-left: 26px; font-size: 0.86rem; }
+  .toc a:hover { color: var(--ink); }
+  .toc a.on { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+  .theme { justify-self: start; font: inherit; font-size: 0.84rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
+
+  /* Article */
+  article { min-width: 0; }
+  .page-head { max-width: 860px; margin-bottom: 20px; }
+  .eyebrow { font-size: 0.88rem; color: var(--text-3); margin: 0 0 12px; }
+  h1, h2, h3 { color: var(--ink); font-weight: 600; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 4.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 18px; }
+  h2 { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.018em; margin: 76px 0 16px; }
+  h3 { font-size: 1.24rem; line-height: 1.35; letter-spacing: -0.01em; margin: 48px 0 12px; }
+  [id] { scroll-margin-top: 28px; }
+  .lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-2); margin: 0; max-width: 72ch; }
+  .meta { margin: 16px 0 0; font-size: 0.86rem; color: var(--text-3); }
+  article p, article ul, article ol { max-width: 76ch; }
+  article p { margin: 0 0 16px; }
+  article ul, article ol { margin: 0 0 20px; padding-left: 22px; }
+  article li { margin: 7px 0; }
+  article li > em:first-child { color: var(--ink); }
+  article ol > li::marker { font-weight: 600; }
+
+  /* Figures: a titled panel, then an italic caption */
+  article { counter-reset: fig; }
+  .fig { margin: 34px 0 40px; counter-increment: fig; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px 18px; overflow-x: auto; }
+  .fig-title { font-weight: 600; font-size: 1rem; margin: 0 0 16px; max-width: none; }
+  .panel svg { display: block; width: 100%; height: auto; min-width: var(--fig-min, 860px); }
+  .fig figcaption { margin-top: 12px; font-size: 0.93rem; font-style: italic; color: var(--text-2); max-width: 92ch; }
+  .fig figcaption::before { content: "Figure " counter(fig) ". "; font-style: normal; font-weight: 600; color: var(--ink); }
+  .d-bound { fill: none; stroke: var(--edge); stroke-width: 1; stroke-dasharray: 5 4; }
+  .d-bound-label { font: 600 10.5px var(--sans); letter-spacing: 0.1em; fill: var(--text-3); }
+  .d-group.g1 { fill: var(--g1); } .d-group.g2 { fill: var(--g2); } .d-group.g3 { fill: var(--g3); }
+  .d-group-label { font: 600 13px var(--sans); }
+  .d-group-label.g1 { fill: var(--g1-ink); } .d-group-label.g2 { fill: var(--g2-ink); } .d-group-label.g3 { fill: var(--g3-ink); }
+  .d-box { fill: var(--box); stroke: var(--stroke); stroke-width: 1.1; }
+  .d-box.acc { stroke: var(--accent); stroke-width: 2; }
+  .d-box.ghost { fill: none; stroke: var(--edge); stroke-dasharray: 4 4; }
+  .d-t { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-tm { font: 600 12.5px var(--mono); fill: var(--ink); }
+  .d-m { font: 11.5px var(--mono); fill: var(--text-2); }
+  .d-s { font: 11.5px var(--sans); fill: var(--text-2); }
+  .d-lane { font: 600 13px var(--sans); fill: var(--ink); }
+  .d-db { font: 600 12px var(--mono); fill: var(--ink); }
+  .d-rule, .d-hair { stroke: var(--line); stroke-width: 1; }
+  .d-edge { fill: none; stroke: var(--text-2); stroke-width: 1.3; }
+  .d-edge.acc { stroke: var(--accent); stroke-width: 1.7; }
+  .d-edge.dash { stroke-dasharray: 4 3; }
+  .d-el { font: 500 11.5px var(--sans); fill: var(--text-2); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .d-ah { fill: var(--text-2); }
+  .d-badge { fill: var(--ink); }
+  .d-badge-t { font: 600 11px var(--sans); fill: var(--bg); }
+
+  /* Drawers for detail */
+  details.more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 24px; }
+  details.more + details.more { margin-top: -25px; }
+  details.more > summary { cursor: pointer; list-style: none; padding: 14px 2px; display: flex; align-items: baseline; gap: 12px; font-weight: 500; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: "+"; margin-left: auto; font-size: 1.25rem; font-weight: 400; color: var(--text-3); line-height: 1; }
+  details.more[open] > summary::after { content: "−"; }
+  details.more > summary .dim { color: var(--text-3); font-weight: 400; font-size: 0.9rem; }
+  .inner { padding-bottom: 24px; display: grid; gap: 20px; }
+  .inner > * { margin: 0; }
+
+  /* Tables: three rules, no fills */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font: inherit; }
+  .grid-table { font-size: 0.9rem; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .grid-table th, .grid-table td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .grid-table tr:last-child th, .grid-table tr:last-child td { border-bottom: 0; }
+  .grid-table thead th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-2); white-space: nowrap; border-bottom: 1px solid var(--ink); }
+  .grid-table tbody th { font-weight: 600; }
+  .grid-table td.num, .grid-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grid-table .dim { color: var(--text-3); }
+  .grid-table tbody th code, .grid-table td.id code { white-space: nowrap; overflow-wrap: normal; }
+  table.matrix { font-size: 0.85rem; }
+  table.matrix tr[data-kind] { cursor: pointer; }
+  table.matrix tr.on th, table.matrix tr.on td { background: var(--panel); }
+  table.matrix td.where { font-family: var(--mono); font-size: 0.78rem; color: var(--text-2); min-width: 16ch; }
+
+  /* Call trees, interface keys and signatures (inside drawers) */
+  pre.calls { margin: 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font-family: var(--mono); font-size: 12.6px; line-height: 1.8; color: var(--ink); }
+  .layer { display: inline-block; min-width: 7ch; margin-right: 6px; padding: 0 5px; border-radius: 4px; color: var(--text-2); border: 1px solid var(--edge); font-size: 10.5px; text-align: center; }
+  .n { color: var(--text-3); }
+  ol.keys { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 34px; max-width: none; }
+  @media (max-width: 860px) { ol.keys { grid-template-columns: minmax(0, 1fr); } }
+  ol.keys li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 0.92rem; margin: 0; }
+  .kn { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 0.72rem; font-weight: 600; margin-top: 2px; }
+  .keys .via { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .ifaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; }
+  @media (max-width: 860px) { .ifaces { grid-template-columns: minmax(0, 1fr); } }
+  .iface { min-width: 0; border-top: 1px solid var(--line); padding: 14px 0 18px; display: grid; gap: 8px; align-content: start; }
+  .iface-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+  .iface h3 { margin: 0; font-family: var(--mono); font-size: 0.92rem; }
+  .cross { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .iface dl { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; margin: 0; font-size: 0.88rem; }
+  .iface dt { color: var(--text-3); }
+  .iface dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .iface dd code { background: none; padding: 0; }
+
+  /* Object graphs (plans: what each step creates) */
+  .objgraph { overflow-x: auto; padding-block: 4px; }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree { width: max-content; max-width: none; }
+  .tree li { display: flex; align-items: center; margin: 0; }
+  .tree ul { display: flex; flex-direction: column; gap: 10px; padding-left: 18px; position: relative; }
+  .tree ul::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li { position: relative; padding-left: 18px; }
+  .tree ul > li::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; border-top: 1px solid var(--edge); }
+  .tree ul > li::after { content: ""; position: absolute; left: 0; top: -5px; bottom: -5px; border-left: 1px solid var(--edge); }
+  .tree ul > li:first-child::after { top: 50%; }
+  .tree ul > li:last-child::after { bottom: 50%; }
+  .tree ul > li:only-child::after { display: none; }
+  .obj { display: grid; gap: 1px; padding: 8px 12px; border: 1px solid var(--stroke); border-radius: 6px; background: var(--box); min-width: 150px; font-size: 0.84rem; line-height: 1.4; }
+  .obj .kind { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .obj .id { font-family: var(--mono); font-size: 0.84rem; font-weight: 500; }
+  .obj .field { color: var(--text-2); white-space: nowrap; }
+  .obj.new { border: 2px solid var(--accent); }
+  .obj.changed { border: 2px solid var(--ink); }
+  .obj.gone { border: 1px dashed var(--edge); }
+  .obj.gone .id, .obj.gone .field { color: var(--text-3); }
+
+  /* Timeline of statements */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; max-width: none; }
+  .timeline li { display: grid; grid-template-columns: 96px 24px minmax(0, 1fr); gap: 0 12px; padding-bottom: 18px; margin: 0; }
+  .tl-when { font-family: var(--mono); font-size: 0.82rem; color: var(--text-3); text-align: right; padding-top: 3px; }
+  .tl-mark { position: relative; }
+  .tl-mark::before { content: ""; position: absolute; left: 11px; top: 0; bottom: -18px; border-left: 1px solid var(--edge); }
+  .timeline li:last-child .tl-mark::before { display: none; }
+  .tl-mark::after { content: ""; position: absolute; left: 5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--edge); }
+  .timeline li.you .tl-mark::after { background: var(--ink); border-color: var(--ink); }
+  .timeline li.note .tl-mark::after { border-radius: 3px; background: var(--accent); border-color: var(--accent); }
+  .timeline li.ship .tl-mark::after { border-radius: 3px; border: 1.5px solid var(--ink); }
+  .tl-body { min-width: 0; }
+  .tl-who { font-size: 0.82rem; font-weight: 600; color: var(--text-2); }
+  .tl-quote { margin: 0; max-width: 80ch; }
+
+  /* Axis map (explainers with an overloaded term) */
+  .axismap { display: grid; gap: 14px; }
+  .map-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets button { font: inherit; font-size: 0.86rem; font-weight: 500; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--box); color: var(--text-2); cursor: pointer; }
+  .presets button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .map-controls label { display: flex; gap: 8px; align-items: center; font-size: 0.86rem; color: var(--text-2); }
+  .map-controls select { font: inherit; font-size: 0.86rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--box); color: var(--ink); }
+  .map-wrap { overflow-x: auto; }
+  .map-wrap svg { display: block; width: 100%; height: auto; min-width: 880px; }
+  .m-row, .m-row.alt { fill: none; stroke: var(--line); stroke-width: 1; }
+  .m-vline { stroke: var(--line); stroke-width: 1; }
+  .m-frame { fill: none; stroke: var(--edge); }
+  .m-bin { font: 12px var(--sans); fill: var(--text-2); }
+  .m-axis { font: 600 12.5px var(--sans); fill: var(--ink); }
+  .m-chip { cursor: pointer; transition: transform 460ms var(--ease); outline: none; }
+  .m-chip rect { fill: var(--box); stroke: var(--edge); stroke-width: 1; }
+  .m-chip text { font: 500 11.5px var(--sans); fill: var(--ink); pointer-events: none; }
+  .m-chip.mem rect { stroke: var(--accent); stroke-width: 1.8; }
+  .m-chip.mem text { fill: var(--accent-ink); }
+  .m-chip.off rect { stroke-dasharray: 4 3; }
+  .m-chip:hover rect { stroke: var(--ink); }
+  .m-chip:focus-visible rect { stroke: var(--accent); stroke-width: 2.6; }
+  .m-chip.on rect { stroke: var(--ink); stroke-width: 2.2; }
+  .map.settling .m-chip { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .m-chip { transition: none; } }
+  .map-detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 760px) { .map-detail { grid-template-columns: minmax(0, 1fr); } }
+  .map-detail .who { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .map-detail h3 { margin: 0; font-size: 1.05rem; }
+  .map-detail .left { display: grid; gap: 6px; align-content: start; color: var(--text-2); }
+  .map-detail .left p { margin: 0; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; background: var(--code); color: var(--text-2); }
+  .tag.mem { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .axes-dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.88rem; }
+  .axes-dl dt { color: var(--text-3); }
+  .axes-dl dd { margin: 0; color: var(--text-2); }
+  .axes-dl .plotted { color: var(--ink); font-weight: 600; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--text-2); }
+  .legend .chipk { display: inline-block; width: 22px; height: 11px; border-radius: 3px; border: 1px solid var(--edge); vertical-align: -1px; margin-right: 7px; }
+  .legend .chipk.mem { border: 1.8px solid var(--accent); }
+  .legend .chipk.off { border-style: dashed; }
+
+  .sources { font-size: 0.9rem; color: var(--text-2); }
+
+  /* Appendix: terms, each with a snippet of how it works */
+  .glossary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 8px; }
+  @media (max-width: 1100px) { .glossary { grid-template-columns: minmax(0, 1fr); } }
+  .term { border-top: 1px solid var(--line); padding: 18px 0 22px; min-width: 0; }
+  .term h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  article .term p { margin: 0 0 12px; font-size: 0.95rem; color: var(--text-2); max-width: none; }
+  pre.snip { margin: 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 12.2px; line-height: 1.65; color: var(--ink); }
+</style>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">Contents</p>
+  <ol>
+    <li><a href="#why">Why keep the source's ids</a></li>
+    <li><a href="#model">The model</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#sources">What each source gives</a></li>
+    <li><a href="#workflows">Workflows</a></li>
+    <li><a class="sub" href="#w-refresh-al">Refresh Alabama</a></li>
+    <li><a class="sub" href="#w-refresh-wa">Refresh Washington</a></li>
+    <li><a class="sub" href="#w-lookup">Look up an address</a></li>
+    <li><a class="sub" href="#w-show">Show it on the site</a></li>
+    <li><a href="#boundaries">Boundaries</a></li>
+    <li><a href="#phases">Phases</a></li>
+    <li><a href="#questions">Open questions</a></li>
+    <li><a href="#appendix">Appendix: terms</a></li>
+  </ol>
+  <button type="button" class="theme" data-theme-toggle>Dark mode</button>
+</nav>
+
+<article>
+
+<header class="page-head">
+  <p class="eyebrow">Design plan · proposed · main after 392c161 · 2026-10-22</p>
+  <h1>Keep every source's own jurisdiction ids</h1>
+  <p class="lede">Each state's rate source names its jurisdictions with its own codes, like Alabama's locality code 9454 for Montgomery or Washington's SER code 01726 for Seattle, and the ingest throws most of them away. This plan keeps them in one table, <code>sales_tax_jurisdictions</code>, and returns them on every part exactly as the publisher wrote them. That makes the answer as complete as the data we load, with no per-state mapping code.</p>
+  <p class="meta">Traced from <code>src/ingest/load.ts</code>, <code>sst-files.ts</code>, <code>missouri.ts</code>, <code>states/*.ts</code>, <code>src/rates/index.ts</code>, <code>ranges.ts</code>, <code>map.ts</code>, <code>names.ts</code>, <code>reporting.ts</code>, and the cached source files in <code>/tmp/otr-cache</code> (Alabama <code>taxrates.csv</code>, Illinois <code>ordmache</code>, Missouri's boundary CSV and rate workbook, the Streamlined files), on 2026-10-22.</p>
+</header>
+
+<h2 id="why">Why keep the source's ids</h2>
+<p>A seller charges the rate, then files it. The filing side needs the codes the state uses for each jurisdiction, and the people the tax goes to. Most of that is already in the files we download: Alabama's rate file says Montgomery is locality <code>9454</code> and that the city collects its own tax (<code>Administered: SELF</code>). Today we read those columns, use them to find a Census FIPS code, and drop them. The answer then says <code>01:51000</code>, which no Alabama form asks for.</p>
+<p>The decision is to pass through, not map. Each ingest keeps a jurisdiction's name and every identifier column its source gives, keyed by the publisher's own column name, in a new table. A lookup joins its parts to that table and returns the ids unchanged. The per-state mapping layer built on 2026-10-22 (<code>reporting.codes</code>, <code>missing</code>, <code>status</code>, <code>PART_CODES</code>, <code>OWN_CODE</code>) goes away, and <code>reporting</code> shrinks to the agency and form directory, which is static and correct.</p>
+<ul>
+  <li><em>Complete for what we load.</em> Every id a source publishes reaches the caller, in every state at once, instead of the seven states a hand-written mapping covered.</li>
+  <li><em>Nothing to verify.</em> The API repeats the file, so there is no claim like "this is the return's code" that someone has to check state by state.</li>
+  <li><em>It's what the one competitor with codes does.</em> Of the four services in <code>artifacts/bench/answers</code>, only Zip-Tax returns codes, in one <code>jurTaxCode</code> field per jurisdiction, and they are visibly each source's own: ALDOR locality codes (Birmingham 9137), Illinois location codes with the check digit (Pekin 90-0001-1), Washington's DOR location code (SeaTac 1733), Texas TAIDs, Arizona region codes (MAR), New York's Pub 718 code (HE 2121), Census FIPS elsewhere (Georgia 037), and null for about half of local parts. Avalara returns generic names ("WA CITY TAX"), TaxJar county and city names, Lovat only the total.</li>
+  <li><em>Not complete for filing everywhere.</em> The Streamlined rate files have no names and only FIPS codes, so Georgia, Ohio and North Carolina still get no return code. Closing that gap means loading one more official file per state (Minnesota's tax type codes, Georgia's ST-3 chart), passed through the same way. That's out of scope here.</li>
+</ul>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Montgomery, AL city part</th><th scope="col">Today</th><th scope="col">After</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Stored</th><td><code>01:51000</code>, 3.5%, dates</td><td>the same, plus a jurisdiction row: name <code>MONTGOMERY</code>, ids <code>Locality Code 9454</code>, <code>County Number 51</code>, <code>Administered SELF</code>, file <code>taxrates.csv</code></td></tr>
+    <tr><th scope="row">Returned</th><td><code>{ kind, name: "Montgomery", code: "01:51000", rate }</code></td><td>the same, plus <code>ids: { "Locality Code": "9454", "County Number": "51", "Administered": "SELF" }</code></td></tr>
+    <tr><th scope="row"><code>reporting</code></th><td>agency, form, <code>codes: []</code>, <code>missing: ["Alabama locality code…"]</code>, <code>status: "partial"</code></td><td>agency, form, notes</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="model">The model</h2>
+<p>A jurisdiction row describes one of the publisher's codes, keyed exactly like the rate rows: state, the publisher's type, and its code. A part's <code>code</code> is already <code>type:code</code>, so the join needs no translation. Ids that belong to a whole location rather than one jurisdiction, like Washington's SER code, which covers the state and Seattle together, stay on the area, in an <code>ids</code> column that replaces this week's <code>reporting_code</code>. Figure 1 shows both.</p>
+<figure class="fig">
+  <div class="panel" style="--fig-min: 900px">
+    <p class="fig-title">One new table, keyed like the rate rows, and the area's code becomes an ids map</p>
+    <svg viewBox="0 0 1000 330" role="img" aria-label="Today a rate row and an area feed a part; the proposal adds a jurisdictions table joined on state, type and code, and area ids.">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+      <rect class="d-group g2" x="10" y="12" width="980" height="306" rx="10"/>
+      <text class="d-group-label g2" x="26" y="38">Postgres, per state, replaced on each load</text>
+      <rect class="d-box" x="30" y="60" width="270" height="92" rx="8"/>
+      <text class="d-t" x="46" y="86">Rate row</text>
+      <text class="d-m" x="46" y="106">sales_tax_jurisdiction_rates</text>
+      <text class="d-s" x="46" y="128">state · type · code · rate · dates</text>
+      <rect class="d-box acc" x="370" y="60" width="290" height="110" rx="8"/>
+      <text class="d-t" x="386" y="86">Jurisdiction (new)</text>
+      <text class="d-m" x="386" y="106">sales_tax_jurisdictions</text>
+      <text class="d-s" x="386" y="128">state · type · code (key)</text>
+      <text class="d-s" x="386" y="148">name · ids jsonb · file</text>
+      <path class="d-edge acc" d="M300,106 L368,106" marker-end="url(#ah)"/>
+      <text class="d-el" x="334" y="96" text-anchor="middle">same key</text>
+      <rect class="d-box" x="30" y="200" width="270" height="92" rx="8"/>
+      <text class="d-t" x="46" y="226">Area</text>
+      <text class="d-m" x="46" y="246">sales_tax_areas</text>
+      <text class="d-s" x="46" y="268">county · place · districts · <tspan fill="var(--accent)">ids</tspan></text>
+      <rect class="d-box" x="730" y="60" width="240" height="232" rx="8"/>
+      <text class="d-t" x="746" y="86">Answer</text>
+      <text class="d-m" x="746" y="106">AddressRate</text>
+      <text class="d-s" x="746" y="132">parts[]: kind, name,</text>
+      <text class="d-s" x="746" y="150">code, rate, <tspan fill="var(--accent)">ids</tspan></text>
+      <text class="d-s" x="746" y="178"><tspan fill="var(--accent)">locationIds</tspan></text>
+      <text class="d-s" x="746" y="206">reporting: agency,</text>
+      <text class="d-s" x="746" y="224">form, notes</text>
+      <path class="d-edge acc" d="M660,120 L728,130" marker-end="url(#ah)"/>
+      <text class="d-el" x="694" y="114" text-anchor="middle">name, ids</text>
+      <path class="d-edge" d="M300,246 L728,178" marker-end="url(#ah)"/>
+      <text class="d-el" x="520" y="224" text-anchor="middle">ids, when every matched area agrees</text>
+    </svg>
+  </div>
+  <figcaption>Blue marks what's new. The jurisdiction table hangs off the existing key, so no engine has to change how it finds a rate; the ids ride along afterwards.</figcaption>
+</figure>
+<details class="more">
+  <summary>Schema<span class="dim">migration 0007</span></summary>
+  <div class="inner">
+<pre class="calls">CREATE TABLE sales_tax_jurisdictions (
+  state  text  NOT NULL,
+  type   text  NOT NULL,            -- the rate row's type: 00, 01, x, kx, spd, 99 …
+  code   text  NOT NULL,            -- the rate row's code, verbatim
+  name   text,                      -- as the publisher writes it; null when it gives none
+  ids    jsonb NOT NULL DEFAULT '{}',  -- publisher column name → value, strings only
+  file   text  NOT NULL,            -- the release it came from, e.g. "taxrates.csv"
+  PRIMARY KEY (state, type, code)
+);
+
+ALTER TABLE sales_tax_areas ADD COLUMN ids jsonb NOT NULL DEFAULT '{}';
+UPDATE sales_tax_areas SET ids = jsonb_build_object('Composite SER code', reporting_code)
+  WHERE reporting_code IS NOT NULL;   -- or just refresh WA, KS, MO
+ALTER TABLE sales_tax_areas DROP CONSTRAINT uq_sales_tax_areas_state_jurisdictions;
+ALTER TABLE sales_tax_areas DROP COLUMN reporting_code;
+ALTER TABLE sales_tax_areas ADD CONSTRAINT uq_sales_tax_areas_state_jurisdictions
+  UNIQUE (state, county, place, districts, ids);</pre>
+    <p>In <code>src/db/schema.ts</code>, the table is <code>salesTaxJurisdictions</code>; generate the migration with <code>pnpm db:generate</code> and check it matches the above.</p>
+  </div>
+</details>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li><em>The publisher's words, unchanged.</em> An id's key is the source's own column or field name (<code>Locality Code</code>, <code>RegionName</code>, <code>SPD_Type</code>) and its value is the string the file has, leading zeros and all. No renaming, no reformatting, no inferred values.</li>
+  <li><em>Identity only.</em> Ids are the fields that say which jurisdiction this is and who runs it: codes, names, the collecting agency. Fields that vary row by row for the same jurisdiction, like Alabama's <code>TaxType</code> or <code>Rate Type</code>, are not ids. Where an identity field differs between rows, take the value on the general sales row the rate came from.</li>
+  <li><em>Same key as the rate.</em> A jurisdiction row exists only for a <code>(state, type, code)</code> some rate row has, and is written in the same transaction as the state's rates, so a lookup never sees ids from another release.</li>
+  <li><em>Absent means the source has none.</em> <code>ids</code> is always present on a part, and <code>{}</code> means the source published no ids for it. A Census FIPS is never added as an id; it's already in <code>code</code>.</li>
+  <li><em>Names fall back, ids don't.</em> A part's <code>name</code> is the jurisdiction's name, else the outline's name (<code>sales_tax_shapes</code>, as <code>nameParts</code> does today). Ids come only from the source.</li>
+  <li><em>Location ids only when settled.</em> <code>locationIds</code> is the matched area's ids when every area the address could be in has the same ids, else <code>{}</code>, the way <code>locationCode</code> is null when areas differ.</li>
+</ul>
+
+<h2 id="sources">What each source gives</h2>
+<p>From the survey of every adapter on 2026-10-22. The third column is what this plan stores as each jurisdiction's name and ids.</p>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Source</th><th scope="col">States</th><th scope="col">Keep as name and ids</th><th scope="col">Built at</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">ALDOR <code>taxrates.csv</code></th><td>AL</td><td>name <code>Locality Name</code>; ids <code>Locality Code</code> (9454), <code>County Number</code>, <code>Administered</code> (SELF, STATE, AVENU)</td><td><code>alabama.ts:151</code>, rows at <code>:178</code>, <code>:180</code></td></tr>
+    <tr><th scope="row">Comptroller EDI, <code>city-rates.xlsx</code>, boundary layers</th><td>TX</td><td>name from each (name, TAID, rate) triple; ids <code>TAID</code>, and from the layers <code>Transit_Type</code>, <code>SPD_Type</code>, <code>CMPTRL_CNTY_NBR</code>, <code>FIPS_ST_CNTY_CD</code></td><td><code>texas.ts:257-304</code>, combined areas <code>:229</code></td></tr>
+    <tr><th scope="row">IDOR <code>ordmache</code>, <code>ordmacha</code></th><td>IL</td><td>name the city; ids the full location code with its check digit (<code>048-0002-8</code>), city and county names, the business district suffix (<code>R00</code>–<code>R07</code>)</td><td><code>illinois.ts:78-98</code></td></tr>
+    <tr><th scope="row">Remote Sellers lookup, EBR layer</th><td>LA</td><td>name the domicile's; ids the domicile code (3601), the parish code and name</td><td><code>louisiana.ts:185-330</code></td></tr>
+    <tr><th scope="row">ADOR TPT rate table, layers</th><td>AZ</td><td>name <code>RegionName</code> or the city's <code>Name</code>; ids <code>RegionCode</code>, the city's <code>FIPS</code>, <code>County</code></td><td><code>arizona.ts:51</code>, <code>:85-91</code></td></tr>
+    <tr><th scope="row">TRD GRT layer</th><td>NM</td><td>name <code>name</code>; ids <code>locat_cdr</code>, <code>locat_cd1</code>, <code>locat_cd2</code></td><td><code>new-mexico.ts:41-54</code></td></tr>
+    <tr><th scope="row">Colorado and Alaska lookups</th><td>CO, AK</td><td>name; ids <code>placeId</code>, <code>placeTypeId</code></td><td><code>ttr.ts:117-123</code></td></tr>
+    <tr><th scope="row">DOR rate workbook and boundary CSV</th><td>MO</td><td>no names in either file; ids <code>Jurisdiction Code</code>, <code>District Code 1</code>–<code>5</code> (AMB00003, FIR00006…), on the <code>99:</code> code's row</td><td><code>missouri.ts:74-86</code>, area <code>:121</code></td></tr>
+    <tr><th scope="row">Streamlined rate and boundary files</th><td>24 members</td><td>no names, no ids in the rate file; the boundary file's <code>Composite SER code</code> goes on the area (already kept, as <code>reporting_code</code>)</td><td><code>sst-files.ts:72-89</code>, <code>:107-115</code></td></tr>
+    <tr><th scope="row">Hand-written and published tables</th><td>FL, HI, ID, MS, NY, PA, SC, VA, MT</td><td>name as the state writes it; VA's locality name from its workbook; no other ids (NY's Pub 718 reporting codes were never transcribed)</td><td><code>tables.ts:67-86</code>, <code>virginia.ts:26-33</code>, <code>montana.ts:58-64</code></td></tr>
+  </tbody>
+</table></div>
+<p>So the change adds codes for AL, TX, IL, LA, AZ, NM, CO, AK and MO, and names for every map-read state. The Streamlined states get names only from the Census outlines, as now.</p>
+
+<h2 id="workflows">Workflows</h2>
+<p>Three addresses run through the plan: Montgomery, Alabama (a map-read state whose file has codes and the collecting agency), Seattle (a Streamlined state whose only id is the area's SER code), and Austin, Texas (a map-read state whose codes are already the part codes, but whose names and district types are dropped).</p>
+
+<h3 id="w-refresh-al">Refresh Alabama</h3>
+<p>An operator runs <code>pnpm refresh AL</code>. The Alabama adapter reads <code>taxrates.csv</code> as today and, for each local rate it emits, also emits that locality's name and ids.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">One CSV row now leaves a rate row and a jurisdiction row</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">source row</span><span class="id">taxrates.csv</span><span class="field">9454, MONTGOMERY, 51, CU, GENER, SELF, 3.5</span></div>
+          <ul>
+            <li><div class="obj"><span class="kind">rate row (as today)</span><span class="id">AL 01:51000</span><span class="field">0.035 · from 2008-11-01</span></div></li>
+            <li><div class="obj new"><span class="kind">created</span><span class="id">jurisdiction AL 01:51000</span><span class="field">name MONTGOMERY</span><span class="field">Locality Code 9454 · County Number 51</span><span class="field">Administered SELF · file taxrates.csv</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>The county row (7051, MONTGOMERY COUNTY, SELF, 2.5%) does the same under <code>00:101</code>. Blue boxes are new.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and state<span class="dim">refresh AL</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">cli</span>refresh AL                                    <span class="n">src/cli.ts</span>
+└─ <span class="layer">ingest</span>refreshAddressRates({ states: ["AL"] })     <span class="n">ingest/refresh.ts</span>
+   └─ <span class="layer">adapter</span>alabama.fetch(dir)                        <span class="n">states/alabama.ts</span>
+      └─ <span class="layer">adapter</span>stateTable(…).fetch                      <span class="n">states/tables.ts: LocalRate gains ids</span>
+         └─ <span class="n">returns</span> { rates, shapes, files, <b>jurisdictions</b> }   <span class="n">GeoStateData gains jurisdictions</span>
+   └─ <span class="layer">load</span>loadGeoState("AL", data)                   <span class="n">ingest/load.ts</span>
+      ├─ <span class="layer">sql</span>DELETE, INSERT sales_tax_jurisdiction_rates
+      ├─ <span class="layer">sql</span><b>DELETE, INSERT sales_tax_jurisdictions</b>   <span class="n">same transaction</span>
+      └─ <span class="layer">sql</span>DELETE, INSERT sales_tax_shapes, data_releases</pre>
+    <div class="scroll"><table class="grid-table">
+      <thead><tr><th scope="col">state</th><th scope="col">type</th><th scope="col">code</th><th scope="col">name</th><th scope="col">ids</th><th scope="col">file</th></tr></thead>
+      <tbody>
+        <tr><td>AL</td><td>01</td><td>51000</td><td>MONTGOMERY</td><td><code>{"Locality Code":"9454","County Number":"51","Administered":"SELF"}</code></td><td>taxrates.csv</td></tr>
+        <tr><td>AL</td><td>00</td><td>101</td><td>MONTGOMERY COUNTY</td><td><code>{"Locality Code":"7051","County Number":"51","Administered":"SELF"}</code></td><td>taxrates.csv</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</details>
+<p>The operator sees the usual line with one more count: the number of jurisdictions stored after the rates.</p>
+
+<h3 id="w-refresh-wa">Refresh Washington</h3>
+<p>An operator runs <code>pnpm refresh WA</code>. The Streamlined rate file has no names or ids, so no jurisdiction rows are written; the boundary file's SER column lands in the area's <code>ids</code> instead of <code>reporting_code</code>.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">A boundary line's SER code goes on its area as an id</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">source line</span><span class="id">WAB2026Q4AUG27</span><span class="field">1410 E PINE ST · SER 01726 · place 63000</span></div>
+          <ul>
+            <li><div class="obj changed"><span class="kind">changed</span><span class="id">area 53000123</span><span class="field">place 63000 · districts ""</span><span class="field">ids {"Composite SER code":"01726"}</span></div></li>
+            <li><div class="obj gone"><span class="kind">removed</span><span class="id">reporting_code</span><span class="field">01726</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>The area id is illustrative; it is <code>53 × 1,000,000 + n</code>, given by the loader. The ids map replaces the column added on 2026-10-22.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls<span class="dim">refresh WA</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">load</span>loadSstState(files)                                <span class="n">ingest/load.ts</span>
+├─ <span class="layer">sql</span>DELETE sales_tax_jurisdictions WHERE state = 'WA'   <span class="n">none to insert for a Streamlined file</span>
+├─ <span class="layer">parse</span>parseBoundaryLine(line)                        <span class="n">sst-files.ts: area.ids = c[21] ? { "Composite SER code": c[21] } : {}</span>
+├─ <span class="layer">load</span>areaOf(area)                                     <span class="n">key: county|place|districts|JSON of ids</span>
+└─ <span class="layer">sql</span>COPY sales_tax_areas (id, state, county, place, districts, <b>ids</b>)</pre>
+    <p>Missouri passes its <code>Jurisdiction Code</code> and <code>District Code 1</code>–<code>5</code> as jurisdiction rows for its <code>99:</code> codes, from the rate workbook it already reads (<code>missouri.ts:74-86</code>); <code>StateFiles</code> gains an optional <code>jurisdictions</code> list for that.</p>
+  </div>
+</details>
+
+<h3 id="w-lookup">Look up an address</h3>
+<p>A caller asks <code>GET /v1/rate?state=AL&amp;street=103+N+Perry+St&amp;city=Montgomery&amp;zip=36104</code>. The engine finds the rate exactly as today; afterwards, one query fetches the jurisdiction rows for the answer's parts and attaches them.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">Each part picks up its jurisdiction row by its own code</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">answer</span><span class="id">AL · 10%</span><span class="field">match map</span></div>
+          <ul>
+            <li><div class="obj"><span class="kind">part</span><span class="id">45:01</span><span class="field">Alabama · 4% · ids {}</span></div></li>
+            <li><div class="obj changed"><span class="kind">part</span><span class="id">00:101</span><span class="field">MONTGOMERY COUNTY · 2.5%</span><span class="field">Locality Code 7051 · Administered SELF</span></div></li>
+            <li><div class="obj changed"><span class="kind">part</span><span class="id">01:51000</span><span class="field">MONTGOMERY · 3.5%</span><span class="field">Locality Code 9454 · Administered SELF</span></div></li>
+            <li><div class="obj changed"><span class="kind">reporting</span><span class="id">ALDOR</span><span class="field">agency, form, notes only</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>Black-bordered boxes change shape. Seattle's answer looks the same with <code>ids: {}</code> on both parts and <code>locationIds: {"Composite SER code": "01726"}</code>; Austin's parts carry the Comptroller's names and <code>SPD_Type</code> or <code>Transit_Type</code>.</figcaption>
+</figure>
+<details class="more">
+  <summary>Calls and response<span class="dim">GET /v1/rate</span></summary>
+  <div class="inner">
+<pre class="calls"><span class="layer">http</span>GET /v1/rate                                 <span class="n">src/server.ts</span>
+└─ <span class="layer">lookup</span>lookUpRate(q)                            <span class="n">src/lookup.ts</span>
+   └─ <span class="layer">engine</span>addressRates.at(query, date)          <span class="n">rates/index.ts:123</span>
+      ├─ <span class="layer">engine</span>rateAt(query, date)                  <span class="n">unchanged, but returns locationIds in place of reportingCode</span>
+      │  └─ <span class="layer">engine</span>sstRateAt → rateAreas             <span class="n">ranges.ts:409: areas' ids, kept when all equal</span>
+      ├─ <span class="layer">engine</span><b>describeParts(state, parts)</b>          <span class="n">names.ts, replaces nameParts</span>
+      │  ├─ <span class="layer">sql</span>SELECT type, code, name, ids FROM sales_tax_jurisdictions
+      │  │     WHERE state = $1 AND (type, code) IN (…parts split at the first ":")
+      │  └─ <span class="layer">sql</span>SELECT kind, fips, name FROM sales_tax_shapes   <span class="n">only for parts still unnamed</span>
+      └─ <span class="layer">engine</span>reportingFor(state)                    <span class="n">reporting.ts: agency, form, notes</span></pre>
+<pre class="calls">{
+  "state": "AL", "rate": 0.1, "stateRate": 0.04, "localRate": 0.06,
+  "parts": [
+    { "kind": "state",  "name": "Alabama",           "code": "45:01",    "rate": 0.04,  "ids": {} },
+    { "kind": "county", "name": "MONTGOMERY COUNTY", "code": "00:101",   "rate": 0.025,
+      "ids": { "Locality Code": "7051", "County Number": "51", "Administered": "SELF" } },
+    { "kind": "city",   "name": "MONTGOMERY",        "code": "01:51000", "rate": 0.035,
+      "ids": { "Locality Code": "9454", "County Number": "51", "Administered": "SELF" } }
+  ],
+  "match": "map", "locationCode": "…", "locationIds": {},
+  "source": "AL rate table taxrates.csv, …",
+  "reporting": {
+    "agency": { "name": "Alabama Department of Revenue", "url": "https://www.revenue.alabama.gov/sales-use/" },
+    "form": "Sales tax return (My Alabama Taxes)",
+    "notes": ["Some Alabama cities and counties collect their own tax; …"]
+  }
+}</pre>
+    <p>A part code splits at its first colon: <code>kx:2227016&gt;3227999</code> is type <code>kx</code>, code <code>2227016&gt;3227999</code>, matching how <code>loadGeoState</code> stored it. A combined Texas area gets its own jurisdiction row from <code>texas.ts:229</code> with the SPD's name and TAID.</p>
+  </div>
+</details>
+<p>The caller gets Alabama's own codes and who collects each tax, with no state-specific code in the API.</p>
+
+<h3 id="w-show">Show it on the site</h3>
+<p>Someone searches the Montgomery address on opentaxrate.com. Each part row shows its ids in small mono under the name, and the location's ids appear under the parts; the "For your return" block keeps the agency, the form and the notes.</p>
+<figure class="fig">
+  <div class="panel">
+    <p class="fig-title">The result list prints ids as the publisher labels them</p>
+    <div class="objgraph">
+      <ul class="tree">
+        <li>
+          <div class="obj"><span class="kind">RateList</span><span class="id">Montgomery, AL · 10.00%</span></div>
+          <ul>
+            <li><div class="obj changed"><span class="kind">part row</span><span class="id">City of Montgomery · 3.50%</span><span class="field">Locality Code 9454 · Administered SELF</span></div></li>
+            <li><div class="obj changed"><span class="kind">for your return</span><span class="id">Alabama Department of Revenue</span><span class="field">form, notes; no codes list</span></div></li>
+            <li><div class="obj gone"><span class="kind">removed</span><span class="id">codes, "unverified", missing, fromAccount</span></div></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption>The client never interprets an id; it prints <code>key value</code> pairs in the order the API sends them.</figcaption>
+</figure>
+
+<h2 id="boundaries">Boundaries</h2>
+<div class="scroll"><table class="grid-table">
+  <thead><tr><th scope="col">Layer</th><th scope="col">Module</th><th scope="col">Owns</th><th scope="col">Hands off</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Adapter</th><td><code>src/ingest/states/*.ts</code>, <code>missouri.ts</code>, <code>sst-files.ts</code></td><td>Which source columns are a jurisdiction's name and ids</td><td><code>GeoStateData.jurisdictions</code>, <code>StateFiles.jurisdictions</code>, <code>Area.ids</code></td></tr>
+    <tr><th scope="row">Load</th><td><code>src/ingest/load.ts</code></td><td>Replacing a state's jurisdictions with its rates, in one transaction</td><td>Rows in <code>sales_tax_jurisdictions</code>, <code>sales_tax_areas.ids</code></td></tr>
+    <tr><th scope="row">Engines</th><td><code>src/rates/ranges.ts</code>, <code>map.ts</code></td><td>Finding the rate and its parts; the matched area's ids</td><td>Parts with <code>type:code</code>, <code>locationIds</code></td></tr>
+    <tr><th scope="row">Describe</th><td><code>src/rates/names.ts</code> (<code>describeParts</code>)</td><td>Attaching name and ids to parts by key; the outline-name fallback</td><td>Parts with <code>name</code> and <code>ids</code></td></tr>
+    <tr><th scope="row">Directory</th><td><code>src/rates/reporting.ts</code></td><td>Each state's agency, form and filing notes</td><td><code>reporting</code></td></tr>
+    <tr><th scope="row">Client</th><td><code>client/src/lib/api.ts</code>, <code>result/RateList.svelte</code>, <code>routes/docs</code></td><td>Showing ids as given; documenting the fields</td><td>Nothing</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="phases">Phases</h2>
+<p>Four pull requests, in order. Each leaves the API working; ids appear state by state as phase 2 lands.</p>
+<ol>
+  <li><strong>Table and area ids.</strong> The new table, <code>sales_tax_areas.ids</code> in place of <code>reporting_code</code>, and the Streamlined boundary parser writing it.
+    <details class="more">
+      <summary>Files<span class="dim">phase 1</span></summary>
+      <div class="inner"><ul>
+        <li>Data: <code>src/db/schema.ts</code> (<code>salesTaxJurisdictions</code>, <code>salesTaxAreas.ids</code>), <code>migrations/0007_*.sql</code>, <code>migrations/meta</code>.</li>
+        <li>Ingest: <code>src/ingest/sst-files.ts</code> (<code>Area.ids</code> from c[21]), <code>load.ts</code> (area key and COPY columns, delete the state's jurisdictions on load), <code>missouri.ts</code> (area ids).</li>
+        <li>Engine: <code>src/rates/ranges.ts</code> (<code>reportingCode</code> → <code>locationIds</code>), <code>index.ts</code>.</li>
+        <li>Tests: <code>test/sst-files.test.ts</code>, <code>test/address-rates.test.ts</code> fixtures.</li>
+      </ul></div>
+    </details>
+    <em>Done when</em> <code>pnpm test</code> passes on a <code>_test</code> database and <code>refresh WA</code> stores <code>{"Composite SER code":"01726"}</code> on Seattle's area.</li>
+  <li><strong>Every adapter emits its jurisdictions.</strong> <code>GeoStateData</code> and <code>StateFiles</code> gain <code>jurisdictions</code>; <code>LocalRate</code> gains <code>ids</code> so table states keep their source names; each adapter fills them from the columns in <a href="#sources">the table above</a>, starting with AL, TX, IL, LA and MO.
+    <details class="more">
+      <summary>Files<span class="dim">phase 2</span></summary>
+      <div class="inner"><ul>
+        <li>Types: <code>src/ingest/states/index.ts</code> (<code>JurisdictionRow { type, code, name, ids }</code>), <code>tables.ts</code> (<code>LocalRate.ids</code>, emit a row per <code>type:code</code>, newest wins).</li>
+        <li>Adapters: <code>alabama.ts</code>, <code>texas.ts</code>, <code>illinois.ts</code>, <code>louisiana.ts</code>, <code>arizona.ts</code>, <code>new-mexico.ts</code>, <code>ttr.ts</code>, <code>virginia.ts</code>, <code>montana.ts</code>, <code>missouri.ts</code> (from its rate workbook).</li>
+        <li>Load: <code>src/ingest/load.ts</code> (<code>loadGeoState</code> and <code>loadSstState</code> insert jurisdictions in their transactions, in batches of 500).</li>
+        <li>Tests: one adapter test per source on a cached fixture line, e.g. the Montgomery row gives <code>Locality Code 9454</code>.</li>
+      </ul></div>
+    </details>
+    <em>Done when</em> <code>refresh AL TX IL LA MO</code> loads, and <code>select count(*) from sales_tax_jurisdictions group by state</code> is non-zero for each.</li>
+  <li><strong>Return ids; slim <code>reporting</code>.</strong> <code>describeParts</code> replaces <code>nameParts</code>; parts carry <code>ids</code>, the answer carries <code>locationIds</code>; <code>reporting.ts</code> keeps <code>STATE_REPORTING</code> (agency, url, form, notes) and drops <code>needs</code>, <code>account</code>, <code>PART_CODES</code>, <code>OWN_CODE</code>, <code>codes</code>, <code>missing</code>, <code>fromAccount</code> and <code>status</code>.
+    <details class="more">
+      <summary>Files<span class="dim">phase 3</span></summary>
+      <div class="inner"><ul>
+        <li>Engine: <code>src/rates/names.ts</code>, <code>reporting.ts</code>, <code>types.ts</code> (<code>RatePart.ids</code>), <code>index.ts</code> (<code>AddressRate.locationIds</code>).</li>
+        <li>Tests: <code>test/reporting.test.ts</code> (directory only), a new describe test (a part gets its row's ids; an unknown code gets <code>{}</code>; a Streamlined part keeps its outline name).</li>
+        <li>Docs: <code>docs/context/engine.html</code> (<code>AddressRate</code>, Reporting), <code>refresh.html</code> (tables), <code>api.html</code>.</li>
+      </ul></div>
+    </details>
+    <em>Done when</em> the Montgomery lookup returns the response above against a refreshed database, and Seattle returns <code>locationIds</code> with SER 01726.</li>
+  <li><strong>Client and docs page.</strong> Types, the part rows, and <code>/docs</code>.
+    <details class="more">
+      <summary>Files<span class="dim">phase 4</span></summary>
+      <div class="inner"><ul>
+        <li><code>client/src/lib/api.ts</code> (<code>RatePart.ids</code>, <code>AddressRate.locationIds</code>, the slim <code>Reporting</code>).</li>
+        <li><code>client/src/lib/result/RateList.svelte</code>, <code>format.ts</code> (ids under each part; location ids; reporting without codes).</li>
+        <li><code>client/src/routes/docs/+page.svelte</code> (the Parts and Reporting sections, and a table of which sources give which ids, from <a href="#sources">above</a>).</li>
+      </ul></div>
+    </details>
+    <em>Done when</em> <code>svelte-check</code>, the client tests and <code>vite build</code> pass, and the Montgomery result shows its locality codes in both themes.</li>
+</ol>
+
+<h2 id="questions">Open questions</h2>
+<ul>
+  <li><em>Should ids be dated?</em> Recommend no. Names and codes rarely change, and the newest load replaces them with the rates; a dated rate on an old date then shows today's ids. Add <code>starts_on</code>/<code>ends_on</code> only if a source is found renumbering.</li>
+  <li><em>Should keys be the raw column names or tidied ones?</em> Recommend raw (<code>Locality Code</code>, <code>locat_cdr</code>), which is the point of the change; the docs page lists each source's keys so a caller knows what to read.</li>
+  <li><em>Should Washington's SER code be returned as the DOR's four digits (1726)?</em> Recommend raw <code>01726</code> in <code>locationIds</code>, with the docs saying Washington's location code is the SER code without its leading zero. It stays a pass-through, and the check against the DOR's lookup (205 of 221 addresses) is recorded there.</li>
+  <li><em>Where do Streamlined special districts get names?</em> Nowhere in the files we load; leave them null. A later plan can load a state's own district list (Washington publishes one with location codes) as another source, passed through the same way.</li>
+  <li><em>Keep <code>locationCode</code>?</em> Recommend yes for now; it's in use by callers. Mark it in the docs as OpenTaxRate's own geography key, not a filing code.</li>
+</ul>
+
+<h2 id="appendix">Appendix: words and concepts this page assumes</h2>
+<div class="glossary">
+  <section class="term">
+    <h3 id="t-typecode">A part's <code>type:code</code></h3>
+    <p>The publisher's jurisdiction type and code, as stored on the rate row. Streamlined types are numbers (45 state, 00 county, 01 city); map-read states use their own (<code>x</code> an exclusive area, <code>kx</code> a district inside one).</p>
+<pre class="snip">"01:63000"            → type 01, code 63000 (Seattle's place FIPS)
+"kx:2227016>3227999" → type kx, code 2227016>3227999 (Austin, Capital Metro)</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-ser">Composite SER code</h3>
+    <p>Column 21 of a Streamlined boundary line: a code the state gives each combination of jurisdictions. Washington fills it with its DOR location code, zero-padded; Kansas with its own jurisdiction code; most states leave it blank.</p>
+<pre class="snip">A,…,PINE,ST,…,SEATTLE,98122,0017,,,,,01726,53,53,,63000,…
+                                        ^ c[21] = "01726"  (DOR location 1726)</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-locality">Alabama locality code and Administered</h3>
+    <p>ALDOR's own number for each city and county that levies a tax, and who collects it: <code>STATE</code> (ALDOR), <code>SELF</code> (the locality), or a private collector such as <code>AVENU</code>.</p>
+<pre class="snip">Locality Code,Locality Name,County Number,TaxType,Rate Type,Administered,…,Rate
+9454,MONTGOMERY,51,CU,GENER,SELF,20081101,,3.5</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-taid">Texas TAID</h3>
+    <p>The Comptroller's seven-digit taxing authority id; the first digit is the kind (2 city, 3 transit, 4 county, 5 or 6 special purpose district). Already the part code in Texas.</p>
+<pre class="snip">city 2227016 · transit 3227999 · county 4227001</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-jsonb">jsonb ids</h3>
+    <p>A Postgres JSON object column. It holds a source's identity fields without one column per state, and compares by value, so it can sit in the areas' unique key.</p>
+<pre class="snip">select ids->>'Locality Code' from sales_tax_jurisdictions
+ where state = 'AL' and type = '01' and code = '51000';   -- 9454</pre>
+  </section>
+  <section class="term">
+    <h3 id="t-describe">describeParts</h3>
+    <p>The proposed replacement for <code>nameParts</code>: one query for the parts' jurisdiction rows, one for outline names where a row has none.</p>
+<pre class="snip">part.name = row?.name ?? shapeName ?? null
+part.ids  = row?.ids ?? {}</pre>
+  </section>
+</div>
+
+<details class="more">
+  <summary>Sources<span class="dim">what this page was traced from</span></summary>
+  <div class="inner"><ul class="sources">
+    <li>main at 392c161: <code>src/ingest/load.ts</code> (<code>loadGeoState</code> :47, <code>loadSstState</code> :156), <code>sst-files.ts</code> (<code>parseRateLine</code> :72, <code>parseBoundaryLine</code>), <code>states/index.ts</code> (<code>GeoRateRow</code>, <code>GeoStateData</code>), <code>states/tables.ts</code> (<code>stateTable</code> :43), every adapter in <code>src/ingest/states/</code>, <code>src/rates/index.ts</code> (:123), <code>ranges.ts</code> (<code>rateAreas</code> :409), <code>map.ts</code> (:258), <code>names.ts</code>, <code>reporting.ts</code>.</li>
+    <li>Cached source files in <code>/tmp/otr-cache</code>, read 2026-10-22: <code>taxrates.csv</code> (the Montgomery rows), <code>ordmache-current.txt</code>, <code>dor-boundary-database-q4-2026.csv</code>, the Missouri rate workbooks, the Streamlined rate and boundary files.</li>
+    <li>ArcGIS layer metadata for the Texas, Arizona and Illinois layers, fetched 2026-10-22.</li>
+    <li>The Washington check: 221 addresses from <code>artifacts/bench/cases/WA.csv</code> against DOR's AddressRates API, 2026-10-22.</li>
+  </ul></div>
+</details>
+
+</article>
+</div>
+
+<script>
+(() => {
+  // Contents: mark the section whose heading has scrolled past the top.
+  const links = [...document.querySelectorAll(".toc a[href^='#']")];
+  const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  let queued = false;
+  function markSection() {
+    queued = false;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= 120) current = t;
+    for (const a of links) a.classList.toggle("on", a.getAttribute("href") === "#" + current?.id);
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(markSection); } }, { passive: true });
+  markSection();
+
+  // Theme: follow the host or the OS until the reader picks one here.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector("[data-theme-toggle]");
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : osDark.matches);
+  const labelTheme = () => { if (themeBtn) themeBtn.textContent = isDark() ? "Light mode" : "Dark mode"; };
+  themeBtn?.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; labelTheme(); });
+  osDark.addEventListener("change", labelTheme);
+  new MutationObserver(labelTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  labelTheme();
+
+})();
+</script>
