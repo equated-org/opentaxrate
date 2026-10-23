@@ -213,7 +213,13 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
           notes.push(`the map point, placed by ${mapped.placedBy!.join(", ")}, in place of the street range's ${+(byStreet.rate * 100).toFixed(4)}%`);
           return traced({ ...byMap, note: notes.join("; ") }, input.trace);
         }
-        if (byMap && byMap.rate !== byStreet.rate)
+        // The map can leave the street range standing (streetOverMap) rather
+        // than decline the address, where the range holds this very house: not
+        // a house between listed ones or a street read under another spelling,
+        // whose range is a guess.
+        if (byMap && byMap.rate !== byStreet.rate && PARAMS.streetOverMap && !found?.note)
+          notes.push(`the street range, over the map point's ${+(byMap.rate * 100).toFixed(4)}%`);
+        else if (byMap && byMap.rate !== byStreet.rate)
           throw await refusal(
             input,
             `${input.state}'s street ranges and the county and city outlines its map point falls in disagree on this address's rate.`,
@@ -226,7 +232,7 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     if (byStreet) {
       const range = await rangeAt(input.state, foundStreet, zip5, streetAreas, date, releases);
       if (input.trace && range) input.trace.range = range.trace;
-      return traced({ ...byStreet, ...(range?.zip4 ? { zip4: range.zip4 } : {}) }, input.trace);
+      return traced({ ...byStreet, ...(notes.length ? { note: notes.join("; ") } : {}), ...(range?.zip4 ? { zip4: range.zip4 } : {}) }, input.trace);
     }
     throw await refusal(
       input,

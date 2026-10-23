@@ -52,8 +52,19 @@ export interface Params {
    *  new wrong rate (dev, against a same-day baseline). */
   zipAreaGapSquareMetres: number;
   /** A map point this sure, agreed by two datasets, outweighs a street range
-   *  (rates/ranges.ts). */
+   *  (rates/ranges.ts). 0: the range that holds the house always answers
+   *  (streetOverMap); at 40 the map overrode three right ranges on dev. */
   preciseMetres: number;
+  /** Where a street range that holds this very house and the map point's
+   *  outlines disagree, and the point isn't precise enough to outweigh the
+   *  range (preciseMetres), the range answers; off, the address is declined
+   *  (rates/ranges.ts). A house between listed ones still declines. On
+   *  2026-10-23, with preciseMetres 0 (the range always outweighs the map
+   *  point): dev 5,297 → 5,301 right, 7 → 4 wrong, 13 → 12 declined; eval
+   *  1,986 → 1,990 right, 2 → 1 wrong, 11 → 8 declined, against same-day
+   *  baselines. Five of those answers are the state's address database where
+   *  its map says otherwise, counted right as the database is official. */
+  streetOverMap: boolean;
   /** A point in a range state's tax zone for a town that the ZIP's file
    *  doesn't list and that levies nothing of its own takes the county's
    *  town-less area (rates/range-polygons.ts). */
@@ -130,7 +141,8 @@ const DEFAULTS: Params = {
   lonePointOutsideCity: true,
   zipMarginMetres: 2_000,
   zipAreaGapSquareMetres: 1_000,
-  preciseMetres: 40,
+  preciseMetres: 0,
+  streetOverMap: true,
   zoneBeyondZip: true,
   outlinesOverZip4: false,
   vendorOnlyTaxes: ["WY:69"],

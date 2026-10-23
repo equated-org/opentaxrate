@@ -229,23 +229,41 @@ describe("a Streamlined state's address", () => {
     expect((await addressRates.at({ state: "WY", street: "250 Main St", city: "Cheyenne", zip: "82001" }, ON)).zip4).toBeNull();
   });
 
-  it("takes the map over its street range when two datasets place it clear of the line", async () => {
+  it("keeps the street range that holds the house over a map point that disagrees", async () => {
     const precise = { ...at(-104.2), placedBy: ["mapbox (mapbox)", "google (google)"] };
     const found = await addressRates.at(
       { state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => precise },
       ON,
     );
-    expect(found).toMatchObject({ rate: 0.05, match: "map" });
-    expect(found.source).toContain("in place of the street range's 7%");
-    // Two providers on one dataset (Geocodio's TIGER points are Census's) aren't two datasets.
-    const oneDataset = { ...at(-104.2), placedBy: ["census (tiger)", "geocodio (tiger)"] };
-    await expect(
-      addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => oneDataset }, ON),
-    ).rejects.toThrow(/disagree/);
-    // One dataset alone isn't enough to overrule the state's file.
-    await expect(
-      addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => at(-104.2) }, ON),
-    ).rejects.toThrow(/disagree/);
+    expect(found).toMatchObject({ rate: 0.07, match: "street" });
+    expect(found.source).toContain("the street range, over the map point's 5%");
+  });
+
+  it("with preciseMetres, takes the map over its street range when two datasets place it clear of the line", async () => {
+    const given = { precise: PARAMS.preciseMetres, street: PARAMS.streetOverMap };
+    PARAMS.preciseMetres = 40;
+    PARAMS.streetOverMap = false;
+    try {
+      const precise = { ...at(-104.2), placedBy: ["mapbox (mapbox)", "google (google)"] };
+      const found = await addressRates.at(
+        { state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => precise },
+        ON,
+      );
+      expect(found).toMatchObject({ rate: 0.05, match: "map" });
+      expect(found.source).toContain("in place of the street range's 7%");
+      // Two providers on one dataset (Geocodio's TIGER points are Census's) aren't two datasets.
+      const oneDataset = { ...at(-104.2), placedBy: ["census (tiger)", "geocodio (tiger)"] };
+      await expect(
+        addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => oneDataset }, ON),
+      ).rejects.toThrow(/disagree/);
+      // One dataset alone isn't enough to overrule the state's file.
+      await expect(
+        addressRates.at({ state: "WY", street: "150 Main St", city: "Cheyenne", zip: "82001", locate: async () => at(-104.2) }, ON),
+      ).rejects.toThrow(/disagree/);
+    } finally {
+      PARAMS.preciseMetres = given.precise;
+      PARAMS.streetOverMap = given.street;
+    }
   });
 
   it("is refused when its street range and ZIP+4 disagree", async () => {
