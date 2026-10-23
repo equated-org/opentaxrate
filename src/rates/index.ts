@@ -203,38 +203,33 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
     };
   }
   if (state === "CA") return california(query, date);
-  // Missouri's indexed ranges and tax polygons answer locally first. Its
-  // optional official lookup remains available when local data cannot settle
-  // the address; it no longer adds a live call to every successful lookup.
+  // The state's own lookup (STATE_LOOKUPS names the states that may be
+  // asked: each call goes to a live service the state runs). With
+  // stateLookupAs "tiebreak" it answers only an address the loaded data
+  // declines; "first" asks it before the loaded data. Missouri is always a
+  // tiebreak: its loaded data answers most addresses with their parts.
   const lookup = stateLookup(state);
-  let localMissouriError: RateError | undefined;
-  if (state === "MO" && lookup) {
-    try {
-      return await rangeRate(query, state, date);
-    } catch (error) {
-      if (!(error instanceof RateError) || ![422, 502].includes(error.status)) throw error;
-      localMissouriError = error;
+  const tiebreak = state === "MO" || PARAMS.stateLookupAs !== "first";
+  const official = async (): Promise<EngineRate | null> => {
+    // The lookup answers at the map point only when the rate is the same
+    // across its uncertainty margin: it is read at the point and four edges
+    // of its margin, so only a point sure enough that no town could hide
+    // between them is asked.
+    const ask = async (p: LocatedPoint) =>
+      lookup && marginOf(p) <= PARAMS.lookupMaxMarginMetres ? stateLookupAt(lookup, p, date) : null;
+    let point = lookup && query.locate ? await query.locate() : null;
+    let looked = point ? await ask(point) : null;
+    // Two rates across the margin, or too wide a margin, may only mean the
+    // point is too vague: ask once for a sharper one, as the map does near a
+    // line.
+    if (lookup && point && looked === null && query.locate && PARAMS.lookupSharpen) {
+      const sharper = await query.locate({ marginUnder: marginOf(point) });
+      if (sharper && marginOf(sharper) < marginOf(point)) {
+        point = sharper;
+        looked = await ask(sharper);
+      }
     }
-  }
-  // Other enabled state lookups answer at the map point when the rate is
-  // consistent across its uncertainty margin; otherwise local data answers.
-  // The lookup is read at the point and four edges of its margin, so only a
-  // point sure enough that no town could hide between them is asked.
-  const ask = async (p: LocatedPoint) =>
-    lookup && marginOf(p) <= PARAMS.lookupMaxMarginMetres ? stateLookupAt(lookup, p, date) : null;
-  let point = lookup && query.locate ? await query.locate() : null;
-  let looked = point ? await ask(point) : null;
-  // Two rates across the margin, or too wide a margin, may only mean the
-  // point is too vague: ask once for a sharper one, as the map does near a
-  // line.
-  if (lookup && point && looked === null && query.locate && PARAMS.lookupSharpen) {
-    const sharper = await query.locate({ marginUnder: marginOf(point) });
-    if (sharper && marginOf(sharper) < marginOf(point)) {
-      point = sharper;
-      looked = await ask(sharper);
-    }
-  }
-  if (lookup && point && looked !== null) {
+    if (!(lookup && point && looked !== null)) return null;
     const stateRate = await loadedStateRate(state, date);
     const localRate = Math.round((looked - stateRate) * 1e6) / 1e6;
     return {
@@ -253,41 +248,56 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
       jurisdictions: "uncertain",
       source: `${lookup.name}, at the address's map point on ${date}${point.placedBy?.length ? `; placed by ${point.placedBy.join(", ")}` : ""}`,
     };
+  };
+  const loaded = async (): Promise<EngineRate> => {
+    if (MAP_STATES.includes(state)) {
+      const found = await geoRateAt(
+        state,
+        query.locate ?? null,
+        date,
+        query.street,
+        query.trace,
+        { zip: query.zip, city: query.city },
+      );
+      const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
+      return {
+        state,
+        rate: found.rate,
+        stateRate,
+        localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
+        byType: generalOnly(found.rate),
+        parts: found.parts,
+        match: found.wholeZip ? "zip_area" : "map",
+        locationCode: found.locationCode,
+        alternatives: found.alternatives,
+        source: found.wholeZip
+          ? `${state} rate table ${found.files.join(" + ")}, on ${date}: no geocoder placed the address, and every part of ZIP ${found.wholeZip}'s Census area has this rate`
+          : `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
+      };
+    }
+    if (!RANGE_FIPS[state])
+      throw new RateError(
+        `OpenTaxRate has no address rates for ${state} yet.`,
+        422,
+        undefined,
+        "UNSUPPORTED_STATE",
+      );
+    return rangeRate(query, state, date);
+  };
+  if (lookup && !tiebreak) {
+    const found = await official();
+    if (found) return found;
   }
-  if (MAP_STATES.includes(state)) {
-    const found = await geoRateAt(
-      state,
-      query.locate ?? null,
-      date,
-      query.street,
-      query.trace,
-      { zip: query.zip, city: query.city },
-    );
-    const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
-    return {
-      state,
-      rate: found.rate,
-      stateRate,
-      localRate: Math.round((found.rate - stateRate) * 1e6) / 1e6,
-      byType: generalOnly(found.rate),
-      parts: found.parts,
-      match: found.wholeZip ? "zip_area" : "map",
-      locationCode: found.locationCode,
-      alternatives: found.alternatives,
-      source: found.wholeZip
-        ? `${state} rate table ${found.files.join(" + ")}, on ${date}: no geocoder placed the address, and every part of ZIP ${found.wholeZip}'s Census area has this rate`
-        : `${state} rate table ${found.files.join(" + ")}, by the address's place on the map on ${date}${found.placedBy?.length ? `; placed by ${found.placedBy.join(", ")}` : ""}`,
-    };
+  try {
+    return await loaded();
+  } catch (error) {
+    // Declined, or the state's data not loaded: the state's own lookup may
+    // settle it at the map point; if it can't either, the refusal stands.
+    if (!lookup || !tiebreak || !(error instanceof RateError) || ![422, 502].includes(error.status)) throw error;
+    const found = await official();
+    if (found) return found;
+    throw error;
   }
-  if (!RANGE_FIPS[state])
-    throw new RateError(
-      `OpenTaxRate has no address rates for ${state} yet.`,
-      422,
-      undefined,
-      "UNSUPPORTED_STATE",
-    );
-  if (localMissouriError) throw localMissouriError;
-  return rangeRate(query, state, date);
 }
 
 async function rangeRate(query: AddressRateQuery, state: string, date: string): Promise<EngineRate> {

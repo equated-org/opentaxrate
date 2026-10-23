@@ -146,6 +146,9 @@ export async function sstRateAt(input: Lookup, date: string): Promise<SstRate> {
     const rated = await rateAreas(input.state, fips, areaIds, date);
     const rates = new Set(rated.map((a) => a.rate));
     if (rates.size !== 1) return null;
+    const excluded = rated.flatMap((a) => a.vendorOnly);
+    if (excluded.length && !notes.some((n) => n.startsWith("leaves out")))
+      notes.push(`leaves out ${[...new Set(excluded.map((e) => `a ${+(e.rate * 100).toFixed(4)}% tax (district ${e.code.split(":")[1]})`))].join(" and ")} that only vendors located in it collect`);
     // Areas that share the rate may still name other jurisdictions.
     const alternatives: Breakdown[] = [];
     for (const a of rated.slice(1))
@@ -515,6 +518,9 @@ export async function rateAreas(
       { kind: "state", code: `45:${fips}`, rate: Number(stateRate.rate), byType: byTypeOf(stateRate) },
     ];
     const districts = districtsOf(a.districts);
+    // Taxes only vendors located in the area collect (vendorOnlyTaxes):
+    // left out of the rate on a sale delivered here, and named in the note.
+    const vendorOnly: Array<{ code: string; rate: number }> = [];
     const add = (kind: RatePart["kind"], type: string, code: string) => {
       // Only a city or district may be filed under another type, and never
       // as one of the area's own districts, which count on their own.
@@ -523,6 +529,10 @@ export async function rateAreas(
           ? rates.get(`${type}:${code}`)
           : (rates.get(`${type}:${code}`) ??
             (kind === "city" && districts.some((d) => d.code === code) ? undefined : find(type, code)));
+      if (row && PARAMS.vendorOnlyTaxes.includes(`${state}:${row.type}`)) {
+        vendorOnly.push({ code: `${row.type}:${code}`, rate: Number(row.rate) });
+        return;
+      }
       if (row && !parts.some((p) => p.code === `${row.type}:${code}`))
         parts.push({ kind, code: `${row.type}:${code}`, rate: Number(row.rate), byType: byTypeOf(row) });
       // A Missouri code is the address's whole local rate; none on the date
@@ -538,6 +548,7 @@ export async function rateAreas(
     for (const d of districts) add("district", d.type, d.code);
     return {
       areaId: a.id,
+      vendorOnly,
       rate: round(parts.reduce((sum, p) => sum + p.rate, 0)),
       byType: sumByType(parts.map((p) => p.byType!)),
       parts,

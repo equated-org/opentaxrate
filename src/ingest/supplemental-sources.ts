@@ -64,5 +64,5 @@ export const SOURCE_ACQUISITION_GAPS = [
   ["IL", "Remaining business-district polygons", "Exact-address files already loaded; complete statewide district geometry export not verified", "https://tax.illinois.gov/research/taxinformation/sales/busdistrict.html"],
   ["MT", "Resort districts / West Yellowstone rate", "Obtain missing boundaries and reconcile effective date of town 4% versus stale DOR 3%", "https://www.townofwestyellowstone.com/resort-tax-information/"],
   ["ID", "Resort districts", "Local ordinances, boundary exports and product scope; property-tax GIS is not a sales-tax layer", "https://tax.idaho.gov/taxes/sales-use/"],
-  ["WY", "Teton Village resort district", "Local district geometry and vendor-location rule", "https://tetonvillagewy.gov/district-government/teton-village-districts/resort-district-tvrd/"],
+  ["WY", "Teton Village resort district", "Local district geometry; only needed for an in-district vendor's own rate, since the 2% is collected only by vendors located there (vendorOnlyTaxes)", "https://tetonvillagewy.gov/district-government/teton-village-districts/resort-district-tvrd/"],
 ] as const;

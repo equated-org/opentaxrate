@@ -62,6 +62,17 @@ export interface Params {
    *  outlines answer; off, the address is declined locally so a state lookup
    *  can settle it, as outlines may be stale (rates/ranges.ts). */
   outlinesOverZip4: boolean;
+  /** Taxes collected only by vendors located in their area, as "STATE:type"
+   *  (rates/ranges.ts): left out of the rate on a sale delivered to an
+   *  address there, and named in the answer's source. Wyoming's resort
+   *  districts (type 69: Teton Village, Grand Targhee, 2%) are collected
+   *  only by vendors physically in the district (WY Department of Revenue). */
+  vendorOnlyTaxes: string[];
+  /** How a state's own lookup (for the states STATE_LOOKUPS names) is used
+   *  (rates/index.ts): "tiebreak" asks it only for an address the loaded
+   *  data declines; "first" asks it before the loaded data, which answers
+   *  only where the lookup can't. Missouri is always a tiebreak. */
+  stateLookupAs: "tiebreak" | "first";
   /** When a state's lookup gives two rates across the point's margin, ask
    *  once for a sharper point and try again (rates/index.ts). */
   lookupSharpen: boolean;
@@ -122,6 +133,8 @@ const DEFAULTS: Params = {
   preciseMetres: 40,
   zoneBeyondZip: true,
   outlinesOverZip4: false,
+  vendorOnlyTaxes: ["WY:69"],
+  stateLookupAs: "tiebreak",
   lookupSharpen: true,
   lookupMaxMarginMetres: 1_000,
   refuseBeforeFirstRate: true,

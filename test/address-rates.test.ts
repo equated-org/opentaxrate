@@ -26,6 +26,7 @@ import {
   zipAreas,
   zipStreetNames,
 } from "../src/db/schema.js";
+import { PARAMS } from "../src/params.js";
 import { addressRates } from "../src/rates/index.js";
 import { geoRateAt } from "../src/rates/map.js";
 import { geometryOf } from "../src/ingest/geometry.js";
@@ -119,7 +120,13 @@ async function clear() {
   await db.delete(zipStreetNames).where(inArray(zipStreetNames.state, STATES));
 }
 
+// The fixture's district 69:02290 stands for any district that adds a rate;
+// Wyoming's real type 69 is a resort tax left out by default (vendorOnlyTaxes).
+const vendorOnly = PARAMS.vendorOnlyTaxes;
+afterAll(() => { PARAMS.vendorOnlyTaxes = vendorOnly; });
+
 beforeAll(async () => {
+  PARAMS.vendorOnlyTaxes = [];
   // The fixtures replace every Wyoming row; on a loaded database that would
   // wipe the real state.
   const [{ name }] = await db.execute<{ name: string }>(sql`select current_database() as name`);
