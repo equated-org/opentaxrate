@@ -15,6 +15,7 @@ Start with the local docs and read the relevant subsystem note before changing c
 | [State coverage](docs/state-coverage.html) | Supported sources, state-specific behavior and known gaps |
 | [Configuration](docs/configuration.md) | Environment settings, credentials, provider limits and accounts |
 | [Data maintenance](docs/data.md) | Local refresh, source archives, snapshots and production releases |
+| [Benchmarks](docs/benchmarks.md) | The benchmark sets, where they live, and how to benchmark a change (`pnpm bench`) |
 | [Maintenance runs](docs/maintenance/cron.md) | The monthly tax-rate update, step by step, and the [sources](docs/maintenance/sources.md) it watches |
 | [Tax-rule scope](docs/tax-rules.md) | Research and taxability rules outside the implemented rate lookup |
 | [Web client](client/README.md) | Client setup, commands, configuration and fixtures |

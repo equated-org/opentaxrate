@@ -8,7 +8,8 @@
   <a href="https://opentaxrate.com"><strong>Website · Try a lookup</strong></a> ·
   <a href="#quick-start">Self-host</a> ·
   <a href="docs/configuration.md">Configuration</a> ·
-  <a href="docs/state-coverage.html">Coverage</a>
+  <a href="docs/state-coverage.html">Coverage</a> ·
+  <a href="docs/benchmarks.md">Benchmarks</a>
 </p>
 
 <p align="center">
@@ -80,6 +81,10 @@ Uses published SST/state address ranges, PostGIS boundaries, and California’s 
 
 This is the general sales tax rate. Taxability, exemptions, item caps, sourcing rules, and tribal taxes are outside scope. Missing boundaries or conflicting placements can require confirmation. See [state coverage](docs/state-coverage.html) for specifics.
 
+## Benchmarks
+
+Accuracy is measured against each state's own answer for random real addresses in every state, on today's date and past ones, and for points near city and county lines. As of 2026-10-23, 5,293 of 5,317 dev addresses get the state's rate, 7 get a wrong one and 17 are declined; the held-out set scores 1,986 of 1,999 with 3 wrong. The dev addresses are public in [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench). See [benchmarks](docs/benchmarks.md) for the sets and how to run them (`pnpm bench`).
+
 ## Development
 
 Requires Node 22+ and pnpm.
@@ -99,6 +104,7 @@ pnpm dev
 
 - [Architecture](docs/architecture.html) — lookup engines, tables, and stacking rules
 - [Data maintenance](docs/data.md) — refresh, downloads, and snapshots
+- [Benchmarks](docs/benchmarks.md) — the benchmark sets and how to benchmark a change
 - [Self-hosted geocoders](docs/self-hosted-geocoders.html)
 - [Web client](client/README.md)
 
