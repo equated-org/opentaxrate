@@ -471,6 +471,9 @@ describe("a statewide state's address", () => {
     expect((await dc("2025-09-30")).rate).toBe(0.06);
     expect((await dc("2025-10-01")).rate).toBe(0.06);
     expect((await dc("2026-10-01")).rate).toBe(0.06);
+    expect((await dc("2027-09-30")).rate).toBe(0.06);
+    // After the last day DC's own notice settles, the rate isn't guessed.
+    await expect(dc("2027-10-01")).rejects.toThrow(/through September 30, 2027.*Confirm it with OTR/);
   });
 
   it("takes a Montana resort area's rate inside its outline, refuses near its edge, and is 0% outside", async () => {

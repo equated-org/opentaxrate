@@ -19,6 +19,10 @@ interface DatedRate {
   rate: number;
   /** First day the rate applies. */
   from: string;
+  /** Last day the state's own notice settles the rate, where a change after
+   *  it is announced but not certain; a later sale is refused with `after`. */
+  until?: string;
+  after?: string;
 }
 
 /** Newest first. */
@@ -31,10 +35,15 @@ const RATES: Record<string, DatedRate[]> = {
   ME: [{ rate: 0.055, from: "2013-10-01" }],
   MD: [{ rate: 0.06, from: "2008-01-03" }],
   MA: [{ rate: 0.0625, from: "2009-08-01" }],
-  // DC Office of Tax and Revenue, notice of Oct 1 2025 tax changes: the
-  // general rate stays 6%; the rise to 7% once set for Oct 1 2026 has been
-  // postponed, and OTR now says 6% applies through Sept 30 2027.
-  DC: [{ rate: 0.06, from: "2013-10-01" }],
+  // DC Office of Tax and Revenue, notice of Oct 1 2025 tax changes and its
+  // site-wide notice (seen 2026-10-23): the rise to 7% has been postponed,
+  // and the general rate "remains 6% through September 30, 2027". What
+  // applies after isn't settled by OTR (the rise has moved before), so a
+  // later sale is refused.
+  DC: [{
+    rate: 0.06, from: "2013-10-01", until: "2027-09-30",
+    after: "DC's general rate is 6% through September 30, 2027; a rise to 7% has been postponed, and the Office of Tax and Revenue hasn't settled the rate after that. Confirm it with OTR.",
+  }],
 };
 
 export const STATEWIDE_STATES = Object.keys(RATES);
@@ -57,5 +66,7 @@ export function statewideRate(
     return {
       refused: `This service has ${state}'s rate only from ${history.at(-1)!.from}.`,
     };
-  return found;
+  if (found.until && date > found.until)
+    return { refused: found.after ?? `This service has ${state}'s rate only through ${found.until}.` };
+  return { rate: found.rate, from: found.from };
 }
