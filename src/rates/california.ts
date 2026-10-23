@@ -124,6 +124,16 @@ export const californiaSalesTaxService = {
   },
 };
 
+/** CDTFA's codes for a tax area, as `locationIds`: the 12-character tax
+ *  area code its lookups and layers give, and its first five characters,
+ *  the county and city (998 unincorporated) a return's schedules ask for
+ *  (CDTFA-531-FL1 lists them; every prefix in CDTFA's layer is there).
+ *  {} for a code that doesn't start with five digits. */
+export function californiaLocationIds(tac: string): Record<string, string> {
+  const local = /^\d{5}/.exec(tac)?.[0];
+  return local ? { "Tax Area Code": tac, "Local Tax Area Code": local } : {};
+}
+
 /** Whether any dated CDTFA tax area, verified or held, is indexed for the
  *  date: without one the address needn't be placed to look for one. */
 export async function californiaIndexedOn(date: string) {

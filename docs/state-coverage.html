@@ -249,7 +249,7 @@
 </tbody></table></div>
 <p class="source-links"><a href="../src/rates/statewide.ts">Statewide table and Montana resort-area checks</a></p>
 <h2 id="california">California: live authority lookup</h2>
-<p id="ca" data-state="CA">California sends the street, city, and required ZIP to CDTFA’s live API. The response supplies the combined rate and tax-area code; our engine separates the configured state component from the local remainder.</p>
+<p id="ca" data-state="CA">California sends the street, city, and required ZIP to CDTFA’s live API. The response supplies the combined rate and tax-area code; our engine separates the configured state component from the local remainder. The answer’s <code>locationIds</code> carry the tax-area code and its first five digits, the county and city code CDTFA’s return schedules ask for; district tax codes aren’t given.</p>
 <p>The API supplies today’s rate. A request for a different date still returns today’s rate, with that limitation stated in the source string. No California rate dataset is loaded by refresh.</p>
 <p class="source-links"><a href="../src/rates/california.ts">CDTFA client</a><a href="../src/rates/index.ts">State routing and response</a><a href="https://services.maps.cdtfa.ca.gov/api/taxrate/GetRateByAddress">CDTFA endpoint</a></p>
 <h2 id="limits">Limits and maintenance</h2>

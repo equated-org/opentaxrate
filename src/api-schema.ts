@@ -24,6 +24,23 @@ export const RatesByTypeSchema = z
 
 const ids = (description: string) => z.record(z.string(), z.string()).openapi({ description, example: { "Locality Code": "9454" } });
 
+/** The location ids a state gives, by key, so a generated client has them
+ *  as fields; any other key a state's data names still passes. */
+const code = (description: string, example: string) => z.string().optional().openapi({ description, example });
+export const LocationIdsSchema = z
+  .object({
+    "Composite SER Code": code("Streamlined states' location code. In Washington, the DOR location code zero-padded to five digits: 01726 is 1726.", "01726"),
+    "Jurisdiction Code": code("Missouri's jurisdiction code for the location.", "15670-019-000"),
+    "Tax Area Code": code("California: CDTFA's 12-character tax area code.", "19034D900000"),
+    "Local Tax Area Code": code("California: the five-digit county and city code (998 unincorporated) a CDTFA return's schedules ask for; the first five characters of Tax Area Code.", "19034"),
+  })
+  .catchall(z.string())
+  .openapi({
+    description:
+      "The state's own codes for the whole location, keyed by the name its data gives them; values are strings, leading zeros kept. {} where its data gives none, or the address could be in areas whose ids differ: read a key as possibly absent.",
+    example: { "Composite SER Code": "01726" },
+  });
+
 export const RatePartSchema = z
   .object({
     kind: z.enum(["state", "county", "city", "district"]),
@@ -44,6 +61,11 @@ export const ReportingSchema = z
     agency: z.object({ name: z.string(), url: z.string() }).openapi({ description: "Who the state's return goes to." }),
     form: z.string().nullable().openapi({ description: "The return most sellers file there." }),
     notes: z.array(z.string()).openapi({ description: "Filing that doesn't go through that return: self-collected cities, a remote sellers' program." }),
+    locationKey: z.string().nullable().openapi({
+      description:
+        "The locationIds key the return files this location under: read locationIds[locationKey]. Null where the state's data gives no location code; the key may still be missing from locationIds where the address could be in areas whose codes differ.",
+      example: "Composite SER Code",
+    }),
   })
   .openapi("Reporting");
 
@@ -148,9 +170,7 @@ export const AddressRateSchema = z
     alternatives: z
       .array(z.object({ locationCode: z.string().nullable(), parts: z.array(RatePartSchema) }))
       .openapi({ description: "The other combinations of jurisdictions the address could be in, each with the same total; empty when settled." }),
-    locationIds: ids("The state's own ids for the whole location; {} where its data gives none, or the address could be in areas whose ids differ.").openapi({
-      example: { "Composite SER Code": "01726" },
-    }),
+    locationIds: LocationIdsSchema,
     zip4: z.string().nullable().openapi({ description: "The address's ZIP+4, where a Streamlined state's files give it." }),
     source: z.string().openapi({ description: "The files or service the rate came from, and the date." }),
     reporting: ReportingSchema.nullable(),

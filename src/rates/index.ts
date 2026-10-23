@@ -32,7 +32,7 @@ import { PARAMS } from "../params.js";
 import type { StandardAddress } from "../standardize/index.js";
 import type { StreetPicker } from "./streets/jev.js";
 import { districtNamed, geoRateAt } from "./map.js";
-import { californiaIndexedOn, californiaIndexedRate, californiaSalesTaxService } from "./california.js";
+import { californiaIndexedOn, californiaIndexedRate, californiaLocationIds, californiaSalesTaxService } from "./california.js";
 import { marginProbes, stateLookup, stateLookupAt } from "./state-lookups.js";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "../db/client.js";
@@ -94,7 +94,8 @@ export interface AddressRate {
   alternatives: Breakdown[];
   /** The state's own ids for the whole location, keyed by its data's column
    *  names: Washington's location code as {"Composite SER Code": "01726"},
-   *  Missouri's {"Jurisdiction Code": …}. {} where the data gives none, or
+   *  Missouri's {"Jurisdiction Code": …}, California's tax area codes
+   *  (californiaLocationIds). {} where the data gives none, or
    *  when the address could be in areas whose ids differ. */
   locationIds: Record<string, string>;
   /** The address's ZIP+4 ("98109-4607") where the state's address files
@@ -158,7 +159,8 @@ export const addressRates = {
 };
 
 /** An engine's answer, before its parts are described; only the range
- *  engine has location ids and a ZIP+4. */
+ *  engine and California have location ids, and only the range engine a
+ *  ZIP+4. */
 type EngineRate = Omit<AddressRate, "reporting" | "locationIds" | "zip4" | "jurisdictions" | "alternatives"> & {
   locationIds?: Record<string, string>;
   zip4?: string;
@@ -340,7 +342,7 @@ async function california(query: AddressRateQuery, date: string): Promise<Engine
       byType: generalOnly(local.rate), parts: [
         { kind: "state", code: "CA", rate: CA_STATE_RATE },
         { kind: "district", code: `tac:${local.code}`, rate: districtRate },
-      ], match: "map", locationCode: local.code,
+      ], match: "map", locationCode: local.code, locationIds: californiaLocationIds(local.code),
       source: `CDTFA indexed tax area ${local.code}, ${local.file}, on ${date}` };
   }
 
@@ -394,6 +396,7 @@ async function california(query: AddressRateQuery, date: string): Promise<Engine
     ],
     match: "authority",
     locationCode: found.locationCode,
+    locationIds: californiaLocationIds(found.locationCode),
     source: `CDTFA lookup for tax area ${found.locationCode} on ${today}${date === today ? "" : `, today's rate, not dated to ${date}`}`,
   };
 }

@@ -41,6 +41,8 @@ describe('verified polygons in existing lookup tables',()=>{
     // The deciding outline is traced for display.
     expect(trace.outlines.find(o=>o.name==='CDTFA tax area TEST-TAC')).toMatchObject({kind:'district',fips:expect.stringMatching(/^area:69\d{5}:2026-10-01$/),inside:true,levies:true});
     expect(rate.locationCode).toBe('TEST-TAC');
+    // Not CDTFA's shape (five digits first), so no codes are read from it.
+    expect(rate.locationIds).toEqual({});
     expect(rate.match).toBe('map');
     expect(rate.parts.map(p=>[p.code,p.rate])).toEqual([['CA',.0725],['tac:TEST-TAC',.015]]);
     expect(rate.source).toMatch(/^CDTFA indexed tax area TEST-TAC, ca-tax-history /);
@@ -82,12 +84,13 @@ describe('verified polygons in existing lookup tables',()=>{
     expect(await indexedTaxAreas('ZZ',[id],point,'2026-10-21')).toBeNull();
   });
   it('asks no geocoder in California for a date with no indexed tax area',async()=>{
-    const fetch = vi.fn(async()=>new Response(JSON.stringify({taxRateInfo:[{rate:.0775,tac:'LIVE'}],
+    const fetch = vi.fn(async()=>new Response(JSON.stringify({taxRateInfo:[{rate:.0775,tac:'19034D900000'}],
       geocodeInfo:{matchCodes:['Good'],confidence:'High',calcMethod:'Rooftop'}})));
     vi.stubGlobal('fetch',fetch);
     const locate = vi.fn(async()=>point);
     const rate = await addressRates.at({state:'CA',street:'1 Test Street',city:'Fixture',zip:'99999',locate},'2030-01-02');
     expect(rate.match).toBe('authority');
+    expect(rate.locationIds).toEqual({'Tax Area Code':'19034D900000','Local Tax Area Code':'19034'});
     expect(locate).not.toHaveBeenCalled();
     vi.unstubAllGlobals();
   });

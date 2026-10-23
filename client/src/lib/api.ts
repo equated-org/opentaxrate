@@ -41,7 +41,8 @@ export interface AddressRate {
 	match: Match;
 	locationCode: string | null;
 	/** The state's own ids for the whole location, e.g. Washington's
-	 *  {"Composite SER Code": "01726"}; {} where it gives none. */
+	 *  {"Composite SER Code": "01726"}, California's {"Tax Area Code":
+	 *  "19034D900000", "Local Tax Area Code": "19034"}; {} where it gives none. */
 	locationIds?: Record<string, string>;
 	/** Whether the parts name the jurisdictions the tax is paid to; the rate
 	 *  is settled either way. Absent from an API older than it. */
@@ -90,6 +91,9 @@ export interface Reporting {
 	agency: { name: string; url: string };
 	form: string | null;
 	notes: string[];
+	/** The locationIds key the return files the location under; absent from
+	 *  an API older than it. */
+	locationKey?: string | null;
 }
 
 export interface LonLat {

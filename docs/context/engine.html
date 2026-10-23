@@ -244,7 +244,7 @@
 </tr>
 <tr>
 <td><code>locationIds</code></td>
-<td>the range engine's matched area's <code>sales_tax_areas.ids</code> (<code>{"Composite SER Code": "01726"}</code>, Missouri's <code>{"Jurisdiction Code": …}</code>) when every matched area has the same ids; <code>{}</code> otherwise and for every other engine</td>
+<td>the range engine's matched area's <code>sales_tax_areas.ids</code> (<code>{"Composite SER Code": "01726"}</code>, Missouri's <code>{"Jurisdiction Code": …}</code>) when every matched area has the same ids, <code>{}</code> otherwise; CA: <code>californiaLocationIds(tac)</code>, <code>{"Tax Area Code": "19034D900000", "Local Tax Area Code": "19034"}</code>, the second the tax area code's first five digits (county and city, 998 unincorporated, as CDTFA-531-FL1 lists them), <code>{}</code> for a code that doesn't start with five digits; <code>{}</code> for every other engine. <code>LocationIdsSchema</code> (<code>src/api-schema.ts</code>) names these keys in the OpenAPI spec; any other key still passes</td>
 </tr>
 <tr>
 <td><code>jurisdictions</code></td>
@@ -267,7 +267,7 @@
 <p><code>addressRates.at</code> calls <code>rateAt</code> (the engines), then <code>describeParts(state, parts)</code>, then <code>reportingFor(state)</code>.</p>
 
 <h2 id="reporting-src-rates-reporting-ts">Reporting (<code>src/rates/reporting.ts</code>)</h2>
-<p>A directory. <code>STATE_REPORTING</code> holds every state and DC; <code>reportingFor(state)</code> returns <code>{ agency: { name, url }, form, notes }</code>, or null for a state with no entry. <code>form</code> is null where there's no general sales tax return; <code>notes</code> is filing outside it (self-collected cities, remote seller programs). The codes a return files the tax under are the parts' <code>ids</code> and <code>locationIds</code>, passed through from each state's data; nothing here maps, renames or verifies them, and a Census FIPS code is never given as one.</p>
+<p>A directory. <code>STATE_REPORTING</code> holds every state and DC; <code>reportingFor(state)</code> returns <code>{ agency: { name, url }, form, notes, locationKey }</code>, or null for a state with no entry. <code>form</code> is null where there's no general sales tax return; <code>notes</code> is filing outside it (self-collected cities, remote seller programs). The codes a return files the tax under are the parts' <code>ids</code> and <code>locationIds</code>, passed through from each state's data; nothing here maps, renames or verifies them, and a Census FIPS code is never given as one. <code>locationKey</code> names the <code>locationIds</code> key the return files a location under (WA <code>Composite SER Code</code>, CA <code>Local Tax Area Code</code>, MO <code>Jurisdiction Code</code>; null elsewhere), so a caller reads <code>locationIds[locationKey]</code> without knowing the state; <code>test/reporting.test.ts</code> checks each is a key <code>LocationIdsSchema</code> lists.</p>
 <p>The <code>source</code> match phrases come from <code>MATCH_NAMES</code>.</p>
 
 <h2 id="statewide-src-rates-statewide-ts">Statewide (<code>src/rates/statewide.ts</code>)</h2>

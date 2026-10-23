@@ -4,7 +4,9 @@
  * (self-collected cities, a remote sellers' program). A directory, the same
  * for every address in a state; the codes a return files the tax under are
  * each part's `ids` and the answer's `locationIds`, as the state's own data
- * gives them (names.ts, sales_tax_jurisdictions).
+ * gives them (names.ts, sales_tax_jurisdictions). `locationKey` names the
+ * `locationIds` key a state's return files a location under, so a caller
+ * reads it without knowing the state; the value itself is never changed.
  */
 import type { AddressRate } from "./index.js";
 
@@ -16,6 +18,9 @@ export interface Reporting {
   /** Filing that doesn't go through that return: self-collected cities, a
    *  separate program for remote sellers. */
   notes: string[];
+  /** The `locationIds` key the return files the location under; null where
+   *  the state's data gives none. */
+  locationKey: string | null;
 }
 
 interface StateReporting {
@@ -23,6 +28,7 @@ interface StateReporting {
   url: string;
   form: string | null;
   notes?: string[];
+  locationKey?: string;
 }
 
 /** Every state's revenue agency and the return a seller files there. */
@@ -56,6 +62,7 @@ export const STATE_REPORTING: Record<string, StateReporting> = {
     agency: "California Department of Tax and Fee Administration",
     url: "https://www.cdtfa.ca.gov/",
     form: "CDTFA-401 with Schedules A, B and C",
+    locationKey: "Local Tax Area Code",
   },
   CO: {
     agency: "Colorado Department of Revenue",
@@ -136,6 +143,7 @@ export const STATE_REPORTING: Record<string, StateReporting> = {
     agency: "Missouri Department of Revenue",
     url: "https://dor.mo.gov/taxation/business/tax-types/sales-use/",
     form: "Form 53-1",
+    locationKey: "Jurisdiction Code",
   },
   MT: {
     agency: "Montana Department of Revenue",
@@ -232,6 +240,8 @@ export const STATE_REPORTING: Record<string, StateReporting> = {
     agency: "Washington Department of Revenue",
     url: "https://dor.wa.gov/taxes-rates/sales-use-tax-rates",
     form: "Combined Excise Tax Return",
+    // Zero-padded to five digits: "01726" is location code 1726.
+    locationKey: "Composite SER Code",
   },
   WV: {
     agency: "West Virginia Tax Division",
@@ -255,5 +265,5 @@ export const STATE_REPORTING: Record<string, StateReporting> = {
 export function reportingFor(state: AddressRate["state"]): Reporting | null {
   const info = STATE_REPORTING[state];
   if (!info) return null;
-  return { agency: { name: info.agency, url: info.url }, form: info.form, notes: info.notes ?? [] };
+  return { agency: { name: info.agency, url: info.url }, form: info.form, notes: info.notes ?? [], locationKey: info.locationKey ?? null };
 }
