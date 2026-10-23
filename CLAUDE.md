@@ -24,6 +24,7 @@ Start with the local docs and read the relevant subsystem note before changing c
 
 - Update the matching subsystem note in the same change as the code it describes. Keep internal plans, research and development logs outside the public repository; check the implementation when a document appears stale.
 - Return an explicit refusal when the published evidence cannot settle one rate. Preserve dated source evidence and the separation between tax-data ingestion and request-time lookup.
+- Measure accuracy with `pnpm bench` and [the benchmark skill](.agent-skills/benchmark/SKILL.md): baseline, change, compare, and keep a change only if no set's wrong answers rise.
 - Use Node.js 22+ and pnpm. For backend changes, run `pnpm typecheck` and relevant `pnpm test` tests. For client changes, run `pnpm --dir client check`, relevant `pnpm --dir client test` tests, and `pnpm --dir client build` when the build is affected. Report checks that could not run.
 - Follow [the shared HTML style](.agent-skills/shared/html-design/STYLE.md) and [template](.agent-skills/shared/html-design/template.html) when writing HTML documentation or plans.
 - Keep secrets in ignored environment files. Preserve the server's `deploy/.env` during deployment.

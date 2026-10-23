@@ -1,0 +1,82 @@
+#!/usr/bin/env sh
+# Every accuracy benchmark, in one place (also `pnpm bench`). Each scores
+# answers against the states' own official answers; none spends on
+# geocoding except a split's first run (its geocodes are then replayed).
+#
+#   scripts/bench dev [NAME] [PARAMS]          the dev address splits (tune on these)
+#   scripts/bench eval [NAME] [PARAMS]         the held-out splits: the honest check, sparingly
+#   scripts/bench history [NAME] [PARAMS]      the dev addresses on past dates (hist-dev)
+#   scripts/bench split SPLIT [NAME] [PARAMS]  any labelled split, e.g. a new random sample (r3)
+#   scripts/bench boundary [NAME] [PARAMS]     points near lines, no geocoding (MARGIN=15)
+#   scripts/bench all [NAME] [PARAMS]          dev, history and boundary, one line each
+#   scripts/bench compare NAME BASE [SET]      what changed between two runs (SET: dev, eval, history, boundary, or a split)
+#   scripts/bench cost                         geocoder dollars recorded so far
+#   scripts/bench new-history SPLIT DATES STATES [FROM]  past-date copy of splits (geocodes copied)
+#   scripts/bench competitors ARGS...          other services on the same addresses (scripts/bench.ts)
+#
+# NAME names the run (default: run-<time>); its answers go under
+# artifacts/tuning/NAME (address sets) and artifacts/bench/boundary/*/runs
+# (boundary). PARAMS is OTR_PARAMS JSON (src/params.ts) for the run.
+# Environment: KEYS_ENV (geocoder keys, for a split's first run),
+# DATABASE_URL (default: the local stack's database), MARGIN (boundary).
+# scripts/tuning/README.md has the details of each set.
+set -eu
+cd "$(dirname "$0")/.."
+# Every set reads the same database: the given one, else the stack's (.env).
+DATABASE_URL=${DATABASE_URL:-$(grep -s '^DATABASE_URL=' .env | cut -d= -f2-)}
+export DATABASE_URL=${DATABASE_URL:-postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate}
+DEV="batch1 batch-dev batch2 batch3 batch4 batch5 round2"
+EVAL="evalA evalB"
+BOUNDARY_STATES="TX CO AK AZ VA SC"
+die() { echo "$*" >&2; exit 1; }
+usage() { sed -n '6,17p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+
+# A trial of SPLITS, then its one-line score.
+trial() {
+  splits=$1 name=$2 params=$3
+  SPLITS="$splits" PER_STATE=${PER_STATE:-999} scripts/tuning/trial.sh "$name" "$params" > /dev/null 2>&1 ||
+    echo "  (a split didn't finish: artifacts/tuning/$name/*.log)" >&2
+  SPLITS="$splits" python3 scripts/tuning/score.py "$name" 2>/dev/null | head -1
+}
+boundary() {
+  name=$1 params=$2
+  OTR_PARAMS="$params" MARGIN=${MARGIN:-15} npx tsx scripts/tuning/boundary/run.mts "$name" $BOUNDARY_STATES > /dev/null
+  python3 -I scripts/tuning/boundary/score.py "$name" | sed -n 2p | sed "s/^  all  */$name: /"
+}
+splits_of() {
+  case "$1" in
+    dev) echo "$DEV" ;; eval) echo "$EVAL" ;; history) echo hist-dev ;; *) echo "$1" ;;
+  esac
+}
+
+command=${1:-}; [ $# -gt 0 ] && shift
+name_or_default() { echo "${1:-run-$(date -u +%Y%m%d-%H%M)}"; }
+case "$command" in
+  dev|eval|history)
+    name=$(name_or_default "${1:-}")
+    trial "$(splits_of "$command")" "$name" "${2:-}" ;;
+  split)
+    split=${1:?Usage: scripts/bench split SPLIT [NAME] [PARAMS]}
+    [ -f "artifacts/bench/pool/sets/$split/cases.csv" ] || die "No split $split in artifacts/bench/pool/sets."
+    [ -f "artifacts/bench/pool/answers/$split/official.jsonl" ] || die "Split $split has no official labels yet."
+    name=$(name_or_default "${2:-}")
+    trial "$split" "$name" "${3:-}" ;;
+  boundary)
+    boundary "$(name_or_default "${1:-}")" "${2:-}" ;;
+  all)
+    name=$(name_or_default "${1:-}")
+    echo "dev:      $(trial "$DEV" "$name-dev" "${2:-}")"
+    echo "history:  $(trial hist-dev "$name-history" "${2:-}")"
+    echo "boundary: $(boundary "$name" "${2:-}")" ;;
+  compare)
+    name=${1:?Usage: scripts/bench compare NAME BASE [SET]}; base=${2:?Usage: scripts/bench compare NAME BASE [SET]}
+    set=${3:-dev}
+    if [ "$set" = boundary ]; then python3 -I scripts/tuning/boundary/score.py "$name" "$base"
+    else SPLITS="$(splits_of "$set")" python3 scripts/tuning/score.py "$name" "$base"; fi ;;
+  cost) python3 scripts/tuning/cost.py ;;
+  new-history)
+    [ $# -ge 3 ] || usage
+    python3 -I scripts/tuning/history_split.py "$@" ;;
+  competitors) npx tsx scripts/bench.ts "$@" ;;
+  *) usage ;;
+esac

@@ -1,5 +1,10 @@
 # Tuning
 
+Run benchmarks through `pnpm bench` (`scripts/bench`): `dev`, `eval`,
+`history`, `boundary`, `split SPLIT`, `all`, `compare`, `cost`. It wraps
+the scripts below; the [benchmark skill](../../.agent-skills/benchmark/SKILL.md)
+says how to use it for a change.
+
 The engine's rules are settings in `src/params.ts`, overridable for a run by
 `OTR_PARAMS` (JSON). These scripts tune them on labelled random addresses
 the way a model is tuned: run a configuration on the dev splits, score it

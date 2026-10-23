@@ -23,7 +23,8 @@
     "check": "tsx --env-file-if-exists=.env src/cli.ts check",
     "rates": "scripts/rates",
     "db:generate": "drizzle-kit generate",
-    "test": "vitest run"
+    "test": "vitest run",
+    "bench": "scripts/bench"
   },
   "dependencies": {
     "@better-auth/api-key": "^1.7.12",

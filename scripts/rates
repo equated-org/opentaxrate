@@ -446,25 +446,19 @@ EOF
         ( keys; BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/label.py "$st" ) >> "$dir/log.txt" 2>&1
       done
       DATABASE_URL=$url BOUNDARY_DIR=$fresh MARGIN=15 npx tsx scripts/tuning/boundary/run.mts run TX CO AK AZ VA SC > /dev/null
-      { echo "Fresh official answers, $day, ${SAMPLE:-40} points a state near lines:"
-        BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/score.py run | sed -n '2p'; } >> "$out"
-      # The standing sets, with recorded geocodes.
-      name=maint-$run
-      DATABASE_URL=$url MARGIN=15 npx tsx scripts/tuning/boundary/run.mts "$name" TX CO AK AZ VA SC > /dev/null
-      { echo "Boundary set:"; python3 -I scripts/tuning/boundary/score.py "$name" | sed -n 2p; } >> "$out"
-      for set in dev hist; do
-        [ "$(python3 -c "print(int($(spent) - $start < $budget))")" = 1 ] || { echo "Stopped: geocoder spend reached \$$budget." >> "$out"; break; }
-        splits=$([ $set = hist ] && echo hist-dev || echo "batch1 batch-dev batch2 batch3 batch4 batch5 round2")
-        ( keys; DATABASE_URL=$url PER_STATE=999 SPLITS="$splits" scripts/tuning/trial.sh "$name-$set" '' ) > /dev/null 2>&1 ||
-          echo "The $set trial didn't finish: artifacts/tuning/$name-$set/" >> "$out"
-        { echo "Address set $set:"; SPLITS="$splits" python3 scripts/tuning/score.py "$name-$set" 2>/dev/null | head -1; } >> "$out"
-      done
+      echo "fresh:    $(BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/score.py run | sed -n '2p' | sed 's/^  all  *//')" >> "$out"
+      # The standing sets (pnpm bench all), with recorded geocodes.
+      ( keys; DATABASE_URL=$url scripts/bench all "maint-$run" ) >> "$out"
+      [ "$(python3 -c "print(int($(spent) - $start < $budget))")" = 1 ] || echo "Over budget: geocoder spend passed \$$budget." >> "$out"
       # A set with more wrong answers than the accepted run's is a regression.
       if [ -f artifacts/maintenance/accepted ]; then
         echo "Against the accepted run, $(head -1 artifacts/maintenance/accepted):" >> "$out"
-        grep -o 'wrong *[0-9]*' "$out" | grep -o '[0-9]*$' > "$dir/wrong.now"
-        sed 1d artifacts/maintenance/accepted | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' > "$dir/wrong.was"
-        paste "$dir/wrong.now" "$dir/wrong.was" | awk 'NF == 2 { print "  wrong " $2 " -> " $1 ($1 > $2 ? "  REGRESSION" : "") }' >> "$out"
+        for set in fresh dev history boundary; do
+          now=$(grep "^$set:" "$out" | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
+          was=$(grep "^$set:" artifacts/maintenance/accepted | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
+          [ -n "$now" ] && [ -n "$was" ] || continue
+          echo "  $set: wrong $was -> $now$([ "$now" -gt "$was" ] && echo "  REGRESSION")" >> "$out"
+        done
       fi
       echo "Geocoder spend: \$$(python3 -c "print(round($(spent) - $start, 2))")" >> "$out"
       cat "$out" ;;
