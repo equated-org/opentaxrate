@@ -308,6 +308,44 @@
       "sample": "evalA"
     },
     {
+      "id": "opensalestax",
+      "name": "OpenSalesTax",
+      "detail": "Open source, self-hosted v0.59.0; ZIP code (and ZIP+4 where Geocodio gave one), not a street address",
+      "ours": false,
+      "asked": 277,
+      "right": 228,
+      "wrong": 49,
+      "refused": 0,
+      "pctCorrect": 82.3,
+      "byMethod": {
+        "statewide": {
+          "asked": 48,
+          "right": 42,
+          "wrong": 6,
+          "refused": 0
+        },
+        "ranges": {
+          "asked": 140,
+          "right": 112,
+          "wrong": 28,
+          "refused": 0
+        },
+        "map": {
+          "asked": 83,
+          "right": 69,
+          "wrong": 14,
+          "refused": 0
+        },
+        "ca": {
+          "asked": 6,
+          "right": 5,
+          "wrong": 1,
+          "refused": 0
+        }
+      },
+      "sample": "evalA"
+    },
+    {
       "id": "lovat",
       "name": "Lovat",
       "detail": null,
@@ -371,7 +409,8 @@
     "OpenTaxRate ran with every geocoder it uses and without the states' own live lookups. It gave no wrong rates and refused 2 addresses, both in Missouri, whose files don't list the street and whose ZIP+4, looked up from Geocodio, the map doesn't confirm. Missouri's own lookup (STATE_LOOKUPS=MO, which the hosted API uses) answers both correctly; with it, OpenTaxRate gets all 277.",
     "Self-hosted geocoders only: 269 of 277 right, 0 wrong, 8 refused. Four are in street-range states where the street isn't listed and its ZIP has more than one rate (two in Missouri, which its own lookup answers), three couldn't be placed by any of the three geocoders, and one lies 40 m from the Eunice, New Mexico city line.",
     "Zip-Tax and APIVerve weren't asked this sample: Zip-Tax's figure is from an earlier sample of 255 addresses, 5 per state, of which it was asked 71, and APIVerve's from a separate random sample of 87 addresses (it takes a ZIP code, not a street address). TaxCloud was asked 67 of the 277.",
-    "Geoverio was asked the same 277 officially labeled evalA addresses with full street addresses and default caching. Resolved numeric rates and explicit no-sales-tax zero rates are answers; manual-lookup responses count as refusals. Raw responses are retained; rates were not corrected to match official labels."
+    "Geoverio was asked the same 277 officially labeled evalA addresses with full street addresses and default caching. Resolved numeric rates and explicit no-sales-tax zero rates are answers; manual-lookup responses count as refusals. Raw responses are retained; rates were not corrected to match official labels.",
+    "OpenSalesTax v0.59.0 ran locally from its published data dump, asked by ZIP code (it takes no street address). Its wrong rates are mostly ZIP codes that cross city or district lines, Colorado home-rule cities it does not model, and DC, where it charges 7% though DC postponed that increase to 1 October 2027."
   ],
   "hosted": 18
 }
