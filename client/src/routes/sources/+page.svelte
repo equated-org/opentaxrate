@@ -18,7 +18,7 @@
 		<article>
 			<h1 class="text-[36px] leading-tight font-semibold tracking-tight sm:text-[48px]">Where the rates come from</h1>
 			<p class="mt-5 text-xl leading-relaxed text-[var(--text-2)]">
-				We use publicly available tax rates from state and local tax agencies, including departments of revenue.
+				Published tax rates, address ranges and geographic boundaries — with sources you can check.
 			</p>
 
 			<SourceLayers />
@@ -31,8 +31,9 @@
 				</p>
 				<ul>
 					<li><strong>Published rates.</strong> State tax tables, local tax notices and city ordinances tell us the rates.</li>
-					<li><strong>Address lists and maps.</strong> State and local tax maps, along with US Census maps, help us find which taxes apply at your address.</li>
-					<li><strong>California’s own lookup.</strong> For California, we ask the state’s tax agency for the rate when you search.</li>
+					<li><strong>Tax boundaries and address ranges.</strong> Published tax areas and street ranges identify where local taxes apply.</li>
+					<li><strong>Reference geography.</strong> Census maps supply county, city and town outlines, rather than tax rates.</li>
+					<li><strong>Official lookups.</strong> California uses indexed CDTFA tax areas, with the state’s live lookup as a fallback. Other state lookups can be enabled.</li>
 				</ul>
 			</section>
 
@@ -54,7 +55,7 @@
 				<p>
 					Most searches use data we have already collected. New publications need to be loaded,
 					and some rate changes need to be entered by hand. Updates are not instant.
-					California’s lookup returns the state’s rate for today.
+					California’s live fallback returns today’s rate.
 				</p>
 				<p>
 					Rates and boundaries can change at different times. An older rate may still be matched

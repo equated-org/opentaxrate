@@ -41,11 +41,11 @@
 
 <section aria-labelledby="accuracy-heading" class="py-6 sm:py-10">
 	<h2 id="accuracy-heading" class="text-[22px] leading-snug font-semibold tracking-[-0.01em] sm:text-[28px]">
-		High accuracy. Lower cost.
+		Measured against official answers.
 	</h2>
 	<p class="mt-3 max-w-[40rem] text-[15px] leading-relaxed text-[var(--text-muted)]">
-		We tested {ours.asked} random addresses against each state's own published rate.
-		{ours.right} matched{ours.wrong ? `, ${ours.wrong} did not match,` : ''} and {ours.refused} were declined.
+		In our held-out comparison on {data.asOf}, {ours.right} of {ours.asked} addresses matched the state’s published rate:
+		{ours.wrong} wrong rates, {ours.refused} declined lookups.
 	</p>
 
 	<div class="mt-12 grid items-start gap-14 md:grid-cols-[minmax(0,460px)_1fr] md:gap-20">
@@ -79,6 +79,6 @@
 	</div>
 
 	<p class="mt-12 text-[14px]">
-		<a class="link" href="/benchmarks">See how it compares with other providers →</a>
+		<a class="link" href="/benchmarks">Results, methodology and provider comparison →</a>
 	</p>
 </section>

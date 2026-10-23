@@ -114,6 +114,15 @@ cd client && pnpm build && npx wrangler pages deploy build --project-name openta
 Run `pnpm build` and upload `build/`. The site is a single `index.html`, and
 `?q=` is read in the browser, so it needs no rewrites.
 
+## Public messaging
+
+The landing page leads with street-address lookup, published sources and explicit
+uncertainty. `/sources` distinguishes tax boundaries from Census reference
+geography; `/benchmarks` separates the held-out provider comparison from the
+development benchmark. Scoring caveats and reproduction instructions live in
+[the benchmark guide](../docs/benchmarks.md). Keep result dates and counts in
+sync when updating these pages; `src/lib/benchmark.json` holds comparison data.
+
 ## Layout
 
 ```

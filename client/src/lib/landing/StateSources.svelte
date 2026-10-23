@@ -11,7 +11,7 @@
 		AL: 'Department of Revenue rate files and US Census maps.',
 		AK: 'Alaska Remote Seller Sales Tax Commission rates and maps. Covers participating communities.',
 		AZ: 'Department of Revenue monthly rate files and official tax maps.',
-		CA: 'California Department of Tax and Fee Administration’s address lookup. Returns today’s rate.',
+		CA: 'California Department of Tax and Fee Administration’s tax-area polygons, with its live address lookup as a fallback for today’s rate.',
 		CO: 'Colorado’s sales tax lookup service, including rates and tax-area maps.',
 		CT: 'A statewide rate table maintained by OpenTaxRate.',
 		DE: 'A statewide table maintained by OpenTaxRate: no general sales tax.',

@@ -157,10 +157,10 @@
 					class="h-auto w-[min(72vw,330px)] select-none"
 				/>
 				<h1 class="mt-4 text-center text-[36px] leading-[1.1] font-semibold tracking-[-0.025em] text-balance sm:text-[48px]">
-					One API key. Sales tax by address.
+					Sales tax by street address.
 				</h1>
 				<p class="mt-4 max-w-[44rem] text-center text-[17px] text-balance leading-relaxed text-[var(--text-muted)]">
-					Accurate US sales tax rates from official state sources, through one open-source API.
+					Get the combined rate, jurisdiction breakdown, and source. Published state data, through one open-source API.
 					<a
 						href="/sources"
 						class="underline underline-offset-4 hover:text-[var(--text)]"

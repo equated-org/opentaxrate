@@ -11,18 +11,18 @@
 	const ITEMS = [
 		{
 			icon: PIN,
-			title: 'Accurate to the address',
-			text: 'Sales tax can change across a city line. We look up the rate for your street address, rather than a ZIP code average.'
+			title: 'Resolved by street address',
+			text: 'One ZIP can cross several tax boundaries. We use state address ranges and geographic boundaries to resolve your street address.'
 		},
 		{
 			icon: RATE_UPDATE,
-			title: 'Updated from official sources',
-			text: 'We keep rates updated from the data published by state tax agencies, with a source you can check.'
+			title: 'Sources you can check',
+			text: 'Each answer names the published data used. Rates carry effective dates; historical coverage varies by state.'
 		},
 		{
 			icon: UNCERTAINTY,
 			title: 'Clear when it’s uncertain',
-			text: 'If an address is ambiguous, we return the possible rates. We never guess or treat missing data as zero.'
+			text: 'When the evidence cannot settle one rate, we explicitly decline the lookup. Missing data is never treated as zero.'
 		}
 	];
 </script>
@@ -38,3 +38,8 @@
 		</li>
 	{/each}
 </ul>
+
+<p class="mt-8 max-w-[48rem] text-[13px] leading-relaxed text-[var(--text-muted)]">
+	Why boundaries matter: Stripe’s engineering team shows how two houses in the same ZIP can face different taxes.
+	<a class="link" href="https://stripe.dev/blog/how-we-built-it-jurisdiction-resolution-for-stripe-tax" target="_blank" rel="noopener">Read their explanation ↗</a>
+</p>

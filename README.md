@@ -17,20 +17,33 @@
   <a href="docs/state-coverage.html"><img src="https://img.shields.io/badge/coverage-50%20states%20%2B%20DC-2ea44f?style=flat-square" alt="Coverage: 50 states + DC"></a>
 </p>
 
-Look up an address and date to get the combined rate, jurisdiction breakdown, and sources. Ambiguous addresses return `422` rather than a guessed rate. Self-host with Postgres + PostGIS; paid geocoders are optional.
+Look up a US street address and date to get the combined sales tax rate, jurisdiction breakdown, and source. OpenTaxRate uses published state data and explicitly declines lookups it cannot settle.
 
-## Why this exists
+- **Address-level:** state-published address ranges and geographic tax boundaries.
+- **Verifiable:** published sources, dated rates, and benchmarks against official answers.
+- **Explicit uncertainty:** ambiguous lookups return `422`; missing data is never treated as zero.
+- **Open source:** MIT licensed. Self-host with PostgreSQL + PostGIS; paid geocoders are optional.
 
-ZIP codes do not follow tax boundaries. The same ZIP can span cities, counties, and special districts with different rates, and ZIP-level APIs average that away.
+General sales tax rates, with lookup methods for all 50 states and DC. See [coverage and limits](docs/state-coverage.html).
 
-OpenTaxRate is built for developers wiring sales tax into checkout, invoicing, or accounting software:
+## Why street addresses matter
 
-- **Address-level, not ZIP-level:** the rate for the actual street address, with a jurisdiction breakdown and the source behind it
-- **Honest about uncertainty:** ambiguous or missing data returns `422` instead of a guessed or zero rate
-- **Verifiable:** rates come from the states' own published data. In our test of 277 random addresses against each state's published rate, 275 matched and 2 were declined rather than guessed
-- **Cheaper than the incumbents:** hosted lookups are $1.95 per 1,000 at [opentaxrate.com](https://opentaxrate.com), and the code is MIT licensed if you would rather self-host
+ZIP codes cross tax boundaries. A single ZIP-level rate cannot distinguish addresses subject to different rates within that ZIP.[^boundaries]
 
-If this saves you a TaxJar, Avalara, or Stripe Tax integration headache, a star helps other developers find it.
+OpenTaxRate combines state address ranges, tax-area polygons, and dated rates. See [how it works](docs/architecture.html) and [where the data comes from](docs/maintenance/sources.md).
+
+[^boundaries]: Stripe's engineering team [illustrates this with two nearby houses](https://stripe.dev/blog/how-we-built-it-jurisdiction-resolution-for-stripe-tax) in the same ZIP but different counties, and describes resolving addresses against geographic boundaries.
+
+## Benchmarks
+
+| Test | Correct | Wrong | Declined |
+|---|---:|---:|---:|
+| Development · 2026-10-23 | 5,293 / 5,317 | 7 | 17 |
+| Held-out comparison · 2026-10-22 | 275 / 277 | 0 | 2 |
+
+Combined-rate results against official answers.[^bench] See [methodology and how to run the benchmarks](docs/benchmarks.md).
+
+[^bench]: Development addresses guide improvements. The separate held-out comparison uses `evalA`, with geocoding providers and no live state lookup. Public development datasets: [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench). Held-out sets and recorded geocodes remain private. Scoring exceptions and historical limits are documented in the methodology.
 
 ## Quick start
 
@@ -81,9 +94,9 @@ Uses published SST/state address ranges, PostGIS boundaries, and California’s 
 
 This is the general sales tax rate. Taxability, exemptions, item caps, sourcing rules, and tribal taxes are outside scope. Missing boundaries or conflicting placements can require confirmation. See [state coverage](docs/state-coverage.html) for specifics.
 
-## Benchmarks
+## Hosted API
 
-Accuracy is measured against each state's own answer for random real addresses in every state, on today's date and past ones, and for points near city and county lines. As of 2026-10-23, 5,293 of 5,317 benchmark addresses get the state's rate, 7 get a wrong one and 17 are declined. The sets are public in [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench). See [benchmarks](docs/benchmarks.md) for the sets and how to run them (`pnpm bench`).
+Hosted lookups are $1.95 per 1,000 at [opentaxrate.com](https://opentaxrate.com). The MIT-licensed code can also be self-hosted; hosting and any external geocoding costs depend on your configuration.
 
 ## Development
 
@@ -110,6 +123,6 @@ pnpm dev
 
 ## Sources and license
 
-Data comes from [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/), [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), and state tax offices. Provider terms apply; see [configuration](docs/configuration.md#geocoding). **Not tax advice:** verify the sources returned with each rate.
+Rates come from state tax offices and [Streamlined Sales Tax](https://www.streamlinedsalestax.org/ratesandboundry/). [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) supplies reference geography, not tax rates. See the [source overview](docs/maintenance/sources.md) for source roles, editions, and historical limits. Provider terms apply; see [configuration](docs/configuration.md#geocoding). **Not tax advice:** verify the sources returned with each rate.
 
 [MIT License](LICENSE). Use, modify, and run it for your business, including as a hosted service.

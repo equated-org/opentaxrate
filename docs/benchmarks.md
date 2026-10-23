@@ -2,55 +2,110 @@
 
 [← README](../README.md)
 
-OpenTaxRate is measured against each state's own answer. Every benchmark
-address or point is labelled by the state's official service for a sale
-date, and an answer is right, wrong or declined against that label. A wrong
-rate is worse than a refusal, so results report all three.
+We compare OpenTaxRate's combined rates with official state answers. Results
+separate correct rates, wrong rates, and declined lookups.
+
+## Published results
+
+| Test | Tested | Correct | Wrong | Declined |
+|---|---|---:|---:|---:|
+| Development addresses | 2026-10-23 | 5,293 / 5,317 | 7 | 17 |
+| Held-out comparison (`evalA`) | 2026-10-22 | 275 / 277 | 0 | 2 |
+
+Development addresses guide improvements. The held-out comparison is a
+separate sample, run with geocoding providers and no live state lookup.
+See the [provider comparison](https://opentaxrate.com/benchmarks) for its
+configuration and results with self-hosted geocoders only.
 
 ## The sets
 
-The sets are public in
-[equated-org/opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench),
-one tagged release a version. `bench/benchmark.json` pins the version this
-code is measured on.
-
 | Set | Size | What it measures |
 |---|---|---|
-| Addresses | about 5,300 labelled | the whole pipeline: geocoding, address ranges, the map, refusals |
-| History | about 1,070 labelled | the same addresses on past dates (2024–2025) |
-| Typos | 373 | the same addresses typed with mistakes |
-| Boundary points | 2,836 point-dates in TX, CO, AK, AZ, VA, SC | outlines, rate tables and edge rules near lines, without geocoding |
+| Development addresses | about 5,300 labelled | geocoding, address ranges, maps and refusals |
+| Held-out addresses | about 2,000 across private eval splits | the pipeline on addresses reserved from tuning |
+| History | about 1,070 labelled | addresses on past dates (2024–2025) |
+| Typos | 373 | addresses typed with mistakes |
+| Boundary points | 2,836 point-dates in TX, CO, AK, AZ, VA, SC | rates and jurisdiction breakdowns near lines, without geocoding |
 
-The addresses are random real addresses in every state, from the USDOT
-National Address Database, OpenStreetMap, Mississippi's parcels and
-OpenAddresses. As of 2026-10-23, 5,293 of 5,317 get the state's rate, 7 get
-a wrong one and 17 are declined.
+Addresses are sampled from the USDOT National Address Database,
+OpenStreetMap, Mississippi's parcels and OpenAddresses across all states.
+The public development datasets are in
+[opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench);
+[bench/benchmark.json](../bench/benchmark.json) pins their version and splits.[^public]
 
 ## How to benchmark
 
-1. **Get the sets.** `pnpm bench fetch` downloads the pinned version into
-   `artifacts/bench`.
-2. **Load the data.** Start the database (`docker compose up -d db`) and
-   load the release to measure: `pnpm rates pull TAG --local`.
-3. **Run a baseline.** `KEYS_ENV=keys.env pnpm bench all base` scores the
-   addresses, history and boundary sets, one line each.
-4. **Make a change** and run it under a new name. A setting in
-   `src/params.ts` can be tried without editing anything:
-   `pnpm bench all mine '{"breakdownMarginMetres":30}'`.
-5. **Compare.** `pnpm bench compare mine-dev base-dev dev` lists every
-   address whose result changed (`history` and `boundary` likewise);
-   `LIST=1` lists every miss. Keep a change only if wrong answers don't
-   rise in any set.
+Requires Node 22+, pnpm, and the [local database setup](../README.md#development).
+Use a disposable local database: pulling a release replaces its tax data.
 
-| Command | Does |
+```bash
+pnpm bench fetch                          # pinned public development sets
+pnpm rates pull TAG --local                # choose a published data release
+KEYS_ENV=keys.env pnpm bench all base       # development, history, boundary
+```
+
+Make the change, then run and compare:
+
+```bash
+KEYS_ENV=keys.env pnpm bench all mine
+pnpm bench compare mine-dev base-dev dev
+pnpm bench compare mine-history base-history history
+pnpm bench compare mine base boundary
+```
+
+Keep a change only if wrong answers do not rise in any set. Inspect individual
+misses with `LIST=1 pnpm bench compare mine-dev base-dev dev`; missing
+answers mean an incomplete run. Run one trial at a time.
+
+| Command | Use |
 |---|---|
-| `pnpm bench all NAME [SETTINGS]` | addresses, history and boundary |
-| `pnpm bench dev NAME [SETTINGS]` | the addresses |
-| `pnpm bench history NAME [SETTINGS]` | the addresses on past dates |
-| `pnpm bench boundary NAME [SETTINGS]` | points near lines (`MARGIN` metres, default 15) |
-| `pnpm bench compare NAME BASE [SET]` | what changed between two runs |
-| `pnpm bench cost` | geocoder spend recorded so far |
+| `pnpm bench dev NAME [SETTINGS]` | development addresses |
+| `pnpm bench history NAME [SETTINGS]` | past dates |
+| `pnpm bench boundary NAME [SETTINGS]` | boundary points; `MARGIN=15` metres by default |
+| `pnpm bench split batch-dev-typos NAME` | typo set, separate from `all` |
+| `pnpm bench eval NAME` | private held-out sets; once after tuning, when available |
+| `pnpm bench cost` | recorded geocoder spend |
 
-**Cost.** The first run asks your geocoders about each address, about $1
-per 1,000 with paid ones (keys in `KEYS_ENV`); later runs replay those
-answers for free.
+`SETTINGS` is a JSON override, e.g. `'{"breakdownMarginMetres":30}'`.
+The first run can call external geocoders; later runs reuse recorded answers.
+Check provider settings and costs before starting.[^replay]
+
+## Scoring and limits
+
+A correct combined rate does not establish a correct jurisdiction breakdown.
+Boundary scoring reports breakdown differences separately. Boundary points
+stress difficult cases; their refusal rate is not a forecast of normal traffic.
+
+<details>
+<summary>Scoring rules, dependencies and reproduction</summary>
+
+- **Tolerance:** the absolute rate difference must be less than `0.00005`
+  (0.005 percentage points).
+- **Official-source conflicts:** an exact SST street-range match can count as
+  correct even when the state's map label differs. The scorer reports these
+  separately as “right by the address database.”
+- **Disputes:** cases in [disputes.json](../scripts/tuning/disputes.json) are
+  counted separately and excluded from the scored denominator. Unlabelled
+  cases are not scored; missing run answers are reported separately.
+- **Uncertainty:** scorers report the one-sided 95% Clopper–Pearson upper
+  bound on wrong rates among answered cases. Zero observed wrong answers
+  does not establish a zero error rate.
+- **Shared sources:** ingestion and labels can use the same official data.
+  Alaska, Colorado and Missouri have Avalara-operated official lookups;
+  the provider comparison discloses this dependency. This is agreement with
+  official answers, not an independent tax audit.
+- **Reproduction:** record the code commit, data release, benchmark version,
+  run name, provider configuration, settings, boundary margin and replay
+  files used. Public data alone cannot reproduce the private held-out test
+  or guarantee identical live geocoder results.
+
+The address scorer is [score.ts](../scripts/tuning/score.ts); boundary scoring
+is [boundary/score.ts](../scripts/tuning/boundary/score.ts). See
+[source coverage](maintenance/sources.md) for dated-data limits and
+[benchmark refresh](maintenance/bench-refresh.md) for sampling and labelling.
+
+</details>
+
+[^public]: Held-out sets, recorded geocodes, state-lookup replays and other providers' raw answers remain private. Rows without a redistribution licence publish source references rather than address text; `fetch` skips these, so a public run can have fewer addresses than the full development run.
+
+[^replay]: `KEYS_ENV` names an optional local credentials file; never commit it. The trial runner uses enabled providers with `STATE_LOOKUPS=MO` and Nominatim disabled. Replays live in `artifacts/tuning` (`TUNE_DIR` overrides it); a maintainer with backup credentials can use `pnpm bench restore`. Changes inside geocoder adapters need fresh calls because replays store already-matched answers; use a new `TUNE_DIR`. See [tuning notes](../scripts/tuning/README.md).

@@ -2,10 +2,21 @@
 
 [← Maintenance](cron.md)
 
-Where the published data comes from, what to watch for a new edition, and
-how to add a source. The code is the record of what is loaded; this page
-points at it, and lists what a maintainer checks and what is still missing.
-Per-state behaviour and known gaps are in [state coverage](../state-coverage.html).
+OpenTaxRate combines published tax rates with address ranges and geographic boundaries to determine where they apply.
+
+## Source overview
+
+| Role | Published by / used for | Limits to check |
+|---|---|---|
+| Rates | State tax agencies, Streamlined Sales Tax, and designated services; general rates and effective dates | Edition, tax type, effective period, and local exceptions |
+| Tax boundaries and address ranges | State/local tax agencies and designated publishers; matching an address or point to tax areas | Missing streets, districts, conflicting placements, and dated boundary coverage |
+| Reference geography | [Census TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html); county, place, town, ZIP-area outlines and street names | Administrative boundaries are not necessarily tax boundaries; ZIP areas do not establish a single tax rate |
+| Address placement | Configured geocoders; coordinates and address matching | Precision, conflicting placements, provider availability and [terms](../configuration.md#geocoding) |
+| Validation labels | Official state services or published tables; expected benchmark answers | Query date, supported sale dates, and shared sources with ingestion |
+
+A response's `source` names the data used; `match` describes the lookup method. See [state coverage](../state-coverage.html) for publisher links and gaps, and `GET /v1/coverage` for a running instance's loaded sources.[^evidence]
+
+[^evidence]: `include=trace` adds lookup details. A settled total can have an uncertain jurisdiction breakdown; inspect `jurisdictions` and `alternatives`. Source archives retain fetch dates, URLs and SHA-256 hashes separately from database snapshots; see [data maintenance](../data.md#raw-sources-and-backups). Past rates do not imply past boundaries; see [history sources](#history-sources).
 
 ## Where sources are declared
 
@@ -47,8 +58,7 @@ published: rows carry their own dates.
 
 ## History sources
 
-Past editions let a past date read the lines and rates in force then (see
-the [map engine](../context/map-engine.html#history)).
+Past editions can provide the lines and rates in force on a requested date, where loaded. Some states have past rates but only current outlines (see the [map engine](../context/map-engine.html#history)).
 
 | State | Past outlines | Past rates |
 |---|---|---|
@@ -73,6 +83,8 @@ Missouri's DOR lookup (by date), Nebraska's and South Dakota's rate layers
 (by their records' dates), Wisconsin's lookup (by address and date),
 Arizona's, Virginia's and South Carolina's (today only). Washington's
 address API ignores dates.
+
+Ingestion and validation can share an official source. See [benchmark methodology](../benchmarks.md#scoring-and-limits) for dependencies and scoring exceptions.
 
 ## Adding a source
 

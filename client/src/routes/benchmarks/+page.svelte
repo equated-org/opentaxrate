@@ -5,6 +5,7 @@
 	import LookupPipeline from '$lib/landing/LookupPipeline.svelte';
 	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
+	import { GITHUB } from '$lib/examples';
 	import { noteNumbers, pricing as data } from '$lib/pricing';
 
 	// Ours, then the vendors on the accuracy chart in its order, then the rest.
@@ -29,15 +30,23 @@
 
 	<main class="mx-auto w-full max-w-[1000px] flex-1 px-5 pt-14 pb-10 sm:px-8 sm:pt-20">
 		<h1 class="text-[36px] leading-tight font-semibold tracking-tight sm:text-[48px]">Benchmarks</h1>
+		<p class="mt-5 max-w-[44rem] text-[15px] leading-relaxed text-[var(--text-muted)]">
+			We compare combined rates with official state answers, reporting correct, wrong and declined lookups separately.
+		</p>
 		<LookupPipeline />
 
 		<div>
 			<Benchmark
 				compact
-				title="Accuracy"
-				lead="OpenTaxRate matched the state's own rate for 99.3% of 277 random addresses (97.1% with only its own self-hosted geocoders) and gave no wrong rates; when unsure, it declines rather than guesses."
+				title="Held-out provider comparison"
+				lead="On 22 October 2026, OpenTaxRate matched 275 of 277 held-out addresses, with 0 wrong rates and 2 declines. With self-hosted geocoders only: 269 correct, 0 wrong, 8 declined."
 			/>
 		</div>
+
+		<p class="mt-6 max-w-[48rem] text-[13px] leading-relaxed text-[var(--text-muted)]">
+			Separately, the development benchmark on 23 October 2026 scored 5,293 of 5,317 correct, 7 wrong and 17 declined.
+			<a class="link" href="{GITHUB}/blob/main/docs/benchmarks.md" target="_blank" rel="noopener">Public datasets, scoring rules and how to run it ↗</a>
+		</p>
 
 		<section id="pricing" aria-labelledby="pricing-heading" class="mt-20 border-t border-[var(--border)] pt-14">
 			<h2 id="pricing-heading" class="text-[19px] leading-snug font-semibold tracking-[-0.01em] sm:text-[22px]">Pricing</h2>
