@@ -34,6 +34,13 @@ the [refresh note](../context/refresh.html), `scripts/rates` (its
 - A stage that fails is investigated, not retried blindly. Record what
   failed in the run's `log.txt` and stop.
 
+## 0. Refresh the benchmark
+
+Follow [bench-refresh.md](bench-refresh.md) first: the monthly fresh check
+on new addresses, and, once a quarter, a redraw of the whole benchmark.
+Drawing and labelling need no database; the fresh set is scored in step 2,
+against this run's.
+
 ## 1. Look for new rates and sources
 
 1. List what the newest release was built from: `pnpm rates status` and
@@ -63,7 +70,7 @@ you checked, and stop.
 pnpm rates maintain prepare              # newest release into opentaxrate_maint_<run>, migrated, its baseline kept
 pnpm rates maintain update               # every source, saved downloads reused (an hour or two)
 pnpm rates maintain check                # invariants and the diff from the release: check.txt, check.tsv
-KEYS_ENV=path/to/keys.env pnpm rates maintain bench   # fresh official answers + standing sets: bench.txt
+KEYS_ENV=path/to/keys.env pnpm rates maintain bench   # the fresh check + the standing sets: bench.txt
 ```
 
 Files go to `artifacts/maintenance/<run>/`.
@@ -78,12 +85,12 @@ Files go to `artifacts/maintenance/<run>/`.
   trace to a new publication you found in step 1. A change you can't explain
   (a whole state's rates moving, many outlines vanishing, a source file
   going backwards) is a stop.
-- `bench` labels points near lines with each state's own service today
-  (fresh official answers), then scores the standing boundary, address and
-  history sets with recorded geocodes. A set whose wrong answers rise above
-  the accepted run's is marked `REGRESSION`: find which answers changed
-  (`scripts/tuning/score.py NAME BASE`, `scripts/tuning/boundary/score.py
-  NAME BASE`) and whether the state or the data is right before going on.
+- `bench` scores the standing address, history and boundary sets with
+  recorded geocodes (`pnpm bench all`), and reports this month's fresh check
+  ([bench-refresh.md](bench-refresh.md), `fresh.txt`) beside them. A set
+  whose wrong answers rise above the accepted run's is marked `REGRESSION`:
+  find which answers changed (`pnpm bench compare NAME BASE SET`) and
+  whether the state or the data is right before going on.
 
 ## 3. Ask a human, or apply the gates
 

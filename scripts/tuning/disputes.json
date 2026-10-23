@@ -1,5 +1,5 @@
 {
-  "about": "Addresses where official sources disagree with each other, so neither our answer nor the label can be called wrong. score.py counts these as disputed, apart from right and wrong. An entry names the bench id (sha256 of STATE|street|city|zip|date, first 16 hex), the address, both official answers, and what other services said.",
+  "about": "Addresses where official sources disagree with each other, so neither our answer nor the label can be called wrong. score.ts counts these as disputed, apart from right and wrong. An entry names the bench id (sha256 of STATE|street|city|zip|date, first 16 hex), the address, both official answers, and what other services said.",
   "disputes": [
     {
       "id": "47819ad7784935f4",

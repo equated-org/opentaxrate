@@ -1,115 +1,59 @@
 # Tuning
 
-Run benchmarks through `pnpm bench` (`scripts/bench`): `dev`, `eval`,
-`history`, `boundary`, `split SPLIT`, `all`, `compare`, `cost`. It wraps
-the scripts below; the [benchmark skill](../../.agent-skills/benchmark/SKILL.md)
-says how to use it for a change.
+What `pnpm bench` (`scripts/bench`) runs underneath. Use the command, not
+these files directly; [docs/benchmarks.md](../../docs/benchmarks.md) and the
+[benchmark skill](../../.agent-skills/benchmark/SKILL.md) say how.
 
 The engine's rules are settings in `src/params.ts`, overridable for a run by
-`OTR_PARAMS` (JSON). These scripts tune them on labelled random addresses
-the way a model is tuned: run a configuration on the dev splits, score it
-against each state's official rate, keep a change only if it answers more
-addresses right with no new wrong rate and leaves the eval splits alone.
-Keep tuning research and development logs outside the public repository.
+`OTR_PARAMS` (JSON). A change is kept only if it answers more addresses
+right with no new wrong rate, and leaves the held-out sets alone.
 
-| Script | Does |
+| File | Does |
 |---|---|
-| `trial.sh NAME ['{json}']` | Runs one configuration on `$SPLITS` (default: the dev splits) in parallel, set up like production, geocodes and the other live services (state lookups, California's, the Census's checks, Jev) replayed |
-| `score.py NAME [BASE]` | Right / wrong / declined, the wrong rate's 95% upper bound, and what changed from BASE; `LIST=1` lists every miss. Fails if any labelled address has no answer |
-| `cost.py` | What the kept geocoder answers cost at list price: run before and after a round |
+| `trial.sh NAME ['{json}']` | Runs one configuration on `$SPLITS` in parallel, set up like production, with geocodes and live services replayed (`scripts/bench.ts` asks the engine) |
+| `score.ts NAME [BASE]` | Right / wrong / declined, the wrong rate's 95% upper bound, and what changed from BASE; `LIST=1` lists every miss |
+| `boundary/run.mts NAME STATE...` | The engine at each boundary point, with `MARGIN` metres (0: the exact point; 15: a rooftop geocode's) |
+| `boundary/score.ts NAME [BASE] [STATE...]` | Right / wrong / declined, and right rates whose jurisdictions differ, by state, distance to the line and date |
+| `stats.ts` | What the scorers share: the confidence bound, JSON lines, CSV |
 | `one.mts` | One address through the engine with its points and outlines |
-| `history_split.py NAME DATES STATES` | A split of the dev splits' addresses in STATES asked again on past DATES, their geocodes copied so trials replay them (no geocoder spend) |
+| `disputes.json` | Addresses where official sources disagree: counted apart, neither right nor wrong |
 
-```bash
-KEYS_ENV=path/to/keys.env scripts/tuning/trial.sh base ''
-KEYS_ENV=path/to/keys.env scripts/tuning/trial.sh wide '{"wideMetres":50000}'
-python3 scripts/tuning/score.py wide base
-SPLITS="evalA evalB" scripts/tuning/trial.sh eval ''      # the honest check, sparingly
-python3 scripts/tuning/cost.py
-```
+Two rules sit beside the labels: in a Streamlined state, an answer read
+exactly from the state's address database is right even where its map
+says otherwise (sellers are told to rely on that database); and a disputed
+address is neither right nor wrong.
 
-The dev splits are public in equated-org/opentaxrate-bench (`pnpm bench
-fetch`; `pnpm bench publish` makes a new version from `bench/benchmark.json`),
-and the eval splits private in restic (`pnpm bench backup`, `restore`).
-`pnpm bench` runs the dev splits (`batch1`…`round2`, `r3-dev`, `oa-dev`) and
-the held-out ones (`evalA`, `evalB`, `r3-eval`, `oa-eval`). `r3` is a second
-random sample of every state (National Address Database, OpenStreetMap,
-Mississippi parcels); `oa-*` are drawn from OpenAddresses county by county,
-weighted by housing units, for the 16 states that database covers thinly.
-`r3-dev` and `r3-eval` share `r3`'s replay files, so `cost.py` counts those
-geocodes twice.
+## Working files
 
-Working files go to `$TUNE_DIR` (default `artifacts/tuning`, git-ignored):
-`replay-<split>.json` and `lookups-<split>.json` hold every geocoder and
-state-lookup answer, asked live once; `<NAME>/<split>/` holds a run's
-answers. Splits, their cases and official labels are in `artifacts/bench/pool`.
+All in `artifacts/` (git-ignored):
 
-Geocoder calls cost about $1 per 1,000 addresses the first time a split is
-run; cap a round at about $5–10. Changing settings, or switching a geocoder
-off with `'{"disabledGeocoders":["google","here","mapbox"]}'` (the list
-replaces the default, so name the default ones too), can make the locator ask
-a geocoder it skipped before, which is a live call. Geocodio's ZIP+4 lookup is
-kept only when it finds one, so a no-match is asked again each trial.
+- `artifacts/bench/pool/sets/<split>/cases.csv` and
+  `answers/<split>/official.jsonl`: each set's addresses and the state's
+  answer for each.
+- `artifacts/bench/boundary/<STATE>/`: `points.csv`, `official.jsonl`, and
+  `runs/NAME.jsonl`.
+- `artifacts/tuning/` (`$TUNE_DIR`): `replay-<split>.json` and
+  `lookups-<split>.json` hold every geocoder and state-lookup answer, asked
+  live once; `NAME/<split>/` holds a run's answers.
+
+Geocoder calls cost about $1 per 1,000 addresses the first time a set is
+run; later runs replay them. Changing settings, or switching a geocoder off
+(`'{"disabledGeocoders":["google","here","mapbox"]}'`: the list replaces the
+default), can make the locator ask a geocoder it skipped before, which is a
+live call. Geocodio's ZIP+4 lookup is kept only when it finds one, so a
+no-match is asked again each trial. `pnpm bench cost` adds up what's
+recorded.
 
 What replay can't show: each geocoder's answer is kept after its adapter has
-matched it (`src/geocoding/providers/`), so a setting or change inside an
-adapter (street matching, `peliasDuplicateMetres`) needs that geocoder asked
-live: a fresh `TUNE_DIR`, or the bench's `opentaxrate` provider without
-`BENCH_GEOCODE_REPLAY`. `trial.sh` runs one trial at a time, since trials
-share the replay files.
+matched it (`src/geocoding/providers/`), so a setting inside an adapter
+(street matching, `peliasDuplicateMetres`) needs the geocoders asked live:
+a fresh `TUNE_DIR`. Trials run one at a time, since they share the replay
+files.
 
-## Boundary benchmark
+## New sets
 
-The address splits measure the whole pipeline. `boundary/` measures the
-outlines, rate tables and edge rules alone: points near the lines a map
-state's rate changes at, each labelled with the state's own answer *at that
-point* (no geocoding), on today's date and on past dates where the state's
-service answers for them. Every label names the jurisdictions as well as the
-total, so a right rate paid to the wrong jurisdictions is caught, and a
-wrong answer on a past date is a gap in history.
-
-| Script | Does |
-|---|---|
-| `boundary/sample.mts STATE N [DATES]` | N seeded points: 80% within `BAND_METRES` (250) of a rated outline's line, 20% anywhere in the state, each asked on every date |
-| `boundary/label.py STATE` | The state's answer at each point and date (TX, CO, AK, MO, NE, SD, WI by date; AZ, VA, SC today only); resumes where it stopped. With `BOUNDARY_CASES` and `BOUNDARY_OUT` it labels a split's addresses instead |
-| `boundary/run.mts NAME STATE...` | The engine at each point, with `MARGIN` metres (0: the exact point; 15: a rooftop geocode's) |
-| `boundary/score.py NAME [BASE] [STATE...]` | Right / wrong / declined, and right rates whose jurisdictions differ (silently, or flagged as uncertain with the state's among the alternatives), by state, distance to the line and date; `LIST=1` lists them |
-
-```bash
-npx tsx scripts/tuning/boundary/sample.mts TX 400 2026-10-21,2025-01-15,2023-01-15
-python3 -I scripts/tuning/boundary/label.py TX      # TX needs TX_CPA_CLIENT_ID/SECRET
-MARGIN=0 npx tsx scripts/tuning/boundary/run.mts exact TX
-MARGIN=0 OTR_PARAMS='{"refuseBeforeFirstRate":false}' npx tsx scripts/tuning/boundary/run.mts exact-off TX
-python3 -I scripts/tuning/boundary/score.py exact exact-off
-```
-
-Files go to `$BOUNDARY_DIR` (default `artifacts/bench/boundary`, git-ignored):
-`<STATE>/points.csv`, `official.jsonl` and `runs/NAME.jsonl`. A run costs
-nothing; labelling asks each state's service about once a second (Texas's
-takes about five). Colorado's and Alaska's services are the ones the engine
-loads its rates from, so they check placement on our outlines, not the rates.
-The sample leans on lines, so its decline rate is far above real traffic's:
-compare runs with each other, not with the address splits.
-
-### History splits
-
-A history split asks labelled addresses again on past dates, scored like
-any split. Geocodes don't depend on the date, so they're copied, not asked;
-the state lookups and the Census's checks for the new dates are asked live,
-which is free. Only states whose own service answers for a past date are
-labelled; a service that can't settle one refuses (South Dakota's layer
-keeps only each city's current rate).
-
-```bash
-python3 -I scripts/tuning/history_split.py hist-dev 2024-07-15,2025-01-15,2025-07-15 TX,CO,AK,MO,NE,SD,WI
-for s in TX CO AK MO NE SD WI; do
-  BOUNDARY_CASES=artifacts/bench/pool/sets/hist-dev/cases.csv \
-  BOUNDARY_OUT=artifacts/bench/pool/answers/hist-dev/official-$s.jsonl python3 -I scripts/tuning/boundary/label.py $s &
-done; wait
-cat artifacts/bench/pool/answers/hist-dev/official-*.jsonl > artifacts/bench/pool/answers/hist-dev/official.jsonl
-PER_STATE=999 SPLITS=hist-dev scripts/tuning/trial.sh hist ''
-SPLITS=hist-dev python3 scripts/tuning/score.py hist
-```
-
-`PER_STATE` (default 99) is how many addresses of each state a trial asks
-per split; a history split has more than 99.
+New addresses, their official labels and new boundary points are drawn by
+the benchmark refresh, an agent's job described in
+[docs/maintenance/bench-refresh.md](../../docs/maintenance/bench-refresh.md);
+its scripts live in `artifacts/`, not here. Once a set is in
+`artifacts/bench/pool/`, `pnpm bench split SPLIT NAME` runs it.

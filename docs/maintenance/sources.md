@@ -19,7 +19,7 @@ Per-state behaviour and known gaps are in [state coverage](../state-coverage.htm
 | Tax-area polygons checked against the rates (CA, MN, WA, NE, SD, VT, IA…) | `SUPPLEMENTAL_POLYGONS` in `src/ingest/supplemental-sources.ts`, plus `washingtonSources` and `minnesotaSources` | `refreshSupplemental`, `indexVerifiedPolygons` |
 | Range states' own tax polygons (UT, MO) | `src/range-polygon-sources.ts` | `loadRangePolygons` |
 | Sources found but not loaded, and why | `SOURCE_ACQUISITION_GAPS` in `src/ingest/supplemental-sources.ts` | none |
-| Official answers used to check the data | `scripts/tuning/boundary/label.py` | the bench |
+| Official answers used to check the data | the labellers in `artifacts/bench/oracles` and `artifacts/bench/reference` (see [bench-refresh.md](bench-refresh.md)) | the bench |
 
 Every input a refresh reads is archived under `artifacts/sources/`
 (see [data maintenance](../data.md#raw-sources-and-backups)).
@@ -66,8 +66,8 @@ of annexations, without shapes).
 
 ## Official answers for checking
 
-`scripts/tuning/boundary/label.py` asks each state's own service at a
-point: Texas's Comptroller GIS API (by quarter; needs `TX_CPA_CLIENT_ID` and
+The benchmark's labels come from each state's own service, asked by the
+refresh's labellers ([bench-refresh.md](bench-refresh.md)); at a point: Texas's Comptroller GIS API (by quarter; needs `TX_CPA_CLIENT_ID` and
 `TX_CPA_CLIENT_SECRET`), Colorado's and Alaska's services (by date),
 Missouri's DOR lookup (by date), Nebraska's and South Dakota's rate layers
 (by their records' dates), Wisconsin's lookup (by address and date),

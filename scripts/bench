@@ -11,7 +11,6 @@
 #   scripts/bench all [NAME] [PARAMS]          dev, history and boundary, one line each
 #   scripts/bench compare NAME BASE [SET]      what changed between two runs (SET: dev, eval, history, boundary, or a split)
 #   scripts/bench cost                         geocoder dollars recorded so far
-#   scripts/bench new-history SPLIT DATES STATES [FROM]  past-date copy of splits (geocodes copied)
 #   scripts/bench competitors ARGS...          other services on the same addresses (scripts/bench.ts)
 #   scripts/bench export [OUT]                 the public dev dataset (bench/benchmark.json's version) into OUT
 #   scripts/bench publish                      export into the dataset repository, tag v<version>, release it
@@ -38,19 +37,19 @@ BOUNDARY_STATES=$(config ".boundary.join(' ')")
 VERSION=$(config .version)
 REPO=$(config .repo)
 die() { echo "$*" >&2; exit 1; }
-usage() { sed -n '6,22p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+usage() { sed -n '6,19p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 
 # A trial of SPLITS, then its one-line score.
 trial() {
   splits=$1 name=$2 params=$3
   SPLITS="$splits" PER_STATE=${PER_STATE:-999} scripts/tuning/trial.sh "$name" "$params" > /dev/null 2>&1 ||
     echo "  (a split didn't finish: artifacts/tuning/$name/*.log)" >&2
-  SPLITS="$splits" python3 scripts/tuning/score.py "$name" 2>/dev/null | head -1
+  SPLITS="$splits" npx tsx scripts/tuning/score.ts "$name" 2>/dev/null | head -1
 }
 boundary() {
   name=$1 params=$2
   OTR_PARAMS="$params" MARGIN=${MARGIN:-15} npx tsx scripts/tuning/boundary/run.mts "$name" $BOUNDARY_STATES > /dev/null
-  python3 -I scripts/tuning/boundary/score.py "$name" | sed -n 2p | sed "s/^  all  */$name: /"
+  npx tsx scripts/tuning/boundary/score.ts "$name" | sed -n 2p | sed "s/^  all  */$name: /"
 }
 splits_of() {
   case "$1" in
@@ -80,12 +79,21 @@ case "$command" in
   compare)
     name=${1:?Usage: scripts/bench compare NAME BASE [SET]}; base=${2:?Usage: scripts/bench compare NAME BASE [SET]}
     set=${3:-dev}
-    if [ "$set" = boundary ]; then python3 -I scripts/tuning/boundary/score.py "$name" "$base"
-    else SPLITS="$(splits_of "$set")" python3 scripts/tuning/score.py "$name" "$base"; fi ;;
-  cost) python3 scripts/tuning/cost.py ;;
-  new-history)
-    [ $# -ge 3 ] || usage
-    python3 -I scripts/tuning/history_split.py "$@" ;;
+    if [ "$set" = boundary ]; then npx tsx scripts/tuning/boundary/score.ts "$name" "$base"
+    else SPLITS="$(splits_of "$set")" npx tsx scripts/tuning/score.ts "$name" "$base"; fi ;;
+  # What the recorded geocoder answers cost at list price (src/geocoding/registry.ts;
+  # "standardize" is Geocodio's ZIP+4 lookup), each answer counted once.
+  cost)
+    node -e '
+      const fs = require("fs"), dir = process.env.TUNE_DIR || "artifacts/tuning";
+      const price = { geocodio: 0.001, standardize: 0.001, smarty: 0.001, mapbox: 0.00075, here: 0.00083, esri: 0.0005, google: 0.005 };
+      const keys = new Set();
+      for (const f of fs.readdirSync(dir).filter((f) => /^replay-.*\.json$/.test(f)))
+        try { for (const k of Object.keys(JSON.parse(fs.readFileSync(`${dir}/${f}`, "utf8")))) keys.add(k); } catch {}
+      const calls = {};
+      for (const k of keys) { const p = k.split("|")[0]; calls[p] = (calls[p] || 0) + 1; }
+      const dollars = Object.entries(calls).reduce((s, [p, n]) => s + (price[p] || 0) * n, 0);
+      console.log(`$${dollars.toFixed(2)}`, JSON.stringify(calls));' ;;
   competitors) npx tsx scripts/bench.ts "$@" ;;
   export) npx tsx scripts/bench-data.mts export "${1:-${BENCH_REPO_DIR:-../opentaxrate-bench}}" ;;
   publish)

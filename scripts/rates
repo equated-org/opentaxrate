@@ -380,7 +380,6 @@ restore() {
 # against what it started from, benchmarked, and published only past the
 # gates. MAINT_RUN names the run (default: today, UTC): its database is
 # opentaxrate_maint_<run> and its files are in artifacts/maintenance/<run>.
-# SAMPLE: points a state for the fresh official answers (default 40).
 # KEYS_ENV: an env file with geocoder keys and Texas's TX_CPA_CLIENT_ID and
 # TX_CPA_CLIENT_SECRET. MAINT_GEOCODE_BUDGET: dollars of geocoding a bench
 # may spend (default 2).
@@ -434,33 +433,28 @@ EOF
     bench)
       need
       budget=${MAINT_GEOCODE_BUDGET:-2}
-      spent() { python3 scripts/tuning/cost.py | tail -1 | sed 's/^\$\([0-9.]*\).*/\1/'; }
-      start=$(spent); out=$dir/bench.txt; : > "$out"
+      spent() { scripts/bench cost | cut -d' ' -f1 | tr -d '$'; }
+      start=$(spent); out=$dir/bench.txt
       keys() { set -a; [ -n "${KEYS_ENV:-}" ] && . "$KEYS_ENV"; set +a; }
-      # Fresh official answers: points near lines sampled from this run's
-      # outlines, each labelled by the state's own service today.
-      fresh=$dir/sample
-      for st in TX CO AK AZ VA SC; do
-        [ -f "$fresh/$st/official.jsonl" ] && continue
-        DATABASE_URL=$url BOUNDARY_DIR=$fresh npx tsx scripts/tuning/boundary/sample.mts "$st" "${SAMPLE:-40}" "$day" > /dev/null
-        ( keys; BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/label.py "$st" ) >> "$dir/log.txt" 2>&1
-      done
-      DATABASE_URL=$url BOUNDARY_DIR=$fresh MARGIN=15 npx tsx scripts/tuning/boundary/run.mts run TX CO AK AZ VA SC > /dev/null
-      echo "fresh:    $(BOUNDARY_DIR=$fresh BOUNDARY_TODAY=$day python3 -I scripts/tuning/boundary/score.py run | sed -n '2p' | sed 's/^  all  *//')" >> "$out"
+      # A fresh check the agent ran on today's addresses (docs/maintenance/cron.md)
+      # is kept: fresh.txt, one score line.
+      { [ -f "$dir/fresh.txt" ] && echo "fresh:    $(head -1 "$dir/fresh.txt")"; true; } > "$out"
       # The standing sets (pnpm bench all), with recorded geocodes.
       ( keys; DATABASE_URL=$url scripts/bench all "maint-$run" ) >> "$out"
-      [ "$(python3 -c "print(int($(spent) - $start < $budget))")" = 1 ] || echo "Over budget: geocoder spend passed \$$budget." >> "$out"
+      awk -v now="$(spent)" -v start="$start" -v budget="$budget" 'BEGIN { exit !(now - start >= budget) }' &&
+        echo "Over budget: geocoder spend passed \$$budget." >> "$out"
       # A set with more wrong answers than the accepted run's is a regression.
       if [ -f artifacts/maintenance/accepted ]; then
         echo "Against the accepted run, $(head -1 artifacts/maintenance/accepted):" >> "$out"
-        for set in fresh dev history boundary; do
+        # A fresh check is a new sample each time: reported, not compared.
+        for set in dev history boundary; do
           now=$(grep "^$set:" "$out" | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
           was=$(grep "^$set:" artifacts/maintenance/accepted | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
           [ -n "$now" ] && [ -n "$was" ] || continue
           echo "  $set: wrong $was -> $now$([ "$now" -gt "$was" ] && echo "  REGRESSION")" >> "$out"
         done
       fi
-      echo "Geocoder spend: \$$(python3 -c "print(round($(spent) - $start, 2))")" >> "$out"
+      echo "Geocoder spend: \$$(awk -v now="$(spent)" -v start="$start" 'BEGIN { printf "%.2f", now - start }')" >> "$out"
       cat "$out" ;;
     publish)
       tag=${1:?Usage: scripts/rates maintain publish TAG}
@@ -514,7 +508,7 @@ cron() {
   pnpm install --frozen-lockfile --silent
   status=0
   claude -p "You are the unattended monthly maintenance run for OpenTaxRate, in $tree, a worktree of main: push with 'git push origin HEAD:main'.
-Follow docs/maintenance/cron.md from start to finish as an unattended run: MAINT_AUTO_PUBLISH=yes is set, so publish only if every gate in step 3 holds; otherwise stop and leave the report for a human.
+Follow docs/maintenance/cron.md from start to finish as an unattended run, starting with docs/maintenance/bench-refresh.md (its step 0): MAINT_AUTO_PUBLISH=yes is set, so publish only if every gate in step 3 holds; otherwise stop and leave the report for a human.
 Use MAINT_RUN=$(date -u +%F). KEYS_ENV=$KEYS_ENV holds the keys the bench needs. Never touch production.
 End with the short report the prompt asks for." \
     --dangerously-skip-permissions ${CLAUDE_MODEL:+--model "$CLAUDE_MODEL"} --output-format text || status=$?

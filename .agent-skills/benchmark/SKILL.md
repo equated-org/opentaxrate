@@ -58,8 +58,8 @@ commit or publish an eval split; `pnpm bench export` refuses if one leaks.
   and the wrong rate's upper bound, never right alone.
 - Disputed addresses (official sources disagree) are in
   `scripts/tuning/disputes.json`; add one only with both sources cited.
-- New sets: `pnpm bench new-history NAME DATES STATES` for past dates;
-  label a new sample with `scripts/tuning/boundary/label.py`
-  (`BOUNDARY_CASES`, `BOUNDARY_OUT`) or the pool's oracle scripts
-  (`artifacts/bench/oracles`).
+- New sets are drawn and labelled by the benchmark refresh
+  ([docs/maintenance/bench-refresh.md](../../docs/maintenance/bench-refresh.md)),
+  with scripts written for the run in `artifacts/`, never committed; then
+  `pnpm bench split SPLIT NAME` runs them.
 - Benchmark data lives in `artifacts/` (git-ignored); never commit it.
