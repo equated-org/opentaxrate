@@ -28,6 +28,14 @@ SPLITS="evalA evalB" scripts/tuning/trial.sh eval ''      # the honest check, sp
 python3 scripts/tuning/cost.py
 ```
 
+`pnpm bench` runs the dev splits (`batch1`…`round2`, `r3-dev`, `oa-dev`) and
+the held-out ones (`evalA`, `evalB`, `r3-eval`, `oa-eval`). `r3` is a second
+random sample of every state (National Address Database, OpenStreetMap,
+Mississippi parcels); `oa-*` are drawn from OpenAddresses county by county,
+weighted by housing units, for the 16 states that database covers thinly.
+`r3-dev` and `r3-eval` share `r3`'s replay files, so `cost.py` counts those
+geocodes twice.
+
 Working files go to `$TUNE_DIR` (default `artifacts/tuning`, git-ignored):
 `replay-<split>.json` and `lookups-<split>.json` hold every geocoder and
 state-lookup answer, asked live once; `<NAME>/<split>/` holds a run's

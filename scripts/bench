@@ -25,8 +25,8 @@ cd "$(dirname "$0")/.."
 # Every set reads the same database: the given one, else the stack's (.env).
 DATABASE_URL=${DATABASE_URL:-$(grep -s '^DATABASE_URL=' .env | cut -d= -f2-)}
 export DATABASE_URL=${DATABASE_URL:-postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate}
-DEV="batch1 batch-dev batch2 batch3 batch4 batch5 round2"
-EVAL="evalA evalB"
+DEV="batch1 batch-dev batch2 batch3 batch4 batch5 round2 r3-dev oa-dev"
+EVAL="evalA evalB r3-eval oa-eval"
 BOUNDARY_STATES="TX CO AK AZ VA SC"
 die() { echo "$*" >&2; exit 1; }
 usage() { sed -n '6,17p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }

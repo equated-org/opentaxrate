@@ -13,8 +13,8 @@ scores answers against each state's own official answer. Read
 
 | Set | Command | What it measures | Cost |
 |---|---|---|---|
-| Dev address splits (~2,700 random addresses) | `pnpm bench dev NAME [PARAMS]` | the whole pipeline: geocoding, ranges, map, refusals | $0 (geocodes replayed) |
-| Held-out splits (evalA, evalB) | `pnpm bench eval NAME` | the same, on addresses never tuned on | $0; run sparingly, never tune on it |
+| Dev address splits (~5,300 addresses: the random pool, r3-dev, and oa-dev for states the National Address Database covers thinly) | `pnpm bench dev NAME [PARAMS]` | the whole pipeline: geocoding, ranges, map, refusals | $0 (geocodes replayed) |
+| Held-out splits (~2,000: evalA, evalB, r3-eval, oa-eval) | `pnpm bench eval NAME` | the same, on addresses never tuned on | $0; run sparingly, never tune on it |
 | History (hist-dev) | `pnpm bench history NAME` | the dev addresses on past dates | $0 |
 | Boundary points (~2,800 point-dates) | `pnpm bench boundary NAME [PARAMS]` | outlines, rate tables and edge rules, near lines, no geocoding | $0 |
 | A new random sample | `pnpm bench split SPLIT NAME` | the pipeline on new addresses | about $1 per 1,000 addresses, first run only |
