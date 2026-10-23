@@ -38,7 +38,7 @@ OpenTaxRate combines state address ranges, tax-area polygons, and dated rates. S
 
 | Test | Correct | Wrong | Declined |
 |---|---:|---:|---:|
-| Development · 2026-10-23 | 5,293 / 5,317 | 7 | 17 |
+| Development · 2026-10-23 | 5,301 / 5,317 | 4 | 12 |
 | Held-out comparison · 2026-10-22 | 275 / 277 | 0 | 2 |
 
 Combined-rate results against official answers.[^bench] See [methodology and how to run the benchmarks](docs/benchmarks.md).

@@ -24,12 +24,13 @@
 		return { path, fill };
 	});
 	const height = Math.ceil(data.asked / columns) * 4 - 1;
-	// Where the wrong rates were: the two states with the most, named in a note.
+	// Where the wrong rates were, named in a note.
 	const STATE_NAMES: Record<string, string> = { MO: 'Missouri', KS: 'Kansas', UT: 'Utah', WA: 'Washington', WV: 'West Virginia' };
-	const top = Object.entries(data.wrongByState ?? {}).sort((a, b) => b[1] - a[1]).slice(0, 2);
+	// Only states with more than one wrong rate, so a single miss isn't singled out.
+	const top = Object.entries(data.wrongByState ?? {}).filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).slice(0, 2);
 	const topCount = top.reduce((sum, [, n]) => sum + n, 0);
 	const wrongNote = top.length
-		? `${topCount} of the ${data.wrong} in ${top.map(([st]) => STATE_NAMES[st] ?? st).join(' and ')}, mostly addresses near a city line.`
+		? `${topCount} of the ${data.wrong} in ${top.map(([st]) => STATE_NAMES[st] ?? st).join(' and ')}.`
 		: '';
 	const summary = `Development benchmark on ${data.asOf}: ${number(data.right)} of ${number(data.asked)} addresses correct, ${data.wrong} wrong rates, ${data.refused} declined lookups.`;
 </script>

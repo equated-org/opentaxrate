@@ -1,14 +1,12 @@
 {
   "asOf": "2026-10-23",
   "asked": 5317,
-  "right": 5293,
-  "wrong": 7,
-  "refused": 17,
+  "right": 5301,
+  "wrong": 4,
+  "refused": 12,
   "wrongByState": {
-    "MO": 3,
-    "KS": 1,
+    "MO": 2,
     "UT": 1,
-    "WA": 1,
     "WV": 1
   }
 }

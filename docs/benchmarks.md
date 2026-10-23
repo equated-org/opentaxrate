@@ -9,7 +9,7 @@ separate correct rates, wrong rates, and declined lookups.
 
 | Test | Tested | Correct | Wrong | Declined |
 |---|---|---:|---:|---:|
-| Development addresses | 2026-10-23 | 5,293 / 5,317 | 7 | 17 |
+| Development addresses | 2026-10-23 | 5,301 / 5,317 | 4 | 12 |
 | Held-out comparison (`evalA`) | 2026-10-22 | 275 / 277 | 0 | 2 |
 
 Development addresses guide improvements. The held-out comparison is a
