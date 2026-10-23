@@ -1,42 +1,37 @@
 <script lang="ts">
-	/**
-	 * The landing page's accuracy and price claim, without naming competitors.
-	 * Shows every tested address, including declines, in one grid.
-	 * Figures come from benchmark.json and
-	 * pricing.json; the side-by-side comparison lives on /benchmarks.
-	 */
-	import data from '$lib/benchmark.json';
+	/** The development benchmark; the held-out comparison lives on /benchmarks. */
+	import data from '$lib/development-benchmark.json';
 	import { pricing } from '$lib/pricing';
-	import Pixels from '$lib/pixel/Pixels.svelte';
 
-	const ours = data.services.find((s) => s.id === 'opentaxrate-providers');
 	const price = pricing.rows.find((r) => r.id === 'opentaxrate-api')?.comparison?.perThousand;
-	if (!ours || price === undefined)
-		throw new Error('AccuracySummary: benchmark.json or pricing.json no longer has the hosted API');
-	const answered = ours.right + ours.wrong;
-	const palette = { '#': 'var(--accent)', x: 'var(--clay)', o: 'var(--text-muted)' };
+	if (price === undefined) throw new Error('AccuracySummary: pricing.json no longer has the hosted API');
+	const number = (n: number) => n.toLocaleString('en-US');
 
-	const RIGHT = ['###', '###', '###'];
-	const WRONG = ['x.x', '.x.', 'x.x'];
-	const DECLINED = ['ooo', 'ooo', 'ooo'];
-
-	/** One 3×3 square per address, a one-pixel gutter between them. */
-	function grid(cells: string[][], columns: number): string[] {
-		const out: string[] = [];
-		for (let start = 0; start < cells.length; start += columns) {
-			const row = cells.slice(start, start + columns);
-			if (start) out.push('.');
-			for (let y = 0; y < 3; y++) out.push(row.map((c) => c[y]).join('.'));
-		}
-		return out;
-	}
-	const rows = grid([
-		...Array(ours.right).fill(RIGHT),
-		...Array(ours.wrong).fill(WRONG),
-		...Array(ours.refused).fill(DECLINED)
-	], 25);
-
-	const summary = `Of ${ours.asked} random addresses, OpenTaxRate returned a rate for ${answered}, and ${ours.right} matched the state's published rate. ${ours.refused} addresses needed additional verification. $${price.toFixed(2)} per 1,000 lookups.`;
+	// One square per address, grouped into three paths to keep the SVG small.
+	const columns = 100;
+	const groups = [
+		{ count: data.right, fill: 'var(--accent)' },
+		{ count: data.wrong, fill: 'var(--clay)' },
+		{ count: data.refused, fill: 'var(--text-muted)' }
+	];
+	let offset = 0;
+	const blocks = groups.map(({ count, fill }) => {
+		const path = Array.from({ length: count }, (_, i) => {
+			const index = offset + i;
+			return `M${(index % columns) * 4} ${Math.floor(index / columns) * 4}h3v3h-3z`;
+		}).join('');
+		offset += count;
+		return { path, fill };
+	});
+	const height = Math.ceil(data.asked / columns) * 4 - 1;
+	// Where the wrong rates were: the two states with the most, named in a note.
+	const STATE_NAMES: Record<string, string> = { MO: 'Missouri', KS: 'Kansas', UT: 'Utah', WA: 'Washington', WV: 'West Virginia' };
+	const top = Object.entries(data.wrongByState ?? {}).sort((a, b) => b[1] - a[1]).slice(0, 2);
+	const topCount = top.reduce((sum, [, n]) => sum + n, 0);
+	const wrongNote = top.length
+		? `${topCount} of the ${data.wrong} in ${top.map(([st]) => STATE_NAMES[st] ?? st).join(' and ')}, mostly addresses near a city line.`
+		: '';
+	const summary = `Development benchmark on ${data.asOf}: ${number(data.right)} of ${number(data.asked)} addresses correct, ${data.wrong} wrong rates, ${data.refused} declined lookups.`;
 </script>
 
 <section aria-labelledby="accuracy-heading" class="py-6 sm:py-10">
@@ -44,32 +39,35 @@
 		Measured against official answers.
 	</h2>
 	<p class="mt-3 max-w-[40rem] text-[15px] leading-relaxed text-[var(--text-muted)]">
-		In our held-out comparison on {data.asOf}, {ours.right} of {ours.asked} addresses matched the state’s published rate:
-		{ours.wrong} wrong rates, {ours.refused} declined lookups.
+		Random addresses in every state, each checked against the state’s own published rate. Development benchmark, {data.asOf}.
 	</p>
 
 	<div class="mt-12 grid items-start gap-14 md:grid-cols-[minmax(0,460px)_1fr] md:gap-20">
 		<figure role="img" aria-label={summary}>
-			<Pixels {rows} {palette} cell={5} class="block h-auto w-full" />
+			<svg class="pixelated block h-auto w-full" width="399" {height} viewBox="0 0 399 {height}" aria-hidden="true">
+				{#each blocks as block}
+					<path d={block.path} fill={block.fill} />
+				{/each}
+			</svg>
 			<figcaption class="mt-4 text-[13px] text-[var(--text-muted)]">
-				One block per address. Blue: matched. Grey: declined.{ours.wrong ? ' Clay: did not match.' : ''}
+				One block per address. Blue: matched. Clay: wrong. Grey: declined.
 			</figcaption>
 		</figure>
 
 		<dl class="flex flex-col divide-y divide-[var(--border)]">
 			<div class="flex flex-col-reverse pb-7">
 				<dt class="mt-2 text-[14px] leading-relaxed text-[var(--text-muted)]">
-					addresses returned a rate matching the state, out of all {ours.asked} tested.
+					addresses matched the state’s rate.
 				</dt>
 				<dd class="font-num text-[40px] leading-none font-semibold tracking-tight text-[var(--accent)]">
-					{ours.right}<span class="text-[var(--text-muted)]">/{ours.asked}</span>
+					{number(data.right)}<span class="text-[var(--text-muted)]">/{number(data.asked)}</span>
 				</dd>
 			</div>
-			<div class="flex flex-col-reverse py-7">
-				<dt class="mt-2 text-[14px] leading-relaxed text-[var(--text-muted)]">
-					addresses needed additional verification. Check the <a class="link" href="/sources">official state sources</a>.
-				</dt>
-				<dd class="font-num text-[40px] leading-none font-semibold tracking-tight text-[var(--text)]">{ours.refused}</dd>
+			<div class="grid grid-cols-2 gap-x-6 gap-y-2 py-7">
+				<dt class="col-start-1 row-start-2 text-[14px] text-[var(--text-muted)]">wrong rates{#if wrongNote}<sup aria-hidden="true">*</sup>{/if}</dt>
+				<dd class="col-start-1 row-start-1 font-num text-[40px] leading-none font-semibold tracking-tight text-[var(--clay)]">{data.wrong}</dd>
+				<dt class="col-start-2 row-start-2 text-[14px] text-[var(--text-muted)]">declined lookups</dt>
+				<dd class="col-start-2 row-start-1 font-num text-[40px] leading-none font-semibold tracking-tight text-[var(--text)]">{data.refused}</dd>
 			</div>
 			<div class="flex flex-col-reverse pt-7">
 				<dt class="mt-2 text-[14px] leading-relaxed text-[var(--text-muted)]">per 1,000 lookups. Free without a key.</dt>
@@ -78,7 +76,11 @@
 		</dl>
 	</div>
 
-	<p class="mt-12 text-[14px]">
+	{#if wrongNote}
+		<p class="mt-12 max-w-[40rem] text-[13px] leading-relaxed text-[var(--text-muted)]"><span aria-hidden="true">* </span>{wrongNote}</p>
+	{/if}
+
+	<p class="{wrongNote ? 'mt-4' : 'mt-12'} text-[14px]">
 		<a class="link" href="/benchmarks">Results, methodology and provider comparison →</a>
 	</p>
 </section>

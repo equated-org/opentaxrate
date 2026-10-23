@@ -6,6 +6,7 @@
 	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
 	import { GITHUB } from '$lib/examples';
+	import development from '$lib/development-benchmark.json';
 	import { noteNumbers, pricing as data } from '$lib/pricing';
 
 	// Ours, then the vendors on the accuracy chart in its order, then the rest.
@@ -44,7 +45,7 @@
 		</div>
 
 		<p class="mt-6 max-w-[48rem] text-[13px] leading-relaxed text-[var(--text-muted)]">
-			Separately, the development benchmark on 23 October 2026 scored 5,293 of 5,317 correct, 7 wrong and 17 declined.
+			Separately, the development benchmark on {development.asOf} scored {development.right.toLocaleString('en-US')} of {development.asked.toLocaleString('en-US')} correct, {development.wrong} wrong and {development.refused} declined.
 			<a class="link" href="{GITHUB}/blob/main/docs/benchmarks.md" target="_blank" rel="noopener">Public datasets, scoring rules and how to run it ↗</a>
 		</p>
 
