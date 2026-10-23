@@ -11,6 +11,10 @@ export const compatible = (a: LocatedPoint, b: LocatedPoint) =>
  * Refused when the datasets left out agree with each other: that is two
  * places, not one. */
 export function agreeingGroup(points: SourcedPoint[]): SourcedPoint[] | null {
+  // An interpolated point is a guess along the street's house-number range;
+  // with interpolatedWidens off, two of them (often the same TIGER ranges,
+  // through two geocoders) aren't a second place against precise points.
+  const guess = (p: SourcedPoint) => p.accuracy === "interpolated";
   const representatives = [...new Set(points.map(p => p.source))].flatMap(source => {
     const members = points.filter(p => p.source === source).sort(order);
     if (members.some(a => members.some(b => !compatible(a, b)))) return [];
@@ -20,7 +24,7 @@ export function agreeingGroup(points: SourcedPoint[]): SourcedPoint[] | null {
   for (const best of representatives) {
     const group = representatives.filter(p => p === best || compatible(p, best));
     if (group.length < 2) continue;
-    const rest = representatives.filter(p => !group.includes(p));
+    const rest = representatives.filter(p => !group.includes(p) && (PARAMS.interpolatedWidens || !guess(p) || group.every(guess)));
     return rest.some(a => rest.some(b => a !== b && compatible(a, b))) ? null : group;
   }
   return null;
@@ -28,7 +32,11 @@ export function agreeingGroup(points: SourcedPoint[]): SourcedPoint[] | null {
 
 export function placement(group: SourcedPoint[]): LocatedPoint {
   const best = [...group].sort(order)[0];
-  const metres = Math.ceil(Math.max(marginOf(best), ...group.map(p => metresBetween(best, p))));
+  // With interpolatedWidens off, an interpolated point supports a more
+  // precise one without widening its margin to reach it.
+  const reach = PARAMS.interpolatedWidens || best.accuracy === "interpolated"
+    ? group : group.filter(p => p.accuracy !== "interpolated");
+  const metres = Math.ceil(Math.max(marginOf(best), ...reach.map(p => metresBetween(best, p))));
   return { lon: best.lon, lat: best.lat, accuracy: best.accuracy, metres,
     placedBy: group.map(p => `${p.provider} (${p.source})`).sort() };
 }

@@ -26,6 +26,14 @@ export interface Params {
   agreeCapMetres: number;
   /** The smallest margin each accuracy class gets (geocoding/types.ts). */
   minMarginMetres: { rooftop: number; parcel: number; point: number; interpolated: number };
+  /** An interpolated point (a guess along the street's house-number range)
+   *  widens a more precise group's margin to reach it, and two of them can
+   *  stand as a second place against it (geocoding/agreement.ts). Off, they
+   *  only support a placement. Measured off on 2026-10-23 (dev, against a
+   *  same-day baseline): one address more right, one more wrong (an
+   *  unincorporated King County address the interpolated point kept out of
+   *  Renton). Kept on. */
+  interpolatedWidens: boolean;
   /** The widest circle disagreeing geocodes may be placed within
    *  (geocoding/locator.ts). */
   wideMetres: number;
@@ -37,6 +45,12 @@ export interface Params {
   /** How far past its Census area an address with that ZIP may be, for an
    *  address no geocoder places (rates/map.ts). */
   zipMarginMetres: number;
+  /** Square metres of a ZIP's widened area that may fall between the state's
+   *  county outlines (slivers left by simplifying neighbours apart) and the
+   *  counties still count as holding all of it (rates/map.ts). At 1,000 on
+   *  2026-10-23: a Pennsylvania address 42 m² short of covered answered, no
+   *  new wrong rate (dev, against a same-day baseline). */
+  zipAreaGapSquareMetres: number;
   /** A map point this sure, agreed by two datasets, outweighs a street range
    *  (rates/ranges.ts). */
   preciseMetres: number;
@@ -100,9 +114,11 @@ const DEFAULTS: Params = {
   agreeFactor: 1,
   agreeCapMetres: 250,
   minMarginMetres: { rooftop: 15, parcel: 25, point: 40, interpolated: 75 },
+  interpolatedWidens: true,
   wideMetres: 20_000,
   lonePointOutsideCity: true,
   zipMarginMetres: 2_000,
+  zipAreaGapSquareMetres: 1_000,
   preciseMetres: 40,
   zoneBeyondZip: true,
   outlinesOverZip4: false,

@@ -272,8 +272,10 @@ async function wholeZipRate(
   if (!rows.length) return null;
   // All of it in the state: its counties together hold it. Which county
   // matters only where one levies, and a levying one must hold all of it.
+  // Counties simplified apart can leave slivers between them;
+  // zipAreaGapSquareMetres of the area left uncovered still counts as held.
   const [within] = await db.execute<{ held: boolean | null }>(sql`
-    select st_covers(st_union(s.geom), z.g) as held
+    select st_area(st_difference(z.g, st_union(s.geom))::geography) <= ${PARAMS.zipAreaGapSquareMetres} as held
     from sales_tax_shapes s cross join ${widened} z
     where s.state = ${state} and s.kind = 'county' and ${date} between s.starts_on and s.ends_on and st_intersects(s.geom, z.g)
     group by z.g`);
