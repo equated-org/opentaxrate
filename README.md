@@ -83,7 +83,7 @@ This is the general sales tax rate. Taxability, exemptions, item caps, sourcing 
 
 ## Benchmarks
 
-Accuracy is measured against each state's own answer for random real addresses in every state, on today's date and past ones, and for points near city and county lines. As of 2026-10-23, 5,293 of 5,317 dev addresses get the state's rate, 7 get a wrong one and 17 are declined; the held-out set scores 1,986 of 1,999 with 3 wrong. The dev addresses are public in [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench). See [benchmarks](docs/benchmarks.md) for the sets and how to run them (`pnpm bench`).
+Accuracy is measured against each state's own answer for random real addresses in every state, on today's date and past ones, and for points near city and county lines. As of 2026-10-23, 5,293 of 5,317 benchmark addresses get the state's rate, 7 get a wrong one and 17 are declined. The sets are public in [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench). See [benchmarks](docs/benchmarks.md) for the sets and how to run them (`pnpm bench`).
 
 ## Development
 
