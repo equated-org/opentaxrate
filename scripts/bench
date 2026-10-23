@@ -13,6 +13,11 @@
 #   scripts/bench cost                         geocoder dollars recorded so far
 #   scripts/bench new-history SPLIT DATES STATES [FROM]  past-date copy of splits (geocodes copied)
 #   scripts/bench competitors ARGS...          other services on the same addresses (scripts/bench.ts)
+#   scripts/bench export [OUT]                 the public dev dataset (bench/benchmark.json's version) into OUT
+#   scripts/bench publish                      export into the dataset repository, tag v<version>, release it
+#   scripts/bench fetch                        download that version's release into artifacts/bench
+#   scripts/bench backup                       the private sets, replays and runs to restic (tag bench)
+#   scripts/bench restore                      add them back from restic, keeping files already here
 #
 # NAME names the run (default: run-<time>); its answers go under
 # artifacts/tuning/NAME (address sets) and artifacts/bench/boundary/*/runs
@@ -25,11 +30,15 @@ cd "$(dirname "$0")/.."
 # Every set reads the same database: the given one, else the stack's (.env).
 DATABASE_URL=${DATABASE_URL:-$(grep -s '^DATABASE_URL=' .env | cut -d= -f2-)}
 export DATABASE_URL=${DATABASE_URL:-postgres://opentaxrate:opentaxrate@localhost:5433/opentaxrate}
-DEV="batch1 batch-dev batch2 batch3 batch4 batch5 round2 r3-dev oa-dev"
-EVAL="evalA evalB r3-eval oa-eval"
-BOUNDARY_STATES="TX CO AK AZ VA SC"
+# Which splits are dev and eval, and the dataset version: bench/benchmark.json.
+config() { node -p "require('./bench/benchmark.json')$1"; }
+DEV=$(config ".dev.join(' ')")
+EVAL=$(config ".eval.join(' ')")
+BOUNDARY_STATES=$(config ".boundary.join(' ')")
+VERSION=$(config .version)
+REPO=$(config .repo)
 die() { echo "$*" >&2; exit 1; }
-usage() { sed -n '6,17p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+usage() { sed -n '6,22p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 
 # A trial of SPLITS, then its one-line score.
 trial() {
@@ -78,5 +87,51 @@ case "$command" in
     [ $# -ge 3 ] || usage
     python3 -I scripts/tuning/history_split.py "$@" ;;
   competitors) npx tsx scripts/bench.ts "$@" ;;
+  export) npx tsx scripts/bench-data.mts export "${1:-${BENCH_REPO_DIR:-../opentaxrate-bench}}" ;;
+  publish)
+    # The dataset repository's checkout beside this one; a version is a tag
+    # and a release with its tarball and SHA-256, and is never replaced.
+    dir=${BENCH_REPO_DIR:-../opentaxrate-bench}
+    [ -d "$dir/.git" ] || gh repo clone "$REPO" "$dir"
+    git -C "$dir" pull -q --ff-only 2>/dev/null || true
+    git -C "$dir" rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null &&
+      die "v$VERSION is already published; set a new version in bench/benchmark.json."
+    npx tsx scripts/bench-data.mts export "$dir"
+    git -C "$dir" add -A
+    git -C "$dir" commit -q -m "v$VERSION"
+    git -C "$dir" tag "v$VERSION"
+    git -C "$dir" push -q origin HEAD --tags
+    tar=$(mktemp -d)/opentaxrate-bench-$VERSION.tar.gz
+    tar -czf "$tar" -C "$dir" --exclude .git .
+    (cd "$(dirname "$tar")" && sha256sum "$(basename "$tar")" > "$(basename "$tar").sha256")
+    gh release create "v$VERSION" "$tar" "$tar.sha256" --repo "$REPO" --title "OpenTaxRate benchmark $VERSION" \
+      --notes "Dev addresses and points with the states' official answers. See README.md for the format and registry.json for counts."
+    echo "Published $REPO v$VERSION" ;;
+  fetch)
+    # Anyone can: the dataset repository is public.
+    tmp=artifacts/.bench-fetch; rm -rf "$tmp"; mkdir -p "$tmp"
+    name=opentaxrate-bench-$VERSION.tar.gz
+    base=https://github.com/$REPO/releases/download/v$VERSION
+    curl -fsSL "$base/$name" -o "$tmp/$name" && curl -fsSL "$base/$name.sha256" -o "$tmp/$name.sha256" ||
+      die "Can't download $REPO v$VERSION."
+    (cd "$tmp" && sha256sum -c --quiet "$name.sha256") || die "$name fails its SHA-256."
+    mkdir -p "$tmp/data" && tar -xzf "$tmp/$name" -C "$tmp/data"
+    npx tsx scripts/bench-data.mts import "$tmp/data"
+    rm -rf "$tmp" ;;
+  # Everything not published: the eval splits, recorded geocodes and state
+  # lookups, other services' answers, and every run. Needs the restic
+  # settings scripts/backup-sources.sh names (docs/data.md).
+  backup) BACKUP_TAG=bench scripts/backup-sources.sh artifacts/bench artifacts/tuning ;;
+  restore)
+    tmp=artifacts/.bench-restore
+    rm -rf "$tmp"
+    BACKUP_TAG=bench scripts/backup-sources.sh --restore "$tmp"
+    # The snapshot keeps the absolute paths it was taken from.
+    for dir in bench tuning; do
+      found=$(find "$tmp" -type d -path "*/artifacts/$dir" -prune | head -1)
+      [ -n "$found" ] && cp -rn "$found" artifacts/
+    done
+    rm -rf "$tmp"
+    echo "Restored the newest bench snapshot into artifacts/ (existing files kept)." ;;
   *) usage ;;
 esac

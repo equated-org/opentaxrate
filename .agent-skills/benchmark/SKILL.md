@@ -9,6 +9,17 @@ Every benchmark runs through one CLI, `pnpm bench` (`scripts/bench`), and
 scores answers against each state's own official answer. Read
 `scripts/tuning/README.md` for how each set was built.
 
+## Where the sets live
+
+`bench/benchmark.json` names the dev and eval splits and the dataset
+version. The dev sets are public in
+[equated-org/opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench)
+(one tag a version); `pnpm bench fetch` downloads the pinned version into
+`artifacts/bench`. The eval sets, recorded geocodes and other services'
+answers are private: `pnpm bench backup` and `restore` keep them in restic
+(tag `bench`; credentials as for `scripts/backup-sources.sh`). Never export,
+commit or publish an eval split; `pnpm bench export` refuses if one leaks.
+
 ## The sets
 
 | Set | Command | What it measures | Cost |

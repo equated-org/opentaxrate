@@ -64,6 +64,18 @@ pnpm rates maintain STEP               # a maintenance run (below)
 stack's own; `publish` puts `RELEASE_NOTES` (a file) first in the release's
 notes.
 
+## Benchmark data
+
+The benchmark's dev addresses and points are public in
+[equated-org/opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench),
+one tag a version; `bench/benchmark.json` pins the version and names the dev
+and eval splits. `pnpm bench fetch` downloads it into `artifacts/bench`. The
+eval splits, recorded geocodes and other services' answers stay private, in
+the same restic repository as the sources under the tag `bench`:
+`pnpm bench backup` and `pnpm bench restore`, with the same settings as
+`scripts/backup-sources.sh`. `pnpm bench publish` exports a new version,
+refusing if any eval address would be in it.
+
 ## Maintenance runs
 
 New editions reach a release through a maintenance run, by hand or monthly

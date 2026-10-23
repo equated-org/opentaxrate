@@ -28,6 +28,9 @@ SPLITS="evalA evalB" scripts/tuning/trial.sh eval ''      # the honest check, sp
 python3 scripts/tuning/cost.py
 ```
 
+The dev splits are public in equated-org/opentaxrate-bench (`pnpm bench
+fetch`; `pnpm bench publish` makes a new version from `bench/benchmark.json`),
+and the eval splits private in restic (`pnpm bench backup`, `restore`).
 `pnpm bench` runs the dev splits (`batch1`…`round2`, `r3-dev`, `oa-dev`) and
 the held-out ones (`evalA`, `evalB`, `r3-eval`, `oa-eval`). `r3` is a second
 random sample of every state (National Address Database, OpenStreetMap,
