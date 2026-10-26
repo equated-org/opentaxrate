@@ -3,14 +3,16 @@
  * lookup takes, for /v1/rate?address=. The same reading as the site's search
  * box (client/src/lib/search/parse.ts): change one, change the other.
  * Accepts "number street, city, ST 12345" with commas optional, the state as
- * a code or a full name, and the ZIP optional.
+ * a code or a full name, and the ZIP optional; or a Canadian address, the
+ * province as a code or a name and the postal code ("M5V 3L9") optional.
  */
 import { STATES } from "./geocoding/providers/match.js";
+import { postalCode, PROVINCES } from "./rates/canada.js";
 
 export interface ParsedAddress {
   street: string;
   city: string;
-  /** Two-letter code. */
+  /** Two-letter state or province code. */
   state: string;
   zip: string;
 }
@@ -29,8 +31,13 @@ const STREET_END = new Set(
 );
 const UNIT = /^(apt|unit|ste|suite|#)/i;
 
+const PLACES: Record<string, string> = {
+  ...(STATES as Record<string, string>),
+  ...Object.fromEntries(Object.entries(PROVINCES).map(([code, p]) => [code, p.name])),
+};
+
 /** Full names longest first, so "West Virginia" wins over "Virginia". */
-const NAMES = Object.entries(STATES as Record<string, string>)
+const NAMES = [...Object.entries(PLACES), ["QC", "Québec"]]
   .map(([code, name]) => [code, name.toLowerCase().split(" ")] as const)
   .sort((a, b) => b[1].length - a[1].length);
 
@@ -49,7 +56,7 @@ export function parseAddress(text: string): ParseResult {
   if (!/^\d/.test(tokens[0] ?? "")) return { ok: false, reason: "number" };
 
   const dropCountry = () => {
-    if (/^(usa|us|united states)$/i.test(tokens.at(-1) ?? "") && tokens.length > 2) {
+    if (/^(usa|us|united states|canada)$/i.test(tokens.at(-1) ?? "") && tokens.length > 2) {
       tokens = tokens.slice(0, -1);
       dropTrailingCommas();
     }
@@ -57,8 +64,18 @@ export function parseAddress(text: string): ParseResult {
   dropCountry();
   let zip = "";
   const last = tokens.at(-1) ?? "";
+  // A Canadian postal code may be written as one token or two ("M5V 3L9").
+  const postal = tokens.length > 2 ? postalCode(tokens.slice(-2).join(" ")) : null;
   if (/^\d{5}(?:-?\d{4})?$/.test(last) && tokens.length > 1) {
     zip = last;
+    tokens = tokens.slice(0, -1);
+    dropTrailingCommas();
+  } else if (postal && /^\d[a-z]\d$/i.test(last)) {
+    zip = postal;
+    tokens = tokens.slice(0, -2);
+    dropTrailingCommas();
+  } else if (postalCode(last) && tokens.length > 1) {
+    zip = postalCode(last)!;
     tokens = tokens.slice(0, -1);
     dropTrailingCommas();
   }
@@ -67,7 +84,7 @@ export function parseAddress(text: string): ParseResult {
   let state = "";
   const lower = tokens.map((t) => t.toLowerCase().replace(/\.$/, ""));
   const code = (lower.at(-1) ?? "").replace(/\./g, "").toUpperCase();
-  if (code.length === 2 && STATES[code] && tokens.length > 2) {
+  if (code.length === 2 && PLACES[code] && tokens.length > 2) {
     state = code;
     tokens = tokens.slice(0, -1);
   } else {

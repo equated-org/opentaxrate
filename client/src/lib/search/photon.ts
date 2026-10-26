@@ -1,9 +1,9 @@
 import { stateCode } from '$lib/states';
 import { labelOf, type Suggestion } from './types';
 
-/** All 50 states, Alaska and Hawaii included; Photon only searches inside it,
- *  and results outside the US are dropped below. */
-const US_BBOX = '-180,17,-64,72';
+/** All 50 states, Alaska and Hawaii included, and Canada; Photon only
+ *  searches inside it, and results outside the two are dropped below. */
+const BBOX = '-180,17,-52,84';
 
 interface PhotonFeature {
 	geometry: { coordinates: [number, number] };
@@ -28,7 +28,7 @@ interface PhotonFeature {
 export function photon(baseUrl: string) {
 	const base = baseUrl.replace(/\/+$/, '');
 	return async (text: string, signal: AbortSignal): Promise<Suggestion[]> => {
-		const params = new URLSearchParams({ q: text, bbox: US_BBOX, layer: 'house', limit: '8', lang: 'en' });
+		const params = new URLSearchParams({ q: text, bbox: BBOX, layer: 'house', limit: '8', lang: 'en' });
 		// Streets too: OSM lacks many houses, and a street can take the typed number.
 		params.append('layer', 'street');
 		const response = await fetch(`${base}/api?${params}`, { signal });
@@ -37,7 +37,7 @@ export function photon(baseUrl: string) {
 		const out: Suggestion[] = [];
 		for (const f of body.features ?? []) {
 			const p = f.properties;
-			if (p.countrycode && p.countrycode.toUpperCase() !== 'US') continue;
+			if (p.countrycode && !['US', 'CA'].includes(p.countrycode.toUpperCase())) continue;
 			const state = stateCode(p.state);
 			if (!state) continue;
 			// A house needs its number; a street result names the street.

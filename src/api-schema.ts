@@ -200,7 +200,7 @@ export const RateQuerySchema = z.object({
   zip: z
     .string()
     .trim()
-    .regex(/^\d{5}(?:-?\d{4})?$/)
+    .regex(/^(?:\d{5}(?:-?\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d)$/)
     .optional()
     .openapi({ description: "Five digits or ZIP+4. Recommended: without it the address is geocoded, and a few more are refused.", example: "98122" }),
   date: z

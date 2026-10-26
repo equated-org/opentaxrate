@@ -2,15 +2,17 @@
  * Typed text → the fields /v1/rate asks for, with no network call. The
  * autocomplete often lacks the exact house, so Enter on typed text must work
  * on its own. Accepts "number street, city, ST 12345" with commas optional,
- * the state as a code or a full name, and the ZIP optional. The API reads
- * ?address= the same way (src/address-text.ts): change one, change the other.
+ * the state as a code or a full name, and the ZIP optional; or a Canadian
+ * address, the province as a code or a name and the postal code ("M5V 3L9")
+ * optional. The API reads ?address= the same way (src/address-text.ts):
+ * change one, change the other.
  */
-import { STATE_NAMES } from '$lib/states';
+import { PLACE_NAMES } from '$lib/states';
 
 export interface ParsedAddress {
 	street: string;
 	city: string;
-	/** Two-letter code. */
+	/** Two-letter state or province code. */
 	state: string;
 	zip: string;
 }
@@ -32,9 +34,18 @@ const STREET_END = new Set(
 const UNIT = /^(apt|unit|ste|suite|#)/i;
 
 /** Full names longest first, so "West Virginia" wins over "Virginia". */
-const NAMES = Object.entries(STATE_NAMES)
+const NAMES = [...Object.entries(PLACE_NAMES), ['QC', 'Québec']]
 	.map(([code, name]) => [code, name.toLowerCase().split(' ')] as const)
 	.sort((a, b) => b[1].length - a[1].length);
+
+/** "m5v3l9" → "M5V 3L9"; null for anything that isn't a Canadian postal
+ *  code. */
+export function postalCode(text: string): string | null {
+	const t = text.trim();
+	if (!/^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i.test(t)) return null;
+	const c = t.replace(/[ -]/, '').toUpperCase();
+	return `${c.slice(0, 3)} ${c.slice(3)}`;
+}
 
 const clean = (s: string) => s.replace(/\s+/g, ' ').replace(/^[\s,]+|[\s,]+$/g, '');
 
@@ -51,7 +62,7 @@ export function parseAddress(text: string): ParseResult {
 	if (!/^\d/.test(tokens[0] ?? '')) return { ok: false, reason: 'number' };
 
 	const dropCountry = () => {
-		if (/^(usa|us|united states)$/i.test(tokens.at(-1) ?? '') && tokens.length > 2) {
+		if (/^(usa|us|united states|canada)$/i.test(tokens.at(-1) ?? '') && tokens.length > 2) {
 			tokens = tokens.slice(0, -1);
 			dropTrailingCommas();
 		}
@@ -59,8 +70,18 @@ export function parseAddress(text: string): ParseResult {
 	dropCountry();
 	let zip = '';
 	const last = tokens.at(-1) ?? '';
+	// A Canadian postal code may be written as one token or two ("M5V 3L9").
+	const postal = tokens.length > 2 ? postalCode(tokens.slice(-2).join(' ')) : null;
 	if (/^\d{5}(?:-?\d{4})?$/.test(last) && tokens.length > 1) {
 		zip = last;
+		tokens = tokens.slice(0, -1);
+		dropTrailingCommas();
+	} else if (postal && /^\d[a-z]\d$/i.test(last)) {
+		zip = postal;
+		tokens = tokens.slice(0, -2);
+		dropTrailingCommas();
+	} else if (postalCode(last) && tokens.length > 1) {
+		zip = postalCode(last)!;
 		tokens = tokens.slice(0, -1);
 		dropTrailingCommas();
 	}
@@ -69,7 +90,7 @@ export function parseAddress(text: string): ParseResult {
 	let state = '';
 	const lower = tokens.map((t) => t.toLowerCase().replace(/\.$/, ''));
 	const code = (lower.at(-1) ?? '').replace(/\./g, '').toUpperCase();
-	if (code.length === 2 && STATE_NAMES[code] && tokens.length > 2) {
+	if (code.length === 2 && PLACE_NAMES[code] && tokens.length > 2) {
 		state = code;
 		tokens = tokens.slice(0, -1);
 	} else {

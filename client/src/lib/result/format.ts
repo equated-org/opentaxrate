@@ -1,7 +1,7 @@
 /** Turning an AddressRate and its trace into the words and colours the
  *  list and the map show. No markup here. */
 import type { AddressRate, Outline, RatePart, Trace } from '$lib/api';
-import { stateName } from '$lib/states';
+import { isProvince, stateName } from '$lib/states';
 
 /** 0.0825 → "8.25%", 0.01875 → "1.875%", 0 → "0%"... with at least two
  *  decimals unless `short`. */
@@ -90,7 +90,8 @@ export function partRows(rate: AddressRate, trace: Trace | null): PartRow[] {
 	const used = new Set<Outline>();
 	const rows: PartRow[] = rate.parts.map((part) => {
 		if (part.kind === 'state')
-			return { name: `State of ${stateName(rate.state)}`, code: null, rate: part.rate, color: PART_COLOR.state, dim: false, ids: Object.entries(part.ids ?? {}) };
+			// A province's parts name their tax ("GST", "British Columbia PST").
+			return { name: isProvince(rate.state) ? (part.name ?? part.code) : `State of ${stateName(rate.state)}`, code: null, rate: part.rate, color: PART_COLOR.state, dim: false, ids: Object.entries(part.ids ?? {}) };
 		const o = outlineFor(part, outlines);
 		if (o) used.add(o);
 		const named = o ? outlineName(o) : part.name ? partName(part.kind, part.name) : null;

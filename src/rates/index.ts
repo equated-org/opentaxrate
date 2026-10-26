@@ -12,7 +12,9 @@
  *     on the map (map.ts, geocoding);
  *   - California, from verified dated CDTFA tax-area polygons, with
  *     the official live lookup as a fallback (today's rate only).
- * Any other state is refused as unsupported. An address the data can't place
+ * Canada's provinces and territories answer like a statewide state, from
+ * their dated GST/HST and provincial rates (canada.ts). Any other state is
+ * refused as unsupported. An address the data can't place
  * in one rate is refused with the rates it could be; it never gets a guess,
  * and missing data is never read as no tax.
  *
@@ -39,6 +41,7 @@ import { db } from "../db/client.js";
 import { salesTaxJurisdictionRates } from "../db/schema.js";
 import { describeParts } from "./names.js";
 import { reportingFor, type Reporting } from "./reporting.js";
+import { isProvince, postalCode, provinceParts, PROVINCES } from "./canada.js";
 
 export type { LocatedPoint, RatePart, RatesByType, Reporting, Trace };
 export { emptyTrace } from "./types.js";
@@ -121,6 +124,7 @@ export const ADDRESS_RATE_STATES = [...new Set([
   ...Object.keys(RANGE_FIPS),
   ...MAP_STATES,
   "CA",
+  ...Object.keys(PROVINCES),
 ])].sort();
 
 /** California's state rate, the part every address shares. */
@@ -133,7 +137,7 @@ export const addressRates = {
   method: (state: string): "statewide" | "ranges" | "map" | "authority" | null => {
     const s = state.toUpperCase();
     if (s === "CA") return "authority";
-    if (STATEWIDE_STATES.includes(s)) return "statewide";
+    if (STATEWIDE_STATES.includes(s) || isProvince(s)) return "statewide";
     if (RANGE_FIPS[s]) return "ranges";
     return MAP_STATES.includes(s) ? "map" : null;
   },
@@ -171,6 +175,14 @@ type EngineRate = Omit<AddressRate, "reporting" | "locationIds" | "zip4" | "juri
 
 async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate> {
   const state = query.state.toUpperCase();
+  if (isProvince(state)) {
+    const parts = provinceParts(state, date, query.zip);
+    const rate = Math.round(parts.reduce((sum, p) => sum + p.rate, 0) * 1e6) / 1e6;
+    return { state, rate, stateRate: rate, localRate: 0, byType: generalOnly(rate), parts, match: "statewide",
+      locationCode: state, source: `${parts.map((p) => p.name).join(" and ")} rates for ${PROVINCES[state].name} from the CRA and the province, on ${date}` };
+  }
+  if (query.zip && postalCode(query.zip))
+    throw new RateError(`${query.zip} is a Canadian postal code, not a ZIP code in ${state}. Check the address.`, 422);
   const statewide = statewideRate(state, date, query.city);
   if (statewide && "refused" in statewide) throw new RateError(statewide.refused, 422);
   // A statewide state whose local taxes are read from the map (Montana's

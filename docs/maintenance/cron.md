@@ -51,7 +51,10 @@ against this run's.
    Missouri quarter, a new Minnesota or Washington quarter, an announced
    change in a hand-kept table (Florida's DR-15DSS, New York's Pub 718,
    Hawaii, Idaho, Mississippi, Pennsylvania, Montana, South Carolina's
-   ST-500, Virginia's workbook).
+   ST-500, Virginia's workbook), and in the code-kept tables: the statewide
+   states (`src/rates/statewide.ts`) and Canada's GST/HST and provincial
+   rates (`src/rates/canada.ts`, against the CRA's rate page and the
+   provinces' budgets).
 3. Search the web for announced local rate changes taking effect in the
    next two quarters (state revenue department news, "local sales tax rate
    changes effective" notices). For each, find the official source and check

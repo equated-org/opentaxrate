@@ -24,7 +24,7 @@ export function geoapify(apiKey: string) {
 		if (!apiKey) throw new Error('PUBLIC_GEOAPIFY_KEY is not set');
 		const params = new URLSearchParams({
 			text,
-			filter: 'countrycode:us',
+			filter: 'countrycode:us,ca',
 			format: 'json',
 			lang: 'en',
 			limit: '8',

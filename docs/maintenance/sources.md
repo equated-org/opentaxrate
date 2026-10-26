@@ -26,6 +26,7 @@ A response's `source` names the data used; `match` describes the lookup method. 
 | Missouri's quarterly rate and boundary files, with the archive | `src/ingest/missouri.ts` | `loadSstState` |
 | Map states' rates and outlines | one adapter each in `src/ingest/states/` (`GEO_STATES`) | `loadGeoState` |
 | Hand-kept rate tables (FL, HI, ID, MS, NY, PA, MT, SC, VA) | the adapter's table and `publications` in `src/ingest/states/` | `loadGeoState` |
+| Canada's provinces and territories: GST/HST, PST, QST, RST from April 1, 2013 | `FEDERAL` and `PROVINCIAL` in `src/rates/canada.ts`, sources in its header | none: read at request time, no ingestion |
 | Census county, place and town outlines; ZIP areas; street names | `latestTigerFiles` and friends in `src/ingest/downloads.ts` | `loadTigerShapes`, `zip-areas.ts`, `street-names.ts` |
 | Tax-area polygons checked against the rates (CA, MN, WA, NE, SD, VT, IA…) | `SUPPLEMENTAL_POLYGONS` in `src/ingest/supplemental-sources.ts`, plus `washingtonSources` and `minnesotaSources` | `refreshSupplemental`, `indexVerifiedPolygons` |
 | Range states' own tax polygons (UT, MO) | `src/range-polygon-sources.ts` | `loadRangePolygons` |
@@ -52,6 +53,7 @@ What to check for a new edition, and when it usually appears.
 | Florida DR-15DSS, New York Pub 718, Virginia's rates by locality | yearly or on change | the adapter's `publications` |
 | Hawaii, Idaho, Mississippi, Pennsylvania, Montana, South Carolina ST-500 | on change | the adapter's source page |
 | Census TIGER | yearly (outlines as of January 1) | www2.census.gov/geo/tiger/TIGER<year> |
+| Canada's GST/HST and provincial PST, QST and RST rates | on change, announced in federal and provincial budgets | the CRA's GST/HST rate page and each province's tax site, cited in `src/rates/canada.ts` |
 
 A change announced for a future date belongs in the data as soon as it is
 published: rows carry their own dates.

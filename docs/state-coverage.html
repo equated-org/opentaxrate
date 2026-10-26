@@ -142,13 +142,14 @@
 <li><a href="#ranges">Address ranges</a></li>
 <li><a href="#geographic">Geographic lookup</a></li>
 <li><a href="#statewide">Statewide tables</a></li>
+<li><a href="#canada">Canada</a></li>
 <li><a href="#california">California</a></li>
 <li><a href="#limits">Limits and maintenance</a></li>
 <li><a href="#terms">Terms</a></li>
 </ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
 <article id="content">
 <header class="page-head"><p class="eyebrow">OpenTaxRate · Implementation reference</p><h1>State coverage</h1>
-<p class="lede">How an address becomes a tax rate in all 50 states and DC. Most requests use published data loaded into our database; California calls the state’s live service.</p>
+<p class="lede">How an address becomes a tax rate in all 50 states and DC, and in Canada’s provinces and territories. Most US requests use published data loaded into our database; California calls the state’s live service; Canada’s rate follows the province.</p>
 <p class="meta">Code reviewed 2026-10-21 · <a href="architecture.html">Architecture</a> · <a href="../README.md">README</a></p></header>
 <h2 id="methods">Four lookup methods</h2>
 <p>The state selects the lookup method. Address ranges assign house numbers directly to tax areas. Geographic lookup places an address on a map, then finds the jurisdictions around it. Both read dated rates and apply state-specific rules.</p>
@@ -157,6 +158,7 @@
 <tr><th scope="row"><a href="#geographic">Geographic lookup</a></th><td>16 states</td><td>At the start of each lookup</td></tr>
 <tr><th scope="row"><a href="#statewide">Statewide tables</a></th><td>8 states + DC</td><td>Not needed</td></tr>
 <tr><th scope="row"><a href="#california">Live authority API</a></th><td>California</td><td>Handled by CDTFA</td></tr>
+<tr><th scope="row"><a href="#canada">Province tables</a></th><td>Canada’s 10 provinces and 3 territories</td><td>Not needed</td></tr>
 </tbody></table></div>
 <p>Geocoding uses Census and OpenStreetMap Nominatim, plus Mapbox when configured. The code compares their results and keeps an uncertainty margin. PostGIS then searches downloaded polygons. These are separate steps: geocoders find coordinates; PostGIS finds jurisdictions; the tax engine calculates the rate.</p>
 <h2 id="ranges">Address ranges: 25 states</h2>
@@ -248,6 +250,21 @@
 <tr id="or" data-state="OR"><th scope="row">Oregon <span class="state-code">OR</span></th><td>2000-01-01</td><td>Zero general sales-tax entry. Specialized taxes are outside scope.</td></tr>
 </tbody></table></div>
 <p class="source-links"><a href="../src/rates/statewide.ts">Statewide table and Montana resort-area checks</a></p>
+<h2 id="canada">Canada: 10 provinces and 3 territories</h2>
+<p>No Canadian province has local sales taxes, so the rate follows the province, from dated tables maintained in code from April 1, 2013. The address is never geocoded. A postal code, when given, must belong to the province; one from another province is refused. A rate change needs a code change.</p>
+<div class="scroll"><table class="grid-table"><thead><tr><th scope="col">Province / territory</th><th scope="col">Rate today</th><th scope="col">Handling</th></tr></thead><tbody>
+<tr data-state="ON"><th scope="row">Ontario <span class="state-code">ON</span></th><td>13% HST</td><td>Filed with the CRA.</td></tr>
+<tr data-state="NB"><th scope="row">New Brunswick <span class="state-code">NB</span>, Newfoundland and Labrador <span class="state-code">NL</span></th><td>15% HST</td><td>13% before July 1, 2016.</td></tr>
+<tr data-state="NS"><th scope="row">Nova Scotia <span class="state-code">NS</span></th><td>14% HST</td><td>15% before April 1, 2025.</td></tr>
+<tr data-state="PE"><th scope="row">Prince Edward Island <span class="state-code">PE</span></th><td>15% HST</td><td>14% before October 1, 2016.</td></tr>
+<tr data-state="BC"><th scope="row">British Columbia <span class="state-code">BC</span></th><td>5% GST + 7% PST</td><td>PST filed separately through eTaxBC.</td></tr>
+<tr data-state="MB"><th scope="row">Manitoba <span class="state-code">MB</span></th><td>5% GST + 7% RST</td><td>RST 8% from July 1, 2013 to June 30, 2019. Filed separately through TAXcess.</td></tr>
+<tr data-state="SK"><th scope="row">Saskatchewan <span class="state-code">SK</span></th><td>5% GST + 6% PST</td><td>PST 5% before March 23, 2017; that date is from firms’ summaries of the 2017 budget, not the ministry’s own notice. Filed separately.</td></tr>
+<tr data-state="QC"><th scope="row">Quebec <span class="state-code">QC</span></th><td>5% GST + 9.975% QST</td><td>Both filed with Revenu Québec on the FPZ-500.</td></tr>
+<tr data-state="AB"><th scope="row">Alberta <span class="state-code">AB</span>, the three territories <span class="state-code">NT NU YT</span></th><td>5% GST</td><td>No provincial sales tax.</td></tr>
+</tbody></table></div>
+<p>The rate is a delivered sale’s, as a seller registered for the province’s tax charges it. The provincial taxes’ bases differ from the GST’s (BC’s PST, for example, applies to fewer services), and which items are taxable is outside this calculation.</p>
+<p class="source-links"><a href="../src/rates/canada.ts">Canada’s rate tables and their sources</a></p>
 <h2 id="california">California: live authority lookup</h2>
 <p id="ca" data-state="CA">California sends the street, city, and required ZIP to CDTFA’s live API. The response supplies the combined rate and tax-area code; our engine separates the configured state component from the local remainder. The answer’s <code>locationIds</code> carry the tax-area code and its first five digits, the county and city code CDTFA’s return schedules ask for; district tax codes aren’t given.</p>
 <p>The API supplies today’s rate. A request for a different date still returns today’s rate, with that limitation stated in the source string. No California rate dataset is loaded by refresh.</p>

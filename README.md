@@ -24,7 +24,7 @@ Look up a US street address and date to get the combined sales tax rate, jurisdi
 - **Explicit uncertainty:** ambiguous lookups return `422`; missing data is never treated as zero.
 - **Open source:** MIT licensed. Self-host with PostgreSQL + PostGIS; paid geocoders are optional.
 
-General sales tax rates, with lookup methods for all 50 states and DC. See [coverage and limits](docs/state-coverage.html).
+General sales tax rates, with lookup methods for all 50 states and DC, and Canada's provinces and territories. See [coverage and limits](docs/state-coverage.html).
 
 ## Why street addresses matter
 

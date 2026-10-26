@@ -260,10 +260,26 @@ export const STATE_REPORTING: Record<string, StateReporting> = {
   },
 };
 
-/** The state's agency, return and filing notes; null for a state with no
- *  entry. */
+const CRA = {
+  agency: "Canada Revenue Agency",
+  url: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses.html",
+  form: "GST/HST return (GST34)",
+};
+
+/** Canada's provinces: the GST/HST return goes to the CRA, with a province's
+ *  own tax filed apart, except in Quebec, where Revenu Québec takes both. */
+export const PROVINCE_REPORTING: Record<string, StateReporting> = {
+  ...Object.fromEntries(["AB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "YT"].map((p) => [p, CRA])),
+  BC: { ...CRA, notes: ["British Columbia's PST is filed separately with the BC Ministry of Finance, through eTaxBC."] },
+  MB: { ...CRA, notes: ["Manitoba's RST is filed separately with Manitoba Finance, through TAXcess."] },
+  SK: { ...CRA, notes: ["Saskatchewan's PST is filed separately with the Ministry of Finance, through Saskatchewan eTax Services."] },
+  QC: { agency: "Revenu Québec", url: "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/", form: "GST/HST and QST return (FPZ-500)" },
+};
+
+/** The state's or province's agency, return and filing notes; null for a
+ *  state with no entry. */
 export function reportingFor(state: AddressRate["state"]): Reporting | null {
-  const info = STATE_REPORTING[state];
+  const info = STATE_REPORTING[state] ?? PROVINCE_REPORTING[state];
   if (!info) return null;
   return { agency: { name: info.agency, url: info.url }, form: info.form, notes: info.notes ?? [], locationKey: info.locationKey ?? null };
 }

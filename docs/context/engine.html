@@ -150,12 +150,12 @@
 <article id="content">
 <header class="page-head"><p class="eyebrow">OpenTaxRate · Design notes</p><h1>Engine dispatch, statewide states and California</h1>
 <p class="lede"><code>addressRates</code> in <code>src/rates/index.ts</code> is the engine's one entry point. It picks a method by state, calls that method, and shapes the result as an <code>AddressRate</code>. The range and map engines have their own notes (<a href="range-engine.html">range-engine.html</a>, <a href="map-engine.html">map-engine.html</a>).</p>
-<p class="meta">Sources: <code>src/rates/index.ts</code>, <code>src/rates/statewide.ts</code>, <code>src/rates/california.ts</code></p>
+<p class="meta">Sources: <code>src/rates/index.ts</code>, <code>src/rates/statewide.ts</code>, <code>src/rates/california.ts</code>, <code>src/rates/canada.ts</code></p>
 </header>
 
 
 <h2 id="dispatch">Dispatch</h2>
-<p><code>addressRates.at(query, date)</code> checks in this order:</p>
+<p><code>rateAt</code> first answers a Canadian province or territory (<code>isProvince</code>, <code>src/rates/canada.ts</code>) like a statewide state: no province has local sales taxes, so <code>provinceParts(code, date, zip)</code> gives the GST or HST and the province's own PST, QST or RST as <code>state</code> parts, named (<code>"GST"</code>, <code>"British Columbia PST"</code>, <code>"Ontario HST"</code>), with <code>stateRate</code> their sum and <code>locationCode</code> the province code. It refuses (422) a date before 2013-04-01 and a postal code whose first letter isn't the province's; the address is never placed. <code>reportingFor</code> reads <code>PROVINCE_REPORTING</code> for it (the CRA's GST34, a note where a PST or RST is filed separately; Revenu Québec's FPZ-500 in Quebec). A US state given a Canadian postal code is refused. Then <code>addressRates.at(query, date)</code> checks in this order:</p>
 <div class="scroll"><table class="grid-table">
 <thead>
 <tr>
@@ -198,7 +198,7 @@
 </tr>
 </tbody>
 </table></div>
-<p><code>addressRates.method(state)</code> returns the same names for <code>/v1/coverage</code>, or null. <code>addressRates.covers(state)</code> checks <code>ADDRESS_RATE_STATES</code>, which is <code>STATEWIDE_STATES</code> + <code>Object.keys(RANGE_FIPS)</code> + <code>GEO_STATES</code> + <code>"CA"</code>, sorted.</p>
+<p><code>addressRates.method(state)</code> returns the same names for <code>/v1/coverage</code>, or null. <code>addressRates.covers(state)</code> checks <code>ADDRESS_RATE_STATES</code>, which is <code>STATEWIDE_STATES</code> + <code>Object.keys(RANGE_FIPS)</code> + <code>GEO_STATES</code> + <code>"CA"</code> + the 13 provinces and territories, sorted. A province's method is <code>statewide</code>; its codes never collide with a state's, and <code>"CA"</code> is California.</p>
 <p>Note the map method always calls <code>query.locate()</code> up front; the range method passes <code>locate</code> down and calls it only when needed.</p>
 <p><code>AddressRateQuery.trace</code> is an optional <code>Trace</code> (<code>types.ts</code>) the map and range engines push into (see <a href="api.html">api.html</a> for its fields). Statewide and California answers leave it empty. It never changes the <code>AddressRate</code> returned.</p>
 <h2 id="addressrate"><code>AddressRate</code></h2>

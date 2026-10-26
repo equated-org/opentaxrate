@@ -30,6 +30,11 @@ describe('parseAddress', () => {
 		expect(ok('90 W Broad St, Columbus, oh 432151234')).toMatchObject({ state: 'OH', zip: '43215-1234' });
 		expect(ok('90 W Broad St, Columbus, OH 43215-1234, USA')).toMatchObject({ zip: '43215-1234' });
 	});
+	it('reads a Canadian address, with or without its postal code', () => {
+		expect(ok('290 Bremner Blvd, Toronto, ON M5V 3L9')).toEqual({ street: '290 Bremner Blvd', city: 'Toronto', state: 'ON', zip: 'M5V 3L9' });
+		expect(ok('1000 Rue De La Gauchetiere O, Montreal, Québec h3b4w5, Canada')).toMatchObject({ city: 'Montreal', state: 'QC', zip: 'H3B 4W5' });
+		expect(ok('123 Main St Halifax Nova Scotia')).toMatchObject({ city: 'Halifax', state: 'NS', zip: '' });
+	});
 	it('keeps a unit with the street', () => {
 		expect(ok('12 Elm St, Apt 4, Springfield, IL')).toMatchObject({ street: '12 Elm St Apt 4', city: 'Springfield' });
 		expect(ok('12 Elm St Apt 4 Springfield IL')).toMatchObject({ street: '12 Elm St Apt 4', city: 'Springfield' });
