@@ -160,7 +160,7 @@
 					Sales tax by street address.
 				</h1>
 				<p class="mt-4 max-w-[44rem] text-center text-[17px] text-balance leading-relaxed text-[var(--text-muted)]">
-					Get the combined rate, jurisdiction breakdown, and source. Published state data, through one open-source API.
+					Get the combined rate, jurisdiction breakdown, and source. Published government data, through one open-source API.
 					<a
 						href="/sources"
 						class="underline underline-offset-4 hover:text-[var(--text)]"

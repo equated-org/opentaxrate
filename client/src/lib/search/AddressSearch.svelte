@@ -185,7 +185,7 @@
 			onblur={() => (open = false)}
 			type="text"
 			role="combobox"
-			aria-label="US street address"
+			aria-label="Street address"
 			aria-autocomplete="list"
 			aria-expanded={showList}
 			aria-controls="{id}-list"
@@ -193,7 +193,7 @@
 			autocomplete="off"
 			autocapitalize="off"
 			spellcheck="false"
-			placeholder="Type a US street address"
+			placeholder="Type a street address"
 			class="h-full min-w-0 flex-1 bg-transparent text-[var(--text)] outline-none focus-visible:outline-none placeholder:text-[var(--text-muted)]
 				{lg ? 'text-[17px]' : 'text-[15px]'}"
 		/>
