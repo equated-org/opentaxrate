@@ -1,7 +1,7 @@
 {
   "name": "opentaxrate",
   "version": "0.1.0",
-  "description": "US sales tax rates by street address, from the states' own published data.",
+  "description": "Sales tax rates by street address, from the tax agencies' own published data.",
   "license": "MIT",
   "packageManager": "pnpm@10.12.4",
   "type": "module",

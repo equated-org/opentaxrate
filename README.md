@@ -2,7 +2,7 @@
   <a href="https://opentaxrate.com">OpenTaxRate</a>
 </h1>
 
-<p align="center">US sales tax rates by street address, from the states’ own data.</p>
+<p align="center">Sales tax rates by street address, from the tax agencies’ own data.</p>
 
 <p align="center">
   <a href="https://opentaxrate.com"><strong>Website · Try a lookup</strong></a> ·
@@ -14,10 +14,10 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License: MIT"></a>
-  <a href="docs/state-coverage.html"><img src="https://img.shields.io/badge/coverage-50%20states%20%2B%20DC-2ea44f?style=flat-square" alt="Coverage: 50 states + DC"></a>
+  <a href="docs/state-coverage.html"><img src="https://img.shields.io/badge/coverage-US%20%2B%20Canada-2ea44f?style=flat-square" alt="Coverage: US + Canada"></a>
 </p>
 
-Look up a US street address and date to get the combined sales tax rate, jurisdiction breakdown, and source. OpenTaxRate uses published state data and explicitly declines lookups it cannot settle.
+Look up a street address and date to get the combined sales tax rate, jurisdiction breakdown, and source. OpenTaxRate uses published government data and explicitly declines lookups it cannot settle.
 
 - **Address-level:** state-published address ranges and geographic tax boundaries.
 - **Verifiable:** published sources, dated rates, and benchmarks against official answers.
