@@ -3,6 +3,7 @@
 	import RateBar from '$lib/pixel/RateBar.svelte';
 	import Actions from './Actions.svelte';
 	import { howPlaced, MATCH_SHORT, partRows, pct, regionEditions, regionRows } from './format';
+	import { isProvince } from '$lib/states';
 
 	interface Props {
 		rate: AddressRate;
@@ -39,7 +40,7 @@
 	<div>
 		<h2 id={preview ? undefined : 'rate-heading'} class="text-sm text-[var(--text-muted)]">Combined sales tax rate</h2>
 		<p class="rate-big font-num mt-1 text-[52px] leading-none font-semibold tracking-[-0.04em] text-[var(--text)]">{pct(rate.rate)}</p>
-		<p class="mt-2 text-sm text-[var(--text-muted)]">on {date} · {MATCH_SHORT[rate.match] ?? rate.match}</p>
+		<p class="mt-2 text-sm text-[var(--text-muted)]">on {date} · {rate.match === 'statewide' && isProvince(rate.state) ? 'one rate across the province' : (MATCH_SHORT[rate.match] ?? rate.match)}</p>
 	</div>
 
 	<RateBar
