@@ -6,7 +6,8 @@
  * each part's `ids` and the answer's `locationIds`, as the state's own data
  * gives them (names.ts, sales_tax_jurisdictions). `locationKey` names the
  * `locationIds` key a state's return files a location under, so a caller
- * reads it without knowing the state; the value itself is never changed.
+ * reads it without knowing the state; the value itself is never changed
+ * (Washington's four-digit Location Code is added beside the padded SER code).
  */
 import type { AddressRate } from "./index.js";
 
@@ -240,8 +241,7 @@ export const STATE_REPORTING: Record<string, StateReporting> = {
     agency: "Washington Department of Revenue",
     url: "https://dor.wa.gov/taxes-rates/sales-use-tax-rates",
     form: "Combined Excise Tax Return",
-    // Zero-padded to five digits: "01726" is location code 1726.
-    locationKey: "Composite SER Code",
+    locationKey: "Location Code",
   },
   WV: {
     agency: "West Virginia Tax Division",

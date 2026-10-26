@@ -43,7 +43,7 @@
 		<tr><td>Colorado, Alaska</td><td><code>placeId</code>, <code>placeTypeId</code> (the state lookup's own ids)</td></tr>
 		<tr><td>Missouri</td><td><code>Jurisdiction Code</code>, <code>District Code 1</code> to <code>5</code>; the location's <code>Jurisdiction Code</code> is also in <code>locationIds</code></td></tr>
 		<tr><td>California</td><td>None on parts; the location's <code>Tax Area Code</code> (CDTFA's 12 characters, <code>19034D900000</code>) and <code>Local Tax Area Code</code> (its first five digits, <code>19034</code>: county and city, 998 unincorporated, as CDTFA-531-FL1 lists them for a return's schedules) in <code>locationIds</code>. No district tax codes yet.</td></tr>
-		<tr><td>Streamlined states</td><td>None on parts; the location's <code>Composite SER Code</code> in <code>locationIds</code> where the state fills it (Washington's location code, zero-padded: <code>01726</code> is 1726)</td></tr>
+		<tr><td>Streamlined states</td><td>None on parts; the location's <code>Composite SER Code</code> in <code>locationIds</code> where the state fills it (zero-padded in Washington: <code>01726</code>; Washington also gets the DOR's four-digit <code>Location Code</code>, <code>1726</code>, the code My DOR files under)</td></tr>
 		<tr><td>Everywhere else</td><td>None yet: <code>{'{}'}</code></td></tr>
 	</tbody>
 </table>
@@ -56,6 +56,6 @@
 		<tr><td><code>agency</code></td><td>The state agency the return goes to, and its sales tax page.</td></tr>
 		<tr><td><code>form</code></td><td>The return most sellers file there.</td></tr>
 		<tr><td><code>notes</code></td><td>Filing that doesn't go through the state: cities that collect their own tax, a separate program for remote sellers.</td></tr>
-		<tr><td><code>locationKey</code></td><td>The <code>locationIds</code> key the return files the location under: <code>Composite SER Code</code> in Washington, <code>Local Tax Area Code</code> in California, <code>Jurisdiction Code</code> in Missouri; <code>null</code> elsewhere.</td></tr>
+		<tr><td><code>locationKey</code></td><td>The <code>locationIds</code> key the return files the location under: <code>Location Code</code> in Washington, <code>Local Tax Area Code</code> in California, <code>Jurisdiction Code</code> in Missouri; <code>null</code> elsewhere.</td></tr>
 	</tbody>
 </table>

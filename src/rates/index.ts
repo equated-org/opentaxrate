@@ -96,7 +96,8 @@ export interface AddressRate {
   /** The other combinations, each with the same total; empty when settled. */
   alternatives: Breakdown[];
   /** The state's own ids for the whole location, keyed by its data's column
-   *  names: Washington's location code as {"Composite SER Code": "01726"},
+   *  names: Washington's {"Composite SER Code": "01726"} and its DOR
+   *  "Location Code" "1726" (washingtonLocationIds),
    *  Missouri's {"Jurisdiction Code": …}, California's tax area codes
    *  (californiaLocationIds). {} where the data gives none, or
    *  when the address could be in areas whose ids differ. */
@@ -314,6 +315,15 @@ async function rateAt(query: AddressRateQuery, date: string): Promise<EngineRate
   }
 }
 
+/** Washington's ids with DOR's four-digit location code added, the one its
+ *  lookup and the Combined Excise Tax Return use: the Streamlined file pads
+ *  it to five digits ("01726" is location code 1726). Unchanged without a
+ *  five-digit Composite SER Code. */
+export function washingtonLocationIds(ids: Record<string, string>): Record<string, string> {
+  const loc = /^0(\d{4})$/.exec(ids["Composite SER Code"] ?? "")?.[1];
+  return loc ? { ...ids, "Location Code": loc } : ids;
+}
+
 async function rangeRate(query: AddressRateQuery, state: string, date: string): Promise<EngineRate> {
   const found = await sstRateAt({ ...query, state }, date);
   const stateRate = found.parts.find((p) => p.kind === "state")!.rate;
@@ -326,7 +336,7 @@ async function rangeRate(query: AddressRateQuery, state: string, date: string): 
     parts: found.parts,
     match: found.match,
     locationCode: found.locationCode,
-    locationIds: found.locationIds,
+    locationIds: state === "WA" ? washingtonLocationIds(found.locationIds) : found.locationIds,
     zip4: found.zip4,
     alternatives: found.alternatives,
     source: `${state === "MO" ? "Missouri DOR" : "Streamlined Sales Tax"} files ${found.files.join(" + ")}, ${MATCH_NAMES[found.match]} on ${date}${found.note ? `; ${found.note}` : ""}`,

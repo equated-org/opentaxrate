@@ -22,7 +22,7 @@
   "locationCode": "53-000-63000",
   "jurisdictions": "settled",
   "alternatives": [],
-  "locationIds": { "Composite SER Code": "01726" },
+  "locationIds": { "Composite SER Code": "01726", "Location Code": "1726" },
   "zip4": "98109-4607",
   "source": "Streamlined Sales Tax files WAB2026Q4AUG27 + WAR2026Q4AUG27, street match on 2026-10-22",
   "reporting": {

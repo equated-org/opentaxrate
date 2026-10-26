@@ -41,7 +41,7 @@ export interface AddressRate {
 	match: Match;
 	locationCode: string | null;
 	/** The state's own ids for the whole location, e.g. Washington's
-	 *  {"Composite SER Code": "01726"}, California's {"Tax Area Code":
+	 *  {"Composite SER Code": "01726", "Location Code": "1726"}, California's {"Tax Area Code":
 	 *  "19034D900000", "Local Tax Area Code": "19034"}; {} where it gives none. */
 	locationIds?: Record<string, string>;
 	/** Whether the parts name the jurisdictions the tax is paid to; the rate

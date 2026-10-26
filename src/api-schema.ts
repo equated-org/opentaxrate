@@ -30,6 +30,7 @@ const code = (description: string, example: string) => z.string().optional().ope
 export const LocationIdsSchema = z
   .object({
     "Composite SER Code": code("Streamlined states' location code. In Washington, the DOR location code zero-padded to five digits: 01726 is 1726.", "01726"),
+    "Location Code": code("Washington: the DOR's four-digit location code a Combined Excise Tax Return files under; Composite SER Code without its padding zero.", "1726"),
     "Jurisdiction Code": code("Missouri's jurisdiction code for the location.", "15670-019-000"),
     "Tax Area Code": code("California: CDTFA's 12-character tax area code.", "19034D900000"),
     "Local Tax Area Code": code("California: the five-digit county and city code (998 unincorporated) a CDTFA return's schedules ask for; the first five characters of Tax Area Code.", "19034"),
@@ -38,7 +39,7 @@ export const LocationIdsSchema = z
   .openapi({
     description:
       "The state's own codes for the whole location, keyed by the name its data gives them; values are strings, leading zeros kept. {} where its data gives none, or the address could be in areas whose ids differ: read a key as possibly absent.",
-    example: { "Composite SER Code": "01726" },
+    example: { "Composite SER Code": "01726", "Location Code": "1726" },
   });
 
 export const RatePartSchema = z
@@ -64,7 +65,7 @@ export const ReportingSchema = z
     locationKey: z.string().nullable().openapi({
       description:
         "The locationIds key the return files this location under: read locationIds[locationKey]. Null where the state's data gives no location code; the key may still be missing from locationIds where the address could be in areas whose codes differ.",
-      example: "Composite SER Code",
+      example: "Location Code",
     }),
   })
   .openapi("Reporting");
