@@ -89,7 +89,7 @@
 			<a
 				href={current === 0 ? hrefs.single : hrefs.all}
 				onclick={open}
-				class="rounded-full bg-[var(--text)] px-4 py-2 text-sm whitespace-nowrap text-[var(--bg)] transition-transform hover:translate-x-0.5"
+				class="rounded-full border border-[var(--text)] bg-[var(--surface)] px-4 py-2 text-sm whitespace-nowrap text-[var(--text)] transition-transform hover:translate-x-0.5"
 			>
 				See it live →
 			</a>
@@ -161,9 +161,9 @@
 		border: 1px solid color-mix(in srgb, var(--clay-ink) 30%, transparent);
 	}
 	.tab[aria-selected='true'] {
-		background: var(--text);
+		background: var(--surface);
 		border-color: var(--text);
-		color: var(--bg);
+		color: var(--text);
 	}
 	.frame {
 		overflow: hidden;
