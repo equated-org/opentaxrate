@@ -10,8 +10,9 @@
 	import { onMount } from 'svelte';
 	import { ACCOUNTS, seemsSignedIn } from '$lib/accounts';
 	import { lookUp, type LookupResult } from '$lib/api';
-	import { EXAMPLES, GITHUB } from '$lib/examples';
+	import { EXAMPLES, GITHUB, SAME_ZIP } from '$lib/examples';
 	import AccuracySummary from '$lib/landing/AccuracySummary.svelte';
+	import Compare from '$lib/result/Compare.svelte';
 	import Features from '$lib/landing/Features.svelte';
 	import Showcase from '$lib/landing/Showcase.svelte';
 	import ProgressStrip from '$lib/pixel/ProgressStrip.svelte';
@@ -36,8 +37,10 @@
 	let loading = $state(false);
 	let result = $state<LookupResult | null>(null);
 	let shown = $state<Suggestion | null>(null);
+	/** Lookups side by side (?q=A&vs=B&vs=C), instead of one. */
+	let pair = $state<{ suggestion: Suggestion; result: LookupResult | null }[] | null>(null);
 	let hint = $state('');
-	/** The ?q= this page last acted on, so its own pushState isn't re-run. */
+	/** The ?q= (and &vs=) this page last acted on, so its own pushState isn't re-run. */
 	let activeQ: string | null = null;
 	let controller: AbortController | undefined;
 	let mapModule = $state.raw<Promise<typeof import('$lib/result/TaxMap.svelte')>>();
@@ -50,6 +53,7 @@
 		controller = c;
 		loading = true;
 		hint = '';
+		pair = null;
 		// The map's code starts loading with the first lookup, in parallel
 		// with the API call; the empty page never fetches it.
 		mapModule ??= import('$lib/result/TaxMap.svelte');
@@ -75,11 +79,67 @@
 		}
 	}
 
+	/** A known example's suggestion, or the text resolved by the search box's geocoder. */
+	function known(q: string): Suggestion | undefined {
+		const all = [...EXAMPLES.map((e) => e.suggestion), ...SAME_ZIP];
+		return all.find((s) => s.label.toLowerCase() === q.trim().toLowerCase());
+	}
+
+	async function compare(texts: string[]) {
+		controller?.abort();
+		const c = new AbortController();
+		controller = c;
+		loading = true;
+		hint = '';
+		result = null;
+		shown = null;
+		text = '';
+		try {
+			const targets = await Promise.all(
+				texts.map(async (q) => {
+					const s = known(q);
+					if (s) return s;
+					const found = await resolve(q, c.signal);
+					if (!found.ok) throw new Error(`${q}: ${PARSE_HINT[found.reason]}`);
+					return found.suggestion;
+				})
+			);
+			if (c.signal.aborted) return;
+			pair = targets.map((suggestion) => ({ suggestion, result: null }));
+			const results = await Promise.all(
+				targets.map((t) => lookUp({ state: t.state, street: t.street, city: t.city, zip: t.zip }, c.signal, fixture()))
+			);
+			if (c.signal.aborted) return;
+			pair = targets.map((suggestion, i) => ({ suggestion, result: results[i] }));
+		} catch (error) {
+			if (c.signal.aborted) return;
+			hint = error instanceof Error ? error.message : String(error);
+			pair = null;
+		} finally {
+			if (controller === c) loading = false;
+		}
+	}
+
+	function openPair(list: Suggestion[]) {
+		const labels = list.map((s) => s.label);
+		activeQ = labels.join('\n');
+		const url = new URL(page.url);
+		url.searchParams.set('q', labels[0]);
+		url.searchParams.delete('vs');
+		for (const label of labels.slice(1)) url.searchParams.append('vs', label);
+		pushState(url, {});
+		compare(labels);
+	}
+
+	const compareHref = (list: Suggestion[]) =>
+		'/?' + new URLSearchParams([['q', list[0].label], ...list.slice(1).map((s) => ['vs', s.label])]);
+
 	function go(s: Suggestion) {
 		text = s.label;
 		activeQ = s.label;
 		const url = new URL(page.url);
 		url.searchParams.set('q', s.label);
+		url.searchParams.delete('vs');
 		pushState(url, {});
 		run(s);
 	}
@@ -87,8 +147,8 @@
 	function fromText(q: string) {
 		text = q;
 		activeQ = q;
-		const example = EXAMPLES.find((e) => e.suggestion.label.toLowerCase() === q.trim().toLowerCase());
-		if (example) return run(example.suggestion);
+		const example = known(q);
+		if (example) return run(example);
 		run(async () => {
 			const found = await resolve(q, controller!.signal);
 			if (found.ok) return found.suggestion;
@@ -100,6 +160,7 @@
 	function submit(q: string) {
 		const url = new URL(page.url);
 		url.searchParams.set('q', q);
+		url.searchParams.delete('vs');
 		pushState(url, {});
 		fromText(q);
 	}
@@ -109,6 +170,7 @@
 		loading = false;
 		result = null;
 		shown = null;
+		pair = null;
 		text = '';
 		hint = '';
 		activeQ = null;
@@ -117,8 +179,15 @@
 	// Loading a shared link, and back/forward between lookups.
 	$effect(() => {
 		const q = page.url.searchParams.get('q');
-		if (q === activeQ) return;
+		const vs = page.url.searchParams.getAll('vs').slice(0, 2);
+		const key = q && vs.length ? [q, ...vs].join('\n') : q;
+		if (key === activeQ) return;
 		if (!q) return reset();
+		activeQ = key;
+		if (vs.length) {
+			compare([q, ...vs]);
+			return;
+		}
 		fromText(q);
 	});
 
@@ -126,6 +195,7 @@
 		event.preventDefault();
 		const url = new URL(page.url);
 		url.searchParams.delete('q');
+		url.searchParams.delete('vs');
 		pushState(url, {});
 		reset();
 	}
@@ -139,7 +209,7 @@
 			(result.kind === 'rate' || result.kind === 'refusal') &&
 			(!!fallback || !!trace?.point || !!trace?.outlines.some((o) => o.geometry))
 	);
-	const inResult = $derived(result !== null);
+	const inResult = $derived(result !== null || pair !== null);
 </script>
 
 {#if !inResult}
@@ -180,7 +250,7 @@
 					<ul class="flex flex-wrap justify-center gap-2">
 						{#each EXAMPLES as e (e.name)}
 							<li>
-								<button type="button" class="chip" onclick={() => go(e.suggestion)} title={e.suggestion.label}>
+								<button type="button" class="chip" onclick={() => (e.compare ? openPair(e.compare) : go(e.suggestion))} title={e.suggestion.label}>
 									{e.name}<span class="text-[var(--text-muted)]">· {e.note}</span>
 								</button>
 							</li>
@@ -203,7 +273,12 @@
 
 			<section class="px-4 sm:px-8" aria-label="What a lookup shows">
 				<div class="relative mx-auto max-w-[1120px]">
-					<Showcase label={EXAMPLES[0].suggestion.label} href="/?q={encodeURIComponent(EXAMPLES[0].suggestion.label)}" onopen={() => go(EXAMPLES[0].suggestion)} />
+					<Showcase
+						addresses={SAME_ZIP}
+						single={2}
+						hrefs={{ single: `/?q=${encodeURIComponent(SAME_ZIP[2].label)}`, all: compareHref(SAME_ZIP) }}
+						onopen={(which) => (which === 'single' ? go(SAME_ZIP[2]) : openPair(SAME_ZIP))}
+					/>
 				</div>
 				<div class="mx-auto mt-20 max-w-[1120px] sm:mt-24">
 					<Features />
@@ -229,6 +304,11 @@
 
 		{#if hint}<p class="px-6 pt-3 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
 
+		{#if pair}
+		<main class="mx-auto w-full max-w-[1120px] flex-1 px-4 py-8 transition-opacity sm:px-6 {loading ? 'opacity-60' : ''}" aria-busy={loading}>
+			<Compare {pair} onretry={() => pair && compare(pair.map((p) => p.suggestion.label))} />
+		</main>
+		{:else}
 		<main
 			class="grid flex-1 gap-6 px-4 py-6 transition-opacity sm:px-6 {loading ? 'opacity-60' : ''}
 				{showMap ? 'lg:grid-cols-[minmax(340px,420px)_minmax(0,1fr)]' : 'mx-auto w-full max-w-[560px]'}"
@@ -275,5 +355,6 @@
 				</div>
 			{/if}
 		</main>
+		{/if}
 	</div>
 {/if}

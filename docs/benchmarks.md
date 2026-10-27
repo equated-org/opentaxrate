@@ -33,6 +33,20 @@ The public development datasets are in
 [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench);
 [bench/benchmark.json](../bench/benchmark.json) pins their version and splits.[^public]
 
+## A quick check, with nothing to install
+
+```bash
+node scripts/spot-check.mjs              # 30 random public dev addresses, hosted API, no key
+node scripts/spot-check.mjs --n 100 --seed 7 --api http://localhost:8080
+```
+
+[spot-check.mjs](../scripts/spot-check.mjs) downloads the pinned public dataset,
+asks an API about a seeded random sample on each case's own date, and scores the
+answers with the same tolerance as below. Without `OPENTAXRATE_API_KEY` it paces
+itself to the public limit (10 a minute) and uses only the hosted geocoders, so
+it declines more than the published runs. Dev addresses were tuned on; treat the
+result as a sanity check, not a held-out score.
+
 ## How to benchmark
 
 Requires Node 22+, pnpm, and the [local database setup](../README.md#development).

@@ -139,6 +139,11 @@ the human says so. If this release's migrations are newer than production's
 (`pnpm rates status` compares them), the code must be deployed first
 (`scripts/deploy.sh`), then pulled.
 
+Check that the site's examples still show what they say: `pnpm --dir client
+showcase --check` asks the live API, without a key, about each chip and the
+three same-ZIP addresses. A failure goes in the report; don't change the
+examples unattended.
+
 Only commit the release log (and, attended, a reviewed source change);
 never commit `artifacts/` or `data/`. Push to `main` only after
 `pnpm typecheck`, the relevant tests, and `pnpm --dir client check` pass.

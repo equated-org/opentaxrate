@@ -70,7 +70,9 @@ set them in the host's build environment. Changing one takes a rebuild.
   `src/lib/search/parse.ts`. Commas are optional, the state can be a code or a
   name, and the ZIP is optional.
 - A lookup writes `?q=…` to the URL. Opening a URL with `?q=` runs the same
-  search. The fields come from the text, and the point the map centers on
+  search. `?q=A&vs=B&vs=C` looks up two or three addresses side by side
+  (`src/lib/result/Compare.svelte`): a sketch of the outlines that tell them
+  apart, drawn from their traces, over each full answer. The fields come from the text, and the point the map centers on
   comes from the autocomplete's best match in the same city.
 - 200 shows the rate list and the map. 422 shows a refusal card with the rates
   it names, and the line it was too close to. 429 shows the wait from
@@ -114,14 +116,34 @@ cd client && pnpm build && npx wrangler pages deploy build --project-name openta
 Run `pnpm build` and upload `build/`. The site is a single `index.html`, and
 `?q=` is read in the browser, so it needs no rewrites.
 
+## Examples and the showcase
+
+`src/lib/examples.ts` holds the chips under the search box and the three
+Aurora, CO 80015 addresses (`SAME_ZIP`) the showcase draws: one ZIP, three tax
+areas, each rate matching Colorado DOR's own lookup. The showcase's first
+slide is one of them alone (its saved rate list beside `static/showcase-map*.webp`);
+the second is all three, drawn from `src/lib/showcase-aurora.json`.
+
+```bash
+pnpm showcase --check   # every example still shows what its chip says, on the live API without a key
+pnpm showcase           # the same, then rewrite showcase-aurora.json
+```
+
+The check runs in the [monthly maintenance](../docs/maintenance/cron.md). When
+it fails, pick new examples rather than changing what the chips claim. The map
+images are screenshots of the first slide's live result, light and dark.
+
 ## Public messaging
 
 The landing page leads with street-address lookup, published sources and explicit
-uncertainty. `/sources` distinguishes tax boundaries from Census reference
+uncertainty, states what the service doesn't do (taxability, exemptions,
+sourcing, filing), and shows the development benchmark with correct, wrong and declined
+counts. `/sources` distinguishes tax boundaries from Census reference
 geography; `/benchmarks` separates the held-out provider comparison from the
 development benchmark. Scoring caveats and reproduction instructions live in
 [the benchmark guide](../docs/benchmarks.md). Keep result dates and counts in
-sync when updating these pages; `src/lib/benchmark.json` holds comparison data.
+sync when updating these pages; `src/lib/benchmark.json` holds comparison data
+and `src/lib/development-benchmark.json` holds the development results.
 
 ## Layout
 
@@ -134,7 +156,7 @@ src/lib/map/                   muted OpenFreeMap style, trace layers, circle, in
 src/lib/pixel/                 the pixel art: wordmark, magnifier, pin, bar, progress, hourglass
 static/fonts/                  Departure Mono for the wordmark (SIL OFL 1.1, license alongside)
 static/hero-pin.webp           the hero image
-static/showcase-map*.webp      saved map of the Austin result for the showcase (light, dark)
+static/showcase-map*.webp      saved map of the showcase's single address (light, dark)
 src/lib/landing/               the empty page's showcase panel, contours and feature points
 ```
 

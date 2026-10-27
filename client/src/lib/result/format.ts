@@ -159,7 +159,10 @@ export function howPlaced(rate: AddressRate, trace: Trace | null): string[] {
 		case 'map':
 			return mapLines(trace);
 		case 'zip_area':
-			return ['No geocoder placed the address, and every part of its ZIP\'s area has this rate.'];
+			return [
+				'None of the geocoders tried placed the address, but every part of its ZIP\'s area has this rate, so the exact spot doesn\'t matter.',
+				'Lookups without an API key try only the geocoders we host; a key adds commercial ones.'
+			];
 	}
 	return [];
 }

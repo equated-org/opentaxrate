@@ -49,6 +49,19 @@
 			<a class="link" href="{GITHUB}/blob/main/docs/benchmarks.md" target="_blank" rel="noopener">Public datasets, scoring rules and how to run it ↗</a>
 		</p>
 
+		<section aria-labelledby="reading-heading" class="mt-14">
+			<h2 id="reading-heading" class="text-[19px] leading-snug font-semibold tracking-[-0.01em] sm:text-[22px]">Reading these numbers</h2>
+			<ul class="mt-4 flex max-w-[44rem] list-disc flex-col gap-2 pl-5 text-[14.5px] leading-relaxed text-[var(--text-2)]">
+				<li>We tune on the development set; the held-out set is the fair test.</li>
+				<li>Without a key, only our own geocoders run, so more lookups are declined.</li>
+				<li>Only the combined rate is scored, not the breakdown.</li>
+				<li>Zero wrong in 275 still allows an error rate up to about 1.1%.</li>
+			</ul>
+			<p class="mt-4 text-[14.5px] text-[var(--text-2)]">
+				Check it yourself, no key needed: <code>node scripts/spot-check.mjs</code>
+			</p>
+		</section>
+
 		<section id="pricing" aria-labelledby="pricing-heading" class="mt-20 border-t border-[var(--border)] pt-14">
 			<h2 id="pricing-heading" class="text-[19px] leading-snug font-semibold tracking-[-0.01em] sm:text-[22px]">Pricing</h2>
 			<p class="mt-2 max-w-[44rem] text-[14.5px] leading-relaxed text-[var(--text-muted)]">

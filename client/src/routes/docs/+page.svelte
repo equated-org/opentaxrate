@@ -60,6 +60,21 @@
 				<a class="link" href="/dashboard/keys">dashboard</a>; lookups are paid from your credit (<a class="link" href="/pricing">pricing</a>), 120 a minute per key.
 			</td>
 		</tr>
+		<tr>
+			<td>Without a key</td>
+			<td>
+				Free, 10 lookups a minute and 300 a day per IP address. Addresses are placed only by the geocoders we host
+				(Pelias and Photon, built from open address data). When neither can place one, the API answers only if its whole
+				ZIP has one rate, and declines otherwise.
+			</td>
+		</tr>
+		<tr>
+			<td>With a key</td>
+			<td>
+				The same data and rules, plus commercial geocoders as further witnesses, so fewer addresses are declined or
+				answered from the ZIP alone.
+			</td>
+		</tr>
 		<tr><td>Rates</td><td>Decimals: <code>0.1055</code> is 10.55%.</td></tr>
 		<tr>
 			<td>OpenAPI</td>

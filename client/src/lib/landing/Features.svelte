@@ -39,7 +39,13 @@
 	{/each}
 </ul>
 
-<p class="mt-8 max-w-[48rem] text-[13px] leading-relaxed text-[var(--text-muted)]">
+<p class="mt-12 max-w-[48rem] text-[14.5px] leading-[1.8] text-[var(--text-muted)]">
+	<span class="font-semibold text-[var(--text)]">What it doesn’t do.</span> OpenTaxRate gives the general sales tax rate
+	at an address. It doesn’t decide whether a product is taxable, apply exemptions or holidays, choose sourcing rules, or
+	file returns, so it is a rate lookup, not a replacement for a compliance service.
+</p>
+
+<p class="mt-4 max-w-[48rem] text-[13px] leading-relaxed text-[var(--text-muted)]">
 	Why boundaries matter: Stripe’s engineering team shows how two houses in the same ZIP can face different taxes.
 	<a class="link" href="https://stripe.dev/blog/how-we-built-it-jurisdiction-resolution-for-stripe-tax" target="_blank" rel="noopener">Read their explanation ↗</a>
 </p>

@@ -26,6 +26,8 @@ Look up a street address and date to get the combined sales tax rate, jurisdicti
 
 General sales tax rates, with lookup methods for all 50 states and DC, and Canada's provinces and territories. See [coverage and limits](docs/state-coverage.html).
 
+**What it doesn't do:** OpenTaxRate gives the general rate at an address. It does not decide whether a product is taxable, apply exemptions or holidays, choose origin or destination sourcing, track nexus, or file returns. It is a rate lookup, not a replacement for a compliance service such as Avalara or Stripe Tax. See [tax-rule scope](docs/tax-rules.md).
+
 ## Why street addresses matter
 
 ZIP codes cross tax boundaries. A single ZIP-level rate cannot distinguish addresses subject to different rates within that ZIP.[^boundaries]
