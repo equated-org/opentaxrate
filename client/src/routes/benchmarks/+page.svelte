@@ -57,9 +57,6 @@
 				<li>Only the combined rate is scored, not the breakdown.</li>
 				<li>Zero wrong in 275 still allows an error rate up to about 1.1%.</li>
 			</ul>
-			<p class="mt-4 text-[14.5px] text-[var(--text-2)]">
-				Check it yourself, no key needed: <code>node scripts/spot-check.mjs</code>
-			</p>
 		</section>
 
 		<section id="pricing" aria-labelledby="pricing-heading" class="mt-20 border-t border-[var(--border)] pt-14">
