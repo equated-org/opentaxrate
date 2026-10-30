@@ -145,6 +145,42 @@
   },
   {
     "tax": "NH",
+    "code": "food.prepared.bakery",
+    "from": "2021-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "New Hampshire's 8.5% meals tax doesn't reach bakery products sold in units of 6 or more, or food products provided by a store; bakery items a restaurant sells singly are taxable meals.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant in units of fewer than 6, ready to eat",
+        "treatment": "special_rate",
+        "rate": 0.085
+      },
+      {
+        "when": "Sold in units of 6 or more",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Provided by a store",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSA 78-A:3, Definitions (VIII, \"Meal\")",
+        "url": "https://gc.nh.gov/rsa/html/V/78-A/78-A-3.htm",
+        "quote": "The term shall not include food products provided by a store or bakery products when sold in units of 6 or more."
+      },
+      {
+        "title": "NH DRA, Meals and Rooms (Rentals) Tax",
+        "url": "https://www.revenue.nh.gov/taxes-glance/meals-rooms-rentals-tax",
+        "quote": "The tax rate is 8.5% for taxable periods beginning October 1, 2021."
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-nh-04 showed the inherited food.prepared rule taxed a box of six doughnuts; RSA 78-A:3 is that case's source, so ho-nh-04 no longer counts as held out. Dated from the 8.5% rate."
+  },
+  {
+    "tax": "NH",
     "code": "food.soft_drink",
     "from": "2016-11-28",
     "fromIs": "earliest_verified",

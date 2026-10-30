@@ -951,5 +951,40 @@
       }
     ],
     "notes": "Infrastructure as a service and stand-alone web hosting are not SaaS (r. 701-211.35; DOR guidance). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2025-02-05",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Iowa carpeting is never a building material: its sale is a taxable retail sale, and a lump-sum carpet-and-installation price is taxed in full. Other floor coverings attached to the floor are building materials, taxed to the contractor, not the customer.",
+    "conditions": [
+      {
+        "when": "Carpet and installation billed as one charge or lump sum",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Carpet with the installation itemized separately, or under a separate contract: the carpet's price is taxed, the installation is not",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Floor coverings other than carpeting, shaped to fit and permanently attached (building materials in a construction contract)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Admin. Code 701—213.14, Carpeting and other floor coverings (IAC 2/5/25)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.213.pdf",
+        "quote": "If the selling price of the carpeting and the installation charge are stated as one charge or lump sum, the entire charge is subject to sales tax."
+      },
+      {
+        "title": "Iowa Admin. Code 701—213.14, Carpeting and other floor coverings (IAC 2/5/25)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.213.pdf",
+        "quote": "The sale of carpeting is not to be treated as the sale of a “building material.”"
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-ia-07 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-ia-07 no longer counts as held out. Dated from the chapter's IAC date; the rule is older."
   }
 ]

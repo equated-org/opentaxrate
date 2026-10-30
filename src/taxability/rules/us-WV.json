@@ -575,5 +575,31 @@
       }
     ],
     "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. The definition of tangible personal property draws no line by delivery method. Software for direct use in a high-technology business, or incorporated into a manufactured product, can be exempt (§ 11-15-9h); those turn on the buyer. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2024-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In West Virginia a retailer that installs wall-to-wall carpeting sold from its own inventory collects sales tax on the carpet, labour and materials; flooring installed by a contractor as a capital improvement is contracting, not taxed to the customer.",
+    "conditions": [
+      {
+        "when": "Wall-to-wall carpeting sold from the retailer's inventory and installed by it, the installation incidental to the sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Installed by a contractor as a capital improvement",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TSD-325, Sales and Use Tax for Incidental Installation (Rev. August 2024)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd325.pdf",
+        "quote": "Any retailer/dealer who installs wall to wall carpeting, certain household appliances, drapery rods, window shades, venetian blinds, canvas awnings, mobile homes and other products that are sold from the retailer’s inventory must collect and remit state sales and use tax on not only the sale of the product, but also any labor and material charges when the installation of the product is incidental to the sale of the product."
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-wv-01 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-wv-01 no longer counts as held out. Dated from the bulletin's revision; earlier editions weren't checked."
   }
 ]

@@ -1141,5 +1141,31 @@
       }
     ],
     "notes": "New York City's local tax doesn't reach these services, so the local parts differ by place. Outside New York City every local part taxes them, the same as the state. In New York City only the MCTD part taxes them."
+  },
+  {
+    "tax": "NY",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2006-06-26",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In New York installing floor covering is a capital improvement only when it is the initial finished floor covering in new construction, a new addition or a total reconstruction; replacing floor covering is taxable.",
+    "conditions": [
+      {
+        "when": "The initial finished floor covering in new construction, a new addition, or a total reconstruction",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other installation, such as replacing carpet in a renovation",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TSB-A-06(19)S, Advisory Opinion (June 26, 2006)",
+        "url": "https://tax.ny.gov/pdf/advisory_opinions/sales/a06_19s.pdf",
+        "quote": "However, the charge by the contractor for the new carpet and its installation is subject to sales tax because the renovation is not new construction, an addition or a total reconstruction."
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-ny-08 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-ny-08 no longer counts as held out. The opinion quotes 20 NYCRR 527.7(a)(3)(iii)(A) and 541.? (b)(1); it is dated from the opinion."
   }
 ]

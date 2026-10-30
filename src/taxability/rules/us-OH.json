@@ -940,5 +940,36 @@
       }
     ],
     "notes": "No Department page read says in so many words that SaaS is automatic data processing/electronic information service rather than a license to use prewritten software (which R.C. 5739.01(B)(1) would tax regardless of use); the business/personal split follows the statute's 'for use in business' wording. Reviewers: confirm the personal-use exemption against a Department ruling or BTA decision. Business use by members of an affiliated group is not a sale (R.C. 5739.01(B)(3)(e))."
+  },
+  {
+    "tax": "OH",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "1994-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Ohio, selling and installing carpet is a retail sale, taxed on the carpet, materials and labour; installing other floor coverings (tile, wood, linoleum) is a construction contract, not taxed to the customer.",
+    "conditions": [
+      {
+        "when": "Carpet, sold and installed",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other floor coverings (linoleum, tile, wood) incorporated into real property",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ohio Information Release ST 1994-01, Sale/Installation of Carpet and Other Floor/Wall Coverings (June 1994)",
+        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st199401",
+        "quote": "Under Ohio sales tax law, the sale and installation of carpet (on floors and/or walls in a home, building or structure) is never considered a construction contract. Therefore, the sale and installation of carpet is considered a retail sale that is subject to the sales or use tax."
+      },
+      {
+        "title": "Ohio Information Release ST 1994-01, Sale/Installation of Carpet and Other Floor/Wall Coverings (June 1994)",
+        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st199401",
+        "quote": "Unlike carpet, the installation of other types of floor and/or wall coverings (linoleum, tile, wood, wallpaper, etc.) is considered a construction contract when incorporated into real property."
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-oh-01 showed the inherited construction.real_property rule was wrong for this code; the cited page is that case's source, so ho-oh-01 no longer counts as held out."
   }
 ]
