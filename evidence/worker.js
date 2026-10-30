@@ -58,14 +58,17 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.65 Inte
 a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85em; }
 h1, h2, h3 { font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
-.top, main { max-width: 860px; margin: 0 auto; padding: 0 24px; }
-.top { display: flex; gap: 20px; align-items: baseline; padding-top: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.top, body > main { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+.top { display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: baseline; padding-top: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.top a { white-space: nowrap; }
 .top .brand { font-weight: 600; color: var(--ink); text-decoration: none; margin-right: auto; }
 .quiet { color: var(--text-3); }
 .capture { display: flex; flex-direction: column; }
 .capture > .about { order: -1; }
 .about { margin: 32px 0 0; padding-bottom: 24px; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--text-2); overflow-wrap: anywhere; }
 .about h1 { margin: 0 0 6px; font-size: 19px; }
+.about h1 a, .url h1 a { color: var(--ink); text-decoration-color: var(--text-3); }
+.about .hash { display: inline-block; max-width: 100%; }
 .about p { margin: 4px 0; }
 .about h2 { margin: 18px 0 4px; font-size: 15px; color: var(--ink); }
 .about ul { margin: 0; padding-left: 18px; }
@@ -88,7 +91,8 @@ h1, h2, h3 { font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
 .list h2 { font-size: 1.3rem; margin: 48px 0 2px; }
 .list h2 + p { margin: 0 0 12px; font-size: 15px; }
 .url h1 { font-size: 19px; overflow-wrap: anywhere; }
-.url ul { padding: 0; max-width: 32em; }
+.list.url ul { padding: 0; max-width: 32em; }
+.url p { font-size: 15px; margin: 0 0 12px; }
 .list h3 { font-size: 15px; margin: 20px 0 2px; }
 .list ul { list-style: none; margin: 0; padding: 0 0 0 16px; font-size: 15px; }
 .list li { display: flex; gap: 16px; justify-content: space-between; margin: 2px 0; }
@@ -97,8 +101,9 @@ h1, h2, h3 { font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
 .list details { border-top: 1px solid var(--line); font-size: 15px; }
 .list details:last-child { border-bottom: 1px solid var(--line); }
 .list summary { cursor: pointer; padding: 7px 0; font-weight: 600; }
+.list summary .quiet { font-weight: 400; margin-left: 4px; }
 .list details ul { padding-bottom: 10px; }
-main > p { margin: 40px 0; }
+body > main > p { margin: 40px 0; }
 `;
 
 function page(title, body, status = 200) {
@@ -147,7 +152,7 @@ function card(hash, places, asked) {
 		.join('');
 	return `<section class="about">
 <h1><a href="${escape(url)}" rel="noopener">${escape(url)}</a></h1>
-<p>Archived copy, as fetched · captured ${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC · SHA-256 <span class="mono">${hash}</span> · ${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a></p>
+<p>Archived copy, as fetched · captured ${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC · <span class="hash">SHA-256 <span class="mono">${hash}</span></span> · ${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a></p>
 ${others.length ? `<p>Other captures: ${others.map((c) => `<a href="/sha256/${c.sha256}">${day(c.at)}</a>`).join(', ')}</p>` : ''}
 ${alsoAt.length ? `<p>Same bytes at ${alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join(', ')}</p>` : ''}
 ${asked ? `<p>Asked for ${escape(asked)}: no copy is from that day or before, so this is the earliest the archive has.</p>` : ''}
@@ -158,8 +163,25 @@ ${byRule.size ? `<h2>Cited by ${byRule.size} rule${byRule.size > 1 ? 's' : ''}</
 
 /** An archived HTML page's content, in this site's style: no script, style,
  *  form or site chrome; links and images pointed at the original site. */
+/** The part of a page its site marks as the content (<main>, role="main",
+ *  id="main-content"), so a site's menus don't come first; else the whole
+ *  page. Every quote the rules cite on an HTML page falls inside it
+ *  (checked 2026-10-30, 2,613 quotes). */
+function mainPart(html) {
+	const lower = html.toLowerCase();
+	const main = lower.search(/<main[\s>]/);
+	if (main >= 0) {
+		const end = lower.lastIndexOf('</main>');
+		return html.slice(main, end > main ? end + 7 : html.length);
+	}
+	const marked = lower.search(/<[a-z]+[^>]*(role="main"|id="main-?content")[^>]*>/);
+	if (marked < 0) return html;
+	const footer = lower.indexOf('<footer', marked);
+	return html.slice(marked, footer > marked ? footer : html.length);
+}
+
 async function readable(object, base) {
-	const strip = 'script, style, link, meta, base, object, embed, noscript, iframe, frame, form, button, input, select, textarea, svg, canvas, header, footer, nav, aside, [role=banner], [role=navigation], [role=contentinfo], [role=search], [aria-hidden=true], .breadcrumb, .breadcrumbs, #breadcrumb, .skip-link, .visually-hidden, .sr-only';
+	const strip = 'script, style, link, meta, base, object, embed, noscript, iframe, frame, form, button, input, select, textarea, svg, canvas, header, footer, nav, aside, [role=banner], [role=navigation], [role=contentinfo], [role=search], [aria-hidden=true], .breadcrumb, .breadcrumbs, #breadcrumb, .skip-link, .visually-hidden, .sr-only, [role=menu], [role=menubar], [class*=sidenav], [class*=sidebar], [id*=sidebar], [class*=menu--], [class*=-menu-block], [class*=nav-menu], [class*=megamenu]';
 	const absolute = (attr) => ({
 		element(e) {
 			const v = e.getAttribute(attr);
@@ -173,11 +195,11 @@ async function readable(object, base) {
 			}
 		},
 	});
-	let title = '';
+	const source = await object.text();
+	const title = (source.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1] ?? '').replace(/&amp;/g, '&');
 	const rewritten = new HTMLRewriter()
 		.on(strip, { element: (e) => e.remove() })
 		.on('head', { element: (e) => e.remove() })
-		.on('title', { text: (t) => { title += t.text; } })
 		.on('*', {
 			element(e) {
 				// Event handlers never run; the page's own classes and inline
@@ -188,7 +210,7 @@ async function readable(object, base) {
 		.on('a[href]', absolute('href'))
 		.on('img[src]', absolute('src'))
 		.on('img[srcset]', { element: (e) => e.removeAttribute('srcset') })
-		.transform(new Response(object.body, { headers: { 'content-type': 'text/html; charset=utf-8' } }));
+		.transform(new Response(mainPart(source), { headers: { 'content-type': 'text/html; charset=utf-8' } }));
 	let html = await rewritten.text();
 	html = html.replace(/<!doctype[^>]*>/i, '').replace(/<\/?(html|body)[^>]*>/gi, '');
 	return { html, title: title.trim() };
@@ -240,7 +262,7 @@ function index(data) {
 		const last = r.captures.at(-1);
 		// Under its site's heading, a page is shown by its path.
 		const path = url.replace(/^https?:\/\/[^/]*/, '') || '/';
-		return `<li><a href="/sha256/${last.sha256}">${escape(path)}</a><span class="quiet">${r.captures.length > 1 ? `${r.captures.length} captures, ` : ''}${day(last.at)}</span></li>`;
+		return `<li><a href="/sha256/${last.sha256}">${escape(path)}</a>${r.captures.length > 1 ? `<span class="quiet">${r.captures.length} captures</span>` : ''}</li>`;
 	};
 	// The pages taxability rules cite, by site; then everything else.
 	const cited = entries.filter(([, r]) => r.citedBy.length);
