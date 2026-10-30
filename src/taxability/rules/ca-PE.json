@@ -1,0 +1,155 @@
+[
+  {
+    "tax": "PE/CA:HST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "food.grocery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "food.prepared",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "food.catering",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "service.professional",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  },
+  {
+    "tax": "PE/CA:HST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Prince Edward Island's HST follows the federal GST/HST base here: CRA lists no Prince Edward Island point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and qualifying heating oil"
+      }
+    ]
+  }
+]

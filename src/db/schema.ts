@@ -301,17 +301,46 @@ export const taxSourceFeatures = pgTable("tax_source_features", {
   geom: multiPolygon("geom").notNull(),
 }, t => [primaryKey({ columns: [t.snapshotId, t.featureId] }), index("idx_tax_source_features_geom").using("gist", t.geom)]);
 
-/** Legacy experimental research storage. No importer or API consumer is
- * enabled; public snapshots exclude these rows. Retained for migration
- * compatibility, not as a supported transaction-policy feature. */
-export const taxRuleRows = pgTable("tax_rule_rows", {
-  snapshotId: text("snapshot_id").notNull().references(() => taxSourceSnapshots.id, { onDelete: "cascade" }),
-  rowId: text("row_id").notNull(),
-  reference: text("reference"),
-  definition: text("definition").notNull(),
-  cells: jsonb("cells").$type<Array<Record<string, unknown>>>().notNull(),
-  context: jsonb("context").$type<Record<string, unknown>>().notNull(),
-}, t => [primaryKey({ columns: [t.snapshotId, t.rowId] }), index("idx_tax_rule_rows_reference").on(t.reference)]);
+/** How one tax treats one kind of sale (a taxability code) over a date
+ *  range, read from the official pages in `citations`. Loaded from the
+ *  reviewed files in src/taxability/rules by `ingest --kind taxability`;
+ *  read whole, once, by the taxability resolver (src/taxability). `tax`
+ *  is a US state ("NY"), its local parts ("GA:local"), the federal base
+ *  ("CA:GST/HST"), a province's HST ("ON/CA:HST") or a provincial tax
+ *  ("BC:PST"). A tax, code and date with no row is not researched. Two
+ *  rows for one tax and code never overlap (an exclusion constraint in
+ *  the migration). */
+export const taxabilityRules = pgTable(
+  "taxability_rules",
+  {
+    tax: text("tax").notNull(),
+    code: text("code").notNull(),
+    startsOn: date("starts_on").notNull(),
+    endsOn: date("ends_on").notNull().default("9999-12-31"),
+    /** effective: starts_on is the day the rule took effect; earliest_verified:
+     *  the earliest day it was confirmed in force. */
+    fromIs: text("from_is").notNull(),
+    treatment: text("treatment").notNull(),
+    /** For treatment "follows": the tax whose rule for the code applies. */
+    follows: text("follows"),
+    summary: text("summary").notNull(),
+    conditions: jsonb("conditions").$type<Array<{ when: string; treatment: string; rate?: number }>>().notNull().default([]),
+    citations: jsonb("citations").$type<Array<{ title: string; url: string; quote?: string }>>().notNull(),
+    /** What couldn't be verified, for a reviewer; never shown in answers. */
+    notes: text("notes"),
+    /** The reviewed file it came from, e.g. "us-NY.json". */
+    file: text("file").notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.tax, t.code, t.startsOn] }),
+    check("ck_taxability_rules_dates", sql`${t.endsOn} >= ${t.startsOn}`),
+    check("ck_taxability_rules_from_is", sql`${t.fromIs} in ('effective', 'earliest_verified')`),
+    check("ck_taxability_rules_treatment", sql`${t.treatment} in ('taxable', 'exempt', 'zero_rated', 'conditional', 'follows')`),
+    check("ck_taxability_rules_follows", sql`(${t.treatment} = 'follows') = (${t.follows} is not null)`),
+    check("ck_taxability_rules_conditional", sql`${t.treatment} <> 'conditional' or jsonb_array_length(${t.conditions}) > 0`),
+    check("ck_taxability_rules_cited", sql`jsonb_typeof(${t.citations}) = 'array' and jsonb_array_length(${t.citations}) > 0`),
+  ],
+);
 
 /** Each ZIP's area as the Census Bureau draws it (a ZIP Code Tabulation
  *  Area: the census blocks where most addresses use that ZIP), from its

@@ -14,8 +14,9 @@ import { JEV_PRICE, toMicros, type AccountBudget } from "./credits.js";
 import { jevChoice, type StreetPicker } from "./rates/streets/jev.js";
 import { regionsAt, type Regions } from "./regions.js";
 import type { LocatedPoint, Locate } from "./geocoding/types.js";
+import { loadRules, taxabilityByCode, type Taxability, type TaxCode } from "./taxability/index.js";
 
-export type LookupResult = AddressRate & { regions?: Regions };
+export type LookupResult = AddressRate & { taxability?: Record<string, Taxability>; regions?: Regions };
 
 export interface RateQuery {
   state: string;
@@ -24,6 +25,9 @@ export interface RateQuery {
   zip?: string;
   /** YYYY-MM-DD; today when absent. */
   date?: string;
+  /** What was sold, one or more codes; adds how each is taxed there
+   *  (taxability/). */
+  codes?: TaxCode[];
 }
 
 /** How far around the point a traced outline is drawn: at least 3 km, and
@@ -68,7 +72,8 @@ export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Pro
     date,
   );
   try {
-    const rate = await found;
+    const general = await found;
+    const rate: LookupResult = q.codes?.length ? { ...general, taxability: taxabilityByCode(general, q.codes, date, await loadRules()) } : general;
     if (!options.regions) return rate;
     const regions = await regionsAt(state, date, () => lastPoint ? Promise.resolve(lastPoint) : locate());
     return { ...rate, regions };

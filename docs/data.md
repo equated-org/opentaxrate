@@ -20,7 +20,19 @@ Set `OPENTAXRATE_HISTORY_FROM=2024-01-01` to reduce SST/Missouri history and rou
 
 Refresh also indexes Missouri tax-district polygons and Utah tax zones for local map fallbacks. Rates still come from the dated DOR/SST files. Missouri’s polygon source is an archived May 2023 MSDIS snapshot; missing district outlines remain unresolved. Answers cite the polygon snapshot used. Missouri tries local data before its optional `STATE_LOOKUPS=MO` fallback. Use `--force` to reload outlines.
 
-Refresh acquires versioned supplemental polygons and validates general-tax features against dated codes/rates, then writes verified shapes/rates into the existing lookup tables. Where every component's code and dated rate is published, a combination the boundary files lack is built as a new area (ids from state FIPS × 1,000,000 + 900,001). A feature that can't be verified is kept as a `held:<source>:<feature>:<from>` coverage marker in `sales_tax_shapes`, with no area or rate: a lookup inside or near one declines (California asks CDTFA instead) rather than fall back to a smaller total. A source that can't be validated leaves what was indexed before in place. Minnesota's and Washington's tax areas are acquired for every published quarter from `OPENTAXRATE_HISTORY_FROM`, each verified and indexed for its own quarter, so a past date reads that quarter's areas. Run `pnpm ingest` for that phase alone. The sources, their roles and the known gaps are listed in `src/ingest/supplemental-sources.ts`. Product taxability, holidays, caps and exemptions are [documented research only](tax-rules.md), with no policy importer, API support or policy data in public exports.
+Refresh acquires versioned supplemental polygons and validates general-tax features against dated codes/rates, then writes verified shapes/rates into the existing lookup tables. Where every component's code and dated rate is published, a combination the boundary files lack is built as a new area (ids from state FIPS × 1,000,000 + 900,001). A feature that can't be verified is kept as a `held:<source>:<feature>:<from>` coverage marker in `sales_tax_shapes`, with no area or rate: a lookup inside or near one declines (California asks CDTFA instead) rather than fall back to a smaller total. A source that can't be validated leaves what was indexed before in place. Minnesota's and Washington's tax areas are acquired for every published quarter from `OPENTAXRATE_HISTORY_FROM`, each verified and indexed for its own quarter, so a past date reads that quarter's areas. Run `pnpm ingest` for that phase alone. The sources, their roles and the known gaps are listed in `src/ingest/supplemental-sources.ts`. Holidays, caps and customer exemptions are [documented research only](tax-rules.md).
+
+## Taxability rules
+
+Whether a kind of sale is taxed (the API's `code=`) comes from reviewed rule files in `src/taxability/rules/`, one per place (`us-NY.json`, `ca-BC.json`, `ca-federal.json`): each rule names the tax, the code, its dates, the treatment, the conditions it turns on and the official pages it was read from, with the deciding sentence quoted. Change a rule by editing its file in a pull request, with the page that justifies it.
+
+```bash
+pnpm ingest --kind taxability            # check the files, archive cited pages, replace taxability_rules
+pnpm ingest --kind taxability --no-fetch # the same, fetching nothing; lists pages the archive lacks
+pnpm bench taxability                    # score the loaded rules (docs/benchmarks.md)
+```
+
+Ingest checks every file before writing (fields, codes, dates, citations, conditions, that a `follows` rule's target exists, and that no two rules for one tax and code cover the same day; the table's own constraints enforce the same), then replaces `taxability_rules` in one transaction. Every cited page is filed in `artifacts/sources/` like any other download, so it is versioned and backed up with the rest; a page is fetched only when the archive has no copy, and one that can't be fetched is listed, not a reason to drop its rule. The table ships in releases like the rate tables; the API reads it once per process.
 
 ## Raw sources and backups
 
@@ -31,18 +43,37 @@ Refresh acquires versioned supplemental polygons and validates general-tax featu
 - `previous/<date>-<id>-<file>` beside a file: its older contents.
 - `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced).
 
-Use [restic](https://restic.net) with your own R2 credentials to back up the folder.
-Set `R2_ACCOUNT_ID`, `OPENTAXRATE_R2_ACCESS_KEY_ID`,
-`OPENTAXRATE_R2_SECRET_ACCESS_KEY` and `OPENTAXRATE_RESTIC_PASSWORD`
-in your environment or secret manager. Use `OPENTAXRATE_RESTIC_REPOSITORY`
-to override the destination.
+The cited taxability pages are filed here too, like any download.
+
+### Backups
+
+One command backs up every input, versioned:
 
 ```bash
-scripts/backup-sources.sh artifacts/sources
+pnpm rates backup     # artifacts/sources (tag sources); artifacts/bench, tuning, taxability (tag bench)
 ```
 
-The script creates dated snapshots without pruning them. It ignores unrelated
-`RESTIC_*` settings so a source backup cannot accidentally use another repository.
+It makes a dated [restic](https://restic.net) snapshot of each, in R2, and
+never prunes them, so every earlier version stays restorable
+(`restic snapshots`, `restic restore`; `pnpm bench restore` brings the
+`bench` tag back). `pnpm rates publish` (and `maintain publish`) runs it
+first and stops if it fails: no release exists without its inputs stored.
+`pnpm bench backup` is the same command.
+
+It needs `R2_ACCOUNT_ID`, an R2 access key (`OPENTAXRATE_R2_ACCESS_KEY_ID`
+and `OPENTAXRATE_R2_SECRET_ACCESS_KEY`, else `R2_ACCESS_KEY_ID` and
+`R2_SECRET_ACCESS_KEY`) and `OPENTAXRATE_RESTIC_PASSWORD`, taken from the
+first of: the environment; `KEYS_ENV`, the file the monthly run reads
+(`~/.config/opentaxrate/keys.env` on the maintenance server); or, where
+neither has them, `OPENTAXRATE_SECRETS_RUN`, a command prefix that runs a
+command with them in its environment (your secret manager's run command,
+set in `KEYS_ENV`), under which the backup runs again. A key that can reach only the
+backup bucket is safer than a shared one: in the Cloudflare dashboard, R2 →
+Manage API tokens → Create API token, *Object Read & Write*, applied to
+`opentaxrate-sources` only, stored as the two `OPENTAXRATE_R2_*` values.
+`OPENTAXRATE_RESTIC_REPOSITORY` overrides the destination. The script
+(`scripts/backup-sources.sh`) ignores unrelated `RESTIC_*` settings, so a
+backup cannot land in another repository.
 
 ## Snapshots and releases
 
@@ -71,9 +102,8 @@ The benchmark's dev addresses and points are public in
 one tag a version; `bench/benchmark.json` pins the version and names the dev
 and eval splits. `pnpm bench fetch` downloads it into `artifacts/bench`. The
 eval splits, recorded geocodes and other services' answers stay private, in
-the same restic repository as the sources under the tag `bench`:
-`pnpm bench backup` and `pnpm bench restore`, with the same settings as
-`scripts/backup-sources.sh`. `pnpm bench publish` exports a new version,
+the same restic repository as the sources under the tag `bench`
+([backups](#backups)); `pnpm bench restore` brings them back. `pnpm bench publish` exports a new version,
 refusing if any eval address would be in it.
 
 ## Maintenance runs
@@ -91,7 +121,7 @@ run. Every published release is listed, with what changed, on the site's
 [data releases](https://opentaxrate.com/docs/releases) page, built from
 `client/src/lib/data-releases.json`.
 
-**What a snapshot holds.** The published data (`TAX_TABLES` in `scripts/rates`: rates, jurisdictions, areas and shapes, street and ZIP ranges, ZIP street lists, supplemental source polygons) plus the migration history. Every other table (`EMPTY_TABLES`: accounts, keys, request history, credit, the geocoding cache, rule rows) is dumped empty. A table in neither list stops the snapshot, so nothing new reaches a dump by default; `snapshot --check` runs that check and the one below without dumping. Transaction-policy research is excluded, and a database holding experimental policy snapshots is refused, so their metadata can't leak through the source table.
+**What a snapshot holds.** The published data (`TAX_TABLES` in `scripts/rates`: rates, jurisdictions, areas and shapes, street and ZIP ranges, ZIP street lists, supplemental source polygons, taxability rules) plus the migration history. Every other table (`EMPTY_TABLES`: accounts, keys, request history, credit, the geocoding cache) is dumped empty. A table in neither list stops the snapshot, so nothing new reaches a dump by default; `snapshot --check` runs that check and the one below without dumping. Transaction-policy research is excluded, and a database holding experimental policy snapshots is refused, so their metadata can't leak through the source table.
 
 **Publishing** needs `gh auth login`; check `/v1/coverage` and benchmark first. It never overwrites a release: give a new tag to publish again the same day. Each release has the dump and its SHA-256.
 

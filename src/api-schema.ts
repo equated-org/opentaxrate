@@ -8,6 +8,7 @@
  */
 import { z } from "@hono/zod-openapi";
 import { RATE_ERROR_CODES } from "./errors.js";
+import { TAX_CODES } from "./taxability/codes.js";
 
 const rate = (description: string, example = 0.1055) => z.number().openapi({ description, example });
 
@@ -119,6 +120,51 @@ export const RegionsSchema = z
     description: "With include=regions: published areas the address is in. Evidence only; they don't change the rate.",
   });
 
+const TREATMENTS = ["taxable", "exempt", "zero_rated", "conditional", "not_a_sale"] as const;
+
+export const TaxabilityRuleSchema = z
+  .object({
+    from: z.string().openapi({ description: "First day the rule answers for.", example: "2019-04-08" }),
+    to: z.string().optional().openapi({ description: "Last day in force; open-ended when absent." }),
+    fromIs: z.enum(["effective", "earliest_verified"]).openapi({
+      description: "effective: the sources give from as the day the rule took effect. earliest_verified: the rule is likely older, but earlier dates are not researched.",
+    }),
+    treatment: z.enum(TREATMENTS),
+    summary: z.string().openapi({ example: "Catering is taxable, including staff, rentals and service charges on the bill." }),
+    conditions: z.array(
+      z.object({
+        when: z.string(),
+        treatment: z.enum(["taxable", "exempt", "zero_rated"]),
+        rate: z.number().optional().openapi({ description: "The part's rate in this case, where it isn't the part's full rate." }),
+      }),
+    ).openapi({ description: "For a conditional rule, each fact the outcome turns on; for a settled one, exceptions worth knowing." }),
+    citations: z.array(z.object({ title: z.string(), url: z.string(), quote: z.string().optional() })).openapi({ description: "The official pages the rule was read from." }),
+  })
+  .openapi("TaxabilityRule");
+
+export const TaxabilitySchema = z
+  .object({
+    treatment: z.enum(["taxable", "partial", "not_taxed", "conditional", "not_researched"]).openapi({
+      description:
+        "taxable: every part at its rate. partial: some parts, or a reduced rate. not_taxed: no part. conditional: the outcome turns on facts the code doesn't fix, listed in the rules' conditions. not_researched: a part has no researched rule for this code on this date; never use the general rate instead.",
+    }),
+    rate: z.number().nullable().openapi({ description: "The combined rate on this sale; null exactly when conditional or not researched.", example: 0.08875 }),
+    taxes: z.array(
+      z
+        .object({
+          tax: z.string().openapi({ description: "What the rule covers: a state (every part there), CA:GST/HST, a province's HST change (ON/CA:HST), a provincial tax (BC:PST), or * for a nontaxable line.", example: "NY" }),
+          parts: z.array(z.string()).openapi({ description: "The codes of the answer's parts this rule decides; together the entries cover every part once." }),
+          treatment: z.enum([...TREATMENTS, "not_researched"]),
+          rate: z.number().nullable().openapi({ description: "What these parts add to the sale's rate; null when conditional or not researched." }),
+          rule: TaxabilityRuleSchema.nullable().openapi({ description: "Null only when not researched." }),
+        })
+        .openapi("TaxGroup"),
+    ),
+  })
+  .openapi("Taxability", {
+    description: "How one kind of sale is taxed at the address on the date: the parts grouped by the rule that decided them, with the rules and their official sources.",
+  });
+
 const ACCURACY = z.enum(["rooftop", "parcel", "point", "interpolated"]);
 const point = { lon: z.number(), lat: z.number() };
 
@@ -154,7 +200,7 @@ export const TraceSchema = z
 export const AddressRateSchema = z
   .object({
     state: z.string().openapi({ example: "WA" }),
-    rate: rate("The combined rate on a general sale, as a decimal: 0.1055 is 10.55%."),
+    rate: rate("The combined rate on a general sale, as a decimal: 0.1055 is 10.55%. With code=, the sale's own rate is taxability.rate."),
     stateRate: rate("The state's part.", 0.065),
     localRate: rate("Everything else.", 0.0405),
     byType: RatesByTypeSchema,
@@ -175,6 +221,9 @@ export const AddressRateSchema = z
     zip4: z.string().nullable().openapi({ description: "The address's ZIP+4, where a Streamlined state's files give it." }),
     source: z.string().openapi({ description: "The files or service the rate came from, and the date." }),
     reporting: ReportingSchema.nullable(),
+    taxability: z.record(z.string(), TaxabilitySchema).optional().openapi({
+      description: `With code=: one entry per code asked, keyed by the code (${Object.keys(TAX_CODES).join(", ")}).`,
+    }),
     regions: RegionsSchema.optional(),
     trace: TraceSchema.optional(),
   })
@@ -209,6 +258,10 @@ export const RateQuerySchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional()
     .openapi({ description: "YYYY-MM-DD; today when absent.", example: "2026-10-22" }),
+  code: z.string().max(300).optional().openapi({
+    description: `What was sold, one or more codes separated by commas, from: ${Object.keys(TAX_CODES).join(", ")}. Adds taxability to the answer, one entry per code; an unknown code is a 400.`,
+    example: "food.catering,nontaxable",
+  }),
   include: z.string().max(100).optional().openapi({ description: "Comma-separated: trace, regions. Others are ignored.", example: "regions" }),
 });
 
@@ -228,6 +281,7 @@ export const CoverageSchema = z
         }),
       ),
       regionSources: z.array(z.object({ id: z.string(), kind: z.enum(REGION_KINDS), type: z.string(), note: z.string() })),
+      taxabilityCodes: z.array(z.string()).openapi({ description: "The codes with a researched rule here today, for code=; others answer not_researched." }),
       files: z.array(z.object({ kind: z.enum(["rates", "boundaries"]), file: z.string(), rows: z.number(), loadedAt: z.string() })),
     }),
   )

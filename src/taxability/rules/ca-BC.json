@@ -1,0 +1,319 @@
+[
+  {
+    "tax": "BC:PST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "General tangible goods sold at retail in B.C. are taxable at the general 7% PST rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Small Business Guide to PST (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/small-business-guide",
+        "quote": "The general PST rate is 7% (see PST rates below)."
+      }
+    ],
+    "notes": "2013-04-01 is the start of the current PST under the Provincial Sales Tax Act (SBC 2012 c 35) after HST ended; a gov.bc.ca page stating that date was not fetched in this run (CRA sources state it). Specific goods (e.g. children's clothing, bicycles) have their own exemptions outside this code."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "food.grocery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food for human consumption, including basic groceries, is exempt from B.C. PST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Small Business Guide to PST (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/small-business-guide",
+        "quote": "Food for human consumption, including basic groceries, prepared foods, such as restaurant meals, candies, confections and some non-alcoholic beverages (soda beverages are subject to PST"
+      }
+    ],
+    "notes": "The guide is current (2026); exemption believed continuous since 2013-04-01 but the 2013 text was not fetched. Soda beverages are taxable since 2021-04-01 (outside this code's definition)."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "food.prepared",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Prepared food and restaurant meals are exempt from B.C. PST as food for human consumption; liquor (10%) and soda beverages (7%) sold with them are taxed separately.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Food and beverage service providers and retail liquor sellers (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "Sales of food for human consumption are exempt from PST, including: Meals"
+      },
+      {
+        "title": "Small Business Guide to PST (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/small-business-guide",
+        "quote": "prepared foods, such as restaurant meals"
+      }
+    ],
+    "notes": "Meal combos that include a soda beverage carry PST on the beverage portion (deemed price rules); separately charged containers are taxable. Pages are 2026 versions; continuity since 2013-04-01 not verified against 2013 text."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "food.catering",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Catering food and catering services are not subject to B.C. PST, but goods the customer keeps or goods the caterer leases to the customer (separately charged) are taxable at 7%, and liquor at 10%.",
+    "conditions": [
+      {
+        "when": "Food and the catering service itself (menu planning, preparing, plating, serving), including staff and setup, and mandatory gratuities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "All-inclusive or package price where tables, linens, dishware etc. are used by the caterer and not kept by the customer (caterer pays PST on its own purchase/lease of those goods; no PST charged to customer)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Goods the customer keeps after the event (decorations, candles, cake stands)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Rentals leased to the customer: contract says leased, the goods are charged separately, or package price varies with goods selected",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Liquor served (10% PST) or soda beverages (7% PST)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Food and beverage service providers and retail liquor sellers (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "Catering services (e.g. menu planning, preparing, plating and serving food) are not subject to PST."
+      },
+      {
+        "title": "Food and beverage service providers and retail liquor sellers (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "your customer is allowed to keep the goods after the event, you must charge your customer PST on those goods."
+      },
+      {
+        "title": "Food and beverage service providers and retail liquor sellers (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "You charge an additional amount to your customer for the goods (e.g. on the invoice, you separate the charge for your service from the charge for the goods)"
+      },
+      {
+        "title": "Food and beverage service providers and retail liquor sellers (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "You do not charge PST on mandatory gratuities because they do not form part of the purchase price paid by the customer."
+      }
+    ],
+    "notes": "Page published April 22, 2026 (replaced Bulletins PST 119/122); 2013 text not fetched. Liquor is 10%, not the 7% part rate. Non-mandatory 'service charges' are not addressed explicitly; mandatory gratuities are not taxed."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software accessed remotely (SaaS) for use on a device ordinarily situated in B.C. is taxable at 7% regardless of server location.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Software (gov.bc.ca, formerly Bulletin PST 105)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/software",
+        "quote": "PST applies regardless of the location of the server hosting the software or the delivery method, including software that is downloaded to an electronic device ordinarily situated in B.C., accessed remotely by an electronic device ordinarily situated in B.C., or delivered under the software as a service (SaaS) or infrastructure as a service (IaaS) model."
+      },
+      {
+        "title": "Notice 2023-005, Notice to Providers and Purchasers of Cloud Software and Services",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/notice-2023-005-notice-to-providers-purchasers-cloud-software-services.pdf",
+        "quote": "prior to the March 2023 decision, the Ministry considered cloud computing services (such as software as a service, remote storage and computing capacity) to be either the right to access taxable software programs, a taxable telecommunication service, or both."
+      }
+    ],
+    "notes": "Sourcing turns on the device being ordinarily situated in B.C. Hootsuite v. BC (2023 BCSC 358) held certain cloud infrastructure/support services not taxable; the Ministry said Budget 2024 legislation would retroactively support prior administration. Whether that legislation was enacted was not verified here (the Dec 2025 Software page treats SaaS as taxable). No separate 2021 change to software found."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software developed for one customer (and qualifying custom-modified software) is exempt, and services to software such as modifying it are not subject to PST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Software (gov.bc.ca, formerly Bulletin PST 105)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/software",
+        "quote": "If you're the person for whom the custom software or custom modified software was specifically developed or modified, you may purchase the software for your own use exempt from PST."
+      },
+      {
+        "title": "Software (gov.bc.ca, formerly Bulletin PST 105)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/software",
+        "quote": "You do not pay PST on services to software, including services to test, install, configure, modify, repair or restore software."
+      }
+    ],
+    "notes": "Custom modified software is exempt only if source code is changed solely for the customer and the price exceeds double the unmodified price; otherwise the prewritten copy itself stays taxable while the modification services are not. 2013 text not fetched."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.professional",
+    "from": "2013-04-01",
+    "to": "2026-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Legal services are taxable at 7% under B.C. PST; other professional services (accounting, consulting, engineering, etc.) are not taxed.",
+    "conditions": [
+      {
+        "when": "Legal services (practice of law / notary services) provided in B.C. to a person who resides or carries on business in B.C.",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Legal services partly paid by legal aid, or other specific exemptions in Bulletin PST 106",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Accounting, consulting, engineering, architectural and other non-legal professional services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin PST 106, Legal Services",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-106-legal-services.pdf",
+        "quote": "Legal services provided in B.C. to a person who resides, ordinarily resides or carries on business in B.C. are subject to PST, unless a specific exemption applies."
+      },
+      {
+        "title": "Bulletin PST 106, Legal Services",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-106-legal-services.pdf",
+        "quote": "PST at a rate of 7% applies to the purchase price of legal services."
+      },
+      {
+        "title": "B.C. news release, B.C. pauses PST expansion to professional services amid ongoing trade uncertainty (September 18, 2026)",
+        "url": "https://news.gov.bc.ca/releases/2026PREM0034-001089",
+        "quote": "As a result, the PST exemption will be maintained on professional services businesses, including accounting and bookkeeping, architectural, geoscientist and engineering services"
+      }
+    ],
+    "notes": "Bulletin PST 106 issued March 2013. That non-legal professional services were untaxed is inferred from the October 2026 expansion to accounting etc. having been planned and then paused; the September 18, 2026 news release says 'the PST exemption will be maintained' on accounting, engineering and the like, so they were untaxed before. Some lawyer activities (mediator, trustee, immigration services) are not legal services."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.professional",
+    "from": "2026-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Legal services stay taxable at 7%, with a new exemption for B.C. clients' legal services that relate to another jurisdiction; the planned PST on accounting, architectural, engineering, geoscience, non-residential real estate and security services was paused and did not start.",
+    "conditions": [
+      {
+        "when": "Legal services provided in B.C. to a B.C. resident/business relating to B.C.",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Portion of legal services relating to a jurisdiction other than B.C. (foreign real property, foreign proceedings, foreign law, etc.) for a B.C. resident/business",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Accounting, architectural, engineering, geoscience, consulting and other non-legal professional services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin PST 106, Legal Services (revised October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-106-legal-services.pdf",
+        "quote": "Effective October 1, 2026, legal services provided in B.C. are exempt from PST if the purchaser or recipient of the legal services resides, ordinarily resides or carries on business in B.C. and the legal services relate to a jurisdiction other than B.C."
+      },
+      {
+        "title": "Updates to sales taxes (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/tax-updates/updates-taxes-tax-credits/sales-taxes-updates",
+        "quote": "As announced today, the expansion of PST to accounting, architectural, engineering, geoscience, non-residential real estate, and security services is paused."
+      },
+      {
+        "title": "B.C. news release, B.C. pauses PST expansion to professional services amid ongoing trade uncertainty (September 18, 2026)",
+        "url": "https://news.gov.bc.ca/releases/2026PREM0034-001089",
+        "quote": "As a result, the PST exemption will be maintained on professional services businesses, including accounting and bookkeeping, architectural, geoscientist and engineering services"
+      }
+    ],
+    "notes": "Checked on gov.bc.ca 2026-10-30: the pause stands. 'Updates to sales taxes' carries it on September 18 and again on September 21, 2026 (telling those who registered to cancel their PST accounts), and the professional-services notice opens with it. The news release says the pause is 'through a temporary regulation'; that regulation was not read, and no end date is given. Some gov.bc.ca pages (FAQ, PST 101, PST 301, the accounting-services page) still describe those services as taxable from October 1, 2026. If the pause is lifted, this rule needs a new dated row."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Contractors do not charge PST to the owner for improvements to real property; the contractor pays PST on the materials it installs, and goods supplied that do not become real property are taxable to the customer.",
+    "conditions": [
+      {
+        "when": "Labour and materials that become part of real property (improvements, painting, roofing, plumbing, on-site repairs) (no PST charged to owner; contractor paid PST on materials)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Goods supplied or installed that do not become part of real property, or goods sold without installation",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Services to affixed machinery removed off-site, or travelling cranes/hoists",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Charging and collecting PST for contractors (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/charge-collect/pst-real-property-contractors/contractors-charging-pst",
+        "quote": "services to install goods that will become affixed machinery or improvements to real property upon installation, are not subject to PST. This means you do not charge your customers PST for these services"
+      },
+      {
+        "title": "Charging and collecting PST for contractors (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/charge-collect/pst-real-property-contractors/contractors-charging-pst",
+        "quote": "if you supply or install goods that do not become part of real property, you will need to charge your customers PST"
+      },
+      {
+        "title": "Paying PST on the purchase of goods used in contracts (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/charge-collect/pst-real-property-contractors/contractors-paying-pst",
+        "quote": "Any parts and materials you use to service or install goods that become part of real property upon installation"
+      }
+    ],
+    "notes": "Pages last updated Nov 27, 2025 (replaced Bulletins PST 500-506); 2013 text not fetched. PST is embedded in the contract price via the contractor's material purchases, so the owner's bill carries no PST line."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A seller's delivery charge for taxable goods, even separately stated, is part of the taxable purchase price when incurred at or before title transfers; delivery of exempt goods, and delivery incurred after title passes, is not taxed.",
+    "conditions": [
+      {
+        "when": "Delivery of taxable goods, charge incurred at or before title transfers (the usual case), or goods delivered into B.C. from outside",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery of exempt goods (e.g. food)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Mixed taxable and exempt goods in one delivery: the delivery charge is taxable on the portion reasonably attributed to the taxable goods",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery charge incurred after title has passed to the buyer (customer-owned goods delivered within B.C.)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Optional seller delivery of aggregate (from 2018-04-01)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin PST 302, Delivery Charges",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-302-delivery-charges.pdf",
+        "quote": "In most cases, delivery charges are incurred at or before the time title to the goods transfers. As a result, you generally charge PST on delivery charges as they form part of the taxable purchase price of the goods."
+      },
+      {
+        "title": "Bulletin PST 302, Delivery Charges",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-302-delivery-charges.pdf",
+        "quote": "You do not charge PST on delivery charges for goods that are exempt from PST"
+      }
+    ],
+    "notes": "Bulletin PST 302 issued April 2013, revised April 2026. Separate statement on the invoice does not by itself remove the charge from the purchase price (Bulletin examples tax separately stated delivery). Title-transfer timing is fact-specific."
+  }
+]

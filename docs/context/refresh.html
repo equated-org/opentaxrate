@@ -229,6 +229,11 @@
 </thead>
 <tbody>
 <tr>
+<td><code>taxability_rules</code></td>
+<td><code>tax</code>, <code>code</code>, <code>starts_on</code> (primary key), <code>ends_on</code>, <code>from_is</code>, <code>treatment</code> (<code>taxable</code>, <code>exempt</code>, <code>zero_rated</code>, <code>conditional</code>, <code>follows</code>), <code>follows</code>, <code>summary</code>, <code>conditions jsonb</code>, <code>citations jsonb</code>, <code>notes</code>, <code>file</code>. Checks require a citation, conditions on a conditional rule, and <code>follows</code> exactly when the treatment says so; an exclusion constraint (<code>btree_gist</code>) keeps one tax and code's date ranges from overlapping</td>
+<td><code>loadTaxabilityRules</code> (<code>src/taxability/ingest.ts</code>), from <code>src/taxability/rules/*.json</code>, replacing the table whole; read once per process by <code>loadRules</code></td>
+</tr>
+<tr>
 <td><code>sales_tax_data_releases</code></td>
 <td><code>state</code>, <code>kind</code> (<code>rates</code> or <code>boundaries</code>), <code>file</code>, <code>rows</code>, <code>loaded_at</code>, <code>first_listed</code> (rates whose source lists some only in its newest edition: that edition's first day, so a rate starting on it may have applied before; null otherwise); unique <code>(state, kind)</code></td>
 <td>every loader</td>

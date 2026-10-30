@@ -4,7 +4,7 @@ import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { eq, sql } from "drizzle-orm";
 import { client, db } from "../src/db/client.js";
-import { taxRuleRows, taxSourceFeatures, taxSourceSnapshots } from "../src/db/schema.js";
+import { taxSourceFeatures, taxSourceSnapshots } from "../src/db/schema.js";
 import { fetchEvidenceLayer, loadEvidence, minnesotaSources, washingtonSources } from "../src/ingest/supplemental.js";
 
 const source = { id: "test-supplemental", state: "CA", url: "https://example.test/FeatureServer/0", role: "tax-area" as const, note: "fixture" };
@@ -41,7 +41,6 @@ describe("versioned evidence", () => {
     const snapshots = await db.select().from(taxSourceSnapshots).where(eq(taxSourceSnapshots.source, source.id));
     expect(snapshots).toHaveLength(2);
     expect((await db.select().from(taxSourceFeatures).where(eq(taxSourceFeatures.snapshotId, first.id)))[0].attributes.RATE).toBe(.09);
-    expect(await db.select().from(taxRuleRows).where(eq(taxRuleRows.snapshotId, first.id))).toHaveLength(0);
     await expect(loadEvidence(source, [{ id: "2", attributes: {}, rings: [] }], {})).rejects.toThrow("invalid WGS84");
     // Syntactically plausible coordinates can still produce an empty or
     // invalid polygon. A database failure must roll back the manifest too.

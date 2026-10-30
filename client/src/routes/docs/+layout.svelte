@@ -20,6 +20,7 @@
 					links: [
 						{ href: '/docs#parameters', title: 'Parameters' },
 						{ href: '/docs#response', title: 'Response' },
+						{ href: '/docs#taxability', title: 'Taxability' },
 						{ href: '/docs#errors', title: 'Errors' }
 					]
 				},
@@ -30,6 +31,7 @@
 			title: 'Guides',
 			links: [
 				{ href: '/docs/codes', title: 'State codes and filing' },
+				{ href: '/docs/taxability', title: 'Taxability codes' },
 				{ href: '/docs/regions', title: 'Regional data' },
 				{ href: '/docs/releases', title: 'Data releases' }
 			]

@@ -54,6 +54,8 @@ export function answerKey(q: RateQuery & { date: string }, include: string[]): s
     (q.zip ?? "").replace("-", ""),
     q.date,
     [...include].sort().join("+"),
+    // Only with codes, so keys without any are unchanged.
+    ...(q.codes?.length ? [[...q.codes].sort().join(",")] : []),
   ].join("|");
 }
 

@@ -26,6 +26,7 @@ configuration and results with self-hosted geocoders only.
 | History | about 1,070 labelled | addresses on past dates (2024–2025) |
 | Typos | 373 | addresses typed with mistakes |
 | Boundary points | 2,836 point-dates in TX, CO, AK, AZ, VA, SC | rates and jurisdiction breakdowns near lines, without geocoding |
+| Taxability | about 600 sales in every state, DC and every province | whether a kind of sale (the `code` parameter) is taxed, against the agencies' own worked examples |
 
 Addresses are sampled from the USDOT National Address Database,
 OpenStreetMap, Mississippi's parcels and OpenAddresses across all states.
@@ -78,6 +79,7 @@ answers mean an incomplete run. Run one trial at a time.
 | `pnpm bench boundary NAME [SETTINGS]` | boundary points; `MARGIN=15` metres by default |
 | `pnpm bench split batch-dev-typos NAME` | typo set, separate from `all` |
 | `pnpm bench eval NAME` | private held-out sets; once after tuning, when available |
+| `pnpm bench taxability [--list]` | the taxability rules against the taxability cases; no database or geocoder |
 | `pnpm bench cost` | recorded geocoder spend |
 
 `SETTINGS` is a JSON override, e.g. `'{"breakdownMarginMetres":30}'`.
@@ -123,3 +125,26 @@ is [boundary/score.ts](../scripts/tuning/boundary/score.ts). See
 [^public]: Held-out sets, recorded geocodes, state-lookup replays and other providers' raw answers remain private. Rows without a redistribution licence publish source references rather than address text; `fetch` skips these, so a public run can have fewer addresses than the full development run.
 
 [^replay]: `KEYS_ENV` names an optional local credentials file; never commit it. The trial runner uses enabled providers with `STATE_LOOKUPS=MO` and Nominatim disabled. Replays live in `artifacts/tuning` (`TUNE_DIR` overrides it); a maintainer with backup credentials can use `pnpm bench restore`. Changes inside geocoder adapters need fresh calls because replays store already-matched answers; use a new `TUNE_DIR`. See [tuning notes](../scripts/tuning/README.md).
+
+## Taxability
+
+`artifacts/taxability/evals/` holds one sale per case, taken from a tax
+agency's own worked example or statement, with the sentence that settles it
+quoted word for word: the code it falls under (`src/taxability/codes.ts`),
+the date, and what each tax does with it. `dev/` is the development set, one
+file per state, DC, province and territory; the top-level `us.json` and
+`canada.json` were the first cases written. Like the other sets it lives
+outside the repository and is backed up by `pnpm rates backup` (the rule
+research it was written against is beside it, in `artifacts/taxability/rules/`).
+The cases are written apart from the rules in `src/taxability/rules/` and
+never read them, so a rule and its test can't share a misreading.
+
+`pnpm bench taxability` scores every case: *right* when every tax comes out
+as the source says; *wrong* when a tax is charged that the source says isn't,
+or the reverse; *kind* when the amount agrees but zero-rated and exempt are
+swapped; *declined* when the rule is conditional and the code doesn't carry
+the deciding fact; *not researched* when no rule covers the place, code and
+date. Keep a rule change only if *wrong* doesn't rise. Add a case by copying
+an agency example into the place's file; a new case that scores *wrong* is
+settled by reading the page, not by editing the case.
+

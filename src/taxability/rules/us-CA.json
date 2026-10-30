@@ -1,0 +1,490 @@
+[
+  {
+    "tax": "CA",
+    "code": "goods.general",
+    "from": "1933-08-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "California's sales tax applies to retailers' gross receipts from retail sales of tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6051",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6051.html",
+        "quote": "For the privilege of selling tangible personal property at retail a tax is hereby imposed upon all retailers"
+      }
+    ],
+    "notes": "Section 6051 imposes the tax on sales 'on or after August 1, 1933'. The state, Bradley-Burns local and district taxes share this base. Rates changed many times; only taxability is recorded here. Cited from CDTFA's Business Taxes Law Guide copy of the Revenue and Taxation Code because leginfo.legislature.ca.gov blocked automated fetching (Cloudflare challenge)."
+  },
+  {
+    "tax": "CA",
+    "code": "food.grocery",
+    "from": "1992-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food products for human consumption sold unprepared for home consumption are exempt from sales and use tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "There are exempted from the taxes imposed by this part the gross receipts from the sale of, and the storage, use, or other consumption in this state of, food products for human consumption."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(b)(1)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Cereals and cereal products, oleomargarine, meat and meat products, fish and fish products, eggs and egg products, vegetables and vegetable products, fruit and fruit products"
+      }
+    ],
+    "notes": "1992-12-01 is when Proposition 163 took effect and set subdivision (b)'s current list (section history). Staples were exempt before that too, but the exemption's original enactment date was not verified from the fetched sources. Between 1991-07-15 and 1992-11-30 'snack foods' and candy were taxable; the code excludes candy, so that period isn't modeled separately. Carbonated beverages and alcohol are outside 'food products' (6359(b)(3)) and outside this code. The exemption stops applying when any 6359(d) condition applies (meals, tableware, hot food, 80-80 rule, etc.); see food.prepared. Statute cited from CDTFA's Law Guide copy (leginfo blocked automated fetching)."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared",
+    "from": "1985-01-01",
+    "to": "1996-03-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Ready-to-eat food is taxable when hot, served as a meal or for eating at the retailer's facilities, or sold to go by a seller meeting the 80-80 rule; otherwise cold food to go is exempt.",
+    "conditions": [
+      {
+        "when": "Sold as a hot prepared food product (prepared for sale heated and sold above room air temperature), or a hot-and-cold combination sold for one established price",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Served as a meal, or furnished for consumption at tables, chairs or counters or from trays, glasses, dishes or other tableware provided by the retailer (or its contractor)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold at a drive-in type location where parking is provided primarily for patrons to eat there, even if taken to go",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for consumption within a place that charges admission (other than national and state parks and monuments, marinas, campgrounds and RV parks)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cold food to go in a form suitable for consumption on the seller's premises, and at that location over 80% of gross receipts are from food and over 80% of retail food sales are taxable (80-80 rule)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cold food to go, including separately priced hot bakery goods and hot non-soup beverages, when none of the above applies (seller fails the 80-80 rule, or food is not in a form suitable for on-premises consumption, e.g. a party tray)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products are sold as hot prepared food products."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1984, Ch. 930, effective January 1, 1985, changed subdivision letter and number designations, added all text in paragraph (6) of subdivision (d)."
+      },
+      {
+        "title": "18 CCR 1603(c)(3)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Tax applies under this subdivision (c) only if the seller meets both of the following criteria:"
+      }
+    ],
+    "notes": "Start date is when the 80-80 rule (6359(d)(6)) took effect. Hot prepared food (6359(d)(7)) dates from Stats. 1983, Ch. 323, operative 1983-08-01; earlier periods are not modeled. Before 1996-04-01 a seller meeting 80-80 could not opt out by separately accounting for cold to-go food. The regulation text cited is the current version; the 1985–1996 wording of Reg 1603 was not checked."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Ready-to-eat food is taxable when hot, served as a meal or for eating at the retailer's facilities, or sold to go by a seller meeting the 80-80 rule that hasn't elected separate accounting; otherwise cold food to go is exempt.",
+    "conditions": [
+      {
+        "when": "Sold as a hot prepared food product (prepared for sale heated and sold above room air temperature), or a hot-and-cold combination sold for one established price",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Served as a meal, or furnished for consumption at tables, chairs or counters or from trays, glasses, dishes or other tableware provided by the retailer (or its contractor)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold at a drive-in type location where parking is provided primarily for patrons to eat there, even if taken to go",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for consumption within a place that charges admission (other than national and state parks and monuments, marinas, campgrounds and RV parks)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cold food to go in a form suitable for consumption on the seller's premises, and at that location over 80% of gross receipts are from food and over 80% of retail food sales are taxable (80-80 rule)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cold food to go, including separately priced hot bakery goods and hot non-soup beverages, when none of the above applies (seller fails the 80-80 rule, or food is not in a form suitable for on-premises consumption, e.g. a party tray)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Cold food to go suitable for on-premises consumption from a seller that meets the 80-80 rule but elects to separately account for, and documents, its to-go cold food sales",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products sold are furnished in a form suitable for consumption on the seller's premises, and both of the following apply:"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(e)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "\"hot prepared food products\" means those products, items, or components that have been prepared for sale in a heated condition and that are sold at any temperature that is higher than the air temperature of the room or place where they are sold."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Operative April 1, 1996, although a seller may meet both criteria of the 80-80 rule, he or she may elect to separately account for the sale of \"take-out\" or \"to go\" orders of cold food products"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(f)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Tax applies to sales of sandwiches, ice cream, and other foods sold in a form for consumption at tables, chairs, or counters or from trays, glasses, dishes, or other tableware provided by the retailer"
+      }
+    ],
+    "notes": "The code says 'sold with eating utensils the seller provides', but California has no utensil test: courts have held a paper napkin isn't 'tableware' (Treasure Island Catering, annotated under 6359), though sandwiches on non-returnable cardboard trays counted (Hart's Drive-In). A cold sandwich sold to go with a plastic fork is exempt unless another condition applies. Delivered meals: Reg 1603(a)(2)(A) taxes meals and hot prepared food from restaurants 'whether served on or off the premises'; delivered cold food follows the to-go rules above (inference, unverified). 'Suitable for consumption on the seller's premises' means needing no further processing and sized for one person (Reg 1603(c)(2)). Vending machine sales have their own measure in Reg 1574 (not fetched). The 80-80 test is per location. Statute cited from CDTFA's Law Guide copy (leginfo blocked automated fetching)."
+  },
+  {
+    "tax": "CA",
+    "code": "food.catering",
+    "from": "2015-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A caterer's whole charge for food, drinks, serving labor, dishes, tables and related event planning is taxable, as are mandatory service charges; optional tips and separately stated non-food-service staff are not.",
+    "conditions": [
+      {
+        "when": "Food, drinks, serving labor (by the caterer, employees or subcontractors), use of dishes, silverware, glasses, chairs and tables, and event planning or coordination done in connection with the food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Tip, gratuity or service charge the caterer adds to the bill or that was negotiated in advance (mandatory, even if 'suggested' and later paid to staff)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Optional tip or gratuity the customer adds to the bill on its own",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Separately stated charges for services unrelated to the food service: optional entertainment, or staff who don't take part in preparing or serving food (coat check, parking, security)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Separately stated or itemized rental of property (the caterer is a lessor, taxed under Reg 1660 lease rules)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "18 CCR 1603(i)(3)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Tax applies to the entire charge made by caterers for serving meals, food, and drinks, inclusive of charges for food, the use of dishes, silverware, glasses, chairs, tables, etc., used in connection with serving meals, and for the labor of serving the meals"
+      },
+      {
+        "title": "18 CCR 1603(i)(3)(C)1",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Tax does not apply to separately stated charges for services unrelated to the furnishing and serving of meals, food, or drinks, such as optional entertainment or any staff who do not directly participate in the preparation, furnishing, or serving of meals, food, or drinks"
+      },
+      {
+        "title": "18 CCR 1603(h)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "The provisions of subdivision (h) apply to transactions occurring on and after January 1, 2015."
+      },
+      {
+        "title": "18 CCR 1603(h)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "A mandatory payment designated as a tip, gratuity, or service charge is included in taxable gross receipts, even if it is subsequently paid by the retailer to employees."
+      }
+    ],
+    "notes": "Start date is the stated effective date of Reg 1603(h), the current tips and service-charge rules. Before 2015 subdivision (g) made the same optional-versus-mandatory split, so the outcome was probably similar, but the earlier caterer wording was not verified and that period isn't modeled. The 'rentals' condition is an inference from (i)(3)(A): itemized rentals are taxed as leases, and Reg 1660 exceptions (e.g. property leased in substantially the same form after tax-paid purchase) were not checked. Reg 1603 was last amended 2023-03-22 with no regulatory effect."
+  },
+  {
+    "tax": "CA",
+    "code": "software.saas",
+    "from": "1999-01-29",
+    "to": "2026-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remote access to prewritten software, with no tangible copy or storage media transferred, is not a sale of tangible personal property and is not taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "18 CCR 1502(f)(1)(D)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "The sale or lease of a prewritten program is not a taxable transaction if the program is transferred by remote telecommunications from the seller's place of business, to or through the purchaser's computer and the purchaser does not obtain possession of any tangible personal property"
+      },
+      {
+        "title": "18 CCR 1502(i)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "A lease does not include a contract whereby a person secures access by means of remote telecommunication to a computer which is not on his or her premises"
+      },
+      {
+        "title": "18 CCR 1502(c)(7)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "Charges made for the use of a computer, on a time-sharing basis, where access to the computer is by means of remote telecommunication are not subject to tax."
+      }
+    ],
+    "notes": "Neither Reg 1502 nor the statute names SaaS. This rule rests on the regulation's remote-access and remote-transfer provisions and the general rule that only tangible personal property is taxed. Date: Reg 1502's history says the 1999-01-29 amendment added a sentence to the first paragraph of (f)(1)(D), so the remote-transfer sentence was in force by then. It may date from the 1988-03-04 amendment, but that is unverified. Taxable if storage media or other tangible property is transferred, or if the access is bundled with a taxable sale. Ends 2026-12-31: SB 122 taxes SaaS from 2027-01-01 (next rule)."
+  },
+  {
+    "tax": "CA",
+    "code": "software.saas",
+    "from": "2027-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "SB 122 makes digital products, including prewritten software accessed remotely, tangible personal property from January 1, 2027, so SaaS sold to California customers is taxable.",
+    "conditions": [
+      {
+        "when": "Purchased solely for use outside California",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Transferred with the right to reproduce and distribute it",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Really a service delivered electronically: primarily human effort by the provider, begun after the customer asked for it (not the right to use or access the provider's prewritten software)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Digital infrastructure the customer builds, deploys or runs its own software on (platform or infrastructure as a service), which is not a digital product",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CDTFA Special Notice L-1036, Sales and Use Tax Applies to Digital Products Beginning January 1, 2027 (September 2026)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/l1036.pdf",
+        "quote": "Beginning January 1, 2027, the definition of tangible personal property in the Sales and Use Tax Law will be expanded to include digital products and any copyright or patent interests associated with those digital products."
+      },
+      {
+        "title": "CDTFA Special Notice L-1036 (September 2026)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/l1036.pdf",
+        "quote": "A digital product is prewritten computer software transferred on tangible storage media, transferred electronically, or accessed remotely."
+      },
+      {
+        "title": "CDTFA Special Notice L-1036 (September 2026)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/l1036.pdf",
+        "quote": "Digital products representing a service, not including SaaS"
+      },
+      {
+        "title": "CDTFA Special Notice L-1036 (September 2026)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/l1036.pdf",
+        "quote": "was signed into law on June 29, 2026."
+      },
+      {
+        "title": "CDTFA, Tax Guide for Retailers and Purchasers of Digital Products: Retailers",
+        "url": "https://www.cdtfa.ca.gov/industry/retailers-and-purchasers-of-digital-products/retailers.htm",
+        "quote": "This exemption does not apply to the sale or purchase of the right to use the provider's prewritten computer software running on a cloud infrastructure or the right to access that software from various client devices through either a thin client interface, including a web browser, or a program interface."
+      }
+    ],
+    "notes": "Added 2026-10-30 from CDTFA's notice and guide; SB 122's text itself was not read. L-1036 says sales 'may be subject' to tax and CDTFA's guide says 'Emergency regulations are being drafted to interpret and clarify SB 122', so details may change before or after 2027-01-01. Over $5 million a year of a retailer's electronically delivered or remote digital products to one purchaser may shift the tax from the retailer to the purchaser as use tax; the taxability is the same. Place of sale for remote access is generally the customer's address (L-1036)."
+  },
+  {
+    "tax": "CA",
+    "code": "software.custom",
+    "from": "1982-09-22",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Custom programs and separately stated custom modifications are not sales and aren't taxable in any form; modification charges bundled unstated with a taxable prewritten program are taxable.",
+    "conditions": [
+      {
+        "when": "Program written to the customer's special order (other than a basic operational program), in any form, including the storage media and its documentation",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Separately stated charges for modifying a prewritten program to the customer's special order",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Modification charges not separately stated from a taxable sale of a prewritten program (e.g. on storage media), unless the modification is significant enough that the result qualifies as a custom program",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6010.9",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6010-9.html",
+        "quote": "\"Sale\" and \"purchase,\" for the purposes of this part, do not include the design, development, writing, translation, fabrication, lease, or transfer for a consideration of title or possession, of a custom computer program, other than a basic operational program"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6010.9 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6010-9.html",
+        "quote": "Added by Stats. 1982, Ch. 1274, in effect September 22, 1982."
+      },
+      {
+        "title": "18 CCR 1502(f)(2)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "Tax does not apply to the sale or lease of a custom computer program, other than a basic operational program, regardless of the form in which the program is transferred."
+      },
+      {
+        "title": "18 CCR 1502(f)(2)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "However, charges for custom modifications to prewritten programs are nontaxable only if the charges for the modifications are separately stated."
+      }
+    ],
+    "notes": "The legislature called section 6010.9 declaratory of existing law and allowed refunds back to 1972-07-01, so custom programs were arguably non-taxable before 1982-09-22; that period isn't modeled. Contrary to the lead, the storage media for a custom program are not separately taxable (6010.9 excludes the program 'in the form of storage media'). A program first built for in-house use and later sold is not custom (Navistar, annotated under 6010.9). Reg 1502(f)(2)(B)'s 50% test for significant modification is quoted only in part. Statute cited from CDTFA's Law Guide copy (leginfo blocked automated fetching). SB 122 (from 2027-01-01) keeps custom software exempt: CDTFA Special Notice L-1036 lists 'Custom computer software' among exempt digital products, and its retailer guide says 'The sale and purchase of custom computer software, other than a basic operation program, is exempt from tax.' From 2027 a prewritten program delivered electronically or remotely is taxable too, so the third condition likely reaches modification charges bundled with such a program, not only with one on storage media (inference, unverified)."
+  },
+  {
+    "tax": "CA",
+    "code": "service.professional",
+    "from": "1969-12-05",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services are not sales of tangible personal property, so tax does not apply even if some incidental property such as a report is transferred.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "18 CCR 1501",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1501.html",
+        "quote": "If the true object of the contract is the service per se, the transaction is not subject to tax even though some tangible personal property is transferred."
+      },
+      {
+        "title": "18 CCR 1501",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1501.html",
+        "quote": "a firm which performs business advisory, record keeping, payroll and tax services for small businesses and furnishes forms, binders, and other property to its clients as an incident to the rendition of its services is the consumer and not the retailer of such tangible personal property."
+      }
+    ],
+    "notes": "1969-12-05 is the effective date of Reg 1501's last amendment, so the current text is confirmed in force from then. The history says the principle dates from 1933 and was restated as of 1945-01-01, but the earlier wording is unverified. Tax applies if the true object is tangible property produced by the work (e.g. artwork, graphics or designs: Reg 1502(c)(4)), or if the professional separately sells goods."
+  },
+  {
+    "tax": "CA",
+    "code": "construction.real_property",
+    "from": "2008-02-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Under a construction contract the contractor is the consumer of the materials and the owner is charged no sales tax on materials or labor, but the contractor is the retailer of fixtures (and machinery and equipment) it furnishes and installs, and tax applies to them.",
+    "conditions": [
+      {
+        "when": "Materials that lose their identity in the real property (lumber, concrete, drywall, paint, roofing, etc.) and installation labor under a construction contract; the contractor pays tax on its own purchase",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Fixtures furnished and installed (e.g. lighting and plumbing fixtures, alarm fixtures), measured by the stated sale price or, if none is stated, the contractor's cost price",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Machinery and equipment furnished and installed under the contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contract explicitly transfers title to materials before installation and separately states their sale price, or a time-and-material contract bills 'sales tax' on marked-up materials (the contractor is the retailer of the materials)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "18 CCR 1521(b)(2)(A)1",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1521.html",
+        "quote": "Construction contractors are consumers of materials which they furnish and install in the performance of construction contracts."
+      },
+      {
+        "title": "18 CCR 1521(b)(2)(B)1",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1521.html",
+        "quote": "Construction contractors are retailers of fixtures which they furnish and install in the performance of construction contracts and tax applies to their sales of the fixtures."
+      },
+      {
+        "title": "18 CCR 1521(b)(2)(B)2.a",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1521.html",
+        "quote": "If the contract does not state the sale price of the fixture, the sale price shall be deemed to be the cost price of the fixture to the contractor."
+      },
+      {
+        "title": "18 CCR 1521(b)(2)(A)2",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1521.html",
+        "quote": "If the contract explicitly provides for the transfer of title to the materials prior to the time the materials are installed, and separately states the sale price of the materials, exclusive of the charge for installation, the contractor will be deemed to be the retailer of the materials."
+      }
+    ],
+    "notes": "Recorded as conditional rather than exempt: Reg 1521 makes the contractor the retailer of fixtures, so part of a lump-sum contract (at least the fixtures' cost price) is a taxable retail sale. For a contract with no fixtures or machinery, the owner pays no sales tax on the contract. Labor is never taxed. 2008-02-03 is the effective date of Reg 1521's last amendment, which confirms the current text. The regulation dates from 1939 and was rewritten effective 1976-04-01, but the earlier wording is unverified. Machinery-and-equipment treatment (Reg 1521(b)(2)(C)) was not quoted. CDTFA Publication 9 was not fetched (its URL returned a stub page)."
+  },
+  {
+    "tax": "CA",
+    "code": "delivery",
+    "from": "1995-07-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge is exempt when the goods ship directly to the buyer by common or contract carrier or US mail and the charge doesn't exceed the actual cost; handling, the excess over cost, and most deliveries in the seller's own vehicles are taxable.",
+    "conditions": [
+      {
+        "when": "The goods' sale is not taxable (e.g. groceries)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Shipped directly to the purchaser by US mail, independent contract carrier or common carrier, separately stated, up to the seller's actual transportation cost",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Portion of the charge above the seller's actual cost, or the seller keeps no records of actual delivery cost",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Charge designated 'handling', or the handling portion of a 'shipping and handling' or 'postage and handling' charge",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery in the seller's own vehicles or for a delivered price, where the sale (title passage) occurs on delivery",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery in the seller's own vehicles, separately stated, where the sale occurs before transport begins (e.g. explicit prior title transfer), up to a reasonable charge",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Charge for freight-in to the seller's place of business",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "18 CCR 1628(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html",
+        "quote": "tax does not apply to \"separately stated\" charges for transportation of property from the retailer's place of business or other point from which shipment is made \"directly to the purchaser,\" provided the transportation is by other than facilities of the retailer"
+      },
+      {
+        "title": "18 CCR 1628(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html",
+        "quote": "A separately stated charge designated \"handling\" or \"handling charge\" is not a separate statement of transportation charges."
+      },
+      {
+        "title": "18 CCR 1628(b)(2)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html",
+        "quote": "When the sale occurs before the transportation to the purchaser commences, the tax does not apply to separately stated charges for the transportation."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6012(c)(7)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6012.html",
+        "quote": "Separately stated charges for transportation from the retailers place of business or other point from which shipment is made directly to the purchaser, but the exclusion shall not exceed a reasonable charge for transportation by facilities of the retailer or the cost to the retailer of transportation by other than facilities of the retailer."
+      },
+      {
+        "title": "CDTFA Publication 100 (Rev. December 2017)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm",
+        "quote": "You deliver merchandise with your own vehicles. Exception: May not be taxable if title to merchandise transfers to buyer before delivery."
+      }
+    ],
+    "notes": "1995-07-19 is the effective date of Reg 1628's last amendment, which added the 'postage/shipping and handling' and 'handling' sentences. The carrier-delivery exclusion is much older (Reg 1628 adopted 1962), but its earlier wording is unverified. When a seller delivers in its own vehicles, title passes on delivery unless a written agreement says otherwise (Reg 1628(b)(3)(D)), so own-vehicle delivery charges are usually taxable. Delivery charges for exempt goods aren't taxable (Pub 100: 'Sale is not a taxable transaction. Related charges are not taxable.'). Mixed taxable and exempt shipments need apportionment, which was not researched (unverified)."
+  }
+]

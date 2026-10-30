@@ -1,14 +1,16 @@
 # Autonomous tax rate maintenance
 
-[← Data maintenance](../data.md) · [Sources](sources.md) · Release log: `client/src/lib/data-releases.json`, published at `/docs/releases`
+[← Data maintenance](../data.md) · [Sources](sources.md) · [Taxability](taxability.md) · Release log: `client/src/lib/data-releases.json`, published at `/docs/releases`
 
 This is the prompt for a scheduled agent (Claude, Codex) that keeps the
 published tax data current. `pnpm rates maintain cron` runs it monthly on the
-maintenance server; it can also be run by hand. When a publisher has a new
-edition, the agent builds a new release in a database of its own, checks
-and benchmarks it, and publishes it only past the gates below: with a
-human's approval, or, in an unattended run, on the gates alone. It never
-touches production.
+maintenance server; it can also be run by hand. Each month it looks for new
+editions and new sources, updates the rates, the geography and the
+taxability rules, builds a release in a database of its own, checks and
+benchmarks it, and publishes it only past the gates below: with a human's
+approval, or, in an unattended run, on the gates alone. Publishing backs up
+every input first, then the release, its entry in the release log, and the
+site. It never touches the production API or its database.
 
 Read first: `CLAUDE.md`, [data maintenance](../data.md), [sources](sources.md),
 the [refresh note](../context/refresh.html), `scripts/rates` (its
@@ -64,8 +66,17 @@ against this run's.
    of past editions) as [sources](sources.md#adding-a-source) describes, and
    record what you find there, loaded or not.
 
-If nothing is new and no code changed, report "no new editions" with what
-you checked, and stop.
+## 1b. Taxability rules
+
+Follow [taxability.md](taxability.md) after `maintain prepare` and `update`
+(step 2): fetch every cited and watched page again (`pnpm rates maintain
+taxability`), look for changed or new guidance, and update the rules.
+`pnpm rates maintain taxability-check` decides where a change goes: past its
+gates, it is committed to `main` and this run's release carries it; short of
+them, it goes to a pull request and the release keeps `main`'s rules.
+
+If nothing is new and no code changed, report "no new editions" (and the
+taxability result) with what you checked, and stop.
 
 ## 2. Build and check the update
 
@@ -89,7 +100,8 @@ Files go to `artifacts/maintenance/<run>/`.
   (a whole state's rates moving, many outlines vanishing, a source file
   going backwards) is a stop.
 - `bench` scores the standing address, history and boundary sets with
-  recorded geocodes (`pnpm bench all`), and reports this month's fresh check
+  recorded geocodes (`pnpm bench all`), the taxability rules against their
+  cases (`pnpm bench taxability`), and reports this month's fresh check
   ([bench-refresh.md](bench-refresh.md), `fresh.txt`) beside them. A set
   whose wrong answers rise above the accepted run's is marked `REGRESSION`:
   find which answers changed (`pnpm bench compare NAME BASE SET`) and
@@ -107,7 +119,9 @@ here, as an attended run does, and leaves the report for a human:
 - every changed rate in force today traces to a new official publication
   you found in step 1, and nothing in the diff is unexplained;
 - no code change is part of the update (a changed adapter or table goes to
-  a human as a commit to review, never straight to a release).
+  a human as a commit to review, never straight to a release); taxability
+  rule files are data, and are part of it only past `maintain
+  taxability-check`.
 
 `pnpm rates maintain publish` refuses on its own when the first two fail.
 
@@ -126,13 +140,19 @@ MAINT_APPROVED=yes pnpm rates maintain publish data-<run>   # or MAINT_AUTO_PUBL
 pnpm rates maintain accept                                  # this run's scores become the next run's baseline
 ```
 
-`notes.md` becomes the release's notes. Then add the release to the release
+Publishing backs up every input first (`pnpm rates backup`: the raw sources,
+and the benchmark and taxability sets, to restic, never pruned) and stops if
+that fails; no release exists without its inputs stored. `notes.md` becomes
+the release's notes. Then add the release to the release
 log, `client/src/lib/data-releases.json`, the one file the public
 [/docs/releases](https://opentaxrate.com/docs/releases) page is built from:
 first in the list, with its tag, date, release URL, dump name and size
 (`gh release view TAG --json url,publishedAt,assets`) and the same bullets.
-Commit it and push to `main`. Keep the run's database until production
-serves the release, then `pnpm rates maintain drop` it.
+Commit it (with this run's taxability rule changes, if they passed) and
+push to `main`, then deploy the site, so `/docs/releases` and the docs show
+the release: `scripts/deploy-site.sh` (it stops if the client check fails).
+Keep the run's database until production serves the release, then
+`pnpm rates maintain drop` it.
 
 Production pulls the release (`pnpm rates pull data-<run> --prod`) only when
 the human says so. If this release's migrations are newer than production's
@@ -144,9 +164,12 @@ showcase --check` asks the live API, without a key, about each chip and the
 three same-ZIP addresses. A failure goes in the report; don't change the
 examples unattended.
 
-Only commit the release log (and, attended, a reviewed source change);
+Only commit the release log, taxability rule changes that passed
+`maintain taxability-check` (and, attended, a reviewed source change);
 never commit `artifacts/` or `data/`. Push to `main` only after
 `pnpm typecheck`, the relevant tests, and `pnpm --dir client check` pass.
 
 End every run with a short report: new editions found (or none), what was
-built, checked and benched, what waits for approval, and what failed.
+built, checked and benched, taxability changes applied or proposed (with the
+pull request) or none, the backup's snapshots, the release and site deploy,
+what waits for approval (production pulling the release), and what failed.

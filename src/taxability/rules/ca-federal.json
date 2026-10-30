@@ -1,0 +1,416 @@
+[
+  {
+    "tax": "CA:GST/HST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "General retail goods are taxable supplies at the GST or HST rate of the province.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      }
+    ],
+    "notes": "The general taxing rule predates 2013 (GST since 1991). The CRA page is current guidance; no earlier dated copy was fetched. Rows use an inclusive 'to' date (last day in force)."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "goods.general",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "During the temporary GST/HST break, some goods in this code (toys, jigsaw puzzles, video game consoles, controllers and physical games, physical books, printed newspapers, Christmas trees) were zero-rated; other general goods stayed taxable.",
+    "conditions": [
+      {
+        "when": "children's toys, jigsaw puzzles, video game consoles, controllers or physical video games, physical books, printed newspapers, or Christmas and similar decorative trees",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "any other general goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "There was a temporary GST/HST break on certain items from December 14, 2024, to February 15, 2025."
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (qualifying categories)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Video game consoles, controllers, and physical video games"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "Temporary Zero-Rating – December 14, 2024 to February 15, 2025"
+      }
+    ],
+    "notes": "Category names are from the CRA page; the detailed statutory conditions for each category in Part XI (e.g. age limits for toys, exclusions) were not read in full. Timing of the supply within the period (payment/delivery) was also not checked item by item. Books and children's goods may fall outside goods.general by the code's own definition."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "goods.general",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "After the temporary break ended, general retail goods are again taxable at the GST or HST rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      }
+    ],
+    "notes": "The start date is the day after the stated end of the Part XI eligible period."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.grocery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "zero_rated",
+    "summary": "Basic groceries (food and food ingredients for eating at home) are zero-rated under Schedule VI, Part III of the Excise Tax Act.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "Supplies of food or beverages for human consumption (including sweetening agents, seasonings and other ingredients"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries (January 2007)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "The supply of basic groceries, which includes most supplies of food and beverages marketed for human consumption"
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Basic groceries such as milk, bread and vegetables"
+      }
+    ],
+    "notes": "Memorandum 4.3 dates from January 2007 and is still published, so zero-rating predates and continues past 2013-04-01. The code already excludes candy, soft drinks, snack foods and supplements, which Schedule VI Part III leaves taxable. The Dec 14, 2024 to Feb 15, 2025 break changed nothing for this code (already zero-rated)."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.prepared",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prepared food is taxable when it falls in the Schedule VI Part III exclusions (heated, sandwiches, salads, platters, dispensed beverages, vending machines, restaurant-type establishments); other seller-prepared food sold unheated in grocery form stays zero-rated.",
+    "conditions": [
+      {
+        "when": "food or beverages heated for consumption; sandwiches and similar products (not frozen); salads not canned or vacuum sealed; platters and other arrangements of prepared food; beverages dispensed where sold; sold through a vending machine; or sold at an establishment where all or substantially all food sales are of such items (e.g. a restaurant), including delivered restaurant meals",
+        "treatment": "taxable"
+      },
+      {
+        "when": "other food prepared by the seller sold unheated and not at such an establishment (e.g. a cold prepared meal from a grocery store for reheating at home)",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(o)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "food or beverages heated for consumption;"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(o.2)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "sandwiches and similar products other than when frozen;"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(o.1), (o.3), (o.4), (p)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "salads not canned or vacuum sealed;"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(q)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "food or beverages when sold at an establishment at which all or substantially all of the sales of food or beverages are"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 102",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "Food or beverages heated for consumption are excluded from zero-rating under paragraph 1(o) of Part III of Schedule VI."
+      }
+    ],
+    "notes": "The code's 'sold with eating utensils' test has no Canadian equivalent; Canada looks at heating, product type and the kind of establishment. The zero-rated branch is an edge case: Memorandum 4.3's guidance on unheated, ready-to-heat prepared meals was not read in detail, so treat that branch as unverified. Paragraphs (o) to (q) predate 2013 (cited in Memorandum 4.3, January 2007)."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.prepared",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "zero_rated",
+    "summary": "During the temporary GST/HST break, prepared meals, food and non-alcoholic beverages (including restaurant and take-out meals) were zero-rated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI, s. 11",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "A supply that is an eligible supply and that would be a supply included in section 1 of Part III if that section were"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Prepared meals and food, as well as all non-alcoholic beverages and eligible alcoholic beverages qualified for GST/HST relief"
+      }
+    ],
+    "notes": "Spirits, alcoholic beverages over 7% ABV other than beer and wine, and cannabis edibles were not relieved, but they are outside this code. The timing conditions (delivered or paid in the period) were not fully checked. A delivery charge billed by a third-party platform was not relieved."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.prepared",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "After the break, the same rule as before applies: Part III exclusions (heated, sandwiches, salads, platters, dispensed beverages, restaurant-type establishments) are taxable; other unheated seller-prepared food stays zero-rated.",
+    "conditions": [
+      {
+        "when": "food or beverages heated for consumption; sandwiches and similar products (not frozen); salads not canned or vacuum sealed; platters and other arrangements of prepared food; beverages dispensed where sold; sold through a vending machine; or sold at an establishment where all or substantially all food sales are of such items (e.g. a restaurant), including delivered restaurant meals",
+        "treatment": "taxable"
+      },
+      {
+        "when": "other food prepared by the seller sold unheated and not at such an establishment (e.g. a cold prepared meal from a grocery store for reheating at home)",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(o)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "food or beverages heated for consumption;"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(q)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "food or beverages when sold at an establishment at which all or substantially all of the sales of food or beverages are"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      }
+    ],
+    "notes": "The zero-rated branch is unverified, as for the pre-break row."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.catering",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food and beverages sold under a catering contract are excluded from basic-grocery zero-rating, so catering is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(o.5)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "food or beverages sold under a contract for, or in conjunction with, catering services;"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 121",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "The supply of all food or beverages sold under a contract for, or in conjunction with, catering services is taxable."
+      }
+    ],
+    "notes": "Staff, setup and rentals on the same bill are taxable services or property in any case. Memorandum 4.3 (January 2007) already cites paragraph 1(o.5), so the rule predates 2013."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.catering",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "During the temporary break, catering for providing, preparing and serving food and non-alcoholic or eligible alcoholic beverages was zero-rated, but admission, facility, entertainer and similar charges stayed taxable.",
+    "conditions": [
+      {
+        "when": "the provision, preparation and serving of food, non-alcoholic beverages or eligible alcoholic beverages, with service and payment both in the period",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "event admission charges, facility hosting fees, fees for entertainers, or chef services where the chef did not provide the ingredients",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI, s. 13",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "A supply (other than an exempt supply), made no later than the end of the eligible period, of a service of providing"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "A catering service generally qualified for GST/HST relief during the eligible period."
+      }
+    ],
+    "notes": "Equipment and tableware rentals are not named on the CRA page; whether they were zero-rated as part of the catering service is unverified. 'Facilities hosting fees' were listed as not qualifying."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "food.catering",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "After the temporary break ended, catering is taxable again under Schedule VI Part III s. 1(o.5).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(o.5)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "food or beverages sold under a contract for, or in conjunction with, catering services;"
+      }
+    ]
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Remotely accessed software is a taxable supply of intangible personal property or a service, taxed at the GST or HST rate of the province where the supply is made.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST and e-commerce",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-specific-situations/e-commerce.html",
+        "quote": "Supplies of intangible personal property (for example, a supply of software or a subscription to a website)"
+      },
+      {
+        "title": "CRA, GST/HST and e-commerce",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-specific-situations/e-commerce.html",
+        "quote": "If the supply is made in a participating province, you must charge the HST that applies for that province."
+      },
+      {
+        "title": "GST/HST Technical Information Bulletin B-090, GST/HST and Electronic Commerce (July 2002), Example 6",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/b-090/gst-hst-electronic-commerce.html",
+        "quote": "Consequently, this is characterized as a supply of a service."
+      }
+    ],
+    "notes": "Whether hosted software is intangible personal property or a service changes the place-of-supply rule, not the treatment: either way it is taxable for a Canadian resident consumer (no Schedule V or VI provision applies). B-090 (2002, quoting old 7%/15% rates) shows the characterization predates 2013. Exports to non-residents (Schedule VI Part V) are outside the code's scope."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software development is a taxable supply of a service or intangible personal property at the GST or HST rate of the province.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "GST/HST Technical Information Bulletin B-090 (July 2002), Characterization of Supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/b-090/gst-hst-electronic-commerce.html",
+        "quote": "a product is created or developed for a specific customer, but the supplier retains ownership of the product"
+      }
+    ],
+    "notes": "No CRA publication fetched addresses custom software development directly; 'taxable' rests on the general rule that supplies are taxable unless listed in Schedule V or VI, and no listing covers it. That reasoning is not a direct CRA statement."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "service.professional",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Legal, accounting, consulting, engineering and similar professional services are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST), taxable examples",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Legal services"
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), taxable examples",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Accounting services"
+      }
+    ],
+    "notes": "Exempt exceptions exist outside this code's examples: legal aid services and most health services by licensed physicians or dentists (Schedule V). Consulting and engineering are not named on the CRA page; they are taxable under the general rule. The CRA page is current guidance; no dated pre-2013 copy was fetched."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A registrant contractor building, repairing or renovating the owner's property charges GST/HST on labour and materials.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST and home construction",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-home-construction.html",
+        "quote": "you must charge and collect GST/HST from them on the labour and materials you provide"
+      }
+    ],
+    "notes": "The owner of new or substantially renovated housing may later claim a GST/HST new housing rebate, but the contractor cannot credit it at the point of sale; the sale itself is taxable. The CRA page is current guidance; no dated pre-2013 copy was fetched."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Delivery charged by the seller as part of a single supply of the goods follows the goods (e.g. zero-rated for basic groceries); delivery supplied separately is a taxable service.",
+    "conditions": [
+      {
+        "when": "the seller supplies the goods and delivery together as a single supply and the goods are zero-rated (e.g. basic groceries)",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "the seller supplies the goods and delivery together as a single supply and the goods are taxable",
+        "treatment": "taxable"
+      },
+      {
+        "when": "delivery is supplied separately from the goods (e.g. by a platform or carrier)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-202, Delivery Services Involving Platforms (September 2026)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-202/delivery-services-involving-platforms.html",
+        "quote": "the GST/HST generally follows the tax treatment of the goods."
+      },
+      {
+        "title": "GST/HST Info Sheet GI-202 (September 2026)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-202/delivery-services-involving-platforms.html",
+        "quote": "to a consumer as a single supply, the entire supply is zero-rated."
+      },
+      {
+        "title": "GST/HST Policy Statement P-077R2, Single and Multiple Supplies (April 26, 2004)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/p-077r2/p-077r2-single-multiple-supplies.html",
+        "quote": "Equally, separately identified prices for certain elements do not necessarily mean that there are two or more supplies."
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (delivery by an eating establishment)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "because it generally has the same tax status as the prepared meal."
+      }
+    ],
+    "notes": "The clearest statement (GI-202) is dated September 2026. Before that, the rule rests on P-077R2 (2004, a statement that separately stated prices can still be one supply) and on CRA guidance from 2024-25, so applying it from 2013-04-01 is an inference and unverified as an explicit CRA statement for that period. Whether a seller's separately stated delivery charge is one supply with the goods is a question of fact. Mixed-rate orders: GI-202 says the delivery charge is apportioned among the goods (not quoted here). During Dec 14, 2024 to Feb 15, 2025, seller-billed delivery of relieved goods or meals followed their zero-rating."
+  }
+]

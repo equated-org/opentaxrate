@@ -58,6 +58,10 @@ What to check for a new edition, and when it usually appears.
 A change announced for a future date belongs in the data as soon as it is
 published: rows carry their own dates.
 
+The taxability rules have their own watch list, `src/taxability/rules/watch.json`
+(each agency's notices and bulletin indexes), and their own step in the
+monthly run: [taxability.md](taxability.md).
+
 ## History sources
 
 Past editions can provide the lines and rates in force on a requested date, where loaded. Some states have past rates but only current outlines (see the [map engine](../context/map-engine.html#history)).

@@ -9,13 +9,14 @@
 #   scripts/bench split SPLIT [NAME] [PARAMS]  any labelled split, e.g. a new random sample (r3)
 #   scripts/bench boundary [NAME] [PARAMS]     points near lines, no geocoding (MARGIN=15)
 #   scripts/bench all [NAME] [PARAMS]          dev, history and boundary, one line each
+#   scripts/bench taxability [--list]          the taxability rules against the agencies' own examples (artifacts/taxability/evals)
 #   scripts/bench compare NAME BASE [SET]      what changed between two runs (SET: dev, eval, history, boundary, or a split)
 #   scripts/bench cost                         geocoder dollars recorded so far
 #   scripts/bench competitors ARGS...          other services on the same addresses (scripts/bench.ts)
 #   scripts/bench export [OUT]                 the public dev dataset (bench/benchmark.json's version) into OUT
 #   scripts/bench publish                      export into the dataset repository, tag v<version>, release it
 #   scripts/bench fetch                        download that version's release into artifacts/bench
-#   scripts/bench backup                       the private sets, replays and runs to restic (tag bench)
+#   scripts/bench backup                       every input to restic: scripts/rates backup (sources and bench tags)
 #   scripts/bench restore                      add them back from restic, keeping files already here
 #
 # NAME names the run (default: run-<time>); its answers go under
@@ -37,7 +38,7 @@ BOUNDARY_STATES=$(config ".boundary.join(' ')")
 VERSION=$(config .version)
 REPO=$(config .repo)
 die() { echo "$*" >&2; exit 1; }
-usage() { sed -n '6,19p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+usage() { sed -n '6,20p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 
 # A trial of SPLITS, then its one-line score.
 trial() {
@@ -71,6 +72,7 @@ case "$command" in
     trial "$split" "$name" "${3:-}" ;;
   boundary)
     boundary "$(name_or_default "${1:-}")" "${2:-}" ;;
+  taxability) npx tsx src/cli.ts taxability score "$@" ;;
   all)
     name=$(name_or_default "${1:-}")
     echo "dev:      $(trial "$DEV" "$name-dev" "${2:-}")"
@@ -129,7 +131,7 @@ case "$command" in
   # Everything not published: the eval splits, recorded geocodes and state
   # lookups, other services' answers, and every run. Needs the restic
   # settings scripts/backup-sources.sh names (docs/data.md).
-  backup) BACKUP_TAG=bench scripts/backup-sources.sh artifacts/bench artifacts/tuning ;;
+  backup) scripts/rates backup ;;
   restore)
     tmp=artifacts/.bench-restore
     rm -rf "$tmp"

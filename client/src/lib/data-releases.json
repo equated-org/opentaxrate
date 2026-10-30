@@ -1,5 +1,20 @@
 [
   {
+    "tag": "data-2026-10-30-taxability",
+    "published": "2026-10-30",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-10-30-taxability",
+    "dump": {
+      "name": "opentaxrate-2026-10-30.dump",
+      "bytes": 698815592
+    },
+    "changes": [
+      "Taxability rules for the API's new code= parameter: whether groceries, prepared food, catering, SaaS, custom software, professional services, construction, delivery and general goods are taxed, in Washington, New York, California and every Canadian province and territory.",
+      "136 dated rules, each citing the agency pages it was read from; a place, code and date without one answers not_researched rather than the general rate.",
+      "Scored against 674 sales from the agencies' own worked examples in every state, DC and province: 93 right, 0 wrong, 111 declined because the answer turns on facts the code doesn't carry, 470 in places not yet researched.",
+      "No rate changed from data-2026-10-22-history."
+    ]
+  },
+  {
     "tag": "data-2026-10-22-history",
     "published": "2026-10-22",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-10-22-history",

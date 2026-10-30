@@ -54,8 +54,47 @@ export interface AddressRate {
 	source: string;
 	/** Who the return goes to; absent from an API older than reporting. */
 	reporting?: Reporting | null;
+	/** With code=: how each code asked is taxed here, keyed by the code. */
+	taxability?: Record<string, Taxability>;
 	/** Supplemental regional evidence, requested with include=regions. */
 	regions?: Regions;
+}
+
+export type RuleTreatment = 'taxable' | 'exempt' | 'zero_rated' | 'conditional' | 'not_a_sale';
+
+/** A dated, cited rule for how one tax treats one code. */
+export interface TaxabilityRule {
+	/** First day the rule answers for. */
+	from: string;
+	/** Last day in force; open-ended when absent. */
+	to?: string;
+	/** earliest_verified: likely older, but earlier dates aren't researched. */
+	fromIs: 'effective' | 'earliest_verified';
+	treatment: RuleTreatment;
+	summary: string;
+	/** For a conditional rule, each fact the outcome turns on; for a settled
+	 *  one, exceptions worth knowing. */
+	conditions: Array<{ when: string; treatment: 'taxable' | 'exempt' | 'zero_rated'; rate?: number }>;
+	citations: Array<{ title: string; url: string; quote?: string }>;
+}
+
+/** How one kind of sale is taxed at the address on the date. */
+export interface Taxability {
+	treatment: 'taxable' | 'partial' | 'not_taxed' | 'conditional' | 'not_researched';
+	/** The combined rate on this sale; null exactly when conditional or not
+	 *  researched. Never fall back to the general rate. */
+	rate: number | null;
+	/** The parts grouped by the rule that decided them. */
+	taxes: Array<{
+		/** "NY", "CA:GST/HST", "ON/CA:HST", "BC:PST", or "*" for a nontaxable line. */
+		tax: string;
+		/** The codes of the answer's parts this rule decides. */
+		parts: string[];
+		treatment: RuleTreatment | 'not_researched';
+		rate: number | null;
+		/** Null only when not researched. */
+		rule: TaxabilityRule | null;
+	}>;
 }
 
 export interface RegionSource {

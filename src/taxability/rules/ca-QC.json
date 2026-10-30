@@ -1,0 +1,257 @@
+[
+  {
+    "tax": "QC:QST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "General tangible goods sold at retail in Québec are taxable supplies subject to QST at 9.975%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 16",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Every recipient of a taxable supply made in Québec shall pay to the Minister of Revenue a tax in respect of the supply calculated at the rate of 9.975% on the value of the consideration for the supply."
+      },
+      {
+        "title": "Revenu Québec — Taxable Supplies",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/taxable-supplies/",
+        "quote": "sales of clothing and footwear;"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "food.grocery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "zero_rated",
+    "summary": "Basic groceries (food for human consumption other than listed exclusions) are zero-rated for QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 177",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Supplies of food or beverages for human consumption, including seasonings, sweetening agents and other ingredients to be mixed with or used in the preparation of such food or beverages, other than supplies of the following, are zero-rated supplies"
+      },
+      {
+        "title": "Revenu Québec — Zero-Rated Supplies",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/zero-rated-supplies/",
+        "quote": "sales of basic groceries;"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. Groceries become taxable when sold at an establishment where at least 90% of food and beverage sales are taxable (s. 177(18)) — not the ordinary grocery-store case this code describes. From 2026-07-15 QST also zero-rates small-portion sweet baked goods, ice cream, pudding, seasoned nuts and trail mix at grocery stores (still GST-taxable); those are snack/confection items outside this code's definition. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "food.prepared",
+    "from": "2013-04-01",
+    "to": "2026-07-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated, salads, sandwiches and platters of prepared food are excluded from basic-grocery zero-rating and taxable for QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 177",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "(16) food or beverages heated for consumption; (16.1) salads not canned or vacuum sealed; (16.2) sandwiches and similar products other than when frozen; (16.3) platters of cheese, fruit, vegetables or cold cuts and other arrangements of prepared food;"
+      },
+      {
+        "title": "Revenu Québec — Heated Foods and Beverages",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/special-cases-gsthst-and-qst/food-services-sector-applying-the-gst-and-qst/groceries/heated-foods-and-beverages/",
+        "quote": "The sale of prepared foods and beverages heated for consumption is taxable"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. Restaurant meals are taxable under s. 177(18) (establishments where substantially all food sales are taxable). Prepared food sold unheated in a form not covered by 177(16)-(16.3) (e.g. a cold cooked chicken from a refrigerated counter) can be zero-rated; the code's 'mixed or combined' items fall within salads/sandwiches/platters. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "food.prepared",
+    "from": "2026-07-15",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Prepared food stays QST-taxable, except that platters of prepared fruit or vegetables sold at grocery stores and similar establishments became zero-rated for QST on 2026-07-15.",
+    "conditions": [
+      {
+        "when": "Fruit salads, or platters/arrangements of prepared (cut, washed) fruit or vegetables with incidental accompaniments, sold at a grocery store or similar establishment that is not one where all or substantially all food sales are taxable, and not through a vending machine or under/with catering",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "Any other prepared food: heated food, sandwiches, other salads, cheese or cold-cut platters, or any food at a restaurant or other establishment where all or substantially all food sales are taxable",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenu Québec Tax News (2026-05-27) — Zero-Rating of Certain Products for QST Purposes",
+        "url": "https://www.revenuquebec.ca/en/press-room/tax-news/details/2026-05-27/zero-rating-of-certain-products-for-qst-purposes/",
+        "quote": "certain food items and hygiene products would be zero-rated for QST purposes as of July 15, 2026."
+      },
+      {
+        "title": "Revenu Québec Tax News (2026-05-27) — Zero-Rating of Certain Products for QST Purposes",
+        "url": "https://www.revenuquebec.ca/en/press-room/tax-news/details/2026-05-27/zero-rating-of-certain-products-for-qst-purposes/",
+        "quote": "platters and arrangements of prepared vegetables (cut, washed, etc.), together with, if applicable, any incidental accompaniments when supplied with the vegetables for a single consideration;"
+      },
+      {
+        "title": "Revenu Québec Tax News (2026-05-27) — Zero-Rating of Certain Products for QST Purposes",
+        "url": "https://www.revenuquebec.ca/en/press-room/tax-news/details/2026-05-27/zero-rating-of-certain-products-for-qst-purposes/",
+        "quote": "the measure will not apply to food sold through a vending machine or to food sold under a contract for, or in conjunction with, catering services."
+      },
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 177",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "(16) food or beverages heated for consumption; (16.1) salads not canned or vacuum sealed; (16.2) sandwiches and similar products other than when frozen;"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). Source is the Revenu Québec Tax News announcement of the 2026-05-25 government measure (Ministère des Finances information bulletin 2026-4). The enacted amending legislation was not verified; the 2026-08-07 Revenu Québec 'Details Regarding the Zero-Rating' page had no archive snapshot and could not be fetched. GST still applies to these items. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "food.catering",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food and beverages supplied by a caterer are taxable for QST whether or not service is included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 177",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "(16.5) food or beverages sold under a contract for, or in conjunction with, catering services;"
+      },
+      {
+        "title": "Revenu Québec — Heated Foods and Beverages",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/special-cases-gsthst-and-qst/food-services-sector-applying-the-gst-and-qst/groceries/heated-foods-and-beverages/",
+        "quote": "All foods and beverages supplied by a caterer are taxable, regardless of whether or not service of the foods and beverages is included in the terms of the contract."
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. Service, staff and rental charges are ordinary taxable services under s. 16. Exempt only for institutional contracts (e.g. s. 118 health-care institutions), not ordinary consumers. Catering is expressly excluded from the 2026-07-15 zero-rating measure. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Remotely accessed prewritten software sold to a Québec consumer is a taxable supply of incorporeal movable property or a service subject to QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 16",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Every recipient of a taxable supply made in Québec shall pay to the Minister of Revenue a tax in respect of the supply calculated at the rate of 9.975% on the value of the consideration for the supply."
+      },
+      {
+        "title": "Revenu Québec — Collecting the QST (suppliers outside Québec)",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/special-cases-gsthst-and-qst/suppliers-outside-quebec/collecting-the-qst/",
+        "quote": "you must collect the QST on your taxable supplies, other than zero-rated supplies of incorporeal movable property or services made in Québec to specified Québec consumers, and remit the tax to us."
+      },
+      {
+        "title": "Revenu Québec — Sales of Incorporeal Movable Property (place of supply)",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/place-of-supply/sales-of-incorporeal-movable-property/",
+        "quote": "A Québec registrant licences software to a Québec business for use by the employees of the head office situated in Québec."
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. No QST provision exempts or zero-rates software or SaaS; taxability follows the s. 16 general rule. The 2019-01-01 specified (simplified) registration system for suppliers outside Québec changed who must collect, not whether the supply is taxable. No Revenu Québec page naming 'SaaS' specifically was found; characterization of SaaS as incorporeal property vs. service is unverified but both are taxable. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software development supplied in Québec is a taxable supply subject to QST under the general rule.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 16",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Every recipient of a taxable supply made in Québec shall pay to the Minister of Revenue a tax in respect of the supply calculated at the rate of 9.975% on the value of the consideration for the supply."
+      },
+      {
+        "title": "Revenu Québec — Taxable Supplies",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/taxable-supplies/",
+        "quote": "The supply of a good or service (including zero-rated supplies) is said to be a taxable supply if it is subject to the GST and QST and is made in the course of commercial activities"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. No exemption or zero-rating for software development exists among the exempt/zero-rated categories Revenu Québec lists; no source addresses custom software by name (unverified as a specific statement). A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "service.professional",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Legal, accounting, consulting, engineering and similar professional services supplied in Québec are taxable for QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 16",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Every recipient of a taxable supply made in Québec shall pay to the Minister of Revenue a tax in respect of the supply calculated at the rate of 9.975% on the value of the consideration for the supply."
+      },
+      {
+        "title": "Revenu Québec — Taxable Supplies",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/taxable-supplies/",
+        "quote": "computers sold to a law firm, as well as legal services provided by the firm;"
+      },
+      {
+        "title": "Revenu Québec — Exempt Supplies",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/exempt-supplies/",
+        "quote": "the provision of most health, education, childcare and legal-aid services;"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. Exceptions outside the ordinary case: most health-care professional services, education services and legal-aid services are exempt. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Construction, renovation and repair work billed to a Québec property owner (labour and materials) is taxable for QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 16",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Every recipient of a taxable supply made in Québec shall pay to the Minister of Revenue a tax in respect of the supply calculated at the rate of 9.975% on the value of the consideration for the supply."
+      },
+      {
+        "title": "Revenu Québec — Fair for all: Home renovations",
+        "url": "https://justepourtous.revenuquebec.ca/en/subjects/home-renovations",
+        "quote": "A receipt confirms that the contractor collects GST and QST."
+      },
+      {
+        "title": "Revenu Québec — Taxable Supplies",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/taxable-supplies/",
+        "quote": "sales of new residential complexes;"
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. Owners of substantially renovated or new housing may claim a partial QST rebate after the fact; that is a rebate, not an exemption at sale. Guide IN-261-V (construction/renovation of residential complexes) was located but its PDF was not read. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery of goods to a Québec buyer is a taxable freight transportation service (or part of the consideration for taxable goods) subject to QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenu Québec — Freight Transportation Services",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/special-cases-gsthst-and-qst/transportation-applying-the-gst-and-qst/freight-carriers/freight-transportation-services/",
+        "quote": "Freight and passenger transportation services (other than municipal transportation services) supplied in Canada are subject to GST (and QST, if supplied in Québec)."
+      },
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 16",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Every recipient of a taxable supply made in Québec shall pay to the Minister of Revenue a tax in respect of the supply calculated at the rate of 9.975% on the value of the consideration for the supply."
+      }
+    ],
+    "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. Unverified: no official Québec source found stating how a seller's separately stated delivery charge is treated when the delivered goods are zero-rated (e.g. groceries). Freight moved from elsewhere in Canada into Québec is deemed supplied outside Québec and the Québec recipient self-assesses QST; international freight is zero-rated. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages."
+  }
+]

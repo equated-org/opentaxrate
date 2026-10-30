@@ -5,14 +5,17 @@
 #
 #   scripts/rates status                      newest release; what production runs and serves
 #   scripts/rates snapshot [--check] [--db D] this stack's data to data/opentaxrate-DATE.dump
-#   scripts/rates publish [TAG] [--db D]      snapshot, then GitHub Release TAG (default data-DATE)
+#   scripts/rates publish [TAG] [--db D]      back up, snapshot, then GitHub Release TAG (default data-DATE)
 #   scripts/rates restore TAG|DUMP --db D     a release into a new database D, schema and all
 #   scripts/rates pull TAG --prod             load release TAG into production
 #   scripts/rates pull TAG --local [--db D]   load it into this stack (database D), to try it first
 #   scripts/rates load DUMP [--db D]          replace this stack's published data with DUMP's
 #   scripts/rates install DUMP|URL            fill a new, empty install from a dump
+#   scripts/rates backup                      back up every input to restic: the raw sources (tag
+#                                             sources) and the benchmark and taxability sets (tag bench)
 #   scripts/rates maintain STEP               a maintenance run: prepare [TAG], update [STATE...],
-#                                             check, bench, publish TAG, accept, drop, cron
+#                                             taxability, taxability-check, check, bench, publish TAG,
+#                                             accept, drop, cron
 #
 # Published data is TAX_TABLES below. The rest (EMPTY_TABLES) belongs to the
 # server that holds it: accounts, keys, request history, credit, the
@@ -41,9 +44,9 @@ cd "$(dirname "$0")/.."
 # nothing new reaches a public dump by default.
 TAX_TABLES="sales_tax_areas sales_tax_data_releases sales_tax_jurisdiction_rates
   sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges zip_areas zip_street_names
-  tax_source_snapshots tax_source_features"
+  tax_source_snapshots tax_source_features taxability_rules"
 EMPTY_TABLES="geocode_results geocoder_usage user session account verification
-  apikey api_requests credit_grants tax_rule_rows"
+  apikey api_requests credit_grants"
 
 COMPOSE=${COMPOSE:-docker compose}
 HOST=${OPENTAXRATE_HOST:-opentaxrate}
@@ -52,7 +55,7 @@ SERVER_DIR=/opt/opentaxrate
 SERVER_COMPOSE="docker compose --env-file deploy/.env -f docker-compose.yml -f deploy/compose.public.yml"
 db=opentaxrate
 
-usage() { sed -n '6,15p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
+usage() { sed -n '6,17p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 die() { echo "$*" >&2; exit 1; }
 psql() { $COMPOSE exec -T db psql -U opentaxrate -d "$db" -At -v ON_ERROR_STOP=1 "$@"; }
 # psql on the server's own database, for creating and dropping others.
@@ -164,12 +167,40 @@ snapshot() {
   trap 'rm -f "$tmp"' EXIT HUP INT TERM
   $COMPOSE exec -T db pg_dump -U opentaxrate -Fc -Z 6 \
     --no-owner --no-privileges --no-comments --strict-names \
-    --extension=postgis --table=drizzle.__drizzle_migrations "$@" "$db" > "$tmp"
+    --extension=postgis --extension=btree_gist --table=drizzle.__drizzle_migrations "$@" "$db" > "$tmp"
   $COMPOSE exec -T db pg_restore --list < "$tmp" > /dev/null
   mv "$tmp" "$out"
   trap - EXIT HUP INT TERM
   ls -lh "$out" >&2
   echo "$out"
+}
+
+# Backs up everything a release is built from, so no release exists
+# without its inputs stored: artifacts/sources (every download, the cited
+# taxability pages included) as the restic tag "sources", and the
+# benchmark sets, runs and taxability research and cases as "bench".
+# Snapshots are dated and never pruned. Settings (scripts/backup-sources.sh):
+# from the environment, else KEYS_ENV; failing both, OPENTAXRATE_SECRETS_RUN
+# is a command prefix that runs a command with them in its environment (a
+# secret manager's "run" command), and the backup runs again under it.
+backup() {
+  if [ -z "${OPENTAXRATE_RESTIC_PASSWORD:-}" ] && [ -n "${KEYS_ENV:-}" ] && [ -f "$KEYS_ENV" ]; then
+    set -a; . "$KEYS_ENV"; set +a
+  fi
+  if [ -z "${OPENTAXRATE_RESTIC_PASSWORD:-}" ] && [ -n "${OPENTAXRATE_SECRETS_RUN:-}" ] && [ -z "${OPENTAXRATE_SECRETS_TRIED:-}" ]; then
+    OPENTAXRATE_SECRETS_TRIED=1 sh -c "$OPENTAXRATE_SECRETS_RUN \"\$0\" backup" "$(pwd)/scripts/rates" ||
+      die "Backing up under OPENTAXRATE_SECRETS_RUN failed: does it still have access to the settings?"
+    return
+  fi
+  [ -n "${OPENTAXRATE_RESTIC_PASSWORD:-}" ] && [ -n "${R2_ACCOUNT_ID:-}" ] ||
+    die "Backing up needs R2_ACCOUNT_ID, an R2 access key and OPENTAXRATE_RESTIC_PASSWORD: in the environment, KEYS_ENV, or through OPENTAXRATE_SECRETS_RUN (docs/data.md#backups)."
+  [ -d artifacts/sources ] || die "No artifacts/sources here to back up."
+  scripts/backup-sources.sh artifacts/sources >&2 || die "Backing up artifacts/sources failed."
+  set --
+  for d in artifacts/bench artifacts/tuning artifacts/taxability; do [ -d "$d" ] && set -- "$@" "$d"; done
+  if [ $# -gt 0 ]; then
+    BACKUP_TAG=bench scripts/backup-sources.sh "$@" >&2 || die "Backing up $* failed."
+  fi
 }
 
 publish() {
@@ -189,6 +220,8 @@ publish() {
   if gh release view "$tag" --repo "$repo" > /dev/null 2>&1; then
     die "Release $tag already exists; choose a new tag. Nothing was changed."
   fi
+  # The inputs first: a release never exists without them backed up.
+  backup
   dump=$(snapshot)
   name=$(basename "$dump")
   (cd data && sha256sum "$name" > "$name.sha256")
@@ -247,9 +280,15 @@ load() {
   if [ -z "$theirs" ] || [ "$ours" != "$theirs" ]; then
     die "The dump's migrations ($(echo "$theirs" | grep -c .)) aren't this database's ($(echo "$ours" | grep -c .)): deploy the revision the dump was made with, or publish one from this revision."
   fi
-  # tax_rule_rows refers to tax_source_snapshots, so it is emptied with it.
-  rules=$(psql -c "select count(*) from tax_rule_rows")
-  [ "$rules" = 0 ] || die "tax_rule_rows has $rules rows, which loading would erase. Move them out first."
+  # A database older than migration 0015 still has tax_rule_rows, which
+  # refers to tax_source_snapshots, so it is emptied with it; since 0015
+  # the table is gone.
+  legacy=""
+  if [ "$(psql -c "select to_regclass('public.tax_rule_rows') is not null")" = t ]; then
+    rules=$(psql -c "select count(*) from tax_rule_rows")
+    [ "$rules" = 0 ] || die "tax_rule_rows has $rules rows, which loading would erase. Move them out first."
+    legacy=" public.tax_rule_rows,"
+  fi
 
   list="" names="" select=""
   for t in $TAX_TABLES; do
@@ -268,7 +307,7 @@ load() {
   {
     echo "begin;"
     echo "set lock_timeout = '60s';"
-    echo "truncate $list public.tax_rule_rows;"
+    echo "truncate$legacy ${list%,};"
     echo "set lock_timeout = 0;"
     # The dump's rows aren't in foreign-key order. They came from one
     # consistent database, so this transaction skips the foreign-key checks.
@@ -351,7 +390,7 @@ install() {
     ) counts")
   [ "$in_use" = 0 ] || die "This database has $in_use account, request or credit rows; install would erase them. Use 'scripts/rates load' to replace only the tax data."
   # Table-selected dumps carry migration history but not its parent schema.
-  psql -c 'create schema if not exists drizzle' > /dev/null
+  psql -c 'create schema if not exists drizzle' -c 'create extension if not exists btree_gist' > /dev/null
   $COMPOSE exec -T db pg_restore -U opentaxrate -d "$db" \
     --clean --if-exists --no-owner --no-privileges --exit-on-error < "$src"
   echo "Installed $src; now run: docker compose up -d"
@@ -370,7 +409,7 @@ restore() {
   [ "$(psql_server -c "select count(*) from pg_database where datname = '$db'")" = 0 ] ||
     die "Database $db already exists. Drop it first if it is a scratch copy."
   psql_server -q -c "create database $db"
-  psql -q -c 'create extension if not exists postgis' -c 'create schema if not exists drizzle'
+  psql -q -c 'create extension if not exists postgis' -c 'create extension if not exists btree_gist' -c 'create schema if not exists drizzle'
   $COMPOSE exec -T db pg_restore -U opentaxrate -d "$db" --no-owner --no-privileges --exit-on-error < "$dump"
   echo "Restored $dump into $db"
 }
@@ -415,7 +454,39 @@ maintain() {
       DATABASE_URL=$url pnpm -s refresh "$@" 2>&1 | tee -a "$dir/update.log"
       note "ingest $*"
       DATABASE_URL=$url pnpm -s ingest "$@" 2>&1 | tee -a "$dir/update.log"
+      # The taxability rules as they are in this checkout (rules/taxability).
+      # Not piped, so a rule file that fails its checks stops the update
+      # instead of leaving the last release's rules in place unnoticed.
+      note "taxability rules"
+      DATABASE_URL=$url pnpm -s ingest --kind taxability --no-fetch >> "$dir/update.log" 2>&1 ||
+        die "Loading the taxability rules failed: see $dir/update.log."
       note "done" ;;
+    taxability)
+      # Every page a rule cites and every watched page, downloaded again:
+      # what changed, and which cited quotes are gone (taxability.md).
+      note "taxability sources"
+      npx tsx src/cli.ts taxability fetch --out "$dir/taxability" 2>&1 | tee -a "$dir/taxability.log"
+      note "done: $dir/taxability/sources.txt" ;;
+    taxability-check)
+      # The gates a rule change passes before it goes to main unattended:
+      # the files load (every check ingest makes), every changed rule's
+      # citations are archived with their quotes on the page, the tests
+      # pass, and the rules' wrong answers don't rise above the accepted
+      # run's. Loads the rules into this run's database, archiving any
+      # newly cited page.
+      need
+      out=$dir/taxability/check.txt
+      mkdir -p "$dir/taxability"
+      DATABASE_URL=$url pnpm -s ingest --kind taxability > "$out" 2>&1 || { cat "$out" >&2; die "The rule files don't load."; }
+      npx tsx src/cli.ts taxability verify --since "${MAINT_BASE:-origin/main}" >> "$out" 2>&1 ||
+        { cat "$out" >&2; die "A changed rule's citation doesn't check: $out."; }
+      pnpm -s vitest run test/taxability.test.ts >> "$out" 2>&1 || { tail -20 "$out" >&2; die "test/taxability.test.ts fails."; }
+      now=$(DATABASE_URL=$url scripts/bench taxability | awk '$1 == "all" { print $4 }')
+      was=$(grep '^taxability:' artifacts/maintenance/accepted 2>/dev/null | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
+      [ -n "$now" ] || die "The taxability benchmark didn't score."
+      [ -z "$was" ] || [ "$now" -le "$was" ] || die "Taxability wrong answers rose: $was -> $now."
+      echo "taxability changes pass: wrong ${was:-?} -> $now" | tee -a "$out" >&2
+      note "taxability changes pass" ;;
     check)
       need
       psql -F '	' -v day="$day" -f - > "$dir/check.tsv" <<EOF
@@ -441,16 +512,22 @@ EOF
       { [ -f "$dir/fresh.txt" ] && echo "fresh:    $(head -1 "$dir/fresh.txt")"; true; } > "$out"
       # The standing sets (pnpm bench all), with recorded geocodes.
       ( keys; DATABASE_URL=$url scripts/bench all "maint-$run" ) >> "$out"
+      # The taxability rules this run loaded, against the agencies' own cases.
+      DATABASE_URL=$url scripts/bench taxability | awk '$1 == "all" {
+        printf "taxability: n=%5d  right %5d  wrong %4d  kind %3d  declined %4d  not_researched %4d\n", $2, $3, $4, $5, $6, $7 }' >> "$out"
       awk -v now="$(spent)" -v start="$start" -v budget="$budget" 'BEGIN { exit !(now - start >= budget) }' &&
         echo "Over budget: geocoder spend passed \$$budget." >> "$out"
       # A set with more wrong answers than the accepted run's is a regression.
       if [ -f artifacts/maintenance/accepted ]; then
         echo "Against the accepted run, $(head -1 artifacts/maintenance/accepted):" >> "$out"
         # A fresh check is a new sample each time: reported, not compared.
-        for set in dev history boundary; do
+        for set in dev history boundary taxability; do
           now=$(grep "^$set:" "$out" | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
           was=$(grep "^$set:" artifacts/maintenance/accepted | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
-          [ -n "$now" ] && [ -n "$was" ] || continue
+          [ -n "$was" ] || continue
+          # A set the accepted run scored but this run didn't is a failed
+          # bench, not a pass.
+          [ -n "$now" ] || { echo "  $set: no score this run  REGRESSION" >> "$out"; continue; }
           echo "  $set: wrong $was -> $now$([ "$now" -gt "$was" ] && echo "  REGRESSION")" >> "$out"
         done
       fi
@@ -501,14 +578,14 @@ cron() {
   [ -e "$tree/.git" ] || git worktree add --detach "$tree" origin/main
   git -C "$tree" fetch -q origin main
   git -C "$tree" checkout -q -B maint origin/main
-  for shared in artifacts data .env; do
+  for shared in artifacts data .env client/.env; do
     [ -e "$main/$shared" ] && [ ! -L "$tree/$shared" ] && { rm -rf "${tree:?}/$shared"; ln -s "$main/$shared" "$tree/$shared"; }
   done
   cd "$tree"
   pnpm install --frozen-lockfile --silent
   status=0
   claude -p "You are the unattended monthly maintenance run for OpenTaxRate, in $tree, a worktree of main: push with 'git push origin HEAD:main'.
-Follow docs/maintenance/cron.md from start to finish as an unattended run, starting with docs/maintenance/bench-refresh.md (its step 0): MAINT_AUTO_PUBLISH=yes is set, so publish only if every gate in step 3 holds; otherwise stop and leave the report for a human.
+Follow docs/maintenance/cron.md from start to finish as an unattended run, starting with docs/maintenance/bench-refresh.md (its step 0) and including docs/maintenance/taxability.md (its step 1b): MAINT_AUTO_PUBLISH=yes is set, so publish only if every gate in step 3 holds; otherwise stop and leave the report for a human. Taxability rule changes go to main only past 'pnpm rates maintain taxability-check', otherwise to a pull request on taxability-<run>. After publishing, push the release log (and passing rule changes) to main and deploy the site with scripts/deploy-site.sh.
 Use MAINT_RUN=$(date -u +%F). KEYS_ENV=$KEYS_ENV holds the keys the bench needs. Never touch production.
 End with the short report the prompt asks for." \
     --dangerously-skip-permissions ${CLAUDE_MODEL:+--model "$CLAUDE_MODEL"} --output-format text || status=$?
@@ -551,6 +628,7 @@ case "$command" in
     [ -n "$dump" ] || usage
     load "$dump" ;;
   install) install "$@" ;;
+  backup) backup ;;
   maintain) maintain "$@" ;;
   *) usage ;;
 esac

@@ -1,0 +1,252 @@
+[
+  {
+    "place": "BC",
+    "title": "BC Gov News, Ministry of Finance",
+    "url": "https://news.gov.bc.ca/ministries/finance",
+    "what": "Finance news releases by date; budget PST measures (e.g. professional services) are announced here first."
+  },
+  {
+    "place": "BC",
+    "title": "BC PST publications (bulletins and notices)",
+    "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications",
+    "what": "Index of PST bulletins and numbered notices (e.g. Notice 2026-001 on professional services, 2023-005 cloud software); new and revised items change BC rules."
+  },
+  {
+    "place": "BC",
+    "title": "BC updates to sales taxes",
+    "url": "https://www2.gov.bc.ca/gov/content/taxes/tax-updates/updates-taxes-tax-credits/sales-taxes-updates",
+    "what": "Dated list of PST changes from budgets and legislation, with effective dates."
+  },
+  {
+    "place": "CA",
+    "title": "CDTFA industry and tax and fee guides",
+    "url": "https://www.cdtfa.ca.gov/industry/",
+    "what": "Index of industry guides (restaurants, digital products, construction, software); new or revised guides restate taxability."
+  },
+  {
+    "place": "CA",
+    "title": "CDTFA special notices and notification letters",
+    "url": "https://www.cdtfa.ca.gov/news/special-notices-and-notification-letters.htm",
+    "what": "Dated special notices (e.g. L-1036, digital products taxable from 2027-01-01, cited by the SaaS rule); the main signal for California law changes."
+  },
+  {
+    "place": "CA",
+    "title": "CDTFA status of proposed rules and regulations",
+    "url": "https://www.cdtfa.ca.gov/taxes-and-fees/regscont.htm",
+    "what": "Regulations in progress (e.g. 1502, 1503, 1521, 1603, 1628 cited by the rules), with hearing and approval dates."
+  },
+  {
+    "place": "CA",
+    "title": "CDTFA tax information bulletins",
+    "url": "https://www.cdtfa.ca.gov/news/tax-information-bulletins.htm",
+    "what": "Quarterly Tax Information Bulletins with articles on new law, regulation changes and taxability clarifications."
+  },
+  {
+    "place": "CA:federal",
+    "title": "CRA Excise and GST/HST News",
+    "url": "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/technical-information-gst-hst/excise-gst-hst-news.html",
+    "what": "Periodic newsletter by year announcing new and revised GST/HST publications and legislative changes."
+  },
+  {
+    "place": "CA:federal",
+    "title": "CRA GST/HST info sheets",
+    "url": "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/technical-information-gst-hst/gst-hst-info-sheets.html",
+    "what": "Info sheets (GI-series), including GI-064 Ontario prepared-food rebate and GI-202 platform delivery cited by the rules."
+  },
+  {
+    "place": "CA:federal",
+    "title": "CRA GST/HST notices",
+    "url": "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/technical-information-gst-hst/gst-hst-notices.html",
+    "what": "Numbered GST/HST notices, newest first; rate changes, transitional rules and new measures for GST and every HST province."
+  },
+  {
+    "place": "CA:federal",
+    "title": "CRA GST/HST technical information bulletins",
+    "url": "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/technical-information-gst-hst/gst-hst-tech-info-bulletin.html",
+    "what": "Technical information bulletins (B-series), including B-090 on e-commerce cited by the SaaS rules."
+  },
+  {
+    "place": "CA:federal",
+    "title": "CRA provincial point-of-sale rebate eligibility (reason code 16)",
+    "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+    "what": "Lists each HST province's point-of-sale rebate items (ON, NS, NB, NL, PE); the rules for all five cite it."
+  },
+  {
+    "place": "MB",
+    "title": "Manitoba tax publications list (CSV)",
+    "url": "https://www.gov.mb.ca/finance/taxation/pubs/assets/bulletins.csv",
+    "what": "Data behind the Manitoba Tax Publications page: every RST bulletin and notice with its release date. Ignore the daydiff and New columns, which change daily.",
+    "ignoreColumns": [
+      "New",
+      "daydiff"
+    ]
+  },
+  {
+    "place": "MB",
+    "title": "Manitoba taxation homepage",
+    "url": "https://www.gov.mb.ca/finance/taxation/",
+    "what": "Links the current budget bulletin and RST notices; changes when a new budget bulletin is published."
+  },
+  {
+    "place": "NB",
+    "title": "Legislative Assembly of New Brunswick bills",
+    "url": "https://www.legnb.ca/en/legislation/bills",
+    "what": "Current-session bills with status; NB has no HST notice index, so enacted tax bills show here."
+  },
+  {
+    "place": "NB",
+    "title": "New Brunswick budget",
+    "url": "https://www.gnb.ca/en/gov/budget.html",
+    "what": "Budget landing page with the year's budget documents; HST rate or rebate changes are announced here."
+  },
+  {
+    "place": "NB",
+    "title": "New Brunswick Finance taxes page",
+    "url": "https://www2.gnb.ca/content/gnb/en/departments/finance/taxes.html",
+    "what": "Finance's tax index with HST notices (rate-change transitional rules, rebates) and other tax notices."
+  },
+  {
+    "place": "NL",
+    "title": "House of Assembly progress of bills, 51st GA 1st session",
+    "url": "https://www.assembly.nl.ca/HouseBusiness/Bills/ga51session1/",
+    "what": "Progress of bills in the current session; NL has no HST notice index. Update the URL when a new session opens (index: /HouseBusiness/Bills/)."
+  },
+  {
+    "place": "NL",
+    "title": "Newfoundland and Labrador budget",
+    "url": "https://www.gov.nl.ca/budget/",
+    "what": "Budget landing page; HST rebates and rate changes are announced in the budget."
+  },
+  {
+    "place": "NL",
+    "title": "Newfoundland and Labrador Finance HST page",
+    "url": "https://www.gov.nl.ca/fin/tax-programs-incentives/personal/hst/",
+    "what": "Finance's HST page with provincial measures (point-of-sale book rebate, rate transitional rules)."
+  },
+  {
+    "place": "NS",
+    "title": "Nova Scotia budget",
+    "url": "https://www.novascotia.ca/budget",
+    "what": "Current budget home; HST rate and rebate measures appear in the budget documents."
+  },
+  {
+    "place": "NS",
+    "title": "Nova Scotia budget documents",
+    "url": "https://www.novascotia.ca/programs-and-services/publications-budget-documents",
+    "what": "Budget publications by year, including tax measures and forecast updates."
+  },
+  {
+    "place": "NS",
+    "title": "Nova Scotia Finance and Treasury Board news releases",
+    "url": "https://news.novascotia.ca/search/all?field_category=161",
+    "what": "Department news filtered to Finance and Treasury Board; HST rate changes and new provincial rebates are announced here."
+  },
+  {
+    "place": "NY",
+    "title": "NY DTF important notices (N-Notices)",
+    "url": "https://www.tax.ny.gov/pubs_and_bulls/n_notices/notices.htm",
+    "what": "Dated N-Notices across taxes, including sales tax law changes and new exemptions."
+  },
+  {
+    "place": "NY",
+    "title": "NY DTF sales tax advisory opinions (TSB-A)",
+    "url": "https://www.tax.ny.gov/pubs_and_bulls/advisory_opinions/sales_ao.htm",
+    "what": "Sales tax advisory opinions by year; opinions on software, SaaS, information services and food are the evidence behind several NY rules."
+  },
+  {
+    "place": "NY",
+    "title": "NY DTF sales tax publications and tax bulletins",
+    "url": "https://www.tax.ny.gov/pubs_and_bulls/publications/sales_pubs.htm",
+    "what": "Index of sales tax publications (Pub 750, Pub 718-A) and TB-ST bulletins; a new or revised bulletin can change food, prepared food, software or services treatment."
+  },
+  {
+    "place": "NY",
+    "title": "NY DTF sales tax technical memoranda (TSB-M)",
+    "url": "https://www.tax.ny.gov/pubs_and_bulls/memos/sales_memos.htm",
+    "what": "Sales tax TSB-Ms by year: the department's statements of changes in law, regulations or policy."
+  },
+  {
+    "place": "ON",
+    "title": "Legislative Assembly of Ontario current bills",
+    "url": "https://www.ola.org/en/legislative-business/bills/current",
+    "what": "Current-session bills with status; budget measures acts carry HST rebate changes (no Ministry notices page exists)."
+  },
+  {
+    "place": "ON",
+    "title": "Ontario budget",
+    "url": "https://www.ontario.ca/budget",
+    "what": "Redirects to the current year's Ontario budget; new HST rebates or exemptions are announced here."
+  },
+  {
+    "place": "ON",
+    "title": "Ontario Harmonized Sales Tax guide",
+    "url": "https://www.ontario.ca/document/harmonized-sales-tax-hst",
+    "what": "Ministry of Finance HST guide and its chapters; Ontario has no notice index, so this is where provincial HST changes appear."
+  },
+  {
+    "place": "ON",
+    "title": "Ontario HST point-of-sale rebates",
+    "url": "https://www.ontario.ca/document/harmonized-sales-tax-hst/hst-ontario-point-sale-rebates",
+    "what": "Ontario's own list of HST point-of-sale rebates (prepared food under $4 and others), cited by the ON rules; changes when a rebate is added or ended."
+  },
+  {
+    "place": "QC",
+    "title": "Assemblée nationale du Québec bills by session",
+    "url": "https://www.assnat.qc.ca/en/travaux-parlementaires/projets-loi/index.html",
+    "what": "Session list for bills; Revenu Québec and Finances Québec block automated fetches, so this is the reachable signal. A new session (44th Legislature after the October 2026 election) appears here; its bills page is projets-loi-44-1.html."
+  },
+  {
+    "place": "SK",
+    "title": "Saskatchewan budget",
+    "url": "https://budget.saskatchewan.ca/",
+    "what": "Current budget; PST base expansions and exemptions are budget measures."
+  },
+  {
+    "place": "SK",
+    "title": "Saskatchewan provincial sales tax",
+    "url": "https://www.saskatchewan.ca/business/taxes-licensing-and-reporting/provincial-taxes-policies-and-bulletins/provincial-sales-tax",
+    "what": "PST landing page; announcements of PST base changes are posted here."
+  },
+  {
+    "place": "SK",
+    "title": "Saskatchewan PST bulletins and information notices",
+    "url": "https://sets.saskatchewan.ca/rptp/portal/footer/taxinformation/provincial-sales-tax",
+    "what": "SETS index of PST bulletins (PST.007, .033, .046, .065 cited by the rules) and information notices (IN 20xx-nn). Server sends an incomplete TLS chain; the fetcher must supply the intermediate certificate."
+  },
+  {
+    "place": "WA",
+    "title": "Streamlined Sales Tax taxability matrix, Washington versions",
+    "url": "https://sst.streamlinedsalestax.org/api/forms/State/47/FormType/1/Versions",
+    "what": "JSON list of Washington's published SST Taxability Matrix (Library of Definitions) versions behind the sst.streamlinedsalestax.org/TM app; a new version means WA restated food, prepared food, software or other product taxability."
+  },
+  {
+    "place": "WA",
+    "title": "WA DOR interim guidance statements",
+    "url": "https://dor.wa.gov/laws-rules/interim_guidance_statements",
+    "what": "Current and canceled interim guidance (the ESSB 5814 custom software, IT services and advertising statements cited by the rules); a new or canceled statement changes taxability before a rule is adopted."
+  },
+  {
+    "place": "WA",
+    "title": "WA DOR rule and tax advisory adoptions and repeals",
+    "url": "https://dor.wa.gov/laws-rules/rule-making-activities/rule-and-tax-advisory-adoptions-and-repeals",
+    "what": "Dated list of adopted, amended and repealed WAC 458-20 rules and ETAs; the rules cite WAC 458-20-119, -15502, -15503, -170 and -244."
+  },
+  {
+    "place": "WA",
+    "title": "WA DOR special notices",
+    "url": "https://dor.wa.gov/forms-publications/publications-subject/special-notices",
+    "what": "Dated special notices on law changes (e.g. ESSB 5814 services newly taxed); a new notice can move SaaS, IT, custom software, construction or delivery rules."
+  },
+  {
+    "place": "WA",
+    "title": "WA DOR summary of tax legislation by session",
+    "url": "https://dor.wa.gov/about/statistics-reports/other-reports/summary-legislative-session-tax-legislation",
+    "what": "DOR's per-session summaries of enacted tax bills; a new session's summary lists changes to retail sales tax definitions and exemptions."
+  },
+  {
+    "place": "WA",
+    "title": "WA DOR what's new",
+    "url": "https://dor.wa.gov/about/whats-new",
+    "what": "Running list of new DOR guidance, law changes and publications by date."
+  }
+]

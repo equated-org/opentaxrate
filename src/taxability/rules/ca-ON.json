@@ -1,0 +1,241 @@
+[
+  {
+    "tax": "ON/CA:HST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.grocery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Ontario, taxable prepared food and non-alcoholic beverages sold for a total of $4.00 or less (before HST) get a point-of-sale rebate of the 8% provincial part, so only the 5% federal part of the 13% HST applies.",
+    "conditions": [
+      {
+        "when": "qualifying prepared food and beverages (e.g. heated food, fresh sandwiches and salads, dispensed beverages, single servings of baked goods) totalling $4.00 or less before HST, sold to a person at one time",
+        "treatment": "taxable",
+        "rate": 0.05
+      },
+      {
+        "when": "total of qualifying items over $4.00, or items that do not qualify (alcoholic beverages, snack foods such as chips and candy)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Harmonized Sales Tax for Ontario - Point-of-Sale Rebate on Prepared Food and Beverages (July 2010)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064, Example 8",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "A retailer in Ontario sells a meal consisting of qualifying prepared food and a qualifying beverage for $4.00"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (July 2010)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The rebate is available regardless of whether the qualifying prepared food and beverages are consumed"
+      },
+      {
+        "title": "Ontario Ministry of Finance, HST: Ontario point-of-sale rebates (updated March 19, 2025)",
+        "url": "https://www.ontario.ca/document/harmonized-sales-tax-hst/hst-ontario-point-sale-rebates",
+        "quote": "sold for a total price (for all qualifying items purchased, excluding HST) of not more than $4."
+      }
+    ],
+    "notes": "The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor. The threshold is the total of all qualifying items in one sale, not a per-item test, and non-qualifying items in the same sale are ignored. GI-064 says buyers 'generally' get the rebate at the till; if the vendor does not credit it, the buyer can claim it from the CRA. Seller-prepared food that is zero-rated federally stays at 0%. Whether a delivery charge counts toward the $4 total is unverified. Catering: neither GI-064 nor ontario.ca mentions catering, so no ON catering rule is given. The threshold is '$4.00 or less' (GI-064: 'must not be more than $4'). GI-064's Examples 3, 5, 8 and 9 give the rebate at the till on totals of exactly $4.00. Example 6 (a $4.00 sale charged the full 13%) sits under 'Filing rebate claims with the CRA': it shows a vendor that did not credit the rebate and the buyer claiming it back, not a sale over the limit. Checked 2026-10-30."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "zero_rated",
+    "summary": "During the temporary GST/HST break, the whole 13% HST on prepared food was relieved in Ontario, so the $4 rebate did not matter.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Prepared meals and food, as well as all non-alcoholic beverages and eligible alcoholic beverages qualified for GST/HST relief"
+      }
+    ],
+    "notes": "This row mirrors the CA:GST/HST row for the period."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "After the break, Ontario's $4.00 point-of-sale rebate again leaves only the 5% federal part on qualifying prepared food and beverages.",
+    "conditions": [
+      {
+        "when": "qualifying prepared food and beverages totalling $4.00 or less before HST, sold to a person at one time",
+        "treatment": "taxable",
+        "rate": 0.05
+      },
+      {
+        "when": "total of qualifying items over $4.00, or items that do not qualify (alcoholic beverages, snack foods such as chips and candy)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Harmonized Sales Tax for Ontario - Point-of-Sale Rebate on Prepared Food and Beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064, Example 8",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "A retailer in Ontario sells a meal consisting of qualifying prepared food and a qualifying beverage for $4.00"
+      },
+      {
+        "title": "Ontario Ministry of Finance, HST: Ontario point-of-sale rebates (updated March 19, 2025)",
+        "url": "https://www.ontario.ca/document/harmonized-sales-tax-hst/hst-ontario-point-sale-rebates",
+        "quote": "Qualifying prepared food and beverages that are ready for immediate consumption"
+      },
+      {
+        "title": "CRA, Reason code 16 rebate eligibility (point-of-sale rebate items by province)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ],
+    "notes": "Same caveats as the pre-break Ontario row. The threshold is '$4.00 or less' (GI-064: 'must not be more than $4'). GI-064's Examples 3, 5, 8 and 9 give the rebate at the till on totals of exactly $4.00. Example 6 (a $4.00 sale charged the full 13%) sits under 'Filing rebate claims with the CRA': it shows a vendor that did not credit the rebate and the buyer claiming it back, not a sale over the limit. Checked 2026-10-30."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.catering",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "service.professional",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  }
+]

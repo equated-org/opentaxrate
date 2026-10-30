@@ -17,11 +17,11 @@ describe("/v1/openapi.json", () => {
     const spec = await response.json();
     expect(spec.openapi).toBe("3.1.0");
     const rate = spec.paths["/v1/rate"].get;
-    expect(rate.parameters.map((p: { name: string }) => p.name)).toEqual(["address", "state", "street", "city", "zip", "date", "include"]);
+    expect(rate.parameters.map((p: { name: string }) => p.name)).toEqual(["address", "state", "street", "city", "zip", "date", "code", "include"]);
     expect(Object.keys(rate.responses)).toEqual(["200", "400", "401", "402", "422", "429", "502", "504"]);
     expect(rate.responses["200"].content["application/json"].schema).toEqual({ $ref: "#/components/schemas/AddressRate" });
     expect(spec.paths["/v1/coverage"].get.responses["200"]).toBeDefined();
-    expect(Object.keys(spec.components.schemas)).toEqual(expect.arrayContaining(["AddressRate", "RatePart", "Regions", "Trace", "Error", "Coverage"]));
+    expect(Object.keys(spec.components.schemas)).toEqual(expect.arrayContaining(["AddressRate", "RatePart", "Taxability", "Regions", "Trace", "Error", "Coverage"]));
     expect(Object.keys(spec.components.securitySchemes)).toEqual(["bearer", "apiKey"]);
   });
 });

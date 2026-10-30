@@ -177,7 +177,7 @@
 </tr>
 <tr>
 <td><code>GET /v1/rate</code></td>
-<td>validates the query, returns an <code>AddressRate</code> with named <code>parts</code> (each with the state's own <code>ids</code>), <code>locationIds</code> and <code>reporting</code> (see <a href="engine.html">engine.html</a>), plus <code>trace</code> when asked</td>
+<td>validates the query, returns an <code>AddressRate</code> with named <code>parts</code> (each with the state's own <code>ids</code>), <code>locationIds</code> and <code>reporting</code> (see <a href="engine.html">engine.html</a>), plus <code>taxability</code> with <code>code</code> and <code>trace</code> when asked</td>
 <td>200, 400, 422, 429, 502, 504, 500</td>
 </tr>
 <tr>
@@ -222,11 +222,17 @@
 <td>optional, <code>YYYY-MM-DD</code>; today (UTC) when absent</td>
 </tr>
 <tr>
+<td><code>code</code></td>
+<td>optional, up to 300 characters; comma-separated taxability codes from <code>TAX_CODES</code> (<code>src/taxability/codes.ts</code>), read by <code>parseCodes</code>; an unknown code is a 400 naming the valid ones</td>
+</tr>
+<tr>
 <td><code>include</code></td>
-<td>optional, comma-separated; only <code>trace</code> is read, anything else is ignored</td>
+<td>optional, comma-separated; <code>trace</code> and <code>regions</code> are read, anything else is ignored</td>
 </tr>
 </tbody>
 </table></div>
+
+<p>With <code>code</code>, <code>lookUpRate</code> gets <code>codes</code> and, once the engine has answered, adds <code>taxability</code>: one <code>Taxability</code> per code from <code>taxabilityByCode(rate, codes, date, rules)</code> (<code>src/taxability/</code>), which matches each of the answer's parts to the dated, cited rule for the code (the <code>taxability_rules</code> table, read once per process by <code>loadRules</code>; loaded from <code>src/taxability/rules/</code>, see the refresh note) and adds up the parts that tax it. It runs after the general rate and never changes <code>rate</code> or <code>parts</code>. A part with no rule on the date makes the code <code>not_researched</code> with a <code>null</code> rate, never the general rate; rules exist for WA, NY, CA and Canada. <code>GET /v1/coverage</code> lists each place's researched <code>taxabilityCodes</code>.</p>
 
 <h2 id="include-trace"><code>include=trace</code></h2>
 <p>Without it the response is exactly what it was before traces existed. With it, the route makes an empty <code>Trace</code> (<code>emptyTrace()</code>, <code>src/rates/types.ts</code>), passes it to <code>lookUpRate</code>, and answers <code>{ ...AddressRate, trace }</code>; a 422 becomes <code>{ error, code, trace }</code> (502 and 504 never carry one). The engines fill it as they go; the shape:</p>
@@ -325,7 +331,7 @@
 <ul>
 <li><strong>CORS.</strong> <code>hono/cors</code> on every route for the origins in <code>OPENTAXRATE_CORS_ORIGINS</code>, methods <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>, exposing <code>Retry-After</code>. Registered first, so a 429 carries the headers and a preflight is never counted.</li>
 <li><strong>Per-IP limit</strong> (<code>src/limits.ts</code>). <code>limitFromEnv()</code> reads <code>OPENTAXRATE_PUBLIC_LIMIT</code> (<code>parseLimits</code>: <code>count/unit</code> pairs, units <code>s</code>, <code>min</code>, <code>hour</code>, <code>day</code>, optionally <code>10/5min</code>; an unreadable value throws at start). Only <code>/v1/rate</code> is limited. <code>limitFromEnv(env, name)</code> reads any such setting; <code>OPENTAXRATE_SUGGEST_LIMIT</code> limits <code>/v1/suggest</code> the same way. The key is the first address in the header <code>clientIpHeader()</code> names (<code>OPENTAXRATE_CLIENT_IP_HEADER</code>, else <code>CF-Connecting-IP</code> when <code>OPENTAXRATE_TRUST_CF=1</code>), else the socket address from <code>@hono/node-server</code>'s <code>getConnInfo</code> (<code>"unknown"</code> when there is no socket, as in <code>app.request</code> tests). <code>PerIpLimiter</code> keeps fixed windows in memory per process; a refused call isn't counted; windows that have all ended are swept at most once per shortest window, and past <code>MAX_KEYS</code> (100,000) the least recently seen address is dropped. Over any window: 429 <code>{ error: "Too many lookups from this address. Try again in N s.", code: "RATE_LIMITED" }</code> with <code>Retry-After: N</code>.</li>
-<li><strong>Answer cache</strong> (<code>src/cache.ts</code>). <code>cacheFromEnv()</code> reads <code>OPENTAXRATE_CACHE_HOURS</code>. An <code>AnswerCache</code> (LRU by last use, <code>MAX_ANSWERS</code> 5,000) holds successful answers, with their trace when asked, under <code>answerKey</code>: state, street, city upper-cased with dots, commas and extra spaces removed, the ZIP without its dash, the resolved date, and the includes. Refusals and errors are never cached. The limiter runs before the cache, so a cached answer still counts.</li>
+<li><strong>Answer cache</strong> (<code>src/cache.ts</code>). <code>cacheFromEnv()</code> reads <code>OPENTAXRATE_CACHE_HOURS</code>. An <code>AnswerCache</code> (LRU by last use, <code>MAX_ANSWERS</code> 5,000) holds successful answers, with their trace when asked, under <code>answerKey</code>: state, street, city upper-cased with dots, commas and extra spaces removed, the ZIP without its dash, the resolved date, the includes, and the sorted codes when <code>code</code> is given (a lookup without codes keeps its old key). Refusals and errors are never cached. The limiter runs before the cache, so a cached answer still counts.</li>
 </ul>
 <h2 id="error-responses">Error responses</h2>
 <p>Every error body is <code>{ "error": &lt;message for a person&gt;, "code": &lt;stable code&gt; }</code>.</p>

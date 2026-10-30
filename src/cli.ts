@@ -7,9 +7,16 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *   refresh [STATE...] [--dir D] [--download-dir D] [--force]
  *                                 download and load each state's newest data
  *   ingest [STATE...] [--source ID] [--dir D]
- *                                 index supplemental polygons (transaction rules unsupported)
- *   rate STATE "street" "city" [zip] [date] [--include regions]
- *                                 look one address up
+ *                                 index supplemental polygons
+ *   ingest --kind taxability [--dir D] [--no-fetch]
+ *                                 load the taxability rules (src/taxability/rules) and archive their cited pages
+ *   rate STATE "street" "city" [zip] [date] [--include regions] [--code CODES]
+ *                                 look one address up, and how each CODES sale is taxed there
+ *   taxability score [--cases DIR] [--list]
+ *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals)
+ *   taxability fetch [--out DIR]  download every cited and watched page again; report what changed (sources.txt, sources.json)
+ *   taxability verify [--since REF]
+ *                                 the rules changed since REF (default origin/main): each citation archived and its quote on the page
  *   check --cases file.csv        published cases against the lookup
  *                                 (columns state,street,city,zip,date,expected)
  */
@@ -22,6 +29,7 @@ import { lookUpRate } from "./lookup.js";
 import { refreshSupplemental } from "./ingest/supplemental.js";
 import { STATE_FIPS } from "./coverage.js";
 import { SUPPLEMENTAL_POLYGONS } from "./ingest/supplemental-sources.js";
+import { parseCodes, TAX_CODES } from "./taxability/index.js";
 
 const [command, ...args] = process.argv.slice(2);
 const flag = (name: string) => {
@@ -59,9 +67,12 @@ async function main() {
       const states = positional.map((s) => s.toUpperCase());
       for (const state of states) if (!STATE_FIPS[state]) throw new Error(`Unknown state ${state}`);
       const kind = flag("--kind") ?? "polygons";
-      if (kind === "rules" || kind === "all")
-        throw new Error("Transaction-rule ingestion is disabled: nationwide policy coverage and calculation support are incomplete. Only supplemental polygons are enabled.");
-      if (kind !== "polygons") throw new Error("Only --kind polygons is supported");
+      if (kind === "taxability") {
+        const { loadTaxabilityRules } = await import("./taxability/ingest.js");
+        await loadTaxabilityRules({ dir: flag("--dir"), fetch: !args.includes("--no-fetch") });
+        return;
+      }
+      if (kind !== "polygons") throw new Error("--kind is polygons (the default) or taxability");
       const source = flag("--source");
       if (source && ![...SUPPLEMENTAL_POLYGONS.map((s) => s.id), "wa-loccode_public", "wa-cities", "wa-ptba", "wa-rta", "mn-tax-areas"].includes(source))
         throw new Error(`Unknown supplemental source ${source}`);
@@ -74,7 +85,44 @@ async function main() {
     case "rate": {
       const [state, street, city, zip, date] = positional;
       const include = (flag("--include") ?? "").split(",");
-      console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date }, { regions: include.includes("regions") }), null, 2));
+      const codes = parseCodes(flag("--code") ?? "");
+      if ("unknown" in codes) throw new Error(`--code "${codes.unknown}" isn't one of: ${Object.keys(TAX_CODES).join(", ")}`);
+      console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date, codes: codes.codes }, { regions: include.includes("regions") }), null, 2));
+      return;
+    }
+    case "taxability": {
+      if (positional[0] === "fetch") {
+        const { fetchTaxabilitySources, describeSourceChecks } = await import("./taxability/fetch.js");
+        const { mkdirSync, writeFileSync } = await import("node:fs");
+        const out = flag("--out") ?? `artifacts/maintenance/taxability-${new Date().toISOString().slice(0, 10)}`;
+        const checks = await fetchTaxabilitySources();
+        const report = describeSourceChecks(checks);
+        mkdirSync(out, { recursive: true });
+        writeFileSync(`${out}/sources.json`, JSON.stringify(checks, null, 2) + "\n");
+        writeFileSync(`${out}/sources.txt`, report);
+        console.log(report.split("\n")[0]);
+        console.log(`Report: ${out}/sources.txt`);
+        return;
+      }
+      if (positional[0] === "verify") {
+        const { verifyChangedRules } = await import("./taxability/fetch.js");
+        const ref = flag("--since") ?? "origin/main";
+        const { changed, problems } = verifyChangedRules(ref);
+        console.log(`${changed.length} rules added or changed since ${ref}${changed.length ? ":" : "."}`);
+        for (const c of changed) console.log(`  ${c}`);
+        if (problems.length) {
+          console.log(`${problems.length} citations don't check:`);
+          for (const p of problems) console.log(`  ${p}`);
+          process.exitCode = 1;
+        }
+        return;
+      }
+      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, fetch or verify");
+      const { scoreTaxability, printScore } = await import("./taxability/evaluate.js");
+      const { loadRules } = await import("./taxability/index.js");
+      const rules = await loadRules();
+      if (!rules.size) throw new Error("taxability_rules is empty: run `pnpm ingest --kind taxability` first.");
+      printScore(scoreTaxability(rules, flag("--cases")), { list: args.includes("--list") });
       return;
     }
     case "check":

@@ -1,0 +1,457 @@
+[
+  {
+    "tax": "NY",
+    "code": "goods.general",
+    "from": "1965-08-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property such as furniture, appliances, tools and computers are taxable at the combined state, local and (where applicable) MCTD rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY Tax Law §1105(a)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1105",
+        "quote": "(a) The receipts from every retail sale of tangible personal property,"
+      },
+      {
+        "title": "TB-ST-740 (Quick Reference Guide, updated Feb 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "Sales of tangible personal property are subject to New York sales tax unless they are specifically exempt."
+      },
+      {
+        "title": "Pub 750 (11/15)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub750.pdf",
+        "quote": "furniture, appliances, and lighting fixtures;"
+      },
+      {
+        "title": "Pub 718-A (12/25), enactment and effective dates",
+        "url": "https://tax.ny.gov/pdf/publications/sales/pub718a.pdf",
+        "quote": "Enacted 14 Apr. 1965 29 Mar. 1969 2 Apr. 1971 15 May 2003 15 May 2003 Effective 1 Aug. 1965"
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "1965-08-01 is the date Pub 718-A gives for the state sales tax taking effect (at 2%). That retail sales of tangible goods were taxable from that date follows from the tax's structure, but the 1965 statutory text was not read: unverified beyond the effective date itself. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "food.grocery",
+    "from": "2019-04-08",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Unprepared food for home consumption sold by food stores is exempt from state and local sales tax under Tax Law §1115(a)(1).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY Tax Law §1115(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1115",
+        "quote": "(1) (A) Food, food products, beverages, dietary foods and health supplements, sold for human consumption"
+      },
+      {
+        "title": "TB-ST-283 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm",
+        "quote": "Generally, food and food products sold by food stores are exempt from sales tax."
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "The exemption is far older than 2019 (it is in Article 28 from its start, by common account), but the earliest dated official text read here is TB-ST-283 of 2019-04-08; earlier dates unverified. Candy, soft drinks and alcohol are excluded from §1115(a)(1) and taxable, but the code already excludes them. Exempt food sold with a taxable item for a single charge makes the whole charge taxable (TB-ST-283). Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "food.prepared",
+    "from": "2019-04-08",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ready-to-eat food is taxable when heated, a sandwich, sold for eating on the premises, or plated/platter-arranged (or, from a restaurant, not in grocery-store form); unheated prepared food packaged and sold by weight for off-premises eating is exempt.",
+    "conditions": [
+      {
+        "when": "Sold heated (above air temperature), including food kept warm or cooked to order",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A sandwich, hot or cold",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for consumption on the premises (seating provided by the seller, food court, salad bar)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Prepared by the seller and arranged on a plate, platter or in an individual serving container ready to eat (e.g. platters, salad-bar salads)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to go by a restaurant in a form, condition, quantity or packaging not ordinarily found in a grocery store",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Unheated, cooked or mixed by a food store, then packaged/refrigerated or sold by weight (e.g. cooled rotisserie chicken, macaroni salad by the pound) for off-premises consumption",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY Tax Law §1105(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1105",
+        "quote": "sold in or by restaurants, taverns or other establishments in this state, or by caterers"
+      },
+      {
+        "title": "TB-ST-806 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/sales_by_restaurants.htm",
+        "quote": "Unless sold for resale, sales of heated food are generally taxable whether sold by a restaurant or a supermarket."
+      },
+      {
+        "title": "TB-ST-806 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/sales_by_restaurants.htm",
+        "quote": "unheated food or beverages sold for off-premises consumption that are not sold in the same form, condition, quantities and packaging as they are ordinarily sold in grocery stores."
+      },
+      {
+        "title": "TB-ST-283 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm",
+        "quote": "it is sold heated; it is sold for consumption on the premises; or it has been prepared by the seller and is ready to be eaten"
+      },
+      {
+        "title": "TB-ST-283 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/food_sold_by_food_stores.htm",
+        "quote": "Food that is cooked by the store and then packaged and refrigerated, but not otherwise arranged on a plate or platter, is not taxable if sold for off-premises consumption."
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "Supplying eating utensils is not itself a test in NY; the tests are heat, sandwich, on-premises, plated/platter, and (for restaurants) grocery-store form. A seller's delivery fee for taxable food is taxable (TB-ST-806: 'the charge for the delivery must be included in the total amount subject to tax'). Taxable and exempt food sold together for one price is wholly taxable. Treatment predates 2019 (TB-ST-283 cites TSB-M-86(18)S) but earlier dates unverified. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "food.catering",
+    "from": "2019-04-08",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's entire charge for a customer's event is taxable, including food, beverages, staff, rentals, room charges and service charges, even when separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY Tax Law §1105(d)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1105",
+        "quote": "sold in or by restaurants, taverns or other establishments in this state, or by caterers"
+      },
+      {
+        "title": "TB-ST-110 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/caterers_and_catering_services.htm",
+        "quote": "In general, all charges by caterers related to a customer's event are taxable."
+      },
+      {
+        "title": "TB-ST-110 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/caterers_and_catering_services.htm",
+        "quote": "A caterer's entire charge to its customer is taxable, even if charges for items like those listed above are separately listed on the bill or invoice."
+      },
+      {
+        "title": "TB-ST-110 (issued April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/caterers_and_catering_services.htm",
+        "quote": "Since these charges are not specifically listed as gratuities on the bill or invoice, the service charge is always subject to sales tax."
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "Exception outside the code's bundle: a mandatory gratuity is not taxable if separately shown, identified as a gratuity, and all paid to employees; voluntary tips are not taxable (TB-ST-110, TSB-M-09(13)S). A plain 'service charge' is always taxable. If the caterer merely delivers without further service, the sale is treated as food for off-premises consumption (food.prepared rules). Earlier periods unverified. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "software.saas",
+    "from": "2008-11-24",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A license to remotely access prewritten software is a taxable sale of tangible personal property when the purchaser uses it in New York, sourced to where the purchaser uses or directs use of the software.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TSB-A-08(62)S (Adobe Systems, November 24, 2008)",
+        "url": "https://www.tax.ny.gov/pdf/advisory_opinions/sales/a08_62s.pdf",
+        "quote": "We conclude that the product sold by Petitioner is prewritten computer software that is subject to State and local sales taxes when accessed by a customer located in New York."
+      },
+      {
+        "title": "TB-ST-128 (issued August 5, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/computer_software.htm",
+        "quote": "Accordingly, the sale to a purchaser in New York of a license to remotely access software is subject to state and local sales tax."
+      },
+      {
+        "title": "TB-ST-128 (issued August 5, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/computer_software.htm",
+        "quote": "The situs of the sale for purposes of determining the proper local tax rate and jurisdiction is the location from which the purchaser uses or directs the use of the software"
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "Prewritten software has been taxable since 1991-09-01 (TSB-M-93(3)S), but the earliest official statement read here that remote access counts is TSB-A-08(62)S of 2008-11-24 (an advisory opinion, binding only on its petitioner, but stating the Department's position, later adopted in TB-ST-128). Whether the Department applied it to remote access between 1991 and 2008 is unverified. Multi-state users: tax only the portion of the receipt attributable to users in New York (TB-ST-128). TB-ST-128 itself states 'state and local', so locals follow. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "software.custom",
+    "from": "1991-09-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Software designed and developed to one purchaser's specifications is exempt; prewritten software modified for a purchaser is taxable except for a reasonable, separately stated charge for the modification.",
+    "conditions": [
+      {
+        "when": "Software designed and developed to the specifications of the particular purchaser",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Prewritten software modified or enhanced for the purchaser: the reasonable, separately stated charge for the custom modification",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Prewritten software modified or enhanced for the purchaser: the modification charge not separately stated or not reasonable (whole charge)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TSB-M-93(3)S (March 1, 1993)",
+        "url": "https://www.tax.ny.gov/pdf/memos/sales/m93_3s.pdf",
+        "quote": "Effective September 1, 1991, State and local sales and compensating use taxes are imposed on the"
+      },
+      {
+        "title": "TSB-M-93(3)S (March 1, 1993)",
+        "url": "https://www.tax.ny.gov/pdf/memos/sales/m93_3s.pdf",
+        "quote": "The only software that is exempt from sales and use taxes under the new law is software designed"
+      },
+      {
+        "title": "TB-ST-128 (issued August 5, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/computer_software.htm",
+        "quote": "Custom software is not subject to tax provided it is designed and developed to the specifications of a particular purchaser."
+      },
+      {
+        "title": "TB-ST-128 (issued August 5, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/computer_software.htm",
+        "quote": "However, if the charge for the custom modification or enhancement is reasonable and separately stated on the invoice, then the charge for the modification or enhancement is not subject to tax."
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "Before 1991-09-01, 'custom' software was exempt under a broader 1978 bulletin (TSB 1978-1(S)) per TSB-M-93(3)S; that earlier period's exact scope and start date are unverified, so no rule is given for it. Custom software resold to anyone other than the original purchaser becomes taxable prewritten software. Related services (programming, consulting, installing, maintaining) are exempt when separately stated and reasonable (TB-ST-128). Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "service.professional",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Legal, accounting, consulting, engineering and similar professional services are not among the services NY enumerates as taxable; interior decorating and design, information services and protective services are.",
+    "conditions": [
+      {
+        "when": "Legal, accounting, consulting, engineering and other advice or work not enumerated in Tax Law §1105(c)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Interior decorating and design services (TB-ST-400): state tax and MCTD apply; New York City's local tax does not",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Information services (reports not personal or individual to the buyer), and protective or detective services",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TB-ST-400, Interior Decorating and Design Services",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/inte_deco_and_design_serv.htm",
+        "quote": "Except for the New York City local sales tax, these services are taxable at the full state and local sales tax rate, including the ⅜% Metropolitan Commuter Transportation District (MCTD) sales tax."
+      },
+      {
+        "title": "TB-ST-740 (Quick Reference Guide, updated Feb 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "Sales of services are generally exempt from New York sales tax unless they are specifically taxable."
+      },
+      {
+        "title": "NY Tax Law §1105(c)(1) (information services exclusion)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1105",
+        "quote": "information which is personal or individual in nature and which is not or may not be substantially incorporated in reports"
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "No DTF document read here names legal, accounting or engineering services specifically; the exemption rests on their absence from §1105(c)'s enumerated list (TB-ST-740's taxable-services list omits them). Edge cases that would be taxable under other codes or enumerations: work that is really an information service (data or reports not personal to the client, §1105(c)(1)), interior decorating/design (§1105(c)(7)), protective/detective services (§1105(c)(8)), or a professional's charge bundled with taxable goods or prewritten software. Pre-2019 dates unverified. NYC's extra local-only service taxes (beauty, credit rating, etc., Pub 750) do not cover professional services. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "construction.real_property",
+    "from": "2001-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Work on an owner's real property is exempt if it is a capital improvement and taxable (labour and materials) if it is repair, maintenance or installation, including repainting existing buildings.",
+    "conditions": [
+      {
+        "when": "Capital improvement: substantially adds value or prolongs life, becomes part of the real property, and is intended to be permanent (e.g. new building, addition, deck, installing cabinets, painting new construction); customer gives Form ST-124 or records establish it",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or installation service to real property (e.g. fixing a railing, replacing shingles, painting or repainting existing buildings or cabinets)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY Tax Law §1105(c)(5)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1105",
+        "quote": "Maintaining, servicing or repairing real property, property or land,"
+      },
+      {
+        "title": "NY Tax Law §1105(c)(3)(iii)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1105",
+        "quote": "for installing property which, when installed, will constitute an addition or capital improvement to real property"
+      },
+      {
+        "title": "Pub 862 (4/01)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub862.pdf",
+        "quote": "when a contractor performs a job that constitutes a repair, maintenance, or installation service to real property, sales tax must be collected from the customer"
+      },
+      {
+        "title": "Pub 862 (4/01), Painting (repair, maintenance, or installation column)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub862.pdf",
+        "quote": "Painting or repainting of existing buildings, structures, or parts thereof"
+      },
+      {
+        "title": "Pub 862 (4/01), Painting (capital improvement column)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub862.pdf",
+        "quote": "Painting of new buildings, structures, or additions"
+      },
+      {
+        "title": "TB-ST-104 (issued July 27, 2012)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/capital_improvements.htm",
+        "quote": "Repairing a broken step, replacing a thermostat on a hot water heater, or painting existing cabinets are all examples of taxable repair and maintenance work."
+      },
+      {
+        "title": "TB-ST-129 (issued March 17, 2016)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/repair_maintenance.htm",
+        "quote": "All charges for materials and labor that you bill to your customer for any repair, maintenance, or installation project, including any expenses or other markups, are taxable."
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "Date is Pub 862's edition (4/01), day unknown, so 2001-04-01 is the first of that month; the treatment is older but earlier dates are unverified. On an exempt capital improvement the contractor pays tax on its materials and builds it into the price; no tax is charged to the customer (TB-ST-104). Installing items that stay tangible personal property (freestanding appliances, canvas awnings) is a taxable installation service (TB-ST-129). Some work is classified case by case; Pub 862 lists many items. The code fixes 'sold to the owner', so the tenant leasehold rule does not arise. The §1105(c)(3)(iii) quote is the capital-improvement exclusion read from the statute page; WebFetch located it under (c)(3)(iii), consistent with TB-ST-740's citation. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  },
+  {
+    "tax": "NY",
+    "code": "delivery",
+    "from": "1991-09-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A seller's shipping or delivery charge is taxable when the goods delivered are taxable and exempt when they are not, whether or not separately stated.",
+    "conditions": [
+      {
+        "when": "Goods delivered are taxable",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Goods delivered are exempt (or sold for resale / to an exempt buyer)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bill mixes taxable and exempt goods with one delivery charge not allocated",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Bill mixes taxable and exempt goods and the delivery charge is fairly allocated: the portion allocated to exempt goods",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TSB-M-92(2)S (January 13, 1992)",
+        "url": "https://www.tax.ny.gov/pdf/memos/sales/m92_2s.pdf",
+        "quote": "As a result of an amendment to the sales tax law, effective September 1, 1991, shipping or delivery"
+      },
+      {
+        "title": "TB-ST-838 (issued May 14, 2012)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/shipping_and_delivery_charges.htm",
+        "quote": "Generally, charges for shipping or delivery that a seller includes on its bill are taxable if the product or service that is being shipped or delivered is taxable."
+      },
+      {
+        "title": "TB-ST-838 (issued May 14, 2012)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/shipping_and_delivery_charges.htm",
+        "quote": "If the product or service being sold is not taxable, any charge to the customer for shipping or delivery is also not taxable."
+      },
+      {
+        "title": "TB-ST-838 (issued May 14, 2012)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/shipping_and_delivery_charges.htm",
+        "quote": "If only one charge for shipping or delivery is listed on the bill, the entire delivery charge is treated as part of the taxable portion of the bill."
+      },
+      {
+        "title": "NY Tax Law §1210(a)(1)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1210",
+        "quote": "shall be identical, except as to rate and except as otherwise provided"
+      },
+      {
+        "title": "NY Tax Law §1109 (MCTD additional tax)",
+        "url": "https://www.nysenate.gov/legislation/laws/TAX/1109",
+        "quote": "which shall be identical to the taxes imposed by sections eleven hundred five and eleven hundred ten of this article"
+      }
+    ],
+    "notes": "Before 1991-09-01 a separately stated charge for the seller's cost of transporting the purchase could be excluded from the taxable receipt (TSB-M-92(2)S: 'could be excluded from the taxable receipt'); the start date of that earlier treatment is unverified, so no rule is emitted for it. A delivery arranged and paid by the customer to a separate carrier, billed separately, is a nontaxable transportation service, but that is not the seller's charge. Local taxes (Tax Law §1210) and the MCTD 0.375% (Tax Law §1109) follow the state base and exemptions for this code; the local opt-outs NY allows (clothing, residential energy, solar) and the NYC-only services list in Pub 750 do not touch it."
+  }
+]

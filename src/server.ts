@@ -2,6 +2,7 @@
  * The HTTP API:
  *   GET /v1/rate?street=&city=&state=&zip=&date=  the rate at an address
  *       or ?address=1410 E Pine St, Seattle, WA   ...given as one line
+ *       &code=food.catering                       ...and how that sale is taxed
  *       &include=trace                            ...and how it was placed
  *   GET /v1/coverage                              each state's method and files
  *   GET /v1/openapi.json                          the two above, as OpenAPI 3.1 (api-schema.ts)
@@ -55,9 +56,11 @@ import { eq } from "drizzle-orm";
 import { regionSourcesFor } from "./regions.js";
 import { PARSE_HINT, parseAddress } from "./address-text.js";
 import { AddressRateSchema, CoverageSchema, ErrorSchema, RateQuerySchema } from "./api-schema.js";
+import { loadRules, parseCodes, researchedCodes, TAX_CODES, type Taxability, type TaxCode } from "./taxability/index.js";
+import { isProvince, provinceParts } from "./rates/canada.js";
 
 const query = RateQuerySchema;
-const usage = "Give state (two letters), street, city, or the whole address as address=, and optionally zip and date (YYYY-MM-DD).";
+const usage = "Give state (two letters), street, city, or the whole address as address=, and optionally zip, date (YYYY-MM-DD) and code.";
 
 export const app = new OpenAPIHono<{ Variables: AccessVariables }>();
 
@@ -84,7 +87,7 @@ if (suggest) {
   app.get("/v1/suggest", suggest);
 }
 
-const answers = cacheFromEnv<AddressRate | (AddressRate & { trace: Trace })>();
+const answers = cacheFromEnv<AddressRate & { taxability?: Record<string, Taxability>; trace?: Trace }>();
 
 app.get("/health", async (c) => {
   await db.execute(sql`select 1`);
@@ -123,7 +126,9 @@ app.get(rateRoute.path, async (c) => {
   const badRequest = (error: string) => c.json({ error, code: "BAD_REQUEST" }, 400);
   const parsed = query.safeParse(c.req.query());
   if (!parsed.success) return badRequest(usage);
-  const { include: includeParam, address, ...fields } = parsed.data;
+  const { include: includeParam, address, code, ...fields } = parsed.data;
+  const codes = code ? parseCodes(code) : { codes: [] };
+  if ("unknown" in codes) return badRequest(`code "${codes.unknown}" isn't one of: ${Object.keys(TAX_CODES).join(", ")}.`);
   const line = address ? parseAddress(address) : undefined;
   if (line && !line.ok) return badRequest(PARSE_HINT[line.reason]);
   const from = line?.ok ? line.address : undefined;
@@ -131,6 +136,7 @@ app.get(rateRoute.path, async (c) => {
   if (!state) return badRequest(usage);
   const q = {
     ...fields,
+    ...(codes.codes.length ? { codes: codes.codes } : {}),
     state,
     street: fields.street || from?.street || "",
     city: fields.city || from?.city || "",
@@ -158,7 +164,7 @@ app.get(rateRoute.path, async (c) => {
   }
 });
 
-type Query = Omit<z.infer<typeof query>, "address" | "state"> & { state: string; date: string };
+type Query = Omit<z.infer<typeof query>, "address" | "state" | "code"> & { state: string; date: string; codes?: TaxCode[] };
 
 /** A lookup with a key: charged, answered from the caller's own recent
  *  answers when it can, and logged. */
@@ -178,7 +184,11 @@ async function keyedLookup(
       402,
     );
   const key = answerKey(q, include);
-  const logged = { answerKey: key, query: Object.fromEntries(Object.entries({ ...q, include: include.join(",") }).filter(([, v]) => v)) as Record<string, string> };
+  const { codes, ...rest } = q;
+  const logged = {
+    answerKey: key,
+    query: Object.fromEntries(Object.entries({ ...rest, code: codes?.join(","), include: include.join(",") }).filter(([, v]) => v)) as Record<string, string>,
+  };
   // Only the tax answer is kept: a traced lookup (geocoders' points,
   // outlines) is never stored, so it's never answered from history either.
   let hit: unknown;
@@ -293,9 +303,16 @@ const coverageRoute = createRoute({
 
 app.openapi(coverageRoute, async (c) => {
   const releases = await db.select().from(salesTaxDataReleases);
+  const rules = await loadRules();
+  const today = new Date().toISOString().slice(0, 10);
+  // A nominal state and local part: a state's rules cover both unless it
+  // has a local rule of its own, so this says whether both are researched.
+  const partsOf = (state: string) =>
+    isProvince(state) ? provinceParts(state, today) : [{ kind: "state" as const, code: state, rate: 0 }, { kind: "city" as const, code: `${state}:local`, rate: 0 }];
   return c.json(
     ADDRESS_RATE_STATES.map((state) => ({
       state,
+      taxabilityCodes: researchedCodes(state, partsOf(state), today, rules),
       method: addressRates.method(state),
       geocoders: geocoderCoverage(policyFor(c.var.access)),
       regionSources: regionSourcesFor(state),

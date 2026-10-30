@@ -13,7 +13,7 @@
  * shuffled order, the first N of it. Every answer, with the provider's raw
  * response, is appended to artifacts/bench/answers/<provider>.jsonl and never
  * asked again, so a free plan's calls are spent once and kept for later
- * cross-checks. Keys come from the environment (run under `infisical run`);
+ * cross-checks. Keys come from the environment (your secret manager's run command);
  * they are never written out.
  *
  * Paid services are asked at most PAID_CALLS_PER_RUN addresses a run, so

@@ -220,3 +220,22 @@ export async function archiveResponse(request: Request, bytes: Uint8Array | stri
     console.warn(`Couldn't save ${request.url}: ${(error as Error).message}`);
   }
 }
+
+/** The newest file the manifest records for each URL, whatever name it was
+ *  filed under; a copy since deleted is left out. */
+export function archivedByUrl(): Map<string, { file: string; sha256: string; bytes: number }> {
+  const root = sourcesRoot();
+  const found = new Map<string, { file: string; sha256: string; bytes: number }>();
+  let text = "";
+  try {
+    text = fs.readFileSync(path.join(root, "manifest.jsonl"), "utf8");
+  } catch {
+    return found;
+  }
+  for (const line of text.split("\n")) {
+    if (!line.trim()) continue;
+    const entry = JSON.parse(line) as { url: string; file: string; sha256: string; bytes: number };
+    if (fs.existsSync(path.join(root, entry.file))) found.set(entry.url, { file: entry.file, sha256: entry.sha256, bytes: entry.bytes });
+  }
+  return found;
+}

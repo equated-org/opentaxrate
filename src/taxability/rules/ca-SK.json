@@ -1,0 +1,337 @@
+[
+  {
+    "tax": "SK:PST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Saskatchewan PST applies to tangible goods sold at retail unless a specific exemption applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Provincial Sales Tax (saskatchewan.ca)",
+        "url": "https://www.saskatchewan.ca/business/taxes-licensing-and-reporting/provincial-taxes-policies-and-bulletins/provincial-sales-tax",
+        "quote": "Provincial Sales Tax (PST) is a six per cent sales tax that applies to taxable goods and services consumed or used in Saskatchewan."
+      },
+      {
+        "title": "Information Bulletin PST-7, Computer Hardware, Software and Computer Services (revised March 2012; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20120711011623/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf",
+        "quote": "New and used computer hardware equipment is subject to tax on the total selling price."
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. General taxability of goods is long-standing under The Provincial Sales Tax Act; 2013-04-01 is OpenTaxRate's floor. The PST-7 quote is an example of a general good (computer hardware) taxed in 2012. Children's clothing became taxable 2017-04-01 (Budget 2017-18), but clothing is outside this code's definition."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "food.grocery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Basic groceries are exempt from Saskatchewan PST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "Basic groceries are exempt from tax"
+      },
+      {
+        "title": "Budget 2017-18 Revenue / Tax Backgrounder (saskatchewan.ca)",
+        "url": "https://www.saskatchewan.ca/-/media/news-release-backgrounders/2017/mar/fin---revenue-tax-backgrounder.pdf",
+        "quote": "the Budget maintains many of the current PST exemptions for basic necessities, including basic groceries"
+      },
+      {
+        "title": "Information Bulletin PST-2, Grocery, Convenience and Drug Stores (revised March 2025)",
+        "url": "https://publications.saskatchewan.ca/api/v1/products/23469/formats/30220/download",
+        "quote": "General categories of tax-exempt items include basic groceries"
+      }
+    ],
+    "notes": "Exemption predates 2013 (the 2017 budget 'maintains' it). Before 2017-04-01 snack foods, candy and similar were also exempt, but those are outside this code."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "food.prepared",
+    "from": "2013-04-01",
+    "to": "2017-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before April 1, 2017 restaurant meals and other prepared food were not subject to Saskatchewan PST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-33, Information for Restaurants (revised May 2002; archived finance.gov.sk.ca copy, December 2016)",
+        "url": "https://web.archive.org/web/20161217080753/http://finance.gov.sk.ca/revenue/pst/bulletins/PST-33%20Restaurants.pdf",
+        "quote": "Meals and liquor are not subject to Provincial Sales Tax."
+      },
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "The PST exemption previously provided for many food and beverage items, such as snack foods and prepared meals, has been removed."
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. Alcohol was subject to Liquor Consumption Tax, not PST, throughout."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "food.prepared",
+    "from": "2017-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From April 1, 2017 restaurant meals and other prepared food and non-alcoholic beverages are subject to Saskatchewan PST, on the same basis as GST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "Effective April 1, 2017, restaurant meals and other food and beverage items are subject to Provincial Sales Tax (PST) on the same basis as the Goods and Services Tax (GST)."
+      },
+      {
+        "title": "Information Bulletin PST-33, Restaurants, Caterers and Other Businesses Selling Prepared Food and Beverages (revised May 2021)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/fe32a5ce-78af-440b-b801-24522674e7ae/PST.033+Restaurants.pdf?MOD=AJPERES",
+        "quote": "Effective April 1, 2017, meals and other prepared food and non-alcoholic beverages are subject to PST."
+      },
+      {
+        "title": "Budget 2017-18 Revenue / Tax Backgrounder (saskatchewan.ca)",
+        "url": "https://www.saskatchewan.ca/-/media/news-release-backgrounders/2017/mar/fin---revenue-tax-backgrounder.pdf",
+        "quote": "Restaurant meals and snack foods will become taxable as of April 1, 2017"
+      }
+    ],
+    "notes": "Alcoholic beverages are not subject to PST but to the 10% Liquor Consumption Tax (PST-33). Mandatory gratuities are part of the taxable price; optional separately shown gratuities are not. Exempt settings (hospital patients, personal care home residents, school cafeterias, charitable meals for persons in need) depend on the buyer/setting, not the code."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "food.catering",
+    "from": "2017-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From April 1, 2017 PST applies to the total amount charged for catering services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-33, Restaurants, Caterers and Other Businesses Selling Prepared Food and Beverages (revised May 2021)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/fe32a5ce-78af-440b-b801-24522674e7ae/PST.033+Restaurants.pdf?MOD=AJPERES",
+        "quote": "PST must be collected on the total amount charged for catering services."
+      },
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "Restaurant meals are subject to tax"
+      }
+    ],
+    "notes": "Start date taken from the April 1, 2017 extension of PST to meals and prepared food (IN 2017-03, PST-33); PST-33 does not give a separate date for the catering paragraph. Alcohol in a catering bill is subject to Liquor Consumption Tax rather than PST (PST-33). The pre-2017-04-01 treatment of catering (food exempt; service, staff and rental components) is unverified and not covered by a rule."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Charges for the right to use or access prewritten software, including hosted or web-based software, are subject to Saskatchewan PST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-7, Computer Hardware, Software and Computer Services (revised May 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/a1169319-a762-4328-b84c-88d844e8f340/PST.007+Computer+Hardware,+Software+&+Computer+Services.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-a1169319-a762-4328-b84c-88d844e8f340-o.5dpzv",
+        "quote": "Charges for the use or right-to-use or access web-based, or hosted software are taxable, including when possession of the software is maintained by the software provider or a third-party service provider."
+      },
+      {
+        "title": "Information Bulletin PST-7 (revised March 2012; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20120711011623/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf",
+        "quote": "Tax must be collected on all charges for new and used computer software, including charges for the right to use software, licence fees, royalty fees"
+      },
+      {
+        "title": "Information Bulletin PST-7 (revised March 2012; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20120711011623/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf",
+        "quote": "(j) The right to use a computer server or other data storage or transmission services."
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. The explicit 'Software as a Service' paragraph appears only in the later bulletin; for 2013 onward the rule rests on the March 2012 bulletin taxing 'charges for the right to use software' and server use, which is an interpretation that remote access was covered. Non-resident providers' collection obligations were expanded later (IN 2020-08), which concerns registration, not treatment. Exempt when acquired for consumption outside Saskatchewan (billing address outside the province)."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Designing, developing, customizing or modifying software for a customer is a taxable computer service under Saskatchewan PST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-7, Computer Hardware, Software and Computer Services (revised May 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/a1169319-a762-4328-b84c-88d844e8f340/PST.007+Computer+Hardware,+Software+&+Computer+Services.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-a1169319-a762-4328-b84c-88d844e8f340-o.5dpzv",
+        "quote": "(b) Customizing, modifying, designing or developing computer programs, software or applications to meet the specific needs of one or more consumers or users;"
+      },
+      {
+        "title": "Information Bulletin PST-7 (revised March 2012; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20120711011623/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf",
+        "quote": "(e) Services related to writing, designing, developing, configuring, modifying or upgrading software, computer equipment, a computer system or a network of computers;"
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. Custom development by an employee for the employer is not taxable (not a sale). Saskatchewan differs from BC and Manitoba here: custom software is taxable."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "service.professional",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Saskatchewan PST applies to listed professional services (legal, accounting and bookkeeping, engineering, architecture), but general management and business consulting is not taxable.",
+    "conditions": [
+      {
+        "when": "Legal services relating to Saskatchewan",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Accounting or bookkeeping services relating to Saskatchewan",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Engineering, geoscience or architectural services for site-specific facilities in Saskatchewan",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Computer consulting that includes creating or modifying software or other taxable computer services",
+        "treatment": "taxable"
+      },
+      {
+        "when": "General consulting and advisory services (management consulting, marketing strategy, business plans) not included in a sale of taxable goods or services",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other professional service not on the Act's list of taxable services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-46, Service Enterprises (revised February 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/e7535a1a-5e1e-4b4c-aef1-3376d5248d06/PST.046+Service+Enterprises.pdf?MOD=AJPERES",
+        "quote": "General consulting and advisory services are not subject to tax provided they are not included in the sale of taxable goods and services."
+      },
+      {
+        "title": "Information Bulletin PST-46, Service Enterprises (revised February 2025), list of taxable services",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/e7535a1a-5e1e-4b4c-aef1-3376d5248d06/PST.046+Service+Enterprises.pdf?MOD=AJPERES",
+        "quote": "Accounting and bookkeeping services (PST-62)"
+      },
+      {
+        "title": "Information Bulletin PST-46, Information for Service Enterprises (revised June 2009; archived finance.gov.sk.ca copy, January 2013), list of taxable services",
+        "url": "https://web.archive.org/web/20130124014849/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf",
+        "quote": "Legal services"
+      },
+      {
+        "title": "Information Bulletin PST-64, Information for Lawyers (revised March 2003; archived finance.gov.sk.ca copy, May 2014)",
+        "url": "https://web.archive.org/web/20140513195432/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-64%20Lawyers%20Providing%20Legal%20Services.pdf",
+        "quote": "Lawyers who provide legal services related to Saskatchewan are providing a taxable service and are required to collect tax from their clients on fees rendered for those services."
+      },
+      {
+        "title": "Information Bulletin PST-65, Engineering, Geoscience and Architecture Services (revised September 2020)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/c4328b71-7fce-4607-920d-fde26923e5c8/PST.065+Engineers+GeoscientistsArchitectural.pdf?MOD=AJPERES",
+        "quote": "Site-specific refers to services intended to have a material effect on land or tangible personal"
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. The 2009 PST-46 (archived January 2013) lists accounting, architectural, computer, engineering and legal services as taxable, matching the current list, so one rule covers the whole period. 'Relating to Saskatchewan' has detailed sourcing tests in PST-62 and PST-64. Each item is quoted from its bulletin's list or heading, so short list quotes are verbatim list entries. Healthcare services are non-taxable (PST-46)."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "to": "2017-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before April 1, 2017 PST was not charged to the owner on real property construction contracts; the contractor paid PST on materials as the consumer and recovered it in the contract price.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Notice IN 2017-02, PST - Services to Real Property (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170329091012/http://www.finance.gov.sk.ca:80/revenue/pst/IN2017-02-PSTOnServicesToRealProperty.pdf",
+        "quote": "Prior to April 1, 2017, labour charges relating to the construction, alteration, repair, erection, remodeling or improvement of real property were not subject to tax."
+      },
+      {
+        "title": "Information Notice IN 2017-02, PST - Services to Real Property (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170329091012/http://www.finance.gov.sk.ca:80/revenue/pst/IN2017-02-PSTOnServicesToRealProperty.pdf",
+        "quote": "the contractor was considered the consumer of materials incorporated into the property and was required to pay PST on the cost of equipment, materials and supplies used or consumed."
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. 'Exempt' describes the owner's invoice: no separate PST, but embedded PST on materials was recovered in the price ('Provincial Sales Tax Included'). Transition: written contracts entered into before April 1, 2017 (other than master service agreements) stayed under these rules, including change orders of 10% or less of the original contract; so this treatment can apply to invoices after 2017-03-31 for such contracts."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "construction.real_property",
+    "from": "2017-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From April 1, 2017 contractors collect Saskatchewan PST on the total charge (labour, materials and related fees) for construction, repair or improvement of real property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Notice IN 2017-02, PST - Services to Real Property (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170329091012/http://www.finance.gov.sk.ca:80/revenue/pst/IN2017-02-PSTOnServicesToRealProperty.pdf",
+        "quote": "Effective April 1, 2017, these charges, which were previously exempt from PST, become taxable and PST must be shown as a separate line item on the invoice to the customer."
+      },
+      {
+        "title": "Information Bulletin PST-12, Services to Real Property (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/adfe994a-c248-4182-8e35-12729540c6df/PST.012+Services+to+Real+Property.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-adfe994a-c248-4182-8e35-12729540c6df-p4ONpnz",
+        "quote": "A contractor engaged in services to real property is required to collect PST on the total charge to the customer for the services, including all related charges and fees such as charges for labour, materials, transportation, insurance, permits, service fees, and any tax, levy or duty, other than the GST."
+      },
+      {
+        "title": "Budget 2017-18 Revenue / Tax Backgrounder (saskatchewan.ca)",
+        "url": "https://www.saskatchewan.ca/-/media/news-release-backgrounders/2017/mar/fin---revenue-tax-backgrounder.pdf",
+        "quote": "New contracts entered into on or after April 1, 2017 will be subject to PST on the total contract price to the purchaser."
+      }
+    ],
+    "notes": "Applies to contracts entered into on or after April 1, 2017 (see the transition note on the previous rule). Later narrow exemptions are not in this rule: installation labour for exempt farm equipment (from April 1, 2020), on-farm trenching and dugouts (from April 1, 2022), and installation of special equipment for persons with disabilities (from April 1, 2023), per PST-12. Snow clearing, lawn care and similar maintenance services are not taxable. New homes built for resale are taxed on the builder's selling price excluding land; that is not a contract to an owner."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "delivery",
+    "from": "2014-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge on taxable goods is exempt when the goods ship from a point in Saskatchewan, and taxable when they ship from outside the province.",
+    "conditions": [
+      {
+        "when": "Delivery of taxable goods from a supply point in Saskatchewan (including Lloydminster AB and Flin Flon MB), described as shipping, handling or delivery, reasonable, and separate from the selling price",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery of taxable goods from a supply point outside Saskatchewan",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery of PST-exempt goods",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery charge for prepared take-out food, charged separately from the taxable pick-up price (from April 1, 2017)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery charge forming part of a rental or lease, or of a real property service contract",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice IN 2023-04, Freight and Delivery Charges (issued May 2023)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/982c7d32-722d-45f1-8195-cfe002836037/IN+2023-04+Freight+and+Delivery+Services.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-982c7d32-722d-45f1-8195-cfe002836037-oxewoPT",
+        "quote": "Freight or delivery charges related to the purchase of taxable goods are subject to PST when the supply point originates outside Saskatchewan, as the charges form part of the laid down cost of those goods."
+      },
+      {
+        "title": "Information Notice IN 2023-04, Freight and Delivery Charges (issued May 2023)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/982c7d32-722d-45f1-8195-cfe002836037/IN+2023-04+Freight+and+Delivery+Services.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-982c7d32-722d-45f1-8195-cfe002836037-oxewoPT",
+        "quote": "Freight or delivery charges related to the purchase of taxable goods are not subject to PST when the supply point originates in Saskatchewan and all the following conditions are met:"
+      },
+      {
+        "title": "Information Bulletin PST-46, Service Enterprises (revised January 2014; archived finance.gov.sk.ca copy, December 2016)",
+        "url": "https://web.archive.org/web/20161217080925/http://finance.gov.sk.ca/revenue/pst/bulletins/PST-46ServiceEnterprises.pdf",
+        "quote": "If the supply point originates in Saskatchewan, the freight or delivery charges are not taxable providing the charges are invoiced separately or segregated from the taxable goods on the invoice."
+      },
+      {
+        "title": "Information Bulletin PST-33, Restaurants, Caterers and Other Businesses Selling Prepared Food and Beverages (revised May 2021)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/fe32a5ce-78af-440b-b801-24522674e7ae/PST.033+Restaurants.pdf?MOD=AJPERES",
+        "quote": "the charge for delivery is not subject to PST."
+      }
+    ],
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. 2014-01-01 is the first day of the month of the earliest bulletin found stating this rule (PST-46 revised January 2014); the June 2009 PST-46 does not discuss freight. The rule likely predates 2014, but 2013-04-01 to 2013-12-31 is unverified. 'Supply point' is where the goods ship from, which the caller must know."
+  }
+]

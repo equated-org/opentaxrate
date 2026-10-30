@@ -4,7 +4,7 @@
 
 Local polygon acquisition verified on 2026-10-22: **22 supplemental feeds / 6,915 source polygons**, with three geometry-less records retained as gaps. Transaction-tax policies are documentation only: **no nationwide product-taxability, holiday, cap, or exemption support is implemented or exported**. Partial policy research was moved to a separate local research database; it is not part of public snapshots or API answers.
 
-OpenTaxRate currently answers **an address's general rate on a date**. Matching that rate is different from matching the tax due on an order. Transaction parity needs the same line items, seller/customer facts, sourcing rules and rounding as the comparison service. It must be measured against comparable transaction-calculation endpoints, not a ZIP-rate endpoint.
+OpenTaxRate answers **an address's general rate on a date**, and, given a `code` for what was sold, **whether that kind of sale is taxed there**: the rate on that sale, or an explicit `conditional` or `not_researched`. The codes, the dated and cited rules (WA, NY, CA and Canada so far) and the resolver are in `src/taxability/`; the benchmark is `pnpm bench taxability` ([benchmarks](benchmarks.md)). A code describes the thing sold, never the buyer: exemptions that follow the customer, sourcing, caps and holidays remain outside the lookup. Matching a rate is still different from matching the tax due on an order. Transaction parity needs the same line items, seller/customer facts, sourcing rules and rounding as the comparison service. It must be measured against comparable transaction-calculation endpoints, not a ZIP-rate endpoint.
 
 ## What ingestion now stores
 
@@ -26,7 +26,7 @@ Use `--dir` for saved input files, or `OPENTAXRATE_DOWNLOAD_DIR` for the downloa
 | `sales_tax_shapes` | Verified lookup geometry, including supplements; native tax areas have effective dates and an SST area reference where applicable | Yes |
 | `tax_source_snapshots` | Content hash, publisher URL, state, observation time and source metadata | Acquisition/reconciliation evidence |
 | `tax_source_features` | Downloaded polygons and original identifiers/attributes, linked to immutable snapshots | Ingestion evidence only; lookup reads verified ordinary-table data |
-| `tax_rule_rows` | Legacy research storage; its data is excluded from public exports | No; no policy importer is enabled |
+| `taxability_rules` | Dated, cited taxability rules from the reviewed files in `src/taxability/rules` ([data maintenance](data.md#taxability-rules)) | Only for `code=`: whether that kind of sale is taxed; never the general rate |
 
 Published SST matrices cover the **24 member states**, not all 50 states and DC. They are useful research sources, not a complete national rules engine. Blank answers, missing local coverage, and unsupported categories must never be interpreted as exempt. The removed experimental importer is not a supported command; `pnpm ingest --kind rules` and `--kind all` are rejected. A database constraint also rejects the experimental policy snapshots, including writes from an older running importer.
 
@@ -90,7 +90,7 @@ Suggested delivery sequence: (1) reconcile native general-tax polygons to dated 
 
 All 50 states and DC must be accounted for, with applicable local and special jurisdictions. For each rule family and supported transaction/product category, record the legal source, effective interval, exceptions, calculation semantics and verified examples. Distinguish **verified not applicable** from **not researched**. No missing policy may silently fall back to the general rate. A finite, explicit scope and date range is required before claiming completeness; collecting links or ingesting 24 state matrices does not establish it.
 
-The API currently exposes general address rates and the rate variants explicitly present in its underlying rate files. It does not calculate an order's tax, apply holidays/caps, classify products, or validate exemption eligibility. Product-taxability fields and policy rows must remain absent from responses and public exports until implemented and validated across the agreed nationwide scope.
+The API exposes general address rates, the rate variants present in its rate files, and per-code taxability where a researched rule exists. It does not calculate an order's tax, apply holidays/caps, classify products from descriptions, or validate exemption eligibility. A place, code and date without a rule answers `not_researched`; nothing falls back to the general rate.
 
 Sales-tax holidays are real statutory exemptions for limited periods and qualifying purchases. They are separate from caps and permanent product exemptions. Examples verified against official 2026 sources:
 
