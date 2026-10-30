@@ -40,6 +40,73 @@
   },
   {
     "tax": "CA",
+    "code": "food.candy",
+    "from": "1992-12-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Candy, gum and confectionery are food products in California and exempt from sales tax.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine, for consumption at the seller's tables or within a place that charges admission, or otherwise under § 6359(d)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(b)(1)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "spices and salt, sugar and sugar products, candy, gum, confectionery, coffee and coffee substitutes, tea, and cocoa and cocoa products."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Prop. 163, Sec. 2, in effect December 1, 1992, deleted \"other than\" after \"sugar and sugar products,\", added \", gum,\" after \"candy\""
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "There are exempted from the taxes imposed by this part the gross receipts from the sale of, and the storage, use, or other consumption in this state of, food products for human consumption."
+      }
+    ],
+    "notes": "Proposition 163 restored the exemption for candy and gum from 1992-12-01; between 1991-07-15 and 1992-11-30 candy and confectionery were taxable (Stats. 1991, ch. 85 and 88), not modeled. Local and district taxes share the state base."
+  },
+  {
+    "tax": "CA",
+    "code": "food.soft_drink",
+    "from": "1992-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Carbonated soft drinks are taxable in California; non-carbonated sweetened drinks (sweetened tea, non-carbonated energy or sports drinks, fruit drinks) are exempt food products.",
+    "conditions": [
+      {
+        "when": "Carbonated (soda, sparkling sweetened drinks)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Not carbonated (sweetened tea, lemonade, non-carbonated energy or sports drink)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Served for drinking at the seller's tables, from a vending machine, or as a hot or to-go drink from a seller meeting the 80-80 rule (§ 6359(d))",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(b)(3)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "All fruit juices, vegetable juices, and other beverages, whether liquid or frozen, including bottled water, but excluding spirituous, malt, or vinous liquors or carbonated beverages."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "There are exempted from the taxes imposed by this part the gross receipts from the sale of, and the storage, use, or other consumption in this state of, food products for human consumption."
+      }
+    ],
+    "notes": "California's line is carbonation, not sweetener, so the code needs that fact. A drink sold as a dietary supplement (e.g. some energy shots) is excluded from food products by § 6359(c)(1) and taxable. 1992-12-01 as for food.grocery: Proposition 163 set subdivision (b)'s current list; the carbonated exclusion is older but earlier dates are unverified. Local and district taxes share the state base."
+  },
+  {
+    "tax": "CA",
     "code": "food.prepared",
     "from": "1985-01-01",
     "to": "1996-03-31",
@@ -169,6 +236,354 @@
       }
     ],
     "notes": "The code says 'sold with eating utensils the seller provides', but California has no utensil test: courts have held a paper napkin isn't 'tableware' (Treasure Island Catering, annotated under 6359), though sandwiches on non-returnable cardboard trays counted (Hart's Drive-In). A cold sandwich sold to go with a plastic fork is exempt unless another condition applies. Delivered meals: Reg 1603(a)(2)(A) taxes meals and hot prepared food from restaurants 'whether served on or off the premises'; delivered cold food follows the to-go rules above (inference, unverified). 'Suitable for consumption on the seller's premises' means needing no further processing and sized for one person (Reg 1603(c)(2)). Vending machine sales have their own measure in Reg 1574 (not fetched). The 80-80 test is per location. Statute cited from CDTFA's Law Guide copy (leginfo blocked automated fetching)."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.hot",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Hot food is taxable in California, to go or to stay; hot coffee and other hot drinks (not soup) and hot bakery goods sold for their own price to go are exempt unless the seller meets the 80-80 rule.",
+    "conditions": [
+      {
+        "when": "Hot food, a hot meal, sandwich, pizza or soup, or a hot-and-cold combination for one price",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Hot coffee, tea or other hot drink (not soup), or a hot bakery item, sold for its own price to go, by a seller not meeting the 80-80 rule or separately accounting for to-go sales",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Hot drink or hot bakery item sold to go by a seller meeting the 80-80 rule that hasn't elected separate accounting",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(7)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products are sold as hot prepared food products."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(e)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Paragraph (7) of subdivision (d) does not apply to a sale for a separate price of bakery goods or beverages (other than bouillon, consommé, or soup), or where the food product is purchased cold or frozen;"
+      },
+      {
+        "title": "18 CCR 1603(e)(1)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Tax applies to all sales of hot prepared food products unless otherwise exempt."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller meets both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax applies to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) in a form suitable for consumption on the seller's premises even though such food products are sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller does not meet both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      }
+    ],
+    "notes": "From 1996-04-01, as the parent food.prepared rule: the 80-80 rule with its separate-accounting election (Stats. 1995, ch. 647) took effect then. The 80-80 test is the seller's sales mix at the location, which no code carries; 'suitable for consumption on the seller's premises' means ready to eat and sized for one person (Reg 1603(c)(2)). Local and district taxes share the state base. Statute cited from CDTFA's Law Guide copy. The code includes coffee, which § 6359(e) carves out of 'hot prepared food'; for a hot meal or hot food item the answer is plainly taxable."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.dine_in",
+    "from": "1996-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating at the seller's tables, chairs or counters, or on its trays, dishes or other tableware, is taxable in California, hot or cold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(2)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products are furnished, prepared, or served for consumption at tables, chairs, or counters or from trays, glasses, dishes, or other tableware whether provided by the retailer or by a person with whom the retailer contracts to furnish, prepare, or serve food products to others."
+      },
+      {
+        "title": "18 CCR 1603(f)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Tax applies to sales of sandwiches, ice cream, and other foods sold in a form for consumption at tables, chairs, or counters or from trays, glasses, dishes, or other tableware provided by the retailer"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(1)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products are served as meals on or off the premises of the retailer."
+      }
+    ],
+    "notes": "Taxable well before 1996; the start date matches the other prepared-food subcodes, and earlier dates fall to the parent rule. A seat at a game or on a train isn't a 'chair' (Reg 1603(f)). Local and district taxes share the state base."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.sandwich",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go is usually exempt in California (from a grocery store or other seller failing the 80-80 rule) but taxable from a sandwich shop or restaurant meeting the 80-80 rule that doesn't separately account for to-go food.",
+    "conditions": [
+      {
+        "when": "Seller meets the 80-80 rule at that location (over 80% of its gross receipts from food, over 80% of its food sales taxable as hot, dine-in, drive-in or similar) and hasn't elected to separately account for to-go cold food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller doesn't meet the 80-80 rule, or meets it and separately accounts for its to-go cold food sales",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold at a drive-in where parking is provided mainly for eating there, within a place that charges admission (other than parks, marinas, campgrounds), or from a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products sold are furnished in a form suitable for consumption on the seller's premises, and both of the following apply:"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)(A)-(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Over 80 percent of the seller's gross receipts are from the sale of food products."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller meets both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax applies to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) in a form suitable for consumption on the seller's premises even though such food products are sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Operative April 1, 1996, although a seller may meet both criteria of the 80-80 rule, he or she may elect to separately account for the sale of \"take-out\" or \"to go\" orders of cold food products"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller does not meet both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      }
+    ],
+    "notes": "From 1996-04-01, as the parent food.prepared rule: the 80-80 rule with its separate-accounting election (Stats. 1995, ch. 647) took effect then. The 80-80 test is the seller's sales mix at the location, which no code carries; 'suitable for consumption on the seller's premises' means ready to eat and sized for one person (Reg 1603(c)(2)). Local and district taxes share the state base. Statute cited from CDTFA's Law Guide copy. A hot sandwich is food.prepared.hot (taxable). California has no utensil test: a napkin or plastic fork doesn't make a to-go sandwich taxable."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.cold",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared food sold to go by a grocery or deli is usually exempt in California: a grocery's sales are mostly exempt food, so it fails the 80-80 rule; a deli whose sales are mostly taxable may meet it.",
+    "conditions": [
+      {
+        "when": "Seller meets the 80-80 rule at that location (over 80% of its gross receipts from food, over 80% of its food sales taxable as hot, dine-in, drive-in or similar) and hasn't elected to separately account for to-go cold food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller doesn't meet the 80-80 rule, or meets it and separately accounts for its to-go cold food sales",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold at a drive-in where parking is provided mainly for eating there, within a place that charges admission (other than parks, marinas, campgrounds), or from a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products sold are furnished in a form suitable for consumption on the seller's premises, and both of the following apply:"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)(A)-(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Over 80 percent of the seller's gross receipts are from the sale of food products."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller meets both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax applies to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) in a form suitable for consumption on the seller's premises even though such food products are sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Operative April 1, 1996, although a seller may meet both criteria of the 80-80 rule, he or she may elect to separately account for the sale of \"take-out\" or \"to go\" orders of cold food products"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller does not meet both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(c)(2)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "The term does not include cold food products which obviously would not be consumed on the premises of the seller, e.g., a cold party tray or a whole cold chicken."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      }
+    ],
+    "notes": "From 1996-04-01, as the parent food.prepared rule: the 80-80 rule with its separate-accounting election (Stats. 1995, ch. 647) took effect then. The 80-80 test is the seller's sales mix at the location, which no code carries; 'suitable for consumption on the seller's premises' means ready to eat and sized for one person (Reg 1603(c)(2)). Local and district taxes share the state base. Statute cited from CDTFA's Law Guide copy. Food not in a form for eating at the seller's premises (a whole cold chicken, a party tray, bulk quantities) is exempt to go even under the 80-80 rule (Reg 1603(c)(2))."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold food or drink sold to go by a restaurant is usually taxable in California when the restaurant's sales are mostly hot or dine-in food (the 80-80 rule) and it doesn't separately account for to-go cold food; otherwise it is exempt.",
+    "conditions": [
+      {
+        "when": "Seller meets the 80-80 rule at that location (over 80% of its gross receipts from food, over 80% of its food sales taxable as hot, dine-in, drive-in or similar) and hasn't elected to separately account for to-go cold food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller doesn't meet the 80-80 rule, or meets it and separately accounts for its to-go cold food sales",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold at a drive-in where parking is provided mainly for eating there, within a place that charges admission (other than parks, marinas, campgrounds), or from a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products sold are furnished in a form suitable for consumption on the seller's premises, and both of the following apply:"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)(A)-(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Over 80 percent of the seller's gross receipts are from the sale of food products."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller meets both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax applies to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) in a form suitable for consumption on the seller's premises even though such food products are sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Operative April 1, 1996, although a seller may meet both criteria of the 80-80 rule, he or she may elect to separately account for the sale of \"take-out\" or \"to go\" orders of cold food products"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller does not meet both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      }
+    ],
+    "notes": "From 1996-04-01, as the parent food.prepared rule: the 80-80 rule with its separate-accounting election (Stats. 1995, ch. 647) took effect then. The 80-80 test is the seller's sales mix at the location, which no code carries; 'suitable for consumption on the seller's premises' means ready to eat and sized for one person (Reg 1603(c)(2)). Local and district taxes share the state base. Statute cited from CDTFA's Law Guide copy. Whether a given restaurant meets the 80-80 rule turns on its own sales; nothing read says how many do. A carbonated drink is taxable regardless (food.soft_drink)."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.bakery",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items sold to go, even warm, are usually exempt in California; they are taxable from a seller meeting the 80-80 rule (a café or restaurant whose sales are mostly taxable food) that doesn't separately account for to-go food.",
+    "conditions": [
+      {
+        "when": "Seller meets the 80-80 rule at that location (over 80% of its gross receipts from food, over 80% of its food sales taxable as hot, dine-in, drive-in or similar) and hasn't elected to separately account for to-go cold food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller doesn't meet the 80-80 rule, or meets it and separately accounts for its to-go cold food sales",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold at a drive-in where parking is provided mainly for eating there, within a place that charges admission (other than parks, marinas, campgrounds), or from a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(e)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Paragraph (7) of subdivision (d) does not apply to a sale for a separate price of bakery goods or beverages (other than bouillon, consommé, or soup), or where the food product is purchased cold or frozen;"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(d)(6)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "When the food products sold are furnished in a form suitable for consumption on the seller's premises, and both of the following apply:"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller meets both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax applies to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) in a form suitable for consumption on the seller's premises even though such food products are sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "Operative April 1, 1996, although a seller may meet both criteria of the 80-80 rule, he or she may elect to separately account for the sale of \"take-out\" or \"to go\" orders of cold food products"
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller does not meet both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      }
+    ],
+    "notes": "From 1996-04-01, as the parent food.prepared rule: the 80-80 rule with its separate-accounting election (Stats. 1995, ch. 647) took effect then. The 80-80 test is the seller's sales mix at the location, which no code carries; 'suitable for consumption on the seller's premises' means ready to eat and sized for one person (Reg 1603(c)(2)). Local and district taxes share the state base. Statute cited from CDTFA's Law Guide copy. A whole cake or a dozen items sold in bulk isn't in a form for eating on the premises, so it is exempt to go even under the 80-80 rule (Reg 1603(c)(2), inference from the party-tray example)."
+  },
+  {
+    "tax": "CA",
+    "code": "food.prepared.platter",
+    "from": "1996-04-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A cold party tray or platter sold to go is exempt in California: it obviously isn't for eating at the seller's premises, so even the 80-80 rule doesn't reach it.",
+    "conditions": [
+      {
+        "when": "Platter with hot items sold for one price (hot prepared food)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for consumption within a place that charges admission, or served by the seller at the customer's event (catering)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "18 CCR 1603(c)(2)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "The term does not include cold food products which obviously would not be consumed on the premises of the seller, e.g., a cold party tray or a whole cold chicken."
+      },
+      {
+        "title": "18 CCR 1603(c)(1)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "When a seller does not meet both criteria of the 80-80 rule as explained in subdivision (c)(3) below, tax does not apply to sales of cold food products (including sales for a separate price of hot bakery goods and hot beverages such as coffee) when sold on a \"take-out\" or \"to go\" order."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "There are exempted from the taxes imposed by this part the gross receipts from the sale of, and the storage, use, or other consumption in this state of, food products for human consumption."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "Stats. 1995, Ch. 647, in effect October 6, 1995, operative April 1, 1996,"
+      }
+    ],
+    "notes": "Reg 1603(c)(2) names 'a cold party tray' as not suitable for consumption on the seller's premises. Local and district taxes share the state base."
   },
   {
     "tax": "CA",
@@ -307,6 +722,69 @@
   },
   {
     "tax": "CA",
+    "code": "software.prewritten",
+    "from": "1999-01-29",
+    "to": "2026-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Until 2026, prewritten software sold on a disc or other storage media is taxable in California, but software only downloaded, with no tangible copy, is not.",
+    "conditions": [
+      {
+        "when": "Delivered on storage media (disc, drive) or with any tangible copy, or installed by the seller from its own media",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered only electronically (download or remote transfer), with no tangible property passing to the buyer",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "18 CCR 1502(f)(1)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "Tax applies to the sale or lease of the storage media or coding sheets on which or into which such prewritten (canned) programs have been recorded, coded, or punched."
+      },
+      {
+        "title": "18 CCR 1502(f)(1)(D)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "The sale or lease of a prewritten program is not a taxable transaction if the program is transferred by remote telecommunications from the seller's place of business, to or through the purchaser's computer and the purchaser does not obtain possession of any tangible personal property"
+      }
+    ],
+    "notes": "1999-01-29 as for software.saas: Reg 1502's history shows the 1999 amendment to (f)(1)(D), so the electronic-transfer rule was in force by then; earlier dates unverified. Manuals and backup discs can make an otherwise electronic sale taxable in part (Reg 1502(f)(1)(D)); not modeled. Local and district taxes share the state base."
+  },
+  {
+    "tax": "CA",
+    "code": "software.prewritten",
+    "from": "2027-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2027, prewritten software is a taxable digital product in California however delivered: on storage media, downloaded or accessed remotely.",
+    "conditions": [
+      {
+        "when": "Purchased solely for use outside California",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Transferred with the right to reproduce and distribute it",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CDTFA Special Notice L-1036 (September 2026)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/l1036.pdf",
+        "quote": "Beginning January 1, 2027, the definition of tangible personal property in the Sales and Use Tax Law will be expanded to include digital products and any copyright or patent interests associated with those digital products."
+      },
+      {
+        "title": "CDTFA Special Notice L-1036 (September 2026)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/l1036.pdf",
+        "quote": "A digital product is prewritten computer software transferred on tangible storage media, transferred electronically, or accessed remotely."
+      }
+    ],
+    "notes": "SB 122 (signed June 29, 2026), per CDTFA's notice; the bill text itself wasn't read, and CDTFA says emergency regulations are being drafted. See software.saas for the same change."
+  },
+  {
+    "tax": "CA",
     "code": "software.custom",
     "from": "1982-09-22",
     "fromIs": "effective",
@@ -349,6 +827,65 @@
       }
     ],
     "notes": "The legislature called section 6010.9 declaratory of existing law and allowed refunds back to 1972-07-01, so custom programs were arguably non-taxable before 1982-09-22; that period isn't modeled. Contrary to the lead, the storage media for a custom program are not separately taxable (6010.9 excludes the program 'in the form of storage media'). A program first built for in-house use and later sold is not custom (Navistar, annotated under 6010.9). Reg 1502(f)(2)(B)'s 50% test for significant modification is quoted only in part. Statute cited from CDTFA's Law Guide copy (leginfo blocked automated fetching). SB 122 (from 2027-01-01) keeps custom software exempt: CDTFA Special Notice L-1036 lists 'Custom computer software' among exempt digital products, and its retailer guide says 'The sale and purchase of custom computer software, other than a basic operation program, is exempt from tax.' From 2027 a prewritten program delivered electronically or remotely is taxable too, so the third condition likely reaches modification charges bundled with such a program, not only with one on storage media (inference, unverified)."
+  },
+  {
+    "tax": "CA",
+    "code": "software.custom.development",
+    "from": "1982-09-22",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Software written to one customer's special order is not a sale in California and isn't taxable, in any form, including the media and documentation.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6010.9",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6010-9.html",
+        "quote": "\"Sale\" and \"purchase,\" for the purposes of this part, do not include the design, development, writing, translation, fabrication, lease, or transfer for a consideration of title or possession, of a custom computer program, other than a basic operational program"
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6010.9 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6010-9.html",
+        "quote": "Added by Stats. 1982, Ch. 1274, in effect September 22, 1982."
+      },
+      {
+        "title": "18 CCR 1502(f)(2)(A)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "Tax does not apply to the sale or lease of a custom computer program, other than a basic operational program, regardless of the form in which the program is transferred."
+      },
+      {
+        "title": "CDTFA, Tax Guide for Retailers and Purchasers of Digital Products: Retailers",
+        "url": "https://www.cdtfa.ca.gov/industry/retailers-and-purchasers-of-digital-products/retailers.htm",
+        "quote": "The sale and purchase of custom computer software, other than a basic operation program, is exempt from tax."
+      }
+    ],
+    "notes": "SB 122 (from 2027-01-01) keeps custom software exempt (CDTFA's digital products guide). A program first built for one customer and later held for general sale is prewritten. Local and district taxes share the state base."
+  },
+  {
+    "tax": "CA",
+    "code": "software.custom.modification",
+    "from": "1982-09-22",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A separately stated charge for modifying prewritten software to one customer's special order is a custom program in California and isn't taxable; the prewritten copy itself is treated as prewritten software.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6010.9(d)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6010-9.html",
+        "quote": "includes those services represented by separately stated charges for modifications to an existing prewritten program which are prepared to the special order of the customer."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6010.9 history",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6010-9.html",
+        "quote": "Added by Stats. 1982, Ch. 1274, in effect September 22, 1982."
+      },
+      {
+        "title": "18 CCR 1502(f)(2)(B)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1502.html",
+        "quote": "However, charges for custom modifications to prewritten programs are nontaxable only if the charges for the modifications are separately stated."
+      }
+    ],
+    "notes": "The code fixes 'charged separately'; a modification charge not separately stated is taxable with a taxable prewritten program (parent software.custom rule). Local and district taxes share the state base."
   },
   {
     "tax": "CA",
@@ -486,5 +1023,89 @@
       }
     ],
     "notes": "1995-07-19 is the effective date of Reg 1628's last amendment, which added the 'postage/shipping and handling' and 'handling' sentences. The carrier-delivery exclusion is much older (Reg 1628 adopted 1962), but its earlier wording is unverified. When a seller delivers in its own vehicles, title passes on delivery unless a written agreement says otherwise (Reg 1628(b)(3)(D)), so own-vehicle delivery charges are usually taxable. Delivery charges for exempt goods aren't taxable (Pub 100: 'Sale is not a taxable transaction. Related charges are not taxable.'). Mixed taxable and exempt shipments need apportionment, which was not researched (unverified)."
+  },
+  {
+    "tax": "CA",
+    "code": "delivery.taxable_goods",
+    "from": "1995-07-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge for taxable goods is exempt when they ship directly to the buyer by common or contract carrier or US mail, up to the actual cost; handling, the excess over cost, and most deliveries in the seller's own vehicles are taxable.",
+    "conditions": [
+      {
+        "when": "Shipped directly to the purchaser by US mail, independent contract carrier or common carrier, separately stated, up to the seller's actual transportation cost",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Portion of the charge above the seller's actual cost, or the seller keeps no records of actual delivery cost",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Charge designated 'handling', or the handling portion of a 'shipping and handling' or 'postage and handling' charge",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery in the seller's own vehicles or for a delivered price, where the sale (title passage) occurs on delivery",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery in the seller's own vehicles, separately stated, where the sale occurs before transport begins (e.g. explicit prior title transfer), up to a reasonable charge",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Charge for freight-in to the seller's place of business",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "18 CCR 1628(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html",
+        "quote": "tax does not apply to \"separately stated\" charges for transportation of property from the retailer's place of business or other point from which shipment is made \"directly to the purchaser,\" provided the transportation is by other than facilities of the retailer"
+      },
+      {
+        "title": "18 CCR 1628(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html",
+        "quote": "A separately stated charge designated \"handling\" or \"handling charge\" is not a separate statement of transportation charges."
+      },
+      {
+        "title": "18 CCR 1628(b)(2)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html",
+        "quote": "When the sale occurs before the transportation to the purchaser commences, the tax does not apply to separately stated charges for the transportation."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code § 6012(c)(7)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6012.html",
+        "quote": "Separately stated charges for transportation from the retailers place of business or other point from which shipment is made directly to the purchaser, but the exclusion shall not exceed a reasonable charge for transportation by facilities of the retailer or the cost to the retailer of transportation by other than facilities of the retailer."
+      },
+      {
+        "title": "CDTFA Publication 100 (Rev. December 2017)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm",
+        "quote": "You deliver merchandise with your own vehicles. Exception: May not be taxable if title to merchandise transfers to buyer before delivery."
+      }
+    ],
+    "notes": "1995-07-19 is the effective date of Reg 1628's last amendment, which added the 'postage/shipping and handling' and 'handling' sentences. The carrier-delivery exclusion is much older (Reg 1628 adopted 1962), but its earlier wording is unverified. When a seller delivers in its own vehicles, title passes on delivery unless a written agreement says otherwise (Reg 1628(b)(3)(D)), so own-vehicle delivery charges are usually taxable. Mixed taxable and exempt shipments need apportionment, which was not researched (unverified). Who carries the goods and the seller's cost are facts no code carries."
+  },
+  {
+    "tax": "CA",
+    "code": "delivery.exempt_goods",
+    "from": "2017-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge for goods whose sale isn't taxable (such as groceries) is not taxable in California.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CDTFA Publication 100 (Rev. December 2017)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm",
+        "quote": "Sale is not a taxable transaction."
+      },
+      {
+        "title": "CDTFA Publication 100 (Rev. December 2017)",
+        "url": "https://www.cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm",
+        "quote": "Related charges are not taxable."
+      }
+    ],
+    "notes": "2017-12-01 is Pub 100's revision month; the treatment is older (the parent delivery rule's first condition covers earlier dates). Pub 100's table pairs the two quoted lines: when the sale is not taxable, related delivery charges are not taxable. Mixed shipments of taxable and exempt goods need apportionment, not researched."
   }
 ]

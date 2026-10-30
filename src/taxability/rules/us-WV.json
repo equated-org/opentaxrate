@@ -1,0 +1,579 @@
+[
+  {
+    "tax": "WV",
+    "code": "construction.real_property.improvement",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction that results in a capital improvement is contracting, not taxed to the customer; the contractor pays tax on its purchases.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8a (contractors)",
+        "url": "https://code.wvlegislature.gov/11-15-8a/",
+        "quote": "The provisions of this article shall not apply to contracting services."
+      },
+      {
+        "title": "W. Va. Code § 11-15-2 (definitions)",
+        "url": "https://code.wvlegislature.gov/11-15-2/",
+        "quote": "The term \"improvement\" means, and is limited to, improvements which are capital improvements to a building or structure or to real property"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 310, Capital Improvement Rule: Sales and Use Tax for Construction Trades (Rev. July 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd310.pdf",
+        "quote": "If the end result of the service is a capital improvement to real property, the service is considered to be \"contracting\" and is not taxable."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "construction.real_property.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair or maintenance of real property that is not a capital improvement is a taxable service: tax on labor and materials.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-2 (definitions)",
+        "url": "https://code.wvlegislature.gov/11-15-2/",
+        "quote": "The term \"repair\" means, and is limited to, repairs which are capital improvements to a building or structure or to real property"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 310, Capital Improvement Rule: Sales and Use Tax for Construction Trades (Rev. July 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd310.pdf",
+        "quote": "If the end result is a non-capital improvement, repair, alteration, or maintenance of real property, the service is taxable."
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "All other construction trade activities are subject to the sales tax unless otherwise exempt."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. A repair that itself is a capital improvement (substantially adds value or appreciably prolongs life, and becomes part of the realty) is contracting and exempt; the code describes ordinary repair and maintenance. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges are part of the sales price, so they are taxed with taxable goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "without any deduction for the following:"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(iv) Delivery charges; and (v) Installation charges."
+      }
+    ],
+    "notes": "§ 11-15B-2 last amended 2012. Delivery charges on exempt goods (delivery.exempt_goods) aren't written: no West Virginia statement on them was read. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.candy",
+    "from": "2013-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Candy is \"food and food ingredients\" in West Virginia, so it is exempt with groceries from July 1, 2013.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "\"Food and food ingredients\" does not include alcoholic beverages, prepared food or tobacco."
+      },
+      {
+        "title": "W. Va. Code § 11-15-3a (rate of tax on food and food ingredients)",
+        "url": "https://code.wvlegislature.gov/11-15-3a/",
+        "quote": "is intended for human consumption shall cease after June 30, 2013"
+      },
+      {
+        "title": "W. Va. Code § 11-15-3b (exceptions to reduced rate on food)",
+        "url": "https://code.wvlegislature.gov/11-15-3b/",
+        "quote": "\"prepared food\", \"food sold through vending machines\" and \"soft drinks\" as defined in article fifteen-b of this chapter, which shall be taxed at the general rate of tax"
+      }
+    ],
+    "notes": "West Virginia's definition of food and food ingredients excludes only alcoholic beverages, prepared food and tobacco, and § 11-15-3b keeps the full rate only for prepared food, vending machine food and soft drinks; candy is not among them. No Tax Division statement naming candy was found. Candy sold through a vending machine is taxable. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered food and the caterer's services are taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(iii) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Catering is prepared food served with the seller's utensils plus a nonprofessional service; both are taxable. No Tax Division publication on caterers was read. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.grocery",
+    "from": "2013-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients for home consumption are exempt from state and municipal sales tax from July 1, 2013.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-3a (rate of tax on food and food ingredients)",
+        "url": "https://code.wvlegislature.gov/11-15-3a/",
+        "quote": "is intended for human consumption shall cease after June 30, 2013"
+      },
+      {
+        "title": "West Virginia Legislature, 2021 Budget Digest of Revenue Sources, Volume 1",
+        "url": "https://www.wvlegislature.gov/legisdocs/reports/budget/2021_digest_revenue_VOL1.pdf",
+        "quote": "The tax on food and food ingredients for home consumption was reduced over several years and was eliminated effective July 1, 2013."
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Prepared food is subject to Sales Tax at the regular rate of 6%, while food and food ingredients are not taxed."
+      },
+      {
+        "title": "W. Va. Code § 8-13C-4 (municipal sales and service tax)",
+        "url": "https://code.wvlegislature.gov/8-13C-4/",
+        "quote": "The base of a municipal sales and service tax imposed pursuant to this section shall be identical to the base of the consumers sales and service tax"
+      }
+    ],
+    "notes": "Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Bakery items are excluded from prepared food, so sold without utensils they are exempt food.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller, or heated by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(iii) Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, tortillas."
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Prepared food is subject to Sales Tax at the regular rate of 6%, while food and food ingredients are not taxed."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. The bakery exclusion is from the mixed-ingredients test; bakery items sold with utensils the seller provides, or heated by it, are prepared food. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food is prepared food when the store mixes or combines ingredients into one item, but not when it is only cut or repackaged, or sold unheated by weight or volume.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as a single item by the unit (a packaged salad or meal)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item (deli salad by the pound)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (cut fruit, sliced meat or cheese)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(ii) Two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "does not include food that is only cut, repackaged or pasteurized by the seller"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(ii) Food sold in an unheated state by weight or volume as a single item"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "All food sold by an eating establishment, for eating on or off the premises, is prepared food taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "All food sold by an eating establishment that sells meals, sandwiches, or other food for consumption on or off the"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(ii) Two or more food ingredients mixed or combined by the seller for sale as a single item"
+      }
+    ],
+    "notes": "TSD 420 (Rev. May 2023) treats all food sold by eating establishments as prepared food; earlier Tax Division statements weren't read, but the statutory prepared-food tests (mixed by the seller, utensils) reach a restaurant's cold food generally. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served with plates or utensils for eating on the premises is prepared food taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(iii) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "All food sold by an eating establishment that sells meals, sandwiches, or other food for consumption on or off the"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated, or heated by the seller, is prepared food taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(i) Food sold in a heated state or heated by the seller"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Prepared food is subject to Sales Tax at the regular rate of 6%, while food and food ingredients are not taxed."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A party tray of foods the seller combines (sandwiches, meats and cheese, mixed fruit) is prepared food taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(ii) Two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Two or more food ingredients that are mixed or combined by the seller and then sold as a single food item"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. A tray holding a single item only cut or repackaged by the seller (e.g. one kind of sliced cheese) would not be prepared food; the code describes combined trays. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich the seller assembles is prepared food (ingredients combined by the seller) taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(ii) Two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Two or more food ingredients that are mixed or combined by the seller and then sold as a single food item"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. A sandwich made by a food manufacturer (NAICS 311) and resold in its package isn't prepared food, but the code is a sandwich the seller prepared. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxed at the full 6% rate; the food exemption doesn't reach them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-3b (exceptions to reduced rate on food)",
+        "url": "https://code.wvlegislature.gov/11-15-3b/",
+        "quote": "\"prepared food\", \"food sold through vending machines\" and \"soft drinks\" as defined in article fifteen-b of this chapter, which shall be taxed at the general rate of tax"
+      },
+      {
+        "title": "West Virginia Legislature, 2021 Budget Digest of Revenue Sources, Volume 1",
+        "url": "https://www.wvlegislature.gov/legisdocs/reports/budget/2021_digest_revenue_VOL1.pdf",
+        "quote": "However, purchases and uses by consumers of prepared food, food sold through vending machines, and soft drinks are subject to the 6 percent tax."
+      }
+    ],
+    "notes": "Full rate since 2007-07-01 under § 11-15-3b (last amended 2007). Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at 6% plus any 1% municipal tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "All sales of tangible personal property or taxable services are presumed to be subject to tax."
+      },
+      {
+        "title": "W. Va. Code § 8-13C-4 (municipal sales and service tax)",
+        "url": "https://code.wvlegislature.gov/8-13C-4/",
+        "quote": "The base of a municipal sales and service tax imposed pursuant to this section shall be identical to the base of the consumers sales and service tax"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.accounting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Accounting by CPAs, public accountants and enrolled agents is an excepted professional service; bookkeeping by others is taxable.",
+    "conditions": [
+      {
+        "when": "Performed by a certified public accountant, public accountant or IRS enrolled agent",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bookkeeping or tax preparation by a person without those credentials",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "Sales of services recognized as “professional” under West Virginia law, such as those provided by doctors, lawyers, engineers, architects and CPA’s."
+      },
+      {
+        "title": "West Virginia State Tax Department, Administrative Notice 10-25 (professional services exception)",
+        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2010/AdministrativeNotice.2010-25.pdf",
+        "quote": "include interior decorators, private detectives/investigators, security guards, bookkeepers"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Administrative Notice 10-25 quotes 110 CSR 15-8.1.1.1, which lists CPAs, public accountants and enrolled agents as professionals and bookkeepers as nonprofessional. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.consulting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Management and business consulting is a nonprofessional service, taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "W. Va. Code § 11-15-2 (definitions)",
+        "url": "https://code.wvlegislature.gov/11-15-2/",
+        "quote": "\"Service\" or \"selected service\" includes all nonprofessional activities engaged in for other persons for a consideration"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "All sales of tangible personal property or taxable services are presumed to be subject to tax."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Consulting is not among the licensed professions the rule treats as professional; consulting performed by a licensed professional (e.g. a CPA) within that licence is excepted. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.design",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Interior decorating is a nonprofessional service, taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "West Virginia State Tax Department, Administrative Notice 10-25 (professional services exception)",
+        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2010/AdministrativeNotice.2010-25.pdf",
+        "quote": "include interior decorators, private detectives/investigators, security guards, bookkeepers"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.engineering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Services of professional engineers and architects are professional services, excepted from the sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "Sales of services recognized as “professional” under West Virginia law, such as those provided by doctors, lawyers, engineers, architects and CPA’s."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. The exception covers services requiring the professional licence; non-professional services sold by the same firm are taxable. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "IT consulting, integration and support are nonprofessional services, taxable at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "W. Va. Code § 11-15-2 (definitions)",
+        "url": "https://code.wvlegislature.gov/11-15-2/",
+        "quote": "\"Service\" or \"selected service\" includes all nonprofessional activities engaged in for other persons for a consideration"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Electronic data processing services (processing another's data, access to computer equipment) are exempt under § 11-15-9h, and high-technology business services used to fulfil a government contract are exempt; neither is the IT consulting and support this code describes. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.legal",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lawyers' services are professional services, excepted from the sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "Sales of services recognized as “professional” under West Virginia law, such as those provided by doctors, lawyers, engineers, architects and CPA’s."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software, and changes made to software for one customer, are taxable in West Virginia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8 (furnishing of services included; exceptions)",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. West Virginia taxes the sale of custom software alongside tangible personal property (§ 11-15-8); modification work is a nonprofessional service, also taxable. Exemptions for software incorporated into manufactured products or used in communication (§ 11-15-9h) turn on the buyer. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in West Virginia, taxable however it is delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "\"Tangible personal property\" includes, but is not limited to, electricity, steam, water, gas and prewritten computer software."
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "\"Delivered electronically\" means delivered to the purchaser by means other than tangible storage media."
+      }
+    ],
+    "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. The definition of tangible personal property draws no line by delivery method. Software for direct use in a high-technology business, or incorporated into a manufactured product, can be exempt (§ 11-15-9h); those turn on the buyer. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  }
+]

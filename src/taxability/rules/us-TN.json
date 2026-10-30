@@ -1,0 +1,881 @@
+[
+  {
+    "tax": "TN",
+    "code": "construction.real_property",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction labor on real property is not subject to Tennessee sales tax; the contractor pays tax on its materials and can't charge it to the customer as tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), ch. 5",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "In general, labor service performed on real property is not subject to sales tax."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), Contractor's Use Tax",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "The sales or use tax cannot be itemized separately and collected from the contractor's client."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), Contractor's Use Tax",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Contractors and subcontractors who improve realty or otherwise use personal property in the performance of a contract are considered the users and consumers of the materials that are used or installed as part of the real property."
+      }
+    ],
+    "notes": "Applies to improvements and repairs alike. A contractor-dealer selling materials without installing them makes retail sales (goods.general). Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "delivery.exempt_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge for goods not subject to Tennessee sales tax is not taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), Delivery Charges",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "However, when an item purchased is not subject to Tennessee sales and use tax, the delivery charge is not subject to sales or use tax."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), Delivery Charges",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "However, when an item purchased is not subject to Tennessee sales and use tax, the delivery charge is not subject to sales or use tax."
+      }
+    ],
+    "notes": "Groceries are not exempt in Tennessee (reduced 4%), so grocery delivery is not covered by this rule except during the 2023 holiday. Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge for taxable goods is part of the sales price and taxable, even if separately itemized.",
+    "conditions": [
+      {
+        "when": "Delivery by a third party hired and billed by the buyer, not by the seller",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), Delivery Charges",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "If an item of tangible personal property or service is subject to Tennessee sales or use tax, then the delivery charge made by the seller for delivering the property or service is subject to sales or use tax."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), Delivery Charges",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "If an item of tangible personal property or service is subject to Tennessee sales or use tax, then the delivery charge made by the seller for delivering the property or service is subject to sales or use tax."
+      }
+    ],
+    "notes": "Delivery of food taxed at the reduced rate is not separately addressed; presumably the item's rate applies (unverified). Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "food.candy",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is excluded from food and food ingredients and taxed at Tennessee's general 7% state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-22, Sales Tax on Candy (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-22.pdf",
+        "quote": "Candy is subject to the general state sales and use tax rate of 7%, plus the applicable local tax rate."
+      },
+      {
+        "title": "TN DOR Notice 17-07, State Tax Rate Change on Food (April 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-07.pdf",
+        "quote": "Prepared food, dietary supplements, candy, alcoholic beverages and tobacco continue to be subject to the general state sales and use tax rate of 7%, plus the applicable local tax rate."
+      },
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "Sales of prepared food, dietary supplements, candy, alcoholic beverages, and tobacco are not included in items exempt during this period."
+      }
+    ],
+    "notes": "Under Notice 17-22 an item with flour or that requires refrigeration is food, not candy (4%). Candy was also excluded from the 2023 food sales tax holiday. Treatment before 2017-07-01 not read here."
+  },
+  {
+    "tax": "TN",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Catered food and drink are taxed at the 7% prepared food rate, with delivery and unseparated service charges; separately stated charges for servers, setup and bartenders are not taxed.",
+    "conditions": [
+      {
+        "when": "Food, drink, delivery fees, and labor or service charges not separately stated from the food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Charges for servers, setup, bartenders or valets separately stated on the invoice",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), Restaurants: Catering",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Restaurants catering for parties, weddings, receptions, and other functions should collect sales tax on food items at the prepared food rate."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), Restaurants: Catering",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Charges for servers, setup services, bartenders, valets, etc., are not subject to tax and are not part of the sales price of the catered food if separately stated on the invoice."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), Restaurants: Catering",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Restaurants catering for parties, weddings, receptions, and other functions should collect sales tax on food items at the prepared food rate."
+      }
+    ],
+    "notes": "Rentals of tangible property (tables, linens) on the same bill are rentals of goods, taxable in Tennessee; not separately researched here. Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "food.grocery",
+    "from": "2017-07-01",
+    "to": "2023-07-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Food and food ingredients are taxed at Tennessee's reduced 4% state rate on food and food ingredients, plus the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-07, State Tax Rate Change on Food (April 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-07.pdf",
+        "quote": "Beginning July 1, 2017, Public Chapter 181, Section 30 of the IMPROVE Act reduces the state sales and use tax rate on food and food ingredients from 5% to 4%."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "As of July 1, 2017, food and food ingredients are subject to a reduced sales and use tax rate of 4%, plus the applicable local tax rate."
+      }
+    ],
+    "notes": "Food and food ingredients exclude candy, dietary supplements, alcoholic beverages, tobacco and prepared food (Notice 17-20); those are taxed at 7%. Before 2017-07-01 the state food rate was 5%."
+  },
+  {
+    "tax": "TN",
+    "code": "food.grocery",
+    "from": "2023-08-01",
+    "to": "2023-10-31",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients were exempt from state and local sales tax during the August 1 - October 31, 2023 food sales tax holiday.",
+    "conditions": [
+      {
+        "when": "Sold from a micro market or vending machine (Notice 23-09: these remained subject to sales tax)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "During the period beginning at 12:01 am on Tuesday, August 1, 2023 and ending Tuesday, October 31, 2023 at 11:59 pm, food and food ingredients are exempt from sales tax."
+      }
+    ],
+    "notes": "Public Chapter 377 (2023); the State reimbursed local governments for the lost local tax (Notice 23-09)."
+  },
+  {
+    "tax": "TN",
+    "code": "food.grocery",
+    "from": "2023-11-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Food and food ingredients are taxed at Tennessee's reduced 4% state rate on food and food ingredients; local tax applies as well.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 23-09, 2023 Sales Tax Holiday for Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales23-09.pdf",
+        "quote": "All retail sales of food and food ingredients made before August 1, 2023, and after October 31, 2023, will be subject to sales tax."
+      },
+      {
+        "title": "TN DOR Notice 26-19, Local Sales Tax on Food and Food Ingredients - Davidson County (September 2026)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales26-19.pdf",
+        "quote": "This local sales tax rate reduction does not affect the standard 4% state sales tax rate that applies to the retail sale of food and food ingredients."
+      }
+    ],
+    "notes": "Food and food ingredients exclude candy, dietary supplements, alcoholic beverages, tobacco and prepared food (Notice 17-20); those are taxed at 7%. Before 2017-07-01 the state food rate was 5%."
+  },
+  {
+    "tax": "TN",
+    "code": "food.prepared",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prepared food (heated, mixed by the seller, or sold with seller-provided utensils) is taxed at Tennessee's general 7% state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-21, Sales Tax on Prepared Food (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "Prepared food is subject to the general state sales and use tax rate of 7%, plus the applicable local tax rate."
+      },
+      {
+        "title": "TN DOR Notice 17-21, Sales Tax on Prepared Food",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "It is sold in a heated state or heated by the seller,"
+      },
+      {
+        "title": "TN DOR Notice 17-21, Sales Tax on Prepared Food",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "make a party tray for a single sales price"
+      },
+      {
+        "title": "TN DOR Notice 17-07, State Tax Rate Change on Food (April 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-07.pdf",
+        "quote": "Prepared food, dietary supplements, candy, alcoholic beverages and tobacco continue to be subject to the general state sales and use tax rate of 7%, plus the applicable local tax rate."
+      },
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "Sales of prepared food, dietary supplements, candy, alcoholic beverages, and tobacco are not included in items exempt during this period."
+      }
+    ],
+    "notes": "Covers hot food, dine-in, sandwiches, restaurant food and party platters, all of which are prepared food under Notice 17-21 (heated, two or more ingredients combined by the seller, or utensils provided). Food the seller only cuts, repackages or pasteurizes is not prepared food: see the food.prepared.cold rule. Prepared food was excluded from the 2023 food holiday."
+  },
+  {
+    "tax": "TN",
+    "code": "food.prepared.bakery",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Bakery items the seller bakes are prepared food in Tennessee (two or more ingredients mixed by the seller) and are taxed at the 7% general state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-21, Sales Tax on Prepared Food",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "This requirement is met if the seller mixes ingredients together to create a new food item to sell (e.g., a bakery mixes two or more ingredients to make a cake)."
+      },
+      {
+        "title": "TN DOR Notice 17-21, Sales Tax on Prepared Food (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "Prepared food is subject to the general state sales and use tax rate of 7%, plus the applicable local tax rate."
+      }
+    ],
+    "notes": "Tennessee's definition has no bakery-item exception: Notice 17-21 lists 'bakery goods' among prepared food when prepared by the seller. Bakery items bought from a manufacturer and resold unprepared (Notice 17-20 lists bread, cakes, cookies, pastries, pies) are food at 4%."
+  },
+  {
+    "tax": "TN",
+    "code": "food.prepared.cold",
+    "from": "2017-07-01",
+    "to": "2023-07-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food is taxed at 7% when the seller mixed, combined or cooked it, and at the 4% food rate when the seller only cut or repackaged it.",
+    "conditions": [
+      {
+        "when": "The seller combined two or more ingredients, cooked or heated it, or provides utensils with it (e.g. deli salads it makes, fruit trays, cooked chicken)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller only cut, sliced, repackaged or pasteurized it (e.g. sliced deli meat or cheese)",
+        "treatment": "special_rate",
+        "rate": 0.04
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-21, What Isn't Prepared Food",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "Prepared food does not include food that the seller only cuts, repackages, or pasteurizes."
+      },
+      {
+        "title": "TN DOR Notice 17-21, Sales Tax on Prepared Food (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "Prepared food is subject to the general state sales and use tax rate of 7%, plus the applicable local tax rate."
+      }
+    ],
+    "notes": "Notice 17-21: deli meats or cheeses the seller only slices and repackages, or potato salad it only repackages, are not prepared food. Salads the seller makes, fruit trays and cooked meats are prepared food."
+  },
+  {
+    "tax": "TN",
+    "code": "food.prepared.cold",
+    "from": "2023-08-01",
+    "to": "2023-10-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "During the 2023 food holiday, cold deli food the seller only cut or repackaged was tax-free; prepared items stayed taxable at 7%.",
+    "conditions": [
+      {
+        "when": "The seller combined two or more ingredients, cooked or heated it, or provides utensils with it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller only cut, sliced, repackaged or pasteurized it",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-21, What Isn't Prepared Food",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "Prepared food does not include food that the seller only cuts, repackages, or pasteurizes."
+      },
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "During the period beginning at 12:01 am on Tuesday, August 1, 2023 and ending Tuesday, October 31, 2023 at 11:59 pm, food and food ingredients are exempt from sales tax."
+      },
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "Sales of prepared food, dietary supplements, candy, alcoholic beverages, and tobacco are not included in items exempt during this period."
+      }
+    ],
+    "notes": "Notice 17-21: deli meats or cheeses the seller only slices and repackages, or potato salad it only repackages, are not prepared food. Salads the seller makes, fruit trays and cooked meats are prepared food."
+  },
+  {
+    "tax": "TN",
+    "code": "food.prepared.cold",
+    "from": "2023-11-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold deli food is taxed at 7% when the seller mixed, combined or cooked it, and at the 4% food rate when the seller only cut or repackaged it.",
+    "conditions": [
+      {
+        "when": "The seller combined two or more ingredients, cooked or heated it, or provides utensils with it (e.g. deli salads it makes, fruit trays, cooked chicken)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller only cut, sliced, repackaged or pasteurized it (e.g. sliced deli meat or cheese)",
+        "treatment": "special_rate",
+        "rate": 0.04
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-21, What Isn't Prepared Food",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-21.pdf",
+        "quote": "Prepared food does not include food that the seller only cuts, repackages, or pasteurizes."
+      },
+      {
+        "title": "TN DOR Notice 23-09, 2023 Sales Tax Holiday for Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales23-09.pdf",
+        "quote": "All retail sales of food and food ingredients made before August 1, 2023, and after October 31, 2023, will be subject to sales tax."
+      }
+    ],
+    "notes": "Notice 17-21: deli meats or cheeses the seller only slices and repackages, or potato salad it only repackages, are not prepared food. Salads the seller makes, fruit trays and cooked meats are prepared food. From 2024-10-01 a reduced local food rate may also apply to the cut-only items where a city or county has adopted one."
+  },
+  {
+    "tax": "TN",
+    "code": "food.soft_drink",
+    "from": "2017-07-01",
+    "to": "2023-07-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Soft drinks are taxed at Tennessee's reduced 4% state rate on food and food ingredients, plus the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-07, State Tax Rate Change on Food (April 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-07.pdf",
+        "quote": "Beginning July 1, 2017, Public Chapter 181, Section 30 of the IMPROVE Act reduces the state sales and use tax rate on food and food ingredients from 5% to 4%."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "As of July 1, 2017, food and food ingredients are subject to a reduced sales and use tax rate of 4%, plus the applicable local tax rate."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "The following are examples of items that qualify as food or food ingredients if the seller does not prepare them:"
+      },
+      {
+        "title": "TN DOR Notice 17-20, examples of food and food ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "soft drinks"
+      }
+    ],
+    "notes": "Tennessee does not exclude soft drinks from 'food and food ingredients': Notice 17-20 lists soft drinks and bottled water among food examples, so they take the reduced 4% rate (unlike candy). A soft drink the seller serves with a cup or straw it provides is prepared food (7%)."
+  },
+  {
+    "tax": "TN",
+    "code": "food.soft_drink",
+    "from": "2023-08-01",
+    "to": "2023-10-31",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Soft drinks were exempt from state and local sales tax during the August 1 - October 31, 2023 food sales tax holiday.",
+    "conditions": [
+      {
+        "when": "Sold from a micro market or vending machine (Notice 23-09: these remained subject to sales tax)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "During the period beginning at 12:01 am on Tuesday, August 1, 2023 and ending Tuesday, October 31, 2023 at 11:59 pm, food and food ingredients are exempt from sales tax."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "The following are examples of items that qualify as food or food ingredients if the seller does not prepare them:"
+      },
+      {
+        "title": "TN DOR Notice 17-20, examples of food and food ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "soft drinks"
+      }
+    ],
+    "notes": "Public Chapter 377 (2023); the State reimbursed local governments for the lost local tax (Notice 23-09)."
+  },
+  {
+    "tax": "TN",
+    "code": "food.soft_drink",
+    "from": "2023-11-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Soft drinks are taxed at Tennessee's reduced 4% state rate on food and food ingredients; local tax applies as well.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 23-09, 2023 Sales Tax Holiday for Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales23-09.pdf",
+        "quote": "All retail sales of food and food ingredients made before August 1, 2023, and after October 31, 2023, will be subject to sales tax."
+      },
+      {
+        "title": "TN DOR Notice 26-19, Local Sales Tax on Food and Food Ingredients - Davidson County (September 2026)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales26-19.pdf",
+        "quote": "This local sales tax rate reduction does not affect the standard 4% state sales tax rate that applies to the retail sale of food and food ingredients."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "The following are examples of items that qualify as food or food ingredients if the seller does not prepare them:"
+      },
+      {
+        "title": "TN DOR Notice 17-20, examples of food and food ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "soft drinks"
+      }
+    ],
+    "notes": "Tennessee does not exclude soft drinks from 'food and food ingredients': Notice 17-20 lists soft drinks and bottled water among food examples, so they take the reduced 4% rate (unlike candy). A soft drink the seller serves with a cup or straw it provides is prepared food (7%)."
+  },
+  {
+    "tax": "TN",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Tennessee's 7% state sales tax plus local option tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), ch. 5",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Generally, all tangible personal property is taxable unless it is specifically exempt by law."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 5",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Generally, all tangible personal property is taxable unless it is specifically exempt by law."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 9, Single Article Local Tax",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "The local option tax is applied only to the first $1,600 of the purchase price of any single article of tangible personal property sold."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 9, State Single Article Tax",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "The state single article tax rate of 2.75% is applied to the amount of the sales price of a single article of tangible personal property between $1,600 and $3,200."
+      }
+    ],
+    "notes": "Rate and base mechanics, not taxability: local option tax applies only to the first $1,600 of a single article ($300 in Hamblen County outside Morristown, $375 in Hancock County), and an additional 2.75% state single-article tax applies to the part of a single article's price between $1,600 and $3,200. Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, engineering, design, advertising) are not enumerated taxable services in Tennessee and are not subject to sales tax.",
+    "conditions": [
+      {
+        "when": "The service is part of the sales price of taxable goods or software the same seller sells (e.g. design work billed with furniture the designer sells, ad agency charges for printed materials it sells)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), ch. 5",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "A service is not taxable unless it is specifically enumerated by the law or is part of the sales price of a taxable item of tangible personal property."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 5",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "A service is not taxable unless it is specifically enumerated by the law or is part of the sales price of a taxable item of tangible personal property."
+      }
+    ],
+    "notes": "IT services have their own rule (installation and repair of software are enumerated). Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT services are taxable in Tennessee when they install, repair or maintain software or equipment, or are part of a software sale; stand-alone IT consulting, training and data processing are not taxed.",
+    "conditions": [
+      {
+        "when": "Installing, repairing or maintaining software or computer equipment, or a service sold with and necessary to complete a sale of software",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Stand-alone IT consulting, training, software configuration by a third party, or data processing",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Installation and Repair Services",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Taxable services relating to computer software include repair/maintenance of computer software and installation of computer software."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Configuration and Training",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Stand-alone training or software configuration services provided by a third party are not subject to sales tax."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Nontaxable Services",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Information or data processing services, including the capability of the customer to analyze such information or data provided by the dealer."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), ch. 13",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Taxable services relating to computer software include repair/maintenance of computer software and installation of computer software."
+      }
+    ],
+    "notes": "Installation/repair between 100%-affiliated companies is exempt. Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is the Department's Sales and Use Tax Manual of August 2022 (the oldest edition it still publishes). 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "TN",
+    "code": "software.custom",
+    "from": "2008-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software and modifications to software are sales of computer software in Tennessee, taxed at the 7% state rate plus the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Computer Software",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Both prewritten and customized computer software are taxable in Tennessee if provided:"
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Modifications and Enhancements",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Modifications or enhancements to customized or prewritten computer software are sales of computer software and are subject to sales and use tax."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), ch. 13",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Modifications or enhancements to customized or prewritten computer software are sales of computer software and are subject to sales and use tax."
+      }
+    ],
+    "notes": "Custom software is not subject to the single-article local cap (full local rate applies). Software created by a company's own employees for its own use is exempt (in-house software); that is not a sale. 2008-01-01 is the earliest date read (current definitions); software taxable since 1977 per the Manual."
+  },
+  {
+    "tax": "TN",
+    "code": "software.prewritten",
+    "from": "2008-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software delivered to a Tennessee customer, on media, by download or load-and-leave, is taxed at the 7% state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Computer Software",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Both prewritten and customized computer software are taxable in Tennessee if provided:"
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Computer Software",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "However, effective January 1, 2008, the definition of tangible personal property only includes prewritten computer software."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2022), ch. 13",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Both prewritten and customized computer software are taxable in Tennessee if provided:"
+      }
+    ],
+    "notes": "The Manual says software has been taxable since 1977; 2008-01-01 is when the current prewritten/custom definitions took effect, the earliest date read here. A single prewritten module sold alone qualifies for the single-article local cap and state single-article tax."
+  },
+  {
+    "tax": "TN",
+    "code": "software.saas",
+    "from": "2015-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Remotely accessed software used from Tennessee is taxed like other computer software, at the 7% state rate plus local tax.",
+    "conditions": [
+      {
+        "when": "Users located outside Tennessee: the price may be allocated by the share of users outside the state, which is exempt",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The true object is a nontaxable service (data processing, payment processing, data storage, internet access) and the software is incidental",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 Tenn. Pub. Acts ch. 514 (Revenue Modernization Act), sec. 22 amending Tenn. Code Ann. 67-6-231(a)",
+        "url": "https://publications.tnsosfiles.com/acts/109/pub/pc0514.pdf",
+        "quote": "includes the access and use of software that remains in the possession of the dealer who provides the software"
+      },
+      {
+        "title": "2015 Tenn. Pub. Acts ch. 514, sec. 31 (effective dates)",
+        "url": "https://publications.tnsosfiles.com/acts/109/pub/pc0514.pdf",
+        "quote": "Sections 21, 22, 23, 24, 25, and 27 of this act shall take effect July 1, 2015"
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13, Computer Software",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Provisions of the Revenue Modernization Act went into effect July 1, 2015, and provide that computer software that remains in the possession of the seller that is remotely accessed and used from locations in Tennessee is subject to sales and use tax."
+      },
+      {
+        "title": "TN DOR Sales and Use Tax Manual (August 2026), ch. 13",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2026/sales-use-tax-manual.pdf",
+        "quote": "Via remote access to a customer located in Tennessee."
+      }
+    ],
+    "notes": "Tenn. Code Ann. 67-6-231(b) keeps information/data processing services and data storage nontaxable even when delivered through an online portal (Manual ch. 13). Prewritten single-module software qualifies for the single-article local cap."
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.grocery",
+    "from": "2017-07-01",
+    "to": "2023-07-31",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Local option sales tax applies to food and food ingredients at the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-07, State Tax Rate Change on Food (April 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-07.pdf",
+        "quote": "The applicable local sales and use tax rate (up to 2.75%, depending on the locality) also applies to these sales."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "As of July 1, 2017, food and food ingredients are subject to a reduced sales and use tax rate of 4%, plus the applicable local tax rate."
+      }
+    ]
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.grocery",
+    "from": "2023-08-01",
+    "to": "2023-10-31",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients were exempt from local sales tax too during the August 1 - October 31, 2023 food sales tax holiday.",
+    "conditions": [
+      {
+        "when": "Sold from a micro market or vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "During the period beginning at 12:01 am on Tuesday, August 1, 2023 and ending Tuesday, October 31, 2023 at 11:59 pm, food and food ingredients are exempt from sales tax."
+      }
+    ]
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.grocery",
+    "from": "2023-11-01",
+    "to": "2024-09-30",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Local option sales tax applies to food and food ingredients at the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 23-09, 2023 Sales Tax Holiday for Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales23-09.pdf",
+        "quote": "All retail sales of food and food ingredients made before August 1, 2023, and after October 31, 2023, will be subject to sales tax."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "As of July 1, 2017, food and food ingredients are subject to a reduced sales and use tax rate of 4%, plus the applicable local tax rate."
+      }
+    ]
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.grocery",
+    "from": "2024-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Local tax applies to food and food ingredients at the full local rate unless the city or county has adopted a reduced local rate on food and food ingredients.",
+    "conditions": [
+      {
+        "when": "The city or county where the sale is sourced has adopted a reduced local rate on food and food ingredients (for example the City of Hendersonville, 2.25% from 2025-02-01; Davidson County and the cities in it, 1.75% from 2026-11-01), or a city has exempted food from its city tax rate under Pub. Ch. 917 (2024) so only the county rate applies",
+        "treatment": "special_rate"
+      },
+      {
+        "when": "No reduced local food rate has been adopted where the sale is sourced",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Notice 24-07, Certain Cities and Towns May Adopt Reduced Sales Tax Rate on Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales24-07.pdf",
+        "quote": "Exempt from the city tax rate the retail sale of food and food ingredients within the city or town."
+      },
+      {
+        "title": "TN DOR Notice 24-07, Certain Cities and Towns May Adopt Reduced Sales Tax Rate on Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales24-07.pdf",
+        "quote": "The reduced tax rate or exemption applies only to tax periods beginning on or after October 1, 2024."
+      },
+      {
+        "title": "TN DOR, Important Notice: Local Sales Tax on Food and Food Ingredients - City of Hendersonville (2024-12-20)",
+        "url": "https://www.tn.gov/revenue/news/2024/12/20/local-sales-tax-on-food-and-food-ingredients---city-of-hendersonville.html",
+        "quote": "Effective February 1, 2025, the new reduced local sales tax rate for food and food ingredients sold in the City of Hendersonville is 2.25%."
+      },
+      {
+        "title": "TN DOR Notice 26-19, Local Sales Tax on Food and Food Ingredients - Davidson County (September 2026)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales26-19.pdf",
+        "quote": "Effective November 1, 2026, the new reduced local sales tax rate for food and food ingredients sold in Davidson County is 1.75%."
+      }
+    ],
+    "notes": "The reduced local food rates are set place by place and announced in Department notices; this rule can't say which places have one. Pub. Ch. 917 (2024) lets a city lower or exempt only its 'city tax rate' (the part above the county rate); Davidson County's 1.75% (Notice 26-19, citing Tenn. Code Ann. 67-6-702) is a county-level reduction. Single-article local cap still applies to food items."
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.soft_drink",
+    "from": "2017-07-01",
+    "to": "2023-07-31",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Local option sales tax applies to soft drinks at the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 17-07, State Tax Rate Change on Food (April 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-07.pdf",
+        "quote": "The applicable local sales and use tax rate (up to 2.75%, depending on the locality) also applies to these sales."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "As of July 1, 2017, food and food ingredients are subject to a reduced sales and use tax rate of 4%, plus the applicable local tax rate."
+      }
+    ]
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.soft_drink",
+    "from": "2023-08-01",
+    "to": "2023-10-31",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Soft drinks were exempt from local sales tax too during the August 1 - October 31, 2023 food sales tax holiday.",
+    "conditions": [
+      {
+        "when": "Sold from a micro market or vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR, Sales Tax Holiday - Food and Food Ingredients",
+        "url": "https://www.tn.gov/revenue/taxes/sales-and-use-tax/sales-tax-holiday/sth-food.html",
+        "quote": "During the period beginning at 12:01 am on Tuesday, August 1, 2023 and ending Tuesday, October 31, 2023 at 11:59 pm, food and food ingredients are exempt from sales tax."
+      }
+    ]
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.soft_drink",
+    "from": "2023-11-01",
+    "to": "2024-09-30",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Local option sales tax applies to soft drinks at the full local rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "TN DOR Notice 23-09, 2023 Sales Tax Holiday for Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales23-09.pdf",
+        "quote": "All retail sales of food and food ingredients made before August 1, 2023, and after October 31, 2023, will be subject to sales tax."
+      },
+      {
+        "title": "TN DOR Notice 17-20, Sales Tax on Food and Food Ingredients (October 2017)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales17-20.pdf",
+        "quote": "As of July 1, 2017, food and food ingredients are subject to a reduced sales and use tax rate of 4%, plus the applicable local tax rate."
+      }
+    ]
+  },
+  {
+    "tax": "TN:local",
+    "code": "food.soft_drink",
+    "from": "2024-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Local tax applies to soft drinks at the full local rate unless the city or county has adopted a reduced local rate on food and food ingredients.",
+    "conditions": [
+      {
+        "when": "The city or county where the sale is sourced has adopted a reduced local rate on food and food ingredients (for example the City of Hendersonville, 2.25% from 2025-02-01; Davidson County and the cities in it, 1.75% from 2026-11-01), or a city has exempted food from its city tax rate under Pub. Ch. 917 (2024) so only the county rate applies",
+        "treatment": "special_rate"
+      },
+      {
+        "when": "No reduced local food rate has been adopted where the sale is sourced",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TN DOR Notice 24-07, Certain Cities and Towns May Adopt Reduced Sales Tax Rate on Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales24-07.pdf",
+        "quote": "Exempt from the city tax rate the retail sale of food and food ingredients within the city or town."
+      },
+      {
+        "title": "TN DOR Notice 24-07, Certain Cities and Towns May Adopt Reduced Sales Tax Rate on Food and Food Ingredients",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales24-07.pdf",
+        "quote": "The reduced tax rate or exemption applies only to tax periods beginning on or after October 1, 2024."
+      },
+      {
+        "title": "TN DOR, Important Notice: Local Sales Tax on Food and Food Ingredients - City of Hendersonville (2024-12-20)",
+        "url": "https://www.tn.gov/revenue/news/2024/12/20/local-sales-tax-on-food-and-food-ingredients---city-of-hendersonville.html",
+        "quote": "Effective February 1, 2025, the new reduced local sales tax rate for food and food ingredients sold in the City of Hendersonville is 2.25%."
+      },
+      {
+        "title": "TN DOR Notice 26-19, Local Sales Tax on Food and Food Ingredients - Davidson County (September 2026)",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/notices/sales/sales26-19.pdf",
+        "quote": "Effective November 1, 2026, the new reduced local sales tax rate for food and food ingredients sold in Davidson County is 1.75%."
+      }
+    ],
+    "notes": "The reduced local food rates are set place by place and announced in Department notices; this rule can't say which places have one. Pub. Ch. 917 (2024) lets a city lower or exempt only its 'city tax rate' (the part above the county rate); Davidson County's 1.75% (Notice 26-19, citing Tenn. Code Ann. 67-6-702) is a county-level reduction. Single-article local cap still applies to food items."
+  }
+]

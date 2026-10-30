@@ -1,0 +1,975 @@
+[
+  {
+    "tax": "TX",
+    "code": "construction.real_property.improvement",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Texas, new construction (new structures, added square footage, initial finish-out) and any work on residential property is not taxed to the customer under a lump-sum contract, while remodeling of existing nonresidential property is taxable on the total charge.",
+    "conditions": [
+      {
+        "when": "New construction: a new structure, new usable square footage, or initial finish-out of a structure, under a lump-sum contract",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Remodeling, restoring or modifying residential real property (homes, apartments, nursing and retirement homes; not hotels), under a lump-sum contract",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Remodeling, restoring or modifying existing nonresidential real property (offices, shops, restaurants, factories)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Pub. 94-116, Real Property Repair and Remodeling (03/2007)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-116.php",
+        "quote": "When your contract is for any of the following jobs, you are acting as a contractor and your construction labor is not taxable: building new structures;"
+      },
+      {
+        "title": "Pub. 94-116, Real Property Repair and Remodeling (03/2007)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-116.php",
+        "quote": "On the other hand, the total amount charged for remodeling, repairing, or restoring nonresidential real property is taxable."
+      },
+      {
+        "title": "Pub. 94-116, Real Property Repair and Remodeling (03/2007)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-116.php",
+        "quote": "Labor to repair, remodel, or restore residential real property is not taxable."
+      },
+      {
+        "title": "Tex. Tax Code §151.056(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A contractor is the consumer of tangible personal property furnished by him and incorporated into the property of his customer if the contract between the contractor and his customer contains a lump-sum price covering both the performance of the service and the furnishing of the necessary incidental material."
+      },
+      {
+        "title": "Tex. Tax Code §151.0047(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Real property repair and remodeling\" means the repair, restoration, remodeling, or modification of an improvement to real property other than: (1) a structure or separate part of a structure used as a residence;"
+      }
+    ],
+    "notes": "Under a lump-sum contract the contractor pays tax on materials and charges the customer none; under a separated contract the contractor collects tax on the separately stated materials (§151.056(b)), and the labor stays untaxed. A single-charge nonresidential job that adds square footage and remodels existing space is presumed taxable if the remodel is over 5% of the charge (Pub. 94-116). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "construction.real_property.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Texas, repairing residential real property is not taxed to the customer (the contractor pays tax on materials under a lump-sum contract), while repairing nonresidential real property is taxable on the total charge; scheduled periodic maintenance is not taxable.",
+    "conditions": [
+      {
+        "when": "Repair of residential real property (family dwellings, apartments, nursing and retirement homes; not hotels or stays under 30 days)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair of nonresidential real property",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Scheduled, periodic maintenance of real property that is not broken (labor; incorporated parts are taxable)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Pub. 94-116, Real Property Repair and Remodeling (03/2007)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-116.php",
+        "quote": "Labor to repair, remodel, or restore residential real property is not taxable."
+      },
+      {
+        "title": "Pub. 94-116, Real Property Repair and Remodeling (03/2007)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-116.php",
+        "quote": "On the other hand, the total amount charged for remodeling, repairing, or restoring nonresidential real property is taxable."
+      },
+      {
+        "title": "Tex. Tax Code §151.0047(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Real property repair and remodeling\" means the repair, restoration, remodeling, or modification of an improvement to real property other than: (1) a structure or separate part of a structure used as a residence;"
+      },
+      {
+        "title": "Tex. Tax Code §151.056(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A contractor is the consumer of tangible personal property furnished by him and incorporated into the property of his customer if the contract between the contractor and his customer contains a lump-sum price covering both the performance of the service and the furnishing of the necessary incidental material."
+      },
+      {
+        "title": "Pub. 94-116, Real Property Repair and Remodeling (03/2007)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-116.php",
+        "quote": "Charges for maintenance of real property are not taxable."
+      }
+    ],
+    "notes": "Repainting of nonresidential property is taxable unless it is scheduled maintenance (Pub. 94-116). Labor to repair nonresidential property damaged in a declared natural disaster is not taxable if separately stated. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "delivery.exempt_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge on goods exempt from Texas sales tax is also exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Sales Tax FAQ: Sales Tax Collection",
+        "url": "https://comptroller.texas.gov/taxes/sales/faq/collection.php",
+        "quote": "Because the sale of the sofa is exempt, the delivery charge is also exempt."
+      },
+      {
+        "title": "Sales Tax FAQ: Sales Tax Collection",
+        "url": "https://comptroller.texas.gov/taxes/sales/faq/collection.php",
+        "quote": "Delivery and shipping charges connected with taxable items or services sold are taxable."
+      },
+      {
+        "title": "Tex. Tax Code §151.007(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "without a deduction for the cost of: (1) the taxable item sold, leased, or rented; (2) the materials used, labor or service employed, interest, losses, or other expenses; (3) the transportation or installation of tangible personal property;"
+      }
+    ],
+    "notes": "Comptroller Rule 3.303 (transportation and delivery charges) could not be retrieved; the FAQ example concerns an exempt-by-certificate sale, and the same reasoning (delivery is part of the item's sales price, §151.007) covers goods exempt by statute such as groceries. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery and shipping charges on taxable goods are taxable in Texas, even when separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.007(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "without a deduction for the cost of: (1) the taxable item sold, leased, or rented; (2) the materials used, labor or service employed, interest, losses, or other expenses; (3) the transportation or installation of tangible personal property;"
+      },
+      {
+        "title": "Sales Tax FAQ: Sales Tax Collection",
+        "url": "https://comptroller.texas.gov/taxes/sales/faq/collection.php",
+        "quote": "Delivery and shipping charges connected with taxable items or services sold are taxable."
+      }
+    ],
+    "notes": "Charges billed to the purchaser directly by a common carrier are not the seller's receipts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy and gum are taxable in Texas: candy is excluded from the food-products exemption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Food products\" shall not include:"
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Candy and Gum – Taxable Candy and gum are taxable."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "§151.314(c)(4) lists candy among items that are not 'food products'. Snack items such as granola bars are exempt unless labeled and marketed as candy (§151.314(b-1)). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's charge for food prepared and served at the customer's event is taxable in Texas, including labor and service costs, except a separately stated gratuity distributed to the serving staff.",
+    "conditions": [
+      {
+        "when": "A voluntary gratuity, or a reasonable mandatory service charge separately stated as a gratuity or tip and paid over to the serving employees",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "served, prepared, or sold ready for immediate consumption by restaurants, lunch counters, cafeterias, delis, vending machines, hotels, or like places of business"
+      },
+      {
+        "title": "Tex. Tax Code §151.007(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "without a deduction for the cost of: (1) the taxable item sold, leased, or rented; (2) the materials used, labor or service employed, interest, losses, or other expenses; (3) the transportation or installation of tangible personal property;"
+      },
+      {
+        "title": "Tex. Tax Code §151.007(c)(7)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "a voluntary gratuity or a reasonable mandatory charge for the service of a meal or food products, including soft drinks and candy, for immediate human consumption when the service charge is separated from the sales price of the meal or food product and identified as a gratuity or tip"
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "Comptroller Rule 3.293 (34 TAC), which addresses caterers directly, could not be retrieved (the Secretary of State's TAC site is script-only), so this rests on the statute: served meals are excluded from the food exemption and the sales price includes labor and service. Separately stated rentals are not addressed by the sources read. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food products for home consumption (unprepared groceries) are exempt from Texas state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Food products for human consumption are exempted from the taxes imposed by this chapter."
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Food products are not taxable. Food products include flour, sugar, bread, milk, eggs, fruits, vegetables and similar groceries."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "§151.314 was last amended effective 2017-09-01 (H.B. 4054), so the cited text was in force on 2018-01-01; the exemption itself is much older. Snack items sold in individual-sized portions (under 2.5 oz or one serving) or from vending machines are taxable (§151.314(h)); candy, soft drinks and ice are excluded by §151.314(c). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without plates or utensils are exempt in Texas; a non-bakery seller that heats them makes them taxable, while a bakery's sales stay exempt even if heated.",
+    "conditions": [
+      {
+        "when": "Sold by a bakery (a location primarily selling bakery items from a case or counter for off-premises consumption), heated or not",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by another retailer or restaurant, not heated by the seller, without plates or utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by another retailer or restaurant and heated by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(1) bakery items sold by a bakery, regardless of whether the items are: (A) heated by the consumer or seller; or (B) served with plates or other eating utensils; (2) bakery items sold at a retail location other than a bakery without plates or other eating utensils;"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "food sold in a heated state or heated by the seller"
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "If a store, other than a bakery, gives the customer plates or other eating utensils with bakery items, or heats bakery items, the bakery items are taxable."
+      },
+      {
+        "title": "Pub. 94-117, Restaurants and the Texas Sales Tax (03/2014)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-117.php",
+        "quote": "Tax is not due, however, on bakery items (regardless of size, whether whole pies, for example, or individual portions) when sold without plates or eating utensils."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "'Bakery' means a retail location that primarily sells bakery items from a display case or counter, predominantly for consumption off the premises (§151.314(b-2)). The code covers items 'even if warmed', which only matters for non-bakery sellers. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food from a grocery is taxable in Texas if the seller combined two or more ingredients or sells it ready to eat from an in-store deli or lunch counter; food only cut up, repackaged or pasteurized is exempt.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as one item (salads, salsa, hummus), including when sold by weight",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold ready to eat at a deli, lunch counter or restaurant location inside the store",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils (plates, forks, cups, straws) provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller, or food typically reheated before eating, sold without utensils outside a deli location",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) does not include the following prepared food:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item, including items that are sold in an unheated state by weight or volume as a single item, but not including food that is only cut, repackaged, or pasteurized by the seller"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "served, prepared, or sold ready for immediate consumption by restaurants, lunch counters, cafeterias, delis, vending machines, hotels, or like places of business"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-4)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "if a grocery store or convenience store contains a type of location listed in that subdivision, the store is considered a like place of business for purposes of that subdivision, but only in relation to items sold at that location."
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Nontaxable food products also include food that is: typically reheated before eating; or only cut up, repackaged or pasteurized such as fruit, vegetable or cheese trays."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "The code's examples split: a deli salad is combined by the seller (taxable); cut fruit is only cut (exempt under §151.314(c-2)(3)), though an item sold ready to eat at an in-store deli counter is treated as sold by a deli (§151.314(c-4)), and Pub. 96-280 and the statute do not say how those two tests interact for cut fruit at the deli counter. A cooked chicken sold cold is 'typically reheated' per Pub. 96-280 (exempt) unless sold from the deli for immediate consumption. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells to go is taxable in Texas as food sold ready for immediate consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) does not include the following prepared food:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "served, prepared, or sold ready for immediate consumption by restaurants, lunch counters, cafeterias, delis, vending machines, hotels, or like places of business"
+      },
+      {
+        "title": "Pub. 94-117, Restaurants and the Texas Sales Tax (03/2014)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-117.php",
+        "quote": "Ready-to-eat food is typically taxable even when it is sold “to go.”"
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "Bakery items sold without plates or utensils are exempt even from a restaurant (Pub. 94-117; §151.314(c-3)(2)); see food.prepared.bakery. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food and drinks served by restaurants, cafeterias, delis and like places for eating on the premises are taxable in Texas.",
+    "conditions": [
+      {
+        "when": "A bakery item sold by a bakery",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) does not include the following prepared food:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "served, prepared, or sold ready for immediate consumption by restaurants, lunch counters, cafeterias, delis, vending machines, hotels, or like places of business"
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "Bakery items sold by a bakery are exempt even when served with plates (§151.314(c-3)(1)). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is taxable in Texas, except bakery items sold by a bakery.",
+    "conditions": [
+      {
+        "when": "A bakery item sold by a bakery (a location primarily selling bakery items from a case or counter for consumption off the premises)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) does not include the following prepared food:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "food sold in a heated state or heated by the seller"
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Prepared food is taxable. This includes: Hot food*."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "Bakery items sold by a bakery stay exempt even when heated (§151.314(c-3)(1)); see food.prepared.bakery. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxable in Texas when it holds sandwiches or items the seller combined or is sold ready to eat by a restaurant or deli; a grocery's tray of fruit, vegetables or cheese that is only cut up is exempt.",
+    "conditions": [
+      {
+        "when": "Tray of sandwiches or of items the seller mixed or combined (dips, salads)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold by a restaurant, deli or similar place as food ready for immediate consumption, or with plates or utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Grocery tray of fruit, vegetables or cheese that the seller only cut up or repackaged, sold without utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) does not include the following prepared food:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item, including items that are sold in an unheated state by weight or volume as a single item, but not including food that is only cut, repackaged, or pasteurized by the seller"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "served, prepared, or sold ready for immediate consumption by restaurants, lunch counters, cafeterias, delis, vending machines, hotels, or like places of business"
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Nontaxable food products also include food that is: typically reheated before eating; or only cut up, repackaged or pasteurized such as fruit, vegetable or cheese trays."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "Pub. 96-280 lists 'trays' among eating utensils yet calls cut fruit, vegetable or cheese trays nontaxable; the second statement is the specific one. Cold-cut trays sliced at a deli counter fall between the 'only cut' exclusion and the deli ready-to-eat rule; unverified. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches sold ready to eat are taxable in Texas unless sold frozen or partially frozen for the customer to thaw or heat.",
+    "conditions": [
+      {
+        "when": "Sold frozen or partially frozen, requiring thawing or heating by the customer before eating",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) does not include the following prepared food:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "served, prepared, or sold ready for immediate consumption by restaurants, lunch counters, cafeterias, delis, vending machines, hotels, or like places of business"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-2)(3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item, including items that are sold in an unheated state by weight or volume as a single item, but not including food that is only cut, repackaged, or pasteurized by the seller"
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Sandwiches (unless sold frozen or partially frozen and require thawing or heating by the customer before eating)."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "§151.314(c-2)(1) names sandwiches sold ready for immediate consumption by restaurants, delis and like places, and §151.314(c-2)(3) covers items combined by the seller; Pub. 96-280 treats non-frozen sandwiches as taxable at grocery and convenience stores. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks (sweetened non-alcoholic beverages) are taxable in Texas: they are excluded from the food-products exemption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Food products\" shall not include:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c)(2)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "carbonated and noncarbonated packaged soft drinks, which are nonalcoholic beverages that contain natural or artificial sweeteners"
+      },
+      {
+        "title": "Pub. 96-280, Grocery and Convenience Stores (03/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-280.php",
+        "quote": "Soft drinks are taxable and include: Carbonated and non-carbonated, non-alcoholic beverages that contain natural or artificial sweeteners."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "Diluted juice of more than 50% fruit or vegetable juice is not a soft drink (§151.314(c-1)). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods such as furniture, tools and electronics are taxable at the Texas state and local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.051(b)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The sales tax rate is 6-1/4 percent of the sales price of the taxable item sold."
+      }
+    ],
+    "notes": "The tax on tangible personal property long predates 2018 (§151.051 last amended eff. July 1, 1990); 2018-01-01 is only where this file starts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.accounting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing and tax return preparation are not taxable in Texas; computerized bookkeeping or payroll processing of the client's data can be a taxable data processing service.",
+    "conditions": [
+      {
+        "when": "Payroll processing, accounts payable/receivable processing or other entering and manipulating of the client's data (data processing; 80% of the charge taxed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means: (1) amusement services; (2) cable television services; (3) personal services;"
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "The term \"taxable services\" is defined in Tax Code Section 151.0101, Taxable Services to include 16 broad categories of services."
+      },
+      {
+        "title": "Pub. 94-127, Data Processing Services are Taxable (03/2022)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-127.php",
+        "quote": "When you provide a professional service, such as engineering or bookkeeping, and use a computer as a tool to complete that service, your charges are not taxable."
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Similarly, a bookkeeper or accountant is not performing taxable data processing services when applying knowledge of accounting principles to produce financial reports such as income statements, balance sheets, or profit or loss statements, or to prepare federal income tax, state franchise or sales tax returns, even if such work is performed on a computer."
+      }
+    ],
+    "notes": "Pub. 94-127 lists accounts payable, accounts receivable billing and payroll preparation (W-2s, payroll checks) among taxable data processing services (taxed on 80% of the charge, §151.351). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.advertising",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not a taxable service in Texas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means: (1) amusement services; (2) cable television services; (3) personal services;"
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "The term \"taxable services\" is defined in Tax Code Section 151.0101, Taxable Services to include 16 broad categories of services."
+      }
+    ],
+    "notes": "Texas taxes only the services listed in §151.0101(a); this service is not among them. Printed or other tangible advertising materials sold to the client are taxable goods; internet advertising on another's website is expressly not data processing (Pub. 96-259). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.consulting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not a taxable service in Texas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means: (1) amusement services; (2) cable television services; (3) personal services;"
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "The term \"taxable services\" is defined in Tax Code Section 151.0101, Taxable Services to include 16 broad categories of services."
+      },
+      {
+        "title": "Pub. 94-127, Data Processing Services are Taxable (03/2022)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-127.php",
+        "quote": "Examples of nontaxable services are: Auditing services (including inventory counting services). Consulting services."
+      }
+    ],
+    "notes": "Texas taxes only the services listed in §151.0101(a); this service is not among them. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.design",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design and decorating services are not a taxable service in Texas; furnishings the designer sells are taxable goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means: (1) amusement services; (2) cable television services; (3) personal services;"
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "The term \"taxable services\" is defined in Tax Code Section 151.0101, Taxable Services to include 16 broad categories of services."
+      }
+    ],
+    "notes": "Texas taxes only the services listed in §151.0101(a); this service is not among them. No Comptroller page on interior designers was read; the rule rests on the closed list of taxable services. Goods the designer resells to the client are taxable as tangible personal property. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.engineering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural design services are not taxable in Texas, even when done on a computer.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means: (1) amusement services; (2) cable television services; (3) personal services;"
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "The term \"taxable services\" is defined in Tax Code Section 151.0101, Taxable Services to include 16 broad categories of services."
+      },
+      {
+        "title": "Pub. 94-127, Data Processing Services are Taxable (03/2022)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-127.php",
+        "quote": "When you provide a professional service, such as engineering or bookkeeping, and use a computer as a tool to complete that service, your charges are not taxable."
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "For example, the use of a computer and computer-aided-design (CAD) software by an architect during preparation of original building plans is not data processing."
+      }
+    ],
+    "notes": "Texas taxes only the services listed in §151.0101(a); this service is not among them. Surveying of real property is a taxable real property service (§151.0048), not covered by this code. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT services in Texas are taxable when they are data processing (hosting, data storage, website creation and maintenance, entering or manipulating client data; 80% of the charge taxed) or repair of computer hardware; IT consulting is not taxable.",
+    "conditions": [
+      {
+        "when": "Data processing: hosting, data storage or backup, website creation or maintenance, entering, retrieving or manipulating the client's data (taxed on 80% of the charge)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair, maintenance or restoration of computer hardware",
+        "treatment": "taxable"
+      },
+      {
+        "when": "IT consulting, systems design or advice using the provider's expertise, with no data processing",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.0035(a)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "word processing, data entry, data retrieval, data search, information compilation, payroll and business accounting data production, and other computerized data and information storage or manipulation"
+      },
+      {
+        "title": "Tex. Tax Code §151.351",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "There is exempted from the taxes imposed by this chapter 20 percent of the value of information services and data processing services."
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "web hosting, web site creation and maintenance data storage, including offsite backup of electronic files"
+      },
+      {
+        "title": "Pub. 94-127, Data Processing Services are Taxable (03/2022)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-127.php",
+        "quote": "Examples of nontaxable services are: Auditing services (including inventory counting services). Consulting services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)(5)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(5) the repair, remodeling, maintenance, and restoration of tangible personal property, except:"
+      }
+    ],
+    "notes": "Help-desk or network support that reviews computer data to investigate criminal or civil matters is a taxable security service (Pub. 96-259). IT training is not among the listed taxable services; no page addressing it directly was read. For data processing the engine applies the full rate unless the caller sends 80% of the charge. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.legal",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not a taxable service in Texas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means: (1) amusement services; (2) cable television services; (3) personal services;"
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "The term \"taxable services\" is defined in Tax Code Section 151.0101, Taxable Services to include 16 broad categories of services."
+      }
+    ],
+    "notes": "Texas taxes only the services listed in §151.0101(a); this service is not among them. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Custom software development or modification in Texas is taxable when the developer sells or licenses the resulting program to the customer, and not taxable when the program is not sold by the developer (the customer owns it outright).",
+    "conditions": [
+      {
+        "when": "The developer sells, licenses or otherwise transfers the program it created or modified (it keeps rights in it)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The program is not sold by the developer: written or modified for the customer, who owns it, as a service",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.009",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "for the purposes of this chapter, the term includes a computer program and a telephone prepaid calling card."
+      },
+      {
+        "title": "Tex. Tax Code §151.0101(a)(5)(D)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "the repair, maintenance, creation, and restoration of a computer program, including its development and modification, not sold by the person performing the repair, maintenance, creation, or restoration service"
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "the sale or use of a taxable item in electronic form instead of on physical media does not alter the item's tax status."
+      }
+    ],
+    "notes": "§151.0101(a)(5)(D) excludes from taxable services the creation, development and modification of a computer program 'not sold by the person performing' the work; a program the developer sells or licenses is a computer program, i.e. tangible personal property (§151.009). Comptroller Rule 3.308, which spells out when custom programming is a sale, could not be retrieved (TAC site is script-only), so the test is stated from the statute alone. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in Texas and taxable whether delivered on media or downloaded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.009",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "for the purposes of this chapter, the term includes a computer program and a telephone prepaid calling card."
+      },
+      {
+        "title": "Tex. Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "the sale or use of a taxable item in electronic form instead of on physical media does not alter the item's tax status."
+      },
+      {
+        "title": "Tex. Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      }
+    ],
+    "notes": "§151.009 (last amended 1997) and §151.010 (last amended 2001) were in force on 2018-01-01. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Software as a service is a taxable data processing service in Texas, but only 80% of the charge is taxed: 20% of the value of data processing services is exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Data processing services providers include sellers of software as a service and application service providers."
+      },
+      {
+        "title": "Pub. 96-259, Taxable Services (01/2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Twenty percent of the charge for data processing services is exempt from tax."
+      },
+      {
+        "title": "Tex. Tax Code §151.351",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "There is exempted from the taxes imposed by this chapter 20 percent of the value of information services and data processing services."
+      },
+      {
+        "title": "Tex. Tax Code §151.0035(a)(1)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "word processing, data entry, data retrieval, data search, information compilation, payroll and business accounting data production, and other computerized data and information storage or manipulation"
+      },
+      {
+        "title": "Pub. 94-109, Information Services (05/2024)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-109.php",
+        "quote": "Collect state sales tax, plus any city, county, transit tax or special purpose district tax on only 80 percent of the amount you bill for your information service."
+      }
+    ],
+    "notes": "The engine applies the full rate to the whole charge unless the caller reduces the base: send 80% of the SaaS price as the amount to get the Texas tax right. The 20% exemption (§151.351, since 1999-10-01) applies to state and local tax alike (Pub. 94-109 says so for information services, which share §151.351). 2018-01-01 is only where this file starts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  }
+]

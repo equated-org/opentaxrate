@@ -1,0 +1,547 @@
+[
+  {
+    "tax": "SD",
+    "code": "construction.real_property",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction, remodeling and repair of real property are not subject to South Dakota sales tax; the prime contractor instead owes a 2% contractor's excise tax on its gross receipts.",
+    "conditions": [
+      {
+        "when": "Floor-covering installation (SIC 1752: carpet, vinyl, laminate, hardwood, linoleum, resilient flooring); ceramic tile, marble, terrazzo and similar remain under contractor's excise tax",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026)",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Construction services taxed in chapter 10-46A or 10-46B are not subject to sales tax."
+      },
+      {
+        "title": "SDCL 10-45-12.1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-12.1.html",
+        "quote": "construction services (division C) except industry no. 1752 and locksmiths and locksmith shops"
+      },
+      {
+        "title": "SD DOR, Contractor's Excise Tax Guide (July 2026)",
+        "url": "https://dor.sd.gov/media/1vgljwbp/2026-7-contractors-excise-tax-guide.pdf",
+        "quote": "This includes repair or remodeling of existing real property or the construction of a new project."
+      },
+      {
+        "title": "SDCL 10-46A-1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-46A-1.html",
+        "quote": "There is imposed an excise tax upon the gross receipts of all prime contractors engaged in realty improvement contracts, at the rate of two percent."
+      },
+      {
+        "title": "SD DOR Tax Fact: Flooring (July 2023)",
+        "url": "https://dor.sd.gov/media/3fopa03j/flooring.pdf",
+        "quote": "Sales tax applies to the sale of and the installation of the following floor material:"
+      }
+    ],
+    "notes": "Both subcodes (improvement and repair) are construction services exempt from sales tax under SDCL 10-45-12.1 and subject instead to the 2% contractor's excise tax (SDCL 10-46A), which the prime contractor owes on gross receipts and may list on the invoice; that excise tax is not a sales tax and isn't modeled. Contractors pay sales/use tax on materials. Utility projects fall under SDCL 10-46B (also 2% excise). Locksmiths and floor laying are carved out of the construction exemption and are sales-taxable. Snow removal, landscaping maintenance and similar services are sales-taxable services, not construction. 10-45-12.1's text was last amended by SL 2004 ch 94."
+  },
+  {
+    "tax": "SD",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2023-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Supplying and installing floor covering (carpet, vinyl, hardwood, laminate) is subject to sales tax, unlike other construction services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Flooring (SD DOR Tax Fact, July 2023)",
+        "url": "https://dor.sd.gov/media/3fopa03j/flooring.pdf",
+        "quote": "Installers owe the state and applicable city sales tax on their total receipts."
+      }
+    ],
+    "notes": "SDCL 10-45-12.1's carve-out from the contractor's excise tax. Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "SD",
+    "code": "delivery.exempt_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A seller's delivery charge on goods exempt at that sale is not taxable in South Dakota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026), Delivery Charges",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Delivery charges are included in the gross receipts and are subject to the same sales or use tax rate as the product or service. If the product or service is not taxable, the delivery charge is not taxable."
+      },
+      {
+        "title": "SD DOR Tax Fact: Shipping and Transportation (January 2026)",
+        "url": "https://dor.sd.gov/media/4ivpeo1d/shipping.pdf",
+        "quote": "If the product is not taxable, the delivery and handling charges are not taxable."
+      }
+    ],
+    "notes": "Few goods are exempt in SD (groceries are taxable); this applies to e.g. sales for resale, sales to exempt entities, or exempt products. For mixed shipments the taxable share is allocated by price or weight (ARSD 64:06:01:10, per the Shipping fact)."
+  },
+  {
+    "tax": "SD",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge on taxable goods is part of gross receipts and taxed at the same state and municipal rate as the goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026), Delivery Charges",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Delivery charges are included in the gross receipts and are subject to the same sales or use tax rate as the product or service. If the product or service is not taxable, the delivery charge is not taxable."
+      },
+      {
+        "title": "SD DOR Tax Fact: Shipping and Transportation (January 2026)",
+        "url": "https://dor.sd.gov/media/4ivpeo1d/shipping.pdf",
+        "quote": "A retailer’s charge for delivery and handling of taxable products is subject to the South Dakota state sales tax and applicable municipal sales tax when the taxable product is delivered in South Dakota."
+      }
+    ],
+    "notes": "Delivery billed by a transportation company the customer hires directly is not the seller's delivery charge. SDCL 10-45-1(4) defines delivery charges (SSUTA definition, adopted before 2018)."
+  },
+  {
+    "tax": "SD",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is taxed in South Dakota at the full state rate plus municipal sales tax, like all food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-2",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+        "quote": "upon the gross receipts of all sales of tangible personal property consisting of goods, wares, or merchandise, except as otherwise provided in this chapter"
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026), Exemptions",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Food Stamp Purchases - All food stamp purchases (SNAP) are not subject to sales tax."
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026)",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "The sales tax applies to the gross receipts of all retail sales, including the sale, lease, or rental of personal property or any product transferred electronically, and the sale of services."
+      }
+    ],
+    "notes": "South Dakota has no general food exemption: food is tangible personal property taxed at the full state rate plus municipal sales tax; the only food exemptions are SNAP and WIC purchases (SDCL 10-45-14.7, 10-45-14.8). No DOR page states 'groceries are taxable' in one sentence; the rule rests on SDCL 10-45-2 (all sales of goods unless excepted) and the DOR's list of exemptions, which names only SNAP/WIC. The 2023-07-01 state rate cut (4.5% to 4.2%, scheduled to revert 2027-07-01 per SDCL 10-45-2's future text) is a rate change, not a taxability change, and isn't modeled. Food was taxable before 2018; earlier history not checked. Legislative and ballot attempts to exempt groceries (e.g. IM 28, 2024) were reported by news sources as failed; not verified against an official canvass, and no exemption appears in SDCL 10-45 as of 2026-10."
+  },
+  {
+    "tax": "SD",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is subject to South Dakota state sales tax and municipal sales tax where the event is held.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR Tax Fact: Bars and Restaurants (July 2026)",
+        "url": "https://dor.sd.gov/media/x5wn31vv/bars-and-restaurants.pdf",
+        "quote": "Catering services are subject to state sales tax, the municipal sales, and municipal gross receipts tax rate based on the location of the catered event."
+      },
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      }
+    ],
+    "notes": "Catering also bears the municipal gross receipts tax (MGRT) where the city imposes it; MGRT is a separate tax not modeled here. The Bars and Restaurants fact is dated July 2026; the services tax (SDCL 10-45-4) predates 2018."
+  },
+  {
+    "tax": "SD",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Groceries are taxed in South Dakota at the full state rate plus municipal sales tax; only SNAP and WIC purchases are exempt.",
+    "conditions": [
+      {
+        "when": "Paid with SNAP (food stamp) benefits or WIC vouchers",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SDCL 10-45-2",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+        "quote": "upon the gross receipts of all sales of tangible personal property consisting of goods, wares, or merchandise, except as otherwise provided in this chapter"
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026), Exemptions",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Food Stamp Purchases - All food stamp purchases (SNAP) are not subject to sales tax."
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026)",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "The sales tax applies to the gross receipts of all retail sales, including the sale, lease, or rental of personal property or any product transferred electronically, and the sale of services."
+      },
+      {
+        "title": "SDCL 10-45-1(5)",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-1.html",
+        "quote": "(5) \"Food\" and \"food ingredient,\" any substance"
+      }
+    ],
+    "notes": "South Dakota has no general food exemption: food is tangible personal property taxed at the full state rate plus municipal sales tax; the only food exemptions are SNAP and WIC purchases (SDCL 10-45-14.7, 10-45-14.8). No DOR page states 'groceries are taxable' in one sentence; the rule rests on SDCL 10-45-2 (all sales of goods unless excepted) and the DOR's list of exemptions, which names only SNAP/WIC. The 2023-07-01 state rate cut (4.5% to 4.2%, scheduled to revert 2027-07-01 per SDCL 10-45-2's future text) is a rate change, not a taxability change, and isn't modeled. Food was taxable before 2018; earlier history not checked. Legislative and ballot attempts to exempt groceries (e.g. IM 28, 2024) were reported by news sources as failed; not verified against an official canvass, and no exemption appears in SDCL 10-45 as of 2026-10."
+  },
+  {
+    "tax": "SD",
+    "code": "food.prepared",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prepared food of every kind (hot, cold, dine-in, bakery, platters) is taxed in South Dakota at the full state rate plus municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-2",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+        "quote": "upon the gross receipts of all sales of tangible personal property consisting of goods, wares, or merchandise, except as otherwise provided in this chapter"
+      },
+      {
+        "title": "SD DOR Tax Fact: Bars and Restaurants (July 2026)",
+        "url": "https://dor.sd.gov/media/x5wn31vv/bars-and-restaurants.pdf",
+        "quote": "Examples of taxable sales are sales of liquor, cigarettes, food, and cover charges."
+      },
+      {
+        "title": "SD DOR Tax Fact: Prepared Food (January 2026)",
+        "url": "https://dor.sd.gov/media/rpogdnlm/prepared-food.pdf",
+        "quote": "To be subject to the MGRT tax, the food must be prepared by the seller and be for immediate consumption."
+      }
+    ],
+    "notes": "All food is taxable in SD, so every food.prepared subcode is taxable for sales tax; one parent rule covers them. Separately, a municipality may impose a municipal gross receipts tax (MGRT, up to 1%) on prepared food for immediate consumption at eating establishments, in addition to state and municipal sales tax; MGRT is a separate tax, its application differs by subcode (e.g. take-and-bake or sliced deli meat is not subject), and it isn't modeled here. South Dakota has no general food exemption: food is tangible personal property taxed at the full state rate plus municipal sales tax; the only food exemptions are SNAP and WIC purchases (SDCL 10-45-14.7, 10-45-14.8). No DOR page states 'groceries are taxable' in one sentence; the rule rests on SDCL 10-45-2 (all sales of goods unless excepted) and the DOR's list of exemptions, which names only SNAP/WIC. The 2023-07-01 state rate cut (4.5% to 4.2%, scheduled to revert 2027-07-01 per SDCL 10-45-2's future text) is a rate change, not a taxability change, and isn't modeled. Food was taxable before 2018; earlier history not checked. Legislative and ballot attempts to exempt groceries (e.g. IM 28, 2024) were reported by news sources as failed; not verified against an official canvass, and no exemption appears in SDCL 10-45 as of 2026-10."
+  },
+  {
+    "tax": "SD",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxed in South Dakota at the full state rate plus municipal sales tax, like all food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-2",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+        "quote": "upon the gross receipts of all sales of tangible personal property consisting of goods, wares, or merchandise, except as otherwise provided in this chapter"
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026), Exemptions",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Food Stamp Purchases - All food stamp purchases (SNAP) are not subject to sales tax."
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026)",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "The sales tax applies to the gross receipts of all retail sales, including the sale, lease, or rental of personal property or any product transferred electronically, and the sale of services."
+      }
+    ],
+    "notes": "South Dakota has no general food exemption: food is tangible personal property taxed at the full state rate plus municipal sales tax; the only food exemptions are SNAP and WIC purchases (SDCL 10-45-14.7, 10-45-14.8). No DOR page states 'groceries are taxable' in one sentence; the rule rests on SDCL 10-45-2 (all sales of goods unless excepted) and the DOR's list of exemptions, which names only SNAP/WIC. The 2023-07-01 state rate cut (4.5% to 4.2%, scheduled to revert 2027-07-01 per SDCL 10-45-2's future text) is a rate change, not a taxability change, and isn't modeled. Food was taxable before 2018; earlier history not checked. Legislative and ballot attempts to exempt groceries (e.g. IM 28, 2024) were reported by news sources as failed; not verified against an official canvass, and no exemption appears in SDCL 10-45 as of 2026-10."
+  },
+  {
+    "tax": "SD",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to South Dakota state sales tax and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-2",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+        "quote": "upon the gross receipts of all sales of tangible personal property consisting of goods, wares, or merchandise, except as otherwise provided in this chapter"
+      },
+      {
+        "title": "SD DOR, Sales & Use Tax page",
+        "url": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+        "quote": "Sales tax applies to the gross receipts of all retail sales, including the sale, lease or rental of tangible personal property or any product transferred electronically, and the sale of all services."
+      }
+    ],
+    "notes": "SDCL 10-45-2 dates to 1935; 2018-01-01 is only the start of this check. Rate changes (4.5% to 4.2% from 2023-07-01) aren't modeled."
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.accounting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Accounting, auditing, bookkeeping and tax preparation are subject to South Dakota state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR Tax Fact: Accountants (July 2023)",
+        "url": "https://dor.sd.gov/media/svhj3y2p/accountants.pdf",
+        "quote": "Accounting services are subject to state sales tax, plus applicable municipal sales tax."
+      },
+      {
+        "title": "SDCL 10-45-5",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-5.html",
+        "quote": "abstracters; accountants; ancillary services; architects;"
+      }
+    ]
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.advertising",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Advertising agency fees are exempt when the agency both prepares and places the advertisement in the media; otherwise they are taxable.",
+    "conditions": [
+      {
+        "when": "The agency both prepares the advertisement and places it in the media (newspaper, broadcast, billboard, website)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The advertisement (or brochure, flyer, sign, promotional item) is given to the client rather than placed in the media by the agency, even if the client later places it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Separately billed public relations or consulting services",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SD DOR Tax Fact: Advertising Agencies (July 2023)",
+        "url": "https://dor.sd.gov/media/cpuocuwk/advertising.pdf",
+        "quote": "Advertising fees are not subject to sales tax when the agency that prepares the advertisement also places the advertisement in the media."
+      },
+      {
+        "title": "SD DOR Tax Fact: Advertising Agencies (July 2023)",
+        "url": "https://dor.sd.gov/media/cpuocuwk/advertising.pdf",
+        "quote": "If the advertisement is not placed in the media, but given to the client, it is subject to sales tax."
+      },
+      {
+        "title": "SDCL 10-45-12.1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-12.1.html",
+        "quote": "advertising services;"
+      },
+      {
+        "title": "SD DOR Tax Fact: Advertising Agencies (July 2023)",
+        "url": "https://dor.sd.gov/media/cpuocuwk/advertising.pdf",
+        "quote": "Professional business services such as public relations and consulting services are taxable."
+      }
+    ]
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.consulting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Management and business consulting is subject to South Dakota state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR Tax Fact: Advertising Agencies (July 2023)",
+        "url": "https://dor.sd.gov/media/cpuocuwk/advertising.pdf",
+        "quote": "Professional business services such as public relations and consulting services are taxable."
+      },
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      }
+    ],
+    "notes": "Consulting is not among the SDCL 10-45-12.1 exempt services; SDCL 10-45-4 taxes every service not specifically exempt."
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.design",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Interior design and decorating services are subject to South Dakota state and municipal sales tax, as every service not specifically exempt is.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      },
+      {
+        "title": "SDCL 10-45-12.1 (list of exempt services; design not listed)",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-12.1.html",
+        "quote": "construction services (division C) except industry no. 1752 and locksmiths and locksmith shops"
+      },
+      {
+        "title": "SD DOR, Sales & Use Tax page",
+        "url": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+        "quote": "Sales tax applies to the gross receipts of all retail sales, including the sale, lease or rental of tangible personal property or any product transferred electronically, and the sale of all services."
+      }
+    ],
+    "notes": "No DOR tax fact addresses interior design; the rule rests on SDCL 10-45-4 (every service taxable unless specifically exempt) and the absence of interior design from SDCL 10-45-12.1's exemptions. Design work that is part of a realty-improvement contract may instead fall under the contractor's excise tax; not checked."
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.engineering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Engineering and architectural services are subject to South Dakota state and municipal sales tax for projects in South Dakota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR Tax Fact: Architects, Engineers, and Surveyors (July 2023)",
+        "url": "https://dor.sd.gov/media/dbhfnrtg/architects.pdf",
+        "quote": "The gross receipts for architect, engineering, and surveying services are subject to state sales tax plus applicable municipal sales tax."
+      },
+      {
+        "title": "SDCL 10-45-5",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-5.html",
+        "quote": "abstracters; accountants; ancillary services; architects;"
+      }
+    ],
+    "notes": "Services for projects located entirely outside South Dakota are not subject to SD sales tax (same tax fact)."
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "IT services (systems design and implementation, consulting, technical support) are subject to South Dakota state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ARSD 64:06:02:78 (Wayback snapshot 2019-09-20)",
+        "url": "https://web.archive.org/web/20190920082847id_/http://sdlegislature.gov/rules/DisplayRule.aspx?Rule=64:06:02:78",
+        "quote": "(2) Designing and implementing of computer systems;"
+      },
+      {
+        "title": "ARSD 64:06:02:78 (Wayback snapshot 2019-09-20)",
+        "url": "https://web.archive.org/web/20190920082847id_/http://sdlegislature.gov/rules/DisplayRule.aspx?Rule=64:06:02:78",
+        "quote": "(7) Providing of technical assistance;"
+      },
+      {
+        "title": "ARSD 64:06:02:78 (current text, SD Legislature rules API)",
+        "url": "https://sdlegislature.gov/api/Rules/64:06:02:78",
+        "quote": "Computer services -- Software."
+      },
+      {
+        "title": "SD DOR Tax Fact: Internet (July 2023)",
+        "url": "https://dor.sd.gov/media/f3zcxwdp/internet.pdf",
+        "quote": "Technical assistance and support (for example, assistance or support either in person, over the phone, electronically, or via e-mail)"
+      }
+    ],
+    "notes": "IT training is not separately addressed in ARSD 64:06:02:78; SDCL 10-45-12.1 exempts 'educational services' (SIC major group 82) and 'continuing education programs', which may cover some training. Not settled here."
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.legal",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Legal services are subject to South Dakota state sales tax plus municipal sales tax (or use tax for out-of-state attorneys' SD work).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SD DOR Tax Fact: Attorneys (February 2026)",
+        "url": "https://dor.sd.gov/media/03zn1eje/attorneys.pdf",
+        "quote": "Attorney services are subject to South Dakota state sales or"
+      },
+      {
+        "title": "SD DOR Tax Fact: Attorneys (February 2026)",
+        "url": "https://dor.sd.gov/media/03zn1eje/attorneys.pdf",
+        "quote": "Use tax is due when the client requires the services for a legal issue in the State of South Dakota or affecting South Dakota real estate."
+      },
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      }
+    ],
+    "notes": "The tax fact's sentence continues 'use tax, plus applicable municipal sales or use tax' but its two-column layout splits it in the PDF text, so only the first half is quoted. Legal services are not among the SDCL 10-45-12.1 exemptions; SDCL 10-45-4 (all services taxable unless exempt) dates to 1965."
+  },
+  {
+    "tax": "SD",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software, whether written from scratch or a modification of prewritten software, is subject to South Dakota state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ARSD 64:06:02:78 (Wayback snapshot 2019-09-20)",
+        "url": "https://web.archive.org/web/20190920082847id_/http://sdlegislature.gov/rules/DisplayRule.aspx?Rule=64:06:02:78",
+        "quote": "The gross receipts from the sale of computer software, technical services and attendant appliances, equipment, and facilities are subject to the retail occupational sales tax."
+      },
+      {
+        "title": "SD DOR Tax Fact: Products Transferred Electronically (July 2023)",
+        "url": "https://dor.sd.gov/media/argitevb/products-transferred-electronically.pdf",
+        "quote": "Examples of products transferred electronically – this is not an all inclusive list: music, books, videos, movies, newspapers, custom computer software, photos, clip art etc."
+      },
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      }
+    ],
+    "notes": "SD draws no custom/prewritten line for tax: software sales and computer services (ARSD 64:06:02:78, incl. 'Designing and implementing of computer systems') are taxable, and custom software delivered electronically is a product transferred electronically. Covers both software.custom subcodes."
+  },
+  {
+    "tax": "SD",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software, on media or downloaded, is subject to South Dakota state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-1(14)",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-1.html",
+        "quote": "\"Tangible personal property,\" personal property that can be seen, weighed, measured, felt, or touched, or that is in any other manner perceptible to the senses. The term includes electricity, water, gas, steam, and prewritten computer software."
+      },
+      {
+        "title": "SDCL 10-45-2.4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.4.html",
+        "quote": "There is hereby imposed a tax at the same rate as that imposed upon sales of tangible personal property in this state upon the gross receipts of all sales, leases, or rentals of any product transferred electronically."
+      },
+      {
+        "title": "ARSD 64:06:02:78 (Wayback snapshot 2019-09-20)",
+        "url": "https://web.archive.org/web/20190920082847id_/http://sdlegislature.gov/rules/DisplayRule.aspx?Rule=64:06:02:78",
+        "quote": "The gross receipts from the sale of computer software, technical services and attendant appliances, equipment, and facilities are subject to the retail occupational sales tax."
+      }
+    ]
+  },
+  {
+    "tax": "SD",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fees for remote access to software are subject to South Dakota state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ARSD 64:06:02:78 (Wayback snapshot 2019-09-20)",
+        "url": "https://web.archive.org/web/20190920082847id_/http://sdlegislature.gov/rules/DisplayRule.aspx?Rule=64:06:02:78",
+        "quote": "(9) Fees or access charges for access to software, programs, or computer systems."
+      },
+      {
+        "title": "ARSD 64:06:02:78 (current text, SD Legislature rules API)",
+        "url": "https://sdlegislature.gov/api/Rules/64:06:02:78",
+        "quote": "for access to software, programs, or computer systems."
+      },
+      {
+        "title": "SDCL 10-45-2.4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.4.html",
+        "quote": "(3) The seller grants the right of permanent or less than permanent use of the products transferred electronically; or"
+      },
+      {
+        "title": "SD DOR Tax Fact: Products Transferred Electronically (July 2023)",
+        "url": "https://dor.sd.gov/media/argitevb/products-transferred-electronically.pdf",
+        "quote": "Sales tax applies to products transferred electronically when the purchaser has temporary use of the product and when the purchaser has permanent use of the product."
+      }
+    ],
+    "notes": "ARSD 64:06:02:78 last amended effective 2008-09-08 (35 SDR 48), per both the 2019 snapshot and the current text; cited as a dated Wayback snapshot because the current rules endpoint serves the rule inside JSON."
+  }
+]

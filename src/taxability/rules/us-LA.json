@@ -1,0 +1,1101 @@
+[
+  {
+    "tax": "LA",
+    "code": "construction.real_property.improvement",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Building or improving real property is not a taxable service in Louisiana; the contractor pays sales tax on the materials it buys and charges the customer none.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Do I have to collect sales tax on charges for labor?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax/do-i-have-to-collect-sales-tax-on-charges-for-labor/",
+        "quote": "Labor to construct, install, remodel, or repair immovable (real) property is generally not subject to Louisiana sales tax."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ: Do I have to collect sales tax on charges for labor?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax/do-i-have-to-collect-sales-tax-on-charges-for-labor/",
+        "quote": "Repairing or remodeling a home No Constructing a new building No"
+      }
+    ],
+    "notes": "The sources state current law; contractor treatment is long-standing but no pre-2025 text was read. Where a contractor separately sells materials to the owner before installing them, LDR has proposed (LAC 61:I.4372) that the materials sale be taxable; not modeled. Installing or repairing movable equipment (appliances, machinery) is a taxable repair of tangible personal property (R.S. 47:301.3(7)). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "construction.real_property.repair",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Repairs and maintenance of a building or other immovable property are not taxable in Louisiana; repairs of movable property in it (appliances, furniture) are.",
+    "conditions": [
+      {
+        "when": "The repair is to movable property or to machinery/equipment declared immovable (appliances, HVAC equipment declared immovable, furniture)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "LDR FAQ: Do I have to collect sales tax on charges for labor?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax/do-i-have-to-collect-sales-tax-on-charges-for-labor/",
+        "quote": "Labor to construct, install, remodel, or repair immovable (real) property is generally not subject to Louisiana sales tax."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): Are repairs and maintenance to my home taxable?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/are-repairs-and-maintenance-to-my-home-taxable/",
+        "quote": "Repairs and maintenance to immovable property, such as a residence, are not taxable."
+      }
+    ],
+    "notes": "R.S. 47:301.3(7)(b) treats machinery and equipment declared immovable, and things separated from a building, as tangible personal property, so their repair is taxable. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "delivery.exempt_goods",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge on goods exempt from Louisiana sales tax is also exempt, as part of the exempt sale's price; a single charge for an invoice mixing taxable and exempt goods is fully taxable.",
+    "conditions": [
+      {
+        "when": "One delivery charge on an invoice that also includes taxable goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Information Bulletin 25-025 (Oct. 1, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RIB%2025-025.pdf",
+        "quote": "If the underlying transaction is excluded (e.g., sale for resale) or exempt (e.g., purchase of manufacturing machinery and equipment under La. R.S. 47:301(3)(i)), the associated transportation charges are also excluded or exempt."
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): Are shipping, delivery, and freight charges taxable?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/are-delivery-and-freight-charges-taxable/",
+        "quote": "If the underlying transaction is excluded (i.e., sale for resale) or exempt (i.e., MM&E) from sales and use tax, the transportation charges are also excluded/exempt because they are part of the cost/sales price of the transaction."
+      }
+    ],
+    "notes": "Groceries are exempt only from the state tax; their delivery charge follows them, so it is locally taxable where the groceries are (the caller should treat the local part of a grocery delivery as delivery.taxable_goods). Before 2025 a separately stated, avoidable delivery charge was not taxable at all (RR 01-007), and a non-separated one was part of the exempt item's price; no pre-2025 rule is written because no source states the exempt-goods case directly."
+  },
+  {
+    "tax": "LA",
+    "code": "delivery.taxable_goods",
+    "from": "2001-10-10",
+    "to": "2024-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before 2025, a seller's separately stated charge for delivering goods from the place of sale was not taxable in Louisiana if the buyer could avoid it; delivery folded into the price, unavoidable, or inbound freight passed through was taxable.",
+    "conditions": [
+      {
+        "when": "Separately stated charge for delivery from the place of sale that the buyer could avoid by picking up or using its own carrier",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery not separately stated, or unavoidable, or the seller's own inbound freight passed through",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Ruling 01-007 (Oct. 10, 2001)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR01007.pdf",
+        "quote": "The actual separately stated charge for transportation from the place of sale, whether by the seller's own vehicles or by contract or common carrier, is not subject to the sales tax."
+      },
+      {
+        "title": "Revenue Ruling 01-007 (Oct. 10, 2001)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR01007.pdf",
+        "quote": "Charges by a seller for transportation from the place of sale are excludible, under the conditions explained above, from the taxable “sales price” or “cost price” of the property only if the charges are optional and are avoidable by the buyer"
+      }
+    ],
+    "notes": "Act 11 of the 2024 3rd Ex. Sess. added transportation charges to 'sales price' for periods from 2025-01-01 (see the next rule). The ruling is dated 2001-10-10 and binds the department until a change in statute. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "delivery.taxable_goods",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From 2025-01-01, delivery, shipping and freight charges a seller bills for taxable goods are part of the taxable sales price in Louisiana, even if separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenue Information Bulletin 25-025 (Oct. 1, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RIB%2025-025.pdf",
+        "quote": "Transportation charges paid to a seller for the delivery of tangible personal property or digital products purchased from that seller are subject to Louisiana state and local sales and use taxes."
+      },
+      {
+        "title": "Revenue Information Bulletin 25-025 (Oct. 1, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RIB%2025-025.pdf",
+        "quote": "This applies regardless of whether the charges are separately stated or included in the total price."
+      },
+      {
+        "title": "La. R.S. 47:301(13)(a)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101815",
+        "quote": "includes the cost of materials used, labor or service costs, including service costs for installation, and transportation charges"
+      },
+      {
+        "title": "Act 11 (HB 10), 2024 3rd Ex. Sess., résumé digest",
+        "url": "https://legis.la.gov/legis/ViewDocument.aspx?d=1392517",
+        "quote": "New law is applicable to taxable periods beginning on and after Jan. 1, 2025."
+      }
+    ],
+    "notes": "The Act 11 digest gives the applicability date for the Act as a whole; the RIB and FAQ do not date the transportation change themselves. Charges the buyer pays a third-party carrier directly are not taxable. When one delivery charge covers taxable and exempt goods on one invoice, the whole charge is taxable (RIB 25-025)."
+  },
+  {
+    "tax": "LA",
+    "code": "food.candy",
+    "from": "2003-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Candy sold for home consumption is exempt from Louisiana state sales tax as food; parish and municipal sales taxes still apply.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, snack bar, candy and nut counter or other establishment with on-premises eating facilities (until the 2024 repeal of R.S. 47:305(D)(3); see notes)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "La. Const. art. VII, §2.2(B)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=206549",
+        "quote": "Effective July 1, 2003, the sales and use tax imposed by the state of Louisiana or by a political subdivision whose boundaries are coterminous with those of the state shall not apply to sales or purchases of the following items: (1) Food for home consumption, as defined in R.S. 47:305(D)(1)(n) through (r) on January 1, 2003."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "soft drinks, tea, cocoa and products of these items, bakery products, candy, condiments, relishes and spreads, are all considered food items."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "a one-pound box of candy, a one-ounce bar of candy, a two-liter bottle of soft drink, and a 12-ounce can of soft drink are all eligible for the reduced tax rate or exemption."
+      },
+      {
+        "title": "Act 11 (HB 10), 2024 3rd Ex. Sess., résumé digest",
+        "url": "https://legis.la.gov/legis/ViewDocument.aspx?d=1392517",
+        "quote": "Food for home consumption (R.S. 47:305(D)(1)(n) through (r) and Art. VII, § 2.2 of the Const.)"
+      }
+    ],
+    "notes": "The state exemption is constitutional (art. VII, §2.2) and reaches only the state and statewide levies; parish and municipal sales taxes still apply (see the LA:local rule). Act 11 of the 2024 3rd Ex. Sess. repealed the statutory text of R.S. 47:305(D)(1)(n)-(r), but the Constitution keeps the definition as it stood on 2003-01-01 and the Act 11 digest lists the exemption as retained. Louisiana's definition of food for home consumption includes candy (LAC 61:I.4401(F)(1); RR 03-002-A). Candy sold by a restaurant, snack bar or candy and nut counter was taxable before 2025 (RR 03-002-A); see notes on food.prepared.bakery about the 2025 repeal of R.S. 47:305(D)(3)."
+  },
+  {
+    "tax": "LA",
+    "code": "food.catering",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Meals a caterer prepares and serves are prepared food taxable at Louisiana state and local rates, and the sales price includes the labor and service costs that are part of the sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "Revenue Ruling 01-007 (Oct. 10, 2001)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR01007.pdf",
+        "quote": "and includes the cost of materials used, labor or service costs"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): What is included in sales price?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/what-is-included-in-sales-price/",
+        "quote": "Sales price includes: Cost of materials used; Labor or service costs (including service costs for installation); and Transportation charges."
+      }
+    ],
+    "notes": "No LDR page on caterers was found; this applies the prepared-food rule and the statutory sales price. Separately billed equipment rentals are leases taxed on their own terms; voluntary tips are not addressed by the sources read. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "food.grocery",
+    "from": "2003-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food for home consumption (unprepared groceries) is exempt from Louisiana state sales tax; parish and municipal sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "La. Const. art. VII, §2.2(B)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=206549",
+        "quote": "Effective July 1, 2003, the sales and use tax imposed by the state of Louisiana or by a political subdivision whose boundaries are coterminous with those of the state shall not apply to sales or purchases of the following items: (1) Food for home consumption, as defined in R.S. 47:305(D)(1)(n) through (r) on January 1, 2003."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Thereafter, food for home consumption will be totally exempt from the state sales and use tax."
+      },
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Food and beverages sold for preparation and consumption in the home are generally exempt from Louisiana state sales tax ."
+      },
+      {
+        "title": "Act 11 (HB 10), 2024 3rd Ex. Sess., résumé digest",
+        "url": "https://legis.la.gov/legis/ViewDocument.aspx?d=1392517",
+        "quote": "Food for home consumption (R.S. 47:305(D)(1)(n) through (r) and Art. VII, § 2.2 of the Const.)"
+      }
+    ],
+    "notes": "The state exemption is constitutional (art. VII, §2.2) and reaches only the state and statewide levies; parish and municipal sales taxes still apply (see the LA:local rule). Act 11 of the 2024 3rd Ex. Sess. repealed the statutory text of R.S. 47:305(D)(1)(n)-(r), but the Constitution keeps the definition as it stood on 2003-01-01 and the Act 11 digest lists the exemption as retained."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.bakery",
+    "from": "2003-07-01",
+    "to": "2024-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt from Louisiana state sales tax when sold by grocery stores, bakeries and donut shops, but were taxable when sold by restaurants and other establishments with eating facilities; parish and municipal taxes apply either way.",
+    "conditions": [
+      {
+        "when": "Sold by a grocery store, bakery or donut shop, without utensils (state part; local tax applies)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant, drive-in, snack bar or other establishment with on-premises eating facilities",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "soft drinks, tea, cocoa and products of these items, bakery products, candy, condiments, relishes and spreads, are all considered food items."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(4)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "bakery products, dairy products, soft drinks, fresh fruits and vegetables, and package foods requiring further preparation by the purchaser are considered \"food for home consumption\" unless sold by an establishment listed in R.S. 47:305(D)(3)."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "However, if the products are sold by restaurants, drive-ins, snack bars, candy and nut counters, private clubs or other establishments providing on-premises facilities for the consumption of the food, they are not eligible for the reduced tax rate or exemption."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "For example, restaurants must collect 4 percent state sales tax on the sale of wedding or birthday cakes, even though the cakes are removed from the restaurants for consumption."
+      }
+    ],
+    "notes": "R.S. 47:305(D)(3)(b) (as quoted in HB 37 of 2024) exempted bakery products sold by grocery stores, bakeries and donut shops 'regardless of whether such businesses furnish facilities for the consumption of food on the premises'. The conditions here are the state part; local taxes apply (LA:local rule)."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.bakery",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without utensils are food for home consumption, exempt from Louisiana state sales tax whoever sells them; parish and municipal taxes still apply.",
+    "conditions": [
+      {
+        "when": "Heated by the seller or sold with eating utensils provided by the seller (prepared food)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "La. Const. art. VII, §2.2(B)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=206549",
+        "quote": "Effective July 1, 2003, the sales and use tax imposed by the state of Louisiana or by a political subdivision whose boundaries are coterminous with those of the state shall not apply to sales or purchases of the following items: (1) Food for home consumption, as defined in R.S. 47:305(D)(1)(n) through (r) on January 1, 2003."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "soft drinks, tea, cocoa and products of these items, bakery products, candy, condiments, relishes and spreads, are all considered food items."
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): food trucks, drive-ins, snack bars",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/are-sales-from-food-trucks-drive-ins-candy-and-nut-counters-and-snack-bars-taxable/",
+        "quote": "Food that otherwise qualifies as food for home consumption would remain exempt."
+      },
+      {
+        "title": "Act 11 (HB 10), 2024 3rd Ex. Sess., résumé digest",
+        "url": "https://legis.la.gov/legis/ViewDocument.aspx?d=1392517",
+        "quote": "Food for home consumption (R.S. 47:305(D)(1)(n) through (r) and Art. VII, § 2.2 of the Const.)"
+      }
+    ],
+    "notes": "Act 11 of the 2024 3rd Ex. Sess. repealed R.S. 47:305(D)(3)-(6) (the restaurant/snack-bar disqualification) effective 2024-12-04 for periods from 2025-01-01, and the LDR reform FAQ says food that otherwise qualifies as food for home consumption remains exempt when sold by restaurants and similar establishments. LAC 61:I.4401(F)(4) still refers to the repealed (D)(3); the LDR has not been seen to restate bakery items specifically, so the restaurant case after 2025 rests on the FAQ's general statement. Items heated by the seller or sold with utensils are prepared food (taxable), outside this code. Local taxes apply (LA:local rule)."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.cold",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food from a grocery or deli is taxable in Louisiana if the seller cooked it or combined ingredients (salads, cooked chicken, sandwiches); food only cut, sliced or repackaged is exempt from the state tax but locally taxable.",
+    "conditions": [
+      {
+        "when": "Cooked or heated by the seller, or two or more ingredients mixed or combined by the seller (salads, cooked chicken, cooked meats or seafood)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller (plates, forks, cups, napkins, straws)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, sliced, repackaged or pasteurized by the seller (cut fruit, sliced deli meat or cheese), sold without utensils (state part; local tax applies)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Examples of taxable products typically prepared by sellers are turkeys or chickens sold either whole or in portions, baked hams, boiled crawfish or shrimp, other cooked meats or seafood, sandwiches, salads, and cooked vegetables."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, which does not include food that is only cut, repackaged, or pasteurized by the seller,"
+      },
+      {
+        "title": "LAC 61:I.4401(F)(3)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups,"
+      }
+    ],
+    "notes": "Heating at any time before sale counts: RR 03-002-A names whole or portioned chickens and cooked meats among taxable prepared items even if sold cold. The exempt branch is the state part only; parish and municipal taxes apply (LA:local rule). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so the taxable branch covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells to go is taxable at Louisiana state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Prepared food is generally subject to Louisiana state sales tax. This includes food that is prepared for immediate consumption, such as meals sold by restaurants, food trucks, concession stands, and similar vendors."
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): food trucks, drive-ins, snack bars",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/are-sales-from-food-trucks-drive-ins-candy-and-nut-counters-and-snack-bars-taxable/",
+        "quote": "Sales of prepared food by restaurants, drive-ins, snack bars, candy and nut counters, private clubs, and similar establishments are taxable irrespective of whether they furnish facilities for on premise consumption."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "However, if the products are sold by restaurants, drive-ins, snack bars, candy and nut counters, private clubs or other establishments providing on-premises facilities for the consumption of the food, they are not eligible for the reduced tax rate or exemption."
+      }
+    ],
+    "notes": "Items a restaurant sells that would otherwise be food for home consumption (e.g. a packaged item resold as bought) were taxable before 2025 because of R.S. 47:305(D)(3) (RR 03-002-A) and, per the LDR reform FAQ, remain exempt from the state tax from 2025; the code's 'prepared by the seller' items are taxable either way. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.dine_in",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served by restaurants and similar establishments for eating on the premises is taxable at Louisiana state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Prepared food is generally subject to Louisiana state sales tax. This includes food that is prepared for immediate consumption, such as meals sold by restaurants, food trucks, concession stands, and similar vendors."
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): food trucks, drive-ins, snack bars",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/are-sales-from-food-trucks-drive-ins-candy-and-nut-counters-and-snack-bars-taxable/",
+        "quote": "Sales of prepared food by restaurants, drive-ins, snack bars, candy and nut counters, private clubs, and similar establishments are taxable irrespective of whether they furnish facilities for on premise consumption."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "However, if the products are sold by restaurants, drive-ins, snack bars, candy and nut counters, private clubs or other establishments providing on-premises facilities for the consumption of the food, they are not eligible for the reduced tax rate or exemption."
+      }
+    ],
+    "notes": "Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.hot",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food and taxable at Louisiana state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Examples of taxable products typically prepared by sellers are turkeys or chickens sold either whole or in portions, baked hams, boiled crawfish or shrimp, other cooked meats or seafood, sandwiches, salads, and cooked vegetables."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(3)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "food sold in a heated state or heated by the seller;"
+      },
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Prepared food is generally subject to Louisiana state sales tax. This includes food that is prepared for immediate consumption, such as meals sold by restaurants, food trucks, concession stands, and similar vendors."
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): food trucks, drive-ins, snack bars",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/are-sales-from-food-trucks-drive-ins-candy-and-nut-counters-and-snack-bars-taxable/",
+        "quote": "Sales of prepared food by restaurants, drive-ins, snack bars, candy and nut counters, private clubs, and similar establishments are taxable irrespective of whether they furnish facilities for on premise consumption."
+      }
+    ],
+    "notes": "2003-07-01 is when the state food exemption, and with it the prepared-food carve-out, took effect; prepared food was taxable before. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.platter",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxable in Louisiana when it holds sandwiches or cooked or combined items, or comes with utensils; a tray of food only cut or sliced is exempt from the state tax but locally taxable.",
+    "conditions": [
+      {
+        "when": "Tray of sandwiches or of items the seller cooked, heated or mixed (dips, salads, cooked meats)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Tray of fruit, vegetables, cheese or deli meat only cut or sliced by a grocery or deli, without utensils (state part; local tax applies)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Examples of taxable products typically prepared by sellers are turkeys or chickens sold either whole or in portions, baked hams, boiled crawfish or shrimp, other cooked meats or seafood, sandwiches, salads, and cooked vegetables."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, which does not include food that is only cut, repackaged, or pasteurized by the seller,"
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "However, if the products are sold by restaurants, drive-ins, snack bars, candy and nut counters, private clubs or other establishments providing on-premises facilities for the consumption of the food, they are not eligible for the reduced tax rate or exemption."
+      }
+    ],
+    "notes": "No LDR page addresses party trays by name; the conditions apply the prepared-food definition (RR 03-002-A; LAC 61:I.4401(F)(3)). Whether arranging several cut items on one tray is 'combining' them is unsettled in the sources read. Before 2025 any tray sold by a restaurant or other establishment with eating facilities was taxable (RR 03-002-A). The exempt branch is the state part only (LA:local rule)."
+  },
+  {
+    "tax": "LA",
+    "code": "food.prepared.sandwich",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches made by the seller are prepared food and taxable at Louisiana state and local rates.",
+    "conditions": [
+      {
+        "when": "A sandwich the seller did not make, resold unheated in the condition acquired, without utensils, by a grocery or deli (state part only; local tax still applies)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "All sales of food that is prepared by the sellers of the food are taxable, regardless of the establishment from which the sales are made."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Examples of taxable products typically prepared by sellers are turkeys or chickens sold either whole or in portions, baked hams, boiled crawfish or shrimp, other cooked meats or seafood, sandwiches, salads, and cooked vegetables."
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, which does not include food that is only cut, repackaged, or pasteurized by the seller,"
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "For example, a delicatessen that makes sandwiches must tax the sales of the sandwiches made by its personnel, but can exempt or apply the reduced tax rate to all sales of sandwiches sold in the same condition in which the sandwiches were acquired from others."
+      }
+    ],
+    "notes": "A sandwich resold in the condition the seller bought it (not made by the seller) is food for home consumption when sold by a grocery or deli: state-exempt, locally taxable. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "food.soft_drink",
+    "from": "2003-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Packaged soft drinks sold for home consumption are exempt from Louisiana state sales tax as food; a soft drink sold with a cup, glass or straw is taxable; parish and municipal sales taxes still apply.",
+    "conditions": [
+      {
+        "when": "Sold with a cup, glass or straw (fountain or poured drinks)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "La. Const. art. VII, §2.2(B)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=206549",
+        "quote": "Effective July 1, 2003, the sales and use tax imposed by the state of Louisiana or by a political subdivision whose boundaries are coterminous with those of the state shall not apply to sales or purchases of the following items: (1) Food for home consumption, as defined in R.S. 47:305(D)(1)(n) through (r) on January 1, 2003."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "soft drinks, tea, cocoa and products of these items, bakery products, candy, condiments, relishes and spreads, are all considered food items."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(4)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "However, soft drinks that are sold with a cup, glass or straw are not considered \"food for home consumption.\""
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "a one-pound box of candy, a one-ounce bar of candy, a two-liter bottle of soft drink, and a 12-ounce can of soft drink are all eligible for the reduced tax rate or exemption."
+      },
+      {
+        "title": "Act 11 (HB 10), 2024 3rd Ex. Sess., résumé digest",
+        "url": "https://legis.la.gov/legis/ViewDocument.aspx?d=1392517",
+        "quote": "Food for home consumption (R.S. 47:305(D)(1)(n) through (r) and Art. VII, § 2.2 of the Const.)"
+      }
+    ],
+    "notes": "The state exemption is constitutional (art. VII, §2.2) and reaches only the state and statewide levies; parish and municipal sales taxes still apply (see the LA:local rule). Act 11 of the 2024 3rd Ex. Sess. repealed the statutory text of R.S. 47:305(D)(1)(n)-(r), but the Constitution keeps the definition as it stood on 2003-01-01 and the Act 11 digest lists the exemption as retained. Soft drinks are listed in the constitutional definition (R.S. 47:305(D)(1)(p) as of 2003)."
+  },
+  {
+    "tax": "LA",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods such as furniture, tools and electronics are taxable at the Louisiana state and local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "La. R.S. 47:302(A)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "There is hereby levied a tax upon the sale at retail, the use, the consumption, the distribution, and the storage for use or consumption in this state, of each item or article of tangible personal property or digital product, as defined in this Chapter."
+      }
+    ],
+    "notes": "The levy dates back to Acts 1962, No. 172 (history note to R.S. 47:302); 2018-01-01 is only where this file starts. The state rate rose from 4.45% to 5% on 2025-01-01 (Act 11 of the 2024 3rd Ex. Sess.), which changes the rate, not the treatment. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.accounting",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing and tax preparation are not taxable services in Louisiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): How many services are subject to sales tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. Separately stated copies are taxable printing/copying (LDR guidance, Example 9). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.advertising",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising services rendered by an advertising business are not taxable in Louisiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): How many services are subject to sales tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      },
+      {
+        "title": "Act 11 (HB 10), 2024 3rd Ex. Sess., résumé digest",
+        "url": "https://legis.la.gov/legis/ViewDocument.aspx?d=1392517",
+        "quote": "Any advertising service rendered by an advertising business (R.S. 47:302(D))"
+      }
+    ],
+    "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. The Act 11 digest lists this among the exclusions the 2025 reform retained. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.consulting",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not a taxable service in Louisiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): How many services are subject to sales tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. Proprietary research compiled for one client is excluded from taxable information services (R.S. 47:301.3(10)(b)). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.design",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design and decorating services are not a taxable service in Louisiana; furnishings sold are taxable goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): How many services are subject to sales tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. No LDR page on interior designers was read. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.engineering",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural design services are not taxable services in Louisiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): How many services are subject to sales tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. Blueprinting and other reproduction is a taxable printing service (R.S. 47:301.3(4)). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.it",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT services in Louisiana are taxable when they repair or maintain computer hardware or deliver software updates; IT consulting, separately billed support and training are not taxable.",
+    "conditions": [
+      {
+        "when": "Repair or maintenance of computer hardware or other tangible equipment",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Software maintenance that delivers updates, fixes or enhancements, or support bundled with taxable software",
+        "treatment": "taxable"
+      },
+      {
+        "when": "IT consulting, systems advice, separately stated support or training, hosting or data processing",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3(7)(a)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "Repairs and maintenance of tangible personal property."
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Support is not taxable provided it is separately stated and clearly billed as consulting or training."
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Consulting services to advise clients on computer hardware/software needs"
+      }
+    ],
+    "notes": "Software maintenance that includes updates, repairs or enhancements is taxable (LDR guidance); support bundled with a taxable product is taxable. Web hosting, cloud storage and data processing are not digital products or information services (LDR guidance). Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.legal",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not a taxable service in Louisiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR FAQ (sales tax reform): How many services are subject to sales tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. A lawyer's electronically delivered work product is not a digital product (R.S. 47:301(31)(c)). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "software.custom",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software is taxable in Louisiana like any other software: Act 10 of the 2024 3rd Extraordinary Session eliminated the custom software exemption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ (sales tax reform): Is custom computer software subject to tax?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/is-custom-computer-software-subject-to-tax/",
+        "quote": "Act 10 eliminates the custom computer software exemption and treats all software the same."
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Act 10 of the 2024 Third Extraordinary Session permanently eliminates the exemption for custom computer software resulting in all software being taxed the same."
+      }
+    ],
+    "notes": "Before 2025 the state exemption for custom software was suspended (state tax applied from 2016-04-01, per the LDR FAQ), but whether parish and municipal taxes applied in 2016-2024 was not established, so no pre-2025 rule is written. Pure programming services that deliver no software are not addressed by the sources; the R.S. 47:305.12 buyer exemptions can apply. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Louisiana whether delivered on media or downloaded to a device in the state; from 2025 electronically delivered software is also a taxable digital product.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Software is tangible personal property that has always been subject to sales and use tax if delivered in tangible form or installed or downloaded to a device located in Louisiana."
+      },
+      {
+        "title": "La. R.S. 47:302(A)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "There is hereby levied a tax upon the sale at retail, the use, the consumption, the distribution, and the storage for use or consumption in this state, of each item or article of tangible personal property or digital product, as defined in this Chapter."
+      }
+    ],
+    "notes": "2018-01-01 is only where this file starts. From 2025-01-01 the R.S. 47:305.12 buyer exemptions (commercial production, FDIC-insured banks, healthcare providers) also cover computer software; they depend on the buyer. Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "to": "2024-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2025, access to remotely hosted prewritten software (SaaS) was not an enumerated taxable service in Louisiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ (sales tax reform): new taxable services",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/did-the-legislature-adopt-any-new-taxable-services/",
+        "quote": "Act 11 enacts sales tax on two new services: (1) prewritten computer software access and (2) information services."
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Thus, the sales tax does not apply to the charge for the monthly software license on June 1, 2024, nor the monthly charges for July through December of 2024."
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      }
+    ],
+    "notes": "2018-01-01 is only where this file starts; the FAQ calls SaaS a new taxable service from 2025, and the guidance's example (a monthly license to access a digital product in 2024) was untaxed. Some parishes may have asserted local tax on remote software access before 2025; not researched."
+  },
+  {
+    "tax": "LA",
+    "code": "software.saas",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From 2025-01-01, prewritten computer software access services (SaaS) are taxable at Louisiana state and local rates.",
+    "conditions": [
+      {
+        "when": "Buyer certifies the R.S. 47:305.12 commercial-production exemption (used directly to produce goods or services subject to sales or insurance premium tax)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Buyer is an FDIC-insured financial institution (or affiliate) or a licensed healthcare provider using it for the purposes listed in R.S. 47:305.12(C)-(D)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "La. R.S. 47:301.3(9)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The providing of prewritten computer software access services."
+      },
+      {
+        "title": "La. R.S. 47:301.3",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=1392324",
+        "quote": "The sales and use tax levied by any taxing authority shall apply to the following services:"
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Effective January 1, 2025, the Louisiana state and local sales and use tax applies to the sale or use of digital products, prewritten computer access services, and information services"
+      },
+      {
+        "title": "LDR Digital Products Guidance (rev. Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Prewritten computer software access services include what is commonly referred to as Software-as-a-Service (SaaS)."
+      }
+    ],
+    "notes": "R.S. 47:305.12 (Acts 2024, 3rd Ex. Sess., No. 10) exempts SaaS bought exclusively for commercial purposes and used directly to produce taxable goods or services, and SaaS used by FDIC-insured banks or licensed healthcare providers for the stated purposes; these turn on the buyer and its use (exemption certificate R-85011), which the caller decides. LDR guidance says business-management, CRM, communication and accounting tools do not qualify."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.candy",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to candy, which only the state tax exempts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "The state food exemption does not extend to local levies (R.S. 47:302(E); Const. art. VII, §2.2 limits only the state and statewide levies). A 2024 bill to require a local food exemption (HB 37, 2024 R.S.) was read only as introduced; nothing found shows it passed. Individual parishes may exempt food under their own ordinances; not researched. 2003-07-01 is the start of the state exemption; local taxation of food is older."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.grocery",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to groceries (food for home consumption), which only the state tax exempts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "The state food exemption does not extend to local levies (R.S. 47:302(E); Const. art. VII, §2.2 limits only the state and statewide levies). A 2024 bill to require a local food exemption (HB 37, 2024 R.S.) was read only as introduced; nothing found shows it passed. Individual parishes may exempt food under their own ordinances; not researched. 2003-07-01 is the start of the state exemption; local taxation of food is older."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.prepared.bakery",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to bakery items, which only the state tax exempts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "The state exemption for bakery products does not extend to local levies."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.prepared.cold",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to cold deli and grocery food whether or not the state tax exempts it.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "Local taxes reach food for home consumption as well as prepared food, so the state's cut/combined distinction does not change the local answer."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.prepared.platter",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to party trays whether or not the state tax exempts them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "Local taxes reach food for home consumption as well as prepared food."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.soft_drink",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to soft drinks, which only the state tax exempts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "The state food exemption does not extend to local levies (R.S. 47:302(E); Const. art. VII, §2.2 limits only the state and statewide levies). A 2024 bill to require a local food exemption (HB 37, 2024 R.S.) was read only as introduced; nothing found shows it passed. Individual parishes may exempt food under their own ordinances; not researched. 2003-07-01 is the start of the state exemption; local taxation of food is older."
+  }
+]

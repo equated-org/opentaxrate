@@ -1,0 +1,965 @@
+[
+  {
+    "tax": "MO",
+    "code": "construction.real_property",
+    "from": "2008-03-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A Missouri contractor improving or repairing real property is the consumer of its materials and pays tax on them; it does not charge sales tax to the owner on the contract.",
+    "conditions": [
+      {
+        "when": "The contract passes title to the goods to the customer before they are attached to the real property",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-112.010(1)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-112.pdf",
+        "quote": "In general, a contractor is the final user and consumer of the materials and supplies used and consumed in fulfilling a construction contract and which become part of a completed real property improvement."
+      },
+      {
+        "title": "12 CSR 10-112.010(2)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-112.pdf",
+        "quote": "Contractor—Any person entering into an agreement to improve, repair, replace, erect or alter real property."
+      },
+      {
+        "title": "12 CSR 10-112.010(3)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-112.pdf",
+        "quote": "If title passes after the attachment, the contractor is subject to tax on its purchase of the tangible personal property and does not collect tax on its transfer of ownership or title of the item."
+      },
+      {
+        "title": "Missouri DOR, Contractors tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Contractors.pdf",
+        "quote": "Contractor sales of tangible personal property where title passed to the customer after installation Exempt"
+      },
+      {
+        "title": "12 CSR 10-112.010, history",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-112.pdf",
+        "quote": "Filed Aug. 14, 2007, effective March 30, 2008."
+      }
+    ],
+    "notes": "Applies alike to improvements and repairs (the rule's contractor definition covers both). 2008-03-30 is the effective date of the current rule text."
+  },
+  {
+    "tax": "MO",
+    "code": "delivery.exempt_goods",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated delivery charge for goods that are exempt is not taxed in Missouri.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "12 CSR 10-103.600(3)(A)2",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "If the purchaser is not required to pay the service charge as part of the sale price of tangible personal property, the amount paid for the service is not subject to tax if the charge for such service is separately stated."
+      },
+      {
+        "title": "Missouri DOR, Restaurants tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Separately stated delivery charges Exempt"
+      }
+    ],
+    "notes": "A mandatory delivery charge becomes part of the sale price of the goods (12 CSR 10-103.600(3)(A)1), so it would share the exempt goods' treatment; this is inferred, not stated. Groceries are not exempt in Missouri (reduced rate); a mandatory delivery charge on groceries would be part of the food's price, a case this code does not cover."
+  },
+  {
+    "tax": "MO",
+    "code": "delivery.taxable_goods",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge the buyer may choose is not taxed in Missouri; delivery the buyer must pay as part of the price, and handling charges, are taxable.",
+    "conditions": [
+      {
+        "when": "Separately stated delivery the buyer is not required to buy (could pick up or arrange its own carrier)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery the buyer must pay as a condition of the sale, or a handling or combined shipping-and-handling charge",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-103.600(3)(A)2",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "If the purchaser is not required to pay the service charge as part of the sale price of tangible personal property, the amount paid for the service is not subject to tax if the charge for such service is separately stated."
+      },
+      {
+        "title": "12 CSR 10-103.600(3)(A)1",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "If the purchaser is required to pay for the service as part of the sale price of tangible personal property, the entire sale price is subject to tax."
+      },
+      {
+        "title": "12 CSR 10-103.600(4)(C)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "Because the shipping is optional, it is not subject to tax."
+      },
+      {
+        "title": "Missouri DOR, Interior Design Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Interior-Design-Services.pdf",
+        "quote": "Shipping charges included with the sale of tangible personal property (separately stated) Exempt"
+      },
+      {
+        "title": "Missouri DOR, Interior Design Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Interior-Design-Services.pdf",
+        "quote": "Handling charges included with the sale of tangible personal property (separately stated) Taxable"
+      }
+    ],
+    "notes": "The 2022-2025 industry matrices list separately stated shipping as exempt without mentioning the optional test in 12 CSR 10-103.600; the rule's test is kept as the condition."
+  },
+  {
+    "tax": "MO",
+    "code": "food.candy",
+    "from": "1997-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.01225,
+    "summary": "Candy is SNAP-eligible food in Missouri, taxed at the reduced 1.225% state rate when sold by a store; local sales taxes apply in full.",
+    "conditions": [
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSMo 144.014.1",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term  \"food\"  shall include only those products and types of food for which food stamps may be redeemed pursuant to the provisions of the Federal Food Stamp Program as contained in 7 U.S.C. Section 2012"
+      },
+      {
+        "title": "Missouri DOR Letter Ruling 8246 (2023)",
+        "url": "https://dor.mo.gov/rulings/show/8246",
+        "quote": "Yes. Bulk candy, in-house made fudge, and individual in-house made chocolate sales are taxed at a low food tax rate."
+      },
+      {
+        "title": "Missouri DOR Letter Ruling 8246 (2023)",
+        "url": "https://dor.mo.gov/rulings/show/8246",
+        "quote": "These items of eligible food includes snack and dessert food items such as chocolate, fudge, and candy of all kinds."
+      },
+      {
+        "title": "Missouri DOR, Grocery & Convenience Stores tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Grocery-CStores020526.pdf",
+        "quote": "Candy/snacks Taxable (reduced food tax rate)"
+      },
+      {
+        "title": "12 CSR 10-110.990(1)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "In general, qualified sales of food by a qualified business are taxed at a reduced state rate of 1.225% plus any applicable local tax."
+      }
+    ],
+    "notes": "The reduced state rate is 1% under RSMo 144.014 plus the 0.225% constitutional conservation and parks/soils taxes, 1.225% in total (12 CSR 10-110.990(1)); the 4.225% general state rate applies otherwise. Candy has been SNAP-eligible food since before 1997; the DOR statements read are from 2023-2026. Missouri's SNAP restriction waiver (candy, soft drinks, energy drinks, pre-packaged desserts) was approved by USDA; DSS has reportedly moved its start from 2026-10-01 to 2027-02-15. RSMo 144.014 ties the reduced rate to items for which food stamps may be redeemed under 7 U.S.C. 2012; whether the waiver removes these items from the reduced rate is not addressed by any DOR source found. Review this rule before the waiver starts."
+  },
+  {
+    "tax": "MO",
+    "code": "food.catering",
+    "from": "2022-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered meals are taxable in Missouri at the full rate, and mandatory setup, server and bartender charges are taxable with them; optional, separately stated labor charges are not.",
+    "conditions": [
+      {
+        "when": "Optional setup, take-down, server or bartender charges stated separately",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Mandatory gratuity imposed only on large groups, at least partly paid to employees with Missouri income tax withheld",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Missouri DOR, Catering & Mobile Food Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Catering-and-Mobile-Food-Services.pdf",
+        "quote": "Sales of catered meals Taxable"
+      },
+      {
+        "title": "Missouri DOR, Catering & Mobile Food Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Catering-and-Mobile-Food-Services.pdf",
+        "quote": "Mandatory charges for servers and bartenders Taxable"
+      },
+      {
+        "title": "Missouri DOR, Catering & Mobile Food Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Catering-and-Mobile-Food-Services.pdf",
+        "quote": "Optional charges for servers and bartenders Exempt"
+      },
+      {
+        "title": "12 CSR 10-103.600(3)(A)1",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "If the purchaser is required to pay for the service as part of the sale price of tangible personal property, the entire sale price is subject to tax."
+      }
+    ],
+    "notes": "2022-10-24 is the matrix's issuance date; the underlying rules (12 CSR 10-103.600, effective 2001) are older. The matrix lists catered meals as Taxable without the reduced-rate note it uses elsewhere, read as the full rate."
+  },
+  {
+    "tax": "MO",
+    "code": "food.grocery",
+    "from": "1997-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.01225,
+    "summary": "Food that may be bought with SNAP benefits is taxed at a reduced 1.225% Missouri state rate; local sales taxes apply in full.",
+    "conditions": [
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSMo 144.014.1",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term  \"food\"  shall include only those products and types of food for which food stamps may be redeemed pursuant to the provisions of the Federal Food Stamp Program as contained in 7 U.S.C. Section 2012"
+      },
+      {
+        "title": "12 CSR 10-110.990(1)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "In general, qualified sales of food by a qualified business are taxed at a reduced state rate of 1.225% plus any applicable local tax."
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "The rate for food sales was reduced by 3%, from 4.225% to 1.225%."
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "The 3% reduction applies to all types of food items that may be purchased with Food Stamps"
+      }
+    ],
+    "notes": "The reduced state rate is 1% under RSMo 144.014 plus the 0.225% constitutional conservation and parks/soils taxes, 1.225% in total (12 CSR 10-110.990(1)); the 4.225% general state rate applies otherwise."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.bakery",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items, even warm, are qualifying food at Missouri's reduced 1.225% state rate when sold by a store under the 80% prepared-food threshold, and at the full rate when sold by a bakery or doughnut shop over it.",
+    "conditions": [
+      {
+        "when": "Bakery items, sold by a seller whose receipts from food it prepares for immediate consumption are 80% or less of its total receipts",
+        "treatment": "special_rate",
+        "rate": 0.01225
+      },
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-110.990(2)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "Bakery items, even if still warm from baking, are"
+      },
+      {
+        "title": "12 CSR 10-110.990(2)(A), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "Bakery items, even if still warm from baking, are qualified foods."
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "A grocery store sells donuts in its bakery department. Even though these donuts may still be warm from baking, the donut sales are taxed at the reduced rate."
+      },
+      {
+        "title": "12 CSR 10-110.990(3)(F)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "the sales of the snacks are subject to the full rate even if consumed outside the store."
+      },
+      {
+        "title": "Missouri DOR, Grocery & Convenience Stores tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Grocery-CStores020526.pdf",
+        "quote": "Bakery items Taxable (reduced food tax rate)"
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term \"food\" shall not include food or drink sold by any establishment where the gross receipts derived from the sale of food prepared by such establishment for immediate consumption on or off the premises of the establishment constitutes more than eighty percent of the total gross receipts of that establishment"
+      }
+    ],
+    "notes": "Missouri's SNAP waiver lists pre-packaged, shelf-stable ready-to-eat desserts as restricted; bakery items baked in-store are not obviously within it, but the waiver's effect on the reduced rate is not addressed by any DOR source found."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.cold",
+    "from": "2001-01-30",
+    "to": "2026-05-29",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food sold to go by a store was taxed at Missouri's reduced 1.225% state rate when the seller's prepared-food receipts were 80% or less of its total, and at the full rate when over 80%.",
+    "conditions": [
+      {
+        "when": "Cold food the store prepared, sold to go, sold by a seller whose receipts from food it prepares for immediate consumption are 80% or less of its total receipts",
+        "treatment": "special_rate",
+        "rate": 0.01225
+      },
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-110.990(3)(F), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "A convenience store sells prepared cold sub sandwiches, ice cream and cold drinks."
+      },
+      {
+        "title": "12 CSR 10-110.990(3)(F), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "The store should charge the reduced tax rate on the cold items, but should charge the regular tax rate on the hot items."
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "The store should charge the reduced tax rate on the cold items, but should charge the regular tax rate on the hot items."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term \"food\" shall not include food or drink sold by any establishment where the gross receipts derived from the sale of food prepared by such establishment for immediate consumption on or off the premises of the establishment constitutes more than eighty percent of the total gross receipts of that establishment"
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "the restaurant should charge the regular tax rate on all its food sales, including the cold salads and soft drinks."
+      },
+      {
+        "title": "12 CSR 10-110.990(2)(B)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "are 80% or less of its total gross receipts must remit tax on its qualifying food sales at a reduced state tax rate of 1.225% plus any applicable local tax."
+      }
+    ],
+    "notes": "Cold prepared food is SNAP-eligible (only hot food is excluded), so the reduced rate turned on the seller's 80% test. No rule from 2026-05-30: the amendment to 12 CSR 10-110.990 effective that day deleted the example applying the reduced rate to a convenience store's cold prepared sandwiches, and the DOR's Grocery & Convenience Stores matrix (revised 01-20-2026) lists \"Cold & frozen food items prepared by the business\" and \"Food items prepared by the business\" as Taxable (full rate), while the DOR's Sales Tax Reduction on Food page still gives the reduced-rate example and the statute (SNAP-eligible food, 80% test) is unchanged. The sources conflict, so the state part is left unanswered after 2026-05-29; local taxes apply in full either way."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food sold by a restaurant or other establishment whose prepared food is over 80% of its receipts is taxed at Missouri's full 4.225% state rate plus local taxes.",
+    "conditions": [
+      {
+        "when": "The restaurant's receipts from food it prepares for immediate consumption are 80% or less of its total receipts and the cold item is SNAP-eligible (before 2026-05-30 at least; see notes)",
+        "treatment": "special_rate",
+        "rate": 0.01225
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term \"food\" shall not include food or drink sold by any establishment where the gross receipts derived from the sale of food prepared by such establishment for immediate consumption on or off the premises of the establishment constitutes more than eighty percent of the total gross receipts of that establishment"
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "the restaurant should charge the regular tax rate on all its food sales, including the cold salads and soft drinks."
+      },
+      {
+        "title": "Missouri DOR, Restaurants tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Sales of prepared foods to the public Taxable"
+      }
+    ],
+    "notes": "Restaurants, fast-food restaurants, delicatessens and cafés are the statute's examples of establishments over the 80% threshold. The amendment to 12 CSR 10-110.990 effective that day deleted the example applying the reduced rate to a convenience store's cold prepared sandwiches, and the DOR's Grocery & Convenience Stores matrix (revised 01-20-2026) lists \"Cold & frozen food items prepared by the business\" and \"Food items prepared by the business\" as Taxable (full rate), while the DOR's Sales Tax Reduction on Food page still gives the reduced-rate example and the statute (SNAP-eligible food, 80% test) is unchanged. The sources conflict, so the state part is left unanswered after 2026-05-29; local taxes apply in full either way."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.dine_in",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served by the seller to be eaten on its premises is food prepared for immediate consumption, taxed at Missouri's full 4.225% state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Restaurants tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Sales of prepared foods to the public Taxable"
+      },
+      {
+        "title": "12 CSR 10-110.990(3)(G)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "As the food was prepared for immediate consumption, and not for home consumption, the meals are subject to the full rate."
+      },
+      {
+        "title": "12 CSR 10-110.990(3)(H), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "None of the ice cream qualifies for the reduced rate because it is consumed on the premises."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term \"food\" shall not include food or drink sold by any establishment where the gross receipts derived from the sale of food prepared by such establishment for immediate consumption on or off the premises of the establishment constitutes more than eighty percent of the total gross receipts of that establishment"
+      }
+    ],
+    "notes": "Before 2026-05-30 the rule's example (H) (deleted by the 2026 amendment) applied the full rate to food consumed on the seller's premises even where prepared food was under 80% of receipts; the current rule's airline example applies the full rate to food prepared for immediate consumption rather than home consumption. Cold dine-in food at a seller under the 80% threshold is not addressed explicitly after 2026-05-30."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.hot",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot food ready to eat does not qualify for Missouri's reduced food rate and is taxed at the full 4.225% state rate plus local taxes.",
+    "conditions": [
+      {
+        "when": "Bakery items still warm from baking, sold by a seller under the 80% prepared-food threshold",
+        "treatment": "special_rate",
+        "rate": 0.01225
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-110.990(2)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "Alcoholic beverages, tobacco, and hot food items ready for immediate consumption do not qualify for the reduced rate."
+      },
+      {
+        "title": "Missouri DOR, Grocery & Convenience Stores tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Grocery-CStores020526.pdf",
+        "quote": "Hot food items Taxable"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Foods that are hot at the point of sale."
+      }
+    ],
+    "notes": "2001-01-30 is when 12 CSR 10-110.990 took effect; the hot-food sentence is unchanged by the 2026 amendment (see the proposed amendment text). Warm bakery items have their own rule (food.prepared.bakery)."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.platter",
+    "from": "2001-01-30",
+    "to": "2026-05-29",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A cold prepared platter sold to go was taxed at Missouri's reduced 1.225% state rate when the seller's prepared-food receipts were 80% or less of its total, and at the full rate when over 80%.",
+    "conditions": [
+      {
+        "when": "A cold prepared tray sold to go, sold by a seller whose receipts from food it prepares for immediate consumption are 80% or less of its total receipts",
+        "treatment": "special_rate",
+        "rate": 0.01225
+      },
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-110.990(3)(F), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "A convenience store sells prepared cold sub sandwiches, ice cream and cold drinks."
+      },
+      {
+        "title": "12 CSR 10-110.990(3)(F), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "The store should charge the reduced tax rate on the cold items, but should charge the regular tax rate on the hot items."
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "The store should charge the reduced tax rate on the cold items, but should charge the regular tax rate on the hot items."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term \"food\" shall not include food or drink sold by any establishment where the gross receipts derived from the sale of food prepared by such establishment for immediate consumption on or off the premises of the establishment constitutes more than eighty percent of the total gross receipts of that establishment"
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "the restaurant should charge the regular tax rate on all its food sales, including the cold salads and soft drinks."
+      },
+      {
+        "title": "12 CSR 10-110.990(2)(B)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "are 80% or less of its total gross receipts must remit tax on its qualifying food sales at a reduced state tax rate of 1.225% plus any applicable local tax."
+      }
+    ],
+    "notes": "Cold prepared food is SNAP-eligible (only hot food is excluded), so the reduced rate turned on the seller's 80% test. No rule from 2026-05-30: the amendment to 12 CSR 10-110.990 effective that day deleted the example applying the reduced rate to a convenience store's cold prepared sandwiches, and the DOR's Grocery & Convenience Stores matrix (revised 01-20-2026) lists \"Cold & frozen food items prepared by the business\" and \"Food items prepared by the business\" as Taxable (full rate), while the DOR's Sales Tax Reduction on Food page still gives the reduced-rate example and the statute (SNAP-eligible food, 80% test) is unchanged. The sources conflict, so the state part is left unanswered after 2026-05-29; local taxes apply in full either way."
+  },
+  {
+    "tax": "MO",
+    "code": "food.prepared.sandwich",
+    "from": "2001-01-30",
+    "to": "2026-05-29",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go was taxed at Missouri's reduced 1.225% state rate when the seller's prepared-food receipts were 80% or less of its total, and at the full rate when over 80%.",
+    "conditions": [
+      {
+        "when": "A cold sandwich sold to go, sold by a seller whose receipts from food it prepares for immediate consumption are 80% or less of its total receipts",
+        "treatment": "special_rate",
+        "rate": 0.01225
+      },
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-110.990(3)(F), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "A convenience store sells prepared cold sub sandwiches, ice cream and cold drinks."
+      },
+      {
+        "title": "12 CSR 10-110.990(3)(F), before the 2026 amendment",
+        "url": "https://dor.mo.gov/resources/proposed-rules/documents/P-_12_CSR_10-110_990_Proposed_Amendment.pdf",
+        "quote": "The store should charge the reduced tax rate on the cold items, but should charge the regular tax rate on the hot items."
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "The store should charge the reduced tax rate on the cold items, but should charge the regular tax rate on the hot items."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term \"food\" shall not include food or drink sold by any establishment where the gross receipts derived from the sale of food prepared by such establishment for immediate consumption on or off the premises of the establishment constitutes more than eighty percent of the total gross receipts of that establishment"
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "the restaurant should charge the regular tax rate on all its food sales, including the cold salads and soft drinks."
+      },
+      {
+        "title": "12 CSR 10-110.990(2)(B)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "are 80% or less of its total gross receipts must remit tax on its qualifying food sales at a reduced state tax rate of 1.225% plus any applicable local tax."
+      }
+    ],
+    "notes": "Cold prepared food is SNAP-eligible (only hot food is excluded), so the reduced rate turned on the seller's 80% test. No rule from 2026-05-30: the amendment to 12 CSR 10-110.990 effective that day deleted the example applying the reduced rate to a convenience store's cold prepared sandwiches, and the DOR's Grocery & Convenience Stores matrix (revised 01-20-2026) lists \"Cold & frozen food items prepared by the business\" and \"Food items prepared by the business\" as Taxable (full rate), while the DOR's Sales Tax Reduction on Food page still gives the reduced-rate example and the statute (SNAP-eligible food, 80% test) is unchanged. The sources conflict, so the state part is left unanswered after 2026-05-29; local taxes apply in full either way."
+  },
+  {
+    "tax": "MO",
+    "code": "food.soft_drink",
+    "from": "1997-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.01225,
+    "summary": "Soft drinks are SNAP-eligible food in Missouri, taxed at the reduced 1.225% state rate when sold cold by a store; local sales taxes apply in full.",
+    "conditions": [
+      {
+        "when": "Sold by an establishment whose receipts from food it prepares for immediate consumption exceed 80% of its total receipts (restaurants, fast food, cafés, delis), other than through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold hot (e.g. a hot fountain drink)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSMo 144.014.1",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
+      },
+      {
+        "title": "RSMo 144.014.2",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "the term  \"food\"  shall include only those products and types of food for which food stamps may be redeemed pursuant to the provisions of the Federal Food Stamp Program as contained in 7 U.S.C. Section 2012"
+      },
+      {
+        "title": "Missouri DOR, Grocery & Convenience Stores tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Grocery-CStores020526.pdf",
+        "quote": "Cold fountain drinks Taxable (reduced food tax rate)"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Other foods such as snack foods and non-alcoholic beverages; and"
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "The 3% reduction applies to all types of food items that may be purchased with Food Stamps"
+      },
+      {
+        "title": "12 CSR 10-110.990(1)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-110.pdf",
+        "quote": "In general, qualified sales of food by a qualified business are taxed at a reduced state rate of 1.225% plus any applicable local tax."
+      }
+    ],
+    "notes": "The reduced state rate is 1% under RSMo 144.014 plus the 0.225% constitutional conservation and parks/soils taxes, 1.225% in total (12 CSR 10-110.990(1)); the 4.225% general state rate applies otherwise. The DOR food page's fast-food example taxes cold soft drinks at the full rate at a restaurant over the 80% threshold. Missouri's SNAP restriction waiver (candy, soft drinks, energy drinks, pre-packaged desserts) was approved by USDA; DSS has reportedly moved its start from 2026-10-01 to 2027-02-15. RSMo 144.014 ties the reduced rate to items for which food stamps may be redeemed under 7 U.S.C. 2012; whether the waiver removes these items from the reduced rate is not addressed by any DOR source found. Review this rule before the waiver starts."
+  },
+  {
+    "tax": "MO",
+    "code": "goods.general",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Missouri's 4.225% state sales tax plus local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RSMo 144.020.1(1)",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.020",
+        "quote": "Upon every retail sale in this state of tangible personal property, excluding motor vehicles, trailers, motorcycles, mopeds, motortricycles, boats and outboard motors required to be titled under the laws of the state of Missouri and subject to tax under subdivision (9) of this subsection, a tax equivalent to four percent of the purchase price paid or charged"
+      },
+      {
+        "title": "12 CSR 10-103.600(1)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "In general, the sale of tangible personal property is subject to tax unless a specific statute exempts it."
+      }
+    ],
+    "notes": "2001-01-30 is the effective date of 12 CSR 10-103.600 (unamended); the tax on goods is older. The 4.225% state rate is 4% (RSMo 144.020) plus 0.225% constitutional conservation and parks/soils taxes."
+  },
+  {
+    "tax": "MO",
+    "code": "service.professional",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Missouri taxes services only where a statute says so; legal, accounting, consulting, IT, engineering, interior design and advertising agency services are not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "12 CSR 10-103.600(1)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "The sale of a service is not subject to tax unless a specific statute authorizes the taxation of the service."
+      },
+      {
+        "title": "Missouri DOR, Lawyers tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Lawyers.pdf",
+        "quote": "Legal services including advising and representing clients in court, before government agencies, and in private legal matters Exempt"
+      },
+      {
+        "title": "Missouri DOR, Accounting Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Accounting-Services.pdf",
+        "quote": "Preparation of tax returns Exempt"
+      },
+      {
+        "title": "Missouri DOR, Management Consulting Firms tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Management-Consulting-Firms.pdf",
+        "quote": "Written analysis, making PowerPoint presentations, and pitching solutions to clients Exempt"
+      },
+      {
+        "title": "Missouri DOR, Engineering Firms tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Engineering-Firms.pdf",
+        "quote": "Sales of engineering services and reports Exempt"
+      },
+      {
+        "title": "12 CSR 10-103.600(4)(G)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "Because the true object of this transaction is the architectural service, the original plans and copies prepared by the architect are not subject to tax"
+      },
+      {
+        "title": "Missouri DOR, Interior Design Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Interior-Design-Services.pdf",
+        "quote": "Design services Exempt"
+      },
+      {
+        "title": "12 CSR 10-103.610(3)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "Sales of advertising by exempt businesses are not subject to tax."
+      },
+      {
+        "title": "12 CSR 10-103.610(2)(D)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-103.pdf",
+        "quote": "Exempt business—advertising agency, broadcast station, legal newspaper pursuant to Chapter 493, RSMo, or standardized outdoor billboard company exempt from the sales tax law pursuant to section 144.034, RSMo."
+      }
+    ],
+    "notes": "2001-01-30 is the effective date of 12 CSR 10-103.600; the matrices date from 2022-2023. Goods sold with a service are taxable when the true object is the goods or when separately stated (e.g. furnishings sold by an interior designer, specialty advertising items, final art sold by a non-agency). IT services have no matrix read here; they fall under the general rule (management consulting matrix lists technology implementation as exempt)."
+  },
+  {
+    "tax": "MO",
+    "code": "software.custom.development",
+    "from": "2014-07-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software developed to a customer's special order is a nontaxable service in Missouri.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "12 CSR 10-109.050(3)(C)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "Tax does not apply to the amount charged to the customer for customized software."
+      },
+      {
+        "title": "12 CSR 10-109.050(4)(C)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "The amount charged for the custom software is not subject to tax."
+      }
+    ]
+  },
+  {
+    "tax": "MO",
+    "code": "software.custom.modification",
+    "from": "2014-07-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Missouri, programming that adapts canned software to a customer's equipment or processes is taxable as part of the software sale, while separately stated new interfaces or custom reports are not.",
+    "conditions": [
+      {
+        "when": "Changes adapting the canned software to the customer's equipment or business processes, as part of a taxable canned-software sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "New interfaces with other software or custom reports not provided by the canned software, separately stated",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-109.050(3)(D)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "Programming changes to canned software to adapt it to a customer’s equipment or business processes are in the nature of fabrication or production labor that are a part of the sale and are taxable."
+      },
+      {
+        "title": "12 CSR 10-109.050(4)(F)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "The services of creating the interfaces with other software and custom reports not provided by the canned software are not subject to tax if separately stated."
+      }
+    ],
+    "notes": "How adaptation of canned software that was itself downloaded (not taxable) is treated is not addressed by the rule."
+  },
+  {
+    "tax": "MO",
+    "code": "software.prewritten",
+    "from": "2014-07-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Canned software is taxable in Missouri when delivered on a tangible medium and not taxable when delivered by electronic download.",
+    "conditions": [
+      {
+        "when": "Delivered on a tangible medium (disk, CD-ROM, tape), including license fees and mandatory maintenance tied to it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered only by electronic download",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "12 CSR 10-109.050(3)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "Tax applies to the sale of canned software delivered in a tangible medium to the purchaser."
+      },
+      {
+        "title": "12 CSR 10-109.050(4)(A)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "The sale of video games on disk is subject to tax. The sale of video games by electronic download is not subject to tax."
+      }
+    ],
+    "notes": "Additional user licenses sold later with no further tangible transfer are not taxable (12 CSR 10-109.050(3)(G))."
+  },
+  {
+    "tax": "MO",
+    "code": "software.saas",
+    "from": "2014-07-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software as a service is not subject to Missouri sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "12 CSR 10-109.050(3)(I)",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "The sale of software as a service is not subject to tax."
+      },
+      {
+        "title": "12 CSR 10-109.050, history",
+        "url": "https://www.sos.mo.gov/cmsimages/adrules/csr/current/12csr/12c10-109.pdf",
+        "quote": "2014, effective July 30, 2014."
+      }
+    ],
+    "notes": "2014-07-30 is the effective date of the amendment that added the SaaS provision."
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.candy",
+    "from": "1997-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to candy.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      },
+      {
+        "title": "RSMo 144.014.1",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.grocery",
+    "from": "1997-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to food, including groceries taxed at the reduced state rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      },
+      {
+        "title": "RSMo 144.014.1",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
+      }
+    ],
+    "notes": "RSMo 144.014 reduces only the tax levied under chapter 144 (the state tax); the DOR states local taxes continue to apply to all food."
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.bakery",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to bakery items.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.cold",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to cold prepared food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to restaurant food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.dine_in",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to food served for dining in.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.hot",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to hot prepared food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.platter",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to cold prepared food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.prepared.sandwich",
+    "from": "2001-01-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to cold prepared food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      }
+    ]
+  },
+  {
+    "tax": "MO:local",
+    "code": "food.soft_drink",
+    "from": "1997-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Missouri's local sales taxes apply at their full rates to soft drinks.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Reduction on Food",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/reduction-on-food.html",
+        "quote": "All local sales taxes continue to apply to all food and beverage sales."
+      },
+      {
+        "title": "RSMo 144.014.1",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.014",
+        "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
+      }
+    ]
+  }
+]

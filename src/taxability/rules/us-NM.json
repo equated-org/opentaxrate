@@ -1,0 +1,1084 @@
+[
+  {
+    "tax": "NM",
+    "code": "construction.real_property",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Construction, remodeling and repair of real property sold to the owner are services subject to gross receipts tax, materials included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-3(S), definition of service",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"Service\" includes construction activities and all tangible personal property that will become an ingredient or component part of a construction project."
+      },
+      {
+        "title": "NM TRD FYI-105 (08/11/2025), What is the gross receipts tax?",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Service includes construction activities and all construction materials that will become part of the construction project."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-3.5(A)(1), definition of gross receipts (NMOneSource, Chapter 7)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"gross receipts\" means the total amount of money or the value of other consideration received from selling property in New Mexico, from leasing or licensing property employed in New Mexico, from granting a right to use a franchise employed in New Mexico, from selling services performed outside New Mexico, the product of which is initially used in New Mexico, or from performing services in New Mexico."
+      }
+    ],
+    "notes": "Improvement and repair are treated alike. Sales of materials and subcontracting services to a contractor are deductible with a nontaxable transaction certificate (7-9-51, 7-9-52), which is a sale to another contractor, outside this code. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "delivery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge is part of its gross receipts and taxable, even when the goods delivered are deductible groceries.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "3.2.1.15(C)(1) NMAC, Gross receipts; tangible personal property: delivery expenses",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts from charges by a seller of tangible personal property for delivery costs, including postage and transportation charges, paid by the seller and passed on to the buyer, are an element of the sales price of the property."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "However, the service fee for the delivery of the groceries is not eligible for this deduction and gross receipts tax is due."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 3",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "The retail food store is subject to the gross receipts tax on receipts from selling the service of delivery."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      }
+    ],
+    "notes": "Both subcodes are treated alike: FYI-201 says the retail food store's delivery fee is not covered by the food deduction, before and after July 1, 2021. 3.2.1.15 NMAC was replaced 10/13/2021; the earlier text was not read. Transportation paid by the buyer directly to a carrier is not the seller's receipt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: Candy sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "“staple foods” do not include accessory food items, such as coffee, tea, cocoa, carbonated and uncarbonated drinks, candy, condiments, and spices."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Candy is SNAP-eligible food (it is not among SNAP's excluded items: alcohol, tobacco, hot foods); FYI-201 lists it as an accessory food that does not count toward the store's staple-food test. A 2017 bill (SB 416) to exclude candy and sweetened drinks from the deduction is not reflected in the current statute."
+  },
+  {
+    "tax": "NM",
+    "code": "food.candy",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Candy sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "“staple foods” do not include accessory food items, such as coffee, tea, cocoa, carbonated and uncarbonated drinks, candy, condiments, and spices."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Candy is SNAP-eligible food (it is not among SNAP's excluded items: alcohol, tobacco, hot foods); FYI-201 lists it as an accessory food that does not count toward the store's staple-food test. A 2017 bill (SB 416) to exclude candy and sweetened drinks from the deduction is not reflected in the current statute."
+  },
+  {
+    "tax": "NM",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's receipts for food, service, staff and setup at the customer's event are gross receipts subject to tax.",
+    "conditions": [
+      {
+        "when": "A gratuity left voluntarily by the customer, or an added 'tip' the customer may decline that is passed entirely to staff",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-3.5(A)(1), definition of gross receipts (NMOneSource, Chapter 7)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"gross receipts\" means the total amount of money or the value of other consideration received from selling property in New Mexico, from leasing or licensing property employed in New Mexico, from granting a right to use a franchise employed in New Mexico, from selling services performed outside New Mexico, the product of which is initially used in New Mexico, or from performing services in New Mexico."
+      },
+      {
+        "title": "3.2.1.18(A) NMAC, Gross receipts: services generally",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts derived from performing a service in New Mexico or performing a service outside New Mexico the product of which is initially used in New Mexico are subject to the gross receipts tax unless a specific exemption or deduction provided for in the Gross Receipts and Compensating Tax Act applies."
+      },
+      {
+        "title": "3.2.1.18(I)(1) NMAC, Service charges; tips",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "receipts of hotels, motels, guest lodges, restaurants and other similar establishments from amounts determined by and added to the customer's bill by the establishment for employee services, whether or not such amounts are separately stated on the customer's bill, are gross receipts of the establishment."
+      }
+    ],
+    "notes": "No NM source addresses catering by name; the treatment follows from gross receipts covering both property sold and services performed, and 3.2.1.18(I) NMAC on charges added to the bill. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: Unprepared food sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.grocery",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Unprepared food sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: Bakery items sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Bakery items are SNAP-eligible (breads and cereals are a staple food category); a stand-alone bakery or café qualifies only if it meets the SNAP retail food store definition, and items eaten on the premises are excluded."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.bakery",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Bakery items are SNAP-eligible (breads and cereals are a staple food category); a stand-alone bakery or café qualifies only if it meets the SNAP retail food store definition, and items eaten on the premises are excluded."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: Cold prepared food sold to go by a food store sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, packaged for home consumption, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. A deli or specialty food store qualifies only if it meets the SNAP retail food store definition (staple-food variety or more than 50% staple-food sales)."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.cold",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared food sold to go by a food store sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, packaged for home consumption, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. A deli or specialty food store qualifies only if it meets the SNAP retail food store definition (staple-food variety or more than 50% staple-food sales)."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food sold to go by a restaurant or café is subject to gross receipts tax; restaurant food is excluded from the food deduction.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Restaurant food;"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-3.5(A)(1), definition of gross receipts (NMOneSource, Chapter 7)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"gross receipts\" means the total amount of money or the value of other consideration received from selling property in New Mexico, from leasing or licensing property employed in New Mexico, from granting a right to use a franchise employed in New Mexico, from selling services performed outside New Mexico, the product of which is initially used in New Mexico, or from performing services in New Mexico."
+      }
+    ],
+    "notes": "If the seller itself meets the SNAP retail food store definition (e.g. a grocery store's own counter), see food.prepared.cold instead. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating on the seller's premises is subject to gross receipts tax; it is not food for home consumption and is excluded from the food deduction.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food eaten in the store;"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Restaurant food;"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-3.5(A)(1), definition of gross receipts (NMOneSource, Chapter 7)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"gross receipts\" means the total amount of money or the value of other consideration received from selling property in New Mexico, from leasing or licensing property employed in New Mexico, from granting a right to use a franchise employed in New Mexico, from selling services performed outside New Mexico, the product of which is initially used in New Mexico, or from performing services in New Mexico."
+      }
+    ],
+    "notes": "fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot prepared food is subject to gross receipts tax; it is excluded from the retail food store deduction.",
+    "conditions": [
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NM TRD FYI-105 (08/11/2025), Food Deduction",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Exception: sales of alcoholic beverages, tobacco and prepared hot foods for immediate consumption are not deductible."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Hot food: for instance, delicatessen items and items from in-store snack bars (foods that are hot at the point of sale)."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      }
+    ],
+    "notes": "fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: A cold party platter sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Applies to cold platters; a platter sold hot is hot food and taxable. Caterers and restaurants are not retail food stores."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.platter",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold party platter sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Applies to cold platters; a platter sold hot is hot food and taxable. Caterers and restaurants are not retail food stores."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: A cold sandwich sold to go sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, packaged to go, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Restaurant food;"
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. A cold sandwich is SNAP-eligible; it qualifies only when the seller is a retail food store (e.g. a supermarket deli), not a restaurant or sandwich shop."
+  },
+  {
+    "tax": "NM",
+    "code": "food.prepared.sandwich",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, packaged to go, by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Restaurant food;"
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. A cold sandwich is SNAP-eligible; it qualifies only when the seller is a retail food store (e.g. a supermarket deli), not a restaurant or sandwich shop."
+  },
+  {
+    "tax": "NM",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: Soft drinks sold at a retail food store was deductible from gross receipts; sold elsewhere, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "“staple foods” do not include accessory food items, such as coffee, tea, cocoa, carbonated and uncarbonated drinks, candy, condiments, and spices."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Soft drinks are SNAP-eligible food (not among SNAP's excluded items); FYI-201 lists carbonated and uncarbonated drinks as accessory foods that don't count toward the store's staple-food test. A 2017 bill (SB 416) to exclude them is not reflected in the current statute."
+  },
+  {
+    "tax": "NM",
+    "code": "food.soft_drink",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Soft drinks sold by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "“staple foods” do not include accessory food items, such as coffee, tea, cocoa, carbonated and uncarbonated drinks, candy, condiments, and spices."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. Soft drinks are SNAP-eligible food (not among SNAP's excluded items); FYI-201 lists carbonated and uncarbonated drinks as accessory foods that don't count toward the store's staple-food test. A 2017 bill (SB 416) to exclude them is not reflected in the current statute."
+  },
+  {
+    "tax": "NM",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Receipts from selling tangible goods in New Mexico are subject to the state and local gross receipts tax.",
+    "conditions": [
+      {
+        "when": "A desktop, laptop or notebook computer priced up to $1,000, or a monitor, speaker, printer, keyboard, microphone or mouse up to $500, or classroom school supplies, sold during the annual three-day holiday (from the first Friday in August before July 1, 2025; from the last Friday in July since) (NMSA 7-9-95)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-3.5(A)(1), definition of gross receipts (NMOneSource, Chapter 7)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"gross receipts\" means the total amount of money or the value of other consideration received from selling property in New Mexico, from leasing or licensing property employed in New Mexico, from granting a right to use a franchise employed in New Mexico, from selling services performed outside New Mexico, the product of which is initially used in New Mexico, or from performing services in New Mexico."
+      },
+      {
+        "title": "NM TRD FYI-105, Gross Receipts & Compensating Taxes: An Overview (08/11/2025), What is the gross receipts tax?",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Sell property in New Mexico;"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-95, back-to-school holiday deduction",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale at retail of the following types of tangible personal property may be deducted if the sale of the property occurs during the period beginning at 12:01 a.m. on the last Friday in July and ending at midnight on the following Sunday:"
+      }
+    ],
+    "notes": "fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Legal, accounting, consulting, IT, engineering, design and advertising services performed in New Mexico are subject to gross receipts tax.",
+    "conditions": [
+      {
+        "when": "Professional services (accounting, architectural, engineering, IT, legal) sold to a manufacturer that gives a nontaxable transaction certificate, related to its manufactured product (NMSA 7-9-46.1, from July 1, 2022)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-3.5(A)(1), definition of gross receipts (NMOneSource, Chapter 7)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"gross receipts\" means the total amount of money or the value of other consideration received from selling property in New Mexico, from leasing or licensing property employed in New Mexico, from granting a right to use a franchise employed in New Mexico, from selling services performed outside New Mexico, the product of which is initially used in New Mexico, or from performing services in New Mexico."
+      },
+      {
+        "title": "NM TRD FYI-105, Gross Receipts & Compensating Taxes: An Overview (08/11/2025), What is the gross receipts tax?",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Perform services in New Mexico;"
+      },
+      {
+        "title": "3.2.1.18(A) NMAC, Gross receipts: services generally",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts derived from performing a service in New Mexico or performing a service outside New Mexico the product of which is initially used in New Mexico are subject to the gross receipts tax unless a specific exemption or deduction provided for in the Gross Receipts and Compensating Tax Act applies."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-55(C), transactions in interstate commerce",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Commissions of advertising agencies from performing services in this state may not be deducted from gross receipts under this section."
+      },
+      {
+        "title": "3.2.1.18(F) NMAC, Advertising services",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "The service of advertising is performed and initially used at the location of the intended recipient or viewer regardless of where related services may be performed or the location of the advertiser who purchases the advertising services."
+      }
+    ],
+    "notes": "Every subcode is treated alike. Advertising: 7-9-55(C) deducts broadcast time sold to national/regional advertisers, but agency commissions stay taxable; 7-9-63/7-9-64 deduct newspaper publishing except advertising space. Deductions turning on the buyer (7-9-46.1, professional services to manufacturers) or on where the product is initially used (7-9-57, out-of-state buyers) are the caller's. Destination sourcing from July 1, 2021 is a sourcing change, not a taxability change. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Developing or modifying software for a customer is a service subject to gross receipts tax.",
+    "conditions": [
+      {
+        "when": "Seller is an eligible software development company (established after the deduction's 2002 enactment, located only outside municipalities over 50,000 people) and the custom software or website design and development is performed there (NMSA 7-9-57.2)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "3.2.1.18(M)(1) NMAC, Custom software",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts derived by a person from developing custom software are receipts from performing a service."
+      },
+      {
+        "title": "3.2.1.7(G)(2) NMAC, Computer-related terms: custom software",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "\"Custom software\" includes the modification of existing computer programming."
+      },
+      {
+        "title": "3.2.1.18(A) NMAC, Gross receipts: services generally",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts derived from performing a service in New Mexico or performing a service outside New Mexico the product of which is initially used in New Mexico are subject to the gross receipts tax unless a specific exemption or deduction provided for in the Gross Receipts and Compensating Tax Act applies."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-57.2(A), deduction for sale of software development services",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "To stimulate new business development, the receipts of an eligible software development company from the sale of software development services that are performed in a qualified area may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-57.2(B)(3)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"software development services\" means custom software design and development and web site design and development but does not include software implementation or support services."
+      }
+    ],
+    "notes": "The 7-9-57.2 deduction turns on the seller's location and history, which no code carries; most sellers don't qualify. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sales and licenses of prewritten software, on media or downloaded, are sales of property subject to gross receipts tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "3.2.1.14(B) NMAC, Sale of license to use software is sale of property",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "The sale of a license to use software constitutes a sale of property and comes within the definition of gross receipts."
+      },
+      {
+        "title": "3.2.1.15(J) NMAC, Packaged software",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "The transaction constitutes a sale of tangible personal property or a digital good, as defined by 3.2.1.7 NMAC when a person sells a packaged software where:"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-3(C), definition of digital good",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"digital good\" means a digital product delivered electronically, including software, music, photography, video, reading material, an application and a ringtone;"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-3(P)(3), definition of property",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "licenses, including licenses of digital goods, but not including the licenses of copyrights, trademarks or patents; and"
+      }
+    ],
+    "notes": "fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Charges for remote access to software are gross receipts: whether treated as a license of a digital good or as a service, they are subject to gross receipts tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-3(C), definition of digital good",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"digital good\" means a digital product delivered electronically, including software, music, photography, video, reading material, an application and a ringtone;"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-3(P)(3), definition of property",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "licenses, including licenses of digital goods, but not including the licenses of copyrights, trademarks or patents; and"
+      },
+      {
+        "title": "3.2.1.18(K) NMAC, Data access charges",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts from fees or charges made in connection with property owned, leased or provided by the person providing the service are subject to the gross receipts tax when the information or data accessed is utilized in this state."
+      },
+      {
+        "title": "3.2.1.18(A) NMAC, Gross receipts: services generally",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts derived from performing a service in New Mexico or performing a service outside New Mexico the product of which is initially used in New Mexico are subject to the gross receipts tax unless a specific exemption or deduction provided for in the Gross Receipts and Compensating Tax Act applies."
+      }
+    ],
+    "notes": "No NM statute, regulation or FYI found that names SaaS; taxable either as a license to use property (7-9-3) or as a service (3.2.1.18 NMAC), both within gross receipts. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  }
+]

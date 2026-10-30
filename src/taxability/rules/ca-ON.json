@@ -1,7 +1,124 @@
 [
   {
     "tax": "ON/CA:HST",
-    "code": "goods.general",
+    "code": "construction.real_property",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.candy",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Candy carries the full 13% HST, except when sold for a single price with qualifying prepared food or a beverage (a combo) totalling $4.00 or less, when the 8% provincial part is rebated.",
+    "conditions": [
+      {
+        "when": "sold with a qualifying prepared food or beverage for a single consideration, the qualifying items totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "sold on its own, or the qualifying items total more than $4.00",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "other snack foods such as chips, salted nuts, popcorn, candies, fruit bars, granola bars."
+      }
+    ],
+    "notes": "Turns on what else is in the sale and its total. The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.candy",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "During the temporary GST/HST break, Ontario's HST followed the federal relief, under which this code was zero-rated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "There was a temporary GST/HST break on certain items from December 14, 2024, to February 15, 2025."
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.candy",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "After the temporary break ended, candy again carries the full 13% HST, except in a combo with qualifying prepared food or a beverage totalling $4.00 or less.",
+    "conditions": [
+      {
+        "when": "sold with a qualifying prepared food or beverage for a single consideration, the qualifying items totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "sold on its own, or the qualifying items total more than $4.00",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "other snack foods such as chips, salted nuts, popcorn, candies, fruit bars, granola bars."
+      }
+    ],
+    "notes": "Turns on what else is in the sale and its total."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.catering",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
     "treatment": "follows",
@@ -44,7 +161,7 @@
     "conditions": [
       {
         "when": "qualifying prepared food and beverages (e.g. heated food, fresh sandwiches and salads, dispensed beverages, single servings of baked goods) totalling $4.00 or less before HST, sold to a person at one time",
-        "treatment": "taxable",
+        "treatment": "special_rate",
         "rate": 0.05
       },
       {
@@ -104,7 +221,7 @@
     "conditions": [
       {
         "when": "qualifying prepared food and beverages totalling $4.00 or less before HST, sold to a person at one time",
-        "treatment": "taxable",
+        "treatment": "special_rate",
         "rate": 0.05
       },
       {
@@ -138,41 +255,337 @@
   },
   {
     "tax": "ON/CA:HST",
-    "code": "food.catering",
+    "code": "food.prepared.bakery",
     "from": "2013-04-01",
+    "to": "2024-12-13",
     "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are zero-rated except single-serving sweet goods in quantities under six or heated items, which carry the 13% HST with the 8% provincial part rebated when the qualifying items total $4.00 or less.",
+    "conditions": [
+      {
+        "when": "single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants) not prepackaged and sold in quantities under six, or a bakery item heated for consumption, with qualifying items totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "such items with qualifying items totalling more than $4.00, or prepackaged single servings in quantities under six sold without a qualifying food or beverage",
+        "treatment": "taxable"
+      },
+      {
+        "when": "bread products without sweet filling or coating, whole cakes and pies, or single-serving sweet goods in quantities of six or more (zero-rated federally)",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "where they are not prepackaged for sale to consumers and are sold as single servings in quantities of less than six;"
+      }
+    ],
+    "notes": "Turns on quantity, packaging and the sale's total, which the code doesn't carry. Prepackaged single servings in quantities under six qualify only when sold with a qualifying item for a single consideration (GI-064). The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated during the temporary GST/HST break) applies."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared.bakery",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items are zero-rated except single-serving sweet goods in quantities under six or heated items, which carry the 13% HST with the 8% provincial part rebated when the qualifying items total $4.00 or less.",
+    "conditions": [
+      {
+        "when": "single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants) not prepackaged and sold in quantities under six, or a bakery item heated for consumption, with qualifying items totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "such items with qualifying items totalling more than $4.00, or prepackaged single servings in quantities under six sold without a qualifying food or beverage",
+        "treatment": "taxable"
+      },
+      {
+        "when": "bread products without sweet filling or coating, whole cakes and pies, or single-serving sweet goods in quantities of six or more (zero-rated federally)",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "where they are not prepackaged for sale to consumers and are sold as single servings in quantities of less than six;"
+      }
+    ],
+    "notes": "Turns on quantity, packaging and the sale's total, which the code doesn't carry. Prepackaged single servings in quantities under six qualify only when sold with a qualifying item for a single consideration (GI-064). Starts the day after the temporary GST/HST break ended."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared.cold",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "From a grocery or deli, salads and platters carry the 13% HST, with the 8% provincial part rebated at the till when the qualifying items total $4.00 or less; other cold food the seller prepared stays zero-rated as basic groceries.",
+    "conditions": [
+      {
+        "when": "a salad not canned or vacuum sealed, or a platter or other arrangement of prepared food, with qualifying items in the sale totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "a salad or platter, with qualifying items totalling more than $4.00",
+        "treatment": "taxable"
+      },
+      {
+        "when": "other unheated food the seller prepared (e.g. a cold cooked chicken, deli meats or cheese by weight), zero-rated federally",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "salads not canned or vacuum sealed;"
+      }
+    ],
+    "notes": "Turns on the kind of item and the sale's total, which the code doesn't carry. The zero-rated branch follows the federal base (CA:GST/HST food.prepared.cold). The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated during the temporary GST/HST break) applies."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared.cold",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From a grocery or deli, salads and platters carry the 13% HST, with the 8% provincial part rebated at the till when the qualifying items total $4.00 or less; other cold food the seller prepared stays zero-rated as basic groceries.",
+    "conditions": [
+      {
+        "when": "a salad not canned or vacuum sealed, or a platter or other arrangement of prepared food, with qualifying items in the sale totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "a salad or platter, with qualifying items totalling more than $4.00",
+        "treatment": "taxable"
+      },
+      {
+        "when": "other unheated food the seller prepared (e.g. a cold cooked chicken, deli meats or cheese by weight), zero-rated federally",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "salads not canned or vacuum sealed;"
+      }
+    ],
+    "notes": "Turns on the kind of item and the sale's total, which the code doesn't carry. The zero-rated branch follows the federal base (CA:GST/HST food.prepared.cold). Starts the day after the temporary GST/HST break ended."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared.dine_in",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food served for eating on the premises carries the 13% HST where the federal base taxes it, with the 8% provincial part rebated at the till on qualifying food and drink totalling $4.00 or less; a basic-grocery item eaten at a store that isn't a restaurant-type establishment stays zero-rated.",
+    "conditions": [
+      {
+        "when": "taxable federally (a restaurant-type establishment, or a heated, sandwich, salad, platter or dispensed-beverage item) and the qualifying prepared food and beverages in the sale total $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "taxable federally and the qualifying items total more than $4.00, or the item doesn't qualify for the rebate (alcoholic beverages, snack foods sold alone)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "the seller is not a restaurant-type establishment and the item is otherwise a basic grocery",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "other food items excluded from zero-rated GST/HST treatment as basic groceries solely by virtue of the types of sales made at the establishment where they are sold"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The rebate is available regardless of whether the qualifying prepared food and beverages are consumed on or off the premises of the establishment where sold."
+      }
+    ],
+    "notes": "Turns on the sale's total and the seller's sales mix (the federal 90% establishment test), which the code doesn't carry. The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated during the temporary GST/HST break) applies."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.prepared.dine_in",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food served for eating on the premises carries the 13% HST where the federal base taxes it, with the 8% provincial part rebated at the till on qualifying food and drink totalling $4.00 or less; a basic-grocery item eaten at a store that isn't a restaurant-type establishment stays zero-rated.",
+    "conditions": [
+      {
+        "when": "taxable federally (a restaurant-type establishment, or a heated, sandwich, salad, platter or dispensed-beverage item) and the qualifying prepared food and beverages in the sale total $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "taxable federally and the qualifying items total more than $4.00, or the item doesn't qualify for the rebate (alcoholic beverages, snack foods sold alone)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "the seller is not a restaurant-type establishment and the item is otherwise a basic grocery",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "other food items excluded from zero-rated GST/HST treatment as basic groceries solely by virtue of the types of sales made at the establishment where they are sold"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The rebate is available regardless of whether the qualifying prepared food and beverages are consumed on or off the premises of the establishment where sold."
+      }
+    ],
+    "notes": "Turns on the sale's total and the seller's sales mix (the federal 90% establishment test), which the code doesn't carry. Starts the day after the temporary GST/HST break ended."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.soft_drink",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks carry the 13% HST where the federal base taxes them; the 8% provincial part is rebated on a non-carbonated drink dispensed where sold, or on a soda dispensed or in a single-serving container sold with qualifying prepared food, when the qualifying items total $4.00 or less.",
+    "conditions": [
+      {
+        "when": "a non-carbonated beverage dispensed where sold, or a carbonated beverage dispensed or in a single-serving container sold together with a qualifying prepared food or beverage, with qualifying items totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "taxable federally (carbonated, low-juice fruit-flavoured, or a single serving) and sold on its own, or the qualifying items total more than $4.00",
+        "treatment": "taxable"
+      },
+      {
+        "when": "a non-carbonated, non-fruit-flavoured sweetened beverage in a multipack or a container holding more than a single serving (zero-rated federally)",
+        "treatment": "zero_rated"
+      }
+    ],
+    "citations": [
+      {
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "non-carbonated beverages when dispensed at the place where they are sold;"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "carbonated beverages dispensed at the place where they are sold, other beverages (including carbonated beverages not dispensed) except if the cans, bottles or other primary containers in which they are sold contain a quantity exceeding a single serving"
+      }
+    ],
+    "notes": "Turns on carbonation, container, what else is in the sale and its total. GI-064 defines a single serving of a beverage as under 600 mL. The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "food.soft_drink",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
     "treatment": "follows",
     "follows": "CA:GST/HST",
-    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "summary": "During the temporary GST/HST break, Ontario's HST followed the federal relief, under which this code was zero-rated.",
     "conditions": [],
     "citations": [
       {
-        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
-        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
-        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "There was a temporary GST/HST break on certain items from December 14, 2024, to February 15, 2025."
       }
     ]
   },
   {
     "tax": "ON/CA:HST",
-    "code": "software.saas",
-    "from": "2013-04-01",
-    "fromIs": "earliest_verified",
-    "treatment": "follows",
-    "follows": "CA:GST/HST",
-    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
-    "conditions": [],
+    "code": "food.soft_drink",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "After the temporary break ended, soft drinks again carry the 13% HST where the federal base taxes them, with the provincial part rebated on dispensed or combo drinks in sales of qualifying items totalling $4.00 or less.",
+    "conditions": [
+      {
+        "when": "a non-carbonated beverage dispensed where sold, or a carbonated beverage dispensed or in a single-serving container sold together with a qualifying prepared food or beverage, with qualifying items totalling $4.00 or less before HST",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "taxable federally (carbonated, low-juice fruit-flavoured, or a single serving) and sold on its own, or the qualifying items total more than $4.00",
+        "treatment": "taxable"
+      },
+      {
+        "when": "a non-carbonated, non-fruit-flavoured sweetened beverage in a multipack or a container holding more than a single serving (zero-rated federally)",
+        "treatment": "zero_rated"
+      }
+    ],
     "citations": [
       {
-        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
-        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
-        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+        "title": "GST/HST Info Sheet GI-064, Ontario point-of-sale rebate on prepared food and beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The total price, excluding HST, must not be more than $4 for all qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "non-carbonated beverages when dispensed at the place where they are sold;"
+      },
+      {
+        "title": "Ontario Ministry of Finance, HST: Ontario point-of-sale rebates (updated March 19, 2025)",
+        "url": "https://www.ontario.ca/document/harmonized-sales-tax-hst/hst-ontario-point-sale-rebates",
+        "quote": "Qualifying prepared food and beverages that are ready for immediate consumption"
       }
-    ]
+    ],
+    "notes": "Turns on carbonation, container, what else is in the sale and its total."
   },
   {
     "tax": "ON/CA:HST",
-    "code": "software.custom",
+    "code": "goods.general",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
     "treatment": "follows",
@@ -206,7 +619,7 @@
   },
   {
     "tax": "ON/CA:HST",
-    "code": "construction.real_property",
+    "code": "software.custom",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
     "treatment": "follows",
@@ -223,7 +636,24 @@
   },
   {
     "tax": "ON/CA:HST",
-    "code": "delivery",
+    "code": "software.prewritten",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "software.saas",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
     "treatment": "follows",

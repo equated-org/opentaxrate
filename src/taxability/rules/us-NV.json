@@ -1,0 +1,900 @@
+[
+ {
+  "tax": "NV",
+  "code": "construction.real_property",
+  "from": "1979-12-20",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "A construction contractor who improves or repairs real property is the consumer of its materials and pays tax on them; its charge to the owner is not taxed in Nevada.",
+  "conditions": [
+   {
+    "when": "Repair of tangible personal property that is not part of the real property (e.g. an appliance) under NAC 372.390: parts taxed, labor exempt only if separately stated",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NAC 372.190(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "means a contract for erecting, constructing or affixing a structure or other improvement on or to real property, or the remodeling, altering or adding to or repairing of an improvement to real property."
+   },
+   {
+    "title": "NAC 372.200(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A construction contractor is the consumer of all the tangible personal property purchased for use in improving real property pursuant to a construction contract for improvement to real property and the tax applies to the total sales price of the property to the contractor."
+   },
+   {
+    "title": "Nevada Department of Taxation, Consumer Use Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/consumer-use-tax-faqs/",
+    "quote": "construction contractors are considered the end consumers of all materials used in their construction projects, even when working for an exempt entity."
+   },
+   {
+    "title": "NAC 372.200, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Combined Sales and Use Tax Ruling part No. 67, eff. 1-13-72; A 12-20-79]"
+   }
+  ],
+  "notes": "Improvement and repair under a construction contract are treated alike (NAC 372.200(4)), so one rule covers both subcodes. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "delivery.exempt_goods",
+  "from": "2009-05-22",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "A delivery charge for exempt goods, such as groceries, is not taxed in Nevada: tax applies only to the share of delivery charges allocated to taxable property.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "NRS 360B.255(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Shall not apply the tax to the percentage of the delivery charges allocated to the exempt property."
+   },
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "Since May 22, 2009, delivery charges, including freight and transportation costs, associated with the sale of tangible personal property, are not taxable if they are listed separately on the invoice to the end user, according to AB403."
+   }
+  ],
+  "notes": "NRS 360B.255 speaks of shipments with both taxable and exempt property; for an all-exempt shipment the allocated taxable share is nil. Whether a separately stated handling charge on an all-exempt shipment is taxed is not addressed. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "delivery.taxable_goods",
+  "from": "2009-05-22",
+  "fromIs": "effective",
+  "treatment": "conditional",
+  "summary": "A separately stated transportation, shipping or postage charge for taxable goods is not taxed in Nevada; handling, crating or packing charges are taxed even if separately stated.",
+  "conditions": [
+   {
+    "when": "The charge is only for transportation, shipping or postage",
+    "treatment": "exempt"
+   },
+   {
+    "when": "The charge is, or includes, handling, packaging, crating or packing (e.g. 'shipping and handling')",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "Since May 22, 2009, delivery charges, including freight and transportation costs, associated with the sale of tangible personal property, are not taxable if they are listed separately on the invoice to the end user, according to AB403."
+   },
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "However, any handling, packaging, crating, or other services related to delivery are taxable, even if separately stated."
+   },
+   {
+    "title": "NAC 372.101(1)(b)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Handling, crating or packing, whether or not separately stated."
+   }
+  ],
+  "notes": "Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.candy",
+  "from": "1979-07-01",
+  "fromIs": "effective",
+  "treatment": "exempt",
+  "summary": "Candy is food for human consumption in Nevada; the exemption's exclusions don't name candy, so it is exempt from state and local sales tax.",
+  "conditions": [
+   {
+    "when": "Candy the seller heats, combines, or sells with eating utensils it provides is prepared food intended for immediate consumption",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "NRS 372.284(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "Prepared food intended for immediate consumption."
+   },
+   {
+    "title": "NRS 372.284, history note",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "adopted by the people at a special election on June 5, 1979, effective July 1, 1979."
+   },
+   {
+    "title": "NAC 372.607(1)(b)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Dividing the amount calculated pursuant to paragraph (a) by the total dollar value of all retail sales of food by the seller, including, without limitation, prepared food, candy, soft drinks and dietary supplements."
+   }
+  ],
+  "notes": "NRS 372.284(2) lists the only exclusions (alcoholic beverages, pet foods, tonics and vitamins, prepared food); NAC 372.607 counts candy and soft drinks as food. No Department page saying 'candy is exempt' in so many words was found. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.catering",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Catered food is prepared food, and the caterer's setup, cleanup, carving and mandatory gratuity charges are part of the taxable sale in Nevada.",
+  "conditions": [
+   {
+    "when": "A mandatory gratuity passed in full to the employees, a voluntary tip, or a room rental charge",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "When they are prepared food intended for immediate consumption – Yes!"
+   },
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "Catering and Banquets Service as part of the sale is considered taxable"
+   },
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "Note: non-taxable if the entire amount is passed on to the employees"
+   },
+   {
+    "title": "NRS 360B.480(1)(c)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Any charges by the seller for any services necessary to complete the sale,"
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   }
+  ],
+  "notes": "The Department's statement is a training presentation (uploaded 2024-03), not a regulation; 2009-11-25 rests on NAC 372.605. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.grocery",
+  "from": "1979-07-01",
+  "fromIs": "effective",
+  "treatment": "exempt",
+  "summary": "Food for human consumption (unprepared groceries) is exempt from Nevada state and local sales tax under the state constitution and statute.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "NRS 372.284(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "Prepared food intended for immediate consumption."
+   },
+   {
+    "title": "NRS 372.284, history note",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "adopted by the people at a special election on June 5, 1979, effective July 1, 1979."
+   },
+   {
+    "title": "NRS 374.289(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-374.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "Non-taxable items include unprepared food"
+   }
+  ],
+  "notes": "Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts. The exemption is constitutional (Nev. Const. art. 10, sec. 3A), adopted by voters in 1979."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.bakery",
+  "from": "2009-11-25",
+  "to": "2020-06-07",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Bakery items sold without eating utensils provided by the seller are not prepared food intended for immediate consumption, so they are exempt in Nevada.",
+  "conditions": [
+   {
+    "when": "Sold with eating utensils the seller provides (plate, fork, napkin)",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NAC 372.605(1)(b)(2)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, Danish pastries, cakes, tortes, pies, tarts, muffins, bars, cookies and tortillas."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   },
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   }
+  ],
+  "notes": "Text of NAC 372.605(1)(b)(2) read in its current form and in R056-18's amended section (where it is existing, not new, matter); 2009-11-25 is the earliest amendment taken as read. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.bakery",
+  "from": "2020-06-08",
+  "fromIs": "effective",
+  "treatment": "conditional",
+  "summary": "Bakery items sold without utensils are exempt in Nevada, unless the seller's prepared-food sales exceed 75% and it makes utensils available, when they are deemed sold with utensils and taxable.",
+  "conditions": [
+   {
+    "when": "The seller's prepared-food share (NAC 372.607) is over 75% and it makes utensils available, e.g. at a kiosk or common area",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The seller's prepared-food share is 75% or less and it doesn't hand the buyer a utensil",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NAC 372.605(1)(b)(2)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, Danish pastries, cakes, tortes, pies, tarts, muffins, bars, cookies and tortillas."
+   },
+   {
+    "title": "NAC 372.607(4)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is more than 75 percent, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller if the seller:"
+   },
+   {
+    "title": "NAC 372.607(4)(b)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Makes utensils available to the purchaser, including, without limitation, by permitting the purchaser to obtain utensils at a kiosk or common area."
+   },
+   {
+    "title": "NAC 372.607(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is 75 percent or less, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller:"
+   },
+   {
+    "title": "NAC 372.607, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "by R056-18, eff. 6-8-2020)"
+   },
+   {
+    "title": "LCB File No. R056-18 (adopted regulation), digest",
+    "url": "https://www.leg.state.nv.us/Register/2018Register/R056-18A.pdf",
+    "quote": "Section 2 of this regulation excludes certain items containing four or more servings per container from the definition of"
+   }
+  ],
+  "notes": "R056-18 eff. 2020-06-08; enforcement of the utensil subsections began 90 days later. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.cold",
+  "from": "2009-11-25",
+  "to": "2020-06-07",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Cold deli food is taxable in Nevada when the seller combined it and sells it by the item, or provides utensils; food only cut or repackaged, or sold unheated by weight or volume without utensils, is exempt.",
+  "conditions": [
+   {
+    "when": "Food the seller combined and sells by the piece or package (a packaged salad, a wrap), or that is sold with utensils the seller provides",
+    "treatment": "taxable"
+   },
+   {
+    "when": "Food the seller only cut, repackaged or pasteurized (sliced meat or cheese, cut fruit), sold without utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Food the seller combined but sells unheated by weight or volume as a single item (deli salad by the pound), without utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Heated by the seller (a rotisserie chicken from the warmer)",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NRS 360B.460(2)(a)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Are only cut, repackaged or pasteurized by the seller;"
+   },
+   {
+    "title": "NRS 360B.460(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+   },
+   {
+    "title": "NAC 372.605(1)(b)(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "In an unheated state by weight or volume as a single item."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   }
+  ],
+  "notes": "Before R056-18 (eff. 2020-06-08) the regulation did not define when utensils count as provided. 2009-11-25 is the earliest NAC 372.605 amendment read as in force. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.cold",
+  "from": "2020-06-08",
+  "fromIs": "effective",
+  "treatment": "conditional",
+  "summary": "Cold deli food is taxable in Nevada when the seller combined it and sells it by the item, or is deemed to provide utensils; food only cut or repackaged, sold unheated by weight or volume without utensils, or labeled four or more servings, is exempt.",
+  "conditions": [
+   {
+    "when": "Food the seller combined and sells by the piece or package (a packaged salad, a wrap), or that is sold with utensils the seller provides",
+    "treatment": "taxable"
+   },
+   {
+    "when": "Food the seller only cut, repackaged or pasteurized (sliced meat or cheese, cut fruit), sold without utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Food the seller combined but sells unheated by weight or volume as a single item (deli salad by the pound), without utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Heated by the seller (a rotisserie chicken from the warmer)",
+    "treatment": "taxable"
+   },
+   {
+    "when": "A single item labeled with four or more servings per container, where the seller keeps the required records",
+    "treatment": "exempt"
+   },
+   {
+    "when": "The seller's prepared-food share is over 75% and it makes utensils available (deemed sold with utensils)",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The seller's prepared-food share is 75% or less and it neither hands over a utensil nor sells food that needs a plate, bowl or cup (e.g. salad bar) (not deemed sold with utensils)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NRS 360B.460(2)(a)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Are only cut, repackaged or pasteurized by the seller;"
+   },
+   {
+    "title": "NRS 360B.460(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+   },
+   {
+    "title": "NAC 372.605(1)(b)(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "In an unheated state by weight or volume as a single item."
+   },
+   {
+    "title": "NAC 372.605(1)(c)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "contains four or more servings per container, if the seller maintains records of each such sale as are required by the Department pursuant to NRS 372.735 ."
+   },
+   {
+    "title": "NAC 372.607(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is 75 percent or less, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller:"
+   },
+   {
+    "title": "NAC 372.607(4)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is more than 75 percent, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller if the seller:"
+   },
+   {
+    "title": "NAC 372.607, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "by R056-18, eff. 6-8-2020)"
+   },
+   {
+    "title": "LCB File No. R056-18 (adopted regulation), digest",
+    "url": "https://www.leg.state.nv.us/Register/2018Register/R056-18A.pdf",
+    "quote": "Section 2 of this regulation excludes certain items containing four or more servings per container from the definition of"
+   }
+  ],
+  "notes": "R056-18 took effect 2020-06-08; the Department enforced its utensil subsections (NAC 372.607(3)-(4)) from 90 days after. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.cold_restaurant",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Cold food a restaurant makes by combining ingredients, or sells with its utensils, cups or straws, is prepared food, taxable in Nevada.",
+  "conditions": [
+   {
+    "when": "Food the restaurant only cut or repackaged, or sold unheated by weight or volume, with no utensils provided (or, from 2020-06-08, made available where its prepared-food share exceeds 75%)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NRS 360B.460(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+   },
+   {
+    "title": "NAC 372.605(1)(a)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Mean prepared food, as defined in NRS 360B.460 , which is deemed to be intended for immediate consumption."
+   },
+   {
+    "title": "NAC 372.607(4)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is more than 75 percent, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller if the seller:"
+   },
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "When they are prepared food intended for immediate consumption – Yes!"
+   }
+  ],
+  "notes": "The 2020 regulation R056-18 (eff. 2020-06-08; the Department enforced its utensil subsections from 90 days later) defined when food is deemed sold with utensils by the seller's prepared-food share (75%); that doesn't change this code's outcome. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.dine_in",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Food served with the seller's plates or utensils to eat at its premises is prepared food, taxable in Nevada.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "NRS 360B.460(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+   },
+   {
+    "title": "NAC 372.605(1)(a)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Mean prepared food, as defined in NRS 360B.460 , which is deemed to be intended for immediate consumption."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   },
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "When they are prepared food intended for immediate consumption – Yes!"
+   }
+  ],
+  "notes": "The 2020 regulation R056-18 (eff. 2020-06-08; the Department enforced its utensil subsections from 90 days later) defined when food is deemed sold with utensils by the seller's prepared-food share (75%); that doesn't change this code's outcome. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.hot",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Food sold heated or heated by the seller is prepared food intended for immediate consumption, taxable in Nevada.",
+  "conditions": [
+   {
+    "when": "A bakery item sold without eating utensils provided by the seller is excluded even if warmed (see food.prepared.bakery)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold in a heated state or heated by the seller;"
+   },
+   {
+    "title": "NAC 372.605(1)(a)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Mean prepared food, as defined in NRS 360B.460 , which is deemed to be intended for immediate consumption."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   },
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "When they are prepared food intended for immediate consumption – Yes!"
+   }
+  ],
+  "notes": "The 2020 regulation R056-18 (eff. 2020-06-08; the Department enforced its utensil subsections from 90 days later) defined when food is deemed sold with utensils by the seller's prepared-food share (75%); that doesn't change this code's outcome. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.platter",
+  "from": "2009-11-25",
+  "to": "2020-06-07",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "A party tray is taxable in Nevada when it holds food the seller combined or comes with utensils; a tray of food the seller only cut or repackaged, without utensils, is exempt.",
+  "conditions": [
+   {
+    "when": "The tray holds food the seller combined (sandwiches, mixed salads), or is sold with plates, forks or napkins the seller provides",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The seller only cut, sliced or repackaged the meat, cheese, fruit or vegetables on it and provides no utensils",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NRS 360B.460(2)(a)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Are only cut, repackaged or pasteurized by the seller;"
+   },
+   {
+    "title": "NRS 360B.460(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   }
+  ],
+  "notes": "Whether arranging several cut foods on one tray is 'combining' them is not addressed in the cited text. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.platter",
+  "from": "2020-06-08",
+  "fromIs": "effective",
+  "treatment": "conditional",
+  "summary": "A party tray is taxable in Nevada when it holds food the seller combined or is deemed sold with utensils; a tray of food only cut or repackaged without utensils, or one labeled four or more servings, is exempt.",
+  "conditions": [
+   {
+    "when": "The tray holds food the seller combined (sandwiches, mixed salads), or is sold with plates, forks or napkins the seller provides",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The seller only cut, sliced or repackaged the meat, cheese, fruit or vegetables on it and provides no utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Sold as a single item labeled with four or more servings per container, where the seller keeps the required records",
+    "treatment": "exempt"
+   },
+   {
+    "when": "The seller's prepared-food share is over 75% and it makes utensils available",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NRS 360B.460(2)(a)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Are only cut, repackaged or pasteurized by the seller;"
+   },
+   {
+    "title": "NRS 360B.460(3)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins or straws."
+   },
+   {
+    "title": "NAC 372.605(1)(c)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "contains four or more servings per container, if the seller maintains records of each such sale as are required by the Department pursuant to NRS 372.735 ."
+   },
+   {
+    "title": "NAC 372.607(4)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is more than 75 percent, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller if the seller:"
+   },
+   {
+    "title": "NAC 372.607, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "by R056-18, eff. 6-8-2020)"
+   },
+   {
+    "title": "LCB File No. R056-18 (adopted regulation), digest",
+    "url": "https://www.leg.state.nv.us/Register/2018Register/R056-18A.pdf",
+    "quote": "Section 2 of this regulation excludes certain items containing four or more servings per container from the definition of"
+   }
+  ],
+  "notes": "Whether arranging several cut foods on one tray is 'combining' them is not addressed in the cited text. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.prepared.sandwich",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "A sandwich the seller makes is two or more food ingredients combined for sale as one item: prepared food, taxable in Nevada.",
+  "conditions": [
+   {
+    "when": "Sold without utensils by a seller whose primary NAICS classification is food manufacturing (subsector 311), or sold unheated by weight or volume as a single item",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NAC 372.605(1)(a)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Mean prepared food, as defined in NRS 360B.460 , which is deemed to be intended for immediate consumption."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   },
+   {
+    "title": "Nevada Department of Taxation, Restaurant and Bar Sales / Comps",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/03/Restaurant-Bar-Sales-Comps.pdf",
+    "quote": "When they are prepared food intended for immediate consumption – Yes!"
+   }
+  ],
+  "notes": "The 2020 regulation R056-18 (eff. 2020-06-08; the Department enforced its utensil subsections from 90 days later) defined when food is deemed sold with utensils by the seller's prepared-food share (75%); that doesn't change this code's outcome. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.soft_drink",
+  "from": "1979-07-01",
+  "fromIs": "effective",
+  "treatment": "exempt",
+  "summary": "Packaged soft drinks are food for human consumption in Nevada and exempt from state and local sales tax; fountain drinks are prepared food.",
+  "conditions": [
+   {
+    "when": "A fountain drink or other drink sold in a cup, glass or with a straw the seller provides (prepared food)",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "NRS 372.284(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "Prepared food intended for immediate consumption."
+   },
+   {
+    "title": "NRS 372.284, history note",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "adopted by the people at a special election on June 5, 1979, effective July 1, 1979."
+   },
+   {
+    "title": "NAC 372.607(1)(a)(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "The total dollar value of all retail sales of food which is incapable of being transferred to the purchaser without the use of a plate, bowl, glass or cup, including, without limitation, soft drinks dispensed from a fountain and food dispensed at a salad bar,"
+   }
+  ],
+  "notes": "A 1990 Nevada Supreme Court case (Collins Discount Liquors & Vending v. State) reportedly held vending-machine soft drinks to be food for immediate consumption, taxable; it predates the 2005-2009 adoption of the Streamlined definitions and was not read here. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "goods.general",
+  "from": "1955-07-01",
+  "fromIs": "effective",
+  "treatment": "taxable",
+  "summary": "Retail sales of tangible goods are subject to Nevada state and local sales tax.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "NRS 372.105",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "For the privilege of selling tangible personal property at retail a tax is hereby imposed upon all retailers"
+   },
+   {
+    "title": "NRS 372.105",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "from the sale of all tangible personal property sold at retail in this State on or after July 1, 1955."
+   },
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "In Nevada, most tangible personal property transferred for value is taxable."
+   }
+  ],
+  "notes": "Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "service.professional",
+  "from": "1994-07-05",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Professional services not tied to a sale of tangible goods (legal, accounting, consulting, IT, engineering, design, advertising) are not subject to Nevada sales tax.",
+  "conditions": [
+   {
+    "when": "The charge is for tangible goods the professional sells: reproductions or copies of advertising or design work, furnishings an interior designer supplies, hardware",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "consulting services, as services not tied to the sale of tangible personal property, are not subject to Sales Tax."
+   },
+   {
+    "title": "NAC 372.130(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "The development of primary advertising materials on behalf of a client for delivery to the print or broadcast media, a printer or a supplier is principally a service and the charges for such materials are not subject to the sales tax."
+   },
+   {
+    "title": "NAC 372.227(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "this constitutes the sale of professional services and sales tax does not apply."
+   },
+   {
+    "title": "NAC 372.130, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "(NAC A 11-12-93; 7-5-94)"
+   }
+  ],
+  "notes": "No NAC section covers legal, accounting, engineering or IT services by name; they rest on the tax reaching only tangible personal property and the Department's consulting answer. An interior decorator who improves real property is a construction contractor (NAC 372.190), the consumer of its materials. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "software.custom.development",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Custom software is a professional service in Nevada; its sale or licence is not taxed in any form.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "NAC 372.875(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "The preparation of custom computer software constitutes the rendering of a professional service."
+   },
+   {
+    "title": "NAC 372.875(2)(a)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "The sale, lease, rental or licensing for use of custom computer software, regardless of the form in which the custom computer software is transferred."
+   }
+  ],
+  "notes": "Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "software.custom.modification",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Separately stated charges to modify prewritten software are exempt in Nevada.",
+  "conditions": [
+   {
+    "when": "The modification charge is not separately stated from a taxable prewritten copy on tangible media",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NAC 372.885",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "charges for modifications to prewritten computer software are exempt from the tax if such charges are separately stated."
+   }
+  ],
+  "notes": "Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "software.prewritten",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Prewritten software on a disk or other tangible medium is taxable in Nevada; the same software delivered electronically or by load and leave is not.",
+  "conditions": [
+   {
+    "when": "Delivered on tangible storage media (disk, USB drive) the buyer receives",
+    "treatment": "taxable"
+   },
+   {
+    "when": "Downloaded or otherwise delivered electronically, or by load and leave",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NAC 372.880(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Unless it is delivered electronically or by load and leave, prewritten computer software is tangible personal property."
+   },
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "However, physical items ordered online and shipped to Nevada, including software on a disk, are taxable because they are considered tangible personal property."
+   },
+   {
+    "title": "NAC 372.880, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "eff. 9-30-88; A by R021-08, 4-17-2008; R104-09, 11-25-2009)"
+   }
+  ],
+  "notes": "Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "software.saas",
+  "from": "2009-11-25",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Nevada taxes only sales of tangible personal property; remotely accessed software is not transferred as tangible property and electronically delivered software is not taxed.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "NRS 372.105",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "For the privilege of selling tangible personal property at retail a tax is hereby imposed upon all retailers"
+   },
+   {
+    "title": "NAC 372.880(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Unless it is delivered electronically or by load and leave, prewritten computer software is tangible personal property."
+   },
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "products delivered electronically, such as software, electronic magazines, clipart, and program code, are not subject to Nevada Sales or Consumer Use Tax."
+   }
+  ],
+  "notes": "No Department page addressing SaaS by name was found; the outcome follows from the tax reaching only tangible personal property and from the electronic-delivery rule. 2025 bills to tax digital products (AB 453, SB 392) are not in the current NRS. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ }
+]

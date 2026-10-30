@@ -1,0 +1,1526 @@
+[
+  {
+    "tax": "KS",
+    "code": "construction.real_property.improvement",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Kansas, labor for original construction (a new building, an added room or floor) and for any work on a residence is not taxed; labor to remodel an existing commercial building is taxable. Contractors pay tax on their materials.",
+    "conditions": [
+      {
+        "when": "Original construction of a building or facility, including adding an entire room or floor, or rebuilding after fire, flood, tornado or similar listed disaster",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any construction, remodeling or renovation of a residence (where people customarily live)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Remodeling or improving an existing commercial building or facility (not original construction): tax on the labor portion",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "except that no tax shall be imposed upon the service of installing or applying tangible personal property in connection with the original construction of a building or facility, the original construction, reconstruction, restoration, remodeling, renovation, repair or replacement of a residence"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "except that no tax shall be imposed upon the service of installing or applying tangible personal property in connection with the original construction of a building or facility, the original construction, reconstruction, restoration, remodeling, renovation, repair or replacement of a residence"
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "GENERAL RULES: RESIDENTIAL LABOR–EXEMPT; ORIGINAL CONSTRUCTION–EXEMPT; COMMERCIAL REMODEL–TAXABLE."
+      },
+      {
+        "title": "KDOR Pub. KS-1525 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062624id_/https://www.ksrevenue.org/pdf/pub1525.pdf",
+        "quote": "GENERAL RULES: RESIDENTIAL LABOR–EXEMPT; ORIGINAL CONSTRUCTION–EXEMPT; COMMERCIAL REMODEL–TAXABLE."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "Taxable labor services in Kansas are the services of installing, applying, servicing, repairing, altering, or maintaining tangible personal property performed on real property projects in the general category of commercial remodel work."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "If you separately state the sales tax on your bid or invoice, the tax is charged only on the labor services portion of the contract, NOT on the total contract amount."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "All contractors (whether contractors or contractor-retailers) are considered to be the final user or consumer of the materials they install for others, and must pay Kansas sales or use tax on them."
+      }
+    ],
+    "notes": "The contractor pays sales tax on materials when buying them; the customer is charged tax only on the labor of a taxable project (KS-1525 invoicing). So \"taxable\" here means the labor portion of the bill. 2018-01-01 is the earliest date checked (79-3603(p) as compiled January 2019; KS-1525 Rev. 6-18). Projects under a Project Exemption Certificate (exempt entities) are outside this code."
+  },
+  {
+    "tax": "KS",
+    "code": "construction.real_property.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Kansas, repair and maintenance labor on a residence is not taxed; on a commercial building it is taxable (tax on the labor portion). Contractors pay tax on their materials.",
+    "conditions": [
+      {
+        "when": "Repair, maintenance or repainting of a residence",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair of commercial property after fire, flood, tornado, lightning, explosion, windstorm (80 mph+), ice loading, terrorism or earthquake (treated as original construction)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other repair, maintenance or repainting of a commercial building or facility: tax on the labor portion",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "except that no tax shall be imposed upon the service of installing or applying tangible personal property in connection with the original construction of a building or facility, the original construction, reconstruction, restoration, remodeling, renovation, repair or replacement of a residence"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "except that no tax shall be imposed upon the service of installing or applying tangible personal property in connection with the original construction of a building or facility, the original construction, reconstruction, restoration, remodeling, renovation, repair or replacement of a residence"
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "GENERAL RULES: RESIDENTIAL LABOR–EXEMPT; ORIGINAL CONSTRUCTION–EXEMPT; COMMERCIAL REMODEL–TAXABLE."
+      },
+      {
+        "title": "KDOR Pub. KS-1525 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062624id_/https://www.ksrevenue.org/pdf/pub1525.pdf",
+        "quote": "GENERAL RULES: RESIDENTIAL LABOR–EXEMPT; ORIGINAL CONSTRUCTION–EXEMPT; COMMERCIAL REMODEL–TAXABLE."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "NOTE: Repairs to a residence (as defined herein) are exempt regardless of the cause of the damage."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "Restoration, repair or replacement work done on commercial property damaged by hail, ice, straight winds (other than windstorm or ice loading, as defined above), rain, snow, vandalism, age, deterioration, or any other cause is TAXABLE."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "If you separately state the sales tax on your bid or invoice, the tax is charged only on the labor services portion of the contract, NOT on the total contract amount."
+      },
+      {
+        "title": "KDOR Pub. KS-1525, Business Taxes for Contractors, Subcontractors, and Repairmen (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1525.pdf",
+        "quote": "All contractors (whether contractors or contractor-retailers) are considered to be the final user or consumer of the materials they install for others, and must pay Kansas sales or use tax on them."
+      }
+    ],
+    "notes": "The contractor pays sales tax on materials when buying them; the customer is charged tax only on the labor of a taxable project (KS-1525 invoicing). So \"taxable\" here means the labor portion of the bill. 2018-01-01 is the earliest date checked (79-3603(p) as compiled January 2019; KS-1525 Rev. 6-18). Repairing an appliance or other tangible personal property attached to real property is taxable (79-3603(q)) even at a residence per KS-1525; outside this code."
+  },
+  {
+    "tax": "KS",
+    "code": "delivery",
+    "from": "2023-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "From July 1, 2023, separately stated delivery charges are excluded from the Kansas sales tax base.",
+    "conditions": [
+      {
+        "when": "The charge is not clearly labeled as delivery, transmission or transportation, or is not a reasonable cost of delivery",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "(F) commencing on July 1, 2023, delivery charges that are separately stated on the invoice, bill of sale or similar document given to the purchaser;"
+      },
+      {
+        "title": "KDOR Notice 23-02, Delivery Fees Charged by a Retailer (June 22, 2023)",
+        "url": "https://ksrevenue.gov/taxnotices/notice23-02.pdf",
+        "quote": "on and after July 1, 2023, delivery charges that are separately stated on the invoice, bill of sale, or similar document provided to a purchaser are not included in the sales or selling price charged to the customer"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Beginning July 1, 2023, charges to the customer for handling and delivery are not subject to tax when separately stated on the invoice."
+      }
+    ],
+    "notes": "Covers delivery of taxable and exempt goods alike (2022 HB 2136 sec. 17). Before 2023-07-01, delivery of exempt goods is not covered by a rule here: no KDOR statement found on delivery charges for exempt sales then (they were part of the selling price of the sale, which suggests they followed the goods, but that is unverified)."
+  },
+  {
+    "tax": "KS",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "to": "2023-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Before July 1, 2023, Kansas taxed delivery and handling charges on taxable sales, even when separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Charges to the customer for handling and delivery are taxable. The sales tax is due whether the charge is included in the sales price, stated separately, or billed separately."
+      },
+      {
+        "title": "KDOR Notice 23-02, Delivery Fees Charged by a Retailer (June 22, 2023)",
+        "url": "https://ksrevenue.gov/taxnotices/notice23-02.pdf",
+        "quote": "Prior to the amendment, delivery charges were included in the sales or selling price charged to a customer as part of the gross receipts from the sale of tangible personal property or enumerated services, and so were subject to Kansas sales tax."
+      },
+      {
+        "title": "K.S.A. 79-3602 as in force December 2018 (Wayback snapshot 2018-12-16)",
+        "url": "https://web.archive.org/web/20181216003839id_/https://www.ksrevisor.org/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "delivery charges; and (E) installation charges."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked (KS-1510 Rev. 6-18). Separately stated delivery of direct mail was excluded throughout."
+  },
+  {
+    "tax": "KS",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy were taxable at the full Kansas state rate (6.5%) plus local tax until the food rate cut of January 1, 2023.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(a) The gross receipts received from the sale of tangible personal property at retail within this state;"
+      }
+    ],
+    "notes": "Kansas taxed all food at the full 6.5% state rate before 2023 (KS-1223). 2018-01-01 is the earliest date checked; Kansas had no food exemption or reduced food rate before K.S.A. 79-3603d."
+  },
+  {
+    "tax": "KS",
+    "code": "food.candy",
+    "from": "2023-01-01",
+    "to": "2023-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Candy: the Kansas state rate on food and food ingredients was 4% in 2023; local sales taxes still applied in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(1) Commencing on January 1, 2023, at the rate of 4%;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The soft drinks and candy bars are defined by statute to be food and food ingredients subject to the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Applies only when the item is not prepared food (heated by the seller, mixed or combined by the seller, or sold with eating utensils the seller provides), K.S.A. 79-3602 and KS-1223."
+  },
+  {
+    "tax": "KS",
+    "code": "food.candy",
+    "from": "2024-01-01",
+    "to": "2024-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Candy: the Kansas state rate on food and food ingredients was 2% in 2024; local sales taxes still applied in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(2) commencing on January 1, 2024, at the rate of 2%; and"
+      },
+      {
+        "title": "KDOR Notice 23-12, Food Sales Tax Rate Reduction (Oct. 24, 2023)",
+        "url": "https://ksrevenue.gov/taxnotices/notice23-12.pdf",
+        "quote": "Retailers making sales of food and food ingredients should note the state sales tax rate reduction from 4% to 2% that starts January 1, 2024"
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The soft drinks and candy bars are defined by statute to be food and food ingredients subject to the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Applies only when the item is not prepared food (KS-1223)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.candy",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Candy: the Kansas state rate on food and food ingredients is 0% from January 1, 2025; city and county sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) commencing on January 1, 2025, and thereafter, at the rate of 0%."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Retailers should make sure to adjust their point-of-sale systems and software to reflect the new state rate of 0.0% that is effective January 1, 2025."
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The soft drinks and candy bars are defined by statute to be food and food ingredients subject to the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Modelled as exempt for the state part (a 0% state rate under K.S.A. 79-3603d); the local part is the KS:local rule. Applies only when the item is not prepared food (KS-1223)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's meals and drinks for an event are prepared food, taxable at the full Kansas state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "All the items are prepared food and will be taxed at the full state sales tax rate because they are heated by the caterer"
+      }
+    ],
+    "notes": "Unchanged by the 2023-2025 food rate cut (prepared food). Bottled soft drinks a caterer sells without handing utensils can take the food rate (KS-1223 cash-bar example), but this code is the full catered service. 2018-01-01 is the earliest date checked."
+  },
+  {
+    "tax": "KS",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Groceries (food and food ingredients) were taxable at the full Kansas state rate (6.5%) plus local tax until the food rate cut of January 1, 2023.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(a) The gross receipts received from the sale of tangible personal property at retail within this state;"
+      }
+    ],
+    "notes": "Kansas taxed all food at the full 6.5% state rate before 2023 (KS-1223). 2018-01-01 is the earliest date checked; Kansas had no food exemption or reduced food rate before K.S.A. 79-3603d."
+  },
+  {
+    "tax": "KS",
+    "code": "food.grocery",
+    "from": "2023-01-01",
+    "to": "2023-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Groceries (food and food ingredients): the Kansas state rate on food and food ingredients was 4% in 2023; local sales taxes still applied in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(1) Commencing on January 1, 2023, at the rate of 4%;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Applies only when the item is not prepared food (heated by the seller, mixed or combined by the seller, or sold with eating utensils the seller provides), K.S.A. 79-3602 and KS-1223."
+  },
+  {
+    "tax": "KS",
+    "code": "food.grocery",
+    "from": "2024-01-01",
+    "to": "2024-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Groceries (food and food ingredients): the Kansas state rate on food and food ingredients was 2% in 2024; local sales taxes still applied in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(2) commencing on January 1, 2024, at the rate of 2%; and"
+      },
+      {
+        "title": "KDOR Notice 23-12, Food Sales Tax Rate Reduction (Oct. 24, 2023)",
+        "url": "https://ksrevenue.gov/taxnotices/notice23-12.pdf",
+        "quote": "Retailers making sales of food and food ingredients should note the state sales tax rate reduction from 4% to 2% that starts January 1, 2024"
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Applies only when the item is not prepared food (KS-1223)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.grocery",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Groceries (food and food ingredients): the Kansas state rate on food and food ingredients is 0% from January 1, 2025; city and county sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) commencing on January 1, 2025, and thereafter, at the rate of 0%."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Retailers should make sure to adjust their point-of-sale systems and software to reflect the new state rate of 0.0% that is effective January 1, 2025."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Modelled as exempt for the state part (a 0% state rate under K.S.A. 79-3603d); the local part is the KS:local rule. Applies only when the item is not prepared food (KS-1223)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared",
+    "from": "2018-01-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Before 2023 all food, prepared or not, was taxable at the full Kansas state rate plus local tax; meals and drinks sold by restaurants, caterers and similar places are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked. From 2023 the subcodes differ (bakery items and some cold deli food get the food rate); see the subcode rules."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.bakery",
+    "from": "2023-01-01",
+    "to": "2023-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Bakery items sold without eating utensils take the Kansas state food rate (4% in 2023), even if baked or warmed by the seller; local sales taxes apply in full.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller (handed over or arranged to accompany the item, e.g. a fork and napkin)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies and tortillas; or"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(b) The provisions of this section shall not apply to prepared food unless sold without eating utensils provided by the seller and described below:"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(1) Commencing on January 1, 2023, at the rate of 4%;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Bakery items, sold as single items, are taxed at the reduced state sales tax rate."
+      }
+    ],
+    "notes": "Settled for the code as defined (sold without eating utensils). KS-1223: \"Donuts with utensils\" are at the full rate."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.bakery",
+    "from": "2024-01-01",
+    "to": "2024-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Bakery items sold without eating utensils take the Kansas state food rate (2% in 2024), even if baked or warmed by the seller; local sales taxes apply in full.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller (handed over or arranged to accompany the item, e.g. a fork and napkin)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies and tortillas; or"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(b) The provisions of this section shall not apply to prepared food unless sold without eating utensils provided by the seller and described below:"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(2) commencing on January 1, 2024, at the rate of 2%; and"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Bakery items, sold as single items, are taxed at the reduced state sales tax rate."
+      }
+    ],
+    "notes": "Settled for the code as defined (sold without eating utensils). KS-1223: \"Donuts with utensils\" are at the full rate."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.bakery",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without eating utensils take the Kansas state food rate (0% (exempt) in 2025+), even if baked or warmed by the seller; local sales taxes apply in full.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller (handed over or arranged to accompany the item, e.g. a fork and napkin)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies and tortillas; or"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(b) The provisions of this section shall not apply to prepared food unless sold without eating utensils provided by the seller and described below:"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) commencing on January 1, 2025, and thereafter, at the rate of 0%."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Bakery items, sold as single items, are taxed at the reduced state sales tax rate."
+      }
+    ],
+    "notes": "Settled for the code as defined (sold without eating utensils). KS-1223: \"Donuts with utensils\" are at the full rate."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.cold",
+    "from": "2023-01-01",
+    "to": "2023-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared deli food takes the Kansas state food rate (4%) when sold unheated by weight or volume without utensils, or when only cut or repackaged; at a fixed price per container it is taxed at the full state rate. Local tax applies in full.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (price varies with weight), without eating utensils provided by the seller",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (e.g. sliced deli meat, cut fruit of one kind), not mixed with other ingredients",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold at a standard price per container or item, or with eating utensils provided by the seller, or sold heated",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(A) food sold in an unheated state by weight or volume as a single item; or"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(1) Commencing on January 1, 2023, at the rate of 4%;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Prepared food sold without eating utensils and in an unheated state, by weight or volume, as a single item, is taxed at the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "the potato salad is taxed at the full sales tax rate because it is sold for a standard unit price per container"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food is only cut, repackaged, or pasteurized by the seller the food is NOT prepared food, and the reduced state sales tax rate applies."
+      }
+    ],
+    "notes": "Turns on how the deli prices and hands over the item (by weight vs. per container, utensils), which the code does not carry. KS-1223 matrix: cold chicken prepared by the seller is full rate at a fixed price, food rate when sold by weight without utensils."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.cold",
+    "from": "2024-01-01",
+    "to": "2024-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared deli food takes the Kansas state food rate (2%) when sold unheated by weight or volume without utensils, or when only cut or repackaged; at a fixed price per container it is taxed at the full state rate. Local tax applies in full.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (price varies with weight), without eating utensils provided by the seller",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (e.g. sliced deli meat, cut fruit of one kind), not mixed with other ingredients",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "Sold at a standard price per container or item, or with eating utensils provided by the seller, or sold heated",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(A) food sold in an unheated state by weight or volume as a single item; or"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(2) commencing on January 1, 2024, at the rate of 2%; and"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Prepared food sold without eating utensils and in an unheated state, by weight or volume, as a single item, is taxed at the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "the potato salad is taxed at the full sales tax rate because it is sold for a standard unit price per container"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food is only cut, repackaged, or pasteurized by the seller the food is NOT prepared food, and the reduced state sales tax rate applies."
+      }
+    ],
+    "notes": "Turns on how the deli prices and hands over the item (by weight vs. per container, utensils), which the code does not carry. KS-1223 matrix: cold chicken prepared by the seller is full rate at a fixed price, food rate when sold by weight without utensils."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.cold",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared deli food takes the Kansas state food rate (0% (exempt)) when sold unheated by weight or volume without utensils, or when only cut or repackaged; at a fixed price per container it is taxed at the full state rate. Local tax applies in full.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (price varies with weight), without eating utensils provided by the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (e.g. sliced deli meat, cut fruit of one kind), not mixed with other ingredients",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold at a standard price per container or item, or with eating utensils provided by the seller, or sold heated",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(A) food sold in an unheated state by weight or volume as a single item; or"
+      },
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) commencing on January 1, 2025, and thereafter, at the rate of 0%."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Prepared food sold without eating utensils and in an unheated state, by weight or volume, as a single item, is taxed at the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "the potato salad is taxed at the full sales tax rate because it is sold for a standard unit price per container"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food is only cut, repackaged, or pasteurized by the seller the food is NOT prepared food, and the reduced state sales tax rate applies."
+      }
+    ],
+    "notes": "Turns on how the deli prices and hands over the item (by weight vs. per container, utensils), which the code does not carry. KS-1223 matrix: cold chicken prepared by the seller is full rate at a fixed price, food rate when sold by weight without utensils."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells to go is prepared food (mixed or combined by the seller, or sold with utensils) and is taxable at the full Kansas state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Most restaurant meals fall into this category."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food sold contains two or more food ingredients mixed or combined by the seller for sale as a single item, it IS prepared food and will be taxed at the full sales tax rate."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The canned soda is prepared food because it is sold with eating utensils provided by the seller."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      }
+    ],
+    "notes": "Prepared food stays at the full state rate after the food rate cut (K.S.A. 79-3603d(b)); before 2023 all food was at the full rate, so the treatment is unchanged since 2018. 2018-01-01 is the earliest date checked (79-3603(d) as compiled in 2019). A restaurant's unaltered manufacturer-packaged item handed over without utensils (e.g. a bottled soda) is food and food ingredients at the food rate, but this code is food the seller prepared."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Meals served for eating at the seller's premises are taxable at the full Kansas state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Both meals are prepared food and will be taxed at the full state sales tax rate"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Prepared food continues to be taxed at the full 6.5% state sales tax rate."
+      }
+    ],
+    "notes": "Prepared food stays at the full state rate after the food rate cut (K.S.A. 79-3603d(b)); before 2023 all food was at the full rate, so the treatment is unchanged since 2018. 2018-01-01 is the earliest date checked (79-3603(d) as compiled in 2019)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, taxable at the full Kansas state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food is sold in a heated state or heated by the seller it IS prepared food and will be taxed at the full state sales tax rate."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Prepared food continues to be taxed at the full 6.5% state sales tax rate."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      }
+    ],
+    "notes": "Prepared food stays at the full state rate after the food rate cut (K.S.A. 79-3603d(b)); before 2023 all food was at the full rate, so the treatment is unchanged since 2018. 2018-01-01 is the earliest date checked (79-3603(d) as compiled in 2019). Exception: bakery items sold heated without utensils take the food rate (food.prepared.bakery)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Party trays of cold cheese, meats, fruit or vegetables made by the seller are prepared food (combined ingredients), taxable at the full Kansas state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Party trays containing cold products like cheese, sliced meats, fruits or vegetables - made by the seller"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food sold contains two or more food ingredients mixed or combined by the seller for sale as a single item, it IS prepared food and will be taxed at the full sales tax rate."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      }
+    ],
+    "notes": "Prepared food stays at the full state rate after the food rate cut (K.S.A. 79-3603d(b)); before 2023 all food was at the full rate, so the treatment is unchanged since 2018. 2018-01-01 is the earliest date checked (79-3603(d) as compiled in 2019). The KS-1223 product matrix marks seller-made party trays \"Full State Sales Tax Rate\" with the comment \"Combined ingredients\"; the column mark is not text-searchable, so the quote names the row only."
+  },
+  {
+    "tax": "KS",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller is prepared food (ingredients combined by the seller) and is taxable at the full Kansas state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "a sandwich is taxed at the full state sales tax rate because it is a mixture or combination of two or more food and food ingredients prepared by the bakery and sold as a single item which does not qualify for the exception."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If food sold contains two or more food ingredients mixed or combined by the seller for sale as a single item, it IS prepared food and will be taxed at the full sales tax rate."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      }
+    ],
+    "notes": "Prepared food stays at the full state rate after the food rate cut (K.S.A. 79-3603d(b)); before 2023 all food was at the full rate, so the treatment is unchanged since 2018. 2018-01-01 is the earliest date checked (79-3603(d) as compiled in 2019). A sandwich made by a food manufacturer and resold unchanged is food and food ingredients (KS-1223 matrix), but this code is the seller's own sandwich. A seller-made sandwich priced by weight could in principle meet the by-weight exception; not addressed by KDOR."
+  },
+  {
+    "tax": "KS",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks were taxable at the full Kansas state rate (6.5%) plus local tax until the food rate cut of January 1, 2023.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(a) The gross receipts received from the sale of tangible personal property at retail within this state;"
+      }
+    ],
+    "notes": "Kansas taxed all food at the full 6.5% state rate before 2023 (KS-1223). 2018-01-01 is the earliest date checked; Kansas had no food exemption or reduced food rate before K.S.A. 79-3603d."
+  },
+  {
+    "tax": "KS",
+    "code": "food.soft_drink",
+    "from": "2023-01-01",
+    "to": "2023-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Soft drinks: the Kansas state rate on food and food ingredients was 4% in 2023; local sales taxes still applied in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(1) Commencing on January 1, 2023, at the rate of 4%;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The soft drinks and candy bars are defined by statute to be food and food ingredients subject to the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Applies only when the item is not prepared food (heated by the seller, mixed or combined by the seller, or sold with eating utensils the seller provides), K.S.A. 79-3602 and KS-1223."
+  },
+  {
+    "tax": "KS",
+    "code": "food.soft_drink",
+    "from": "2024-01-01",
+    "to": "2024-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Soft drinks: the Kansas state rate on food and food ingredients was 2% in 2024; local sales taxes still applied in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(2) commencing on January 1, 2024, at the rate of 2%; and"
+      },
+      {
+        "title": "KDOR Notice 23-12, Food Sales Tax Rate Reduction (Oct. 24, 2023)",
+        "url": "https://ksrevenue.gov/taxnotices/notice23-12.pdf",
+        "quote": "Retailers making sales of food and food ingredients should note the state sales tax rate reduction from 4% to 2% that starts January 1, 2024"
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The soft drinks and candy bars are defined by statute to be food and food ingredients subject to the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Applies only when the item is not prepared food (KS-1223)."
+  },
+  {
+    "tax": "KS",
+    "code": "food.soft_drink",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Soft drinks: the Kansas state rate on food and food ingredients is 0% from January 1, 2025; city and county sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) commencing on January 1, 2025, and thereafter, at the rate of 0%."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Retailers should make sure to adjust their point-of-sale systems and software to reflect the new state rate of 0.0% that is effective January 1, 2025."
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The soft drinks and candy bars are defined by statute to be food and food ingredients subject to the reduced state sales tax rate."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      }
+    ],
+    "notes": "Modelled as exempt for the state part (a 0% state rate under K.S.A. 79-3603d); the local part is the KS:local rule. Applies only when the item is not prepared food (KS-1223)."
+  },
+  {
+    "tax": "KS",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at the combined Kansas state and local sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(a) The gross receipts received from the sale of tangible personal property at retail within this state;"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(a) The gross receipts received from the sale of tangible personal property at retail within this state;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "Kansas sales tax generally applies to the retail sale, rental, or lease of tangible personal property, and enumerated services provided within the state."
+      }
+    ],
+    "notes": "The tax on retail sales of tangible personal property dates from 1937; 2018-01-01 is the earliest date checked here (79-3603 as compiled in January 2019 was last amended by L. 2015). Local city and county sales taxes apply to the same base (KS-1510)."
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.accounting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, bookkeeping and tax preparation services are not subject to Kansas sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "accounting architectural broadcasting"
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Interior Design Services Self-Audit Fact Sheet (approved 01/25/2006)",
+        "url": "https://www.ksrevenue.gov/factsheets/fsinterior.pdf",
+        "quote": "Professional services such as legal or accounting services Exempt"
+      }
+    ],
+    "notes": "Kansas taxes only enumerated services (K.S.A. 79-3603); this one is not among them. 2018-01-01 is the earliest date checked (KS-1510 Rev. 6-18). "
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.advertising",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Services rendered by an advertising agency are exempt from Kansas sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3606 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0006.html",
+        "quote": "(nn) except as otherwise provided in this act, all sales of services rendered by an advertising agency or licensed broadcast station or any member, agent or employee thereof;"
+      },
+      {
+        "title": "K.S.A. 79-3606 as in force January 2019 (Wayback snapshot 2019-01-14)",
+        "url": "https://web.archive.org/web/20190114190359id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0006.html",
+        "quote": "all sales of services rendered by an advertising agency or licensed broadcast station or any member, agent or employee thereof;"
+      },
+      {
+        "title": "KDOR Interior Design Services Self-Audit Fact Sheet (approved 01/25/2006)",
+        "url": "https://www.ksrevenue.gov/factsheets/fsinterior.pdf",
+        "quote": "Advertising as in newspapers, radio, television, etc Exempt"
+      }
+    ],
+    "notes": "K.S.A. 79-3606(nn). Tangible items an agency sells (printed matter, promotional goods) are taxable sales of goods. 2018-01-01 is the earliest date checked (79-3606 as compiled January 2019)."
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.consulting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not subject to Kansas sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "cleaning consulting engineering"
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "cleaning consulting engineering"
+      }
+    ],
+    "notes": "Kansas taxes only enumerated services (K.S.A. 79-3603); this one is not among them. 2018-01-01 is the earliest date checked (KS-1510 Rev. 6-18). "
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.design",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "An interior designer's design and consulting fees are not subject to Kansas sales tax; furnishings sold and installation labor are.",
+    "conditions": [
+      {
+        "when": "Furnishings (furniture, rugs, wall coverings, lighting) sold by the designer",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Labor to install or maintain tangible personal property, or labor on commercial real property",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KDOR Interior Design Services Self-Audit Fact Sheet (approved 01/25/2006)",
+        "url": "https://www.ksrevenue.gov/factsheets/fsinterior.pdf",
+        "quote": "Art Direction (supervision of work-in-process) Exempt Design Exempt"
+      },
+      {
+        "title": "KDOR Interior Design Services Self-Audit Fact Sheet (approved 01/25/2006)",
+        "url": "https://www.ksrevenue.gov/factsheets/fsinterior.pdf",
+        "quote": "Consulting Exempt"
+      },
+      {
+        "title": "KDOR Interior Design Services Self-Audit Fact Sheet (approved 01/25/2006)",
+        "url": "https://www.ksrevenue.gov/factsheets/fsinterior.pdf",
+        "quote": "The applicable sales tax must be collected unless the purchaser provides a proper exemption certificate."
+      }
+    ],
+    "notes": "Source is a 2006 KDOR self-audit fact sheet still published on ksrevenue.gov; no later change found. 2018-01-01 is a conservative start. A single undivided charge for design and furnishings was not addressed."
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.engineering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural design services are not subject to Kansas sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "accounting architectural broadcasting"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "cleaning consulting engineering"
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "cleaning consulting engineering"
+      }
+    ],
+    "notes": "Kansas taxes only enumerated services (K.S.A. 79-3603); this one is not among them. 2018-01-01 is the earliest date checked (KS-1510 Rev. 6-18). "
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT consulting, training, troubleshooting without repair, virus removal and technical support are not taxed in Kansas; repairing or maintaining hardware and installing or updating prewritten software are taxable.",
+    "conditions": [
+      {
+        "when": "IT consulting, systems design, training, technical support, diagnosing without repair, virus removal or data recovery",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Installing, repairing, servicing or maintaining computer hardware (tangible personal property)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Installing, configuring, updating or maintaining prewritten software (other than source-code customization)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "Taxable services do not include actions that are taken to assure the efficient operation of prewritten software or hardware, such as deleting or recovering information from a hard drive, virus or spyware removal, or increasing the speed of the computer system unless the service involves the sale and installation of prewritten software or hardware."
+      },
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "Whenever one of these services is performed to computer hardware, the charge for the service is subject to Kansas state and local sales tax."
+      },
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "Kansas taxes charges for \"the services of modifying, altering, updating or maintaining prewritten computer software.\""
+      },
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "If only Technical Support is contracted to be provided under the optional maintenance agreement and the customer is not entitled to Upgrades, charges for the agreement are not taxable."
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "cleaning consulting engineering"
+      }
+    ],
+    "notes": "Turns on whether the work touches hardware or installs prewritten software, which the code does not carry. 2018-01-01 is the earliest date checked (EDU-71R 2018 copy)."
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.legal",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not subject to Kansas sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "legal services"
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "KDOR Interior Design Services Self-Audit Fact Sheet (approved 01/25/2006)",
+        "url": "https://www.ksrevenue.gov/factsheets/fsinterior.pdf",
+        "quote": "Professional services such as legal or accounting services Exempt"
+      }
+    ],
+    "notes": "Kansas taxes only enumerated services (K.S.A. 79-3603); this one is not among them. 2018-01-01 is the earliest date checked (KS-1510 Rev. 6-18). KS-1510 lists \"legal services\" among non-taxable services (quoted as the list item)."
+  },
+  {
+    "tax": "KS",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software, and reasonable separately stated charges for customizing prewritten software, are non-taxable services in Kansas.",
+    "conditions": [
+      {
+        "when": "Customization billed in one lump sum with the prewritten software",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "Charges for custom software are not subject to Kansas sales or use tax and are treated as charges for non-taxable services."
+      },
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "A commercially reasonable, separately stated charge for customizing prewritten software is not subject to sales tax."
+      },
+      {
+        "title": "KDOR Pub. KS-1510, Kansas Sales and Compensating Use Tax (Rev. 7-29-25)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Sales and/or services relating to customized software are exempt."
+      },
+      {
+        "title": "KDOR Pub. KS-1510 (Rev. 6-18), Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Sales and/or services relating to customized software are exempt."
+      }
+    ],
+    "notes": "The code's modification is charged separately, so it is settled exempt. Distinct from the taxable 79-3603(s) services of \"modifying, altering, updating or maintaining prewritten computer software\", which EDU-71R reads as installing prewritten upgrades and enhancements, not source-code customization."
+  },
+  {
+    "tax": "KS",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Kansas however it is delivered: on media, electronically, or by load and leave.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "the gross receipts received from the sale of prewritten computer software and the sale of the services of modifying, altering, updating or maintaining prewritten computer software, whether the prewritten computer software is installed or delivered electronically by tangible storage media physically transferred to the purchaser or by load and leave;"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "on and after January 1, 2005, the gross receipts received from the sale of prewritten computer software"
+      },
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "Sales of prewritten software are taxable."
+      }
+    ],
+    "notes": "Taxable since 2005-01-01 per 79-3603(s); 2018-01-01 is the earliest date checked here."
+  },
+  {
+    "tax": "KS",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Charges for remotely accessed software (application service providers / SaaS), where the customer gets no copy or control of the software, are not subject to Kansas sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "Charges by an ASP for its services are not subject to sales tax."
+      },
+      {
+        "title": "KDOR EDU-71R, Wayback snapshot 2018-12-15",
+        "url": "https://web.archive.org/web/20181215072504id_/https://www.ksrevenue.org/pdf/edu71r.pdf",
+        "quote": "Charges by an ASP for its services are not subject to sales tax."
+      },
+      {
+        "title": "KDOR EDU-71R, Revised Sales Tax Guidelines: Taxing Charges for Computer Products and Services (July 23, 2010)",
+        "url": "https://www.ksrevenue.gov/pdf/edu71r.pdf",
+        "quote": "A lease does not include obtaining remote access to someone else's computer software and equipment via the Internet or other electronic means when the customer does not have control over or have possessory rights to the software or equipment."
+      }
+    ],
+    "notes": "EDU-71R was issued 2010-07-23 and is still the guide KS-1510 (Rev. 7-29-25) points to; 2018-01-01 is the earliest date checked here (2018 Wayback copy). A separately billed downloadable client or prewritten software installed on a Kansas server would be taxable prewritten software."
+  },
+  {
+    "tax": "KS:local",
+    "code": "food.candy",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Candy remain subject to Kansas city and county sales taxes at their full rates; only the state rate on food was cut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d sets only the state rate; KDOR says city and county sales taxes on food are unaffected. Whether a particular city or county levy exempts food is not researched here; KDOR states generally that they remain."
+  },
+  {
+    "tax": "KS:local",
+    "code": "food.grocery",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Groceries (food and food ingredients) remain subject to Kansas city and county sales taxes at their full rates; only the state rate on food was cut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d sets only the state rate; KDOR says city and county sales taxes on food are unaffected. Whether a particular city or county levy exempts food is not researched here; KDOR states generally that they remain."
+  },
+  {
+    "tax": "KS:local",
+    "code": "food.prepared.bakery",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Kansas city and county sales taxes apply at their full rates to this food; only the state rate was reduced.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d sets only the state rate; KDOR says city and county sales taxes on food are unaffected. Whether a particular city or county levy exempts food is not researched here; KDOR states generally that they remain."
+  },
+  {
+    "tax": "KS:local",
+    "code": "food.prepared.cold",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Kansas city and county sales taxes apply at their full rates to this food; only the state rate was reduced.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d sets only the state rate; KDOR says city and county sales taxes on food are unaffected. Whether a particular city or county levy exempts food is not researched here; KDOR states generally that they remain."
+  },
+  {
+    "tax": "KS:local",
+    "code": "food.soft_drink",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Soft drinks remain subject to Kansas city and county sales taxes at their full rates; only the state rate on food was cut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
+      },
+      {
+        "title": "K.S.A. 79-3602 (current)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0002.html",
+        "quote": "\"Food and food ingredients\" includes bottled water, candy, dietary supplements, food sold through vending machines and soft drinks."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d sets only the state rate; KDOR says city and county sales taxes on food are unaffected. Whether a particular city or county levy exempts food is not researched here; KDOR states generally that they remain."
+  }
+]

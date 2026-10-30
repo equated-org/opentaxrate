@@ -1,0 +1,545 @@
+[
+  {
+    "tax": "NC",
+    "code": "construction.real_property.improvement",
+    "from": "2017-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A real property contract for a capital improvement makes the contractor the consumer of its materials; the customer's contract isn't taxed.",
+    "conditions": [
+      {
+        "when": "A mixed transaction contract that also includes repair, maintenance or installation services unrelated to the capital improvement",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.4H (real property contract)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.4H.html",
+        "quote": "A real property contractor is the consumer of the tangible personal property or certain digital property that the real property contractor purchases, installs, or applies for others to fulfill a real property contract"
+      },
+      {
+        "title": "NCDOR Important Notice, Sales and Use Tax Changes Effective January 1, 2017 (contractors)",
+        "url": "https://www.ncdor.gov/documents/important-notices/sales-and-use-tax-changes-effective-january-1-2017-contractors/open",
+        "quote": "A real property contract is for construction, reconstruction, or remodeling with respect to a capital improvement to real property."
+      }
+    ],
+    "notes": "The contractor must substantiate a capital improvement (Form E-589CI); otherwise services to real property are presumed taxable repair, maintenance and installation. Mixed transaction contracts are taxed under § 105-164.4H(d)."
+  },
+  {
+    "tax": "NC",
+    "code": "construction.real_property.repair",
+    "from": "2017-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Repair, maintenance and installation services to real property are taxable at the general rate from January 1, 2017.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR Important Notice, Sales and Use Tax Changes Effective January 1, 2017 (contractors)",
+        "url": "https://www.ncdor.gov/documents/important-notices/sales-and-use-tax-changes-effective-january-1-2017-contractors/open",
+        "quote": "The sales price or gross receipts from repair, maintenance, or installation services performed to real property are subject to sales or use tax."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-164.4 (tax imposed on retailers)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.4.html",
+        "quote": "The general rate applies to the sales price of or the gross receipts derived from repair, maintenance, and installation services for real property"
+      },
+      {
+        "title": "NCDOR, Services to Real Property Taxability Chart",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/real-property-contracts/services-real-property-taxability-chart",
+        "quote": "Services to real property are generally repair, maintenance, and installation services subject to sales and use tax unless a person substantiates otherwise."
+      }
+    ],
+    "notes": "Exceptions: work resolving an issue from a real property contract within 12 months (new construction) or 6 months (other capital improvements), work requiring a building permit, and similar items in the Services to Real Property Taxability Chart."
+  },
+  {
+    "tax": "NC",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges are part of the sales price, so they are taxed with taxable goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.3 (definitions)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html",
+        "quote": "Charges by the retailer for any services necessary to complete the sale. 4. Delivery charges."
+      }
+    ],
+    "notes": "Delivery of qualifying food or exempt goods isn't written."
+  },
+  {
+    "tax": "NC",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is not qualifying food and is taxed at the full state, local and transit rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "(7) Candy."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "The general state and applicable local and transit rates of sales and use tax apply to the sales price of non-qualifying food."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered food is prepared food, taxed at the full rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It consists of two or more foods mixed or combined by the retailer for sale as a single item."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified. NCDOR Bulletin 32 treats caterers specifically; it wasn't read."
+  },
+  {
+    "tax": "NC",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Qualifying food is exempt from the 4.75% state tax; a 2% local food rate applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Food is exempt from the taxes imposed by this Article unless the food is included in one of the subdivisions in this subsection."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "Qualifying food includes all food except for the following:"
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "A 2.00% local rate of sales and use tax applies to the sales price qualifying food."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are qualifying food only from an artisan bakery selling without utensils; baked by other retailers they are prepared food at the full rates.",
+    "conditions": [
+      {
+        "when": "Sold without eating utensils by an artisan bakery (over 80% of gross receipts from bakery items, and gross receipts within the statutory cap)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Baked (ingredients combined) by any other retailer, such as a grocery or restaurant, or sold with utensils",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "It derives over eighty percent (80%) of its gross receipts from bakery items."
+      }
+    ],
+    "notes": "North Carolina's prepared-food definition has no general bakery-item exclusion; only the artisan bakery exception. Bakery items made by a manufacturer and resold in their package are not prepared food. The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food the retailer mixes or combines is prepared food (full rates); food it only slices or repackages is qualifying food (2% local only).",
+    "conditions": [
+      {
+        "when": "Two or more foods mixed or combined by the retailer for sale as one item (deli salads, including by the pound), or sold with the retailer's utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only sliced, repackaged or pasteurized by the retailer (sliced meats or cheese, cut fruit of one kind)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It consists of two or more foods mixed or combined by the retailer for sale as a single item."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "Food that is only sliced, repackaged, or pasteurized by the retailer."
+      }
+    ],
+    "notes": "North Carolina's prepared-food definition has no exclusion for food sold unheated by weight. The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A restaurant's cold food (combined by it, or sold with its utensils, cups or straws) is prepared food, taxed at the full rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It consists of two or more foods mixed or combined by the retailer for sale as a single item."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It is sold with eating utensils provided by the retailer, such as plates, knives, forks, spoons, glasses, cups, napkins, and straws."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold with the retailer's plates or utensils is prepared food, taxed at the full rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It is sold with eating utensils provided by the retailer, such as plates, knives, forks, spoons, glasses, cups, napkins, and straws."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the retailer is prepared food, taxed at the full rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It is sold in a heated state, or it is heated by the retailer."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A party tray of foods the retailer combines is prepared food, taxed at the full rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It consists of two or more foods mixed or combined by the retailer for sale as a single item."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified. A tray of a single item only sliced or repackaged by the retailer would be qualifying food; the code describes combined trays."
+  },
+  {
+    "tax": "NC",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich the retailer assembles is prepared food, taxed at the full rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It consists of two or more foods mixed or combined by the retailer for sale as a single item."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are not qualifying food and are taxed at the full state, local and transit rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "(5) Soft drinks."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "The general state and applicable local and transit rates of sales and use tax apply to the sales price of non-qualifying food."
+      }
+    ],
+    "notes": "The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at 4.75% plus local and transit taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.4 (tax imposed on retailers)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.4.html",
+        "quote": "The general rate of tax is four and three-quarters percent (4.75%)."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-164.4 (tax imposed on retailers)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.4.html",
+        "quote": "The sales price of each article of tangible personal property that is not subject to tax under another subdivision in this section."
+      }
+    ],
+    "notes": "Local sales taxes share the state base except for food (§ 105-467(b))."
+  },
+  {
+    "tax": "NC",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software, and separately stated modification of prewritten software to a buyer's specifications, is exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13 (retail sales and use tax exemptions)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13.html",
+        "quote": "Custom computer software and the portion of prewritten computer software that is modified or enhanced if the modification or enhancement is designed and developed to the specifications of a specific purchaser and the charges for the modification or enhancement are separately stated"
+      }
+    ],
+    "notes": "The modification is exempt only when separately stated on the invoice."
+  },
+  {
+    "tax": "NC",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in North Carolina, taxable however it is delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.C. Gen. Stat. § 105-164.3 (definitions)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html",
+        "quote": "The term includes electricity, water, gas, steam, and prewritten computer software."
+      }
+    ],
+    "notes": "Electronically delivered software has been taxable since 2010-01-01 (it was exempt under § 105-164.13(43a) before). Software designed to run on an enterprise server operating system is exempt (§ 105-164.13(43a)); that turns on the software's use."
+  },
+  {
+    "tax": "NC",
+    "code": "software.saas",
+    "from": "2016-06-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remote access to prewritten software (SaaS) is not taxed in North Carolina.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR Private Letter Ruling SUPLR 2016-0003 (June 6, 2016), remote access to prewritten computer software",
+        "url": "https://www.ncdor.gov/documents/written-determinations/suplr-2016-0003-remote-access-prewritten-computer-software/open",
+        "quote": "Currently, the State does not impose sales and use tax on remote access to prewritten computer software; therefore, the subscription fees are not subject to sales or use tax."
+      },
+      {
+        "title": "NCDOR Private Letter Ruling SUPLR 2021-0005 (February 2, 2021), remote access computer software",
+        "url": "https://www.ncdor.gov/documents/files/suplr-2021-0005-remote-access-computer-software/open",
+        "quote": "North Carolina does not impose sales or use tax on charges for such services."
+      }
+    ],
+    "notes": "Private letter rulings bind only their requesters; both state the Department's general position."
+  },
+  {
+    "tax": "NC:local",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Qualifying food bears a 2.00% local rate, from the county's general local taxes; transit and other local taxes don't apply.",
+    "conditions": [
+      {
+        "when": "the local part carrying the county's general local sales tax (Articles 39, 40 and 42, with any Article 46 tax in the same part)",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "a transit tax (Article 43) or other additional local part",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "A 2.00% local rate of sales and use tax applies to the sales price qualifying food."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "The state, transit, and other local rates of tax do not apply to qualifying food."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-467 (scope of local sales tax, Article 39)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-467.html",
+        "quote": "The sales price of food that is not otherwise exempt from tax pursuant to G.S. 105-164.13 but is exempt from the State sales and use tax pursuant to G.S. 105-164.13B."
+      }
+    ],
+    "notes": "North Carolina taxes qualifying food at a 2.00% local rate only: the county's general local sales taxes (Articles 39, 40 and 42) apply to it and the transit and other local taxes (e.g. Articles 43 and 46) don't. A reduced rule's rate replaces each local part's rate, so the 2% is given to the part carrying the county's general local tax and the transit or additional parts are exempt; a single rate on every local part would double-count it where a transit tax applies. The NCDOR food page is undated and § 105-164.13B was last amended by S.L. 2015-6 before S.L. 2026-31 (whose change, to the artisan bakery provisions, wasn't read); 2018-01-01 is the earliest date taken as verified."
+  },
+  {
+    "tax": "NC:local",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local tax: the 2% local food rate on an artisan bakery's items sold without utensils; full local and transit rates otherwise.",
+    "conditions": [
+      {
+        "when": "Not from an artisan bakery, or sold with utensils (prepared food): every local part",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Artisan bakery item sold without utensils: the local part carrying the county's general local sales tax (Articles 39, 40 and 42, with any Article 46 tax in the same part)",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "Artisan bakery item sold without utensils: a transit tax (Article 43) or other additional local part",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "A 2.00% local rate of sales and use tax applies to the sales price qualifying food."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "The state, transit, and other local rates of tax do not apply to qualifying food."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      }
+    ],
+    "notes": "North Carolina taxes qualifying food at a 2.00% local rate only: the county's general local sales taxes (Articles 39, 40 and 42) apply to it and the transit and other local taxes (e.g. Articles 43 and 46) don't. A reduced rule's rate replaces each local part's rate, so the 2% is given to the part carrying the county's general local tax and the transit or additional parts are exempt; a single rate on every local part would double-count it where a transit tax applies."
+  },
+  {
+    "tax": "NC:local",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local tax: full local and transit rates on prepared deli food; the 2% local food rate on food only sliced or repackaged.",
+    "conditions": [
+      {
+        "when": "Mixed or combined by the retailer, or sold with its utensils (prepared food): every local part",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only sliced or repackaged (qualifying food): the local part carrying the county's general local sales tax (Articles 39, 40 and 42, with any Article 46 tax in the same part)",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "Only sliced or repackaged (qualifying food): a transit tax (Article 43) or other additional local part",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "A 2.00% local rate of sales and use tax applies to the sales price qualifying food."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "The state, transit, and other local rates of tax do not apply to qualifying food."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "Food that is only sliced, repackaged, or pasteurized by the retailer."
+      }
+    ],
+    "notes": "North Carolina taxes qualifying food at a 2.00% local rate only: the county's general local sales taxes (Articles 39, 40 and 42) apply to it and the transit and other local taxes (e.g. Articles 43 and 46) don't. A reduced rule's rate replaces each local part's rate, so the 2% is given to the part carrying the county's general local tax and the transit or additional parts are exempt; a single rate on every local part would double-count it where a transit tax applies."
+  }
+]

@@ -1,0 +1,679 @@
+[
+  {
+    "tax": "PA",
+    "code": "construction.real_property.improvement",
+    "from": "1993-03-20",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction and improvement of real property is not taxed to the owner in Pennsylvania; the contractor pays tax on the materials it installs.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Construction or repair services to realty."
+      },
+      {
+        "title": "61 Pa. Code § 31.12, Construction: imposition of tax",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.12.html",
+        "quote": "A contractor shall pay tax upon the purchase price, as defined by the TRC, of all property, including materials, equipment, components and supplies, which he furnishes and installs in the performance of his construction activities."
+      }
+    ],
+    "notes": "A contractor that sells and installs goods as a retailer charges tax on them (§ 31.12(b)); not this code. Earliest date: § 31.6 as amended effective 1993-03-20. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "construction.real_property.repair",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair of a building is not taxable in Pennsylvania; routine building maintenance and cleaning services are.",
+    "conditions": [
+      {
+        "when": "Repair or repainting of the building or fixtures permanently affixed to realty",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Routine and periodic building maintenance or cleaning (janitorial, bulb maintenance and the like)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Construction or repair services to realty."
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "building repair services on buildings or other property that is permanently affixed to realty are nontaxable"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "Building maintenance services are routine and periodic services on a building that keep a building in a satisfactory operating condition."
+      }
+    ],
+    "notes": "Which service is sold is not carried by the code. Sales and Use Tax Bulletin 2025-01 revisited these services and was not read. Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "delivery.exempt_goods",
+    "from": "1971-03-04",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Delivery charges for nontaxable goods are not taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 54.1, Delivery charges",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter54/s54.1.html",
+        "quote": "Delivery charges made in conjunction with nontaxable transactions are not subject to tax."
+      }
+    ],
+    "notes": "The regulation's 1971 date is for § 54.1(a); (b) is read as in force from the same date. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "delivery.taxable_goods",
+    "from": "1971-03-04",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge for taxable goods is taxable in Pennsylvania, even if separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 54.1, Delivery charges",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter54/s54.1.html",
+        "quote": "Effective March 4, 1971, separately stated delivery charges billed by the vendor made in conjunction with a taxable transaction are subject to tax."
+      }
+    ],
+    "notes": "Delivery billed by someone other than the vendor is not taxable (§ 54.1(c)). Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.candy",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy and gum are not taxable in Pennsylvania, from any seller.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "NT – Candy and gum"
+      }
+    ],
+    "notes": "REV-717 lists candy and gum as nontaxable both for eating establishments and for grocery and similar stores; breath mints are taxable. Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.catering",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      },
+      {
+        "title": "PA DOR REV-717 (SU) 02-26, Retailer's Information",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Generally, tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer."
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.grocery",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Groceries are not taxable in Pennsylvania when sold by a grocery store or similar seller; all food sold by a restaurant or other establishment selling ready-to-eat food is taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a grocery store, supermarket, delicatessen, bakery, convenience store or similar seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a caterer or an establishment selling ready-to-eat food (restaurant, café, snack bar, coffee shop and the like), in any quantity",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is not imposed on food and beverages sold from other than a caterer or establishment selling ready-to-eat food and beverages. However, tax is imposed upon selected food and beverage items listed as taxable below, when sold from the establishments listed above."
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      }
+    ],
+    "notes": "Who sells is not carried by the code. Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.bakery",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are not taxable from a bakery, pastry or donut shop or grocery store; from a restaurant, café or coffee shop they are.",
+    "conditions": [
+      {
+        "when": "Sold by a bakery, donut shop, pastry shop, grocery store or similar store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a caterer or establishment selling ready-to-eat food (restaurant, café, coffee shop, snack bar)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is not imposed on food and beverages sold from other than a caterer or establishment selling ready-to-eat food and beverages. However, tax is imposed upon selected food and beverage items listed as taxable below, when sold from the establishments listed above."
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      }
+    ],
+    "notes": "REV-717 names bakeries, donut shops and pastry shops among the stores whose food is generally not taxed; who sells is not carried by the code. Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.cold",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Deli food from a store (meats, cheeses, potato or macaroni salad) is not taxable; ready-to-eat meals and self-service salad-bar food are.",
+    "conditions": [
+      {
+        "when": "Deli items such as sliced meats and cheeses or potato or macaroni salad",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A ready-to-eat meal, self-service salad-bar food, or sushi",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "NT – Deli items such as meats and cheeses, potato salad, macaroni"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "T – Salad bars, self-service"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "Meals - not including prepackaged frozen meals or meals"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is not imposed on food and beverages sold from other than a caterer or establishment selling ready-to-eat food and beverages. However, tax is imposed upon selected food and beverage items listed as taxable below, when sold from the establishments listed above."
+      }
+    ],
+    "notes": "What is sold is not carried by the code. A store with its own eating facilities may be an establishment selling ready-to-eat food, taxable on all food; not separated here. Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food a restaurant or similar establishment sells to go is taxable in Pennsylvania, in any quantity.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.dine_in",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold by a restaurant or similar establishment for eating there is taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.hot",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot food is taxable in Pennsylvania, from a restaurant or a store.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "T – Hot food items"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.platter",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Party trays from a store are not taxable in Pennsylvania; from a caterer or restaurant they are.",
+    "conditions": [
+      {
+        "when": "Sold by a grocery store, delicatessen or similar store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a caterer or establishment selling ready-to-eat food",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "NT – Party trays, vegetable, cheese, seafood, meat"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.prepared.sandwich",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches are taxable in Pennsylvania, from a restaurant or a store.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "T – Sandwiches"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "food.soft_drink",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxable in Pennsylvania, from any seller.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "T – Soft drinks, bottled and non-bottled (including soft drink mixes"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "T – Nonalcoholic beverages"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "goods.general",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in Pennsylvania at 6%, plus the local tax in Allegheny County and Philadelphia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "The 6 percent state Sales Tax is to be collected on every separate taxable sale"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.accounting",
+    "from": "1993-03-20",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting services are not taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Services rendered by the learned professions."
+      },
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Following are examples of services upon which the person rendering the service does not"
+      }
+    ],
+    "notes": "Pennsylvania taxes only the services the Tax Reform Code enumerates (72 P.S. § 7201(k)); accounting is read as a learned profession under § 31.6, and is not among the enumerated services. Earliest date: 61 Pa. Code § 31.6 as amended effective 1993-03-20. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.advertising",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not taxable in Pennsylvania; printed advertising materials sold are.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "A. LOBByING SERvICES"
+      },
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Following are examples of services upon which the person rendering the service does not"
+      }
+    ],
+    "notes": "Pennsylvania taxes only the services the Tax Reform Code enumerates (lobbying, building maintenance and cleaning, disinfecting and pest control, employment agency, help supply, lawn care, collection, credit reporting, secretarial and editing, self-storage, premium cable and similar, REV-717); advertising services are not among them. Earliest date: REV-717 as archived 2018-06-19. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.consulting",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management consulting is not taxable in Pennsylvania (lobbying services are).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "A. LOBByING SERvICES"
+      },
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Following are examples of services upon which the person rendering the service does not"
+      }
+    ],
+    "notes": "Pennsylvania taxes only the services the Tax Reform Code enumerates (lobbying, building maintenance and cleaning, disinfecting and pest control, employment agency, help supply, lawn care, collection, credit reporting, secretarial and editing, self-storage, premium cable and similar, REV-717); management consulting is not among them. Earliest date: REV-717 as archived 2018-06-19. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too. Consultants working under the customer's supervision may be taxable 'help supply'."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.design",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design services are not taxable in Pennsylvania; furnishings sold with them are.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "A. LOBByING SERvICES"
+      },
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Following are examples of services upon which the person rendering the service does not"
+      }
+    ],
+    "notes": "Pennsylvania taxes only the services the Tax Reform Code enumerates (lobbying, building maintenance and cleaning, disinfecting and pest control, employment agency, help supply, lawn care, collection, credit reporting, secretarial and editing, self-storage, premium cable and similar, REV-717); interior design is not among them. Earliest date: REV-717 as archived 2018-06-19. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.engineering",
+    "from": "1993-03-20",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are not taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Services rendered by the learned professions."
+      },
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Following are examples of services upon which the person rendering the service does not"
+      }
+    ],
+    "notes": "Pennsylvania taxes only the services the Tax Reform Code enumerates (72 P.S. § 7201(k)); engineering and architecture are read as learned professions under § 31.6, and are not among the enumerated services. Earliest date: 61 Pa. Code § 31.6 as amended effective 1993-03-20. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.it",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT consulting that ends in a recommendation is not taxable in Pennsylvania; support, installation and configuration of canned software are, and consulting sold with taxable software or hardware is part of its taxable price.",
+    "conditions": [
+      {
+        "when": "Consulting ending in a recommendation, with no transfer of software or hardware; help-desk support that does not access the software; separately stated live training",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Support, installation, configuration or repair of canned software, or consulting sold with taxable software or hardware",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Staff working under the customer's supervision (help supply)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "Non-taxable when the result is only a recommendation regarding the need for changes in implemented software or process and there is no transfer of tangible personal property."
+      },
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "Taxable as part of purchase price if sold in conjunction with the sale of tangible personal property or other taxable services, even if invoiced separately."
+      },
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "Taxable as the maintenance or repair of tangible personal property."
+      },
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "Separately stated charges for help desk or call center support where the vendor does not access the software are non-taxable."
+      }
+    ],
+    "notes": "The kind of IT work, and whether it is sold with software, is not carried by the code. Only the current, undated Department page was read, so the rule starts on the day it was read. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "service.professional.legal",
+    "from": "1993-03-20",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Services rendered by the learned professions."
+      },
+      {
+        "title": "61 Pa. Code § 31.6, Persons rendering nontaxable services (amended effective March 20, 1993)",
+        "url": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/061/chapter31/s31.6.html",
+        "quote": "Following are examples of services upon which the person rendering the service does not"
+      }
+    ],
+    "notes": "Pennsylvania taxes only the services the Tax Reform Code enumerates (72 P.S. § 7201(k)); legal services are services of the learned professions, which § 31.6 lists as nontaxable. Earliest date: 61 Pa. Code § 31.6 as amended effective 1993-03-20. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "software.custom.development",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software written for one customer is not taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "Canned software is software that is not designed, created and developed for and to the specifications of an original purchaser."
+      },
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "The sale of custom software and any related services to custom software is not subject to sales tax."
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "software.custom.modification",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Modifying canned software for a customer is taxable in Pennsylvania as the alteration of tangible personal property, even if charged separately.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "Modifying the source code of canned computer software is taxable as the alteration of tangible personal property."
+      },
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "any charges for modifying or configuring canned computer software is taxable as the alteration of tangible personal property"
+      }
+    ],
+    "notes": "Unlike most states, Pennsylvania taxes separately charged modifications of canned software; modifying custom software is not taxed. Only the current, undated Department page was read, so the rule starts on the day it was read. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "software.prewritten",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Canned (prewritten) software is taxable in Pennsylvania, on media or delivered electronically.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "Canned computer software, whether accessed by phy"
+      },
+      {
+        "title": "PA DOR REV-717 (SU) 02-26, Retailer's Information",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Canned computer software, whether accessed by physical medium such as a CD-ROM or accessed electronically"
+      }
+    ],
+    "notes": "Earliest date: REV-717 as archived 2018-06-19; the current edition (02-26) says the same. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
+    "code": "software.saas",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Canned software accessed remotely is taxable in Pennsylvania.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "Canned software is taxable including canned software products and services accessed by end users in Pennsylvania via computer devices, such as smartphones."
+      },
+      {
+        "title": "PA DOR, Canned Computer Software & Digital Goods",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "As discussed in Letter Ruling SUT-12-001, remotely accessed tangible personal property is subject to tax when the user is located in Pennsylvania."
+      }
+    ],
+    "notes": "Act 84 of 2016 (effective 2016-08-01 by common account) added remotely accessed property to the statute; the earliest official text read is REV-717 as archived 2018-06-19. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too."
+  }
+]

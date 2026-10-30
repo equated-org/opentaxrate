@@ -1,0 +1,1254 @@
+[
+  {
+    "tax": "VA",
+    "code": "construction.real_property",
+    "from": "2015-09-26",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A real property contractor is the consumer of its materials and pays tax on them; the customer's construction or repair contract is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-610 (contractors), as archived 2015-09-26",
+        "url": "https://web.archive.org/web/20150926204307/http://law.lis.virginia.gov/vacode/58.1-610",
+        "quote": "to perform construction, reconstruction, installation, repair, or any other service with respect to real estate or fixtures thereon, and in connection therewith to furnish tangible personal property, shall be deemed to have purchased such tangible personal property for use or consumption"
+      },
+      {
+        "title": "23VAC10-210-410, Contractors respecting real estate",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section410/",
+        "quote": "A contractor, whether the contractor be a prime contractor or subcontractor, does not pass the sales or use tax on to anyone else as a tax."
+      }
+    ],
+    "notes": "Covers both improvement and repair. 2015-09-26 is the date of the archived § 58.1-610 read here; the rule is older."
+  },
+  {
+    "tax": "VA",
+    "code": "delivery",
+    "from": "1994-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Separately stated transportation charges are exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "23VAC10-210-4040, Services",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Separately stated transportation charges"
+      },
+      {
+        "title": "Code of Virginia § 58.1-609.5 (service exemptions)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-609.5/",
+        "quote": "Transportation charges separately stated."
+      }
+    ],
+    "notes": "Applies to deliveries of taxable and exempt goods alike."
+  },
+  {
+    "tax": "VA",
+    "code": "food.candy",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.015,
+    "summary": "Candy is taxed at the reduced 1.5% state rate (2.5% with the 1% local tax) as food for home consumption.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Beef jerky, candy, candy-coated and chocolate-coated products, confectionery, chewing gum"
+      }
+    ],
+    "notes": "Virginia's reduced rate follows the SNAP definition of food, which includes candy; TB 05-7 lists candy, confectionery and chewing gum among eligible snack foods. No later official statement excluding candy was found."
+  },
+  {
+    "tax": "VA",
+    "code": "food.candy",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Candy is exempt from the state sales tax from January 1, 2023; only the 1% local option tax applies.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Beef jerky, candy, candy-coated and chocolate-coated products, confectionery, chewing gum"
+      }
+    ],
+    "notes": "Virginia's reduced rate follows the SNAP definition of food, which includes candy; TB 05-7 lists candy, confectionery and chewing gum among eligible snack foods. No later official statement excluding candy was found."
+  },
+  {
+    "tax": "VA",
+    "code": "food.catering",
+    "from": "1985-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered meals, with their service charges, are taxable at the full rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "23VAC10-210-930, Meals",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section930/",
+        "quote": "Retail sales of meals by restaurants, hotels, motels, clubs, caterers, cafes and others are taxable."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Catered food and meals."
+      },
+      {
+        "title": "23VAC10-210-4040, Services",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Any services in connection with the furnishing, preparing, or serving by a person for a consideration of meals or other tangible personal property"
+      }
+    ],
+    "notes": "1985-01-01 is 23VAC10-210-930's last amendment date; earlier text not read."
+  },
+  {
+    "tax": "VA",
+    "code": "food.grocery",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.015,
+    "summary": "Food for home consumption is taxed at the reduced 1.5% state rate (2.5% with the 1% local tax) as food for home consumption.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "has the same meaning as \"food\" defined in the Food Stamp Act of 1977"
+      },
+      {
+        "title": "Virginia Tax, Sales Tax Rate for Food and Personal Hygiene Products",
+        "url": "https://www.tax.virginia.gov/grocery-tax",
+        "quote": "Most staple grocery items and cold prepared foods packaged for home consumption qualify for the reduced sales tax rate."
+      }
+    ],
+    "notes": "The reduced rate follows the federal SNAP (Food Stamp Act) definition of food, so it turns on the item, not the store type, except for the 80% rule and the presumed immediate-consumption vendors listed in the conditions (TB 05-7, Grocery Tax page). The 2.5%/1% totals also apply to essential personal hygiene products (from 2020-01-01), outside these codes."
+  },
+  {
+    "tax": "VA",
+    "code": "food.grocery",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food for home consumption is exempt from the state sales tax from January 1, 2023; only the 1% local option tax applies.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "has the same meaning as \"food\" defined in the Food Stamp Act of 1977"
+      },
+      {
+        "title": "Virginia Tax, Sales Tax Rate for Food and Personal Hygiene Products",
+        "url": "https://www.tax.virginia.gov/grocery-tax",
+        "quote": "Most staple grocery items and cold prepared foods packaged for home consumption qualify for the reduced sales tax rate."
+      }
+    ],
+    "notes": "The reduced rate follows the federal SNAP (Food Stamp Act) definition of food, so it turns on the item, not the store type, except for the 80% rule and the presumed immediate-consumption vendors listed in the conditions (TB 05-7, Grocery Tax page). The 2.5%/1% totals also apply to essential personal hygiene products (from 2020-01-01), outside these codes."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.bakery",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils: reduced 1.5% state rate when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.015
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Bagels, brownies, cakes, cookies, crackers, croissants, doughnuts, pies, pastries, bread, rolls and buns."
+      }
+    ],
+    "notes": "Bakery foods are SNAP-eligible (TB 05-7) and bakeries and doughnut shops are named among retailers that charge the reduced rate; sold by an establishment over the 80% test, or warmed and marketed for heating in the store, they are taxable at the full rate."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.bakery",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils: exempt from the state tax from 2023 when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Bagels, brownies, cakes, cookies, crackers, croissants, doughnuts, pies, pastries, bread, rolls and buns."
+      }
+    ],
+    "notes": "Bakery foods are SNAP-eligible (TB 05-7) and bakeries and doughnut shops are named among retailers that charge the reduced rate; sold by an establishment over the 80% test, or warmed and marketed for heating in the store, they are taxable at the full rate."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.cold",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.015,
+    "summary": "Cold prepared food packaged for home consumption by a food store is taxed at the reduced 1.5% state rate (2.5% with the 1% local tax) as food for home consumption.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold sandwiches, cold salads, and salad bar foods packaged for home consumption."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold prepared foods packaged as one or more meals and marketed for home consumption."
+      }
+    ],
+    "notes": "Settled for the code's sellers (grocery, deli or other food store), which TB 05-7 lists among retailers that should charge the reduced rate; the 80% rule and single-price combinations with hot food are listed as exceptions. Cold food served in open containers or on plates for immediate consumption is taxable (food.prepared.dine_in)."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.cold",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Cold prepared food packaged for home consumption by a food store is exempt from the state sales tax from January 1, 2023; only the 1% local option tax applies.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold sandwiches, cold salads, and salad bar foods packaged for home consumption."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold prepared foods packaged as one or more meals and marketed for home consumption."
+      }
+    ],
+    "notes": "Settled for the code's sellers (grocery, deli or other food store), which TB 05-7 lists among retailers that should charge the reduced rate; the 80% rule and single-price combinations with hot food are listed as exceptions. Cold food served in open containers or on plates for immediate consumption is taxable (food.prepared.dine_in)."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold food sold to go by a restaurant: reduced 1.5% state rate when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.015
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This means that food sold by most fast food establishments and restaurants does not qualify for the reduced rate"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Generally, the following retailers should charge the reduced sales tax rate on sales of eligible food and beverages: bakeries, cafes, cafeterias"
+      }
+    ],
+    "notes": "Most restaurants fail the 80% test and charge the full rate, but cafes, cafeterias, sandwich shops and snack bars are named among retailers that generally charge the reduced rate (TB 05-7); the seller's sales mix decides."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold food sold to go by a restaurant: exempt from the state tax from 2023 when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This means that food sold by most fast food establishments and restaurants does not qualify for the reduced rate"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Generally, the following retailers should charge the reduced sales tax rate on sales of eligible food and beverages: bakeries, cafes, cafeterias"
+      }
+    ],
+    "notes": "Most restaurants fail the 80% test and charge the full rate, but cafes, cafeterias, sandwich shops and snack bars are named among retailers that generally charge the reduced rate (TB 05-7); the seller's sales mix decides."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.dine_in",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating on the seller's premises, on plates or in open containers, is taxable at the full rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "23VAC10-210-930, Meals",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section930/",
+        "quote": "Retail sales of meals by restaurants, hotels, motels, clubs, caterers, cafes and others are taxable."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold food and cold beverages served in open containers or on plates, platters and trays for immediate consumption."
+      }
+    ],
+    "notes": "Local meals taxes are separate local excise taxes, not sales tax."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.hot",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot prepared food and hot drinks are taxable at the full state, local and regional rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "23VAC10-210-930, Meals",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section930/",
+        "quote": "Retail sales of meals by restaurants, hotels, motels, clubs, caterers, cafes and others are taxable."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Hot foods and hot beverages (including hot meals)."
+      },
+      {
+        "title": "Virginia Tax, Sales Tax Rate for Food and Personal Hygiene Products",
+        "url": "https://www.tax.virginia.gov/grocery-tax",
+        "quote": "prepared hot foods packaged for immediate consumption on or off premises"
+      }
+    ],
+    "notes": "Hot meals sold through SNAP-authorized programs (Meals-On-Wheels, shelters, etc.) are an exception at the reduced rate (TB 05-7). Local meals taxes are separate local excise taxes, not sales tax."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.platter",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold party platter to go: reduced 1.5% state rate when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.015
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold deli trays and party platters packaged in containers affixed with lids or tops."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Catered food and meals."
+      }
+    ],
+    "notes": "Cold deli trays with lids qualify; the same tray sold by a caterer (a presumed immediate-consumption vendor) or a seller over the 80% test is taxable. Hot platters are food.prepared.hot."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.platter",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold party platter to go: exempt from the state tax from 2023 when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold deli trays and party platters packaged in containers affixed with lids or tops."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Catered food and meals."
+      }
+    ],
+    "notes": "Cold deli trays with lids qualify; the same tray sold by a caterer (a presumed immediate-consumption vendor) or a seller over the 80% test is taxable. Hot platters are food.prepared.hot."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.sandwich",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go: reduced 1.5% state rate when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.015
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This includes prepackaged cold sandwiches and prepackaged salads in any size container."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This means that food sold by most fast food establishments and restaurants does not qualify for the reduced rate"
+      }
+    ],
+    "notes": "Turns on the seller's sales mix (the 80% rule), which the code doesn't carry: a grocery or deli's packaged cold sandwich qualifies, a fast-food restaurant's generally doesn't."
+  },
+  {
+    "tax": "VA",
+    "code": "food.prepared.sandwich",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go: exempt from the state tax from 2023 when the seller qualifies for the food-for-home-consumption rate, else the full rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This includes prepackaged cold sandwiches and prepackaged salads in any size container."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This means that food sold by most fast food establishments and restaurants does not qualify for the reduced rate"
+      }
+    ],
+    "notes": "Turns on the seller's sales mix (the 80% rule), which the code doesn't carry: a grocery or deli's packaged cold sandwich qualifies, a fast-food restaurant's generally doesn't."
+  },
+  {
+    "tax": "VA",
+    "code": "food.soft_drink",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.015,
+    "summary": "A soft drink is taxed at the reduced 1.5% state rate (2.5% with the 1% local tax) as food for home consumption.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "carbonated and noncarbonated beverages and drinks (including fruit juices, powdered soft drink crystals and mixes)"
+      }
+    ],
+    "notes": "Virginia's reduced rate follows the SNAP definition of food, which includes soft drinks; TB 05-7 lists carbonated and noncarbonated beverages among eligible accessory foods. Cold fountain drinks qualify only in containers with lids or tops; drinks in open containers for immediate consumption are taxable."
+  },
+  {
+    "tax": "VA",
+    "code": "food.soft_drink",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A soft drink is exempt from the state sales tax from January 1, 2023; only the 1% local option tax applies.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "carbonated and noncarbonated beverages and drinks (including fruit juices, powdered soft drink crystals and mixes)"
+      }
+    ],
+    "notes": "Virginia's reduced rate follows the SNAP definition of food, which includes soft drinks; TB 05-7 lists carbonated and noncarbonated beverages among eligible accessory foods. Cold fountain drinks qualify only in containers with lids or tops; drinks in open containers for immediate consumption are taxable."
+  },
+  {
+    "tax": "VA",
+    "code": "goods.general",
+    "from": "2017-08-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at the state rate plus the 1% local and any regional tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-603 (state tax imposed), as archived 2017-08-03",
+        "url": "https://web.archive.org/web/20170803192518/http://law.lis.virginia.gov:80/vacode/title58.1/chapter6/section58.1-603",
+        "quote": "Of the gross sales price of each item or article of tangible personal property when sold at retail or distributed in this Commonwealth."
+      },
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "The tax consists of the 4.3 percent state tax and the 1.0 percent local option tax."
+      }
+    ],
+    "notes": "Taxable long before 2017; 2017-08-03 is the date of the archived statute read here."
+  },
+  {
+    "tax": "VA",
+    "code": "service.professional",
+    "from": "1994-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional and other services are generally exempt from the Virginia sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "23VAC10-210-4040, Services",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Charges for services generally are exempt from the retail sales and use tax."
+      },
+      {
+        "title": "23VAC10-210-4040, Services",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Personal, professional, or insurance transactions which involve sales as inconsequential elements for which no separate charge is made"
+      }
+    ],
+    "notes": "Applies to every professional subcode (legal, accounting, consulting, IT, engineering, design, advertising). Services provided in connection with a sale of tangible personal property are taxable with it under the true-object test (e.g. an interior decorator's charge folded into furnishings sold)."
+  },
+  {
+    "tax": "VA",
+    "code": "software.custom",
+    "from": "1994-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom programs, and separately charged modification of prewritten programs, are exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "23VAC10-210-4040, Services",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "An amount separately charged for labor or services rendered in connection with the modification of prewritten programs"
+      },
+      {
+        "title": "23VAC10-210-4040, Services",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Computer programs that meet the requirements of \"custom programs\""
+      },
+      {
+        "title": "Ruling of the Tax Commissioner, P.D. 12-6 (February 23, 2012), computer software licences",
+        "url": "https://tax.virginia.gov/laws-rules-decisions/rulings-tax-commissioner/12-6",
+        "quote": "is exempt from the retail sales and use tax pursuant to Va. Code § 58.1-609.5 7 regardless of whether conveyed electronically or by tangible means"
+      }
+    ],
+    "notes": "A prewritten program modified to any degree remains prewritten (Code § 58.1-602), so the modified copy itself is taxed under software.prewritten; only the separately charged modification work is exempt. 1994-07-01 is 23VAC10-210-4040's last amendment date."
+  },
+  {
+    "tax": "VA",
+    "code": "software.prewritten",
+    "from": "2012-02-23",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxable when delivered on a tangible medium and exempt when delivered only electronically.",
+    "conditions": [
+      {
+        "when": "Delivered (or any copy, including a backup, furnished) on disk, tape, CD or other tangible medium",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered only electronically, with no tangible medium furnished",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ruling of the Tax Commissioner, P.D. 12-6 (February 23, 2012), computer software licences",
+        "url": "https://tax.virginia.gov/laws-rules-decisions/rulings-tax-commissioner/12-6",
+        "quote": "A renewal fee is taxable when it allows the user to continue to use a prewritten program that was originally conveyed to the user by tangible means."
+      },
+      {
+        "title": "Ruling of the Tax Commissioner, P.D. 19-5 (electronic delivery of software)",
+        "url": "https://tax.virginia.gov/laws-rules-decisions/rulings-tax-commissioner/19-5",
+        "quote": "05-44 (4/4/05) outlines the Department’s policy that prewritten software delivered electronically does not constitute the sale of tangible personal property."
+      },
+      {
+        "title": "Code of Virginia § 58.1-609.5 (service exemptions)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-609.5/",
+        "quote": "including software, data, content and other information services delivered electronically via the Internet"
+      }
+    ],
+    "notes": "The Department expects the invoice or contract to certify electronic delivery and that no tangible medium was furnished (P.D. 19-5)."
+  },
+  {
+    "tax": "VA",
+    "code": "software.saas",
+    "from": "2017-03-22",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remotely accessed software, with no tangible copy, is exempt as an electronically delivered service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-609.5 (service exemptions), as archived 2017-03-22",
+        "url": "https://web.archive.org/web/20170322051324/http://law.lis.virginia.gov:80/vacode/title58.1/chapter6/section58.1-609.5/",
+        "quote": "services not involving an exchange of tangible personal property which provide access to or use of the Internet and any other related electronic communication service, including software, data, content and other information services delivered electronically via the Internet"
+      },
+      {
+        "title": "Code of Virginia § 58.1-609.5 (service exemptions)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-609.5/",
+        "quote": "including software, data, content and other information services delivered electronically via the Internet"
+      }
+    ],
+    "notes": "Exemption in Code § 58.1-609.5(1); in force before 2017 (2017-03-22 is the archived copy read). Taxable if any tangible copy is furnished."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.candy",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "Candy bears only the 1% local option tax; regional and additional local taxes don't apply to it.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Beef jerky, candy, candy-coated and chocolate-coated products, confectionery, chewing gum"
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.grocery",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "Food for home consumption bears only the 1% local option tax; regional and additional local taxes don't apply to it.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "has the same meaning as \"food\" defined in the Food Stamp Act of 1977"
+      },
+      {
+        "title": "Virginia Tax, Sales Tax Rate for Food and Personal Hygiene Products",
+        "url": "https://www.tax.virginia.gov/grocery-tax",
+        "quote": "Most staple grocery items and cold prepared foods packaged for home consumption qualify for the reduced sales tax rate."
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.prepared.bakery",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils: only the 1% local option tax when the seller qualifies for the food-for-home-consumption rate, else the full local and regional rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Bagels, brownies, cakes, cookies, crackers, croissants, doughnuts, pies, pastries, bread, rolls and buns."
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.prepared.cold",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "Cold prepared food packaged for home consumption by a food store bears only the 1% local option tax; regional and additional local taxes don't apply to it.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold sandwiches, cold salads, and salad bar foods packaged for home consumption."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold prepared foods packaged as one or more meals and marketed for home consumption."
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food sold to go by a restaurant: only the 1% local option tax when the seller qualifies for the food-for-home-consumption rate, else the full local and regional rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This means that food sold by most fast food establishments and restaurants does not qualify for the reduced rate"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Generally, the following retailers should charge the reduced sales tax rate on sales of eligible food and beverages: bakeries, cafes, cafeterias"
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.prepared.platter",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A cold party platter to go: only the 1% local option tax when the seller qualifies for the food-for-home-consumption rate, else the full local and regional rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold deli trays and party platters packaged in containers affixed with lids or tops."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Catered food and meals."
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.prepared.sandwich",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go: only the 1% local option tax when the seller qualifies for the food-for-home-consumption rate, else the full local and regional rate.",
+    "conditions": [
+      {
+        "when": "Packaged for home consumption and sold by a retailer whose sales of food prepared for immediate consumption are 80% or less of its gross receipts and that is not a vendor presumed to sell for immediate consumption (caterer, concession, mobile food vendor, etc.)",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Sold by a restaurant or other establishment whose prepared-food sales exceed 80% of gross receipts, by a presumed immediate-consumption vendor, or with hot food for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This includes prepackaged cold sandwiches and prepackaged salads in any size container."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "This means that food sold by most fast food establishments and restaurants does not qualify for the reduced rate"
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.soft_drink",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "A soft drink bears only the 1% local option tax; regional and additional local taxes don't apply to it.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "carbonated and noncarbonated beverages and drinks (including fruit juices, powdered soft drink crystals and mixes)"
+      }
+    ],
+    "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
+  }
+]

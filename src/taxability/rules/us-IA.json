@@ -1,0 +1,955 @@
+[
+  {
+    "tax": "IA",
+    "code": "construction.real_property.improvement",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Iowa contractors pay tax on materials for new construction, reconstruction, alteration, expansion or remodeling and charge the customer no sales tax on the job.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Contractors Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-contractors-guide",
+        "quote": "When a contractor performs new construction, reconstruction, alteration, expansion, or remodeling, the contractor must pay sales or use tax on the building materials and supplies at the time they are purchased and does not collect any tax from the customer."
+      },
+      {
+        "title": "Iowa Code 423.3(37)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "The sales price of services on or connected with new construction, reconstruction, alteration, expansion, remodeling, or the services of a general building contractor, architect, or engineer."
+      },
+      {
+        "title": "Iowa Code 423.3(37) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "37. The sales price of services on or connected with new construction, reconstruction, alteration, expansion, remodeling, or the services of a general building contractor, architect,"
+      }
+    ],
+    "notes": "Carpeting and machinery or equipment that stays tangible personal property are taxable to the customer. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "construction.real_property.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Iowa repairs and installations that are not construction or remodeling are taxable: the contractor charges tax on materials and on enumerated labor (carpentry, plumbing, electrical, roofing, painting).",
+    "conditions": [
+      {
+        "when": "Labor in a trade not enumerated in Iowa Code 423.2(6), separately itemized (materials stay taxable)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Contractors Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-contractors-guide",
+        "quote": "In all other instances, such as repairs or installations that do not rise to the level of new construction, reconstruction, alteration, expansion, or remodeling, the contractor charges the customer sales tax on the sales price of the building materials and supplies used in completing the work."
+      },
+      {
+        "title": "Iowa DOR, Iowa Contractors Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-contractors-guide",
+        "quote": "Taxable labor charges remain subject to sales tax in all other instances, such as repairs and installations."
+      },
+      {
+        "title": "Iowa Code 423.2(6)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.2.pdf",
+        "quote": "k. Carpentry repair and installation."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "office and business machine repair; painting, papering, and interior decorating;"
+      }
+    ],
+    "notes": "Since 2019 Iowa Code 423.2(1)(b) treats repair materials as bought for resale; before then the materials treatment for repair contractors is unverified, but enumerated repair labor (carpentry, roof, electrical, plumbing, painting) was taxable in the 2018 Code. Replacing an entire roof or a non-defective system is reconstruction (exempt) per the DOR guide. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "delivery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Separately stated delivery charges are exempt from Iowa sales tax, whatever is delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(70)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "The sales price of delivery charges. This exemption does not apply to the delivery of electric energy or natural gas."
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-219.14",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.219.pdf",
+        "quote": "Transportation charges and delivery charges are not subject to the Iowa sales and use tax when they are separately contracted or, if no written contract exists, are separately itemized on the billing from the seller to the purchaser."
+      },
+      {
+        "title": "Iowa Code 423.3(70) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "The sales price of delivery charges. This exemption does not apply to the delivery of electric energy or natural gas."
+      }
+    ],
+    "notes": "Covers delivery.taxable_goods and delivery.exempt_goods. Freight-in a retailer adds to a price is not a delivery charge and is taxable (DOR Sales and Use Tax Guide). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is taxable in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Candy is taxable."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is taxable in Iowa, including the food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "All sales of food, food products, and drinks on a catered basis are subject to tax."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(1)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(1) Food sold in a heated state or heated by the seller, including food sold by a caterer."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Mandatory service charges and gratuities for meal service are taxable (DOR food guidance); delivery charges are exempt when separately stated (423.3(70)). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients (groceries) are exempt from Iowa sales tax; candy, soft drinks, dietary supplements and prepared food are not.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine (unless SNAP-eligible)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "The sales price from all sales of food and food ingredients."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "With certain exceptions, food and food ingredients are exempt from Iowa sales tax."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Items bought with SNAP benefits are exempt (423.3(58)). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Bakery items sold by the seller that baked them are exempt from Iowa sales tax, even when eaten on its premises.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(c)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(c) Bakery items sold by the seller which baked them."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Bakery items sold by the seller that baked them are exempt from sales tax."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Baked goods sold for consumption on the premises by the seller that baked them are sold exempt from tax."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(c) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "(c) Bakery items sold by the seller which baked them."
+      }
+    ],
+    "notes": "The exclusion is for the seller that baked the items; bakery items bought in and resold with utensils or combined could be prepared food. Utensils (423.3(57)(f)(4)) are a separate prepared-food test the DOR does not apply to the baker's own goods. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food from a grocery is exempt in Iowa when sold without utensils and priced by weight or volume, or only cut or repackaged; meals and items priced per piece are taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, without utensils, as a single item priced by weight or volume (deli salads by the pound or container size)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (cut fruit, sliced meat), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller and priced per item rather than by weight or volume (a prepared meal, a salad priced per piece)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(d)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(d) Food sold without eating utensils provided by the seller in an unheated state as a single item which is priced by weight or volume."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(a)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(a) Only cut, repackaged, or pasteurized by the seller."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Cole slaw, baked beans, and potato salad sold in various size containers are exempt from sales tax because they are not sold with eating utensils and are priced by weight or volume."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "However, meals prepared by the retailer and stored in a cooler are subject to sales tax because they are not priced by weight or volume."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells is taxable prepared food in Iowa.",
+    "conditions": [
+      {
+        "when": "Sold unheated as a single item priced by weight or volume, without utensils, and not for eating on the premises",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(2)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "For example, bottled water, bags of potato chips, and fresh fruit may be taxable as prepared food if sold by a restaurant, even if those items would be exempt if sold by a different retailer."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(4)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(4) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold for eating on the seller's premises, or with its plates and utensils, is taxable prepared food in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "If food is sold for consumption on the premises of a retailer, the food is rebuttably presumed to be prepared food."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(4)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(4) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Exception: baked goods sold by the seller that baked them are exempt even when eaten on its premises (DOR food guidance). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold hot or heated by the seller is taxable prepared food in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(1)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(1) Food sold in a heated state or heated by the seller, including food sold by a caterer."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Bakery items sold by the seller that baked them are exempt even if warm (see food.prepared.bakery). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray in Iowa is taxable if the seller combined foods (sandwiches) or provides utensils; a tray of food only cut or repackaged (sliced meats, cheese, cut fruit or vegetables) without utensils is exempt.",
+    "conditions": [
+      {
+        "when": "Food only cut or repackaged by the seller (cold cuts, cheese, fruit or vegetables), without eating utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more ingredients combined by the seller (sandwich trays, dressed salads), or sold with eating utensils",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(2)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(a)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(a) Only cut, repackaged, or pasteurized by the seller."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(4)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(4) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food (Example C)",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "This is, again, the sale of food which is only cut and repackaged."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "No Iowa page addresses party trays by name; this applies the statutory tests. Whether a dip with a vegetable tray makes it 'combined' is unverified. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller combines food ingredients and is taxable prepared food in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(2)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food (Example D)",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Sales of the sandwiches are taxable."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxable in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Taxable beverages include soft drinks."
+      },
+      {
+        "title": "Iowa Code 423.3(57) (2018 Code): food exemption excludes prepared food, candy and soft drinks",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Iowa sales tax and any local option sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa Code 423.2(1)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.2.pdf",
+        "quote": "There is imposed a tax of six percent upon the sales price of all sales of tangible personal property, sold at retail in the state to consumers or users except as otherwise provided in this subchapter."
+      },
+      {
+        "title": "Iowa Code 423B.5(1): local option tax on the same basis as the state tax",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      },
+      {
+        "title": "Iowa Code 423.2(1) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "There is imposed a tax of six percent upon the sales price of all sales of tangible personal property, consisting of goods, wares, or merchandise, sold at retail in the state to consumers or users"
+      }
+    ],
+    "notes": "The 2018 Code edition shows the same text; earlier history not modeled. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.accounting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, bookkeeping and tax preparation services are not taxable in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa DOR, Sales and Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Sales of services are exempt from Iowa sales tax unless taxed by state law."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code): only enumerated services are taxed",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax imposed by subsection 5:"
+      }
+    ],
+    "notes": "Accounting is not among the enumerated services of Iowa Code 423.2(6). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.advertising",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not taxable in Iowa; goods the agency sells as a retailer are.",
+    "conditions": [
+      {
+        "when": "Tangible goods the agency produces or buys and sells to the client other than as a true agent (Iowa Admin. Code r. 701-221.4)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa DOR, Sales and Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Sales of services are exempt from Iowa sales tax unless taxed by state law."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code): only enumerated services are taxed",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax imposed by subsection 5:"
+      }
+    ],
+    "notes": "Advertising is not among the enumerated services of Iowa Code 423.2(6). Photography and printing are taxable if billed. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.consulting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not taxable in Iowa; investment counseling is.",
+    "conditions": [
+      {
+        "when": "Investment counseling (advice on investing in or disposing of property)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa DOR, Sales and Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Sales of services are exempt from Iowa sales tax unless taxed by state law."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code): only enumerated services are taxed",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax imposed by subsection 5:"
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-211.4: investment counseling",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.211.pdf",
+        "quote": "Persons engaged in the business of counseling others relative to investment in or on the disposition of property or rights"
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.design",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Interior design and decorating services are taxable in Iowa.",
+    "conditions": [
+      {
+        "when": "Decorating advice given free of charge, incidental to the sale of goods or real property",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Services on or connected with new construction, reconstruction, alteration, expansion or remodeling",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.2(6)(aj)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.2.pdf",
+        "quote": "aj. Painting, papering, and interior decorating."
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-219.8: interior decoration defined",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.219.pdf",
+        "quote": "“Interior decoration” means the designing or decoration of the interior of houses or buildings, counseling with respect to such design or decoration, or the procurement of furniture fixtures or home or building decorations."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "office and business machine repair; painting, papering, and interior decorating;"
+      }
+    ],
+    "notes": "The incidental-service rule is r. 701-219 (painting, papering and interior decorating, subrule (3)). Whether design work connected with a remodel falls in the 423.3(37) construction exemption is a reading of the statute, not a cited ruling. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.engineering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are exempt from Iowa sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(37)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "The sales price of services on or connected with new construction, reconstruction, alteration, expansion, remodeling, or the services of a general building contractor, architect, or engineer."
+      },
+      {
+        "title": "Iowa Code 423.3(37) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "37. The sales price of services on or connected with new construction, reconstruction, alteration, expansion, remodeling, or the services of a general building contractor, architect,"
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "to": "2018-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before 2019 Iowa taxed electronic equipment repair and installation and software maintenance contracts, but not IT consulting, support or training.",
+    "conditions": [
+      {
+        "when": "IT consulting, systems advice, help-desk support or training",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or installation of computers or other electronic equipment, or office machine repair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Optional software maintenance or support contract (not technical support only)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code): only enumerated services are taxed",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax imposed by subsection 5:"
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "and electronic repair and installation; excavating and grading;"
+      },
+      {
+        "title": "Iowa Code 423.2(1)(a)(5) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "(5) Sales of optional service or warranty contracts for computer software maintenance or"
+      },
+      {
+        "title": "Iowa DOR, Taxation of Specified Digital Products, Software, and Related Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/taxation-specified-digital-products-software-and-related-services",
+        "quote": "To be subject to sales tax, a digital product had to constitute either tangible personal property or an enumerated service."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.it",
+    "from": "2019-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Since 2019 Iowa taxes services installing, maintaining, servicing, operating or upgrading software and digital products (unless bought by a commercial enterprise for its exclusive use) and electronic repair and installation; IT consulting and training not tied to them are not taxable.",
+    "conditions": [
+      {
+        "when": "Services installing, maintaining, servicing, repairing, operating or upgrading software or digital products, bought by a commercial enterprise for its exclusive use",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Services installing, maintaining, servicing, repairing, operating or upgrading software or digital products, bought by anyone else",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair or installation of computers or other electronic equipment",
+        "treatment": "taxable"
+      },
+      {
+        "when": "IT consulting, advice or training not related to installing, maintaining or operating software",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.2(6)(bs)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.2.pdf",
+        "quote": "bs. Services arising from or related to installing, maintaining, servicing, repairing, operating, upgrading, or enhancing either specified digital products or software sold as tangible personal property."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(p)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.2.pdf",
+        "quote": "p. Electrical and electronic repair and installation."
+      },
+      {
+        "title": "Iowa Code 423.2 (2019 Code), effective-date note for 2018 Acts ch 1161",
+        "url": "https://www.legis.iowa.gov/docs/code/2019/423.2.pdf",
+        "quote": "Subsection 6, except for provisions relating to pay television, photography, and retouching, effective January 1, 2019; 2018 Acts, ch 1161,"
+      },
+      {
+        "title": "Iowa DOR, Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa Code 423.3(104): commercial enterprise exemption",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "furnished, to a commercial enterprise for use exclusively by the commercial enterprise."
+      }
+    ],
+    "notes": "Optional software maintenance contracts are taxable (423.2(1)(a)(5)) but technical-support-only contracts are not, and both fall in the commercial-enterprise exemption. Where the line falls between IT consulting and 'operating' software is unverified. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional.legal",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not taxable in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa DOR, Sales and Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Sales of services are exempt from Iowa sales tax unless taxed by state law."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code): only enumerated services are taxed",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax imposed by subsection 5:"
+      }
+    ],
+    "notes": "Legal services are not among the enumerated services of Iowa Code 423.2(6). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "to": "2018-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2019 creating custom software, and separately charged modifications of prewritten software, were not taxable in Iowa.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxation of Specified Digital Products, Software, and Related Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/taxation-specified-digital-products-software-and-related-services",
+        "quote": "Also exempt was the service of creating custom software."
+      },
+      {
+        "title": "Iowa Code 423.1(38) (2018 Code): separately stated modifications are not prewritten software",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.1.pdf",
+        "quote": "However, when there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such modification or enhancement, such modification or enhancement shall not constitute prewritten computer software."
+      }
+    ],
+    "notes": "Covers software.custom.development and software.custom.modification. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "software.custom",
+    "from": "2019-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Since 2019 Iowa taxes custom software like prewritten software, and taxes services enhancing or upgrading software, except when sold to a commercial enterprise for its exclusive use.",
+    "conditions": [
+      {
+        "when": "Sold to a commercial enterprise (business, profession, occupation, insurer, financial institution, public utility) for its exclusive use (noncommercial use no more than de minimis)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold to anyone else, or used for more than de minimis noncommercial purposes",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxation of Specified Digital Products, Software, and Related Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/taxation-specified-digital-products-software-and-related-services",
+        "quote": "In addition, custom software sold in either physical or electronic form is taxed in the same manner as prewritten computer software."
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-211.37(1)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.211.pdf",
+        "quote": "Persons engaged in the business of providing services arising from or related to installing, maintaining, servicing, repairing, operating, upgrading, or enhancing specified digital products or software sold as tangible personal property are selling a service subject to sales tax."
+      },
+      {
+        "title": "Iowa Code 423.2 (2019 Code), effective-date note for 2018 Acts ch 1161",
+        "url": "https://www.legis.iowa.gov/docs/code/2019/423.2.pdf",
+        "quote": "Subsection 6, except for provisions relating to pay television, photography, and retouching, effective January 1, 2019; 2018 Acts, ch 1161,"
+      },
+      {
+        "title": "Iowa Code 423.3(104): commercial enterprise exemption",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "furnished, to a commercial enterprise for use exclusively by the commercial enterprise."
+      }
+    ],
+    "notes": "Covers software.custom.development and software.custom.modification. The DOR guidance speaks of custom software 'sold'; that charges for writing custom software are taxed the same way rests on that guidance and on 423.2(6)(bs) for modification (enhancing software); no rule addresses custom development by name. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "to": "2018-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before 2019 Iowa taxed prewritten software delivered on a disc or other tangible medium but not software delivered electronically.",
+    "conditions": [
+      {
+        "when": "Delivered on a disc or other tangible medium",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered electronically (download)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxation of Specified Digital Products, Software, and Related Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/taxation-specified-digital-products-software-and-related-services",
+        "quote": "Before January 1, 2019, prewritten computer software was subject to sales tax if it was delivered via a disc or other tangible medium but exempt if delivered in an electronic form."
+      },
+      {
+        "title": "Iowa Code 423.1 (2018 Code): tangible personal property includes prewritten software",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.1.pdf",
+        "quote": "personal property” includes electricity, water, gas, steam, and prewritten computer software."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "software.prewritten",
+    "from": "2019-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Since 2019 prewritten software is taxable in Iowa however delivered, except when sold to a commercial enterprise for its exclusive use.",
+    "conditions": [
+      {
+        "when": "Sold to a commercial enterprise (business, profession, occupation, insurer, financial institution, public utility) for its exclusive use (noncommercial use no more than de minimis)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold to anyone else, or used for more than de minimis noncommercial purposes",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxation of Specified Digital Products, Software, and Related Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/taxation-specified-digital-products-software-and-related-services",
+        "quote": "Beginning January 1, 2019, prewritten computer software is subject to sales tax whether delivered or accessed in physical form (as tangible personal property) or electronically (as a specified digital product)."
+      },
+      {
+        "title": "Iowa Code 423.2 (2019 Code), effective-date note for 2018 Acts ch 1161",
+        "url": "https://www.legis.iowa.gov/docs/code/2019/423.2.pdf",
+        "quote": "Subsection 6, except for provisions relating to pay television, photography, and retouching, effective January 1, 2019; 2018 Acts, ch 1161,"
+      },
+      {
+        "title": "Iowa Code 423.3(104): commercial enterprise exemption",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "furnished, to a commercial enterprise for use exclusively by the commercial enterprise."
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-225.7(1)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.225.pdf",
+        "quote": "furnished to a commercial enterprise for use exclusively by a commercial enterprise is exempt from tax."
+      }
+    ],
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "to": "2018-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2019 remotely accessed software was not taxable in Iowa: products delivered electronically were exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Taxation of Specified Digital Products, Software, and Related Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/taxation-specified-digital-products-software-and-related-services",
+        "quote": "To be subject to sales tax, a digital product had to constitute either tangible personal property or an enumerated service. Further, all products delivered electronically were exempt from sales tax."
+      },
+      {
+        "title": "Iowa Code 423.2(6)(a) (2018 Code): only enumerated services are taxed",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax imposed by subsection 5:"
+      }
+    ],
+    "notes": "SaaS was not among the 2018 enumerated services; became taxable 2019-01-01 under 2018 Acts ch 1161 (SF 2417). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "software.saas",
+    "from": "2019-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Since 2019 software as a service is taxable in Iowa, except when sold to a commercial enterprise for its exclusive use.",
+    "conditions": [
+      {
+        "when": "Sold to a commercial enterprise (business, profession, occupation, insurer, financial institution, public utility) for its exclusive use (noncommercial use no more than de minimis)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold to anyone else, or used for more than de minimis noncommercial purposes",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.2(6)(bu)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.2.pdf",
+        "quote": "bu. Software as a service."
+      },
+      {
+        "title": "Iowa Code 423.2 (2019 Code), effective-date note for 2018 Acts ch 1161",
+        "url": "https://www.legis.iowa.gov/docs/code/2019/423.2.pdf",
+        "quote": "Subsection 6, except for provisions relating to pay television, photography, and retouching, effective January 1, 2019; 2018 Acts, ch 1161,"
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-211.35(1)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.211.pdf",
+        "quote": "Persons engaged in the business of providing software as a service are selling a service subject to sales tax."
+      },
+      {
+        "title": "Iowa Code 423.3(104): commercial enterprise exemption",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "furnished, to a commercial enterprise for use exclusively by the commercial enterprise."
+      },
+      {
+        "title": "Iowa Admin. Code r. 701-225.7(1)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.225.pdf",
+        "quote": "furnished to a commercial enterprise for use exclusively by a commercial enterprise is exempt from tax."
+      }
+    ],
+    "notes": "Infrastructure as a service and stand-alone web hosting are not SaaS (r. 701-211.35; DOR guidance). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  }
+]

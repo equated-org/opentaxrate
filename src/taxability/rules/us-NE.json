@@ -1,0 +1,807 @@
+[
+  {
+    "tax": "NE",
+    "code": "construction.real_property",
+    "from": "2011-06-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Nebraska construction and real property repair labor is generally exempt; whether the owner is charged tax on materials depends on the contractor's registered option.",
+    "conditions": [
+      {
+        "when": "Contractor is registered as Option 2 or Option 3 (it pays sales or use tax on materials itself)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Contractor is Option 1 (or made no election) and charges one amount for materials and labor",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contractor is Option 1: the building materials charge, where labor is stated separately",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contractor is Option 1: the separately stated labor charge",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-017.01 (June 6, 2011)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "Gross receipts from construction projects or the repair of real estate or fixtures are generally exempt from sales or use tax, except as otherwise stated in this regulation."
+      },
+      {
+        "title": "Reg-1-017.05C(1)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "Option 1 contractors must collect sales tax from all of their customers, including contractors, on the total amount charged for building materials they annex to real estate"
+      },
+      {
+        "title": "Reg-1-017.05C(4)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "Option 1 contractors will not normally collect sales tax on separately stated labor charges of the Option 1 contractor."
+      },
+      {
+        "title": "Reg-1-017.05C(4)(a)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "Option 1 contractors who charge one amount for both building materials and labor must collect sales tax on the total amount charged."
+      },
+      {
+        "title": "Reg-1-017.06C(1)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "Option 2 contractors will not normally collect sales tax on any repairs or improvements to real estate or property annexed to real estate."
+      },
+      {
+        "title": "Reg-1-017.07C(1)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "Option 3 contractors will not normally collect sales tax on any repairs or improvements to real estate or property annexed to real estate."
+      },
+      {
+        "title": "Reg-1-017.03B",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-017.pdf",
+        "quote": "If the registration application is not completed or an election is not made, the contractor will be treated as a retailer under Option 1 for sales and use tax purposes."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Covers both subcodes; Nebraska treats improvement and repair alike. Taxable services performed at a site (building cleaning, pest control, security) are taxable whoever performs them, and contractors are retailers of property not annexed. Exempt-buyer projects (purchasing agent appointments) are buyer facts not modeled. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "delivery.exempt_goods",
+    "from": "2005-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for exempt goods are not taxable in Nebraska.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-079.02C (April 12, 2005)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-079.pdf",
+        "quote": "The seller must collect tax on the percentage of the delivery charge allocated to the taxable property but does not have to collect tax on the percentage of the delivery charge allocated to the exempt property."
+      },
+      {
+        "title": "Delivery Charges information guide (July 2014)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-507.pdf",
+        "quote": "Delivery charges are sales tax exempt when:"
+      },
+      {
+        "title": "Delivery Charges information guide (July 2014)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-507.pdf",
+        "quote": "The purchaser's transaction with the retailer is exempt;"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "delivery.taxable_goods",
+    "from": "2005-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges paid to the retailer are taxable in Nebraska when the item delivered is taxable.",
+    "conditions": [
+      {
+        "when": "The buyer contracts with and pays the carrier or Postal Service directly, not the retailer",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-079.01 (April 12, 2005)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-079.pdf",
+        "quote": "079.01 Charges for delivery, freight, postage, shipping, handling, crating, packing, or transportation of an item are taxable whenever the item is taxable and the charges are paid to the retailer of the item."
+      },
+      {
+        "title": "Delivery Charges information guide (July 2014)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-507.pdf",
+        "quote": "Delivery charges are taxable when both:"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Separately stated U.S. postage on direct mail is excluded (from 2014-04-01). Where one charge covers taxable and exempt items, it is allocated by price or weight (Reg-1-079.02). Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.candy",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy is food in Nebraska and is exempt from state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-087.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-087.pdf",
+        "quote": "087.01 Sales of food or food ingredients are exempt from sales and use tax."
+      },
+      {
+        "title": "Reg-1-087.01A(1) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-087.pdf",
+        "quote": "cereals, eggs, fruits, meats, vegetables, milk, health foods consumed in place of other foods and not as a vitamin or mineral supplement, flour, cooking oils, sugar, soft drinks, bottled water, ice, candy, and chewing gum."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "No change found in the Department's legislative summaries for 2018-2026. Candy sold through a vending machine, or as prepared food (e.g. with utensils at a seller over the 75% threshold), is taxable. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.catering",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is taxable in Nebraska, including charges for staff, dishes, tables and chairs and mandatory gratuities, even if separately stated.",
+    "conditions": [
+      {
+        "when": "Separately stated charges for persons not connected with preparing or serving food or drink (announcers, coat check, ushers)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-083.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Retail sales of prepared food, including sales by caterers and concessionaires, and all sales of prepared food, food, and food ingredients through vending machines are taxable."
+      },
+      {
+        "title": "Reg-1-083.04 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Sales and use tax applies to the gross receipts from preparing or serving prepared food and alcoholic beverages, including, for example charges for food, wages, use of dishes, room service, silverware, glassware, chairs, and tables."
+      },
+      {
+        "title": "Reg-1-083.05 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Charges made by a caterer, restaurant or other retailer of prepared food or alcoholic beverages, for furnishing employees, for example, bartenders, servers, or chefs are taxable even if separately stated at the time of billing."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Gratuities the caterer adds to the bill are taxable (Reg-1-083.07); discretionary tips the customer adds are not. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.grocery",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients sold unprepared are exempt from Nebraska state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-087.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-087.pdf",
+        "quote": "087.01 Sales of food or food ingredients are exempt from sales and use tax."
+      },
+      {
+        "title": "Reg-1-087.01A(1) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-087.pdf",
+        "quote": "cereals, eggs, fruits, meats, vegetables, milk, health foods consumed in place of other foods and not as a vitamin or mineral supplement, flour, cooking oils, sugar, soft drinks, bottled water, ice, candy, and chewing gum."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "The exemption is older (Nebraska adopted the Streamlined definitions in the 2000s); 2013-07-03 is the date of Reg-1-087 as read. Alcohol, dietary supplements and tobacco are not food. Food sold through vending machines is taxable. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.bakery",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt in Nebraska when sold unheated without eating utensils; sold warmed, with utensils handed over, or by a seller over the 75% prepared-food threshold with utensils available, they are taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated, without utensils handed over, by a seller whose prepared food is 75% or less of its food sales (bakery, grocery, convenience store)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold warmed or heated by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared food exceeds 75% of its food sales (coffee shop, restaurant) and napkins or other utensils are available on the premises, unless four or more servings are packaged as one item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller hands over a plate, napkin, fork or other eating utensil with the item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-083.03B (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Bakery items such as bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas that are not sold in a heated state or with eating utensils;"
+      },
+      {
+        "title": "Reg-1-083.02A (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "083.02A Food sold in a heated state or heated by the retailer, including, but not limited to hamburgers, hot dogs, pizza, egg rolls, baked beans, and nachos with heated cheese sauce;"
+      },
+      {
+        "title": "Reg-1-083.02C(2) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "If more than 75% of the sales of food by the retailer are sales of prepared food described by 083.02A and 083.02B, eating utensils are considered provided by the retailer if they are available on the premises where the food is sold, regardless of whether or not the purchasers are given the utensils or take them."
+      },
+      {
+        "title": "Reg-1-083.02C(4) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "sales of food or food ingredients are not taxable if the transaction is for four or more servings"
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), 75% rule example",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "sales tax must also be collected on sales of the dessert items and bottled water because these items are considered to be sold with eating utensils provided by the seller (Category A)."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.cold",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food from a Nebraska grocery or deli is taxable if the seller cooked it, combined it into a single item, or hands over utensils; food only sliced or cut, or sold unheated by weight or volume, is exempt.",
+    "conditions": [
+      {
+        "when": "Cooked or otherwise heated by the seller at any time before sale, even if sold cold (e.g. a cooked chicken sold cold)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only sliced, cut, repackaged or pasteurized by the seller (deli meats, cheeses, cut fruit), unheated, without utensils handed over",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Unheated, and measured and sold by weight or volume as a single item (deli salads by the pound or in lidded containers), without utensils handed over",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as a single item not by weight or volume (e.g. a pre-portioned salad)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller hands over a plate, fork, napkin or other eating utensil, or the seller's prepared-food sales exceed 75% of its food sales and utensils are available",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-083.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Retail sales of prepared food, including sales by caterers and concessionaires, and all sales of prepared food, food, and food ingredients through vending machines are taxable."
+      },
+      {
+        "title": "Reg-1-083.02A (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "083.02A Food sold in a heated state or heated by the retailer, including, but not limited to hamburgers, hot dogs, pizza, egg rolls, baked beans, and nachos with heated cheese sauce;"
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "Note: Food that was heated by the seller at any time before the sale, is taxable as prepared food even if it is in an unheated state at the time of the sale."
+      },
+      {
+        "title": "Reg-1-083.02B (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Two or more foods or food ingredients mixed or combined by the retailer for sale as a single item and not sold by weight or volume, including, but not limited to, fountain drinks, ice cream cones, sandwiches, and salad bars; or"
+      },
+      {
+        "title": "Reg-1-083.03C (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller, including, but not limited to, luncheon meats, cheeses, meat and cheese trays, and fruit trays;"
+      },
+      {
+        "title": "Reg-1-083.03D (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Food sold in an unheated state by weight or volume as a single item, including, but not limited to, containers of potato salad, coleslaw or fruit salad, pudding, and popcorn; or"
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), delicatessens",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "are not taxable when served in a container with a lid and measured and sold by weight or volume."
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), delicatessens",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "These foods are taxable when sold as part of a meal, when catered, or when served on a plate or with a fork, spoon, or other eating utensils."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "The 'heated at any time before sale' reading is from the 2023 guide; the regulation (083.02A) says 'heated by the retailer'. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food sold to go by a Nebraska restaurant is taxable prepared food: it is usually combined by the seller, and at a seller whose prepared food exceeds 75% of food sales, utensils available on the premises make all its food taxable.",
+    "conditions": [
+      {
+        "when": "Four or more servings packaged as one item (e.g. a whole pie, a dozen donuts) that is not heated or combined by the seller, with records kept",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-083.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Retail sales of prepared food, including sales by caterers and concessionaires, and all sales of prepared food, food, and food ingredients through vending machines are taxable."
+      },
+      {
+        "title": "Reg-1-083.02B (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Two or more foods or food ingredients mixed or combined by the retailer for sale as a single item and not sold by weight or volume, including, but not limited to, fountain drinks, ice cream cones, sandwiches, and salad bars; or"
+      },
+      {
+        "title": "Reg-1-083.02C(2) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "If more than 75% of the sales of food by the retailer are sales of prepared food described by 083.02A and 083.02B, eating utensils are considered provided by the retailer if they are available on the premises where the food is sold, regardless of whether or not the purchasers are given the utensils or take them."
+      },
+      {
+        "title": "Reg-1-083.02C(4) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "sales of food or food ingredients are not taxable if the transaction is for four or more servings"
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), 75% rule example",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "sales tax must also be collected on sales of the dessert items and bottled water because these items are considered to be sold with eating utensils provided by the seller (Category A)."
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), four-serving exception",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "For example, a restaurant selling a dozen donuts, a loaf of bread, or a whole pie, would not be required to collect tax on these items."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Assumes a food-service business whose prepared food is more than 75% of its food sales, with utensils (napkins, straws) available, as for a typical restaurant. A seller at or under 75% would owe tax on an unheated, uncombined item only if it hands over utensils. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.dine_in",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served on the seller's plates or with its utensils for eating on its premises is taxable prepared food in Nebraska.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-083.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Retail sales of prepared food, including sales by caterers and concessionaires, and all sales of prepared food, food, and food ingredients through vending machines are taxable."
+      },
+      {
+        "title": "Reg-1-083.02C (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Food sold with eating utensils provided by the retailer. Eating utensils include, but are not limited to, plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "When the seller hands the customer an eating utensil, such as a plate, cup, fork, or napkin, the food is deemed to be sold \"with eating utensils provided by the seller\" and is subject to tax."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Plates, glasses and cups the seller provides are eating utensils, so food served for eating on the premises is prepared food even if unheated and not combined. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.hot",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated, or heated by the seller, is taxable prepared food in Nebraska.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-083.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Retail sales of prepared food, including sales by caterers and concessionaires, and all sales of prepared food, food, and food ingredients through vending machines are taxable."
+      },
+      {
+        "title": "Reg-1-083.02A (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "083.02A Food sold in a heated state or heated by the retailer, including, but not limited to hamburgers, hot dogs, pizza, egg rolls, baked beans, and nachos with heated cheese sauce;"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Exempt sellers (schools, religious organizations at their functions, hospitals and institutions, SNAP-accepting meal programs for the elderly) are buyer- or seller-specific exceptions not modeled. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.platter",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A Nebraska party tray of items the seller only sliced or cut (meat, cheese, fruit, vegetables) is exempt; a tray of sandwiches or other items the seller combined, a caterer's tray, or one sold with utensils is taxable.",
+    "conditions": [
+      {
+        "when": "Tray of items only sliced, cut or repackaged by the seller (cold cuts, cheeses, fruit, vegetables), not heated, sold without eating utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Tray includes sandwiches or other items the seller mixed or combined, or anything the seller heated",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold by a caterer, or with eating utensils (plates, napkins, or a platter designed for serving) provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-083.03C (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller, including, but not limited to, luncheon meats, cheeses, meat and cheese trays, and fruit trays;"
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "Food that is only sliced, repackaged, or pasteurized by the seller (other than caterers). Examples include luncheon meats, cheeses, meat and cheese trays, and cut fruits;"
+      },
+      {
+        "title": "Reg-1-083.02B (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Two or more foods or food ingredients mixed or combined by the retailer for sale as a single item and not sold by weight or volume, including, but not limited to, fountain drinks, ice cream cones, sandwiches, and salad bars; or"
+      },
+      {
+        "title": "Reg-1-083.02C (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Food sold with eating utensils provided by the retailer. Eating utensils include, but are not limited to, plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), eating utensils",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "platters or trays designed for serving and displaying food"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "The guide lists 'platters or trays designed for serving and displaying food' among eating utensils, while the regulation (083.02C) says plates do not include packaging used to transport food; whether a given deli tray's base counts as a utensil is not settled by the sources. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.prepared.sandwich",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches made by the seller, packaged or not, are taxable prepared food in Nebraska.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-083.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Retail sales of prepared food, including sales by caterers and concessionaires, and all sales of prepared food, food, and food ingredients through vending machines are taxable."
+      },
+      {
+        "title": "Reg-1-083.02B (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-083.pdf",
+        "quote": "Two or more foods or food ingredients mixed or combined by the retailer for sale as a single item and not sold by weight or volume, including, but not limited to, fountain drinks, ice cream cones, sandwiches, and salad bars; or"
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023), delicatessens",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "Sandwiches, whether packaged or unpackaged, that are prepared by the seller, fountain drinks, or soft serve ice cream are also taxable as prepared food."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "A sandwich made by a food manufacturer (NAICS 311) and resold unheated without utensils is not prepared food (Reg-1-083.03A); the code describes seller-made sandwiches. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "food.soft_drink",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Soft drinks are food in Nebraska and are exempt from state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-087.01 (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-087.pdf",
+        "quote": "087.01 Sales of food or food ingredients are exempt from sales and use tax."
+      },
+      {
+        "title": "Reg-1-087.01A(1) (July 3, 2013)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-087.pdf",
+        "quote": "cereals, eggs, fruits, meats, vegetables, milk, health foods consumed in place of other foods and not as a vitamin or mineral supplement, flour, cooking oils, sugar, soft drinks, bottled water, ice, candy, and chewing gum."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Bottled or canned soft drinks only; fountain drinks mixed by the seller are prepared food and taxable (Reg-1-083.02B), and a bottled soda sold by a seller over the 75% prepared-food threshold with straws or napkins available is taxable. No change found in 2018-2026 legislative summaries. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "goods.general",
+    "from": "2003-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of general tangible goods are subject to Nebraska state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-001.01, Nature of the Sales Tax (October 1, 2003)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "The sales tax is imposed upon the gross receipts from all sales, leases, rentals, installation, application, repair, or maintenance of tangible personal property"
+      },
+      {
+        "title": "Nebraska and Local Sales Tax information guide (rev. 10-2008)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-352.pdf",
+        "quote": "Retailers must collect the state and appropriate local option sales tax on the gross receipts from all retail sales unless a specific exemption applies."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "The tax is far older than 2003; 2003-10-01 is the date of Reg-1-001 as read. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "service.professional",
+    "from": "2003-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal, accounting, consulting, engineering, interior design and similar professional services are not among the services Nebraska taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-001.01, Nature of the Sales Tax (October 1, 2003)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "and the gross receipts from the sale or providing of certain enumerated services."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-2701.16(4), the enumerated services",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2701.16",
+        "quote": "(4) Gross receipts for providing a service means:"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-2701.16(4)(a)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2701.16",
+        "quote": "(a) The gross income received for building cleaning and maintenance, pest control, and security;"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Nebraska taxes only the services listed in 77-2701.16(4) (building cleaning and maintenance, pest control, security, motor vehicle washing/waxing/towing/painting, computer software training, installation of taxable property, RV parks, repair of taxable personal property, animal specialty and detective services); none is a professional service. IT and advertising have their own rules. Goods an interior designer sells (furniture, fabric) are taxable. 2003-10-01 is the date of Reg-1-001 as read; the current list was checked against the statute as published in 2026. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "service.professional.advertising",
+    "from": "1994-05-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Nebraska advertising agency services (copywriting, consultation, market research, media placement) are exempt, but agency fees on projects that produce advertising materials delivered to the client are taxable.",
+    "conditions": [
+      {
+        "when": "Project results only in services: writing copy or artwork for media, consultation, market research, compiling information, or placing advertisements in newspapers, magazines, television or radio",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Project results in advertising materials (printed matter, signs, tapes, graphics) delivered to the client or its customers, with the agency acting as retailer: total billed including fees and commissions",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-056.05D (May 14, 1994)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-056.pdf",
+        "quote": "The agency will not collect tax on charges for projects that result in the advertising services listed below."
+      },
+      {
+        "title": "Reg-1-056.05D(3)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-056.pdf",
+        "quote": "Providing consultation or market research;"
+      },
+      {
+        "title": "Reg-1-056.05D(5)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-056.pdf",
+        "quote": "Placing or arranging for advertisements in newspapers, magazines, television, or radio."
+      },
+      {
+        "title": "Reg-1-056.05E(3)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-056.pdf",
+        "quote": "The agency must collect tax from the client on the total amount billed for the project including any commissions, surcharges, or agency fees connected with an advertising project that results in materials transferred to the client."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Where a project yields both, fees are split by the relative charges (056.05E(4)); where the client appoints the agency its purchasing agent, other paragraphs of Reg-1-056 apply. Reg-1-056 is dated May 14, 1994. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "service.professional.it",
+    "from": "2009-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "IT consulting and support that transfers no software is exempt in Nebraska; training is taxable only when paid to the seller of the software.",
+    "conditions": [
+      {
+        "when": "Training on software, paid to the retailer that sold the software",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Work that results in software, or software updates or modifications, transferred to the customer (systems analysis, programming, installation of software)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Support bundled automatically or mandatorily with a software sale",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-088.03 (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-088.pdf",
+        "quote": "Charges for consultants who only provide generalized advice and who do not provide any software or modifications to software are exempt."
+      },
+      {
+        "title": "Reg-1-088.02 (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-088.pdf",
+        "quote": "Charges for customer training are taxable whenever paid to the retailer of the software. Charges for training that are paid to a person other than the retailer of the software are exempt."
+      },
+      {
+        "title": "Sales Tax on Certain Services FAQs, computer software training",
+        "url": "https://revenue.nebraska.gov/about/frequently-asked-questions/sales-tax-certain-services-faqs",
+        "quote": "Your training services are taxable only if you also sell the computer software."
+      },
+      {
+        "title": "Nebraska Sales and Use Tax FAQs, computer consulting",
+        "url": "https://revenue.nebraska.gov/about/frequently-asked-questions/nebraska-sales-and-use-tax-faqs",
+        "quote": "Charges for consultants who only provide generalized advice and who do not provide software or updates or modifications to software are sales tax exempt."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "The code excludes writing software. Repair of taxable hardware (labor on tangible personal property) is a taxable service under 77-2701.16(4)(f); network or help-desk work that repairs hardware may be taxable on that ground, not researched. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "software.custom",
+    "from": "2009-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software, including programming, development and modification of existing software, is taxable in Nebraska.",
+    "conditions": [
+      {
+        "when": "Software written by a temporary employee under a written agreement meeting all three conditions of Revenue Ruling 01-02-1 (company control, no provider liability, company owns the software)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Reg-1-088.01A (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-088.pdf",
+        "quote": "The gross receipts from furnishing software includes services provided by a consultant that result in a transfer of software from the consultant to the client."
+      },
+      {
+        "title": "Reg-1-088.04 (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-088.pdf",
+        "quote": "Software that alters existing software is considered separate from the existing software and is taxable."
+      },
+      {
+        "title": "Nebraska Sales and Use Tax FAQs, computer consulting",
+        "url": "https://revenue.nebraska.gov/about/frequently-asked-questions/nebraska-sales-and-use-tax-faqs",
+        "quote": "Charges for services by a consultant that result in a transfer of software, whether canned or custom, are subject to sales tax including charges for programming, program development, systems analysis, software customization and modification, upgrading of software programs, and charges for installation."
+      },
+      {
+        "title": "Revenue Ruling 01-02-1 (February 11, 2002)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/rulings/rr010201.pdf",
+        "quote": "Therefore, any charges for personal services that result in software are subject to tax unless it can be shown that the payments are wages of an employee, whether temporary or permanent, who writes computer software."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Covers both subcodes (development and modification). The 2002 ruling shows the treatment is older than 2009; 2009-02-22 is the date of Reg-1-088 as read. Website design delivered electronically or hosted is not taxable (Revenue Ruling 01-10-2), which is outside this code. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "software.prewritten",
+    "from": "2009-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Nebraska however it is delivered, on media or by download.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Reg-1-088.01 (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/legal/regs/1-088.pdf",
+        "quote": "088.01 The gross receipts from furnishing software regardless of the manner in which it is conveyed are taxable."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "Mandatory support or training paid to the software seller is taxable; optional, separately stated telephone support is not (FAQ). 2009-02-22 is the date of Reg-1-088 as read. No rule is written for software.saas: no Nebraska statute, regulation, ruling or DOR page read here addresses remotely accessed software (Reg-1-088 taxes software 'regardless of the manner in which it is conveyed', and Revenue Ruling 01-10-2 holds hosted website development untaxed), so SaaS is left unresearched rather than guessed. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  }
+]

@@ -1,0 +1,904 @@
+[
+  {
+    "tax": "MI",
+    "code": "construction.real_property",
+    "from": "2019-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A Michigan contractor that builds, alters or repairs real estate pays sales or use tax on its materials and may not charge sales tax to the customer.",
+    "conditions": [
+      {
+        "when": "The contractor also sells tangible property at retail to the customer (e.g. items not affixed to the real estate)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RAB 2019-15, Construction Industry (approved November 12, 2019)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2019-revenue-administrative-bulletins/revenue-administrative-bulletin-2019-15",
+        "quote": "A contractor that pays sales or use tax on the property it uses and consumes in performing a construction contract, such as equipment, supplies, and materials, may not charge sales or use tax directly to its customer."
+      },
+      {
+        "title": "RAB 2019-15",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2019-revenue-administrative-bulletins/revenue-administrative-bulletin-2019-15",
+        "quote": "a “contractor” is a person directly engaged in the business of constructing, altering, repairing, or improving real estate for others"
+      },
+      {
+        "title": "RAB 2023-16",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-16",
+        "quote": "that retailer is a contractor, and amounts charged for installation are not “installation charges” as that term is used in the GSTA or the UTA."
+      }
+    ],
+    "notes": "Covers both subcodes (improvement and repair). The contractor rule (Mich Admin Code R 205.71) is much older; 2019-11-12 is the date of the bulletin read (it replaced RAB 2016-18, not read). Labor on real property is not a taxable service. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "delivery.exempt_goods",
+    "from": "2017-03-29",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Michigan sellers are not liable for tax on delivery charges allocated to exempt goods.",
+    "citations": [
+      {
+        "title": "2016 PA 515, MCL 205.51(1)(d)(iv)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2016-PA-0515.pdf",
+        "quote": "A seller is not liable under this act for delivery charges allocated to the delivery of exempt property."
+      },
+      {
+        "title": "MCL 205.51(1)(d)(iv) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-51",
+        "quote": "A seller is not liable under this act for delivery charges allocated to the delivery of exempt property."
+      },
+      {
+        "title": "RAB 2023-16, issue 6",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-16",
+        "quote": "exclude from the tax base “delivery charges allocated to the delivery of exempt property.”"
+      }
+    ],
+    "notes": "2017-03-29 is the earliest version of MCL 205.51 read (2016 PA 515); the same sentence is in the current text. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer.",
+    "conditions": []
+  },
+  {
+    "tax": "MI",
+    "code": "delivery.taxable_goods",
+    "from": "2017-03-29",
+    "to": "2023-04-25",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before April 26, 2023, Michigan taxed delivery charges incurred before ownership of the taxable goods passed to the buyer, even if separately stated.",
+    "conditions": [
+      {
+        "when": "Delivery charge incurred before the transfer of ownership to the buyer is complete (the general case for seller-arranged delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery charge incurred after ownership has passed to the buyer",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2016 PA 515, MCL 205.51(1)(d)(iv)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2016-PA-0515.pdf",
+        "quote": "Delivery charges incurred or to be incurred before the completion of the transfer of ownership of tangible personal property subject to the tax levied under this act from the seller to the purchaser."
+      },
+      {
+        "title": "2018 PA 2, MCL 205.51(1)(d)(iv)",
+        "url": "https://www.legislature.mi.gov/documents/2017-2018/publicact/pdf/2018-PA-0002.pdf",
+        "quote": "Delivery charges incurred or to be incurred before the completion of the transfer of ownership of tangible personal property subject to the tax levied under this act from the seller to the purchaser."
+      },
+      {
+        "title": "Treasury, Delivery and Installation Charges",
+        "url": "https://www.michigan.gov/taxes/business-taxes/sales-use-tax/delivery-and-installation-charges",
+        "quote": "Prior to the passage of Public Acts 20 and 21 of 2023, delivery and installation charges were generally subject to sales and use taxes because these fees were incurred prior to the transfer of ownership."
+      },
+      {
+        "title": "RAB 2023-16",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-16",
+        "quote": "no longer depends on when the charges are incurred by the purchaser or when ownership of the property transfers from a seller to a purchaser."
+      }
+    ],
+    "notes": "2017-03-29 is the earliest version of MCL 205.51 read (2016 PA 515); the same wording was in force before. RAB 2015-17 (the old delivery bulletin) could not be downloaded. Treasury may not assess pre-2023-04-26 delivery charges anymore (MCL 205.51(3)), but tax collected then is not refundable. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "delivery.taxable_goods",
+    "from": "2023-04-26",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Since April 26, 2023, separately stated delivery charges are excluded from Michigan's taxable sales price when the seller's books record them separately.",
+    "conditions": [
+      {
+        "when": "The seller's books and records do not show the delivery charge separately, or don't match the invoice",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery (transmission/distribution) charges of a utility selling electricity or natural gas",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2023 PA 20, MCL 205.51(1)(d)(xv)",
+        "url": "https://www.legislature.mi.gov/documents/2023-2024/publicact/pdf/2023-PA-0020.pdf",
+        "quote": "Delivery or installation charges if such charges are separately stated on the invoice, bill of sale, or similar document provided to the purchaser, and the seller maintains its books and records to show separately the transactions used to determine the tax levied by this act."
+      },
+      {
+        "title": "2023 PA 20",
+        "url": "https://www.legislature.mi.gov/documents/2023-2024/publicact/pdf/2023-PA-0020.pdf",
+        "quote": "EFFECTIVE DATE: April 26, 2023"
+      },
+      {
+        "title": "Treasury, Delivery and Installation Charges",
+        "url": "https://www.michigan.gov/taxes/business-taxes/sales-use-tax/delivery-and-installation-charges",
+        "quote": "Beginning April 26, 2023, most delivery and installation charges are not subject to sales and use taxes as long as the seller (i.e., the taxpayer):"
+      },
+      {
+        "title": "RAB 2023-16 (approved September 11, 2023)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-16",
+        "quote": "But on and after the amendatory acts’ effective date, the charges are excluded from the tax base where the charges are stated separately in the seller’s books or records and on a document, like an invoice, given to the purchaser."
+      }
+    ],
+    "notes": "2023 PA 21 made the same change to the Use Tax Act. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "food.candy",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy is food and food ingredients in Michigan and is exempt unless sold as prepared food.",
+    "conditions": [
+      {
+        "when": "The seller gives or hands eating utensils (e.g. a napkin) with the candy, or the candy is heated or combined by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(3)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Food and food ingredients do not include alcoholic beverages and tobacco."
+      },
+      {
+        "title": "2015 PA 171, enacting section 1",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "This amendatory act is retroactive and effective beginning March 14, 2014."
+      },
+      {
+        "title": "MCL 205.54g(3)(c) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food and food ingredients do not include alcoholic beverages and tobacco."
+      },
+      {
+        "title": "RAB 2022-4, Example 1",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "ABC’s sales of candy bars are not taxable prepared food."
+      },
+      {
+        "title": "RAB 2026-2, Example 38",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "therefore, the candy is not subject to tax as “prepared food.”"
+      }
+    ],
+    "notes": "Michigan's food definition excludes only alcoholic beverages and tobacco, so candy is not carved out of the exemption (unlike the SSUTA default). Since 2024-02-13 a seller with over 75% prepared-food sales still needs to give or hand the utensil for candy to become prepared food (MCL 205.54g(3)(e)(i)); before that the general handing/packaging standard applied. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "food.catering",
+    "from": "2017-03-29",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered food is prepared food in Michigan, and mandatory service charges needed to complete the sale are part of the taxable sales price.",
+    "conditions": [
+      {
+        "when": "A gratuity or tip separately identified on the bill and remitted to employees",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2016 PA 515, MCL 205.51(1)(d)(iii)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2016-PA-0515.pdf",
+        "quote": "Charges by the seller for any services necessary to complete the sale, other than the following:"
+      },
+      {
+        "title": "MCL 205.51(1)(d)(iii)(A) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-51",
+        "quote": "An amount received or billed by the taxpayer for remittance to the employee as a gratuity or tip, if the gratuity or tip is separately identified and itemized on the guest check or billed to the customer."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold in a heated state or that is heated by the seller."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "Treasury technical advice letter, Taxability of Services and Tangible Personal Property (March 12, 2025)",
+        "url": "https://www.michigan.gov/treasury/reference/tech/taxability-of-services-and-tangible-personal-property",
+        "quote": "The mandatory service fee described is specifically included in the definition of “sales price” under MCL 205.51(1)(d)(iii), as such, the “base fee” is taxable."
+      }
+    ],
+    "notes": "No current Treasury bulletin on caterers was found (RAB 1991-19, on caterers at fundraising events, was replaced). The technical advice letter concerns a mandatory bartending fee at a venue; its reasoning (mandatory service charges are 'services necessary to complete the sale') is applied to catering staff and service charges here. Rentals of tables or linens billed by the caterer were not separately researched. 2017-03-29 is the earliest version of MCL 205.51 read (2016 PA 515). Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "food.grocery",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients that are not prepared food are exempt from Michigan sales tax.",
+    "conditions": [
+      {
+        "when": "Sold from a vending machine and artificially heated or cooled (other than milk, sealed nonalcoholic beverages and fresh fruit)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, amending MCL 205.54g(1)(a)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "or food or food ingredients, except prepared food intended for immediate human consumption"
+      },
+      {
+        "title": "2015 PA 171, enacting section 1",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "This amendatory act is retroactive and effective beginning March 14, 2014."
+      },
+      {
+        "title": "MCL 205.54g(1)(a) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "or food or food ingredients, except prepared food intended for immediate human consumption"
+      },
+      {
+        "title": "MCL 205.54g(3)(c) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food and food ingredients do not include alcoholic beverages and tobacco."
+      },
+      {
+        "title": "RAB 2026-2, Food for Human Consumption",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The General Sales Tax Act (GSTA), MCL 205.51 et seq., and the Use Tax Act (UTA), MCL 205.91 et seq., accordingly exempt “food and food ingredients” from the acts’ taxes on use, storage, consumption, and retail sale of tangible personal property."
+      }
+    ],
+    "notes": "The food exemption rests on Const 1963 art IX sec 8 and is much older; 2014-03-14 is the start of the statute text read (2015 PA 171, retroactive). Dietary supplements are food in Michigan (only alcohol and tobacco are excluded). Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Michigan taxes prepared food (heated, combined by the seller, or sold with utensils the seller provides) and exempts other food; bakery items and food sold by weight without utensils are excluded.",
+    "conditions": [
+      {
+        "when": "Hot food, dine-in food, sandwiches and other items the seller mixed or combined (food.prepared.hot, .dine_in, .sandwich, .cold_restaurant)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Food only cut, repackaged or pasteurized by the seller, or sold unheated by weight or volume as a single item without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bakery items sold without eating utensils (food.prepared.bakery; see its rule for the utensil standard by date)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, amending MCL 205.54g(1)(a)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "or food or food ingredients, except prepared food intended for immediate human consumption"
+      },
+      {
+        "title": "2015 PA 171, MCL 205.54g(4) (prepared food)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "MCL 205.54g(1)(a) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "or food or food ingredients, except prepared food intended for immediate human consumption"
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold in a heated state or that is heated by the seller."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(iii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold with eating utensils provided by the seller, including, but not limited to, knives, forks, spoons, glasses, cups, napkins, straws, or plates"
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.bakery",
+    "from": "2014-03-14",
+    "to": "2020-11-18",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils were exempt in Michigan, but under Treasury's Rule 86 a seller with over 75% prepared-food sales that made utensils available was treated as providing them.",
+    "conditions": [
+      {
+        "when": "Seller's prepared-food sales percentage over 75% and it makes eating utensils available to customers",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage 75% or less, and no utensils packaged with or handed over with the item",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(5)(d)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, doughnuts, danish, cakes, tortes,"
+      },
+      {
+        "title": "2015 PA 171, enacting section 1",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "This amendatory act is retroactive and effective beginning March 14, 2014."
+      },
+      {
+        "title": "RAB 2022-4, Food for Human Consumption (approved March 31, 2022)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "If a seller’s prepared food sales percentage was greater than 75% and it made eating utensils available to its customers, it was considered to have provided eating utensils to its customers and all its food sales would be subject to tax."
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. Emagine later held the Rule 86 75% test invalid; whether refunds reach periods before 2020-11-19 is not settled here. This rule reports the standard Treasury enforced at the time."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.bakery",
+    "from": "2020-11-19",
+    "to": "2024-02-12",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without eating utensils were exempt in Michigan; under Emagine, utensils merely made available did not count.",
+    "conditions": [
+      {
+        "when": "The seller packages a utensil with the item or its practice is to hand utensils (e.g. a napkin) to buyers",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "MCL 205.54g(3)(g)(iv) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, doughnuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas, sold without eating utensils."
+      },
+      {
+        "title": "RAB 2026-2, Food for Human Consumption (approved January 29, 2026), section 2.3",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "For tax periods overlapping the period November 19, 2020, to February 13, 2024, the determination of whether food is sold with eating utensils provided by the seller is controlled by Emagine Entertainment v Treasury, 334 Mich App 658 (2020)"
+      },
+      {
+        "title": "RAB 2022-4, item 4, Bakery Items",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "sold without eating utensils are not subject to sales or use tax. Bakery items sold with eating utensils are taxable."
+      },
+      {
+        "title": "RAB 2022-4",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "Under Emagine, food is considered sold with eating utensils provided by the seller only if the utensils “specifically accompany the food or [are] added to it.”"
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. Start date is the Emagine date given by RAB 2026-2 ('tax periods overlapping the period November 19, 2020, to February 13, 2024')."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.bakery",
+    "from": "2024-02-13",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils are exempt in Michigan, but a seller with over 75% prepared-food sales that makes utensils available is treated as providing them.",
+    "conditions": [
+      {
+        "when": "Seller's prepared-food sales percentage over 75% and it makes eating utensils available to purchasers",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage 75% or less, and it does not package utensils with the item or have a practice of handing them over",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "MCL 205.54g(3)(g)(iv) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, doughnuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas, sold without eating utensils."
+      },
+      {
+        "title": "MCL 205.54g(3)(e)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "For a seller with a prepared food sales percentage of greater than 75%, the seller makes eating utensils available to purchasers"
+      },
+      {
+        "title": "Treasury notice, Changes to the Tax Treatment of \"Prepared Food\" (January 25, 2024)",
+        "url": "https://www.michigan.gov/treasury/reference/taxpayer-notices/2024/01/25/changes-to-the-tax-treatment-of-prepared-food",
+        "quote": "Effective February 13, 2024, those acts are amended by Public Acts 141 and 142 of 2023, which define “prepared food” to include (among other things) food sold with eating utensils provided by the seller."
+      },
+      {
+        "title": "Treasury notice, Changes to the Tax Treatment of \"Prepared Food\" (January 25, 2024)",
+        "url": "https://www.michigan.gov/treasury/reference/taxpayer-notices/2024/01/25/changes-to-the-tax-treatment-of-prepared-food",
+        "quote": "Starting February 13, 2024, such a seller is also subject to a special standard, i.e., that a utensil is “provided by the seller” when a seller makes an eating utensil available."
+      },
+      {
+        "title": "RAB 2026-2, section 3.4",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The exclusion applies only when bakery items are “sold without eating utensils.”"
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. A box of 4 or more servings sold for one price needs the utensil handed over even by an over-75% seller (MCL 205.54g(3)(e)(i))."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.cold",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food in Michigan is taxable if the seller combined it and sells it by the item; it is exempt if sold by weight without utensils or only cut or repackaged.",
+    "conditions": [
+      {
+        "when": "Mixed or combined by the seller (salads, dips) and sold at a fixed price per item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item (price varies with weight), without eating utensils, even if previously cooked",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (cut fruit, sliced meats), with or without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller (packaged with it, handed over, or, for a seller with over 75% prepared-food sales before 2020-11-19 or from 2024-02-13, merely made available)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "MCL 205.54g(3)(g)(iii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold in an unheated state by weight or volume as a single item, without eating utensils."
+      },
+      {
+        "title": "MCL 205.54g(3)(g)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "RAB 2022-4, item 6, Delicatessens",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "Deli items sold at (or below) room temperature by weight or volume as a single item, without eating utensils, such as potato salad, coleslaw, sliced meats, and vegetables, even if previously heated by the seller, are not “prepared food” and are not taxable."
+      },
+      {
+        "title": "RAB 2022-4, Example 8",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "The dill dip is subject to tax as prepared food because the seller combined two or more ingredients and it was not sold by weight or volume."
+      },
+      {
+        "title": "RAB 2022-4, Food for Human Consumption (approved March 31, 2022)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "If a seller’s prepared food sales percentage was greater than 75% and it made eating utensils available to its customers, it was considered to have provided eating utensils to its customers and all its food sales would be subject to tax."
+      },
+      {
+        "title": "RAB 2026-2, Food for Human Consumption (approved January 29, 2026), section 2.3",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "For tax periods overlapping the period November 19, 2020, to February 13, 2024, the determination of whether food is sold with eating utensils provided by the seller is controlled by Emagine Entertainment v Treasury, 334 Mich App 658 (2020)"
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. A cooked chicken sold cold by weight without utensils is exempt (RAB 2022-4)."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares (salads, meals) and drinks in its cups are taxable prepared food in Michigan.",
+    "conditions": [
+      {
+        "when": "The item is only cut, repackaged or pasteurized by the seller (e.g. cut fruit), even with utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The item is a bakery item sold without utensils the seller provides",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(4) (prepared food)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "RAB 2022-4, Example 3",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "the fountain soft drinks are taxable because the utensil (a cup containing the fountain soft drink) is required to provide the beverage."
+      },
+      {
+        "title": "MCL 205.54g(3)(g)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller."
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. A restaurant's cold salads and meals are combined by the seller, which makes them prepared food whatever the utensil standard."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.dine_in",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served to eat on the seller's plates and tableware is taxable prepared food in Michigan.",
+    "conditions": [
+      {
+        "when": "Food only cut, repackaged or pasteurized by the seller (e.g. a whole or cut fruit), even if served with utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(4)(c)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Food sold with eating utensils provided by the seller, including knives, forks, spoons, glasses, cups, napkins,"
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(iii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold with eating utensils provided by the seller, including, but not limited to, knives, forks, spoons, glasses, cups, napkins, straws, or plates"
+      },
+      {
+        "title": "2015 PA 171, MCL 205.54g(4) (prepared food)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "RAB 2022-4",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "This generally means that the seller’s practice must be to physically hand eating utensils to its customers, provide utensils necessary to receive the food (such as a bowl at a salad bar or a cup for a fountain soft drink), or include utensils within the packaging that contains the food."
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. Plates and cutlery handed to dine-in customers count as utensils provided under every standard in force since 2014, so dine-in service is taxable throughout."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.hot",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is taxable prepared food in Michigan.",
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(4)(a)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Food sold in a heated state or that is heated by the seller."
+      },
+      {
+        "title": "2015 PA 171, enacting section 1",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "This amendatory act is retroactive and effective beginning March 14, 2014."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold in a heated state or that is heated by the seller."
+      },
+      {
+        "title": "RAB 2026-2, section 2.1",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "Food is in a “heated state” if the food’s temperature is higher than room temperature."
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer.",
+    "conditions": []
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.platter",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A Michigan party tray is taxable if the seller combined its food (sandwiches, made dips); a tray of only sliced meats, cheese or cut vegetables arranged by the seller is exempt.",
+    "conditions": [
+      {
+        "when": "The tray holds items the seller mixed or combined (sandwiches, salads, a dip or dressing the seller made)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller only cut, repackaged or arranged the food (cold cuts, cheese, cut vegetables or fruit, a sealed purchased dip)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RAB 2026-2, Example 11",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The food ingredients are not mixed or combined for sale as a single item. The deli tray is not subject to tax as “prepared food.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 14",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The deli tray is subject to tax as “prepared food” (because the ranch dressing is mixed or combined by the store)."
+      },
+      {
+        "title": "RAB 2022-4, Example 9",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "Because Grocery Store only cut and repackaged the food it is not subject to tax as prepared food even though it provided eating utensils."
+      },
+      {
+        "title": "MCL 205.54g(3)(g)(i) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller."
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. A tray of cut items that is sold with utensils remains exempt because only-cut food is excluded even with utensils (RAB 2026-2 sec. 3.1); a tray of combined items sold by weight without utensils would be exempt."
+  },
+  {
+    "tax": "MI",
+    "code": "food.prepared.sandwich",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller is taxable prepared food in Michigan.",
+    "conditions": [
+      {
+        "when": "Sold unheated, without utensils, at a price per unit of weight or volume that varies with weight",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(4) (prepared food)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "RAB 2022-4, item 7, Sandwiches",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "A sandwich made by the seller (two or more food ingredients combined by the seller for sale as a single item) is “prepared food” and subject to sales and use tax"
+      },
+      {
+        "title": "RAB 2026-2, Example 10",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The ingredients are “mixed or combined ... for sale as a single item”; therefore, the sandwich is subject to tax as “prepared food.”"
+      }
+    ],
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "food.soft_drink",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks are food in Michigan: exempt in sealed bottles or cans, taxable as prepared food when poured into a cup the seller provides.",
+    "conditions": [
+      {
+        "when": "Sold in a sealed bottle or can, without eating utensils the seller gives or hands to the buyer",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A fountain or poured drink served in a cup or glass the seller provides, or sold with utensils the seller hands over",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2015 PA 171, MCL 205.54g(3)",
+        "url": "https://www.legislature.mi.gov/documents/2015-2016/publicact/pdf/2015-PA-0171.pdf",
+        "quote": "Food and food ingredients do not include alcoholic beverages and tobacco."
+      },
+      {
+        "title": "MCL 205.54g(3)(c) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food and food ingredients do not include alcoholic beverages and tobacco."
+      },
+      {
+        "title": "RAB 2022-4, Example 3",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "The sales of the sealed soda bottles are exempt; however, the fountain soft drinks are taxable because the utensil (a cup containing the fountain soft drink) is required to provide the beverage."
+      },
+      {
+        "title": "RAB 2026-2, Example 41",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "therefore, the bottled soft drinks are not subject to tax as “prepared food.”"
+      }
+    ],
+    "notes": "Soft drinks are not excluded from 'food and food ingredients' in Michigan. Vending machine rules (MCL 205.54g(2)) exempt nonalcoholic beverages in sealed containers regardless of temperature. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "goods.general",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Michigan's 6% sales tax; Michigan has no local sales tax.",
+    "citations": [
+      {
+        "title": "MCL 205.52(1)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-52",
+        "quote": "there is levied upon and there shall be collected from all persons engaged in the business of making sales at retail, by which ownership of tangible personal property is transferred for consideration, an annual tax for the privilege of engaging in that business equal to 6% of the gross proceeds of the business"
+      },
+      {
+        "title": "MCL 205.52, history",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-52",
+        "quote": "Am. 2004, Act 173, Eff. Sept. 1, 2004"
+      }
+    ],
+    "notes": "MCL 205.52 was last amended by 2004 PA 173 (effective 2004-09-01), so the current text has been in force since then; the tax itself dates from 1933. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer.",
+    "conditions": []
+  },
+  {
+    "tax": "MI",
+    "code": "service.professional",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Michigan's sales tax applies to transfers of tangible personal property; professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not taxed.",
+    "conditions": [
+      {
+        "when": "Tangible property or prewritten software transferred as a separate, non-incidental part of the sale (e.g. furnishings sold by a designer, software delivered by an IT provider)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "MCL 205.52(1)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-52",
+        "quote": "by which ownership of tangible personal property is transferred for consideration"
+      },
+      {
+        "title": "MCL 205.52, history",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-52",
+        "quote": "Am. 2004, Act 173, Eff. Sept. 1, 2004"
+      },
+      {
+        "title": "RAB 2023-10, questions and answers",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-10",
+        "quote": "Even though the professional services are not subject to sales or use tax, the purchase of prewritten computer software by the firm is taxable like any other tangible personal property purchased to be used in rendering the service."
+      },
+      {
+        "title": "RAB 2023-10, questions and answers",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-10",
+        "quote": "These activities do not involve the retail sale (or use, storage, or consumption) of “tangible personal property” and are not included among the limited taxable services under either the GSTA or UTA."
+      },
+      {
+        "title": "MCL 205.54d(h) (current), advertising elements",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54d",
+        "quote": "The sale of a commercial advertising element if the commercial advertising element is used to create or develop a print, radio, television, or other advertisement"
+      }
+    ],
+    "notes": "One rule covers all seven subcodes: none is among the limited services Michigan taxes (telecommunications, lodging, certain rentals, etc. under the Use Tax Act). Where a transaction mixes services and property, Michigan applies the Catalina 'incidental to service' test. No single Treasury page listing every profession was found; the general rule is the statute's TPP base plus RAB 2023-10's statements. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "software.custom",
+    "from": "2017-07-24",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software designed for one purchaser's exclusive use, and separately stated charges for adapting prewritten software to a purchaser's needs, are exempt in Michigan.",
+    "conditions": [
+      {
+        "when": "The charge for modifying prewritten software is not separately stated from the software",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "2017 PA 48, MCL 205.54d(g)",
+        "url": "https://www.legislature.mi.gov/documents/2017-2018/publicact/pdf/2017-PA-0048.pdf",
+        "quote": "The sale of computer software originally designed for the exclusive use and special needs of the purchaser."
+      },
+      {
+        "title": "MCL 205.54d(f) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54d",
+        "quote": "Specific charges for technical support or for adapting or modifying prewritten computer software programs to a purchaser's needs or equipment if those charges are separately stated and identified."
+      },
+      {
+        "title": "MCL 205.54d(g) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54d",
+        "quote": "The sale of computer software originally designed for the exclusive use and special needs of the purchaser."
+      },
+      {
+        "title": "RAB 2023-10, Answer on software design services",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-10",
+        "quote": "then they are not taxable as they do not involve the retail sale (or use, storage, or consumption) of “tangible personal property” and are not included among the limited taxable services under either the GSTA or UTA."
+      }
+    ],
+    "notes": "Covers both subcodes (development and modification). The exemptions date from 2004 PA 173; 2017-07-24 (2017 PA 48) is the earliest text read. Custom software later sold to another purchaser becomes prewritten (MCL 205.51a(p)(ii)). Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "software.prewritten",
+    "from": "2004-09-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Prewritten software delivered to the customer, on media or by download, is tangible personal property and taxable in Michigan.",
+    "citations": [
+      {
+        "title": "MCL 205.51a(r) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-51a",
+        "quote": "\"Tangible personal property\" means personal property that can be seen, weighed, measured, felt, or touched or that is in any other manner perceptible to the senses and includes electricity, water, gas, steam, and prewritten computer software."
+      },
+      {
+        "title": "MCL 205.51a, history",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-51a",
+        "quote": "Add. 2004, Act 173, Eff. Sept. 1, 2004"
+      },
+      {
+        "title": "2017 PA 221, MCL 205.51a(p)",
+        "url": "https://www.legislature.mi.gov/documents/2017-2018/publicact/pdf/2017-PA-0221.pdf",
+        "quote": "means computer software, including prewritten upgrades, that is delivered by"
+      },
+      {
+        "title": "RAB 2023-10",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-10",
+        "quote": "Although not specifically addressed in Auto Owners, computer software that is downloaded in its entirety onto the user’s computer is “delivered” to the user and, therefore, treated as taxable “prewritten computer software.”"
+      }
+    ],
+    "notes": "2004 PA 172/173 added prewritten computer software to 'tangible personal property' effective 2004-09-01 (RAB 2023-10); Michigan taxed canned software before that under earlier guidance (RAB 1999-5), not modeled. Optional, separately stated technical support is exempt (MCL 205.54d(f)). Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer.",
+    "conditions": []
+  },
+  {
+    "tax": "MI",
+    "code": "software.saas",
+    "from": "2016-01-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remote access to software hosted by the vendor, with no code delivered to the customer, is not a taxable sale of prewritten software in Michigan.",
+    "conditions": [
+      {
+        "when": "Some code (a desktop agent or local client) is delivered and installed; Treasury then applies the 'incidental to service' test, which can make the transaction taxable",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Treasury notice, Auto-Owners Insurance Company v Department of Treasury (January 6, 2016)",
+        "url": "https://www.michigan.gov/treasury/reference/taxpayer-notices/2016/01/06/auto-owners-insurance-company-v-department-of-treasury",
+        "quote": "The majority of the transactions in this case were not taxable under the UTA because they did not involve the delivery of prewritten computer software by any means."
+      },
+      {
+        "title": "Letter Ruling 2019-3 (December 9, 2019)",
+        "url": "https://www.michigan.gov/treasury/reference/letter/2019-letter-rulings/letter-ruling-2019-3",
+        "quote": "In summary, the right to access/use prewritten computer software (e.g., cloud computing) will generally not be subject to sales or use tax if the consumer does not receive either a copy of the software program or any part of the program’s computer code."
+      },
+      {
+        "title": "RAB 2023-10, Computer Software and Digital Goods (approved July 31, 2023)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2023-revenue-administrative-bulletins/revenue-administrative-bulletin-2023-10",
+        "quote": "In such cases, the transfer of the software (by subscription or otherwise) does not constitute a taxable retail sale or use of “tangible personal property” (“prewritten computer software”) in Michigan."
+      }
+    ],
+    "notes": "Auto-Owners (Mich Ct App, Oct. 27, 2015) set the rule; Treasury's 2016-01-06 notice applied it to all open tax years, so it may reach earlier periods. Before the notice Treasury's RAB 1999-5 treated some remote access as taxable; not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  }
+]

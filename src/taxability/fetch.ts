@@ -310,6 +310,12 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
   const root = sourcesRoot();
   const changed: string[] = [];
   const problems: string[] = [];
+  // Many rules cite one page: read each once.
+  const texts = new Map<string, string | null>();
+  const textOf = (file: string) => {
+    if (!texts.has(file)) texts.set(file, pageText(new Uint8Array(readFileSync(path.join(root, file)))));
+    return texts.get(file)!;
+  };
   for (const r of rules) {
     const { file, ...rule } = r;
     if (before.get(key(rule)) === JSON.stringify(rule)) continue;
@@ -325,7 +331,7 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
         problems.push(`${where}: the page isn't archived (run ingest --kind taxability, which files it)`);
         continue;
       }
-      const text = pageText(new Uint8Array(readFileSync(path.join(root, copy.file))));
+      const text = textOf(copy.file);
       if (text === null || !quoteOnPage(text, c.quote)) problems.push(`${where}: the quote isn't on the archived page`);
     }
   }

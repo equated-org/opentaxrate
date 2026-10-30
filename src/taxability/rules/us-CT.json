@@ -1,0 +1,1477 @@
+[
+  {
+    "tax": "CT",
+    "code": "construction.real_property.improvement",
+    "from": "2018-12-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Construction work is taxable on existing commercial, industrial or income-producing property, and not on new construction or owner-occupied homes of one to three units.",
+    "conditions": [
+      {
+        "when": "New construction: a new building, an addition that expands the building's cubic footage, a full gut, or initial finish-out of new space",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Remodel or improvement of existing commercial, industrial or income-producing property (including rental housing)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Remodel or improvement of owner-occupied residential property of one to three units",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "Generally, services to existing commercial, industrial, and income-producing property are taxable. Some services to residential property are also taxable."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "Services are generally taxable to existing commercial, industrial, or income-producing property, even if they are not taxable when performed on owner-occupied residential property or new construction."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "The construction of a new addition that expands the cubic footage of an existing building"
+      }
+    ],
+    "notes": "The contractor pays tax on materials it uses. Some services (landscaping, maintenance, janitorial, exterminating) are taxable on every kind of property. Property type is not carried by the code. Earliest dated text read: IP 2018(2), issued 2018-12-19. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "construction.real_property.repair",
+    "from": "2018-12-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and maintenance of real property is taxable on existing commercial, industrial or income-producing property; on owner-occupied homes of one to three units only listed services (maintenance, janitorial, landscaping and the like) are taxable.",
+    "conditions": [
+      {
+        "when": "Existing commercial, industrial or income-producing property (including rental housing)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Owner-occupied residential property of one to three units: repair such as plumbing, electrical, carpentry or painting",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any property: maintenance, janitorial, exterminating, landscaping, window or carpet cleaning, locksmith services",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "Generally, services to existing commercial, industrial, and income-producing property are taxable. Some services to residential property are also taxable."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "Services are generally taxable to existing commercial, industrial, or income-producing property, even if they are not taxable when performed on owner-occupied residential property or new construction."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "Some services are taxable in all cases, whether performed on new construction, owner-occupied residential property, existing commercial property, existing industrial property, or existing income-producing property."
+      },
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Services to industrial, commercial, and income-producing real property including, but not limited to, such services as management, electrical, plumbing, painting and carpentry"
+      }
+    ],
+    "notes": "Property type and the kind of service are not carried by the code. Earliest dated text read: 2018-12-19. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "delivery.exempt_goods",
+    "from": "1993-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Delivery charges for goods exempt under §12-412 are not taxable in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "The provisions of subparagraph (A) (iii) of this subdivision shall not apply to any item exempt from taxation pursuant to section 12-412"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "any charges by the retailer to the purchaser for shipping or delivery, notwithstanding whether such charges are separately stated"
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "delivery.taxable_goods",
+    "from": "1993-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Shipping and delivery charges for taxable goods are part of the taxable sales price in Connecticut, even if separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "any charges by the retailer to the purchaser for shipping or delivery, notwithstanding whether such charges are separately stated"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "to provide for the inclusion of shipping and delivery charges"
+      }
+    ],
+    "notes": "Effective for sales on or after 1993-07-01 (statute history). The charge is taxed at the goods' rate (e.g. 7.35% on delivered meals from 2019-10-01); the rule says taxable at the general rate, which misses that case. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.candy",
+    "from": "2002-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy, confectionery and gum are not exempt food products in Connecticut and are taxable at 6.35%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "alcoholic beverages; all carbonated beverages, including water, soda, nonalcoholic beer, and carbonated nonalcoholic wine; candy and gum."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "sugar and sugar products other than candy and confectionery"
+      }
+    ],
+    "notes": "Candy sold by an eating establishment as part of a meal would follow the meal; a candy bar sold on its own is taxed at the general rate. Exempt in school cafeterias and health-care facilities (§12-412(9)), a buyer/place fact. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.catering",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is a taxable sale of meals in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Meals provided by catering services are taxable."
+      }
+    ],
+    "notes": " Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.catering",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.0735,
+    "summary": "Catering is a taxable sale of meals at 7.35% in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Meals provided by catering services are taxable."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sale of meals, as defined in subdivision (13) of section 12-412"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Sales of meals and certain beverages."
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6.35%: 7.35% (6.35% plus the 1% added by Conn. Gen. Stat. §12-408(1)(I), P.A. 19-117 §323, from 2019-10-01).  Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.grocery",
+    "from": "2002-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food products for human consumption (groceries) are exempt from Connecticut sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "exempts from sales and use taxes the sale of food products for human consumption"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "Sales of food products for human consumption."
+      }
+    ],
+    "notes": "Earliest dated official text read is PS 2002(2) (2002-02-22); the exemption is older. Candy, carbonated beverages, alcohol and dietary supplements are excluded from 'food products' (separate codes). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.bakery",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are taxable meals when an eating establishment or bakery sells them in small quantities (five or fewer, or by the slice); whole loaves, cakes and pies, and any bakery item from a supermarket, are exempt.",
+    "conditions": [
+      {
+        "when": "Donuts, muffins, rolls, bagels or pastries in quantities of five or fewer, loose cookies (five or fewer, or under 8 oz), or pie or cake by the slice, sold by a seller that is not a supermarket",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Whole loaves of bread, whole cakes or pies, or larger quantities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bakery items sold by a supermarket or grocery store (not a convenience store), outside a designated eating area",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Donuts, muffins, rolls, bagels, and pastries (five or fewer)"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Pies or cakes by the slice"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "For example, whole loaves of bread and whole cakes and pies are considered bulk food items and, therefore, are not subject to sales and use taxes."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      }
+    ],
+    "notes": "Quantity and seller kind decide it (PS 2002(2)). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.bakery",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items are taxable meals at 7.35% when an eating establishment or bakery sells them in small quantities (five or fewer, or by the slice); whole loaves, cakes and pies, and any bakery item from a supermarket, are exempt.",
+    "conditions": [
+      {
+        "when": "Donuts, muffins, rolls, bagels or pastries in quantities of five or fewer, loose cookies (five or fewer, or under 8 oz), or pie or cake by the slice, sold by a seller that is not a supermarket",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Whole loaves of bread, whole cakes or pies, or larger quantities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bakery items sold by a supermarket or grocery store (not a convenience store), outside a designated eating area",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Donuts, muffins, rolls, bagels, and pastries (five or fewer)"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Pies or cakes by the slice"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "For example, whole loaves of bread and whole cakes and pies are considered bulk food items and, therefore, are not subject to sales and use taxes."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      }
+    ],
+    "notes": "Quantity and seller kind decide it (PS 2002(2)). From 2019-10-01 a taxable meal is charged 7.35%: the conditions give that rate. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.cold",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food from a food store is exempt at a supermarket; from a delicatessen or convenience store it is a taxable meal in single-serving portions.",
+    "conditions": [
+      {
+        "when": "Cold prepared food (not a sandwich) sold by a supermarket or grocery store (not a convenience store), outside a designated eating area",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a delicatessen, convenience store or other food store that is not a supermarket, in a portion for immediate consumption (e.g. a salad in a container under 8 oz)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold by such a store in a bulk quantity larger than ordinarily sold for immediate consumption",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Salads sold in containers of less than eight ounces"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Items sold in quantities or portions larger than those specifically noted above are considered bulk sales of food. Therefore, they are not generally taxable meals."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "This includes prepared foods, prepackaged foods, hot foods, and foods heated on the premises for the purchaser."
+      }
+    ],
+    "notes": "Delicatessens and convenience stores are listed sellers of meals; supermarkets are not, except as PS 2002(2) notes. The store's kind and the portion are not carried by the code. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.cold",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared food from a food store is exempt at a supermarket; from a delicatessen or convenience store it is a taxable meal at 7.35% in single-serving portions.",
+    "conditions": [
+      {
+        "when": "Cold prepared food (not a sandwich) sold by a supermarket or grocery store (not a convenience store), outside a designated eating area",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a delicatessen, convenience store or other food store that is not a supermarket, in a portion for immediate consumption (e.g. a salad in a container under 8 oz)",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Sold by such a store in a bulk quantity larger than ordinarily sold for immediate consumption",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Salads sold in containers of less than eight ounces"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Items sold in quantities or portions larger than those specifically noted above are considered bulk sales of food. Therefore, they are not generally taxable meals."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "This includes prepared foods, prepackaged foods, hot foods, and foods heated on the premises for the purchaser."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      }
+    ],
+    "notes": "Delicatessens and convenience stores are listed sellers of meals; supermarkets are not, except as PS 2002(2) notes. The store's kind and the portion are not carried by the code. From 2019-10-01 a taxable meal is charged 7.35%: the conditions give that rate. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food sold to go by a restaurant is a taxable meal in portions for immediate consumption; bulk quantities are exempt.",
+    "conditions": [
+      {
+        "when": "In a portion for immediate consumption (a meal, a salad under 8 oz, a single drink)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "In a bulk quantity larger than ordinarily sold for immediate consumption",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "This includes prepared foods, prepackaged foods, hot foods, and foods heated on the premises for the purchaser."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Salads sold in containers of less than eight ounces"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Items sold in quantities or portions larger than those specifically noted above are considered bulk sales of food. Therefore, they are not generally taxable meals."
+      }
+    ],
+    "notes": "PS 2002(2) applies the meal/bulk distinction to eating establishments and caterers; the quantity is not carried by the code. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold prepared food sold to go by a restaurant is a taxable meal at 7.35% in portions for immediate consumption; bulk quantities are exempt.",
+    "conditions": [
+      {
+        "when": "In a portion for immediate consumption (a meal, a salad under 8 oz, a single drink)",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "In a bulk quantity larger than ordinarily sold for immediate consumption",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "This includes prepared foods, prepackaged foods, hot foods, and foods heated on the premises for the purchaser."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Salads sold in containers of less than eight ounces"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Items sold in quantities or portions larger than those specifically noted above are considered bulk sales of food. Therefore, they are not generally taxable meals."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      }
+    ],
+    "notes": "PS 2002(2) applies the meal/bulk distinction to eating establishments and caterers; the quantity is not carried by the code. From 2019-10-01 a taxable meal is charged 7.35%: the conditions give that rate. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.dine_in",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food and drink sold for eating at the seller's premises is a taxable meal in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "All food and beverages sold for human consumption at the seller’s location"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The meals sold in these designated eating areas are taxable even if taken off the premises by the purchaser."
+      }
+    ],
+    "notes": "Includes supermarket snack bars and food courts (PS 2002(2)). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.dine_in",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.0735,
+    "summary": "Food and drink sold for eating at the seller's premises is a taxable meal at 7.35% in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "All food and beverages sold for human consumption at the seller’s location"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The meals sold in these designated eating areas are taxable even if taken off the premises by the purchaser."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sale of meals, as defined in subdivision (13) of section 12-412"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Sales of meals and certain beverages."
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6.35%: 7.35% (6.35% plus the 1% added by Conn. Gen. Stat. §12-408(1)(I), P.A. 19-117 §323, from 2019-10-01). Includes supermarket snack bars and food courts (PS 2002(2)). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.hot",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Hot prepared food is a taxable meal except when a supermarket sells it outside an eating area (coffee and tea excepted).",
+    "conditions": [
+      {
+        "when": "Sold by an eating establishment, caterer, convenience store, delicatessen or other seller that is not a supermarket",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Hot coffee or tea, from any seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold in a supermarket's designated eating area (snack bar, food court)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other hot food sold by a supermarket or grocery store (not a convenience store), outside a designated eating area (e.g. a hot rotisserie chicken at the deli)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "This includes prepared foods, prepackaged foods, hot foods, and foods heated on the premises for the purchaser."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Sales of sandwiches, grinders, coffee, or tea prepared in a supermarket at a delicatessen counter or elsewhere for takeout. The sales of these items sold anywhere in a supermarket are taxable"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The meals sold in these designated eating areas are taxable even if taken off the premises by the purchaser."
+      }
+    ],
+    "notes": "Connecticut's special rule for supermarkets (PS 2002(2)) turns on the seller's kind, which the code doesn't carry. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.hot",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Hot prepared food is a taxable meal at 7.35% except when a supermarket sells it outside an eating area (hot coffee and tea are always 7.35%).",
+    "conditions": [
+      {
+        "when": "Sold by an eating establishment, caterer, convenience store, delicatessen or other seller that is not a supermarket",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Hot coffee or tea, from any seller",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Sold in a supermarket's designated eating area (snack bar, food court)",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Other hot food sold by a supermarket or grocery store (not a convenience store), outside a designated eating area (e.g. a hot rotisserie chicken at the deli)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "This includes prepared foods, prepackaged foods, hot foods, and foods heated on the premises for the purchaser."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Sales of sandwiches, grinders, coffee, or tea prepared in a supermarket at a delicatessen counter or elsewhere for takeout. The sales of these items sold anywhere in a supermarket are taxable"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The meals sold in these designated eating areas are taxable even if taken off the premises by the purchaser."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      }
+    ],
+    "notes": "Connecticut's special rule for supermarkets (PS 2002(2)) turns on the seller's kind, which the code doesn't carry. From 2019-10-01 a taxable meal is charged 7.35%: the conditions give that rate. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.platter",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Platters and trays are taxable catering when an eating establishment or caterer prepares them; a supermarket's undelivered platters (other than sandwiches) are exempt.",
+    "conditions": [
+      {
+        "when": "Prepared by an eating establishment or caterer, delivered or not",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Prepared by a supermarket and delivered by it, or a platter of sandwiches",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Prepared by a supermarket for takeout and not delivered (not sandwiches)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Taxable catering services also include the preparation of trays, pans, or platters of food even if they are not delivered or not served by the caterer."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "However, if a supermarket prepares platters of food (other than sandwiches, grinders, coffee, or tea) at a delicatessen counter or elsewhere for takeout, but does not deliver the items, it is not providing catering services, and the items are not taxable."
+      }
+    ],
+    "notes": " Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.platter",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Platters and trays are taxable catering at 7.35% when an eating establishment or caterer prepares them; a supermarket's undelivered platters (other than sandwiches) are exempt.",
+    "conditions": [
+      {
+        "when": "Prepared by an eating establishment or caterer, delivered or not",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Prepared by a supermarket and delivered by it, or a platter of sandwiches",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "Prepared by a supermarket for takeout and not delivered (not sandwiches)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Taxable catering services also include the preparation of trays, pans, or platters of food even if they are not delivered or not served by the caterer."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "However, if a supermarket prepares platters of food (other than sandwiches, grinders, coffee, or tea) at a delicatessen counter or elsewhere for takeout, but does not deliver the items, it is not providing catering services, and the items are not taxable."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      }
+    ],
+    "notes": " From 2019-10-01 a taxable meal is charged 7.35%: the conditions give that rate. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.sandwich",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches and grinders are taxable meals in Connecticut, including at supermarkets.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Sandwiches and grinders;"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Sales of sandwiches, grinders, coffee, or tea prepared in a supermarket at a delicatessen counter or elsewhere for takeout. The sales of these items sold anywhere in a supermarket are taxable"
+      }
+    ],
+    "notes": " Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.prepared.sandwich",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.0735,
+    "summary": "Sandwiches and grinders are taxable meals at 7.35% in Connecticut, including at supermarkets.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Sandwiches and grinders;"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Sales of sandwiches, grinders, coffee, or tea prepared in a supermarket at a delicatessen counter or elsewhere for takeout. The sales of these items sold anywhere in a supermarket are taxable"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sale of meals, as defined in subdivision (13) of section 12-412"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Sales of meals and certain beverages."
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6.35%: 7.35% (6.35% plus the 1% added by Conn. Gen. Stat. §12-408(1)(I), P.A. 19-117 §323, from 2019-10-01).  Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.soft_drink",
+    "from": "2002-02-22",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Carbonated soft drinks are taxable; non-carbonated sweetened drinks are taxable only as meals sold by eating establishments.",
+    "conditions": [
+      {
+        "when": "A carbonated beverage (soda, carbonated water), from any seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A non-carbonated sweetened drink sold by an eating establishment as a meal (fountain drink, or a bottle or can of 16 fl oz or less not in a multi-pack)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A non-carbonated sweetened drink sold by a supermarket, or in a multi-unit pack or a container over 16 fl oz",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "alcoholic beverages; all carbonated beverages, including water, soda, nonalcoholic beer, and carbonated nonalcoholic wine; candy and gum."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Bottled or canned fruit juices and drinks, containers of milk, and non-carbonated mineral or spring water sold in containers of 16 fluid ounces or less unless sold in prepackaged multi-unit packs"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Fountain drinks, shakes, and syrup-flavored crushed ice drinks"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "The items listed above as taxable meals are not taxable when sold in supermarkets except as noted below."
+      }
+    ],
+    "notes": "Connecticut's exclusion from 'food products' names carbonated beverages (PS 2002(2)); non-carbonated sweetened drinks are food products unless sold as meals. Whether a drink is carbonated, and who sells it, is not carried by the code. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "food.soft_drink",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Carbonated soft drinks are taxable at 6.35%, or 7.35% when sold as a meal by an eating establishment; non-carbonated sweetened drinks are taxable only as meals.",
+    "conditions": [
+      {
+        "when": "A carbonated beverage sold by a store that is not an eating establishment (e.g. a 12-pack at a supermarket)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A drink sold by an eating establishment as a meal (fountain drink, or a bottle or can of 16 fl oz or less not in a multi-pack), carbonated or not",
+        "treatment": "special_rate",
+        "rate": 0.0735
+      },
+      {
+        "when": "A non-carbonated sweetened drink sold by a supermarket, or in a multi-unit pack or a container over 16 fl oz",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "alcoholic beverages; all carbonated beverages, including water, soda, nonalcoholic beer, and carbonated nonalcoholic wine; candy and gum."
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Bottled or canned fruit juices and drinks, containers of milk, and non-carbonated mineral or spring water sold in containers of 16 fluid ounces or less unless sold in prepackaged multi-unit packs"
+      },
+      {
+        "title": "CT DRS Policy Statement 2002(2), Sales and Use Taxes on Meals (issued 02/22/2002)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2002/ps2002-2.pdf",
+        "quote": "Fountain drinks, shakes, and syrup-flavored crushed ice drinks"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "in addition to the tax imposed under subparagraph (A) of this subdivision, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Announcement 2019(10), Sales and Use Tax Rate Increase on Meals (issued 9/19/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsan/2019/an-201910mealsfinal.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      },
+      {
+        "title": "CT DRS, PS 2019(5) revoked: note on the 7.35% meals rate",
+        "url": "https://portal.ct.gov/DRS/Publications/Policy-Statements/2019/PS-2019-5",
+        "quote": "At grocery stores this only includes meals sold in eating areas, prepared sandwiches and hot or iced coffee or tea."
+      }
+    ],
+    "notes": "From 2019-10-01 the 1% addition (§12-408(1)(I)) covers meals and 'soft drinks, sodas or beverages such as are ordinarily dispensed at bars and soda fountains'. DRS limits it at grocery stores to meals in eating areas, sandwiches and coffee or tea (PS 2019(5) revocation note), so packaged soda sold by a store is read here at 6.35%; that reading for convenience stores is not confirmed by a DRS example.  Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "goods.general",
+    "from": "2011-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in Connecticut at the general 6.35% rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "a tax is hereby imposed on all retailers at the rate of six and thirty-five-hundredths per cent of the gross receipts of any retailer from the sale of all tangible personal property sold at retail"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "amending same to increase tax rate from 6% to 6.35%"
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "The general rate rose from 6% to 6.35% on 2011-07-01 (P.A. 11-6); the goods were taxable before that too, at 6%, but the rule starts at the current rate. Luxury items (motor vehicles over $50,000, jewelry over $5,000, clothing and accessories over $1,000) are taxed at 7.75% under §12-408(1)(H); those are not this code's ordinary case and are not modelled. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.accounting",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing, bookkeeping and tax preparation are not among the services Connecticut taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Conn. Gen. Stat. § 12-407 specifically enumerates services subject to Connecticut sales and use taxes."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "only certain services are taxable"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "Professional, insurance or personal service transactions"
+      }
+    ],
+    "notes": "Connecticut taxes only the services §12-407(a)(37) enumerates; accounting, auditing, bookkeeping and tax preparation services are not among them (DRS lists of taxable services, 2019 and current). The quote settles that only listed services are taxed; the absence of accounting, auditing, bookkeeping and tax preparation from the list was checked by reading it. Earliest dated list read: 2019-02-01 (archived DRS page). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.advertising",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Non-media advertising and public relations services are taxable at 6.35%; services for developing media advertising, and cooperative direct mail, are not.",
+    "conditions": [
+      {
+        "when": "Services related to developing media advertising (print, broadcast, internet ads) or cooperative direct mail",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Non-media advertising or public relations services (e.g. brochures, signs, direct mail other than cooperative)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes (official page as archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "Sales of non-media advertising and public relations services and direct mail advertising services, other than cooperative direct mail."
+      },
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Advertising or public relations services, including layout, art direction, graphic design, mechanical preparation or production supervision, not related to the development of media advertising or cooperative direct mail advertising"
+      }
+    ],
+    "notes": "Whether the work is for media advertising is not carried by the code. Earliest dated text read: 2019-02-01. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.consulting",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Business analysis, management and management consulting services are taxable in Connecticut at 6.35%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes (official page as archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "Business analysis, management, management consulting and public relations services, excluding any environmental consulting services"
+      },
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Business analysis, management, management consulting, and public relations services, excluding any environmental consulting services"
+      }
+    ],
+    "notes": "Environmental consulting and aircraft-related services are excluded; lobbying/consulting before CT government is separately taxable. Earliest dated text read: 2019-02-01; the service was taxable earlier. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.design",
+    "from": "2019-02-01",
+    "to": "2019-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design services were not taxable in Connecticut before January 1, 2020.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS Special Notice 2019(11), Interior Design Services (issued 12/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(11).pdf",
+        "quote": "which will be included as taxable services as of January 1, 2020"
+      }
+    ],
+    "notes": "Interior design is absent from the 2019-02-01 DRS list of taxable services; P.A. 19-117 §§325-326 added it from 2020-01-01. Earliest date read: 2019-02-01. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.design",
+    "from": "2020-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Interior design services are taxable at 6.35% from January 1, 2020, unless a business buys them for its own use.",
+    "conditions": [
+      {
+        "when": "Bought by a business for use by the business (CERT-144 given; design charge separately stated)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bought by anyone else (e.g. a homeowner)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Special Notice 2019(11), Interior Design Services (issued 12/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(11).pdf",
+        "quote": "Interior design services that are purchased by a business for use by such business can be purchased exempt from tax."
+      },
+      {
+        "title": "CT DRS Special Notice 2019(11), Interior Design Services (issued 12/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(11).pdf",
+        "quote": "Effective for sales occurring on or after January 1, 2020."
+      },
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Interior design services described in industry group 54141 of the NAICS"
+      }
+    ],
+    "notes": "Furniture and furnishings sold with the design contract are taxable goods either way. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.engineering",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are not among the services Connecticut taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Conn. Gen. Stat. § 12-407 specifically enumerates services subject to Connecticut sales and use taxes."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "only certain services are taxable"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "Professional, insurance or personal service transactions"
+      }
+    ],
+    "notes": "Connecticut taxes only the services §12-407(a)(37) enumerates; engineering and architectural services are not among them (DRS lists of taxable services, 2019 and current). The quote settles that only listed services are taxed; the absence of engineering and architectural from the list was checked by reading it. Earliest dated list read: 2019-02-01 (archived DRS page). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.it",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "IT services (systems design and integration, IT consulting, support) are computer and data processing services taxed at 1% in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes (official page as archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "designing, implementing or converting systems, providing consulting services, and conducting feasibility studies"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sales of computer and data processing services occurring on or after July 1, 2001, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Computer and data processing services including but not limited to charges for online access to computer services"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is LOWER than the general 6.35%: 1% for computer and data processing services (Conn. Gen. Stat. §12-408(1)(D)). IT training bought by an employer for its staff may instead be a 'personnel training service' at 6.35% (§12-407(a)(37)); not separated here. Earliest dated text read: 2019-02-01. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.legal",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not among the services Connecticut taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Statutory Provisions for Sales of Taxable Services",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Conn. Gen. Stat. § 12-407 specifically enumerates services subject to Connecticut sales and use taxes."
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "only certain services are taxable"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "Professional, insurance or personal service transactions"
+      }
+    ],
+    "notes": "Connecticut taxes only the services §12-407(a)(37) enumerates; legal services are not among them (DRS lists of taxable services, 2019 and current). The quote settles that only listed services are taxed; the absence of legal from the list was checked by reading it. Earliest dated list read: 2019-02-01 (archived DRS page). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "software.custom",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "Writing or modifying software for a customer is a computer and data processing service taxed at 1% in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes (official page as archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "programming, code writing, modification of existing programs, and installation and implementation of software programs and systems"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sales of computer and data processing services occurring on or after July 1, 2001, at the rate of one per cent"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "programming, code writing, modification of existing programs, feasibility studies and installation and implementation of software programs and systems even where such services are rendered in connection with the development, creation or production of canned or custom software"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is LOWER than the general 6.35%: 1% for computer and data processing services (Conn. Gen. Stat. §12-408(1)(D)). Covers development and modification alike. Earliest dated text read: DRS services page as archived 2019-02-01; the 1% rate dates from 2001-07-01. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "software.prewritten",
+    "from": "2019-02-01",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prewritten software was taxed at 6.35% on tangible media and at 1% as a computer and data processing service when transferred electronically.",
+    "conditions": [
+      {
+        "when": "Transferred electronically, with no tangible personal property",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Delivered on tangible media (disk, box, card)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Special Notice 2019(8), Digital Goods and Canned or Prewritten Software (issued 09/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(8).pdf",
+        "quote": "As of October 1, 2019, electronically accessed or transferred canned or prewritten software will also be taxable at the 6.35% rate, except for sales of such software to a business for use by the business, which will remain taxable at the 1% rate for computer and data processing services."
+      },
+      {
+        "title": "CT DRS Special Notice 2019(8), Digital Goods and Canned or Prewritten Software (issued 09/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(8).pdf",
+        "quote": "if the software is provided with any tangible personal property (such as a box, plastic container, or CD), even if such tangible personal property only authorizes the electronic access or transfer of the software, the sale is of tangible personal property and is taxable at the 6.35% rate."
+      },
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes (official page as archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "charges for on-line access to computer services"
+      }
+    ],
+    "notes": "The 1% before 2019-10-01 is read from SN 2019(8) ('will remain taxable at the 1% rate', and personal-use purchases move 'instead of the 1% rate'); the tangible-media rule is from the same notice. Earliest dated text read: 2019-02-01. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "software.prewritten",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxed at 6.35%, except 1% when transferred electronically, without tangible property, to a business for business use.",
+    "conditions": [
+      {
+        "when": "Transferred electronically without any tangible personal property, bought by a business for business use",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Transferred electronically for personal, non-business use",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered with any tangible personal property (disk, box, card), any buyer",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Special Notice 2019(8), Digital Goods and Canned or Prewritten Software (issued 09/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(8).pdf",
+        "quote": "As of October 1, 2019, electronically accessed or transferred canned or prewritten software will also be taxable at the 6.35% rate, except for sales of such software to a business for use by the business, which will remain taxable at the 1% rate for computer and data processing services."
+      },
+      {
+        "title": "CT DRS Special Notice 2019(8), Digital Goods and Canned or Prewritten Software (issued 09/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(8).pdf",
+        "quote": "if the software is provided with any tangible personal property (such as a box, plastic container, or CD), even if such tangible personal property only authorizes the electronic access or transfer of the software, the sale is of tangible personal property and is taxable at the 6.35% rate."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Canned software that is electronically accessed or transferred for personal use is taxable at 6.35%."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "canned or prewritten computer software, including canned or prewritten software that is electronically accessed or transferred, other than when purchased by a business for use by such business"
+      }
+    ],
+    "notes": "Buyer and delivery form decide the rate; the code carries neither. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "software.saas",
+    "from": "2019-02-01",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "Remotely accessed software was taxed in Connecticut as a computer and data processing service at 1%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes (official page as archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "charges for on-line access to computer services"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sales of computer and data processing services occurring on or after July 1, 2001, at the rate of one per cent"
+      },
+      {
+        "title": "CT DRS Special Notice 2019(8), Digital Goods and Canned or Prewritten Software (issued 09/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(8).pdf",
+        "quote": "As of October 1, 2019, electronically accessed or transferred canned or prewritten software will also be taxable at the 6.35% rate, except for sales of such software to a business for use by the business, which will remain taxable at the 1% rate for computer and data processing services."
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is LOWER than the general 6.35%: 1% for computer and data processing services (Conn. Gen. Stat. §12-408(1)(D)). Before 2019-10-01 every buyer paid 1% on electronically accessed software (SN 2019(8): it 'will remain taxable at the 1% rate' for businesses and moves to 6.35% for others). Earliest dated text read: DRS services page as archived 2019-02-01; the treatment is older (rate since 2001-07-01). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "software.saas",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Remotely accessed software is taxed at 1% when a business buys it for business use, and at 6.35% otherwise.",
+    "conditions": [
+      {
+        "when": "Bought by a business for use by the business (computer and data processing service)",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "Bought for personal, non-business use",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS Special Notice 2019(8), Digital Goods and Canned or Prewritten Software (issued 09/04/2019)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubssn/2019/sn-2019(8).pdf",
+        "quote": "As of October 1, 2019, electronically accessed or transferred canned or prewritten software will also be taxable at the 6.35% rate, except for sales of such software to a business for use by the business, which will remain taxable at the 1% rate for computer and data processing services."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Canned software that is electronically accessed or transferred for personal use is taxable at 6.35%."
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "canned or prewritten computer software, including canned or prewritten software that is electronically accessed or transferred, other than when purchased by a business for use by such business"
+      },
+      {
+        "title": "Conn. Gen. Stat. ch. 219 (sales and use taxes), revised to January 1, 2026",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "With respect to the sales of computer and data processing services occurring on or after July 1, 2001, at the rate of one per cent"
+      }
+    ],
+    "notes": "Who buys and for what use is a buyer fact the code doesn't carry. The 1% case is a rate of its own, LOWER than 6.35% (§12-408(1)(D)); P.A. 19-117 moved non-business purchases to 6.35% from 2019-10-01. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT:local",
+    "code": "food.catering",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  },
+  {
+    "tax": "CT:local",
+    "code": "food.prepared.dine_in",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  },
+  {
+    "tax": "CT:local",
+    "code": "food.prepared.sandwich",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  },
+  {
+    "tax": "CT:local",
+    "code": "service.professional.it",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  },
+  {
+    "tax": "CT:local",
+    "code": "software.custom",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  },
+  {
+    "tax": "CT:local",
+    "code": "software.saas",
+    "from": "2019-02-01",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Connecticut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  }
+]

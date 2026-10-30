@@ -1,0 +1,515 @@
+[
+  {
+    "tax": "GA",
+    "code": "construction.real_property",
+    "from": "2015-12-16",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A contractor is the consumer of the materials it incorporates into real property and pays the tax; the customer's construction or repair contract isn't taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2015-21 (December 16, 2015), Contractors",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2015-21/download",
+        "quote": "A contractor is the per se end user and consumer of tangible personal property purchased for use in performing contracts, and such property is not considered to be purchased by the contractor for resale."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2015-21 (December 16, 2015), Contractors",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2015-21/download",
+        "quote": "Taxpayer is not required to collect the tax from the customer on any components of the contract"
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2019-05 (July 16, 2019), Contractors; sign construction, installation",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2019-05/download",
+        "quote": "Charges made by Taxpayer for either the installation or repair of a sign incorporated into real property are not subject to sales and use tax."
+      }
+    ],
+    "notes": "Covers improvement and repair. Letter rulings bind only their requesters; they apply O.C.G.A. § 48-8-63."
+  },
+  {
+    "tax": "GA",
+    "code": "delivery.taxable_goods",
+    "from": "2016-02-15",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges on taxable goods are part of the sales price and taxable, even if optional or separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-04 (February 15, 2016), Sales Price - Delivery Charges",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-04/download",
+        "quote": "When a seller of taxable tangible personal property makes a delivery charge to the customer, sales tax applies to the delivery charge."
+      },
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "Charges made for delivery, transportation, freight, or shipping and handling are part of the sales price and subject to sales tax in the same manner as the underlying sale."
+      }
+    ]
+  },
+  {
+    "tax": "GA",
+    "code": "food.candy",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy, as \"food and food ingredients\", is exempt from the 4% state sales tax; local sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Sales of food and food ingredients sold for off-premises consumption by an individual consumer are exempt from the 4% state sales tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "“Food and food ingredients” means substances, whether in liquid, concentrated, solid, frozen, dried, or dehydrated form, that are sold for ingestion or chewing by humans and are consumed for their taste or nutritional value."
+      }
+    ],
+    "notes": "Georgia's definition of food and food ingredients for this exemption excludes only prepared food, drugs, alcohol, dietary supplements, tobacco, OTC drugs and medical/hygiene items; candy is not excluded. Exemption applies only to sales to individual consumers for off-premises consumption; food bought for use in operating a business is taxable (state and local)."
+  },
+  {
+    "tax": "GA",
+    "code": "food.grocery",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Groceries (food and food ingredients) sold to individuals for off-premises consumption are exempt from the 4% state sales tax; local sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Sales of food and food ingredients sold for off-premises consumption by an individual consumer are exempt from the 4% state sales tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      }
+    ],
+    "notes": "Exemption applies only to sales to individual consumers for off-premises consumption; food bought for use in operating a business is taxable (state and local)."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.cold",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food is prepared food (taxable) when the store combines ingredients into one item or sells it with utensils; food only sliced or repackaged is exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as a single item (salads, prepared meals)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Neither heated, combined by the seller nor sold with utensils (sliced meats or cheese, cut fruit of one kind)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "With two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "Sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Sales of food and food ingredients sold for off-premises consumption by an individual consumer are exempt from the 4% state sales tax."
+      }
+    ],
+    "notes": "The Streamlined exclusion for food sold unheated by weight or volume as a single item wasn't confirmed in an official Georgia text, so deli salads by the pound are treated by the combined-ingredients test here. Local taxes apply either way (GA:local)."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A restaurant's cold food (combined by the seller, or sold with its cups, straws or utensils) is prepared food taxable at the state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "With two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "Sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Prepared food;"
+      }
+    ],
+    "notes": "Georgia uses the Streamlined Sales Tax definition of prepared food (heated, combined by the seller, or sold with utensils). Its exclusions (bakery items, food sold unheated by weight, food only cut or repackaged) weren't read in an official text. Prepared food is taxed at state and local rates."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.dine_in",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served with the seller's plates or utensils is prepared food taxable at the state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "Sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Prepared food;"
+      }
+    ],
+    "notes": "Georgia uses the Streamlined Sales Tax definition of prepared food (heated, combined by the seller, or sold with utensils). Its exclusions (bakery items, food sold unheated by weight, food only cut or repackaged) weren't read in an official text. Prepared food is taxed at state and local rates."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.hot",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated, or heated by the seller, is prepared food taxable at the state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "Sold in a heated state or heated by the seller;"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Prepared food;"
+      }
+    ],
+    "notes": "Georgia uses the Streamlined Sales Tax definition of prepared food (heated, combined by the seller, or sold with utensils). Its exclusions (bakery items, food sold unheated by weight, food only cut or repackaged) weren't read in an official text. Prepared food is taxed at state and local rates."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.platter",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A party tray of foods the seller combines is prepared food taxable at the state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "With two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Prepared food;"
+      }
+    ],
+    "notes": "Georgia uses the Streamlined Sales Tax definition of prepared food (heated, combined by the seller, or sold with utensils). Its exclusions (bakery items, food sold unheated by weight, food only cut or repackaged) weren't read in an official text. Prepared food is taxed at state and local rates."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.sandwich",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich the seller assembles (ingredients combined by the seller) is prepared food taxable at the state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "With two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Prepared food;"
+      }
+    ],
+    "notes": "Georgia uses the Streamlined Sales Tax definition of prepared food (heated, combined by the seller, or sold with utensils). Its exclusions (bakery items, food sold unheated by weight, food only cut or repackaged) weren't read in an official text. Prepared food is taxed at state and local rates."
+  },
+  {
+    "tax": "GA",
+    "code": "food.soft_drink",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Soft drinks, as \"food and food ingredients\", are exempt from the 4% state sales tax; local sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Sales of food and food ingredients sold for off-premises consumption by an individual consumer are exempt from the 4% state sales tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "“Food and food ingredients” means substances, whether in liquid, concentrated, solid, frozen, dried, or dehydrated form, that are sold for ingestion or chewing by humans and are consumed for their taste or nutritional value."
+      }
+    ],
+    "notes": "Georgia's definition excludes alcoholic beverages but not soft drinks. Exemption applies only to sales to individual consumers for off-premises consumption; food bought for use in operating a business is taxable (state and local)."
+  },
+  {
+    "tax": "GA",
+    "code": "goods.general",
+    "from": "2019-07-16",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at the 4% state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "In general, Georgia imposes tax on the retail sales price of tangible personal property and certain services."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2019-05 (July 16, 2019), Contractors; sign construction, installation",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2019-05/download",
+        "quote": "Georgia levies and imposes a tax (subject to certain specific exemptions) on the retail purchase, retail sale, storage, use, or consumption of tangible personal property"
+      }
+    ],
+    "notes": "Local sales taxes share the state base for this code."
+  },
+  {
+    "tax": "GA",
+    "code": "service.professional",
+    "from": "2014-10-17",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Georgia taxes only enumerated services; professional, consulting, IT, design and advertising services aren't among them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "While most services are exempt from tax, Georgia does tax the sale of accommodations, in-state transportation of individuals (e.g., taxis, limos), sales of admissions, and charges for participation in games and amusement activities."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-09 (March 30, 2016), Software and Software Related",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-09/download",
+        "quote": "sales of services are not subject to the tax unless the service is specifically designated as taxable"
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-15 (October 17, 2014), Service Provider - Information Technology Services",
+        "url": "https://dor.georgia.gov/document/letter-ruling/sales-tax-letter-ruling-service-provider-information-technology-services/download",
+        "quote": "Thus as a general rule, service providers, in the same manner as contractors, are end users and consumers of the tangible personal property used to provide their services and are liable for the tax on all such property."
+      }
+    ],
+    "notes": "Applies to every professional subcode. A service provider's own sales of tangible goods (e.g. an interior decorator selling furnishings) are taxable sales of goods."
+  },
+  {
+    "tax": "GA",
+    "code": "software.prewritten",
+    "from": "2016-03-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxable on a tangible medium and not taxed when delivered only electronically.",
+    "conditions": [
+      {
+        "when": "Delivered in a tangible medium, or the buyer also receives (or has a right to) a tangible copy",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered only electronically",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-09 (March 30, 2016), Software and Software Related",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-09/download",
+        "quote": "Computer software delivered electronically is not a sale of tangible personal property and therefore is not subject to sales or use tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-09 (March 30, 2016), Software and Software Related",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-09/download",
+        "quote": "If a dealer delivers computer software electronically and also provides the same software to the purchaser in a tangible medium, the transaction is a taxable sale of tangible personal property."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2024-02 (November 25, 2024), prewritten computer software",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2024-02/download",
+        "quote": "The sale of prewritten computer software sold in a tangible medium is taxable unless otherwise exempt."
+      }
+    ]
+  },
+  {
+    "tax": "GA",
+    "code": "software.saas",
+    "from": "2016-03-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remotely accessed software is not a sale of tangible personal property or an enumerated taxable service, so it isn't taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-09 (March 30, 2016), Software and Software Related",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-09/download",
+        "quote": "Computer software delivered electronically is not a sale of tangible personal property and therefore is not subject to sales or use tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-09 (March 30, 2016), Software and Software Related",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-09/download",
+        "quote": "sales of services are not subject to the tax unless the service is specifically designated as taxable"
+      }
+    ],
+    "notes": "Rule 560-12-2-.118 (digital products, 2024) reportedly lists software as a service among exempt items; its text wasn't read (the DOR copy was unavailable)."
+  },
+  {
+    "tax": "GA:local",
+    "code": "food.candy",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Local sales taxes apply to food exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "DeKalb County outside Atlanta, where the SPLOST imposed with the EHOST doesn't apply to food (food rate 3% there per the DOR chart)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "These sales are subject to all local sales and use taxes, except the SPLOST imposed in connection with an EHOST."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Sales Exempt from Certain Local Taxes, rate chart effective October 1, 2026",
+        "url": "https://dor.georgia.gov/document/document/effective-october-1-2026-december-31-2026-miscellaneous-rate-chart-only/download",
+        "quote": "In all other jurisdictions, exempt food is subject to all applicable local taxes."
+      }
+    ],
+    "notes": "OpenTaxRate's Georgia local part is the place's combined local rate; the one exception (DeKalb outside Atlanta, SPLOST tied to its EHOST) is listed as a condition, so the answer there is the place's food rate, not the full local rate. 2014-11-12 is the earliest dated DOR statement read; the state exemption is older."
+  },
+  {
+    "tax": "GA:local",
+    "code": "food.grocery",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Local sales taxes apply to food exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "DeKalb County outside Atlanta, where the SPLOST imposed with the EHOST doesn't apply to food (food rate 3% there per the DOR chart)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "These sales are subject to all local sales and use taxes, except the SPLOST imposed in connection with an EHOST."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Sales Exempt from Certain Local Taxes, rate chart effective October 1, 2026",
+        "url": "https://dor.georgia.gov/document/document/effective-october-1-2026-december-31-2026-miscellaneous-rate-chart-only/download",
+        "quote": "In all other jurisdictions, exempt food is subject to all applicable local taxes."
+      }
+    ],
+    "notes": "OpenTaxRate's Georgia local part is the place's combined local rate; the one exception (DeKalb outside Atlanta, SPLOST tied to its EHOST) is listed as a condition, so the answer there is the place's food rate, not the full local rate. 2014-11-12 is the earliest dated DOR statement read; the state exemption is older."
+  },
+  {
+    "tax": "GA:local",
+    "code": "food.prepared.cold",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Local sales taxes apply to cold deli food, whether or not it is prepared food.",
+    "conditions": [
+      {
+        "when": "DeKalb County outside Atlanta, where the SPLOST imposed with the EHOST doesn't apply to food (food rate 3% there per the DOR chart)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "These sales are subject to all local sales and use taxes, except the SPLOST imposed in connection with an EHOST."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Sales Exempt from Certain Local Taxes, rate chart effective October 1, 2026",
+        "url": "https://dor.georgia.gov/document/document/effective-october-1-2026-december-31-2026-miscellaneous-rate-chart-only/download",
+        "quote": "In all other jurisdictions, exempt food is subject to all applicable local taxes."
+      }
+    ],
+    "notes": "OpenTaxRate's Georgia local part is the place's combined local rate; the one exception (DeKalb outside Atlanta, SPLOST tied to its EHOST) is listed as a condition, so the answer there is the place's food rate, not the full local rate. 2014-11-12 is the earliest dated DOR statement read; the state exemption is older."
+  },
+  {
+    "tax": "GA:local",
+    "code": "food.soft_drink",
+    "from": "2014-11-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Local sales taxes apply to food exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "DeKalb County outside Atlanta, where the SPLOST imposed with the EHOST doesn't apply to food (food rate 3% there per the DOR chart)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "These sales are subject to all local sales and use taxes, except the SPLOST imposed in connection with an EHOST."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Sales Exempt from Certain Local Taxes, rate chart effective October 1, 2026",
+        "url": "https://dor.georgia.gov/document/document/effective-october-1-2026-december-31-2026-miscellaneous-rate-chart-only/download",
+        "quote": "In all other jurisdictions, exempt food is subject to all applicable local taxes."
+      }
+    ],
+    "notes": "OpenTaxRate's Georgia local part is the place's combined local rate; the one exception (DeKalb outside Atlanta, SPLOST tied to its EHOST) is listed as a condition, so the answer there is the place's food rate, not the full local rate. 2014-11-12 is the earliest dated DOR statement read; the state exemption is older."
+  }
+]

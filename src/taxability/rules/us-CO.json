@@ -1,0 +1,895 @@
+[
+  {
+    "tax": "CO",
+    "code": "construction.real_property",
+    "from": "2012-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Colorado treats a contractor building or repairing real property as the consumer of materials under a lump-sum contract, so the owner is charged no sales tax; under a time-and-materials contract the contractor collects tax on the separately stated materials only.",
+    "conditions": [
+      {
+        "when": "Lump-sum contract (one price; materials not stated separately from labor)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Time-and-materials contract: the separately stated, marked-up price of the construction materials",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Time-and-materials contract: the separately stated labor",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "FYI Sales 6, Contractors and Retailer-Contractors (03/20)",
+        "url": "https://web.archive.org/web/20251122053204id_/https://tax.colorado.gov/sites/tax/files/03.2020_Sales6.pdf",
+        "quote": "For lump-sum contracts, the contractor is treated as the consumer of all construction and building materials included in and associated with the contract."
+      },
+      {
+        "title": "FYI Sales 6 (03/20)",
+        "url": "https://web.archive.org/web/20251122053204id_/https://tax.colorado.gov/sites/tax/files/03.2020_Sales6.pdf",
+        "quote": "The contractor does not collect any sales tax from the homeowner."
+      },
+      {
+        "title": "FYI Sales 6 (03/20)",
+        "url": "https://web.archive.org/web/20251122053204id_/https://tax.colorado.gov/sites/tax/files/03.2020_Sales6.pdf",
+        "quote": "Instead, the contractor must collect sales tax from its customer on the marked up price of the materials included in the time-and-materials contract and remit the collected tax to the Department of Revenue."
+      },
+      {
+        "title": "FYI Sales 6 (03/20)",
+        "url": "https://web.archive.org/web/20251122053204id_/https://tax.colorado.gov/sites/tax/files/03.2020_Sales6.pdf",
+        "quote": "The contractor does not collect sales tax from the homeowner on the price of labor stated in the time-andmaterials contract."
+      },
+      {
+        "title": "FYI Sales 6 (03/20), who is a contractor",
+        "url": "https://web.archive.org/web/20251122053204id_/https://tax.colorado.gov/sites/tax/files/03.2020_Sales6.pdf",
+        "quote": "anyone engaged, under a contractual arrangement, in the construction, reconstruction, or repair of any building, bridge or structure; and"
+      },
+      {
+        "title": "FYI Sales 6 (01/12)",
+        "url": "https://web.archive.org/web/20161221083439id_/https://www.colorado.gov/pacific/sites/default/files/Sales06.pdf",
+        "quote": "license and charge applicable taxes on the marked up billing price of all materials."
+      },
+      {
+        "title": "FYI Sales 6 (01/12)",
+        "url": "https://web.archive.org/web/20161221083439id_/https://www.colorado.gov/pacific/sites/default/files/Sales06.pdf",
+        "quote": "All supplies and materials are taxable on the contractor's cost, either through sales tax paid to the vendor or use tax paid by the contractor on the Consumer Use Tax Return (DR 0252)."
+      }
+    ],
+    "notes": "Covers both subcodes; Colorado draws no line between improvement and repair. 2012-01-01 is the date of the earlier FYI Sales 6 edition (01/12, archived 2016), which states the same split. Non-building materials (items that stay personal property) sold and installed by a contractor are retail sales. Local use taxes on building materials are often collected through building permits (C.R.S. 29-2-105(2)); home-rule cities administer their own contractor rules."
+  },
+  {
+    "tax": "CO",
+    "code": "delivery.exempt_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge for goods exempt from Colorado state sales tax is not taxable: it is either part of the exempt price or a separate, untaxed service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.7(5) (version effective 01/01/2018): purchase price includes",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Installation, delivery and wheeling-in charges included in the purchase price and not separately stated."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 3, associated service charges",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "To be excluded from the taxpayer purchase price, associated service charges must be both separable from the sale of the property and separately stated from the price of the property sold on the invoice or receipt."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 2",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Sales of services are generally not subject to Colorado sales tax."
+      }
+    ],
+    "notes": "This rule is the state part; local parts are in the CO:local rule (groceries may be taxable locally). Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A delivery charge on taxable goods is excluded from Colorado's taxable price only if it is separately stated and separable (the buyer could choose to pick up instead); otherwise it is taxed with the goods.",
+    "conditions": [
+      {
+        "when": "Separately stated, and delivery is optional: the buyer could pick the goods up without paying the charge",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery is not optional (the goods are only sold delivered), the charge is overstated to shift price, or it is not separately stated",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.7(5) (version effective 01/01/2018): purchase price includes",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Installation, delivery and wheeling-in charges included in the purchase price and not separately stated."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(7)(a)(5) (current): purchase price includes",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Installation, delivery and wheeling-in charges included in the purchase price and not separately stated."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 3, associated service charges",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Service charges associated with the sale of tangible personal property, such as charges for installation or delivery, are generally included in the taxable purchase price, regardless of whether the service is performed by the seller or a third party, unless two conditions are met."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 3, associated service charges",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "To be excluded from the taxpayer purchase price, associated service charges must be both separable from the sale of the property and separately stated from the price of the property sold on the invoice or receipt."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 3, associated service charges",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "For example, if delivery is optional and the purchaser may elect to pick up the property at the seller's store, without paying the delivery charge, the delivery charge is separable."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Dining Establishments (rev. Aug 2020)",
+        "url": "https://web.archive.org/web/20251122093939id_/https://tax.colorado.gov/sites/tax/files/SUTT%20Dining%20Establishments.pdf",
+        "quote": "Delivery charges, whether charged by the dining establishment or a third-party meal delivery service, are not taxable if both of the following conditions are met:"
+      }
+    ],
+    "notes": "The regulation (unchanged in this respect since at least 01/01/2018) includes delivery charges 'not separately stated'; the separability requirement is stated in the 2020 and 2025 DOR publications. Colorado's retail delivery fee (C.R.S. 43-4-218, from 2022-07-01) is a separate fee excluded from the purchase price, not sales tax. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.candy",
+    "from": "2010-05-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Candy is subject to Colorado state sales tax since May 1, 2010, and to the state-administered local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-707(1.5)(a) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "on and after May 1, 2010, sales of candy and soft drinks shall be subject to state sales taxation."
+      },
+      {
+        "title": "C.R.S. 39-26-707(1.5)(b)(I) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "\"Candy\" means a preparation of sugar, honey, or other natural or artificial sweeteners in combination with chocolate, fruit, nuts, or other ingredients or flavorings in the form of bars, drops, or pieces."
+      },
+      {
+        "title": "FYI Sales 4 (01/12), local taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "However, if they exempt food from sales tax they must use the same criteria as the state in determining which items are taxable and which are exempt."
+      },
+      {
+        "title": "FYI Sales 4 (01/12), RTD/CD taxes",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "taxes are due on any food item sold within RTD/CD boundaries and that is subject to the state sales tax"
+      }
+    ],
+    "notes": "Before 2010-05-01 candy was exempt food (HB 10-1191); not modeled. Colorado's candy definition excludes preparations with flour and items requiring refrigeration. Local: per FYI Sales 4, localities that exempt food must use the state's criteria and RTD/CD tax food items subject to state tax, so candy is treated as taxable locally too; the local-option statute (C.R.S. 29-2-105(1)(d)(I)(C)) refers only to the 39-26-707(1)(e) food exemption, so a reviewer may want a newer DOR statement confirming local treatment of candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food and drink sold by caterers is taxable in Colorado.",
+    "conditions": [
+      {
+        "when": "A tip or gratuity on the bill that is distributed in full to the servers, bartenders or other staff who provided the service",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-104(1)(e) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "Upon the amount paid for food or drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, carryout shops, and other like places of business at which prepared food or drink is regularly sold"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(c) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Normally all food sold by a caterer is subject to tax."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(3)(c) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Normally all food sold by a caterer is subject to tax."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Dining Establishments (rev. Aug 2020)",
+        "url": "https://web.archive.org/web/20251122093939id_/https://tax.colorado.gov/sites/tax/files/SUTT%20Dining%20Establishments.pdf",
+        "quote": "Tips and gratuities are not subject to sales tax if the total amount of the tip or gratuity is distributed to the person(s) who actually provided the service, such as a server or bartender."
+      }
+    ],
+    "notes": "Separately stated charges for services or entertainment that are not food (e.g. a cover charge for entertainment only) may be excluded; the sources do not address equipment rental or setup charges on a catering bill specifically, so those are treated as part of the taxable catering charge. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.grocery",
+    "from": "1980-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food for home consumption (groceries) is exempt from Colorado's 2.9% state sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-707(1)(e) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "(e) Commencing January 1, 1980, all sales of food; and"
+      },
+      {
+        "title": "FYI Sales 4 (01/12), exempt food purchases",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "Food purchased for human consumption at home."
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(1)(a)(1) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Food for domestic home consumption as defined by the federal food stamps program in 7 U.S.C. sec. 2012(g) is exempt from taxation"
+      }
+    ],
+    "notes": "This rule is the state part; local parts are in the CO:local rule (local food tax is a local option). 'Food' is food for domestic home consumption under the federal SNAP definition (C.R.S. 39-26-102(4.5)); candy and soft drinks (taxable at state level since 2010-05-01), prepared salads, salad bars, cold sandwiches, deli trays, carbonated water, chewing gum and hot food are excluded and have their own codes or rules. Food bought with SNAP or WIC benefits is exempt from all state and local taxes, including home-rule cities."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Colorado, bakery items sold to go by a bakery or food store are exempt from state tax as food for home consumption; the same items sold by a restaurant, café or other dining establishment are taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a bakery or pastry shop without eating facilities, or by a grocery or convenience store, to go",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a bakery or pastry shop that has eating facilities, on a take-out or to-go basis",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant, café, coffee shop, carryout shop or other dining establishment (not from a separate pastry or grocery operation)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold hot or marketed to be heated on the premises",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(a)(1) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Sales by bakeries or pastry shops which do not have eating facilities are not subject to tax;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(a)(2) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Sales by bakeries or pastry shops which have eating facilities are taxable except for items sold on a take-out or to-go basis not to be consumed at the eating facilities provided by the retailer."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(3)(a)(1) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Sales by bakeries or pastry shops which do not have eating facilities are not subject to tax;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(d) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "All food sold by restaurants and similar establishments is subject to tax."
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(2)(e) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "grocery stores, convenience stores, bakeries, butcher shops, fruit and vegetable stores, and department stores."
+      }
+    ],
+    "notes": "This rule is the state part; local parts are in the CO:local rule. The code allows items 'even if warmed': under Rule 39-26-102(4.5)(2)(b) food hot at sale is taxable regardless of seller. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food prepared by a grocery or deli is taxable in Colorado if it is a prepared salad or salad-bar item; other cold food sold for home consumption (cooked chicken sold cold, cut fruit, deli meats by weight) is exempt from state tax.",
+    "conditions": [
+      {
+        "when": "A prepared salad requiring refrigeration (egg, potato, fruit, pasta, meat salad, etc.) or salad-bar food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other cold food sold for home consumption by a grocery, convenience store or deli that is not a dining establishment (e.g. a cooked chicken sold cold, sliced deli meat or cheese, cut fruit not sold as a salad)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant, café, carryout shop or other dining establishment, or for eating on the seller's premises",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(4.5)(a) (2024), exclusions from \"food\"",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "prepared salads and salad bars; packaged and unpackaged cold sandwiches; deli trays;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(1)(c)(4) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Prepared salads, other than frozen salads, requiring refrigeration sold in any size or type of container"
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(1)(c)(4) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Prepared salads, other than frozen salads, requiring refrigeration sold in any size or type of container"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(1)(a)(1) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Food for domestic home consumption as defined by the federal food stamps program in 7 U.S.C. sec. 2012(g) is exempt from taxation"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(2)(e) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "grocery stores, convenience stores, bakeries, butcher shops, fruit and vegetable stores, and department stores."
+      }
+    ],
+    "notes": "This rule is the state part; local parts are in the CO:local rule (the exempt branch depends on the local food option). Whether a given cut-fruit product counts as a 'fruit salad' is not settled by the sources. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "All food sold by restaurants, cafés, carryout shops and similar dining establishments is taxable in Colorado, including cold food to go.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-104(1)(e) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "Upon the amount paid for food or drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, carryout shops, and other like places of business at which prepared food or drink is regularly sold"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(d) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "All food sold by restaurants and similar establishments is subject to tax."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(3)(d) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "All food sold by restaurants and similar establishments is subject to tax."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Dining Establishments (rev. Aug 2020)",
+        "url": "https://web.archive.org/web/20251122093939id_/https://tax.colorado.gov/sites/tax/files/SUTT%20Dining%20Establishments.pdf",
+        "quote": "All sales of food or drink served or furnished in or by dining establishments in Colorado are subject to Colorado sales tax."
+      }
+    ],
+    "notes": "Where a restaurant also runs a separate pastry, ice cream or grocery-type operation, sales from that operation follow the rules for those businesses (Rule 39-26-102(4.5)(3)(d)). 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating at the seller's tables or counters or on its tableware is taxable in Colorado.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(2)(a) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Prepared food or food marketed for immediate consumption includes all food furnished or served for consumption at tables, chairs, or counters, or from trays, glasses, dishes, or other tableware provided by the retailer."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(2)(a) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Prepared food or food marketed for immediate consumption includes all food furnished or served for consumption at tables, chairs, or counters, or from trays, glasses, dishes, or other tableware provided by the retailer."
+      },
+      {
+        "title": "C.R.S. 39-26-104(1)(e) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "Upon the amount paid for food or drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, carryout shops, and other like places of business at which prepared food or drink is regularly sold"
+      }
+    ],
+    "notes": "2018-01-01 is the earliest dated regulation version read. Meals provided free or at reduced charge to a restaurant's own employees are exempt (C.R.S. 39-26-104(1)(e)). Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot prepared food is taxable in Colorado regardless of the kind of business selling it.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(2)(b) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "All hot foods and food marketed to be heated on the premises are considered to be prepared for immediate consumption and are therefore subject to tax regardless of the nature of the business making such sale and regardless of whether immediately consumed."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(2)(b) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "All hot foods and food marketed to be heated on the premises are considered to be prepared for immediate consumption and are therefore subject to tax regardless of the nature of the business making such sale and regardless of whether immediately consumed."
+      },
+      {
+        "title": "FYI Sales 4 (01/12), food not exempt",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "Food to be eaten in the store, hot foods ready to eat and food marketed to be heated in the store."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest dated regulation version read; the rule is older (FYI Sales 4 of 01/12 says the same). Local: hot food is not 'food for home consumption', so the local food option does not reach it; state-administered local taxes apply. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Deli trays (meats, cheeses, fruits or vegetables on trays prepared by or for the retailer) are excluded from Colorado's food exemption and are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(4.5)(a) (2024), exclusions from \"food\"",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "prepared salads and salad bars; packaged and unpackaged cold sandwiches; deli trays;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(1)(c)(7) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Deli trays (e.g., meats, fish, cheeses, fruits or vegetables, etc., sold on trays prepared by or for the retailer);"
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(1)(c)(7) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Deli trays (e.g., meats, fish, cheeses, fruits or vegetables, etc., sold on trays prepared by or for the retailer);"
+      }
+    ],
+    "notes": "Because deli trays are not 'food', the local food exemption does not reach them. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold sandwiches are excluded from Colorado's food exemption and are taxable, whoever sells them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(4.5)(a) (2024), exclusions from \"food\"",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "prepared salads and salad bars; packaged and unpackaged cold sandwiches; deli trays;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(1)(c)(6) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Cold sandwiches other than frozen sandwiches;"
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(4.5)(1)(c)(6) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "Cold sandwiches other than frozen sandwiches;"
+      }
+    ],
+    "notes": "Frozen sandwiches are food for home consumption and exempt (state). Sandwiches bought with SNAP/WIC benefits are exempt. Because cold sandwiches are not 'food', the local food exemption does not reach them. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "food.soft_drink",
+    "from": "2010-05-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Soft drinks are subject to Colorado state sales tax since May 1, 2010, and to the state-administered local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-707(1.5)(a) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "on and after May 1, 2010, sales of candy and soft drinks shall be subject to state sales taxation."
+      },
+      {
+        "title": "C.R.S. 39-26-707(1.5)(b)(II) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "\"Soft drinks\" means nonalcoholic beverages that contain natural or artificial sweeteners."
+      },
+      {
+        "title": "FYI Sales 4 (01/12), local taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "However, if they exempt food from sales tax they must use the same criteria as the state in determining which items are taxable and which are exempt."
+      },
+      {
+        "title": "FYI Sales 4 (01/12), RTD/CD taxes",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "taxes are due on any food item sold within RTD/CD boundaries and that is subject to the state sales tax"
+      }
+    ],
+    "notes": "Before 2010-05-01 soft drinks were exempt food (HB 10-1191); not modeled. Beverages with milk, milk substitutes or more than 50% juice are not soft drinks. Local treatment: see the note on food.candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of general tangible goods are subject to Colorado state sales tax and the state-administered city, county and special district sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-104(1)(a) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "On the purchase price paid or charged upon all sales and purchases of tangible personal property at retail"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.9 (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "and the sales of those services specifically enumerated in the Act as rooms and accommodations, gas and electric service, steam, and telephone and telegraph service"
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 2",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Colorado imposes a sales tax on retail sales of tangible personal property except when such sales qualify for an exemption specifically authorized by law."
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I) (2024): local base is the state base",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "is the same as the sale of tangible personal property and services taxable pursuant to section 39-26-104, except as otherwise provided in this subsection (1)(d)."
+      }
+    ],
+    "notes": "The tax on retail sales of tangible goods long predates 2018; 2018-01-01 is the earliest dated regulation version read here (1 CCR 201-4 as in force from 01/01/2018). State-administered local taxes share the state base (C.R.S. 29-2-105(1)(d)); the local-option exemptions listed there (machinery, farm equipment, residential energy, etc.) do not cover general goods. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not among the services Colorado taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.9 (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "and the sales of those services specifically enumerated in the Act as rooms and accommodations, gas and electric service, steam, and telephone and telegraph service"
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 2",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Sales of services are generally not subject to Colorado sales tax."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), introduction",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "In general, the tax does not apply to sales of services, except for those services specifically taxed by law."
+      }
+    ],
+    "notes": "Covers all seven subcodes. Tangible goods sold along with a service (e.g. furnishings an interior designer sells, printed advertising materials, software on physical media) can be taxable, and a bundled sale of goods and service may be taxable in full unless the service is separately stated and separable (Sales Tax Guide, Part 3). Mainframe computer access is taxable as a sale of tangible personal property, but does not include ASP-hosted software. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "software.custom",
+    "from": "2012-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Custom software, and custom modifications to prewritten software, are not taxable in Colorado because they are not prepackaged for repeated sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(15)(c)(I)(A) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "(A) The computer software is prepackaged for repeated sale or license;"
+      },
+      {
+        "title": "C.R.S. 39-26-102(15)(c)(II)(E) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "\"Prepackaged for repeated sale or license\" means computer software that is prepackaged for repeated sale or license in the same form to multiple users without modification, and is typically sold in a shrink-wrapped box."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(15)(2)(d) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "computer software that does not meet the criteria enumerated in section 39-26-102(15)(c), C.R.S."
+      }
+    ],
+    "notes": "Applies to both subcodes (development and modification). If custom work is bundled with a taxable prepackaged copy on physical media, the copy is taxable. Home-rule cities not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "software.prewritten",
+    "from": "2012-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxable in Colorado only when sold prepackaged, under a tear-open license, on a physical medium; downloaded or load-and-leave software is not taxable.",
+    "conditions": [
+      {
+        "when": "Prepackaged (shrink-wrapped), governed by a tear-open nonnegotiable license, and delivered to the buyer on a tape, disk, CD, card or similar physical medium",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered electronically (download) or by load and leave (installed from media the buyer does not keep)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Licensed under a written agreement signed by licensor and licensee (not a tear-open license), even on physical media",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(15)(c)(I) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "\"Tangible personal property\", commencing July 1, 2012, shall include computer software if the computer software meets all of the following criteria:"
+      },
+      {
+        "title": "C.R.S. 39-26-102(15)(c)(I)(C) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "(C) The computer software is delivered to the customer in a tangible medium. Computer software is not delivered to the customer in a tangible medium if it is provided through an application service provider, delivered by electronic computer software delivery, or transferred by load and leave computer software delivery."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (rev. Feb 2021)",
+        "url": "https://web.archive.org/web/20251213175453id_/https://tax.colorado.gov/sites/tax/files/02.2021_SUTT_Computer%20Software.pdf",
+        "quote": "Colorado sales tax applies to a sale of computer software if all of the following conditions are met: (1) it is prepackaged for repeated sale or license; (2) its use is governed by a tear-open nonnegotiable license agreement; and (3) it is delivered in a physical medium such as a tape, disk, compact disc, or card."
+      }
+    ],
+    "notes": "See the software.saas note on the 2012 effective date and home-rule cities. A mandatory maintenance agreement sold with taxable software is also taxable (Computer Software publication)."
+  },
+  {
+    "tax": "CO",
+    "code": "software.saas",
+    "from": "2012-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Software accessed remotely from an application service provider (SaaS) is not taxable tangible personal property under Colorado's state and state-administered local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(15)(c)(I)(C) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "(C) The computer software is delivered to the customer in a tangible medium. Computer software is not delivered to the customer in a tangible medium if it is provided through an application service provider, delivered by electronic computer software delivery, or transferred by load and leave computer software delivery."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (rev. Feb 2021)",
+        "url": "https://web.archive.org/web/20251213175453id_/https://tax.colorado.gov/sites/tax/files/02.2021_SUTT_Computer%20Software.pdf",
+        "quote": "Computer software is not subject to sales tax if it is delivered to the purchaser through any of the following methods: (1) it is provided to the customer through an application service provider; (2) it is delivered to the customer by electronic computer software delivery; or (3) it is transferred to the customer by load and leave computer software delivery."
+      },
+      {
+        "title": "1 CCR 201-4, Rule 39-26-102(15)(2)(d) (current)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=12693&fileName=1%20CCR%20201-4",
+        "quote": "computer software that does not meet the criteria enumerated in section 39-26-102(15)(c), C.R.S."
+      }
+    ],
+    "notes": "2012-07-01 is when the current software definition took effect (HB 11-1293); earlier treatment is not modeled. The 2021 digital-goods language (C.R.S. 39-26-102(15)(b.5)) did not change the separate software criteria in (15)(c). The DOR publication applies to state and state-administered local taxes but not home-rule cities; some home-rule cities tax SaaS or electronically delivered software, not researched here."
+  },
+  {
+    "tax": "CO:local",
+    "code": "delivery.exempt_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "For Colorado local sales taxes, a delivery charge on goods exempt from state tax (such as groceries) follows the goods unless it is separately stated and separable.",
+    "conditions": [
+      {
+        "when": "Separately stated, and delivery is optional (buyer could pick up without the charge)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Not separable or not separately stated, and the local jurisdiction exempts the goods (e.g. has adopted the food exemption)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Not separable or not separately stated, and the local jurisdiction taxes the goods (e.g. a city or county that taxes food)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.7(5) (version effective 01/01/2018): purchase price includes",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Installation, delivery and wheeling-in charges included in the purchase price and not separately stated."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 3, associated service charges",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "To be excluded from the taxpayer purchase price, associated service charges must be both separable from the sale of the property and separately stated from the price of the property sold on the invoice or receipt."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), Part 3, associated service charges",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "For example, if delivery is optional and the purchaser may elect to pick up the property at the seller's store, without paying the delivery charge, the delivery charge is separable."
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "except that the sale of the following may be exempted from a town, city, or county sales tax only by the express inclusion of the exemption"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I)(C) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "(C) The exemption for sales of food specified in section 39-26-707 (1)(e), C.R.S.;"
+      },
+      {
+        "title": "FYI Sales 4 (01/12), local taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "Cities and counties have the option of taxing food."
+      }
+    ],
+    "notes": "See CO:local food.grocery. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO:local",
+    "code": "food.grocery",
+    "from": "2012-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Colorado cities, counties and special districts may tax groceries: food for home consumption is exempt from a local sales tax only where the local ordinance expressly adopts the food exemption.",
+    "conditions": [
+      {
+        "when": "The city, county or special district (RTD, CD, RTA, MTS, LID) has adopted the food-for-home-consumption exemption (exemption 'A' in DR 1002); RTD and CD have",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The city or county (state-administered or home-rule) has not adopted the food exemption and taxes food for home consumption",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "except that the sale of the following may be exempted from a town, city, or county sales tax only by the express inclusion of the exemption"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I)(C) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "(C) The exemption for sales of food specified in section 39-26-707 (1)(e), C.R.S.;"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(III) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "In the absence of an express provision for any exemption specified in subparagraph (I) of this paragraph (d), all sales tax ordinances and resolutions shall be construed as imposing or continuing to impose the town, city, or county sales tax on such items;"
+      },
+      {
+        "title": "FYI Sales 4 (01/12), local taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "Cities and counties have the option of taxing food."
+      },
+      {
+        "title": "FYI Sales 4 (01/12)",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "However, if they exempt food from sales tax they must use the same criteria as the state in determining which items are taxable and which are exempt."
+      },
+      {
+        "title": "FYI Sales 4 (01/12), RTD/CD taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "If the item is not subject to state sales tax, RTD/CD taxes are not due."
+      },
+      {
+        "title": "DR 1002, Colorado Sales/Use Tax Rates (January 2025), exemption options",
+        "url": "https://web.archive.org/web/20250605111241id_/https://tax.colorado.gov/sites/tax/files/documents/DR1002_2024_updated.pdf",
+        "quote": "If an exemption is not listed, state-collected local jurisdictions do not have that exemption option."
+      },
+      {
+        "title": "Colorado Sales Tax Guide (Oct 2025), introduction",
+        "url": "https://web.archive.org/web/20251021190136id_/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "However, the Department does not administer and collect sales taxes imposed by certain home-rule cities that instead administer their own sales taxes."
+      }
+    ],
+    "notes": "Which jurisdictions exempt food is listed per jurisdiction in DR 1002 (exemption A); this rule cannot settle it generally. 2012-01-01 is the date of FYI Sales 4, the earliest dated source read for the local option; earlier local treatment is not modeled here. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched. FYI Sales 4 says home-rule cities that exempt food must use the state criteria."
+  },
+  {
+    "tax": "CO:local",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "For Colorado local sales taxes, bakery items sold by dining establishments are taxable; bakery items sold to go by bakeries and food stores follow the jurisdiction's food option.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café, coffee shop or other dining establishment, or sold hot",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to go by a bakery or food store, in a city, county or special district that has adopted the food exemption (DR 1002 exemption A; RTD and CD have)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold to go by a bakery or food store, in a city or county that taxes food",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(a)(1) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Sales by bakeries or pastry shops which do not have eating facilities are not subject to tax;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(3)(d) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "All food sold by restaurants and similar establishments is subject to tax."
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "except that the sale of the following may be exempted from a town, city, or county sales tax only by the express inclusion of the exemption"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I)(C) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "(C) The exemption for sales of food specified in section 39-26-707 (1)(e), C.R.S.;"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(III) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "In the absence of an express provision for any exemption specified in subparagraph (I) of this paragraph (d), all sales tax ordinances and resolutions shall be construed as imposing or continuing to impose the town, city, or county sales tax on such items;"
+      },
+      {
+        "title": "FYI Sales 4 (01/12), local taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "Cities and counties have the option of taxing food."
+      }
+    ],
+    "notes": "See CO:local food.grocery. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO:local",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "For Colorado local sales taxes, prepared salads and salad-bar items are taxable; other cold food sold for home consumption follows the jurisdiction's food option.",
+    "conditions": [
+      {
+        "when": "A prepared salad requiring refrigeration or salad-bar food, or food sold by a dining establishment",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other cold food sold for home consumption, in a city, county or special district that has adopted the food exemption (DR 1002 exemption A; RTD and CD have)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other cold food sold for home consumption, in a city or county that taxes food",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "C.R.S. 39-26-102(4.5)(a) (2024), exclusions from \"food\"",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-39.pdf",
+        "quote": "prepared salads and salad bars; packaged and unpackaged cold sandwiches; deli trays;"
+      },
+      {
+        "title": "1 CCR 201-4, Regulation 26-102.4.5(1)(c)(4) (version effective 01/01/2018)",
+        "url": "https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=7427&fileName=1%20CCR%20201-4",
+        "quote": "Prepared salads, other than frozen salads, requiring refrigeration sold in any size or type of container"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "except that the sale of the following may be exempted from a town, city, or county sales tax only by the express inclusion of the exemption"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I)(C) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "(C) The exemption for sales of food specified in section 39-26-707 (1)(e), C.R.S.;"
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(III) (2024)",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "In the absence of an express provision for any exemption specified in subparagraph (I) of this paragraph (d), all sales tax ordinances and resolutions shall be construed as imposing or continuing to impose the town, city, or county sales tax on such items;"
+      },
+      {
+        "title": "FYI Sales 4 (01/12), local taxes on food",
+        "url": "https://web.archive.org/web/20251123051449id_/https://tax.colorado.gov/sites/tax/files/Sales%204.pdf",
+        "quote": "Cities and counties have the option of taxing food."
+      }
+    ],
+    "notes": "See CO:local food.grocery. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  }
+]

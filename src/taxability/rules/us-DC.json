@@ -1,0 +1,858 @@
+[
+  {
+    "tax": "DC",
+    "code": "construction.real_property.improvement",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction and capital improvement of real property is not taxed to the owner in the District; the contractor pays tax on the materials it buys.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The sale of material used in the construction, and of materials used in the repair or alteration, of real property, which materials, upon completion of such construction, alterations, or repairs, become real property"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "but does not include; painting, wallpapering, or other services performed as part of construction or major repairs"
+      }
+    ],
+    "notes": "Construction labour is not an enumerated taxable service; the sale of materials to the contractor is the taxed retail sale. Earliest date: OTR's 2019-10-19 page (real property maintenance taxable, construction not); the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "construction.real_property.repair",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Maintenance and minor repairs of a building are taxable real property maintenance in the District; major repairs are not.",
+    "conditions": [
+      {
+        "when": "Maintenance or minor repairs and adjustments that keep the building clean, orderly and functional (cleaning, pest control, minor fixes)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Major repairs (masonry, re-tiling, waterproofing, asphalt repair) or painting as part of construction or major repair",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales tax at the rate of 5.75 percent is imposed on charges for the service of real property maintenance."
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "including the performance of minor adjustments, maintenance, or repairs"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "but does not include; painting, wallpapering, or other services performed as part of construction or major repairs"
+      },
+      {
+        "title": "DC OTR, Sales Tax on Real Property Maintenance Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-real-property-maintenance-services",
+        "quote": "Major Repair Services"
+      }
+    ],
+    "notes": "The size and kind of repair is not carried by the code. Earliest date: OTR's 2019-10-19 page."
+  },
+  {
+    "tax": "DC",
+    "code": "delivery",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A separately charged delivery in the District is itself a taxable sale, whatever is delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The sale of or charge for any delivery in the District for which a separate charge is made, except merchandise delivered for resale for which a District of Columbia certificate of resale has been issued or the delivery of any newspapers"
+      }
+    ],
+    "notes": "Applies to deliveries of exempt goods too (e.g. groceries); the only exceptions are deliveries of merchandise for resale and of newspapers. Taxed at the general rate; whether a delivery charge on a restaurant meal is taxed at 10% instead was not checked. The statute text is current; the date is that of OTR's 2019 services page and not specific to this clause."
+  },
+  {
+    "tax": "DC",
+    "code": "food.candy",
+    "from": "2002-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy is SNAP-eligible food and is not taxable in the District of Columbia unless sold as food for immediate consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Sales of food or drink of a type that constitute “eligible foods”, as defined in 7 CFR § 271.2, or food purchased for animal ingestion, without regard to whether such food or drink is purchased with food stamps, except sales of food or drink prepared for immediate consumption and soft drinks"
+      },
+      {
+        "title": "DC OTR, Guidance for Sales Tax Concerning Food (released 11/01/02)",
+        "url": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/tax_guide_food.pdf",
+        "quote": "only those foods and drinks sold for home preparation or consumption shall be exempt from District sales tax only when sold in the same form, quantities, and packaging as is commonly sold in grocery type stores"
+      }
+    ],
+    "notes": "Only prepared food and soft drinks are carved out of the eligible-food exclusion; candy is SNAP-eligible food. Candy sold by a restaurant or carry-out shop is food 'sold in or by' such a place and taxed at 10%. Earliest date: OTR food guidance of 2002-11-01; the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "food.catering",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Catering is taxed at 10% in the District as food sold by a caterer.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "all food or drink, served by, or sold in or by, restaurants, lunch counters, cafeterias, hotels, caterers, boarding houses, carryout shops or like places of business"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services",
+        "url": "https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "are subject to tax at the rate of 10%."
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "Food or drink prepared for immediate consumption as defined in § 47-2001(g-1)"
+      },
+      {
+        "title": "D.C. Code § 47-2002.02, additional 1% tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002.02",
+        "quote": "Food or drink prepared for immediate consumption, or sold as described in § 47-2001(n)(1)(A)(i)"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 10% on food or drink prepared for immediate consumption, made up of the 9% rate in § 47-2002(a)(3) and the separate 1% tax in § 47-2002.02(2), both District taxes on the same receipts. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.grocery",
+    "from": "2002-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Groceries (SNAP-eligible food for home preparation) are not taxable in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Sales of food or drink of a type that constitute “eligible foods”, as defined in 7 CFR § 271.2, or food purchased for animal ingestion, without regard to whether such food or drink is purchased with food stamps, except sales of food or drink prepared for immediate consumption and soft drinks"
+      },
+      {
+        "title": "DC OTR, Guidance for Sales Tax Concerning Food (released 11/01/02)",
+        "url": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/tax_guide_food.pdf",
+        "quote": "only those foods and drinks sold for home preparation or consumption shall be exempt from District sales tax only when sold in the same form, quantities, and packaging as is commonly sold in grocery type stores"
+      }
+    ],
+    "notes": "Earliest dated text read: OTR food guidance of 2002-11-01. Food sold by a restaurant or carry-out is taxed at 10% even if grocery-type (§ 47-2001(g-1)); not this code. The District has no local sales tax."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.bakery",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt food from a grocery-type store or bakery selling for home consumption, and taxed at 10% from a restaurant, café or carry-out.",
+    "conditions": [
+      {
+        "when": "Sold by a grocery-type store or bakery in the form and quantity sold for home consumption",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold in or by a restaurant, café, coffee shop, carry-out or similar place, or for immediate consumption",
+        "treatment": "special_rate",
+        "rate": 0.1
+      }
+    ],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "food or drink in a heated state (except heated baked goods whose heated state is solely a result of baking)"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "all food or drink, served by, or sold in or by, restaurants, lunch counters, cafeterias, hotels, caterers, boarding houses, carryout shops or like places of business"
+      },
+      {
+        "title": "DC OTR, Guidance for Sales Tax Concerning Food (released 11/01/02)",
+        "url": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/tax_guide_food.pdf",
+        "quote": "only those foods and drinks sold for home preparation or consumption shall be exempt from District sales tax only when sold in the same form, quantities, and packaging as is commonly sold in grocery type stores"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      }
+    ],
+    "notes": "The 10% case is a rate of its own, HIGHER than 6%. Whether a bakery that sells coffee is a 'carryout shop or like place' is not settled here. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.cold",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prepared salads, salad-bar food and party platters from a store are taxed at 10%; other cold cooked food a store sells in grocery-type form and quantity is exempt.",
+    "conditions": [
+      {
+        "when": "Prepared salads, salad-bar items, or food otherwise sold for immediate consumption",
+        "treatment": "special_rate",
+        "rate": 0.1
+      },
+      {
+        "when": "Other cold food sold in the form, quantity and packaging of a grocery store for home consumption (e.g. a whole cooked chicken sold cold, sliced deli meat)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "prepared salads; salad bars; party platters"
+      },
+      {
+        "title": "DC OTR, Guidance for Sales Tax Concerning Food (released 11/01/02)",
+        "url": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/tax_guide_food.pdf",
+        "quote": "only those foods and drinks sold for home preparation or consumption shall be exempt from District sales tax only when sold in the same form, quantities, and packaging as is commonly sold in grocery type stores"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      }
+    ],
+    "notes": "The 10% case is a rate of its own, HIGHER than 6% (9% under § 47-2002(a)(3) plus 1% under § 47-2002.02(2)). Which food and how it is sold is not carried by the code. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Cold food sold to go by a restaurant or carry-out is taxed at 10% in the District.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "all food or drink, served by, or sold in or by, restaurants, lunch counters, cafeterias, hotels, caterers, boarding houses, carryout shops or like places of business"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services",
+        "url": "https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "are subject to tax at the rate of 10%."
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "Food or drink prepared for immediate consumption as defined in § 47-2001(g-1)"
+      },
+      {
+        "title": "D.C. Code § 47-2002.02, additional 1% tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002.02",
+        "quote": "Food or drink prepared for immediate consumption, or sold as described in § 47-2001(n)(1)(A)(i)"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 10% on food or drink prepared for immediate consumption, made up of the 9% rate in § 47-2002(a)(3) and the separate 1% tax in § 47-2002.02(2), both District taxes on the same receipts. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.dine_in",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Food served by a restaurant or similar place is taxed at 10% in the District.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "all food or drink, served by, or sold in or by, restaurants, lunch counters, cafeterias, hotels, caterers, boarding houses, carryout shops or like places of business"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services",
+        "url": "https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "are subject to tax at the rate of 10%."
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "Food or drink prepared for immediate consumption as defined in § 47-2001(g-1)"
+      },
+      {
+        "title": "D.C. Code § 47-2002.02, additional 1% tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002.02",
+        "quote": "Food or drink prepared for immediate consumption, or sold as described in § 47-2001(n)(1)(A)(i)"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 10% on food or drink prepared for immediate consumption, made up of the 9% rate in § 47-2002(a)(3) and the separate 1% tax in § 47-2002.02(2), both District taxes on the same receipts. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.hot",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Hot food or drink is taxed at 10% in the District as food prepared for immediate consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "food or drink in a heated state (except heated baked goods whose heated state is solely a result of baking)"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services",
+        "url": "https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "are subject to tax at the rate of 10%."
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "Food or drink prepared for immediate consumption as defined in § 47-2001(g-1)"
+      },
+      {
+        "title": "D.C. Code § 47-2002.02, additional 1% tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002.02",
+        "quote": "Food or drink prepared for immediate consumption, or sold as described in § 47-2001(n)(1)(A)(i)"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 10% on food or drink prepared for immediate consumption, made up of the 9% rate in § 47-2002(a)(3) and the separate 1% tax in § 47-2002.02(2), both District taxes on the same receipts. Baked goods warm only from baking are not 'heated' (see the bakery code). Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.platter",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Party platters are taxed at 10% in the District.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "prepared salads; salad bars; party platters"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services",
+        "url": "https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "are subject to tax at the rate of 10%."
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "Food or drink prepared for immediate consumption as defined in § 47-2001(g-1)"
+      },
+      {
+        "title": "D.C. Code § 47-2002.02, additional 1% tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002.02",
+        "quote": "Food or drink prepared for immediate consumption, or sold as described in § 47-2001(n)(1)(A)(i)"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 10% on food or drink prepared for immediate consumption, made up of the 9% rate in § 47-2002(a)(3) and the separate 1% tax in § 47-2002.02(2), both District taxes on the same receipts. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.prepared.sandwich",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Sandwiches suitable for immediate consumption are taxed at 10% in the District, wherever sold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "sandwiches suitable for immediate consumption"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales of food or drink served or prepared for immediate consumption, or sold in or by restaurants, lunch counters, cafeterias, hotels, snack bars, caterers, boarding houses, carry-out shops and like places of business, or from carts and motor vehicles or any other form of vehicle, are subject to tax at the rate of 10 percent."
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services",
+        "url": "https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "are subject to tax at the rate of 10%."
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "Food or drink prepared for immediate consumption as defined in § 47-2001(g-1)"
+      },
+      {
+        "title": "D.C. Code § 47-2002.02, additional 1% tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002.02",
+        "quote": "Food or drink prepared for immediate consumption, or sold as described in § 47-2001(n)(1)(A)(i)"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 10% on food or drink prepared for immediate consumption, made up of the 9% rate in § 47-2002(a)(3) and the separate 1% tax in § 47-2002.02(2), both District taxes on the same receipts. Earliest date: OTR's page as archived 2019-10-19, which states the 10% rate; the rate is older."
+  },
+  {
+    "tax": "DC",
+    "code": "food.soft_drink",
+    "from": "2025-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks are taxed at 8% in the District; a drink dispensed in a cup or sold by a restaurant is food for immediate consumption at 10%.",
+    "conditions": [
+      {
+        "when": "Packaged soft drink sold by a store",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Dispensed in or with a cup or glass, or sold by a restaurant, carry-out or similar place",
+        "treatment": "special_rate",
+        "rate": 0.1
+      }
+    ],
+    "citations": [
+      {
+        "title": "DC OTR, Sales and Use Tax FAQs (official page as archived 2025-10-01)",
+        "url": "https://web.archive.org/web/20251001152111/https://otr.cfo.dc.gov/page/sales-and-use-tax-faqs",
+        "quote": "Soft Drink - Tax Rate: 8%"
+      },
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "The rate of tax shall be 8% of the gross receipts from the sale of or charges for soft drinks."
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "cold drinks dispensed in or with a cup or glass either by a retailer or on a self-service basis by the consumer"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Is prepared for immediate consumption, as defined in subsection (g-1) of this section."
+      }
+    ],
+    "notes": "Both are rates of their own, HIGHER than the general 6%. The 8% soft drink rate dates from 2019-10-01 (FY2020 budget law) by common account, but the earliest official text read stating it is OTR's FAQ as archived 2025-10-01."
+  },
+  {
+    "tax": "DC",
+    "code": "goods.general",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in the District of Columbia at the general rate (6%).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      },
+      {
+        "title": "DC OTR, Sales and Use Tax FAQs",
+        "url": "https://otr.cfo.dc.gov/page/sales-and-use-tax-faqs",
+        "quote": "General Sale or Medical Marijuana - Tax Rate: 6%"
+      }
+    ],
+    "notes": "The general rate was 5.75% until 2018-09-30 and 6% since 2018-10-01 (OTR's 2019 page still quoted 5.75% for services); OTR states the scheduled rise to 7% is postponed and 6% applies through 2027-09-30. The rule covers taxability, not the rate. Earliest date: OTR's archived page of 2019-10-19."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.accounting",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Accounting, auditing and tax preparation are not taxable in the District; computerized bookkeeping and payroll processing are taxable data processing.",
+    "conditions": [
+      {
+        "when": "Professional accounting, auditing or tax return preparation, where data processing is incidental",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Computerized business accounting, bookkeeping or payroll processing sold as a service",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Performing accounting, legal and insurance services in which data processing services are incidental."
+      },
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Computerized Business Accounting"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "word processing, payroll and business accounting, and computerized data and information storage and manipulation"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection"
+      }
+    ],
+    "notes": "Which the service is is not carried by the code. Earliest date: OTR's 2019-10-19 page (data processing taxable); the examples page is current."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.advertising",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not taxable in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection"
+      }
+    ],
+    "notes": "The District taxes only the services its statute lists (data processing, information services, real property maintenance, landscaping, security, and others in § 47-2001(n)(1)); advertising agency services are not among them. Earliest date: OTR's 2019-10-19 page listing the taxable services; the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.consulting",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management consulting is not taxable in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection"
+      },
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Consultant hired by the company to do a study on management information needs; the consultant mentioned in his report that the computer system needed to be upgraded."
+      }
+    ],
+    "notes": "The District taxes only the services its statute lists (data processing, information services, real property maintenance, landscaping, security, and others in § 47-2001(n)(1)); management consulting is not among them. Earliest date: OTR's 2019-10-19 page listing the taxable services; the statute text is current. OTR lists such a consultant's study among non-taxable services."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.design",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design services are not taxable in the District of Columbia; furnishings sold with them are.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection"
+      }
+    ],
+    "notes": "The District taxes only the services its statute lists (data processing, information services, real property maintenance, landscaping, security, and others in § 47-2001(n)(1)); interior design services are not among them. Earliest date: OTR's 2019-10-19 page listing the taxable services; the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.engineering",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are not taxable in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection"
+      }
+    ],
+    "notes": "The District taxes only the services its statute lists (data processing, information services, real property maintenance, landscaping, security, and others in § 47-2001(n)(1)); engineering and architectural services are not among them. Earliest date: OTR's 2019-10-19 page listing the taxable services; the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.it",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT consulting, systems analysis and hardware configuration are taxable data processing services in the District; computer training not sold with software is not.",
+    "conditions": [
+      {
+        "when": "IT consulting, systems analysis, hardware configuration, network or help-desk support for computer systems",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Computer training courses not sold with software",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Data Processing Consulting Services"
+      },
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Specifying Computer Hardware Configurations"
+      },
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Computer Training Courses (not in conjunction with the sale of software)"
+      },
+      {
+        "title": "DC OTR, Taxable and Non-Taxable Services (official page as archived 2019-10-19)",
+        "url": "https://web.archive.org/web/20191019124738/https://otr.cfo.dc.gov/page/taxable-and-non-taxable-services",
+        "quote": "Sales tax at the rate of 5.75 percent is imposed on charges for the service of data processing."
+      }
+    ],
+    "notes": "Help-desk and network support are read as data processing (maintenance and support of computer systems); OTR's list does not name them. Earliest date: OTR's 2019-10-19 page."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.legal",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not taxable in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection"
+      },
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Performing accounting, legal and insurance services in which data processing services are incidental."
+      }
+    ],
+    "notes": "The District taxes only the services its statute lists (data processing, information services, real property maintenance, landscaping, security, and others in § 47-2001(n)(1)); legal services are not among them. Earliest date: OTR's 2019-10-19 page listing the taxable services; the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "software.custom",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software, programming and software modification are taxable data processing services in the District.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DC OTR, Digital Goods Sales Taxability Chart",
+        "url": "https://otr.cfo.dc.gov/page/digital-goods-sales-taxability-chart",
+        "quote": "Under D.C. Mun. Regs. 9 §474.4, the sale, rental, or maintenance of computer software continues to be subject to sales tax in the District whether the software is canned, prepackaged, or customized. Taxable computer software and software services include system software, application software, computer programming, software modification, or software updating."
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "and any system or application programming or software"
+      },
+      {
+        "title": "DC OTR, Sales Tax on Data Processing Services",
+        "url": "https://otr.cfo.dc.gov/page/sales-tax-data-processing-services",
+        "quote": "Computer Programming or Software Development"
+      }
+    ],
+    "notes": "The District taxes customized software and programming, unlike most states. Earliest date: OTR's digital goods chart, effective 2019-01-01, which says software 'continues' to be taxable; earlier text not read. Taxed at the general rate."
+  },
+  {
+    "tax": "DC",
+    "code": "software.prewritten",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in the District, however delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DC OTR, Digital Goods Sales Taxability Chart",
+        "url": "https://otr.cfo.dc.gov/page/digital-goods-sales-taxability-chart",
+        "quote": "Under D.C. Mun. Regs. 9 §474.4, the sale, rental, or maintenance of computer software continues to be subject to sales tax in the District whether the software is canned, prepackaged, or customized. Taxable computer software and software services include system software, application software, computer programming, software modification, or software updating."
+      },
+      {
+        "title": "DC OTR, Digital Goods Sales Taxability Chart",
+        "url": "https://otr.cfo.dc.gov/page/digital-goods-sales-taxability-chart",
+        "quote": "The digital goods listed below are subject to Sales tax effective January 1, 2019:"
+      }
+    ],
+    "notes": "Earliest date: OTR's digital goods chart, effective 2019-01-01, which says software 'continues' to be taxable; earlier text not read. Taxed at the general rate."
+  },
+  {
+    "tax": "DC",
+    "code": "software.saas",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Remotely accessed software is taxable in the District as data processing and digital goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DC OTR, Digital Goods Sales Taxability Chart",
+        "url": "https://otr.cfo.dc.gov/page/digital-goods-sales-taxability-chart",
+        "quote": "Under D.C. Mun. Regs. 9 §474.4, the sale, rental, or maintenance of computer software continues to be subject to sales tax in the District whether the software is canned, prepackaged, or customized. Taxable computer software and software services include system software, application software, computer programming, software modification, or software updating."
+      },
+      {
+        "title": "DC OTR, Digital Goods Sales Taxability Chart",
+        "url": "https://otr.cfo.dc.gov/page/digital-goods-sales-taxability-chart",
+        "quote": "The digital goods listed below are subject to Sales tax effective January 1, 2019:"
+      },
+      {
+        "title": "DC OTR, Digital Goods Sales Taxability Chart",
+        "url": "https://otr.cfo.dc.gov/page/digital-goods-sales-taxability-chart",
+        "quote": "Applications – Taxable digital goods under D.C. Code §47-2001(d-1)."
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "whether electronically or digitally delivered, streamed, or accessed"
+      }
+    ],
+    "notes": "Earliest date: OTR's digital goods chart, effective 2019-01-01, which says software 'continues' to be taxable; earlier text not read. Taxed at the general rate."
+  },
+  {
+    "tax": "DC:local",
+    "code": "food.catering",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      }
+    ],
+    "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  },
+  {
+    "tax": "DC:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      }
+    ],
+    "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  },
+  {
+    "tax": "DC:local",
+    "code": "food.prepared.dine_in",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      }
+    ],
+    "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  },
+  {
+    "tax": "DC:local",
+    "code": "food.prepared.hot",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      }
+    ],
+    "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  },
+  {
+    "tax": "DC:local",
+    "code": "food.prepared.platter",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      }
+    ],
+    "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  },
+  {
+    "tax": "DC:local",
+    "code": "food.prepared.sandwich",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in the District of Columbia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2002, Imposition of tax",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      }
+    ],
+    "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  }
+]

@@ -1,0 +1,665 @@
+[
+  {
+    "tax": "ME",
+    "code": "construction.real_property",
+    "from": "2024-07-22",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction, improvement and repair of real property is not taxed to the owner in Maine; the contractor pays tax on materials as their last user.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 4, Contractors and Subcontractors (last revised July 22, 2024)",
+        "url": "https://maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB04_FINAL_Contractors%20and%20Subcontractors_072220204.pdf",
+        "quote": "The term “construction contract,” as used in this bulletin, means a contract for repair, alteration, improvement, remodeling or construction of real property."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 4, Contractors and Subcontractors (last revised July 22, 2024)",
+        "url": "https://maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB04_FINAL_Contractors%20and%20Subcontractors_072220204.pdf",
+        "quote": "The contractor, as the last user of the materials as tangible personal property, pays a sales or use tax when purchasing the materials."
+      }
+    ],
+    "notes": "A contractor that registers as a retailer and passes title to materials before incorporation (e.g. time-and-materials billing) charges tax on the materials, not the labour (IB 4); the code's labour-and-materials-together contract is the general case. Earliest date: IB 4's revision of 2024-07-22."
+  },
+  {
+    "tax": "ME",
+    "code": "delivery.taxable_goods",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge is excluded from Maine's taxable sale price when the goods ship by common or contract carrier or the U.S. mail; delivery in the seller's own vehicle is taxable.",
+    "conditions": [
+      {
+        "when": "Shipped directly to the buyer by common carrier, contract carrier or the U.S. mail",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivered in the seller's own vehicle",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "The cost of transportation from the retailer's place of business or other point from which shipment is made directly to the purchaser, provided that those charges are separately stated and the transportation occurs by means of common carrier, contract carrier or the United States mail"
+      }
+    ],
+    "notes": "How the goods travel is not carried by the code. Earliest date: conservative; § 1752(14) was last amended by laws of 2023, and the text read is current."
+  },
+  {
+    "tax": "ME",
+    "code": "food.candy",
+    "from": "2022-05-11",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Candy and confections are not grocery staples and are taxable in Maine at 5.5%, or at the 8% prepared food rate where the seller's prepared food exceeds 75% of receipts.",
+    "conditions": [
+      {
+        "when": "Sold by a store where retailer-prepared food is 75% or less of receipts, prepackaged",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold at a location where retailer-prepared food exceeds 75% of receipts",
+        "treatment": "special_rate",
+        "rate": 0.08
+      }
+    ],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "Candy and confections, including but not limited to confectionery spreads."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 12, Retailers of Food Products (revised May 11, 2022)",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB12%20FINAL%20Retailers%20of%20Food%20Products_0511-2022.pdf",
+        "quote": "Generally, the sale of food products is subject to sales tax unless the sale qualifies for an exemption."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All food and drink sold by a retailer at a particular retail location when the sales of food and drinks at that location that are prepared by the retailer account for more than 75% of the gross receipts reported with respect to that location by the retailer."
+      }
+    ],
+    "notes": "At a location where food the retailer prepares exceeds 75% of receipts, all food and drink needing no further preparation is prepared food at 8% (36 M.R.S. § 1752(8-A)(C)); that sales mix is not carried by the code. The 8% case is a rate of its own, HIGHER than 5.5%. Earliest date: IB 12 (2022-05-11)."
+  },
+  {
+    "tax": "ME",
+    "code": "food.catering",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Caterers charge Maine's 8% prepared food rate on all prepared food, wherever served.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Caterers must charge sales tax at the prepared food rate on all sales of prepared food, regardless of where the food is being served."
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "Prepared Food"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 5.5%: 8%, Maine's rate on prepared food (36 M.R.S. § 1811), unchanged since 2013-10-01. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.grocery",
+    "from": "2022-05-11",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Grocery staples are exempt in Maine, except at a location where retailer-prepared food is over 75% of receipts, where food needing no further preparation is taxed at 8%.",
+    "conditions": [
+      {
+        "when": "Sold at an ordinary food store, or any location where retailer-prepared food is 75% or less of receipts",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Food needing no further preparation (e.g. milk, juice) sold at a location where retailer-prepared food exceeds 75% of receipts, or from a restaurant section",
+        "treatment": "special_rate",
+        "rate": 0.08
+      }
+    ],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 12, Retailers of Food Products (revised May 11, 2022)",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB12%20FINAL%20Retailers%20of%20Food%20Products_0511-2022.pdf",
+        "quote": "For food products, the primary exemption is for sales of “grocery staples.”"
+      },
+      {
+        "title": "36 M.R.S. § 1760, Exemptions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1760.html",
+        "quote": "Sales of grocery staples."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All food and drink sold by a retailer at a particular retail location when the sales of food and drinks at that location that are prepared by the retailer account for more than 75% of the gross receipts reported with respect to that location by the retailer."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "sales of containers of 100% juice or milk are subject to tax at the prepared food rate when the sales are made from the restaurant section of the facility, but are exempt when made from the convenience store section"
+      }
+    ],
+    "notes": "Bulk sales of grocery staples are excluded from prepared food even under the 75% rule. The 8% case is a rate of its own, HIGHER than 5.5%. Earliest date: IB 12's revision of 2022-05-11; the exemption is older."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.bakery",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items the seller made are taxed at 8%, except bread and bulk quantities of rolls, bagels and English muffins (six or more), which are exempt grocery staples.",
+    "conditions": [
+      {
+        "when": "Loaves of bread, or English muffins, bagels, dinner or sandwich rolls in quantities of six or more (not on a platter)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other bakery items the seller made (doughnuts, cookies, muffins, pastries, cakes, pies), or rolls and bagels in smaller quantities",
+        "treatment": "special_rate",
+        "rate": 0.08
+      }
+    ],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Bakery items such as cookies, donuts, bagels, etc., that are prepared by the retailer;"
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "English muffins, bagels, dinner rolls, and sandwich rolls, other than those sold as part of deli or bakery platters, are not subject to tax at the prepared food rate when sold in quantities of 6 or more."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "For example, a bakery should not include sales of loaves of bread in calculating its “food prepared by the retailer.”"
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      }
+    ],
+    "notes": "Which item and how many are not carried by the code. The 8% case is a rate of its own, HIGHER than 5.5%. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.cold",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a store prepares is taxed at 8%, except grocery staples it only cut and repackaged (deli meat sliced by the pound, cut fruit), which are exempt.",
+    "conditions": [
+      {
+        "when": "A grocery staple the store only cut and repackaged (deli meat or cheese sliced to order, cut fruit or vegetables), not on a platter",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Food the store prepared by cooking or combining (deli salads, cooked chicken sold cold, salad-bar items)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      }
+    ],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All food and drink prepared by the retailer and ready for consumption without further preparation."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "For example, a pound of ham sliced from the deli case as requested by the customer, or fruits/vegetables that are cut and repackaged in cups or bowls, are exempt “grocery staples.”"
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 12, Retailers of Food Products (revised May 11, 2022)",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB12%20FINAL%20Retailers%20of%20Food%20Products_0511-2022.pdf",
+        "quote": "all salads that are prepared by the retailer"
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      }
+    ],
+    "notes": "The 8% case is a rate of its own, HIGHER than 5.5%. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Cold food a restaurant prepares is taxed at Maine's 8% prepared food rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All food and drink prepared by the retailer and ready for consumption without further preparation."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Sales of prepared food, as defined in Title 36, section 1752(8-A), are subject to sales tax regardless of the location from which it is sold, whether for consumption on the premises or for take-out."
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "Prepared Food"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 5.5%: 8%, Maine's rate on prepared food (36 M.R.S. § 1811), unchanged since 2013-10-01. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.dine_in",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Meals served on the seller's premises are prepared food taxed at 8% in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All meals served on or off the premises of the retailer."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Sales of prepared food, as defined in Title 36, section 1752(8-A), are subject to sales tax regardless of the location from which it is sold, whether for consumption on the premises or for take-out."
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "Prepared Food"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 5.5%: 8%, Maine's rate on prepared food (36 M.R.S. § 1811), unchanged since 2013-10-01. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.hot",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Hot prepared food is taxed at Maine's 8% prepared food rate, wherever sold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Food prepared for sale in a heated state regardless of cooling that may have occurred, such as pizza, pieces of chicken, convenience meals, or rotisserie chicken;"
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Heated food or drinks and sandwiches requiring no further preparation are taxable at the prepared food rate when sold by a grocer or a convenience store."
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "Prepared Food"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 5.5%: 8%, Maine's rate on prepared food (36 M.R.S. § 1811), unchanged since 2013-10-01. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.platter",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Deli and bakery platters are prepared food taxed at 8% in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "Deli and bakery platters, such as cold cuts, cheeses, appetizers, finger rolls, bakery products, crackers, and fruits or vegetables."
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "Prepared Food"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 5.5%: 8%, Maine's rate on prepared food (36 M.R.S. § 1811), unchanged since 2013-10-01. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.prepared.sandwich",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Sandwiches ready to eat are prepared food taxed at 8% in Maine, whoever made them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "This category includes sandwiches (whether prepared by the retailer or by someone else) and heated food."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 12, Retailers of Food Products (revised May 11, 2022)",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB12%20FINAL%20Retailers%20of%20Food%20Products_0511-2022.pdf",
+        "quote": "All sandwiches that are ready for immediate consumption, all salads that are prepared by the retailer, and all products sold at salad bars are considered “prepared food.”"
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of prepared food;"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "Prepared Food"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 5.5%: 8%, Maine's rate on prepared food (36 M.R.S. § 1811), unchanged since 2013-10-01. Fully cooked frozen sandwiches are taxed at 5.5% (IB 27); the code excludes them by describing a sandwich sold to go. Earliest date: IB 27's last revision (2017-11-01), after the 2017 amendment adding the 75% rule to § 1752(8-A); the 8% rate itself dates from 2013-10-01."
+  },
+  {
+    "tax": "ME",
+    "code": "food.soft_drink",
+    "from": "2022-05-11",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks are not grocery staples and are taxable in Maine at 5.5%, or at the 8% prepared food rate where the seller's prepared food exceeds 75% of receipts.",
+    "conditions": [
+      {
+        "when": "Sold by a store where retailer-prepared food is 75% or less of receipts, prepackaged",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold at a location where retailer-prepared food exceeds 75% of receipts, or poured/fountain drinks the retailer prepares",
+        "treatment": "special_rate",
+        "rate": 0.08
+      }
+    ],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "Soft drinks and powdered and liquid drink mixes except powdered milk, infant formula, coffee and tea"
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 12, Retailers of Food Products (revised May 11, 2022)",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB12%20FINAL%20Retailers%20of%20Food%20Products_0511-2022.pdf",
+        "quote": "Generally, the sale of food products is subject to sales tax unless the sale qualifies for an exemption."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All food and drink sold by a retailer at a particular retail location when the sales of food and drinks at that location that are prepared by the retailer account for more than 75% of the gross receipts reported with respect to that location by the retailer."
+      }
+    ],
+    "notes": "At a location where food the retailer prepares exceeds 75% of receipts, all food and drink needing no further preparation is prepared food at 8% (36 M.R.S. § 1752(8-A)(C)); that sales mix is not carried by the code. The 8% case is a rate of its own, HIGHER than 5.5%. Earliest date: IB 12 (2022-05-11)."
+  },
+  {
+    "tax": "ME",
+    "code": "goods.general",
+    "from": "2013-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in Maine at 5.5%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "For sales occurring on or after October 1, 2013 and before January 1, 2016, the rate of tax is 5.5% on the value of all tangible personal property and taxable services"
+      },
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "For sales occurring on or after October 1, 2019, the rate of tax is 5.5% on the value of all tangible personal property and taxable services, except the rate of tax is:"
+      },
+      {
+        "title": "Maine Revenue Services, Sales and Use Tax Rates & Due Dates",
+        "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax/rates-due-dates",
+        "quote": "General Sales"
+      }
+    ],
+    "notes": "The rule starts at the current 5.5% rate (2013-10-01); goods were taxable before at 5%. Maine has no local sales taxes."
+  },
+  {
+    "tax": "ME",
+    "code": "service.professional",
+    "from": "2020-10-20",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not among the services Maine taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Sales and Use Tax FAQ (official page as archived 2020-10-20)",
+        "url": "https://web.archive.org/web/20201020230858/https://www.maine.gov/revenue/faq/sales-use-service-provider-tax",
+        "quote": "Taxable services subject to sales tax include rental of living quarters"
+      },
+      {
+        "title": "MRS Sales and Use Tax FAQ",
+        "url": "https://www.maine.gov/revenue/faq/sales-use-service-provider-tax",
+        "quote": "Taxable services subject to sales tax include: the rental of living quarters in a hotel, rooming house or tourist or trailer camp"
+      },
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "\"Taxable service\" means: A. The rental of living quarters in a hotel, rooming house or tourist or trailer camp"
+      }
+    ],
+    "notes": "Maine taxes only the services listed in § 1752(17-B) (lodging, utilities, extended service contracts, prepaid calling, cable and satellite, fabrication, telecommunications and the like); none of the seven professional subcodes is listed. The separate Service Provider Tax also covers other listed services, not these. Earliest date: the MRS FAQ as archived 2020-10-20."
+  },
+  {
+    "tax": "ME",
+    "code": "software.custom.development",
+    "from": "2015-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software written for one customer is not tangible personal property and is not taxable in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "\"Tangible personal property\" includes any computer software that is not a custom computer software program."
+      },
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "\"Custom computer software program\" means any computer software that is written or prepared exclusively for a particular customer."
+      }
+    ],
+    "notes": "Earliest date: § 1752(17) and (1-E) were last amended by PL 2013, c. 546 and PL 1997, c. 557; the rule starts 2015-01-01, after the 2013 law took effect, and the text is current."
+  },
+  {
+    "tax": "ME",
+    "code": "software.custom.modification",
+    "from": "2015-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Changes to prewritten software for one customer, separately charged, are custom software and not taxable in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "is a \"custom computer software program\" to the extent of the modification, and to the extent that the amount charged for the modification is separately stated"
+      },
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "\"Tangible personal property\" includes any computer software that is not a custom computer software program."
+      }
+    ],
+    "notes": "The code's 'charged separately' meets the condition. Earliest date: § 1752(17) and (1-E) were last amended by PL 2013, c. 546 and PL 1997, c. 557; the rule starts 2015-01-01, after the 2013 law took effect, and the text is current."
+  },
+  {
+    "tax": "ME",
+    "code": "software.prewritten",
+    "from": "2015-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software, on media or transferred electronically, is tangible personal property taxable in Maine at 5.5%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "\"Tangible personal property\" includes any computer software that is not a custom computer software program."
+      },
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "\"Tangible personal property\" includes any product transferred electronically."
+      }
+    ],
+    "notes": "Earliest date: § 1752(17) and (1-E) were last amended by PL 2013, c. 546 and PL 1997, c. 557; the rule starts 2015-01-01, after the 2013 law took effect, and the text is current."
+  },
+  {
+    "tax": "ME:local",
+    "code": "food.catering",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      }
+    ],
+    "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      }
+    ],
+    "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME:local",
+    "code": "food.prepared.dine_in",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      }
+    ],
+    "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME:local",
+    "code": "food.prepared.hot",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      }
+    ],
+    "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME:local",
+    "code": "food.prepared.platter",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      }
+    ],
+    "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME:local",
+    "code": "food.prepared.sandwich",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Maine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. § 1811, Sales tax",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      }
+    ],
+    "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  }
+]

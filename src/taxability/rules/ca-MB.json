@@ -1,20 +1,199 @@
 [
   {
     "tax": "MB:RST",
-    "code": "goods.general",
+    "code": "construction.real_property",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
-    "treatment": "taxable",
-    "summary": "Manitoba RST applies to retail sales of tangible goods unless the Act specifically exempts them.",
-    "conditions": [],
+    "treatment": "conditional",
+    "summary": "Construction, repair and improvement of real property is not taxed to the owner (the contractor pays RST on materials), but installing or repairing mechanical and electrical systems is taxable on the total contract price.",
+    "conditions": [
+      {
+        "when": "Construction, installation, maintenance or repair of real property (land, buildings, permanent improvements), labour and materials billed together",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Work on mechanical and electrical systems (plumbing, heating, cooling, electrical, telecommunication, etc.) or machinery and equipment, which remain tangible personal property",
+        "treatment": "taxable"
+      }
+    ],
     "citations": [
+      {
+        "title": "Bulletin No. 005 - Information for Contractors (rev. July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/005.pdf",
+        "quote": "Contractors are required to pay RST on purchases of materials and taxable services that they install into real property. They should not charge RST on their billings for construction, installation, maintenance or repair of real property."
+      },
       {
         "title": "Information Bulletin RST 030 - Summary of Taxable and Exempt Goods and Services (rev. July 2026)",
         "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
-        "quote": "Tax is generally payable on the purchase of most goods, except for goods specifically exempted by the Act."
+        "quote": "In this case, RST applies to the total contract price to install or repair an M&E system, but the M&E contractor may purchase the materials RST exempt."
+      },
+      {
+        "title": "Bulletin No. 031 - Mechanical and Electrical Trades (rev. July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/031.pdf",
+        "quote": "The RST on M&E work applies to the total selling price on all contracts or service/maintenance work."
       }
     ],
-    "notes": "General charging rule predates 2013-04-01; set to OpenTaxRate's Canadian start. Rate was 8% from 2013-07-01 to 2019-06-30 (rate is outside this rule)."
+    "notes": "Both rules predate 2013 (Bulletin 005 issued 1996, 031 issued 2002); the July 2013 versions were not compared line by line. Mixed real-property/M&E contracts and earthwork apportionment are in Bulletins 005 and 008. 'exempt' here means no RST is charged to the owner; RST is embedded in the contractor's materials cost."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "delivery",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately billed charge for delivering goods from the seller's Manitoba premises, added to the usual pickup price, is excluded from the taxable price; otherwise delivery charges are part of the taxable price.",
+    "conditions": [
+      {
+        "when": "Delivery from the seller's premises in Manitoba, billed as a separate charge in addition to the usual or established cash selling price, where the seller regularly sells goods for pickup at those premises",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivery charges not meeting those conditions (e.g. included in the price, or a seller with no pickup sales at its premises), on taxable goods",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivery of goods that are themselves exempt (e.g. groceries)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "The Retail Sales Tax Act, C.C.S.M. c. R130, s. 1 'purchase price'",
+        "url": "https://web2.gov.mb.ca/laws/statutes/ccsm/r130.php",
+        "quote": "a charge for the delivery of tangible personal property from the seller's premises in Manitoba, if (A) the charge is in addition to the usual or established cash selling price of the property or service that is the subject of the sale and is billed to the purchaser as a separate charge"
+      },
+      {
+        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Where the delivery charges for prepared take-out food is charged separately and in addition to the established taxable picked-up price, the charge for delivery is not taxable."
+      }
+    ],
+    "notes": "The same statutory wording appears in an archived January 2013 copy of the Act (http://web.archive.org/web/20130111063039/http://web2.gov.mb.ca/laws/statutes/ccsm/r130e.php). For goods brought in from outside Manitoba, transportation charges are part of the taxable price (Bulletin 014). The third condition (delivery of exempt goods) is inferred from the charge being part of the purchase price of the goods; unverified in a bulletin."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "delivery.taxable_goods",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A separately billed charge for delivering taxable goods from the seller's Manitoba premises, on top of the usual pickup price, is excluded from the taxable price; otherwise it is part of it.",
+    "conditions": [
+      {
+        "when": "delivery from the seller's premises in Manitoba, billed separately in addition to the usual cash selling price, by a seller that regularly sells the goods for pickup there",
+        "treatment": "exempt"
+      },
+      {
+        "when": "the charge is included in the price, the seller has no pickup sales, or the goods come from outside Manitoba",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "The Retail Sales Tax Act, C.C.S.M. c. R130, s. 1 'purchase price' exclusions",
+        "url": "https://web2.gov.mb.ca/laws/statutes/ccsm/r130.php",
+        "quote": "a charge for the delivery of tangible personal property from the seller's premises in Manitoba, if (A) the charge is in addition to the usual or established cash selling price of the property or service that is the subject of the sale and is billed to the purchaser as a separate charge"
+      }
+    ],
+    "notes": "Turns on how the seller sells and bills. Same wording in the January 2013 archived Act (see the parent rule)."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.candy",
+    "from": "2013-04-01",
+    "to": "2026-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Before July 1, 2026, candy, chocolate and other confectionery were taxable in Manitoba.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised June 2014; archived copy, May 2016)",
+        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Candies, confectionery that may be classed as candy, or any goods sold as candies such as candy floss, chewing gum and chocolate"
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "This notice provides information regarding the retail sales tax exemption for additional food and beverages for human consumption, effective July 1, 2026."
+      }
+    ],
+    "notes": "The June 2014 Bulletin 029 (archived 2016) lists candy among taxable snack foods; the rule predates 2013."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.candy",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, candy and chocolate are exempt from grocery, convenience and other ordinary retailers, but stay taxable from restaurants, vending machines, venues and the other listed sellers.",
+    "conditions": [
+      {
+        "when": "sold by a restaurant (including bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks), a food-service counter in a grocery store that isn't paid at the regular checkouts, licensed liquor premises, a cinema or venue charging admission, a sports or recreational facility, a vending machine, or under a catering contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by any other seller, such as a grocery or convenience store paid at its regular checkouts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Candies, confectionery that may be classed as candy, or any goods sold as candies such as candy floss, chewing gum and chocolate"
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      }
+    ],
+    "notes": "Turns on the kind of seller."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.catering",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food and drink sold under a catering contract is taxable on the total catering charge, except bartender, hall-rental and gratuity charges itemized separately.",
+    "conditions": [
+      {
+        "when": "Food, beverages, service and other charges forming the catering service price (including meal guarantees and food-preparation consultant fees)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Bartender or hall rental charges itemized separately on the invoice",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Gratuities shown separately on the bill or paid separately",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "When a caterer requires a guarantee for the number of meals to be served at a function, the tax applies to the total amount charged for the catering service"
+      },
+      {
+        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Corkage charges that are billed in connection with banquet hall rentals or catering are taxable. Charges for the bartender or hall rental, if itemized separately on the invoice, are not subject to tax."
+      },
+      {
+        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Gratuities that are shown separately on the bill, or paid separately by the customer, are not regarded to be part of the selling price of the meal and are not taxable."
+      },
+      {
+        "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014), archived copy of gov.mb.ca PDF",
+        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food and beverages sold under a contract for, or in conjunction with, catering services."
+      }
+    ],
+    "notes": "The 2014 bulletin lists catering under taxable prepared food; the 2026 notice keeps catering outside the expanded exemption. Separately itemized rentals of goods (tables, dishes) are not addressed by the bulletin; rentals of goods are generally taxable in Manitoba (unverified for this setting). Charitable/non-profit fundraising meals and fall suppers are exempt (outside ordinary-consumer scope)."
   },
   {
     "tax": "MB:RST",
@@ -116,142 +295,417 @@
   },
   {
     "tax": "MB:RST",
-    "code": "food.catering",
+    "code": "food.prepared.bakery",
     "from": "2013-04-01",
+    "to": "2026-06-30",
     "fromIs": "earliest_verified",
     "treatment": "conditional",
-    "summary": "Food and drink sold under a catering contract is taxable on the total catering charge, except bartender, hall-rental and gratuity charges itemized separately.",
+    "summary": "Before July 1, 2026, single-serving sweetened baked goods (under 230 g) in quantities under six were taxable; bread products and six or more single servings were exempt.",
     "conditions": [
       {
-        "when": "Food, beverages, service and other charges forming the catering service price (including meal guarantees and food-preparation consultant fees)",
+        "when": "sweetened baked goods in single servings under 230 g, sold in quantities under six or prepackaged in quantities under six",
         "treatment": "taxable"
       },
       {
-        "when": "Bartender or hall rental charges itemized separately on the invoice",
-        "treatment": "exempt"
-      },
-      {
-        "when": "Gratuities shown separately on the bill or paid separately",
+        "when": "traditional breads and bread products without sweetened filling or coating, sweetened baked goods larger than a single serving, or six or more single servings",
         "treatment": "exempt"
       }
     ],
     "citations": [
       {
-        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
-        "quote": "When a caterer requires a guarantee for the number of meals to be served at a function, the tax applies to the total amount charged for the catering service"
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "when they are sold in quantities of six items or more of single servings."
       },
       {
-        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
-        "quote": "Corkage charges that are billed in connection with banquet hall rentals or catering are taxable. Charges for the bartender or hall rental, if itemized separately on the invoice, are not subject to tax."
-      },
-      {
-        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
-        "quote": "Gratuities that are shown separately on the bill, or paid separately by the customer, are not regarded to be part of the selling price of the meal and are not taxable."
-      },
-      {
-        "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014), archived copy of gov.mb.ca PDF",
-        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
-        "quote": "Food and beverages sold under a contract for, or in conjunction with, catering services."
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Traditional breads and bread products such as bagels, English muffins, croissants, scones, tea biscuits or bread rolls without sweetened filling or coating."
       }
     ],
-    "notes": "The 2014 bulletin lists catering under taxable prepared food; the 2026 notice keeps catering outside the expanded exemption. Separately itemized rentals of goods (tables, dishes) are not addressed by the bulletin; rentals of goods are generally taxable in Manitoba (unverified for this setting). Charitable/non-profit fundraising meals and fall suppers are exempt (outside ordinary-consumer scope)."
+    "notes": "Turns on quantity and size. Bulletin 029 also keeps the 'eating establishment' rule: at a seller where substantially all food sales are taxable, all food sold is taxable."
   },
   {
     "tax": "MB:RST",
-    "code": "software.saas",
+    "code": "food.prepared.bakery",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, sweetened baked goods are exempt in any quantity from grocery stores and other ordinary retailers, but a bakery or café is a restaurant for this rule, so its single servings in quantities under six stay taxable.",
+    "conditions": [
+      {
+        "when": "single-serving sweetened baked goods in quantities under six, sold by a bakery, coffee shop or other restaurant (or another listed seller)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by a grocery or other ordinary retailer, in any quantity; or bread products, larger items, or six or more single servings from any seller",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Cakes, muffins, pies, pastries, tarts, flans, cookies, doughnuts, brownies, graham crackers, croissants with sweetened filling or coating, or similar products when sold in single servings or quantities of less than six items."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      }
+    ],
+    "notes": "Turns on the kind of seller and quantity."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.prepared.cold",
     "from": "2013-04-01",
-    "to": "2025-12-31",
+    "to": "2026-06-30",
     "fromIs": "earliest_verified",
-    "treatment": "exempt",
-    "summary": "Charges for merely accessing software on a server outside Manitoba were not subject to RST before 2026.",
-    "conditions": [],
-    "citations": [
+    "treatment": "conditional",
+    "summary": "Before July 1, 2026, a grocery's prepared salads were taxable, but cold cooked food sold from unheated shelves for reheating at home was exempt.",
+    "conditions": [
       {
-        "title": "Bulletin No. 033 - Computer Software (rev. July 2001), archived copy of gov.mb.ca PDF",
-        "url": "http://web.archive.org/web/20220708025345/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "Where a person in Manitoba merely accesses software installed on a server located outside Manitoba, the applicable charges to the person in Manitoba are not subject to RST."
+        "when": "a prepared salad with the dressing mixed in, or other prepared food sold in a form for immediate consumption",
+        "treatment": "taxable"
       },
       {
-        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "Until January 1, 2026, where a person in Manitoba merely accesses software installed on a server located outside Manitoba, the applicable charges to the person in Manitoba are not subject to RST, but this cloud computing is taxable after December 31, 2025."
+        "when": "cold cooked food sold from unheated or refrigerated shelves to be reheated by the buyer, or meats and cheese not arranged as a platter",
+        "treatment": "exempt"
       }
     ],
-    "notes": "The bulletin speaks only to servers located outside Manitoba; treatment of SaaS hosted on a server in Manitoba before 2026 is unverified. Software downloaded to a Manitoba computer was taxable. Audio/video streaming became taxable 2021-12-01 (Bulletin 064) but is not software."
+    "citations": [
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Cold cooked foods sold from unheated or refrigerated shelves at an eating establishment or grocery store to be re-heated by the purchaser."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "But not prepared salads where the dressing and other ingredients are mixed together."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised June 2014; archived copy, May 2016)",
+        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Cold cooked foods sold from unheated or refrigerated shelves at an eating establishment or grocery store to be re-heated by the purchaser."
+      }
+    ],
+    "notes": "Turns on the kind of item."
   },
   {
     "tax": "MB:RST",
-    "code": "software.saas",
-    "from": "2026-01-01",
+    "code": "food.prepared.cold",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, a grocery's prepared salads and other cold ready-to-eat food are exempt when paid at its regular checkouts, but taxable from a food-service counter in the store that has its own till.",
+    "conditions": [
+      {
+        "when": "sold at a food-service location within a grocery store where it can't be paid at the regular grocery checkouts",
+        "treatment": "taxable"
+      },
+      {
+        "when": "paid at the store's regular checkouts (prepared salads, cooked chicken, deli items)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Vegetable, fruit or gelatine salads sold in prepared form, for example when the dressing is mixed with the other ingredients."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food service locations within grocery stores where the food and beverages cannot be paid at the checkouts normally used for grocery items."
+      }
+    ],
+    "notes": "Turns on where the food is paid for. A standalone deli that operates as a restaurant would be taxable; the notice does not name delis."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2026-07-01",
     "fromIs": "effective",
     "treatment": "taxable",
-    "summary": "Cloud computing, including software as a service, is taxable from January 1, 2026 when used by a person or device ordinarily situated in Manitoba.",
+    "summary": "From July 1, 2026, cold food to go from a restaurant, café or other food-service business stays taxable: the expanded food exemption excludes restaurants.",
     "conditions": [],
     "citations": [
       {
-        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "Effective January 1, 2026, charges for cloud computing are taxable."
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
       },
       {
-        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "software as a service; platform as a service; and infrastructure as a service."
-      },
-      {
-        "title": "Information Bulletin 125 - Taxation Changes - Budget 2025",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/2025budget.pdf",
-        "quote": "Effective January 1, 2026, sales tax will apply on cloud computing services, such as subscriptions to software, data storage, and remote computer processing."
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks."
       }
     ],
-    "notes": "Payments made before 2026-01-01 for service periods beginning before 2026-01-01 are not taxable even if the period extends past that date. Multi-jurisdiction use may be prorated by Manitoba users/licences."
+    "notes": "Basic groceries sold by a restaurant in a form not for immediate consumption remain exempt as before (Bulletin 029)."
   },
   {
     "tax": "MB:RST",
-    "code": "software.custom",
+    "code": "food.prepared.dine_in",
     "from": "2013-04-01",
+    "to": "2026-06-30",
     "fromIs": "earliest_verified",
     "treatment": "conditional",
-    "summary": "Custom software developed solely for one customer is exempt, but customization of prewritten software is taxable unless the modification charge is separate and exceeds the prewritten software's price.",
+    "summary": "Before July 1, 2026, food served at an eating establishment (substantially all of its food sales taxable) was taxable, as was heated or other prepared food anywhere; a basic-grocery item eaten at another seller stayed exempt.",
     "conditions": [
       {
-        "when": "Software developed solely to meet the requirements of a specific person, and its later modification, installation and support for that same person",
-        "treatment": "exempt"
-      },
-      {
-        "when": "Modifications to prewritten software for a specific person, priced separately, where the modification charge is greater than the price of the unmodified software",
-        "treatment": "exempt"
-      },
-      {
-        "when": "Prewritten software modified for a specific person and sold as modified, where the price is more than double the unmodified price",
-        "treatment": "exempt"
-      },
-      {
-        "when": "Modifications to prewritten software that do not meet those thresholds, or modifications sold to more than one person",
+        "when": "sold at an eating establishment where all or substantially all food and beverage sales are taxable, or the item is heated, a sandwich, prepared salad, platter, snack food or other taxable item",
         "treatment": "taxable"
+      },
+      {
+        "when": "a basic-grocery item sold by a seller that is not such an establishment",
+        "treatment": "exempt"
       }
     ],
     "citations": [
       {
-        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "Custom software that is designed and developed to meet the requirements of a specific person, and programming services related to custom software, are exempt from RST."
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food and beverages are not considered to be basic groceries when sold at an establishment at which all or substantially all of the sales of food and beverages are taxable."
       },
       {
-        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "While modifications to prewritten software are generally taxable, the charges are exempt if the modifications are developed to meet the requirements of a specific person and are so extensive that the charges for the modifications are greater than the cost of the prewritten software itself."
-      },
-      {
-        "title": "Bulletin No. 033 - Computer Software (rev. July 2001), archived copy of gov.mb.ca PDF",
-        "url": "http://web.archive.org/web/20220708025345/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
-        "quote": "Effective March 7, 1998, custom software that is developed solely to meet the requirements of a specific person is tax exempt."
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Prepared food and beverages sold in a form for immediate consumption are not considered to be basic groceries and are taxable."
       }
     ],
-    "notes": "Exemption effective 1998-03-07, so set to 2013-04-01. Taxable installation/configuration of prewritten software is taxable even when done remotely."
+    "notes": "Turns on the seller's sales mix. The June 2014 revision (archived 2016) has the same rule."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.prepared.dine_in",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, food served for eating on the premises stays taxable at restaurants, food courts, cafeterias, licensed premises and venues; the expanded exemption covers it only at other sellers.",
+    "conditions": [
+      {
+        "when": "sold by a restaurant (including bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks), a food-service counter in a grocery store that isn't paid at the regular checkouts, licensed liquor premises, a cinema or venue charging admission, a sports or recreational facility, a vending machine, or under a catering contract, or an eating establishment where substantially all food sales are taxable",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by any other seller, such as a grocery or convenience store paid at its regular checkouts, for an item in the expanded exemption or a basic grocery",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food service locations within grocery stores where the food and beverages cannot be paid at the checkouts normally used for grocery items."
+      }
+    ],
+    "notes": "Turns on the kind of seller. Dine-in service is almost always at a restaurant or similar seller, where it is taxable."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.prepared.hot",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, hot ready-to-eat food (soups, rotisserie chickens and similar self-serve items) is exempt when sold by a grocery or other ordinary retailer, but stays taxable from restaurants, venues and the other listed sellers.",
+    "conditions": [
+      {
+        "when": "sold by a restaurant (including bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks), a food-service counter in a grocery store that isn't paid at the regular checkouts, licensed liquor premises, a cinema or venue charging admission, a sports or recreational facility, a vending machine, or under a catering contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by any other seller, such as a grocery or convenience store paid at its regular checkouts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Self-serve sandwiches, soups, rotisserie chickens, samosas and other similar items."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks."
+      }
+    ],
+    "notes": "Turns on the kind of seller, which the code doesn't carry. The notice lists self-serve items; whether a hot plated meal from a non-restaurant seller is exempt is unverified. Bulletin 029 also keeps the 'eating establishment' rule: at a seller where substantially all food sales are taxable, all food sold is taxable."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.prepared.platter",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, platters and arrangements of prepared food are exempt from grocery stores and other ordinary retailers, but taxable from restaurants, caterers and the other listed sellers.",
+    "conditions": [
+      {
+        "when": "sold by a restaurant (including bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks), a food-service counter in a grocery store that isn't paid at the regular checkouts, licensed liquor premises, a cinema or venue charging admission, a sports or recreational facility, a vending machine, or under a catering contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by any other seller, such as a grocery or convenience store paid at its regular checkouts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Platters of desserts, cheese, canapés, pâtés, crudités, cold cuts, fruits or vegetables, frozen shrimp rings, sushi and other arrangements of prepared foods."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      }
+    ],
+    "notes": "Turns on the kind of seller."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.prepared.sandwich",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, a cold sandwich to go is exempt from a grocery or other ordinary retailer, but taxable from a restaurant, café, food truck or the other listed sellers.",
+    "conditions": [
+      {
+        "when": "sold by a restaurant (including bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks), a food-service counter in a grocery store that isn't paid at the regular checkouts, licensed liquor premises, a cinema or venue charging admission, a sports or recreational facility, a vending machine, or under a catering contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by any other seller, such as a grocery or convenience store paid at its regular checkouts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Self-serve sandwiches, soups, rotisserie chickens, samosas and other similar items."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks."
+      }
+    ],
+    "notes": "Turns on the kind of seller. Bulletin 029 also keeps the 'eating establishment' rule: at a seller where substantially all food sales are taxable, all food sold is taxable."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.soft_drink",
+    "from": "2013-04-01",
+    "to": "2026-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2026, carbonated drinks and fruit drinks under 25% juice were taxable in any size; other sweetened non-carbonated drinks were taxable in single servings (under 600 mL) and exempt in multipacks or larger containers.",
+    "conditions": [
+      {
+        "when": "a carbonated beverage, a fruit-flavoured beverage with less than 25% juice, or another sweetened non-carbonated beverage in a single serving under 600 mL",
+        "treatment": "taxable"
+      },
+      {
+        "when": "a sweetened non-carbonated, non-fruit-flavoured beverage (e.g. iced tea) in a multipack of single servings or a container of 600 mL or more",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised June 2014; archived copy, May 2016)",
+        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Carbonated beverages, including carbonated mineral water whether flavoured or not and carbonated non-alcoholic malt beverages."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2019; archived copy, May 2022)",
+        "url": "http://web.archive.org/web/20220516035011/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Sold in multiples, pre-packaged by the manufacturer or producer, of single servings"
+      }
+    ],
+    "notes": "Turns on carbonation and container. Bulletin 029 follows the GST guidelines; the rule predates 2013."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "food.soft_drink",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From July 1, 2026, soft drinks and energy drinks are exempt in any size from grocery, convenience and other ordinary retailers, but stay taxable from restaurants, vending machines, venues and the other listed sellers.",
+    "conditions": [
+      {
+        "when": "sold by a restaurant (including bakeries, food courts, coffee shops, cafeterias, concession stands, food carts and food trucks), a food-service counter in a grocery store that isn't paid at the regular checkouts, licensed liquor premises, a cinema or venue charging admission, a sports or recreational facility, a vending machine, or under a catering contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sold by any other seller, such as a grocery or convenience store paid at its regular checkouts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "Carbonated beverages, including carbonated water whether flavoured or not and carbonated non-alcoholic malt beverages."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption will apply regardless of packaging or serving size."
+      },
+      {
+        "title": "Information Notice RST 26-01, Expanded Exemption on Food and Beverages (revised June 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/noticerst2601.pdf",
+        "quote": "The exemption for additional food and beverages does not apply to sales, including orders received by telephone or online for delivery or pickup, by the following:"
+      }
+    ],
+    "notes": "Turns on the kind of seller. At a restaurant or other listed seller the pre-July 2026 rules (Bulletin 029) still apply, which tax soft drinks there."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "goods.general",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Manitoba RST applies to retail sales of tangible goods unless the Act specifically exempts them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin RST 030 - Summary of Taxable and Exempt Goods and Services (rev. July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Tax is generally payable on the purchase of most goods, except for goods specifically exempted by the Act."
+      }
+    ],
+    "notes": "General charging rule predates 2013-04-01; set to OpenTaxRate's Canadian start. Rate was 8% from 2013-07-01 to 2019-06-30 (rate is outside this rule)."
   },
   {
     "tax": "MB:RST",
@@ -367,73 +821,457 @@
   },
   {
     "tax": "MB:RST",
-    "code": "construction.real_property",
+    "code": "service.professional.accounting",
     "from": "2013-04-01",
+    "to": "2020-09-30",
     "fromIs": "earliest_verified",
-    "treatment": "conditional",
-    "summary": "Construction, repair and improvement of real property is not taxed to the owner (the contractor pays RST on materials), but installing or repairing mechanical and electrical systems is taxable on the total contract price.",
-    "conditions": [
-      {
-        "when": "Construction, installation, maintenance or repair of real property (land, buildings, permanent improvements), labour and materials billed together",
-        "treatment": "exempt"
-      },
-      {
-        "when": "Work on mechanical and electrical systems (plumbing, heating, cooling, electrical, telecommunication, etc.) or machinery and equipment, which remain tangible personal property",
-        "treatment": "taxable"
-      }
-    ],
+    "treatment": "taxable",
+    "summary": "Accounting, bookkeeping, audit and tax return preparation services relating to Manitoba were taxable, personal income tax returns included.",
+    "conditions": [],
     "citations": [
       {
-        "title": "Bulletin No. 005 - Information for Contractors (rev. July 2019)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/005.pdf",
-        "quote": "Contractors are required to pay RST on purchases of materials and taxable services that they install into real property. They should not charge RST on their billings for construction, installation, maintenance or repair of real property."
+        "title": "Bulletin No. 057, Accounting Services (revised October 2020)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/057.pdf",
+        "quote": "Taxable accounting services include:"
       },
       {
-        "title": "Information Bulletin RST 030 - Summary of Taxable and Exempt Goods and Services (rev. July 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
-        "quote": "In this case, RST applies to the total contract price to install or repair an M&E system, but the M&E contractor may purchase the materials RST exempt."
-      },
-      {
-        "title": "Bulletin No. 031 - Mechanical and Electrical Trades (rev. July 2019)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/031.pdf",
-        "quote": "The RST on M&E work applies to the total selling price on all contracts or service/maintenance work."
+        "title": "Bulletin No. 116, 2020 Budget",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/2020budget.pdf",
+        "quote": "Effective October 1, 2020, the preparation of personal income tax returns will be exempt from retail sales tax."
       }
     ],
-    "notes": "Both rules predate 2013 (Bulletin 005 issued 1996, 031 issued 2002); the July 2013 versions were not compared line by line. Mixed real-property/M&E contracts and earthwork apportionment are in Bulletins 005 and 008. 'exempt' here means no RST is charged to the owner; RST is embedded in the contractor's materials cost."
+    "notes": "Bulletin 057 was issued in 2004; the 2013 text was not compared line by line."
   },
   {
     "tax": "MB:RST",
-    "code": "delivery",
-    "from": "2013-04-01",
-    "fromIs": "earliest_verified",
-    "treatment": "conditional",
-    "summary": "A separately billed charge for delivering goods from the seller's Manitoba premises, added to the usual pickup price, is excluded from the taxable price; otherwise delivery charges are part of the taxable price.",
+    "code": "service.professional.accounting",
+    "from": "2020-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Accounting, bookkeeping and audit services relating to Manitoba are taxable; preparing a personal income tax return has been exempt since October 1, 2020.",
     "conditions": [
       {
-        "when": "Delivery from the seller's premises in Manitoba, billed as a separate charge in addition to the usual or established cash selling price, where the seller regularly sells goods for pickup at those premises",
-        "treatment": "exempt"
-      },
-      {
-        "when": "Delivery charges not meeting those conditions (e.g. included in the price, or a seller with no pickup sales at its premises), on taxable goods",
-        "treatment": "taxable"
-      },
-      {
-        "when": "Delivery of goods that are themselves exempt (e.g. groceries)",
+        "when": "preparing or filing a personal income tax return",
         "treatment": "exempt"
       }
     ],
     "citations": [
       {
-        "title": "The Retail Sales Tax Act, C.C.S.M. c. R130, s. 1 'purchase price'",
-        "url": "https://web2.gov.mb.ca/laws/statutes/ccsm/r130.php",
-        "quote": "a charge for the delivery of tangible personal property from the seller's premises in Manitoba, if (A) the charge is in addition to the usual or established cash selling price of the property or service that is the subject of the sale and is billed to the purchaser as a separate charge"
+        "title": "Bulletin No. 057, Accounting Services (revised October 2020)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/057.pdf",
+        "quote": "Taxable accounting services include:"
       },
       {
-        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026)",
-        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
-        "quote": "Where the delivery charges for prepared take-out food is charged separately and in addition to the established taxable picked-up price, the charge for delivery is not taxable."
+        "title": "Bulletin No. 057 (revised October 2020)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/057.pdf",
+        "quote": "Preparing or filing a personal tax return is exempt."
+      }
+    ]
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.accounting.tax_return",
+    "from": "2020-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Preparing or filing a personal income tax return is exempt from RST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Manitoba Bulletin No. 057 - Accounting Services (rev. October 2020)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/057.pdf",
+        "quote": "Preparing or filing a personal tax return is exempt."
       }
     ],
-    "notes": "The same statutory wording appears in an archived January 2013 copy of the Act (http://web.archive.org/web/20130111063039/http://web2.gov.mb.ca/laws/statutes/ccsm/r130e.php). For goods brought in from outside Manitoba, transportation charges are part of the taxable price (Bulletin 014). The third condition (delivery of exempt goods) is inferred from the charge being part of the purchase price of the goods; unverified in a bulletin."
+    "notes": "Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.advertising",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not a taxable service in Manitoba, though printing, photography and video production bought with them are.",
+    "conditions": [
+      {
+        "when": "printing, photography, videography or sound recording, or goods produced and sold (signs, printed materials)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Sales tax is generally not payable on services unless the service is specified as a taxable service in the Act."
+      },
+      {
+        "title": "Bulletin No. 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Photography, microfilming, videography, and film production services, including the development and printing of film, and the recording of sound."
+      }
+    ],
+    "notes": "Rests on advertising not being on Bulletin 030's list of taxable services; no statement names advertising services directly."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.consulting",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advice or consulting of a general nature is not a taxable service in Manitoba.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Bulletin No. 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Advice or consulting of a general nature;"
+      },
+      {
+        "title": "Bulletin No. 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Sales tax is generally not payable on services unless the service is specified as a taxable service in the Act."
+      }
+    ],
+    "notes": "Bulletin 030 is current (July 2026); the 2013 text was not compared. Consulting bought together with taxable goods or services becomes part of their taxable price."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.design",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design and decorating advice is not a taxable service in Manitoba; goods the designer sells, and decorating or refinishing work done to goods, are taxable.",
+    "conditions": [
+      {
+        "when": "goods sold by the designer, or work on tangible goods (decorating, refinishing, re-upholstering furniture)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Sales tax is generally not payable on services unless the service is specified as a taxable service in the Act."
+      }
+    ],
+    "notes": "Rests on interior design not being on Bulletin 030's list of taxable services; no statement names it directly."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.engineering",
+    "from": "2013-04-01",
+    "to": "2013-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.021,
+    "summary": "Engineering and architectural design services for a Manitoba project are taxed on a deemed 30% of the design-phase fees, so the RST of 7% works out to 2.1% of the fee.",
+    "conditions": [
+      {
+        "when": "pre-design work (feasibility and environmental studies, general consulting), construction-contract administration, post-construction or as-built services, or design for a project outside Manitoba",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 058, Engineering Design Services (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/058.pdf",
+        "quote": "Taxable engineering design services on which RST must be collected are deemed to be 30 per cent of the following services provided by an engineer:"
+      },
+      {
+        "title": "Bulletin No. 060, Architectural Design Services (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/060.pdf",
+        "quote": "Taxable architectural design services are deemed to be 30 per cent of the following services provided by an architect:"
+      },
+      {
+        "title": "Bulletin No. 113, Taxation Changes – 2013 Budget",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/2013budget.pdf",
+        "quote": "The general sales tax rate will change from 7% to 8%,"
+      }
+    ],
+    "notes": "Modelled as a reduced rate: 30% of the fee is taxed at the full 7%, which on the whole fee is 0.3 × 7% = 0.021. This holds whether the fee is hourly, a percentage of cost or fixed (Bulletins 058, 060). The rate applies to the design-phase billing (APEGM Category III for engineers; schematic design to bidding for architects) plus related disbursements; other phases are exempt and must be itemized separately, or the whole charge is taxable. Bulletins 058 and 060 were issued in 2004; the 2013 texts were not compared line by line."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.engineering",
+    "from": "2013-07-01",
+    "to": "2019-06-30",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.024,
+    "summary": "Engineering and architectural design services for a Manitoba project are taxed on a deemed 30% of the design-phase fees, so the RST of 8% works out to 2.4% of the fee.",
+    "conditions": [
+      {
+        "when": "pre-design work (feasibility and environmental studies, general consulting), construction-contract administration, post-construction or as-built services, or design for a project outside Manitoba",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 058, Engineering Design Services (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/058.pdf",
+        "quote": "Taxable engineering design services on which RST must be collected are deemed to be 30 per cent of the following services provided by an engineer:"
+      },
+      {
+        "title": "Bulletin No. 060, Architectural Design Services (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/060.pdf",
+        "quote": "Taxable architectural design services are deemed to be 30 per cent of the following services provided by an architect:"
+      },
+      {
+        "title": "Bulletin No. 113, Taxation Changes – 2013 Budget",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/2013budget.pdf",
+        "quote": "The general sales tax rate will change from 7% to 8%,"
+      }
+    ],
+    "notes": "Modelled as a reduced rate: 30% of the fee is taxed at the full 8%, which on the whole fee is 0.3 × 8% = 0.024. This holds whether the fee is hourly, a percentage of cost or fixed (Bulletins 058, 060). The rate applies to the design-phase billing (APEGM Category III for engineers; schematic design to bidding for architects) plus related disbursements; other phases are exempt and must be itemized separately, or the whole charge is taxable. Bulletins 058 and 060 were issued in 2004; the 2013 texts were not compared line by line. The general rate was 8% from July 1, 2013 to June 30, 2019 (Bulletins 113 and 119)."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.engineering",
+    "from": "2019-07-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.021,
+    "summary": "Engineering and architectural design services for a Manitoba project are taxed on a deemed 30% of the design-phase fees, so the RST of 7% works out to 2.1% of the fee.",
+    "conditions": [
+      {
+        "when": "pre-design work (feasibility and environmental studies, general consulting), construction-contract administration, post-construction or as-built services, or design for a project outside Manitoba",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 058, Engineering Design Services (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/058.pdf",
+        "quote": "Taxable engineering design services on which RST must be collected are deemed to be 30 per cent of the following services provided by an engineer:"
+      },
+      {
+        "title": "Bulletin No. 060, Architectural Design Services (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/060.pdf",
+        "quote": "Taxable architectural design services are deemed to be 30 per cent of the following services provided by an architect:"
+      },
+      {
+        "title": "Bulletin No. 119, Taxation Changes – 2019 Budget",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/2019budget.pdf",
+        "quote": "The general sales tax rate decreases from 8% to 7%,"
+      }
+    ],
+    "notes": "Modelled as a reduced rate: 30% of the fee is taxed at the full 7%, which on the whole fee is 0.3 × 7% = 0.021. This holds whether the fee is hourly, a percentage of cost or fixed (Bulletins 058, 060). The rate applies to the design-phase billing (APEGM Category III for engineers; schematic design to bidding for architects) plus related disbursements; other phases are exempt and must be itemized separately, or the whole charge is taxable. Bulletins 058 and 060 were issued in 2004; the 2013 texts were not compared line by line."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.it",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Services to taxable software (installing, configuring, maintaining, repairing) and to hardware are taxable in Manitoba, but optional IT consulting, training and help-line support billed separately are not.",
+    "conditions": [
+      {
+        "when": "installing, configuring, maintaining, upgrading or repairing taxable software, or repairing or maintaining computer hardware, or a software support contract",
+        "treatment": "taxable"
+      },
+      {
+        "when": "IT consulting, procurement, staff training or help-line support that is optional and separately billed",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Services provided to taxable software such as modifying, upgrading, installing, configuring, eradicating viruses, maintaining, repairing, restoring, or providing any other corrective action to software are taxable."
+      },
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Computer services such as data processing, data back-up, information retrieval, consulting, engineering studies, procurement, staff training and help line support are generally not taxable if they are not provided as a condition of the software/hardware purchase"
+      }
+    ],
+    "notes": "Turns on whether the service is to software or hardware or is advice and training. Data processing and back-up provided as cloud computing are taxable from January 1, 2026."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.legal",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Legal services relating to Manitoba are taxable in all areas of the practice of law.",
+    "conditions": [
+      {
+        "when": "legal aid, services of a notary public within that office, or (by January 2020) preparing a will, health care directive or related power of attorney",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 056, Legal Services (revised January 2020)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/056.pdf",
+        "quote": "Taxable legal services are provided in all areas of the practice of law, including commercial and corporate, labour and employment, family, real estate, criminal, environmental, personal injury and taxation."
+      },
+      {
+        "title": "Bulletin No. 056 (revised January 2020)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/056.pdf",
+        "quote": "legal services covered by the Legal Aid Services Society of Manitoba Act"
+      }
+    ],
+    "notes": "Legal services have been taxable since before 2013 (Bulletin 056 issued 2004). The wills exemption's effective date is unverified (in the January 2020 bulletin, not in July 2013's)."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "software.custom",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Custom software developed solely for one customer is exempt, but customization of prewritten software is taxable unless the modification charge is separate and exceeds the prewritten software's price.",
+    "conditions": [
+      {
+        "when": "Software developed solely to meet the requirements of a specific person, and its later modification, installation and support for that same person",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Modifications to prewritten software for a specific person, priced separately, where the modification charge is greater than the price of the unmodified software",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Prewritten software modified for a specific person and sold as modified, where the price is more than double the unmodified price",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Modifications to prewritten software that do not meet those thresholds, or modifications sold to more than one person",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Custom software that is designed and developed to meet the requirements of a specific person, and programming services related to custom software, are exempt from RST."
+      },
+      {
+        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "While modifications to prewritten software are generally taxable, the charges are exempt if the modifications are developed to meet the requirements of a specific person and are so extensive that the charges for the modifications are greater than the cost of the prewritten software itself."
+      },
+      {
+        "title": "Bulletin No. 033 - Computer Software (rev. July 2001), archived copy of gov.mb.ca PDF",
+        "url": "http://web.archive.org/web/20220708025345/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Effective March 7, 1998, custom software that is developed solely to meet the requirements of a specific person is tax exempt."
+      }
+    ],
+    "notes": "Exemption effective 1998-03-07, so set to 2013-04-01. Taxable installation/configuration of prewritten software is taxable even when done remotely."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "software.custom.development",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software designed and developed for one person, and programming services related to it, are exempt from Manitoba RST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Custom software that is designed and developed to meet the requirements of a specific person, and programming services related to custom software, are exempt from RST."
+      },
+      {
+        "title": "Bulletin No. 033 (archived copy, July 2022)",
+        "url": "http://web.archive.org/web/20220708025345/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Effective March 7, 1998, custom software that is developed solely to meet the requirements of a specific person is tax exempt."
+      }
+    ],
+    "notes": "Exempt since 1998-03-07."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "software.custom.modification",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Modifying prewritten software for one customer is taxable unless the modification charge is greater than the cost of the prewritten software itself.",
+    "conditions": [
+      {
+        "when": "the modification is for one specific person and its charge is greater than the cost of the prewritten software",
+        "treatment": "exempt"
+      },
+      {
+        "when": "the modification charge is not greater than the software's cost, or the modification is sold to more than one person",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "While modifications to prewritten software are generally taxable, the charges are exempt if the modifications are developed to meet the requirements of a specific person and are so extensive that the charges for the modifications are greater than the cost of the prewritten software itself."
+      }
+    ],
+    "notes": "Turns on the price of the modification against the software's, which the code doesn't carry."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "software.prewritten",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software for use in Manitoba is taxable, whether on disk or downloaded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "RST applies on the above software located in Manitoba whether acquired on disk, transferred electronically or delivered by other means."
+      }
+    ],
+    "notes": "Bulletin 033 issued May 2000; the 2013 text was not compared line by line."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "software.saas",
+    "from": "2013-04-01",
+    "to": "2025-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Charges for merely accessing software on a server outside Manitoba were not subject to RST before 2026.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Bulletin No. 033 - Computer Software (rev. July 2001), archived copy of gov.mb.ca PDF",
+        "url": "http://web.archive.org/web/20220708025345/https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Where a person in Manitoba merely accesses software installed on a server located outside Manitoba, the applicable charges to the person in Manitoba are not subject to RST."
+      },
+      {
+        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Until January 1, 2026, where a person in Manitoba merely accesses software installed on a server located outside Manitoba, the applicable charges to the person in Manitoba are not subject to RST, but this cloud computing is taxable after December 31, 2025."
+      }
+    ],
+    "notes": "The bulletin speaks only to servers located outside Manitoba; treatment of SaaS hosted on a server in Manitoba before 2026 is unverified. Software downloaded to a Manitoba computer was taxable. Audio/video streaming became taxable 2021-12-01 (Bulletin 064) but is not software."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "software.saas",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Cloud computing, including software as a service, is taxable from January 1, 2026 when used by a person or device ordinarily situated in Manitoba.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Effective January 1, 2026, charges for cloud computing are taxable."
+      },
+      {
+        "title": "Information Bulletin RST 033 - Computer Software and Online Services (rev. January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "software as a service; platform as a service; and infrastructure as a service."
+      },
+      {
+        "title": "Information Bulletin 125 - Taxation Changes - Budget 2025",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/2025budget.pdf",
+        "quote": "Effective January 1, 2026, sales tax will apply on cloud computing services, such as subscriptions to software, data storage, and remote computer processing."
+      }
+    ],
+    "notes": "Payments made before 2026-01-01 for service periods beginning before 2026-01-01 are not taxable even if the period extends past that date. Multi-jurisdiction use may be prorated by Manitoba users/licences."
   }
 ]

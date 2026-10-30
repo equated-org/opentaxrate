@@ -1,0 +1,809 @@
+[
+  {
+    "tax": "WI",
+    "code": "construction.real_property.improvement",
+    "from": "2014-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A contractor's charges for building or improving real property are not subject to Wisconsin sales tax; the contractor pays tax on its materials as their consumer.",
+    "conditions": [
+      {
+        "when": "Landscaping and lawn services (planting, sodding, landscape planning) are a separately taxable service under Wis. Stat. 77.52(2)(a)20",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 207, Contractors (1/19)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb207.pdf",
+        "quote": "A contractor's charges for improvements to real estate are not subject to sales tax on either materials or labor."
+      },
+      {
+        "title": "Wisconsin DOR Publication 207, Contractors (1/19)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb207.pdf",
+        "quote": "A contractor who performs a real property construction activity is not permitted to collect sales tax from its customers on its sales price from sales of real property construction activities."
+      },
+      {
+        "title": "Wis. Stat. 77.51(2), contractors",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(2)",
+        "quote": "“Contractors” and “subcontractors” are the consumers of tangible personal property"
+      },
+      {
+        "title": "Wisconsin DOR Publication 207, Contractors (01/14), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074345/https://www.revenue.wi.gov/DOR%20Publications/pb207.pdf",
+        "quote": "A contractor's charges for improvements to real estate are not subject to sales tax on either materials or labor."
+      }
+    ],
+    "notes": "from is the date of Publication 207 (01/14), archived. Original installation or complete replacement of items on the repair list (furnaces, water heaters, fixtures) remains a nontaxable real property construction activity. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "construction.real_property.repair",
+    "from": "2014-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repairing a building's structure is a nontaxable real property activity in Wisconsin, but repairing or servicing listed items (furnaces, air conditioners, water heaters, fixtures, carpeting and others) is a taxable service even when affixed.",
+    "conditions": [
+      {
+        "when": "Repair or repainting of the structure itself (roof, walls, floors, steps, plumbing lines)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, service or maintenance of an item on the Wis. Stat. 77.52(2)(a)10 list (e.g. furnace, boiler, air conditioner, water heater, bathroom fixtures, carpeting, appliances)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The items listed below are deemed to retain their character as tangible personal property for purposes of repair, service, alteration, fitting, cleaning, painting, coating, towing, inspection, and maintenance, regardless of whether the repair, service, alteration, etc., of the product is an addition to or a capital improvement of real property."
+      },
+      {
+        "title": "Wisconsin DOR Publication 207, Contractors (1/19)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb207.pdf",
+        "quote": "A contractor is a consumer of taxable products described in Part 1.C.(2) and (4) that it uses when performing real property construction activities, such as improving, altering, installing, repairing, or otherwise servicing real property."
+      },
+      {
+        "title": "Wisconsin DOR Publication 207, Contractors (1/19)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb207.pdf",
+        "quote": "Installing, altering, repairing, or servicing fixtures and equipment in residences and other residential structures may be considered to be realty improvements and not taxable."
+      },
+      {
+        "title": "Wisconsin DOR Publication 207, Contractors (01/14), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074345/https://www.revenue.wi.gov/DOR%20Publications/pb207.pdf",
+        "quote": "A contractor's charges for improvements to real estate are not subject to sales tax on either materials or labor."
+      }
+    ],
+    "notes": "Pub 207 Appendix A distinguishes commercial from residential buildings for some fixtures; residential repairs of fixtures may be realty work. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "delivery.exempt_goods",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for nontaxable or exempt goods are not taxable in Wisconsin.",
+    "conditions": [
+      {
+        "when": "A shipment of taxable and exempt goods where the retailer doesn't allocate the delivery charge on the invoice",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "When a retailer charges a purchaser for the delivery of nontaxable or exempt product or service, the retailer's total charge, including any delivery charge, is not subject to the sales or use tax."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The portion allocated to nontaxable products is not taxable. If no allocation is made, the total delivery charge is taxable."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "retailer’s total charge, including any delivery charge, is not subject to the sales or use tax."
+      }
+    ],
+    "notes": "One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "delivery.taxable_goods",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges for taxable goods are part of the sales price and taxable in Wisconsin, however the goods are delivered.",
+    "conditions": [
+      {
+        "when": "Separately stated delivery charges for direct mail",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "When a retailer sells taxable products or services which are subject to tax and the retailer charges the purchaser for the delivery, the retailer's total charge, including the delivery charge, is taxable."
+      },
+      {
+        "title": "Wis. Stat. 77.51(15b), \"Sales price\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(15b)",
+        "quote": "Delivery charges, except as provided in par. (b) 4."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "charge, including the delivery charge, is taxable. It is immaterial whether delivery is made by the seller’s vehicle, a common or contract carrier, or the United States Postal Service."
+      }
+    ],
+    "notes": "One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.candy",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is excluded from Wisconsin's food exemption and is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.54(20n)",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.54(20n)",
+        "quote": "except candy, soft drinks, dietary supplements, and prepared food."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Since the candy bar is a taxable item, Grocer reports the 75¢ as taxable sales."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If tangible personal property; items, property, or goods described in Part X.A. 2. to 4.; or services are exempt from the 5% state tax, they are also exempt from the 0.5% county and 0.1% or 0.5% stadium taxes."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Food and food ingredients, except that candy, soft drinks, dietary supplements, and prepared food are taxable."
+      }
+    ],
+    "notes": "Preparations containing flour or requiring refrigeration are not candy; Wis. Stat. 77.51(1fm)(b), added recently (Pub 201 10/26 lists 'Candy definition amended'), also excludes preparations whose predominant ingredient is dried fruit (unless with chocolate, nuts, yogurt or a coating). The amendment's effective date wasn't verified. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.catering",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's food and drink and its charges for preparing, serving and delivering them are taxable in Wisconsin, however billed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Charges by a caterer for preparing, serving, and delivering taxable products are also taxable."
+      },
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "The method a caterer uses to bill a customer for the meals does not affect the taxability of the charge (e.g., price per plate, price per meal, lump sum, price per type of service)."
+      }
+    ],
+    "notes": "Gratuities billed by the caterer were taxable in the DOR's example. Room rental for a non-entertainment event, if optional, is not taxable (Pub 236). Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.grocery",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients (other than candy, soft drinks, dietary supplements and prepared food) are exempt from Wisconsin state and local sales tax.",
+    "conditions": [
+      {
+        "when": "Sold by a retailer whose prepared-food sales exceed 75% of its food sales and that makes utensils available (all its food becomes prepared food), unless four or more servings packaged as one item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.54(20n)",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.54(20n)",
+        "quote": "The sales price from the sale of and the storage, use, or other consumption of food and food ingredients, except candy, soft drinks, dietary supplements, and prepared food."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If products or services are exempt from the 5% state tax, they are also exempt from the 0.5% or 0.9% county and 2% city taxes."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If tangible personal property; items, property, or goods described in Part X.A. 2. to 4.; or services are exempt from the 5% state tax, they are also exempt from the 0.5% county and 0.1% or 0.5% stadium taxes."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Food and food ingredients, except that candy, soft drinks, dietary supplements, and prepared food are taxable."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (03/16), archived 2017-02-02",
+        "url": "https://web.archive.org/web/20170202124103/https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "An exemption from Wisconsin sales and use tax is provided for all “food and food ingredients” except “candy,” “dietary supplements,” “prepared food,” and “soft drinks.”"
+      }
+    ],
+    "notes": "Exemption in its SST form since October 1, 2009 (2009 Act 2); from is the archived Publication 201 date. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.bakery",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items the retailer made are exempt when sold unheated without utensils, but taxable when sold in a heated state or by a retailer whose prepared-food sales exceed 75% and that makes utensils available.",
+    "conditions": [
+      {
+        "when": "Sold in a heated state (warmer than the room, e.g. from a heated case)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller customarily hands utensils to the customer, or its prepared-food sales exceed 75% of food sales and it makes utensils available (unless four or more servings packaged as one item)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold unheated (baked earlier, cooled) without utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "For purposes of par. (a) 2. and 4., bakery items made by a retailer, including breads, rolls, pastries, buns, biscuits, bagels, croissants, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Although the cake was heated by a retailer, it is not prepared food because it meets the exception for bakery items."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Although the bagel meets the exception for bakery items, it is prepared food since it is sold heated."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (03/16), archived 2017-02-02",
+        "url": "https://web.archive.org/web/20170202124103/https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Although the bagel meets the exception for bakery items, it is prepared food since it is sold heated."
+      }
+    ],
+    "notes": "The bakery exception covers 'heated by the retailer' (baking) and mixing, not 'sold in a heated state'. Bakery items bought from a third party are exempt food unless otherwise prepared food (Pub 220 Table 1). Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.cold",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a grocery or deli prepared is taxable when mixed by the seller and sold by the item, but exempt when sold unheated by weight or volume, or only sliced or repackaged, without utensils.",
+    "conditions": [
+      {
+        "when": "Mixed or combined by the seller and priced per item or by container size (small/medium/large), not by weight or volume",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Mixed or combined by the seller, sold unheated and priced by weight or volume (potato salad by the pound or pint)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only sliced, repackaged or pasteurized by the seller (sliced deli meat or cheese)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller customarily hands utensils to the customer, or its prepared-food sales exceed 75% of food sales and it makes utensils available",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "2 or more food ingredients mixed or combined by a retailer for sale as a single item, sold unheated, and sold by volume or weight."
+      },
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "food and food ingredients that are only sliced, repackaged, or pasteurized by a retailer."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "The food is sold by weight and is not a prepared food."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "The food is not sold by volume or weight and is a prepared food. Small, medium, and large are not measurements of volume or weight."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (03/16), archived 2017-02-02",
+        "url": "https://web.archive.org/web/20170202124103/https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Two or more food ingredients mixed or combined by a retailer for sale as a single item, sold unheated, and sold by weight or volume."
+      }
+    ],
+    "notes": "Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A restaurant whose prepared-food sales exceed 75% of its food sales and that makes utensils available sells only prepared food: its cold food to go is taxable in Wisconsin.",
+    "conditions": [
+      {
+        "when": "Four or more servings packaged as one item for one price, not otherwise prepared food, with no utensils handed to the customer",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller's prepared-food sales are 75% or less of its food sales, and the item is not heated, not mixed by it (or sold by weight or volume), and sold without utensils handed over",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "all of that restaurant's or bar's sales of food, food ingredients, and beverages are considered to be sales of prepared food."
+      },
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "The utensils are available to purchasers and the retailer’s sales of prepared food under subds. 1., 2., and 4., and food for which plates, bowls, glasses, or cups are necessary to receive the food, are more than 75 percent of the retailer’s total sales of all food and food ingredients, as determined under par. (c)."
+      },
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Food or beverages that contain four or more servings, are packaged as one item, and are sold for a single price may not be taxable."
+      }
+    ],
+    "notes": "Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.dine_in",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served on the seller's plates or with its utensils is prepared food, taxable in Wisconsin.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "Food and food ingredients sold with eating utensils that are provided by the retailer of the food and food ingredients, including plates, bowls, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Food or nonalcoholic beverages for which plates, bowls, glasses, or cups are necessary to receive the food (e.g., self-serve salad bar, milk from a bulk dispenser)"
+      }
+    ],
+    "notes": "Wisconsin has no separate on-premises test; food eaten at the seller's tables is taxable through the utensil (plate) rule, and at a retailer with more than 75% prepared-food sales everything is prepared food. Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.hot",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold in a heated state is prepared food, taxable in Wisconsin, including heated bakery items and coffee.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "Food and food ingredients sold in a heated state."
+      },
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Beverages sold in a heated state are taxable."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Although the bagel meets the exception for bakery items, it is prepared food since it is sold heated."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (03/16), archived 2017-02-02",
+        "url": "https://web.archive.org/web/20170202124103/https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "Although the bagel meets the exception for bakery items, it is prepared food since it is sold heated."
+      }
+    ],
+    "notes": "from is the date of Publication 236 (N.12/14); the definition dates to October 1, 2009. Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.platter",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A platter is taxable when its items were mixed or combined by the seller (sandwich or salad trays) or utensils are provided; a tray of food only sliced and repackaged (cheese, cold cuts, cut fruit) is exempt.",
+    "conditions": [
+      {
+        "when": "The tray holds items the seller mixed or combined (sandwiches, salads, dips) and is priced per tray",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The tray holds only food the seller sliced or repackaged (cheese, cold cuts, cut fruit or vegetables)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Utensils (plates, napkins) are handed over with it, or the seller's prepared-food sales exceed 75% and it makes utensils available",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "The cheese tray is not prepared food since the cheese on the tray was only sliced and re-packaged, assuming the cheese tray does not otherwise meet the definition of prepared food."
+      },
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "Except as provided in par. (b), 2 or more food ingredients mixed or combined by a retailer for sale as a single item."
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (03/16), archived 2017-02-02",
+        "url": "https://web.archive.org/web/20170202124103/https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "The cheese tray is not prepared food since the cheese on the tray was only sliced and repackaged"
+      }
+    ],
+    "notes": "Whether cutting fruit or vegetables is 'only sliced' is assumed from the statute's wording; the DOR examples are meat and cheese. Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.prepared.sandwich",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich the seller makes is two or more ingredients combined for sale as one item: prepared food, taxable in Wisconsin.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight (priced per pound) by a retailer whose prepared-food sales are 75% or less of its food sales, without utensils handed over",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bought already made from a wholesaler and sold unheated by a retailer at 75% or less, without utensils handed over",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "Except as provided in par. (b), 2 or more food ingredients mixed or combined by a retailer for sale as a single item."
+      },
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Example 21: Deli makes and sells unheated sandwiches for $5 each – Taxable"
+      },
+      {
+        "title": "Wisconsin DOR Publication 236, Restaurants and Bars (N.12/14)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Example 22: Deli makes and sells unheated sandwiches for $5 per pound – Not taxable"
+      }
+    ],
+    "notes": "Separate local taxes on food not modeled here: the local exposition district food and beverage tax (0.25%/0.5%, Milwaukee County, Pub 410) and premier resort area taxes (0.5%-1.25% in listed municipalities, on taxable sales by certain businesses, Pub 403). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "food.soft_drink",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are excluded from Wisconsin's food exemption and are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.54(20n)",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.54(20n)",
+        "quote": "except candy, soft drinks, dietary supplements, and prepared food."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If tangible personal property; items, property, or goods described in Part X.A. 2. to 4.; or services are exempt from the 5% state tax, they are also exempt from the 0.5% county and 0.1% or 0.5% stadium taxes."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Food and food ingredients, except that candy, soft drinks, dietary supplements, and prepared food are taxable."
+      }
+    ],
+    "notes": "Beverages with milk or milk substitutes, or more than 50% juice, are not soft drinks (Wis. Stat. 77.51(17w)). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "goods.general",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Wisconsin's 5% state sales tax and any county and city sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.52(1)",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.52(1)",
+        "quote": "For the privilege of selling, licensing, leasing or renting tangible personal property at retail a tax is imposed upon all retailers at the rate of 5 percent of the sales price"
+      },
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      },
+      {
+        "title": "Wis. Stat. 77.71, county, municipality and special district taxes",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.71",
+        "quote": "the following taxes are imposed:"
+      },
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If products or services are exempt from the 5% state tax, they are also exempt from the 0.5% or 0.9% county and 2% city taxes."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If tangible personal property; items, property, or goods described in Part X.A. 2. to 4.; or services are exempt from the 5% state tax, they are also exempt from the 0.5% county and 0.1% or 0.5% stadium taxes."
+      }
+    ],
+    "notes": "from is the date of Publication 201 (04/12), archived. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "service.professional",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Wisconsin taxes only enumerated services; legal, accounting, consulting, engineering and design services are not among them.",
+    "conditions": [
+      {
+        "when": "Tangible goods, digital goods or prewritten software sold with the service (e.g. furnishings sold by an interior designer)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Certain specified services which are sold, licensed, performed, or furnished at retail in Wisconsin are subject to Wisconsin sales or use tax, unless the service provider or the buyer is exempt from tax on the particular transaction."
+      },
+      {
+        "title": "Wis. Stat. 77.52(2)",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.52(2)",
+        "quote": "The tax imposed herein applies to the following types of services:"
+      },
+      {
+        "title": "Wisconsin DOR Publication 201 (04/12), archived 2017-01-28",
+        "url": "https://web.archive.org/web/20170128074328/https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Certain specified services which are sold, licensed, performed, or furnished at retail in Wisconsin are subject to Wisconsin sales or use tax"
+      }
+    ],
+    "notes": "Wisconsin taxes only the services enumerated in Wis. Stat. 77.52(2)(a) (admissions, landscaping, laundry, parking, photography, repair of tangible property, and others); professional services aren't among them. No DOR page names legal, accounting or engineering services directly; the treatment rests on the enumerated list. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "service.professional.advertising",
+    "from": "2012-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Advertising design and placement are not taxable in Wisconsin, but finished artwork (tangible or delivered electronically) and printed materials the agency sells are.",
+    "conditions": [
+      {
+        "when": "Advice, concepts, or preliminary artwork not developed into finished artwork; placing ads or selling advertising space; website design",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Finished artwork delivered to the client, in tangible form or electronically, or printed advertising materials",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR Publication 235, Advertising Companies (07/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb235.pdf",
+        "quote": "The charge is for design services, which are not among the services that are subject to tax in Wisconsin."
+      },
+      {
+        "title": "Wisconsin DOR Publication 235, Advertising Companies (07/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb235.pdf",
+        "quote": "The sale of finished artwork is taxable, unless an exemption applies."
+      },
+      {
+        "title": "Wisconsin DOR Publication 235, Advertising Companies (07/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb235.pdf",
+        "quote": "The service of providing advertising space is not taxable."
+      },
+      {
+        "title": "Wisconsin DOR Publication 235 (N.4/12), archived 2017-02-02",
+        "url": "https://web.archive.org/web/20170202124311/https://www.revenue.wi.gov/DOR%20Publications/pb235.pdf",
+        "quote": "The charge is for design services, which are not among the services that are subject to tax in Wisconsin."
+      }
+    ],
+    "notes": "Preliminary artwork that results in finished artwork becomes part of the taxable finished artwork's price (Pub 235). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "service.professional.it",
+    "from": "2017-02-10",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Wisconsin taxes installing, configuring, troubleshooting and repairing computer hardware and prewritten software, but not IT consulting, training, network assessment or data services.",
+    "conditions": [
+      {
+        "when": "Installing, setting up, configuring, troubleshooting, inspecting or repairing computer hardware or prewritten software (help-desk support for prewritten software)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Consulting and design services provided in connection with the sale of computer hardware or prewritten software",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Training, network assessment unrelated to a specific problem or sale, data conversion, recovery or backup, answering questions, web hosting",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Charges to customers for the following services are subject to Wisconsin sales or use tax:"
+      },
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Online or on-site troubleshooting of prewritten computer software"
+      },
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Training people on how to use software or hardware"
+      },
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Network assessment services that consist of network analysis and evaluation unrelated to a specific hardware or software problem and unrelated to the sale of computer hardware or computer software"
+      },
+      {
+        "title": "Wisconsin DOR, Computer - Hardware, Software, Services common questions, archived 2017-02-10",
+        "url": "https://web.archive.org/web/20170210074831/https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Training people on how to use software or hardware"
+      }
+    ],
+    "notes": "One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "software.custom.development",
+    "from": "2017-02-10",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Writing software other than prewritten software is not taxable in Wisconsin.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Writing computer software other than prewritten computer software"
+      },
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Charges to customers for the following services are not subject to Wisconsin sales or use tax:"
+      },
+      {
+        "title": "Wisconsin DOR, Computer - Hardware, Software, Services common questions, archived 2017-02-10",
+        "url": "https://web.archive.org/web/20170210074831/https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Writing computer software other than prewritten computer software"
+      }
+    ],
+    "notes": "One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "software.custom.modification",
+    "from": "2017-02-10",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Customizing prewritten software to one purchaser's specifications, with a reasonable separately stated charge, is not taxable in Wisconsin.",
+    "conditions": [
+      {
+        "when": "The modification is not separately stated from the prewritten software's price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Making modifications or enhancements to prewritten computer software that are designed and developed to the specifications of a specific purchaser, and the person making the modifications or enhancements provides a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for the modification or enhancement"
+      },
+      {
+        "title": "Wisconsin DOR, Computer - Hardware, Software, Services common questions, archived 2017-02-10",
+        "url": "https://web.archive.org/web/20170210074831/https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Making modifications or enhancements to prewritten computer software that are designed and developed to the specifications of a specific purchaser"
+      }
+    ],
+    "notes": "One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "software.prewritten",
+    "from": "2017-02-10",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in Wisconsin and taxable however it is delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wis. Stat. 77.51(20), \"Tangible personal property\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(20)",
+        "quote": "“Tangible personal property” means personal property that can be seen, weighed, measured, felt, or touched, or that is in any other manner perceptible to the senses, and includes electricity, gas, steam, water, and prewritten computer software, regardless of how it is delivered to the purchaser."
+      },
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Therefore, the sale, license, lease, or rental of computer hardware and prewritten computer software is subject to Wisconsin sales or use tax."
+      },
+      {
+        "title": "Wisconsin DOR, Computer - Hardware, Software, Services common questions, archived 2017-02-10",
+        "url": "https://web.archive.org/web/20170210074831/https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "As of March 6, 2009, tangible personal property is defined to include prewritten computer software, regardless of how it is delivered to the purchaser."
+      }
+    ],
+    "notes": "Installation, configuration and troubleshooting of prewritten software are also taxable (FAQ). One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  },
+  {
+    "tax": "WI",
+    "code": "software.saas",
+    "from": "2017-02-10",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remote access to prewritten software hosted and controlled by the provider (SaaS) is a nontaxable data processing service in Wisconsin.",
+    "conditions": [
+      {
+        "when": "The customer controls the remote hardware and software (unlimited server access, loads its own software, runs security): a taxable lease of software",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The provider also supplies a taxable product in the transaction (a digital good, telecommunications)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Sales and Use Tax Treatment Computer - Hardware, Software, Services (October 1, 2009 and Thereafter)",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Charges for accessing prewritten computer software located on the vendor's server, if the customer does not operate the vendor's server, or control its operation and does not have physical access to the vendor's server, are not taxable."
+      },
+      {
+        "title": "Wisconsin DOR, Computer - Hardware, Software, Services common questions, archived 2017-02-10",
+        "url": "https://web.archive.org/web/20170210074831/https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "This is sometimes referred to as \"cloud computing\" or \"software as a service\""
+      },
+      {
+        "title": "Wisconsin DOR, Computer - Hardware, Software, Services common questions, archived 2017-02-10",
+        "url": "https://web.archive.org/web/20170210074831/https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx",
+        "quote": "Data processing services are not among the services subject to Wisconsin sales and use tax."
+      }
+    ],
+    "notes": "from is the archived FAQ's date; the FAQ covers October 1, 2009 onward. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax)."
+  }
+]

@@ -1,0 +1,548 @@
+[
+  {
+    "tax": "ND",
+    "code": "construction.real_property",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "The owner pays no North Dakota sales tax on a construction, remodeling or repair contract for real property; the contractor pays sales or use tax on the materials it installs.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Contractors",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/guideline-contractors.pdf",
+        "quote": "A contractor or subcontractor entering any contract, except for a labor only contract, is regarded as the final user or consumer of all tangible personal property installed into real property."
+      },
+      {
+        "title": "NDAC 81-04.1-04-20",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-04.pdf",
+        "quote": "A contractor or subcontractor installing materials into real property located in North Dakota must pay sales or use tax on those materials regardless of who owns them."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Repair Services",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21983.pdf",
+        "quote": "If labor and parts are not itemized or the parts are attached to real property, the repairer must pay tax on the cost of the repair parts and may not charge tax to the customer."
+      },
+      {
+        "title": "NDAC 81-04.1-01-22",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-01.pdf",
+        "quote": "Personal and professional services are not subject to sales tax"
+      }
+    ],
+    "notes": "Both subcodes (improvement and repair) alike: the contractor is the consumer of the materials and the labor is a nontaxable service, so no sales tax is charged to the owner. Since contracts entered after 2021-06-30, a labor-only subcontractor doesn't owe tax on materials it installs (the providing contractor does) — this shifts who pays on materials, not the owner's treatment. A contractor that sells goods without installing them into real property charges sales tax on them."
+  },
+  {
+    "tax": "ND",
+    "code": "delivery.exempt_goods",
+    "from": "2005-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A seller's delivery charge on goods exempt at that sale (such as groceries) is exempt from North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Freight, Delivery, and Other Transportation Charges",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/freight-delivery-other-transportation-charges.pdf",
+        "quote": "If the product being delivered is exempt from sales tax, then freight, delivery and other transportation charges are also exempt."
+      },
+      {
+        "title": "NDAC 81-04.1-01-10",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-01.pdf",
+        "quote": "If the sale is taxable, the freight, delivery, and other transportation charges that are part of the sale and billed by the seller are taxable. If the product being delivered is exempt from sales tax, then freight, delivery, and other transportation charges are also exempt."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "If the sale is taxable, the freight, delivery, and other transportation charges are taxable. If the product being delivered is exempt from sales tax, then the freight, delivery, and other transportation charges are also exempt."
+      }
+    ],
+    "notes": "For mixed shipments the seller allocates by price or weight (NDCC 57-39.2-01, 'Delivery charges')."
+  },
+  {
+    "tax": "ND",
+    "code": "delivery.taxable_goods",
+    "from": "2005-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge on taxable goods is part of the selling price and subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Freight, Delivery, and Other Transportation Charges",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/freight-delivery-other-transportation-charges.pdf",
+        "quote": "Effective October 1, 2005, freight, delivery, and other transportation charges, including shipping and handling charges, are always considered to be part of the selling price."
+      },
+      {
+        "title": "NDAC 81-04.1-01-10",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-01.pdf",
+        "quote": "If the sale is taxable, the freight, delivery, and other transportation charges that are part of the sale and billed by the seller are taxable. If the product being delivered is exempt from sales tax, then freight, delivery, and other transportation charges are also exempt."
+      },
+      {
+        "title": "NDCC 57-39.2-01 (gross receipts)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(4) Delivery charges; and"
+      }
+    ],
+    "notes": "Delivery billed directly to the customer by a carrier that didn't make the sale is not taxable. No change found since 2005-10-01 (guideline content reviewed 1-2019, reformatted 3-2026)."
+  },
+  {
+    "tax": "ND",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy and chewing gum are subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(1)(b)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "b. Candy or chewing gum."
+      },
+      {
+        "title": "NDAC 81-04.1-03-03",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Food or food ingredients are exempt from sales tax. Food and food ingredients do not include alcoholic beverages, candy, dietary supplements, prepared food, soft drinks, or tobacco, which remain subject to sales tax."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Sales of candy are taxable"
+      }
+    ],
+    "notes": "Candy excludes preparations containing flour or requiring refrigeration (NDCC 57-39.2-04.1(2)(b)); those are exempt food."
+  },
+  {
+    "tax": "ND",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered food and drink are prepared food subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "All food sold and catered is regarded as prepared food subject to tax."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Restaurants",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21809.pdf",
+        "quote": "Virtually all sales made by restaurants, cafes, caterers, drive-in eating places and dairy product stores are subject to North Dakota sales tax."
+      }
+    ],
+    "notes": "Whether separately stated staffing/service charges at a catered event are taxable is not addressed in the guidelines read; ND does not tax most services (NDAC 81-04.1-01-22), so a separately stated labor charge may be exempt. Not settled; the code bills them together."
+  },
+  {
+    "tax": "ND",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Groceries (food and food ingredients) are exempt from North Dakota sales tax.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Gross receipts from sales for human consumption of food and food ingredients are exempt from taxes imposed under this chapter."
+      },
+      {
+        "title": "NDAC 81-04.1-03-03",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Food or food ingredients are exempt from sales tax. Food and food ingredients do not include alcoholic beverages, candy, dietary supplements, prepared food, soft drinks, or tobacco, which remain subject to sales tax."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Generally food and food ingredients sold for domestic home consumption qualifies for the sales tax exemption."
+      }
+    ],
+    "notes": "Vending machine receipts are always taxable, including unprepared food (same guideline: 'Gross receipts from vending machines are always subject to sales tax.'). Dietary supplements, candy, soft drinks and prepared food are excluded from 'food'."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without eating utensils provided by the seller are exempt food in North Dakota.",
+    "conditions": [
+      {
+        "when": "The seller's prepared food ratio is above 75% and utensils are made available (e.g. a café or coffee shop), so utensils count as provided",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(2)(e)(3)(c)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(c) Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, Danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Bakery items are not taxable unless they are sold with eating utensils by the seller."
+      }
+    ],
+    "notes": "The bakery exclusion applies only 'if sold without eating utensils provided by the seller'; for a seller whose prepared food ratio exceeds 75%, utensils made available count as provided (NDCC 57-39.2-04.1(3)(c)), so an individual pastry at a restaurant is taxable (the Restaurants guideline taxes items sold for immediate consumption). ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food from a grocery is taxable if the seller mixed or combined it or provides utensils, but exempt if only cut or sold unheated by weight or volume as a single item without utensils.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as a unit (e.g. a packaged salad priced per container), or sold with utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item (deli counter by the pound) without utensils provided by the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (e.g. cut fruit) and sold without utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(2)(d)(2)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(2)(e)(3)(b)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(b) Food sold in an unheated state by weight or volume as a single item."
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(2)(e)(1)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(1) Food that is only cut, repackaged, or pasteurized by the seller."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Deli items when sold unheated by weight or volume as a single item"
+      },
+      {
+        "title": "NDAC 81-04.1-03-03(4)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Food sold in an unheated state by weight or volume as a single item is taxable only if sold with eating utensils."
+      }
+    ],
+    "notes": "The code mixes items that ND treats differently (cut fruit vs. a mixed salad, by-weight vs. per-unit); the facts above decide. ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant or café prepares and sells to go is subject to North Dakota sales tax.",
+    "conditions": [
+      {
+        "when": "Bulk items not bought for immediate consumption (whole pies or cakes, large quantities of bakery items, bulk ice cream)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Restaurants",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21809.pdf",
+        "quote": "Sales of food products which are prepared for immediate consumption are subject to sales tax even though such products are packaged or wrapped and are sold on a take-out or to-go basis."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Restaurants",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21809.pdf",
+        "quote": "Virtually all sales made by restaurants, cafes, caterers, drive-in eating places and dairy product stores are subject to North Dakota sales tax."
+      }
+    ],
+    "notes": "The Restaurants guideline carries no date on the page. ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating at the seller's premises (restaurants, cafés) is subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Restaurants",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21809.pdf",
+        "quote": "Virtually all sales made by restaurants, cafes, caterers, drive-in eating places and dairy product stores are subject to North Dakota sales tax."
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(1)(d)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "d. Prepared food."
+      },
+      {
+        "title": "NDAC 81-04.1-03-03(4)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Food sold in an unheated state by weight or volume as a single item is taxable only if sold with eating utensils."
+      }
+    ],
+    "notes": "ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(1)(d)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "d. Prepared food."
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(2)(d)(1)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(1) Food sold in a heated state or heated by the seller;"
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Food sold in a heated state or heated by the seller is taxable."
+      }
+    ],
+    "notes": "ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxable prepared food in North Dakota unless it holds only items sold by weight or volume without utensils.",
+    "conditions": [
+      {
+        "when": "The tray contains prepared items (sandwiches, mixed or combined foods) or is priced as a tray rather than by weight or volume, or utensils are provided",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The tray contains only unheated foods sold by weight or volume (sliced meats, cheese, cut fruit or vegetables) and no utensils are provided",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Party trays (prepared food not sold by weight or volume)"
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Deli trays that only contain food items sold by weight or volume"
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(2)(e)(3)(b)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(b) Food sold in an unheated state by weight or volume as a single item."
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(2)(d)(2)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      }
+    ],
+    "notes": "The grocery guideline lists 'Party trays (prepared food not sold by weight or volume)' as taxable and 'Deli trays that only contain food items sold by weight or volume' as nontaxable. ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A cold sandwich made by the seller combines food ingredients, so it is prepared food subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(2)(d)(2)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Prepared foods, including heated foods such as pizza, sandwiches, hot dogs, barbeques, bratwurst, nachos and cheese, sandwiches prepared by customer or at customer’s request"
+      }
+    ],
+    "notes": "A sandwich made by a food manufacturer (NAICS 311) and only resold, without utensils, is not the seller's prepared food (NDCC 57-39.2-04.1(2)(e)(3)(a)); this code is for sandwiches the seller makes. ND follows the SSUTA prepared-food definition (NDCC 57-39.2-04.1). Whether utensils count as 'provided by the seller' turns on the seller's prepared food ratio: above 75%, utensils merely made available count (NDCC 57-39.2-04.1(3)). NDAC 81-04.1-03-03 was last amended 2016-07-01; earlier history not checked."
+  },
+  {
+    "tax": "ND",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks (sweetened non-alcoholic beverages) are subject to North Dakota sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(1)(e)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "e. Soft drinks containing fifty percent or less fruit juice."
+      },
+      {
+        "title": "NDAC 81-04.1-03-03",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Food or food ingredients are exempt from sales tax. Food and food ingredients do not include alcoholic beverages, candy, dietary supplements, prepared food, soft drinks, or tobacco, which remain subject to sales tax."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Grocery Stores, Convenience Stores, & Delicatessens (updated 5-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22062-1.pdf",
+        "quote": "Soft drinks are taxable, and include nonalcoholic beverages that contain natural or artificial sweeteners"
+      }
+    ]
+  },
+  {
+    "tax": "ND",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to North Dakota state sales tax and local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-02.1(1)(a)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Tangible personal property, consisting of goods, wares, or merchandise, and bundled transactions consisting entirely of tangible personal property."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Sales, Use, and Gross Receipts Tax Requirements",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/sales-use-and-gross-receipts-tax-requirements-1.pdf",
+        "quote": "Five percent on the total receipts from all other taxable retail sales of tangible personal property and certain services."
+      }
+    ],
+    "notes": "ND local (city/county) sales taxes apply to the same base but many carry per-transaction caps; caps are a rate matter, not modeled here."
+  },
+  {
+    "tax": "ND",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not subject to North Dakota sales tax.",
+    "conditions": [
+      {
+        "when": "IT support or consultation sold as part of a mandatory prewritten-software maintenance contract, or an optional one where support can't be bought separately from updates",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Tangible goods (furnishings, printed materials, reports reproduced for sale) sold by the professional, itemized or not",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NDAC 81-04.1-01-22",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-01.pdf",
+        "quote": "Personal and professional services are not subject to sales tax"
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Advertising Agencies",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-22052.pdf",
+        "quote": "Sales and use tax does not apply to charges by advertising agencies for services rendered."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Computers (updated 2-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21825-1.pdf",
+        "quote": "Charges for training services are not taxable."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Computers (updated 2-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21825-1.pdf",
+        "quote": "Web page development and web hosting are not taxable."
+      },
+      {
+        "title": "NDCC 57-39.2-02.1(1)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Except as otherwise expressly provided in this chapter, there is imposed a tax of five percent upon the gross receipts of retailers from all sales at retail"
+      }
+    ],
+    "notes": "One parent rule covers all seven subcodes, which ND treats alike: services aren't in the NDCC 57-39.2-02.1 list of taxed items, and NDAC 81-04.1-01-22 (last amended 2002-06-01) says professional services aren't taxed. The professional pays tax on materials it consumes. Interior designers selling furnishings collect tax on the goods."
+  },
+  {
+    "tax": "ND",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software, and separately stated charges to modify prewritten software for one customer, are exempt from North Dakota sales tax.",
+    "conditions": [
+      {
+        "when": "Custom programming not separately stated from a sale or lease of computer equipment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NDAC 81-04.1-03-11",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Computers, peripheral computer equipment, and computer software, with the exception of custom software, are subject to tax."
+      },
+      {
+        "title": "NDAC 81-04.1-03-11(6)(b)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "Tax does not apply to the sale or lease of custom computer software regardless of the form in which the program is transferred."
+      },
+      {
+        "title": "NDCC 57-39.2-02.1(1)(g)(6)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "However, if there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such modification or enhancement, such modification or enhancement shall not constitute \"prewritten computer software\"."
+      },
+      {
+        "title": "NDAC 81-04.1-03-11(6)(b)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "If the custom computer software is not separately stated from the sale or lease of equipment, it will be considered taxable as part of the sale."
+      }
+    ],
+    "notes": "Covers both subcodes: development from scratch, and modification of prewritten software charged separately (the code's definition). Copies of a custom program sold to others are prewritten and taxable."
+  },
+  {
+    "tax": "ND",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten (off-the-shelf) software is subject to North Dakota sales tax, whether on media, downloaded, or loaded and left.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-02.1(1)(g)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Sale, lease, or rental of a computer and prewritten computer software, including prewritten computer software delivered electronically or by load and leave."
+      },
+      {
+        "title": "NDAC 81-04.1-03-11(6)(b)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-03.pdf",
+        "quote": "The sale of prewritten computer software is a taxable transaction, even though the program is delivered electronically or by load and leave."
+      },
+      {
+        "title": "ND Tax Commissioner, Guideline: Computers (updated 2-2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21825-1.pdf",
+        "quote": "The sale of a COTS program is a taxable transaction, even when the program is transferred by remote telecommunications from the seller’s place of business, to or through the purchaser’s computer."
+      }
+    ],
+    "notes": "Mandatory maintenance contracts for prewritten software, and optional ones providing only updates (or bundled updates and support), are also taxable (NDCC 57-39.2-02.1(1)(h)-(i))."
+  }
+]

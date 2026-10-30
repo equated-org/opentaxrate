@@ -1,0 +1,341 @@
+[
+  {
+    "tax": "HI",
+    "code": "construction.real_property",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Construction contracting, new work or repair, is subject to Hawaii general excise tax on the contractor's gross income.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-13(3)(A), tax upon contractors",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in the business of contracting, the tax shall be equal to four per cent of the gross income of the business."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX Tax Facts 37-1, General Excise Tax (rev. May 2025), Q2",
+        "url": "https://files.hawaii.gov/tax/legal/taxfacts/tf2025-37-1.pdf",
+        "quote": "Selling retail goods and services, renting, leasing real property,construction contracting, earning commissions"
+      }
+    ],
+    "notes": "Improvement and repair are treated alike. A contractor may deduct amounts paid to a subcontractor who pays GET on them (237-13(3)(B)); that is the contractor's computation, not a change to the code's treatment. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "delivery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge is part of its gross income or gross proceeds and subject to Hawaii general excise tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-3(a), gross income defined",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0003.htm",
+        "quote": "without any deductions on account of the cost of property sold, the cost of materials used, labor cost, taxes, royalties, interest, or discount paid or any other expenses whatsoever."
+      },
+      {
+        "title": "HRS § 237-3(a), gross proceeds of sale defined",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0003.htm",
+        "quote": "\"Gross proceeds of sale\" means the value actually proceeding from the sale of tangible personal property without any deduction on account of the cost of property sold or expenses of any kind."
+      },
+      {
+        "title": "Hawaii DOTAX Tax Facts 37-1, General Excise Tax (rev. May 2025)",
+        "url": "https://files.hawaii.gov/tax/legal/taxfacts/tf2025-37-1.pdf",
+        "quote": "Gross receipts are total business income before any business expenses are deducted."
+      },
+      {
+        "title": "HRS § 237-13(9), tax on other business",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in any business, trade, activity, occupation, or calling not included in the preceding paragraphs or any other provisions of this chapter, there is likewise hereby levied and shall be assessed and collected, a tax equal to four per cent of the gross income thereof."
+      }
+    ],
+    "notes": "No DOTAX publication addresses separately stated delivery charges by name; the treatment follows from gross income and gross proceeds admitting no deduction for expenses, and 237-13(9) taxing any gross income not taxed elsewhere. Third-party guides disagree on separately stated shipping; not verified against a DOTAX ruling. With few exempt goods in Hawaii (e.g. food paid with SNAP), the exempt-goods subcode is treated the same. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is subject to Hawaii general excise tax like other retail sales of goods.",
+    "conditions": [
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q9 common deductions",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Food paid for by the Supplemental Nutrition Assistance Program (SNAP) or with Women, Infants, and Children (WIC) food vouchers."
+      }
+    ],
+    "notes": "Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's charges for food, staff and service are gross income subject to Hawaii general excise tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "HRS § 237-13(6)(A), tax on service business",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in any service business or calling including professional services not otherwise specifically taxed under this chapter, there is likewise hereby levied and shall be assessed and collected a tax equal to four per cent of the gross income of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      }
+    ],
+    "notes": "Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Groceries are subject to Hawaii general excise tax like other retail sales; only food paid for with SNAP or WIC benefits is deducted.",
+    "conditions": [
+      {
+        "when": "Paid for with SNAP benefits or WIC vouchers",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q9 common deductions",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Food paid for by the Supplemental Nutrition Assistance Program (SNAP) or with Women, Infants, and Children (WIC) food vouchers."
+      }
+    ],
+    "notes": "Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions. No general grocery exemption exists; 2026 bills to exempt or phase down GET on groceries (e.g. HB 1611, SB 2104, SB 2792, HB 1585) did not pass beyond their first drafts as far as the legislature's bill files show."
+  },
+  {
+    "tax": "HI",
+    "code": "food.prepared",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prepared food, hot or cold, to go or eaten in, is subject to Hawaii general excise tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q3",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Second, the GET is a tax on income from almost all business activities."
+      }
+    ],
+    "notes": "Every subcode is treated alike. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are subject to Hawaii general excise tax like other retail sales of goods.",
+    "conditions": [
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q9 common deductions",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Food paid for by the Supplemental Nutrition Assistance Program (SNAP) or with Women, Infants, and Children (WIC) food vouchers."
+      }
+    ],
+    "notes": "Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of goods are subject to Hawaii general excise tax at the 4% retail rate plus the county surcharge.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      }
+    ],
+    "notes": "Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Professional services, including legal, accounting, consulting, IT, engineering, design and advertising, are subject to Hawaii general excise tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-13(6)(A), tax on service business",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in any service business or calling including professional services not otherwise specifically taxed under this chapter, there is likewise hereby levied and shall be assessed and collected a tax equal to four per cent of the gross income of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX Tax Facts 37-1, General Excise Tax (rev. May 2025), Q2",
+        "url": "https://files.hawaii.gov/tax/legal/taxfacts/tf2025-37-1.pdf",
+        "quote": "Selling retail goods and services, renting, leasing real property,construction contracting, earning commissions"
+      }
+    ],
+    "notes": "Every subcode is treated alike. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Custom software development and modification are services subject to Hawaii general excise tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Hawaii DOTAX TIR No. 2021-06, Custom Software",
+        "url": "https://files.hawaii.gov/tax/legal/tir/tir21-06.pdf",
+        "quote": "The Department considers made to order or custom software to be the provision of services."
+      },
+      {
+        "title": "Hawaii DOTAX TIR No. 2021-06, Appropriate Tax Rate",
+        "url": "https://files.hawaii.gov/tax/legal/tir/tir21-06.pdf",
+        "quote": "Sales of services are generally subject to GET at the retail rate of 4 percent."
+      },
+      {
+        "title": "HRS § 237-13(6)(A), tax on service business",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in any service business or calling including professional services not otherwise specifically taxed under this chapter, there is likewise hereby levied and shall be assessed and collected a tax equal to four per cent of the gross income of the business"
+      }
+    ],
+    "notes": "Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software, on media or downloaded, sold or licensed, is tangible personal property subject to Hawaii general excise tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Hawaii DOTAX Tax Information Release No. 2021-06, General Excise Tax Treatment of Software (Aug. 10, 2021)",
+        "url": "https://files.hawaii.gov/tax/legal/tir/tir21-06.pdf",
+        "quote": "The Department considers the sale of prewritten or canned software to be the sale of tangible personal property (TPP), regardless of whether the software is contained on a tangible medium, such as a disc, or transferred electronically."
+      },
+      {
+        "title": "Hawaii DOTAX TIR No. 2021-06, Appropriate Tax Rate",
+        "url": "https://files.hawaii.gov/tax/legal/tir/tir21-06.pdf",
+        "quote": "Generally, sales of TPP are subject to GET at the retail rate of 4 percent."
+      },
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      }
+    ],
+    "notes": "TIR 2021-06 (Aug. 10, 2021) clarified the Department's existing position rather than changing it. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Charges for remote access to software are gross income subject to Hawaii general excise tax at the 4% rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "HRS § 237-13(6)(A), tax on service business",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in any service business or calling including professional services not otherwise specifically taxed under this chapter, there is likewise hereby levied and shall be assessed and collected a tax equal to four per cent of the gross income of the business"
+      },
+      {
+        "title": "HRS § 237-13(9), tax on other business",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing within the State in any business, trade, activity, occupation, or calling not included in the preceding paragraphs or any other provisions of this chapter, there is likewise hereby levied and shall be assessed and collected, a tax equal to four per cent of the gross income thereof."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q3",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Second, the GET is a tax on income from almost all business activities."
+      }
+    ],
+    "notes": "No DOTAX publication names SaaS; TIR 2021-06 covers prewritten and custom software only. Taxable as a service or as other business under 237-13(6) or (9), both 4%. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  }
+]

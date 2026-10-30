@@ -1,0 +1,266 @@
+[
+  {
+    "tax": "DE",
+    "code": "construction.real_property",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction and repair of real property bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "delivery",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "food.candy",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "food.catering",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Catering bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "food.grocery",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Groceries bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "food.prepared",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Prepared food bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "food.soft_drink",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Soft drinks bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "goods.general",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Tangible goods bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "service.professional",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "software.custom",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "software.prewritten",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Prewritten software bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  },
+  {
+    "tax": "DE",
+    "code": "software.saas",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software as a service bear no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer."
+  }
+]

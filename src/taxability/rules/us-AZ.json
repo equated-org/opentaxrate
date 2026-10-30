@@ -1,0 +1,987 @@
+[
+  {
+    "tax": "AZ",
+    "code": "construction.real_property.improvement",
+    "from": "2016-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "New construction is taxed in Arizona under the prime contracting classification on 65% of the contract price; additions and remodels of existing property are taxed that way only when the alteration exceeds the statutory threshold, otherwise they are nontaxable MRRA work (the contractor pays tax on materials).",
+    "conditions": [
+      {
+        "when": "New ('ground up') construction, grading or demolition, or an alteration whose contract amount exceeds 25% of the property's full cash value (residential and certain other property) or $750,000 (other property): taxable at the full rate on 65% of the gross contract (a 35% deduction), state, county and city",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Alteration of existing property at or under those thresholds, or replacement of a component or system (e.g. a new roof): MRRA, not taxed to the owner; the contractor pays retail tax on its materials",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5075 (prime contracting classification)",
+        "url": "https://www.azleg.gov/ars/42/05075.htm",
+        "quote": "The tax base for the prime contracting classification is sixty-five percent of the gross proceeds of sales or gross income derived from the business."
+      },
+      {
+        "title": "A.R.S. § 42-5075 (prime contracting classification)",
+        "url": "https://www.azleg.gov/ars/42/05075.htm",
+        "quote": "\"Modification\" means construction, grading and leveling ground, wreckage or demolition."
+      },
+      {
+        "title": "ADOR Contracting Guidelines, Contracting FAQs",
+        "url": "https://azdor.gov/transaction-privilege-tax/contracting-guidelines/contracting-faqs",
+        "quote": "The tax base is sixty-five percent of the gross receipts derived from the business."
+      },
+      {
+        "title": "ADOR Contracting Guidelines, MRRA Contracting",
+        "url": "https://azdor.gov/transaction-privilege-tax/contracting-guidelines/mrra-contracting",
+        "quote": "then it is considered modification contracting."
+      },
+      {
+        "title": "ADOR Publication 603, Contracting Activities (revised December 2016)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2016_603.pdf",
+        "quote": "Income derived from activities that fall within any of MRRA categories is not subject to tax under the Prime Contracting Classification."
+      },
+      {
+        "title": "Model City Tax Code § 415, Construction Contracting (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/construction-contracting-construction-contractors",
+        "quote": "All construction contracting gross income subject to the tax and not deductible herein shall be allowed a deduction of thirty-five percent (35%)."
+      }
+    ],
+    "notes": "The 'taxable' outcome is on a reduced base: tax = rate x 65% of the gross contract (A.R.S. § 42-5075(B); MCTC § 415(b)(2) gives cities the same 35% deduction); this rule's 'taxable' does not carry the base. Contracts with a public agency primarily for surface or subsurface land improvements are prime contracting even if they would be MRRA (§ 42-5075(Q)). The MRRA exclusion dates from 2015 (2014 legislation); 2016-12-01 is the edition date of Pub 603 (Dec 2016), the earliest dated ADOR statement read here. No change to the 65% base or the alteration thresholds since 2018 was found. "
+  },
+  {
+    "tax": "AZ",
+    "code": "construction.real_property.repair",
+    "from": "2016-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maintenance, repair and replacement work on existing property, sold to the owner, is not taxed under Arizona's prime contracting classification; the contractor pays retail tax on its materials and does not charge TPT to the owner.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5075 (prime contracting classification)",
+        "url": "https://www.azleg.gov/ars/42/05075.htm",
+        "quote": "The gross proceeds of sales or gross income derived from a contract with the owner of real property or improvements to real property for the maintenance, repair, replacement or alteration of existing property is not subject to tax under this section if the contract does not include modification activities, except as specified in this subsection."
+      },
+      {
+        "title": "ADOR Publication 603, Contracting Activities (revised December 2016)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2016_603.pdf",
+        "quote": "Income derived from activities that fall within any of MRRA categories is not subject to tax under the Prime Contracting Classification."
+      },
+      {
+        "title": "ADOR Contracting Guidelines, Contracting FAQs",
+        "url": "https://azdor.gov/transaction-privilege-tax/contracting-guidelines/contracting-faqs",
+        "quote": "No, labor is not taxable and a contractor's invoice for MRRA projects should not include a line item for tax as neither the labor or the materials are taxable (although a contractor will pay tax on the materials when they are purchased)."
+      },
+      {
+        "title": "Model City Tax Code § 415, Construction Contracting (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/construction-contracting-construction-contractors",
+        "quote": "The gross proceeds of sales or gross income derived from a contract with the owner of real property or improvements to real property for the maintenance, repair, replacement or alteration of existing property is not subject to tax under this Section if the contract does not include modification activities, except as specified in this paragraph."
+      }
+    ],
+    "notes": "'Exempt' is the owner's bill: the contractor's materials bear retail TPT (or its equivalent) when bought or used, as a cost of doing business. Maintenance, repair and replacement have no dollar threshold (only alterations do). A contract that also includes more than de minimis modification work is prime contracting. Public-agency land-improvement contracts (§ 42-5075(Q)) are taxable. The exclusion dates from 2015; 2016-12-01 is Pub 603's edition date."
+  },
+  {
+    "tax": "AZ",
+    "code": "delivery.exempt_goods",
+    "from": "2002-05-08",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated charge for shipping goods that are exempt is not subject to Arizona transaction privilege tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Private Taxpayer Ruling LR02-007, May 8, 2002",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2002_lr02-007.pdf",
+        "quote": "Arizona Administrative Code (A.A.C.) R15-5-133 provides that a charge by a retailer for delivery from the retailer’s location to the purchaser’s location, if separately stated on the sales invoice, is not taxable."
+      },
+      {
+        "title": "ADOR, Retail Deductions (shipping)",
+        "url": "https://azdor.gov/business/transaction-privilege-tax/retail-sales-subject-tpt/retail-deductions",
+        "quote": "Shipping charges on tax-exempt sales are not subject to TPT."
+      },
+      {
+        "title": "Model City Tax Code § 465, Retail Sales: Exemptions (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-exemptions",
+        "quote": "charges for delivery, installation, or other direct customer services as prescribed in Section"
+      }
+    ],
+    "notes": "2002-05-08 is the date of LR02-007, the earliest dated ADOR document read here restating A.A.C. R15-5-133 (the rule itself could not be downloaded from azsos.gov). The ADOR page stating that shipping on exempt sales is not taxed is undated. Groceries sold in a city that taxes food for home consumption: MCTC § 462(c)(3) exempts separately charged delivery from the city food tax."
+  },
+  {
+    "tax": "AZ",
+    "code": "delivery.taxable_goods",
+    "from": "2002-05-08",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A retailer's separately stated charge for its actual cost of shipping to the buyer is not taxable in Arizona; a flat shipping or handling fee unrelated to the actual cost of delivery is part of the taxable sale.",
+    "conditions": [
+      {
+        "when": "The charge reflects the actual cost of delivery from the retailer's location to the buyer, separately stated on the invoice and in the seller's books",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A flat shipping or handling fee not related to the size, weight or distance of the shipment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Private Taxpayer Ruling LR02-007, May 8, 2002",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2002_lr02-007.pdf",
+        "quote": "Arizona Administrative Code (A.A.C.) R15-5-133 provides that a charge by a retailer for delivery from the retailer’s location to the purchaser’s location, if separately stated on the sales invoice, is not taxable."
+      },
+      {
+        "title": "ADOR, Retail Deductions (shipping)",
+        "url": "https://azdor.gov/business/transaction-privilege-tax/retail-sales-subject-tpt/retail-deductions",
+        "quote": "A charge by a retailer to ship an item from the retailer’s location to the purchaser’s location, if separately stated on the sales invoice and in the books and records, is not taxable."
+      },
+      {
+        "title": "ADOR, Retail Deductions (shipping)",
+        "url": "https://azdor.gov/business/transaction-privilege-tax/retail-sales-subject-tpt/retail-deductions",
+        "quote": "Flat fee shipping or handling charges, therefore, are not considered to be the actual costs of delivery, and so are not deductible from the tax base as a service provided by the retailer."
+      },
+      {
+        "title": "Model City Tax Code § 100.2, Delivery, Installation, or Other Direct Customer Services (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/delivery-installation-or-other-direct-customer-services",
+        "quote": "Only the separately stated charge for the delivery shall be deemed a \"delivery charge\"."
+      }
+    ],
+    "notes": "ADOR says the flat-fee position applies for state/county and city purposes alike. Freight paid before the retail sale (freight-in) is part of the taxable price. The flat-fee guidance is on an undated ADOR page; 2002-05-08 is LR02-007's date for the separately-stated rule."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.candy",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy and confectionery for home consumption sold by a qualified retailer are exempt food for the Arizona state transaction privilege tax and the county excise taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Candy and confectionery; sugar, sugar products and substitutes; cocoa and cocoa products."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "These items include bread and flour products, as well as candy and confectionery."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food items sold by a qualified retailer and intended for home consumption are exempt by law from the Arizona transaction privilege tax."
+      }
+    ],
+    "notes": "Arizona's food definition (A.A.C. R15-5-1860, not downloadable here) follows the 1979 food stamp list, which includes candy; Pub 575 lists 'Candy and confectionery' as exempt food. Candy sold by a restaurant or other non-qualified retailer, or within an admission-charging venue, is food for consumption on the premises and taxable. City treatment is in the AZ:local rule."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.catering",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Caterers are taxed under Arizona's restaurant classification on their gross income for the food and its service, at the state, county and city level.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Food sold by caterers."
+      },
+      {
+        "title": "A.R.S. § 42-5074 (restaurant classification)",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      },
+      {
+        "title": "Model City Tax Code § 455, Restaurants and Bars (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/restaurants-and-bars",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of preparing or serving food or beverage in a bar, cocktail lounge, restaurant, or similar establishment where articles of food or drink are prepared or served for consumption on or off the premises, including also the activity of catering."
+      },
+      {
+        "title": "Model City Tax Code § 100.2, Delivery, Installation, or Other Direct Customer Services (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/delivery-installation-or-other-direct-customer-services",
+        "quote": "If all charges are properly identified, only the $300 for set up and cleanup is a charge for direct customer services, and the $1,500 for food and service is considered Restaurant gross income."
+      }
+    ],
+    "notes": "Exception at the city level: separately charged and separately recorded delivery, set-up and clean-up charges are excluded from a caterer's city tax (MCTC § 455(b), § 100.2); bartender and wait-staff charges stay taxable. Whether the state restaurant classification excludes separately stated set-up charges was not verified. 2018-08-01 is Pub 575's edition date; the treatment is older."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.grocery",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food for home consumption sold by a qualified retailer (a grocery or SNAP-eligible store, a store selling food like a grocery, a seller without eating facilities, a deli counter, a pushcart or a vending machine) is exempt from the state transaction privilege tax and the county excise taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5102 (tax exemption for sales of food)",
+        "url": "https://www.azleg.gov/ars/42/05102.htm",
+        "quote": "Except for the gross proceeds of sales or gross income from the sale of food for consumption on the premises, the taxes imposed by this chapter do not apply to the gross proceeds of sales or gross income from sales of food by any of the following:"
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food items sold by a qualified retailer and intended for home consumption are exempt by law from the Arizona transaction privilege tax."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "Food intended for home consumption and sold by a qualifying retailer is generally exempt from TPT for state and county purposes."
+      }
+    ],
+    "notes": "This rule is the state and county part; city taxes are in the AZ:local rule. The exemption is far older (A.R.S. § 42-5102); 2018-08-01 is the edition date of Pub 575 (Aug 2018), the earliest dated ADOR statement read here. Per LR 21-001, food delivered to an office or other business is presumed not to be for home consumption and is taxable unless the seller shows otherwise. The food definition is in A.A.C. R15-5-1860, which could not be downloaded (azsos.gov blocks automated fetches); Pub 575 and LR 21-001 summarize it."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.bakery",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils by a bakery, grocery or other qualified retailer are exempt from the Arizona state and county taxes as food for home consumption; sold by a restaurant or café with eating facilities they are taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a qualified retailer: a bakery, grocery or other SNAP-eligible store, a store selling food like a grocery, or a seller without eating facilities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant, café or coffee shop that provides eating facilities and is not a qualified retailer, or within an admission-charging venue",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "Additionally, as mentioned, A.A.C. R15-51860(12)(b)(i)(4) provides that bakeries are generally considered to be qualified retailers."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Bread and flour products; cereal and cereal products."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food items sold by a qualified retailer and intended for home consumption are exempt by law from the Arizona transaction privilege tax."
+      },
+      {
+        "title": "A.R.S. § 42-5074 (restaurant classification)",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      }
+    ],
+    "notes": "This rule is the state and county part; city taxes are in the AZ:local rule. Per LR 21-001, baked goods delivered to a business are presumed not for home consumption and are taxable unless the seller shows otherwise."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.cold",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cold prepared food (not a sandwich, not hot, not served with tableware) sold to go by a grocery store or a separately run deli counter is exempt from the Arizona state and county taxes as food for home consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5102 (tax exemption for sales of food)",
+        "url": "https://www.azleg.gov/ars/42/05102.htm",
+        "quote": "Except for the gross proceeds of sales or gross income from the sale of food for consumption on the premises, the taxes imposed by this chapter do not apply to the gross proceeds of sales or gross income from sales of food by any of the following:"
+      },
+      {
+        "title": "A.R.S. § 42-5102 (tax exemption for sales of food)",
+        "url": "https://www.azleg.gov/ars/42/05102.htm",
+        "quote": "A retailer who conducts an eligible grocery business."
+      },
+      {
+        "title": "A.R.S. § 42-5102 (tax exemption for sales of food)",
+        "url": "https://www.azleg.gov/ars/42/05102.htm",
+        "quote": "A retailer who conducts a delicatessen business either from a counter which is separate from the place and cash register where taxable sales are made"
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food items sold by a qualified retailer and intended for home consumption are exempt by law from the Arizona transaction privilege tax."
+      }
+    ],
+    "notes": "This rule is the state and county part; city taxes are in the AZ:local rule. A deli inside a store qualifies only if it rings exempt and taxable sales separately (A.R.S. § 42-5102(A)(4)). Food sold with trays, dishes or other tableware, or in an admission-charging venue, is food for consumption on the premises and taxable. No ADOR document read here names deli salads or cut fruit specifically; this rests on the statute and Pub 575's categories (meat, vegetable and fruit products)."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food sold to go by a restaurant or café is taxable under Arizona's restaurant classification when the seller provides eating facilities; a seller with no eating facilities sells cold food (not sandwiches or drinks in cups) for home consumption exempt from state and county tax.",
+    "conditions": [
+      {
+        "when": "Seller provides or makes available eating facilities (tables, chairs, counters, tableware, in-car parking) on its premises, or the item is a sandwich or a drink in a cup or open container",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller provides no eating facilities, is not eligible for SNAP, and the item is cold food (not a sandwich, not a drink in a cup)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5074 (restaurant classification)",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      },
+      {
+        "title": "A.R.S. § 42-5102 (tax exemption for sales of food)",
+        "url": "https://www.azleg.gov/ars/42/05102.htm",
+        "quote": "A retailer who sells food and does not provide or make available any facilities for the consumption of food on the premises."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food sold and intended for on- premises consumption, such as restaurant sales, remains fully taxable."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Items always taxable include hot and cold sandwiches, hot prepared food, and beverages sold in a glass, cup or open container."
+      }
+    ],
+    "notes": "This rule is the state and county part; city taxes are in the AZ:local rule. A.R.S. § 42-5074 taxes restaurants on food sold for consumption 'on or off the premises', and A.R.S. § 42-5102(A)(3) exempts food sold by a retailer with no eating facilities; Pub 575 lists such retailers as qualified. How ADOR reconciles a takeout-only café under both was not found in a ruling."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.dine_in",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served to be eaten at the seller's tables or counters, or with its tableware, is taxable in Arizona at the state, county and city level.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Food served by an attendant to be eaten at tables, chairs, benches, booths, stools, counters and similar conveniences and within parking areas for the convenience of in-car consumption of food."
+      },
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Food served with trays, glasses, dishes or other tableware."
+      },
+      {
+        "title": "A.R.S. § 42-5074 (restaurant classification)",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food sold and intended for on- premises consumption, such as restaurant sales, remains fully taxable."
+      },
+      {
+        "title": "Model City Tax Code § 455, Restaurants and Bars (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/restaurants-and-bars",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of preparing or serving food or beverage in a bar, cocktail lounge, restaurant, or similar establishment where articles of food or drink are prepared or served for consumption on or off the premises, including also the activity of catering."
+      }
+    ],
+    "notes": "2018-08-01 is Pub 575's edition date; the treatment is older. City restaurant and bar rates (MCTC § 455) can differ from city retail rates."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.hot",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot prepared food is food for consumption on the premises and is taxable in Arizona at the state, county and city level, whether eaten there or taken out, and even when sold by a grocery store.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Hot prepared food includes a combination of hot and cold food items or ingredients if a single price has been established."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Items always taxable include hot and cold sandwiches, hot prepared food, and beverages sold in a glass, cup or open container."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food sold and intended for on- premises consumption, such as restaurant sales, remains fully taxable."
+      },
+      {
+        "title": "Model City Tax Code § 455, Restaurants and Bars (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/restaurants-and-bars",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of preparing or serving food or beverage in a bar, cocktail lounge, restaurant, or similar establishment where articles of food or drink are prepared or served for consumption on or off the premises, including also the activity of catering."
+      }
+    ],
+    "notes": "2018-08-01 is Pub 575's edition date; the treatment is older. A restaurant reports under the restaurant classification (A.R.S. § 42-5074; MCTC § 455), whose city rates can differ from city retail rates."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.platter",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxable in Arizona if it holds sandwiches or hot food or comes from a caterer or restaurant; a cold tray of cheese, cold cuts, fruit or vegetables sold to go by a grocery or deli is exempt from state and county tax as food for home consumption.",
+    "conditions": [
+      {
+        "when": "The tray holds sandwiches or hot food, or is sold by a caterer or a restaurant with eating facilities",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A cold tray (no sandwiches) sold to go by a qualified retailer such as a grocery or separately run deli counter, without tableware",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Items always taxable include hot and cold sandwiches, hot prepared food, and beverages sold in a glass, cup or open container."
+      },
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Food sold by caterers."
+      },
+      {
+        "title": "A.R.S. § 42-5102 (tax exemption for sales of food)",
+        "url": "https://www.azleg.gov/ars/42/05102.htm",
+        "quote": "Except for the gross proceeds of sales or gross income from the sale of food for consumption on the premises, the taxes imposed by this chapter do not apply to the gross proceeds of sales or gross income from sales of food by any of the following:"
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Food items sold by a qualified retailer and intended for home consumption are exempt by law from the Arizona transaction privilege tax."
+      }
+    ],
+    "notes": "This rule is the state and county part; city taxes are in the AZ:local rule. Unverified: whether ADOR treats the tray itself as 'trays ... or other tableware' (A.R.S. § 42-5101(4)(d)), which would make every platter taxable; no ruling on party trays was found."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.prepared.sandwich",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot and cold sandwiches are taxable in Arizona at the state, county and city level, even when sold to go by a grocery store, a pushcart or a vending machine.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Hot or cold sandwiches."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "For example, the law specifically taxes sales of hot and cold sandwiches, and beverages such as coffee or sodas sold in cups, glasses or open containers, irrespective of whether they are sold in a grocery store, from a sidewalk vendor or from a vending machine."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "Hot or cold sandwiches."
+      }
+    ],
+    "notes": "2018-08-01 is Pub 575's edition date; the treatment is older. Pub 575 also lists frozen sandwiches as taxable."
+  },
+  {
+    "tax": "AZ",
+    "code": "food.soft_drink",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks in sealed bottles, cans or cartons sold by a qualified retailer for home consumption are exempt from the Arizona state and county taxes; drinks sold in cups, glasses or open containers are taxable.",
+    "conditions": [
+      {
+        "when": "Sold in a closed or sealed bottle, can or carton by a qualified retailer (grocery or convenience store, a store without eating facilities, a vending machine)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold in a cup, glass or open container (fountain drinks), or by a restaurant, or within an admission-charging venue",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5106 (rules defining food)",
+        "url": "https://www.azleg.gov/ars/42/05106.htm",
+        "quote": "Notwithstanding section 42-5101, any ready-to-drink, nonalcoholic beverage that is contained in a closed or sealed bottle, can or carton, that is intended for human consumption and that is intended for home consumption is deemed to be food."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Coffee, coffee substitutes and tea; soft drinks and sodas."
+      },
+      {
+        "title": "A.R.S. § 42-5101 (definitions: food, food for consumption on the premises)",
+        "url": "https://www.azleg.gov/ars/42/05101.htm",
+        "quote": "Beverages sold in cups, glasses, or open containers."
+      },
+      {
+        "title": "ADOR Publication 575, Tax Exempt Food (revised August 2018)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2018_575.pdf",
+        "quote": "Items always taxable include hot and cold sandwiches, hot prepared food, and beverages sold in a glass, cup or open container."
+      }
+    ],
+    "notes": "This rule is the state and county part; city taxes are in the AZ:local rule. 2018-08-01 is Pub 575's edition date; the treatment is older."
+  },
+  {
+    "tax": "AZ",
+    "code": "goods.general",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Arizona transaction privilege tax under the retail classification, at the state, county and city level.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5061 (retail classification)",
+        "url": "https://www.azleg.gov/ars/42/05061.htm",
+        "quote": "The retail classification is comprised of the business of selling tangible personal property at retail."
+      },
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "The sale of computers, computer equipment, hardware, and other related items is subject to tax as the sale of tangible personal property."
+      }
+    ],
+    "notes": "The retail classification is much older; 1994-01-03 is only the date of the earliest dated ADOR document read here (TPR 93-48) applying it to goods. City retail taxes (MCTC § 460) share the base; city retail rates vary."
+  },
+  {
+    "tax": "AZ",
+    "code": "service.professional",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Arizona's transaction privilege tax does not apply to professional services such as legal, accounting, consulting, IT, engineering, design and advertising-agency services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "A.R.S. § 42-5061 (retail classification)",
+        "url": "https://www.azleg.gov/ars/42/05061.htm",
+        "quote": "Professional or personal service occupations or businesses that involve sales or transfers of tangible personal property only as inconsequential elements."
+      },
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "Computer services such as consulting, training, installation of software, and technical phone support are exempt from tax as professional services."
+      },
+      {
+        "title": "Model City Tax Code § 405, Advertising (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/advertising",
+        "quote": "However, commission and fees retained by an advertising agency shall not be includable in gross income from \"local advertising.\""
+      }
+    ],
+    "notes": "Arizona taxes enumerated business classifications; professional services are not one, and A.R.S. § 42-5061(A)(1) excludes them from retail. No ADOR page read here names legal, accounting or engineering specifically. Advertising: some cities tax 'local advertising' (MCTC § 405, the media's charge), but an agency's retained commission and fees are excluded. Interior design: goods the designer sells are taxable retail; only the design fee is covered here. Architectural or engineering services inside a construction contract are excluded from prime contracting (A.R.S. § 42-5075(L))."
+  },
+  {
+    "tax": "AZ",
+    "code": "software.custom",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software written to one customer's specifications is a nontaxable professional service in Arizona, and separately stated charges for modifying or installing prewritten software for a customer are exempt services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "The sale of such software is considered to be the sale of a professional service and not subject to tax."
+      },
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "Although the sale of the canned software is taxable, the charges for installation are exempt from tax provided the charges for the service are separately stated on the invoice and in the books and records."
+      },
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "The income received from the sale of custom software, warranty or service agreements and professional or technological services such as installation of software, training, consulting, and technical phone support is exempt from tax under the retail classification if separately stated on the invoice and in the books and records."
+      }
+    ],
+    "notes": "For software.custom.modification: TPR 93-48 speaks of modifications made at installation; that a separately charged customization of prewritten software is likewise an exempt service is inferred from its treatment of installation and computer services, not stated outright. The prewritten copy itself stays taxable; an unseparated charge makes the whole taxable."
+  },
+  {
+    "tax": "AZ",
+    "code": "software.prewritten",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten (canned) software, however delivered and whether or not licensed, is taxable as tangible personal property under Arizona's retail classification (rental classification if leased).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "The sale of \"canned or pre-written computer software\" is considered to be a sale of tangible personal property subject to tax under the retail classification."
+      },
+      {
+        "title": "ADOR Transaction Privilege Tax Ruling TPR 93-48 (computer hardware, software and related services), signed January 3, 1994",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1994_tpr93-48.pdf",
+        "quote": "The provision of a canned computer program, whether or not characterized as a license agreement, is considered to be a taxable retail sale."
+      }
+    ],
+    "notes": "TPR 93-48 (signed 1994-01-03, statute references updated 2020) is the earliest dated document read here. It also makes canned-software maintenance agreements (updates) taxable."
+  },
+  {
+    "tax": "AZ",
+    "code": "software.saas",
+    "from": "2017-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "ADOR treats remotely accessed prewritten software (SaaS) as a rental of tangible personal property, taxable under the personal property rental classification when the customer uses it in Arizona.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 17-001 (web-based software offerings), January 3, 2017",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2018_17-001.pdf",
+        "quote": "Thus, the monthly gross receipts or gross income Taxpayer receives from its customers under Offerings 1, 2, 3, and 4 are taxable under the personal property rental classification when those monthly gross receipts are received from Arizona customers."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 17-001 (web-based software offerings), January 3, 2017",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2018_17-001.pdf",
+        "quote": "For remote access software arrangements like the one offered by Taxpayer, the server location where the software and files are “physically” stored makes no difference for Arizona TPT purposes."
+      },
+      {
+        "title": "Model City Tax Code § 450, Rental, Leasing, and Licensing for Use of Tangible Personal Property (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/rental-leasing-and-licensing-use-tangible-personal-2",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of leasing, licensing for use, or renting tangible personal property for a consideration, including that which is semi-permanently or permanently installed within the City as provided by Regulation."
+      }
+    ],
+    "notes": "No statute names SaaS; ADOR's position rests on letter rulings (LR 11-011, LR 17-001) that the customer's control of the software makes it a rental of tangible personal property. LR 17-001 is a taxpayer information ruling binding only on its requester; 2017-01-03 is its date, not an effective date. The Court of Appeals upheld this treatment in the ADP case (2023; not cited here, a court opinion). Cities tax it under their rental classification (MCTC § 450), whose rates can differ from retail rates. Personal property rental receipts don't count toward a remote seller's economic-nexus threshold, so an out-of-state SaaS seller may not be required to collect."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.candy",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Candy is food for home consumption: county taxes exempt it like the state, and a city taxes it only if the city taxes food for home consumption.",
+    "conditions": [
+      {
+        "when": "County excise tax part (every county): exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "City or town part, where the city taxes food for home consumption: taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "City or town part, where the city's food-for-home-consumption rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "the tax must be applied uniformly with respect to all food, and an additional tax or fee differential may not be assessed or applied with respect to any specific food item."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled. MCTC § 462(f) requires a city food tax to apply uniformly to all food, so a city cannot tax candy differently from other food."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.grocery",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Arizona cities may tax food for home consumption that the state exempts; whether a city does, and at what rate, is the city's choice. County excise taxes exempt it like the state.",
+    "conditions": [
+      {
+        "when": "County excise tax part (every county): food for home consumption sold by a qualified retailer is exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "City or town part, where the city taxes food for home consumption (MCTC § 462 rate above zero): taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "City or town part, where the city's food-for-home-consumption rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      },
+      {
+        "title": "Arizona House bill summary, HB 2484 (2018) local food tax; equality, as chaptered",
+        "url": "https://azleg.gov/legtext/53leg/2R/summary/H.HB2484_03-26-18_CHAPTERED.DOCX.htm",
+        "quote": "However, a municipal tax may be levied on food for home consumption and food for consumption on the premises as permitted by MCTC"
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "Food intended for home consumption and sold by a qualifying retailer is generally exempt from TPT for state and county purposes."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.prepared.bakery",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items from a qualified retailer are food for home consumption: county taxes exempt them like the state, and a city taxes them only if it taxes food for home consumption; from a restaurant with eating facilities they are taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant or café with eating facilities that is not a qualified retailer: taxable for county and city",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Qualified retailer, county excise tax part: exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Qualified retailer, city part where the city taxes food for home consumption: taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Qualified retailer, city part where the city's food rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "Thus, a bakery’s sales are taxable in some cities and towns, regardless of the seller’s status or the nature of the food’s consumption."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.prepared.cold",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food sold to go by a grocery or deli is food for home consumption: county taxes exempt it like the state, and a city taxes it only if the city taxes food for home consumption.",
+    "conditions": [
+      {
+        "when": "County excise tax part (every county): exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "City or town part, where the city taxes food for home consumption: taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "City or town part, where the city's food-for-home-consumption rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food sold to go by a restaurant with eating facilities is taxable by Arizona cities and counties; from a seller with no eating facilities it is food for home consumption, exempt from county tax and taxed only by cities that tax food.",
+    "conditions": [
+      {
+        "when": "Seller provides eating facilities, or the item is a sandwich or a drink in a cup: taxable for county and city (city restaurant rate)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller provides no eating facilities, county excise tax part: exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller provides no eating facilities, city part where the city taxes food for home consumption: taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller provides no eating facilities, city part where the city's food rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Model City Tax Code § 455, Restaurants and Bars (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/restaurants-and-bars",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of preparing or serving food or beverage in a bar, cocktail lounge, restaurant, or similar establishment where articles of food or drink are prepared or served for consumption on or off the premises, including also the activity of catering."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.prepared.platter",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray with sandwiches or hot food, or from a caterer or restaurant, is taxable by Arizona cities and counties; a cold tray from a grocery is exempt from county tax and taxed only by cities that tax food for home consumption.",
+    "conditions": [
+      {
+        "when": "Holds sandwiches or hot food, or sold by a caterer or restaurant: taxable for county and city",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cold tray from a qualified retailer, county excise tax part: exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Cold tray from a qualified retailer, city part where the city taxes food for home consumption: taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cold tray from a qualified retailer, city part where the city's food rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Model City Tax Code § 455, Restaurants and Bars (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/restaurants-and-bars",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of preparing or serving food or beverage in a bar, cocktail lounge, restaurant, or similar establishment where articles of food or drink are prepared or served for consumption on or off the premises, including also the activity of catering."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled. Same tableware question as the AZ rule."
+  },
+  {
+    "tax": "AZ:local",
+    "code": "food.soft_drink",
+    "from": "2018-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A sealed soft drink sold for home consumption is food: county taxes exempt it like the state, and a city taxes it only if it taxes food for home consumption; drinks in cups or open containers are taxable everywhere.",
+    "conditions": [
+      {
+        "when": "Sold in a cup, glass or open container, or by a restaurant: taxable for county and city",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sealed container sold by a qualified retailer, county excise tax part: exempt, as for the state",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sealed container sold by a qualified retailer, city part where the city taxes food for home consumption: taxable at the city's food rate",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sealed container sold by a qualified retailer, city part where the city's food rate is zero",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "There is no general exemption for the sale of food for home consumption at the municipal level."
+      },
+      {
+        "title": "ADOR Taxpayer Information Ruling LR 21-001 (bakery food delivered to businesses), March 22, 2021",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_2021_lr21-001.pdf",
+        "quote": "The cities that choose not to tax food for home consumption have adopted a tax rate of zero percent."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "The tax rate shall be at an amount equal to ___ percent (__ %) of the gross income from the business activity upon every person engaging or continuing in the business of selling food for home consumption at retail."
+      },
+      {
+        "title": "Model City Tax Code § 462, Retail Sales: Food for Home Consumption (ADOR)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-food-home-consumption",
+        "quote": "Beverages sold in cups, glasses, or open containers."
+      }
+    ],
+    "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  }
+]

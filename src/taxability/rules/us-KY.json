@@ -1,0 +1,876 @@
+[
+  {
+    "tax": "KY",
+    "code": "construction.real_property.improvement",
+    "from": "2019-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A contractor building or improving real property pays Kentucky tax on its materials and does not charge sales tax to the owner on the contract.",
+    "conditions": [
+      {
+        "when": "The work is landscaping (lawn care, tree work, landscape design and installation), a taxable service since 2018-07-01 (KRS 139.200(2)(g))",
+        "treatment": "taxable"
+      },
+      {
+        "when": "An interior decorator or designer's turnkey project billed as decorating and design services (from 2023-01-01)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "103 KAR 26:070, Section 2(1)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/994/document.engrossed.pdf",
+        "quote": "are subject to the sales or use tax at the time of sale to the contractor, subcontractor, builder, or owner."
+      },
+      {
+        "title": "103 KAR 26:070, Section 8(2)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/994/document.engrossed.pdf",
+        "quote": "The contractor shall not bill sales tax as a separate charge to the customer on the cost of the construction contract."
+      },
+      {
+        "title": "KRS 139.200(2)(g)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Landscape design and installation services;"
+      }
+    ],
+    "notes": "2019-11-01 is the effective date of the current 103 KAR 26:070; contractors were consumers under earlier versions too (not read). Machinery or appliances sold and not permanently affixed are retail sales by a contractor-retailer."
+  },
+  {
+    "tax": "KY",
+    "code": "construction.real_property.repair",
+    "from": "2019-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A contractor repairing or repainting real property pays Kentucky tax on its materials and does not charge sales tax to the owner on the repair.",
+    "conditions": [
+      {
+        "when": "The work is landscaping (lawn care, tree work, landscape design and installation), a taxable service since 2018-07-01 (KRS 139.200(2)(g))",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Labor to repair or maintain commercial refrigeration equipment and systems with no goods sold in the transaction (from 2023-01-01, KRS 139.200(2)(av))",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Janitorial or cleaning services, taxable since 2018-07-01 (KRS 139.200(2)(h))",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "103 KAR 26:070, Section 2(1)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/994/document.engrossed.pdf",
+        "quote": "are subject to the sales or use tax at the time of sale to the contractor, subcontractor, builder, or owner."
+      },
+      {
+        "title": "103 KAR 26:070, Section 8(3)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/994/document.engrossed.pdf",
+        "quote": "The contractor shall not bill sales tax as a separate charge to the customer on the cost of the repair."
+      },
+      {
+        "title": "103 KAR 26:060, Section 3",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/993/document.engrossed.pdf",
+        "quote": "House painters are consumers and tax does not apply to charges for painting real estate."
+      }
+    ],
+    "notes": "2019-11-01 is the effective date of the current 103 KAR 26:070."
+  },
+  {
+    "tax": "KY",
+    "code": "delivery.exempt_goods",
+    "from": "2004-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A delivery charge for exempt goods is exempt in Kentucky, as part of the exempt sale.",
+    "conditions": [
+      {
+        "when": "One delivery charge covers an order with both taxable and exempt items (taxed under the bundling rules of KRS 139.215)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, December 2004",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202004%20-%20Dec.pdf",
+        "quote": "However, if the product being delivered is exempt, then the freight and delivery charge is exempt also."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, June 2004",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202004%20-%20Jun.pdf",
+        "quote": "delivery charges for nontaxable items are not taxable."
+      }
+    ],
+    "notes": "Mixed-order treatment from Sales Tax Facts, December 2020: \"Service or delivery charges added to an order that includes both taxable and exempt items are subject to sales tax per the bundling provisions of KRS 139.215(2)(a).\""
+  },
+  {
+    "tax": "KY",
+    "code": "delivery.taxable_goods",
+    "from": "2004-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Delivery charges for taxable goods are part of gross receipts and taxable in Kentucky, even when separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.010(18)(a)4",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "Delivery charges, which are defined as charges by the retailer for the preparation and delivery to a location designated by the purchaser including transportation, shipping, postage, handling, crating, and packing;"
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, June 2004",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202004%20-%20Jun.pdf",
+        "quote": "Any delivery charges made by or on behalf of the seller of taxable tangible personal property will be taxable regardless of how the delivery charges are billed."
+      }
+    ],
+    "notes": "Delivery the buyer arranges and pays directly to an independent carrier is not part of the sales price (Sales Tax Facts, June 2004)."
+  },
+  {
+    "tax": "KY",
+    "code": "food.candy",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is excluded from Kentucky's food exemption and is taxed at 6%; items containing flour or requiring refrigeration are not candy.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "KRS 139.485(3)(c)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Candy\" means a preparation of sugar, honey, or other natural or artificial sweeteners in combination with chocolate, fruits, nuts, or other ingredients or flavorings in the form of bars, drops, or pieces."
+      },
+      {
+        "title": "KRS 139.485(1)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "the terms \"retail sale,\" \"use,\" \"storage,\" and \"consumption\" as used in this chapter shall not include the sale, use, storage or consumption of food and food ingredients for human consumption"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date."
+  },
+  {
+    "tax": "KY",
+    "code": "food.catering",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered food served with the caterer's tableware is taxable prepared food in Kentucky, and charges added to it (service charges, mandatory gratuities, fees) are part of the taxable price.",
+    "conditions": [
+      {
+        "when": "Voluntary gratuity left by the customer",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold with eating utensils provided by the retailer, including plates, knives, forks, spoons, glasses, cups, napkins, or straws;"
+      },
+      {
+        "title": "KRS 139.010(18)(a)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "Charges by the retailer for any services necessary to complete the sale;"
+      },
+      {
+        "title": "103 KAR 27:220, Section 2(1)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/1016/document.engrossed.pdf",
+        "quote": "Tax shall apply to any charge added to the price of prepared food by a restaurant, including a mandatory gratuity, service charge, surcharge, or fee itemized on the invoice or ticket to the customer by the restaurant."
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date. 103 KAR 27:220 (current text effective 2020-04-01) speaks of restaurants; applying it to caterers is by analogy. Since 2023-01-01 social event planning and short-term space rental are also taxable services (KRS 139.200(2)(ai),(aj))."
+  },
+  {
+    "tax": "KY",
+    "code": "food.grocery",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients (groceries) are exempt from Kentucky sales tax; candy, soft drinks, prepared food, alcohol, tobacco and dietary supplements are excluded from the exemption.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine or nonmechanical self-service vending system",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(1)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "the terms \"retail sale,\" \"use,\" \"storage,\" and \"consumption\" as used in this chapter shall not include the sale, use, storage or consumption of food and food ingredients for human consumption"
+      },
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      },
+      {
+        "title": "KRS 139.485(4)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"food and food ingredients\" sold through vending machines or nonmechanical self-service vending systems shall be subject to the tax imposed by this chapter."
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.bakery",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without eating utensils provided by the seller are not prepared food and are exempt in Kentucky, even if warm.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils (plates, forks, napkins, cups) provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(h)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"prepared food\" shall not include the following items if sold without eating utensils provided by the seller:"
+      },
+      {
+        "title": "KRS 139.485(3)(h)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danishes, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, December 2019",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202019%20-%20Dec.pdf",
+        "quote": "Neither the bakery tissue, bag nor tray constitutes an eating utensil."
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date. Kentucky Sales Tax Facts (Dec. 2019) adds that utensils merely available in a self-service area do not make bakery items taxable."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.cold",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a store prepared is taxable at 6% in Kentucky when the store combined two or more ingredients (salads) or provides utensils; food it only cut, sliced or repackaged is exempt food.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller (e.g. deli salads), or sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, sliced, repackaged or pasteurized by the seller (sliced deli meat or cheese by weight, cut fruit), sold without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold without utensils by a seller whose primary NAICS classification is food manufacturing (sector 311, except 3118)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Two (2) or more food ingredients mixed or combined by the retailer for sale as a single item except food that is only cut, repackaged, or pasteurized by the retailer"
+      },
+      {
+        "title": "KRS 139.485(3)(g)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold with eating utensils provided by the retailer, including plates, knives, forks, spoons, glasses, cups, napkins, or straws;"
+      },
+      {
+        "title": "KRS 139.485(3)(h)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"prepared food\" shall not include the following items if sold without eating utensils provided by the seller:"
+      },
+      {
+        "title": "KRS 139.485(3)(h)1",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold by a seller whose proper primary North American Industry Classification System classification is manufacturing in sector 311, except subsector 3118; or"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares (combined, or served with its cups, straws, napkins or utensils) is prepared food, taxable at 6% in Kentucky.",
+    "conditions": [
+      {
+        "when": "A single uncombined food item only cut or repackaged, sold without utensils provided by the seller",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Two (2) or more food ingredients mixed or combined by the retailer for sale as a single item except food that is only cut, repackaged, or pasteurized by the retailer"
+      },
+      {
+        "title": "KRS 139.485(3)(g)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold with eating utensils provided by the retailer, including plates, knives, forks, spoons, glasses, cups, napkins, or straws;"
+      },
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date. Cold soft drinks are taxable in any case (excluded from food)."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.dine_in",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served on the seller's plates or with its utensils is prepared food, taxable at 6% in Kentucky, including bakery items served on a plate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold with eating utensils provided by the retailer, including plates, knives, forks, spoons, glasses, cups, napkins, or straws;"
+      },
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, December 2019",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202019%20-%20Dec.pdf",
+        "quote": "Another example of how these prepared food provisions apply is a restaurant serving a single piece of pie on a plate as taxable prepared food"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.hot",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the retailer is prepared food, taxable at 6% in Kentucky.",
+    "conditions": [
+      {
+        "when": "Bakery items sold without eating utensils provided by the seller, even if warm",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)1",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold in a heated state or heated by the retailer;"
+      },
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date. Heated bakery items sold without utensils fall under food.prepared.bakery (exempt)."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.platter",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxable at 6% in Kentucky when the seller combined different foods on it or provides utensils; a tray of food the seller only cut or repackaged, sold without utensils, is exempt food.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients combined by the seller (sandwich trays, meat-and-cheese trays with other items, vegetables with dip), or sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut or repackaged by the seller and sold without utensils (e.g. sliced fruit or vegetables only)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Two (2) or more food ingredients mixed or combined by the retailer for sale as a single item except food that is only cut, repackaged, or pasteurized by the retailer"
+      },
+      {
+        "title": "KRS 139.485(3)(g)3",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold with eating utensils provided by the retailer, including plates, knives, forks, spoons, glasses, cups, napkins, or straws;"
+      },
+      {
+        "title": "KRS 139.485(3)(h)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"prepared food\" shall not include the following items if sold without eating utensils provided by the seller:"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date. Whether arranging several cut foods on one tray is 'combining' them is not addressed in the sources read; the conditions follow the statute's wording."
+  },
+  {
+    "tax": "KY",
+    "code": "food.prepared.sandwich",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich assembled by the seller from two or more ingredients is prepared food, taxable at 6% in Kentucky.",
+    "conditions": [
+      {
+        "when": "Sold without eating utensils by a seller whose primary NAICS classification is food manufacturing (sector 311, except bakeries 3118)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(3)(g)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Two (2) or more food ingredients mixed or combined by the retailer for sale as a single item except food that is only cut, repackaged, or pasteurized by the retailer"
+      },
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "KRS 139.485(3)(h)1",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold by a seller whose proper primary North American Industry Classification System classification is manufacturing in sector 311, except subsector 3118; or"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date. The NAICS-311 exclusion depends on the seller's classification (a 2025 Kentucky Court of Appeals decision, DOR v. Hale, reportedly applied it to a deli/grocer); not read here."
+  },
+  {
+    "tax": "KY",
+    "code": "food.soft_drink",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are excluded from Kentucky's food exemption and are taxed at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.485(2)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Food and food ingredients\" shall not include:"
+      },
+      {
+        "title": "KRS 139.485(3)(e)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "\"Soft drinks\" means nonalcoholic beverages that contain natural or artificial sweeteners."
+      },
+      {
+        "title": "KRS 139.485(1)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "the terms \"retail sale,\" \"use,\" \"storage,\" and \"consumption\" as used in this chapter shall not include the sale, use, storage or consumption of food and food ingredients for human consumption"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "Text of KRS 139.485 in force since 2007-07-01 (2007 Ky. Acts ch. 141); the SSUTA food definitions date from 2004-07-01 and the food exemption from 1972, but only the current text was read, so 2007-07-01 is the earliest verified date."
+  },
+  {
+    "tax": "KY",
+    "code": "goods.general",
+    "from": "1990-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Kentucky's 6% sales tax; Kentucky has no local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.200 (lead-in)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "A tax is hereby imposed upon all retailers at the rate of six percent (6%) of the gross receipts derived from"
+      },
+      {
+        "title": "KRS 139.200(1)(a)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Tangible personal property, regardless of the method of delivery, made within this Commonwealth"
+      },
+      {
+        "title": "KRS 139.200, history",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Amended 1990 Ky. Acts ch. 476, Pt. VII A, sec. 617, effective July 1, 1990."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "1990-07-01 is the effective date of the 1990 amendment listed in the statute's history (the 6% rate); the tax on goods is older. The current statute text was read; earlier wording unverified."
+  },
+  {
+    "tax": "KY",
+    "code": "service.professional",
+    "from": "2019-10-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, engineering, consulting, IT, advertising agency) are not enumerated taxable services in Kentucky and are not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "103 KAR 26:010, Section 2(2)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/988/document.engrossed.pdf",
+        "quote": "The list in this subsection shall serve as general examples of persons rendering nontaxable professional services:"
+      },
+      {
+        "title": "103 KAR 26:010, Section 4",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/988/document.engrossed.pdf",
+        "quote": "Persons rendering services specifically enumerated in KRS 139.200 are retailers subject to sales tax."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "Sales Tax is imposed on the gross receipts derived from both retail sales of tangible personal property, digital property, and sales of certain services in Kentucky."
+      },
+      {
+        "title": "103 KAR 26:010, Section 2(2)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/988/document.engrossed.pdf",
+        "quote": "Accountants;"
+      },
+      {
+        "title": "103 KAR 26:010, Section 2(2)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/988/document.engrossed.pdf",
+        "quote": "Engineers; and"
+      },
+      {
+        "title": "103 KAR 26:010, Section 2(2)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/988/document.engrossed.pdf",
+        "quote": "Lawyers."
+      },
+      {
+        "title": "103 KAR 26:010, Section 1(2)",
+        "url": "https://apps.legislature.ky.gov/law/kar/downloads/docs/988/document.engrossed.pdf",
+        "quote": "(a) Advertising agencies;"
+      }
+    ],
+    "notes": "2019-10-04 is the effective date of the current 103 KAR 26:010. Consulting and IT services are not named but are not among the services enumerated in KRS 139.200. Exceptions: from 2023-01-01 website design and development, website hosting, telemarketing, public opinion polling, lobbying and executive recruitment are taxable (KRS 139.200(2)(r)-(w)); 'marketing services' were added by 2022 Ky. Acts ch. 212 and removed retroactively to 2023-01-01 by 2023 Ky. Acts ch. 92 (sec. 57), so advertising and marketing advice stays untaxed. Interior design has its own rule."
+  },
+  {
+    "tax": "KY",
+    "code": "service.professional.design",
+    "from": "2019-11-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2023, interior decorators and designers did not charge Kentucky sales tax on their service charges; they paid tax on the goods they installed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, September 2022",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202022%20-%20Sep.pdf",
+        "quote": "They also did not collect sales and use tax on their service charges to their customers."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, June 2022",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202022%20-%20Jun.pdf",
+        "quote": "(as) Interior decorating and design services."
+      }
+    ],
+    "notes": "Earliest verified date set to the current 103 KAR 26:070 (contractors, including interior decorating), effective 2019-11-01, which the September 2022 newsletter cites for the prior treatment."
+  },
+  {
+    "tax": "KY",
+    "code": "service.professional.design",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2023, interior decorating and design services are taxable in Kentucky at 6%.",
+    "conditions": [
+      {
+        "when": "Sold under a lump-sum or fixed-price contract executed on or before February 25, 2022 (KRS 139.202)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.200(2)(ar)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Interior decorating and design services;"
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, September 2022",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202022%20-%20Sep.pdf",
+        "quote": "Interior decorators and designers will charge sales and use tax to their customers for their services."
+      },
+      {
+        "title": "2022 Ky. Acts ch. 212 (HB 8), sec. 3",
+        "url": "https://apps.legislature.ky.gov/law/acts/22RS/documents/0212.pdf",
+        "quote": "(as) Interior decorating and design services;"
+      },
+      {
+        "title": "2022 Ky. Acts ch. 212 (HB 8), sec. 67",
+        "url": "https://apps.legislature.ky.gov/law/acts/22RS/documents/0212.pdf",
+        "quote": "Section 67. Sections 2 to 26, 29 to 32, 45 and 46 of this Act take effect on January 1, 2023."
+      }
+    ]
+  },
+  {
+    "tax": "KY",
+    "code": "service.professional.lobbying",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Lobbying services are subject to Kentucky sales tax from January 1, 2023.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky TaxAnswers, Lobbying Services",
+        "url": "https://taxanswers.ky.gov/Sales-and-Excise-Taxes/Pages/Lobbying-Services.aspx",
+        "quote": "For example, a lobbying provider located in Washington, D.C. lobbying on behalf of a Kentucky client would charge the Kentucky sales and use tax because the client is receiving or making first use of the service in Kentucky."
+      }
+    ],
+    "notes": "Effective date from HB 8 (2022), as the same page states. Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "KY",
+    "code": "software.custom.development",
+    "from": "2004-07-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software written to one customer's specifications is not prewritten software, so it is not tangible personal property and its sale is not taxed in Kentucky.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.010 (prewritten computer software)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "Computer software, including prewritten upgrades, that are not designed and developed by the author or other creator to the specifications of a specific purchaser;"
+      },
+      {
+        "title": "KRS 139.010 (tangible personal property)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "\"Tangible personal property\" means personal property which may be seen, weighed, measured, felt, or touched, or which is in any other manner perceptible to the senses and includes natural, artificial, and mixed gas, electricity, water, steam, and prewritten computer software;"
+      },
+      {
+        "title": "KRS 139.200 (lead-in)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "A tax is hereby imposed upon all retailers at the rate of six percent (6%) of the gross receipts derived from"
+      }
+    ],
+    "notes": "Exemption inferred from the definitions (only prewritten software is tangible personal property; custom programming is not an enumerated service); no DOR statement on custom software was read. 2004-07-01 is when the SSUTA software definitions took effect (Sales Tax Facts, April 2004); current statute text read."
+  },
+  {
+    "tax": "KY",
+    "code": "software.custom.development",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Custom software development is not taxed in Kentucky, except that from 2023 website design and development services are a taxable service.",
+    "conditions": [
+      {
+        "when": "The work is website design and development",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other software written to the customer's specifications",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.010 (prewritten computer software)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "Computer software, including prewritten upgrades, that are not designed and developed by the author or other creator to the specifications of a specific purchaser;"
+      },
+      {
+        "title": "KRS 139.010 (tangible personal property)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "\"Tangible personal property\" means personal property which may be seen, weighed, measured, felt, or touched, or which is in any other manner perceptible to the senses and includes natural, artificial, and mixed gas, electricity, water, steam, and prewritten computer software;"
+      },
+      {
+        "title": "KRS 139.200(2)(v)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Website design and development services;"
+      },
+      {
+        "title": "2022 Ky. Acts ch. 212 (HB 8), sec. 67",
+        "url": "https://apps.legislature.ky.gov/law/acts/22RS/documents/0212.pdf",
+        "quote": "Section 67. Sections 2 to 26, 29 to 32, 45 and 46 of this Act take effect on January 1, 2023."
+      }
+    ],
+    "notes": "Where website development ends and other custom programming begins is not defined in the statute; no DOR guidance on the boundary was read."
+  },
+  {
+    "tax": "KY",
+    "code": "software.custom.modification",
+    "from": "2004-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A reasonable, separately stated charge for modifying prewritten software to one customer's specifications is not part of the taxable prewritten software in Kentucky.",
+    "conditions": [
+      {
+        "when": "The modification charge is not separately stated from the prewritten software",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.010 (prewritten computer software)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "unless there is a reasonable, separately stated charge on an invoice or other statement of the price to the purchaser for the modification or enhancement."
+      },
+      {
+        "title": "KRS 139.010 (tangible personal property)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "\"Tangible personal property\" means personal property which may be seen, weighed, measured, felt, or touched, or which is in any other manner perceptible to the senses and includes natural, artificial, and mixed gas, electricity, water, steam, and prewritten computer software;"
+      }
+    ],
+    "notes": "Since 2023-01-01, modification work that is website design and development is a taxable service (KRS 139.200(2)(v)). Current statute text read; 2004-07-01 is the SSUTA definitions' start."
+  },
+  {
+    "tax": "KY",
+    "code": "software.prewritten",
+    "from": "2004-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in Kentucky, taxable at 6% whether delivered on media or downloaded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KRS 139.010 (tangible personal property)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "\"Tangible personal property\" means personal property which may be seen, weighed, measured, felt, or touched, or which is in any other manner perceptible to the senses and includes natural, artificial, and mixed gas, electricity, water, steam, and prewritten computer software;"
+      },
+      {
+        "title": "KRS 139.200(1)(a)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Tangible personal property, regardless of the method of delivery, made within this Commonwealth"
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, April 2004",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202004%20-%20Apr.pdf",
+        "quote": "beginning July 1, 2004, prewritten software and other tangible personal property such as books and movies that are downloaded electronically to Kentucky customers will be taxable on the same basis as comparable products delivered by mail or purchased over the counter."
+      }
+    ]
+  },
+  {
+    "tax": "KY",
+    "code": "software.saas",
+    "from": "2020-12-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2023, remotely accessed software (SaaS) that was never downloaded was not subject to Kentucky sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, December 2020",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202020%20-%20Dec.pdf",
+        "quote": "Software accessed via servers and in no way downloaded to the customer is not a retail sale of tangible personal property subject to Kentucky sales and use tax."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, June 2022",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202022%20-%20Jun.pdf",
+        "quote": "HB 8 expands the sales and use tax base to include a number of new services effective January 1, 2023."
+      }
+    ],
+    "notes": "Earliest verified at the December 2020 newsletter; the same treatment very likely applied from 2018 (SaaS was not an enumerated service until HB 8), but no earlier DOR statement was read."
+  },
+  {
+    "tax": "KY",
+    "code": "software.saas",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2023, prewritten computer software access services (SaaS) are a taxable service in Kentucky at 6%.",
+    "conditions": [
+      {
+        "when": "Sold under a lump-sum or fixed-price contract executed on or before February 25, 2022 (KRS 139.202)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Purchased for use outside Kentucky and used solely outside the state",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.200(2)(ax)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58186",
+        "quote": "Prewritten computer software access services; and"
+      },
+      {
+        "title": "KRS 139.010 (prewritten computer software access services)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58185",
+        "quote": "\"Prewritten computer software access services\" means the right of access to prewritten computer software where the object of the transaction is to use the prewritten computer software while possession of the prewritten computer software is maintained by the seller or a third party"
+      },
+      {
+        "title": "2022 Ky. Acts ch. 212 (HB 8), sec. 3",
+        "url": "https://apps.legislature.ky.gov/law/acts/22RS/documents/0212.pdf",
+        "quote": "(ay) Prewritten computer software access services."
+      },
+      {
+        "title": "2022 Ky. Acts ch. 212 (HB 8), sec. 67",
+        "url": "https://apps.legislature.ky.gov/law/acts/22RS/documents/0212.pdf",
+        "quote": "Section 67. Sections 2 to 26, 29 to 32, 45 and 46 of this Act take effect on January 1, 2023."
+      }
+    ]
+  }
+]

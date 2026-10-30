@@ -1,0 +1,469 @@
+[
+  {
+    "tax": "FL",
+    "code": "construction.real_property",
+    "from": "2014-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Under lump-sum, cost-plus or time-and-materials contracts the contractor is the consumer of its materials and charges the customer no tax, residential or commercial.",
+    "conditions": [
+      {
+        "when": "A retail-sale-plus-installation contract, listing and pricing the materials separately before work begins",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Florida DOR GT-800067 (R. 09/14), Sales and Use Tax on Construction, Improvements, Installations and Repairs",
+        "url": "https://floridarevenue.com/forms_library/current/gt800067.pdf",
+        "quote": "Under lump sum, cost plus, fixed fee, guaranteed price, or time-and-materials real property contracts,"
+      },
+      {
+        "title": "Florida DOR GT-800067 (R. 09/14), Sales and Use Tax on Construction, Improvements, Installations and Repairs",
+        "url": "https://floridarevenue.com/forms_library/current/gt800067.pdf",
+        "quote": "Should not charge tax to the customer."
+      },
+      {
+        "title": "Florida DOR GT-800067 (R. 09/14), Sales and Use Tax on Construction, Improvements, Installations and Repairs",
+        "url": "https://floridarevenue.com/forms_library/current/gt800067.pdf",
+        "quote": "include the activities of building, erecting, constructing, altering, improving, repairing, or maintaining real property"
+      }
+    ],
+    "notes": "GT-800067 is R. 09/14; 2014-09-01 is the earliest date read. Florida draws no line between residential and commercial real property for these contracts; repairs and improvements are both 'improvements to real property'. Commercial (nonresidential) cleaning and pest control are separately taxable services, not construction. Under a retail-sale-plus-installation contract the materials are taxed to the customer; the labour isn't."
+  },
+  {
+    "tax": "FL",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy and confections are excluded from the food exemption and taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Candy and any similar product regarded as candy or confection, based on its normal use, as indicated on the label or advertising thereof."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Candy and any similar product regarded as candy or confection, based on its normal use, as indicated on the label or advertising thereof."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered meals are taxable; the caterer's premises are where the meal is served.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food products sold as meals for consumption on or off the premises of the dealer."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Food products sold as meals for consumption on or off the premises of the dealer."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "The premises of a caterer with respect to catered meals or beverages shall be the place where such meals or beverages are served."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "The premises of a caterer with respect to catered meals or beverages shall be the place where such meals or beverages are served."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Service charges on the same bill go with the meal (Rule 12A-1.0011, not read). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food products for human consumption (groceries) are exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food products for human consumption are exempt from the tax imposed by this chapter."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Food products for human consumption are exempt from the tax imposed by this chapter."
+      },
+      {
+        "title": "Fla. Stat. § 212.054 (2018), discretionary sales surtax",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt from a bakery or store without eating facilities, or sold to go; taxable when sold for eating at a bakery's tables or by a restaurant.",
+    "conditions": [
+      {
+        "when": "Sold by a bakery, pastry shop or grocery for consumption off the premises",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold for consumption on the premises of a bakery with eating facilities",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold by a restaurant, lunch counter, cafeteria or like place",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Bakery products sold by bakeries, pastry shops, or like establishments that do not have eating facilities."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Bakery products sold by bakeries, pastry shops, or like establishments that do not have eating facilities."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Bakery products sold by bakeries, pastry shops, or like establishments having eating facilities, except when sold for consumption off the seller’s premises."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Bakery products sold by bakeries, pastry shops, or like establishments having eating facilities, except when sold for consumption off the seller’s premises."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a store prepares is taxable when sold for immediate consumption; food only sliced, or prepared elsewhere and sold sealed, stays exempt.",
+    "conditions": [
+      {
+        "when": "Prepared by the seller and sold for immediate consumption (single servings, salad bar, with utensils)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only sliced into smaller portions (deli meats and cheeses by weight)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Prepared off the premises and sold in its original sealed container",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food that is prepared, whether on or off the premises, and sold for immediate consumption. This does not apply to food prepared off the premises and sold in the original sealed container, or the slicing of products into smaller portions."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Food that is prepared, whether on or off the premises, and sold for immediate consumption. This does not apply to food prepared off the premises and sold in the original sealed container, or the slicing of products into smaller portions."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Rule 12A-1.0011's schedules for grocery delis weren't read (published only as .doc); whether bulk deli salads sold by the pound are 'for immediate consumption' is decided there. Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold by restaurants, lunch counters and cafeterias is taxable, to go as well.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food products served, prepared, or sold in or by restaurants, lunch counters, cafeterias, hotels, taverns, or other like places of business."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Food products served, prepared, or sold in or by restaurants, lunch counters, cafeterias, hotels, taverns, or other like places of business."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating at the seller's tables or counters, or on its tableware, is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food products furnished, prepared, or served for consumption at tables, chairs, or counters or from trays, glasses, dishes, or other tableware"
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Food products furnished, prepared, or served for consumption at tables, chairs, or counters or from trays, glasses, dishes, or other tableware"
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot prepared food is taxable, including cold sides sold with it for one price.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food products sold as hot prepared food products."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Food products sold as hot prepared food products."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party platter is taxable when it holds sandwiches or food the seller prepared for immediate consumption, and exempt when it holds only sliced meats, cheeses or food sold in sealed containers.",
+    "conditions": [
+      {
+        "when": "Sandwich platters, or food the seller prepared and sold for immediate consumption",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only sliced meats, cheeses or similar products arranged by the seller, not otherwise prepared",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant or caterer",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Sandwiches sold ready for immediate consumption on or off the seller’s premises."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Sandwiches sold ready for immediate consumption on or off the seller’s premises."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "or the slicing of products into smaller portions"
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "or the slicing of products into smaller portions"
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Rule 12A-1.0011's platter examples weren't read (published only as .doc). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches sold ready for immediate consumption are taxable, whether eaten on or off the premises.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Sandwiches sold ready for immediate consumption on or off the seller’s premises."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Sandwiches sold ready for immediate consumption on or off the seller’s premises."
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are excluded from the food exemption and taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Soft drinks, including, but not limited to, any nonalcoholic beverage, any preparation or beverage commonly referred to as a “soft drink,”"
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "Soft drinks, including, but not limited to, any nonalcoholic beverage, any preparation or beverage commonly referred to as a “soft drink,”"
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at 6% plus any county discretionary surtax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. § 212.05 (2018), sales tax imposed",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. § 212.054 (2018), discretionary sales surtax",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      }
+    ],
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "service.professional",
+    "from": "2016-08-08",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Florida taxes only enumerated services; professional, consulting, IT, design and advertising services are not among them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "Pure service transactions that do not involve the sale of tangible personal property are generally not subject to tax under Florida law"
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Also exempted are professional, insurance, or personal service transactions that involve sales as inconsequential elements for which no separate charges are made."
+      }
+    ],
+    "notes": "Applies to every professional subcode. Services Florida does tax (nonresidential cleaning, nonresidential pest control, detective and security services, commercial rentals) are outside these codes; an interior designer's sale of furnishings is a sale of goods."
+  },
+  {
+    "tax": "FL",
+    "code": "software.custom",
+    "from": "2016-08-08",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Customized software, and modifying prewritten software to a customer's specifications, is a nontaxable service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "provides that a sale of customized software is a service transaction and is not subject to sales tax, provided the customized software is not part of the sale of other tangible personal property"
+      },
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "Customized software is defined as modifying or altering the prepackaged program to the customer’s specifications, at the customer's request."
+      }
+    ],
+    "notes": "Taxable when sold as part of a sale of tangible personal property (e.g. with hardware)."
+  },
+  {
+    "tax": "FL",
+    "code": "software.prewritten",
+    "from": "2016-08-08",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Canned software is taxable on a tangible medium and exempt when only downloaded.",
+    "conditions": [
+      {
+        "when": "Supplied on a disk or other tangible medium",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only downloaded electronically",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "provides that prepackaged or canned software supplied on a tangible medium is taxable"
+      },
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "Likewise exempt is a sale that solely involves software, canned or customized, electronically downloaded by the customer, as there is no conveyance of tangible personal property."
+      }
+    ],
+    "notes": "Per Rule 12A-1.032(4) as quoted in TAA 16A-014. Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts."
+  },
+  {
+    "tax": "FL",
+    "code": "software.saas",
+    "from": "2016-08-08",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remotely accessed software, with nothing tangible delivered, is not a sale of tangible personal property and isn't taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "Based on the facts provided, the sale of the subscriptions to the software and the sale of the cloudcomputing services described in your letter are not subject to Florida sales and use tax."
+      },
+      {
+        "title": "Florida DOR Technical Assistance Advisement 16A-014 (August 8, 2016), computer software and cloud computing services",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/16A-014.pdf",
+        "quote": "Pure service transactions that do not involve the sale of tangible personal property are generally not subject to tax under Florida law"
+      }
+    ],
+    "notes": "A TAA binds the Department only on its facts; it applies Rule 12A-1.032 and § 212.02, F.S. Software accessed as part of a sale of hardware is taxable with the hardware. Florida's communications services tax is a separate tax, not modelled here."
+  }
+]

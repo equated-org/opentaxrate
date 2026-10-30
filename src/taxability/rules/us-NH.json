@@ -1,0 +1,362 @@
+[
+  {
+    "tax": "NH",
+    "code": "construction.real_property",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction and repair of real property: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "delivery",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "food.candy",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "food.catering",
+    "from": "2021-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.085,
+    "summary": "New Hampshire has no sales tax, but meals are taxed at 8.5% by its Meals and Rooms Tax (RSA 78-A), which this rate is.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA: Meals & Rooms (Rentals) Tax",
+        "url": "https://www.revenue.nh.gov/taxes-glance/meals-rooms-rentals-tax",
+        "quote": "The tax rate is 8.5% for taxable periods beginning October 1, 2021."
+      }
+    ],
+    "notes": "The Meals and Rooms Tax is a separate state tax, not in OpenTaxRate's general rates (which are 0 in NH); this rule's rate is that tax. Before 2021-10-01 the rate was 9%: not researched. Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "NH",
+    "code": "food.grocery",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Groceries: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "food.prepared",
+    "from": "2021-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.085,
+    "summary": "New Hampshire has no sales tax, but meals are taxed at 8.5% by its Meals and Rooms Tax (RSA 78-A), which this rate is.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA: Meals & Rooms (Rentals) Tax",
+        "url": "https://www.revenue.nh.gov/taxes-glance/meals-rooms-rentals-tax",
+        "quote": "The tax rate is 8.5% for taxable periods beginning October 1, 2021."
+      }
+    ],
+    "notes": "The Meals and Rooms Tax is a separate state tax, not in OpenTaxRate's general rates (which are 0 in NH); this rule's rate is that tax. Before 2021-10-01 the rate was 9%: not researched. Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "NH",
+    "code": "food.soft_drink",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Soft drinks: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read. Soft drinks served by a restaurant can be part of a taxable meal under the Meals and Rooms Tax."
+  },
+  {
+    "tax": "NH",
+    "code": "goods.general",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Retail sales of goods: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "service.professional",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "software.custom",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "software.prewritten",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Prewritten software: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH",
+    "code": "software.saas",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remotely accessed software: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28; New Hampshire has never had a general sales tax, but earlier text was not read."
+  },
+  {
+    "tax": "NH:local",
+    "code": "food.catering",
+    "from": "2021-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "New Hampshire has no local sales or meals taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "Required beside the state's special rate; NH has no local tax parts."
+  },
+  {
+    "tax": "NH:local",
+    "code": "food.prepared",
+    "from": "2021-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "New Hampshire has no local sales or meals taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ (official page as archived 2016-11-28)",
+        "url": "https://web.archive.org/web/20161128201106/http://revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "Required beside the state's special rate; NH has no local tax parts."
+  }
+]

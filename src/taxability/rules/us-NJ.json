@@ -1,0 +1,691 @@
+[
+  {
+    "tax": "NJ",
+    "code": "construction.real_property.improvement",
+    "from": "2017-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Capital improvements to real property are exempt in New Jersey when the owner gives the contractor Form ST-8; carpet and flooring, landscaping plantings and hard-wired alarm installations are taxable even as capital improvements.",
+    "conditions": [
+      {
+        "when": "A capital improvement (new construction, an addition, new siding, a kitchen remodel) with a completed Form ST-8 given to the contractor",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Carpet or other flooring installation, planting or new lawn landscaping, or a hard-wired alarm or security system",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A capital improvement without Form ST-8: the contractor charges tax",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-2, Sales Tax and Home Improvements (Rev. 9/17)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su2.pdf",
+        "quote": "Capital improvement means an installation of tangible personal property that increases the capital value or useful life of the real property (land or buildings)."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-2, Sales Tax and Home Improvements (Rev. 9/17)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su2.pdf",
+        "quote": "Capital improvements are exempt from tax with the exception of the following: certain landscaping services, carpet and other floor covering installations, and hard-wired alarm or security system installations."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-2, Sales Tax and Home Improvements (Rev. 9/17)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su2.pdf",
+        "quote": "the contractor may not collect Sales Tax from you on any charges (materials or labor) if you give the contractor a completed Certificate of Exempt Capital Improvement (Form ST‑8)."
+      }
+    ],
+    "notes": "Whether the work is in the excepted kinds, and whether Form ST-8 is given, are not carried by the code. Earliest date: S&U-2 'Rev. 9/17' (read as in force by 2017-09-30). New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "construction.real_property.repair",
+    "from": "2017-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repairs and maintenance of real property are taxable in New Jersey, on the whole bill when labour and materials are billed together.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-2, Sales Tax and Home Improvements (Rev. 9/17)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su2.pdf",
+        "quote": "Repair (to real property) means work that restores property to working condition; it does not add to the value or prolong the life of the property."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-2, Sales Tax and Home Improvements (Rev. 9/17)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su2.pdf",
+        "quote": "if the contractor charges you a lump sum for the taxable capital improvement, repair, maintenance, or installation service without separating the charge for materials from the charge for labor, you are required to pay the Sales Tax on the total amount of the bill."
+      }
+    ],
+    "notes": "When materials and labour are separately stated, tax is charged on the labour only. Maintaining, servicing or repairing a residential heating system serving no more than three families is exempt (S&U-2). Earliest date: S&U-2 'Rev. 9/17'. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "delivery.exempt_goods",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for nontaxable goods are not taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Tax is not imposed on delivery charges for nontaxable items like clothing, property purchased for resale, and property covered by any other statutory exemption provision."
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "delivery.taxable_goods",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges are taxable in New Jersey when the goods delivered are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Sales Tax is imposed on the charges for delivery of property (or services) from a seller directly to a customer if the items sold are subject to tax."
+      }
+    ],
+    "notes": "A mixed shipment is allocated by price or weight; unallocated, the whole charge is taxable. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.candy",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Candy (taxable) means a preparation of sugar, honey, or other natural or artificial sweeteners"
+      }
+    ],
+    "notes": "Items containing flour are not candy (exempt food). Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.catering",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering services are taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Catering Services ....................................................T"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Sales of prepared food are subject to Sales Tax."
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.grocery",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients sold as groceries are exempt from New Jersey sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Exempt items include most food sold as grocery items"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food and food ingredients (exempt) means substances, whether in liquid, concentrated, solid, frozen, dried, or dehydrated form"
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.bakery",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt in New Jersey unless the seller provides eating utensils with them.",
+    "conditions": [
+      {
+        "when": "Sold without eating utensils (plates, cutlery, napkins, cups, straws) from the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Bakery items sold as such, including bread, rolls, buns, bagels, donuts, cookies, muffins, etc."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The following are not treated as prepared food, unless the seller provides eating utensils with the items:"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Eating utensils include plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.cold",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a store prepares is taxable when combined into a single item or sold with utensils; food sold unheated by weight or volume as a single item, or only cut and repackaged, is exempt.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (e.g. potato salad by the pound), or only cut or repackaged by the seller, without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller and sold as a single item not by weight (e.g. a packaged meal or salad), or sold with utensils",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Two or more food ingredients combined by the seller and sold as a single item; or"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold in an unheated state by weight or volume as a single item; and"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The following are not treated as prepared food, unless the seller provides eating utensils with the items:"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller, as well as eggs, fish, meat, poultry, and foods that contain these raw animal foods that require cooking by the consumer are not treated as prepared food."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold with eating utensils provided by the seller."
+      }
+    ],
+    "notes": "How the food is sold is not carried by the code. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a restaurant prepares is taxable prepared food, unless sold unheated by weight or volume as a single item without utensils.",
+    "conditions": [
+      {
+        "when": "Combined by the restaurant into a single item, or sold with utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item, without utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The sale of prepared food by restaurants, taverns, delicatessens, or other establishments engaged in selling food that fits within the definition of prepared food is subject to Sales Tax."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Two or more food ingredients combined by the seller and sold as a single item; or"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold in an unheated state by weight or volume as a single item; and"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The following are not treated as prepared food, unless the seller provides eating utensils with the items:"
+      }
+    ],
+    "notes": "Under the SSUTA threshold rules a seller whose prepared food is most of its sales may 'provide' utensils by making them available; that test was not read in the Division's own text. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.dine_in",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served by a restaurant or similar establishment for eating there is taxable prepared food in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The sale of prepared food by restaurants, taverns, delicatessens, or other establishments engaged in selling food that fits within the definition of prepared food is subject to Sales Tax."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold with eating utensils provided by the seller."
+      }
+    ],
+    "notes": "Plates and tableware are eating utensils provided by the seller. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.hot",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hot food is taxable prepared food in New Jersey, wherever sold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Sales of prepared food are subject to Sales Tax."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold in a heated state or heated by the seller; or"
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.platter",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A platter of foods the seller combined is taxable prepared food; a platter of a single food only cut and arranged is not, unless sold with utensils.",
+    "conditions": [
+      {
+        "when": "Two or more foods combined by the seller (e.g. a sandwich or cold-cut and cheese platter), or sold with utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A single food only cut and repackaged (e.g. cut fruit), without utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Two or more food ingredients combined by the seller and sold as a single item; or"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller, as well as eggs, fish, meat, poultry, and foods that contain these raw animal foods that require cooking by the consumer are not treated as prepared food."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold with eating utensils provided by the seller."
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.prepared.sandwich",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A sandwich the seller makes is taxable prepared food; one made by a manufacturer and resold without utensils is not.",
+    "conditions": [
+      {
+        "when": "Made by the seller (two or more ingredients combined by the seller)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Made by a food manufacturer and resold prepackaged, without utensils",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Two or more food ingredients combined by the seller and sold as a single item; or"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The following are not treated as prepared food, unless the seller provides eating utensils with the items:"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold by a seller that is a manufacturer;"
+      }
+    ],
+    "notes": "Who made the sandwich is not carried by the code. A resold manufacturer's sandwich is read as exempt food from the definition; TB-70 was not read for this case. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "food.soft_drink",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Soft drinks (taxable) are nonalcoholic beverages in liquid form that contain natural or artificial"
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "goods.general",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "The New Jersey Sales and Use Tax Act imposes a tax on the receipts from every retail sale of tangible personal property, specified digital products, and the sale of certain services, except as otherwise provided in the Act."
+      }
+    ],
+    "notes": "Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.accounting",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, bookkeeping and similar professional services are not taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Accounting Services:"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Professional Services (doctor, lawyer, etc.) ... E"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Bookkeeping Services...........................................E"
+      }
+    ],
+    "notes": "New Jersey taxes only the services N.J.S.A. 54:32B-3(b) lists; S&U-4's list marks this one exempt. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.advertising",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising services are generally not taxable in New Jersey; printed advertising materials sold are.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Advertising Services (in general) ......................E"
+      }
+    ],
+    "notes": "New Jersey taxes only the services N.J.S.A. 54:32B-3(b) lists; S&U-4's list marks this one exempt. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.consulting",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not a taxable service in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Professional Services (doctor, lawyer, etc.) ... E"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "and the sale of certain services, except as otherwise provided in the Act"
+      }
+    ],
+    "notes": "Consulting is not named in S&U-4's list; it is read as a professional service, and it is not among the enumerated taxable services of N.J.S.A. 54:32B-3(b). Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.design",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design services are not taxable in New Jersey; furnishings sold with them are.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Interior Design.........................................................E"
+      }
+    ],
+    "notes": "New Jersey taxes only the services N.J.S.A. 54:32B-3(b) lists; S&U-4's list marks this one exempt. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.engineering",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are not taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Architectural Services (in general) ...................E"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Professional Services (doctor, lawyer, etc.) ... E"
+      }
+    ],
+    "notes": "New Jersey taxes only the services N.J.S.A. 54:32B-3(b) lists; S&U-4's list marks this one exempt. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.it",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT consulting, data processing and web design are not taxable in New Jersey; maintenance and repair of computers (and of prewritten software) is.",
+    "conditions": [
+      {
+        "when": "IT consulting, systems integration, data processing, IT training, website design",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Maintenance, repair or support of computer hardware or prewritten software (tangible personal property)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Data Processing Services ..................................... E"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Computer Maintenance/Repair ........................ T"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Website Design ....................................................... E"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "In addition, most services performed on tangible personal property and specified digital products are taxable unless they are specifically exempted by law."
+      }
+    ],
+    "notes": "Help-desk support sold as maintenance of hardware or prewritten software is read as a service to tangible personal property; S&U-4 lists 'Computer Maintenance/Repair' as taxable but does not discuss help desks. Which service is sold is not carried by the code. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.legal",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Professional Services (doctor, lawyer, etc.) ... E"
+      }
+    ],
+    "notes": "New Jersey taxes only the services N.J.S.A. 54:32B-3(b) lists; S&U-4's list marks this one exempt. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "software.custom.development",
+    "from": "2011-07-05",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software written for one customer's exclusive use is a nontaxable professional service in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation TB-51(R), Taxability of Software (issued July 5, 2011)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb51r.pdf",
+        "quote": "That customer’s purchase of this entirely custom-made software is treated as a nontaxable professional service transaction and is not subject to Sales Tax."
+      }
+    ],
+    "notes": "New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "software.custom.modification",
+    "from": "2011-07-05",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated, reasonable charge for modifying prewritten software for a customer is exempt from New Jersey sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation TB-51(R), Taxability of Software (issued July 5, 2011)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb51r.pdf",
+        "quote": "A separately stated, commercially reasonable charge for the professional service of modifying the software for the customer is not treated as a charge for the sale of prewritten computer software and is therefore exempt from Sales Tax."
+      }
+    ],
+    "notes": "The code's 'charged separately' meets the condition; a lump sum makes the whole charge taxable. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "software.prewritten",
+    "from": "2011-07-05",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxable in New Jersey, except that software delivered electronically is exempt when used directly and exclusively in the buyer's business.",
+    "conditions": [
+      {
+        "when": "Delivered electronically and used directly and exclusively in the conduct of the buyer's business, trade or occupation",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Delivered electronically to an individual for personal use",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered on tangible media, any buyer",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation TB-51(R), Taxability of Software (issued July 5, 2011)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb51r.pdf",
+        "quote": "allowing an exemption for sales of electronically delivered prewritten software only when it is to be used directly and exclusively in the conduct of the purchaser’s business, trade, or occupation"
+      },
+      {
+        "title": "NJ Division of Taxation TB-51(R), Taxability of Software (issued July 5, 2011)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb51r.pdf",
+        "quote": "“Tangible personal property” includes prewritten computer software including prewritten computer software delivered electronically."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Used directly in the conduct of the"
+      }
+    ],
+    "notes": "Buyer, use and delivery form are not carried by the code. In force since 2006-10-01 (P.L. 2006, c. 44); earliest dated text read: TB-51(R), 2011-07-05. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "software.saas",
+    "from": "2013-07-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software accessed remotely (SaaS) is not taxable in New Jersey, unless it is the means of delivering a taxable information service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation TB-72, Cloud Computing (issued July 3, 2013)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb72.pdf",
+        "quote": "Use of a software application is not listed as a taxable service. Therefore, most charges for SaaS are not subject to Sales Tax."
+      },
+      {
+        "title": "NJ Division of Taxation TB-72, Cloud Computing (issued July 3, 2013)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb72.pdf",
+        "quote": "When use of the software does not relate to the provision of information services, SaaS is not subject to Sales Tax."
+      }
+    ],
+    "notes": "SaaS used to furnish a taxable information service (e.g. legal or tax research databases) is taxable as an information service (TB-72); that is a different product from this code. Earliest date: TB-72's issue. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  }
+]

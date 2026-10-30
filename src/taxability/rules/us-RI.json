@@ -1,0 +1,675 @@
+[
+  {
+    "tax": "RI",
+    "code": "construction.real_property",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction, improvement and repair of real property is not taxed to the owner in Rhode Island; the contractor pays tax as consumer on its materials.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-54, Contractors (effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-54",
+        "quote": "“Construction contract” means a contract for the repair, alteration, improvement, remodeling or construction of real property."
+      },
+      {
+        "title": "280-RICR-20-70-54, Contractors (effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-54",
+        "quote": "A contractor shall pay the tax as a consumer on the purchase of all materials, supplies, tools and equipment"
+      }
+    ],
+    "notes": "A contractor that sells and installs complete units of standard equipment acts as a retailer (not this code). Earliest date: current version of the regulation (01/04/2022)."
+  },
+  {
+    "tax": "RI",
+    "code": "delivery.exempt_goods",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for exempt goods are not taxable in Rhode Island.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-15, Delivery Charges (effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-15",
+        "quote": "If the property sold is exempt, delivery charges are not subject to sales tax."
+      }
+    ]
+  },
+  {
+    "tax": "RI",
+    "code": "delivery.taxable_goods",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges for taxable goods are part of the taxable sales price in Rhode Island.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-15, Delivery Charges (effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-15",
+        "quote": "“Delivery charges” are included in the “sales price” of property and therefore subject to sales tax if the property sold is taxable."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-12, Sales price",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-12.htm",
+        "quote": "Delivery charges, as defined in § 44-18-7.1(i)"
+      }
+    ],
+    "notes": "Charged at the goods' rate. A shipment of taxable and exempt goods is allocated by price or weight."
+  },
+  {
+    "tax": "RI",
+    "code": "food.candy",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is taxable in Rhode Island at 7%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-30(9)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.htm",
+        "quote": "“food and food ingredients” shall not include candy, soft drinks, dietary supplements, alcoholic beverages, tobacco, food sold through vending machines, or prepared food"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Candy as defined in § 4.5(C) of this Part is subject to sales tax"
+      }
+    ],
+    "notes": "Items containing flour are not candy (exempt food). Candy sold by an eating establishment is not a 'meal or beverage', so the 1% meals and beverage tax is not read to apply. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.catering",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Catering is taxed at 8% in Rhode Island on the whole charge (7% sales tax plus the 1% meals and beverage tax).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "The tax applies to the entire charge made by caterers for serving meals, food, and soft/alcoholic drinks, inclusive of charges for food, the use of dishes, silverware, glasses, chairs, tables, etc., used in connection with serving meals, and for the labor of serving the meals."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "clubs, caterers, drive-in theatres"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 7%: 8%, the 7% sales tax plus the 1% local meals and beverage tax (R.I. Gen. Laws § 44-18-18.1). That 1% is levied statewide on every eating and drinking establishment and collected by the Division of Taxation with the sales tax (the cities and towns only receive it), and Rhode Island has no other local sales tax, so it is modelled as part of the state part's rate rather than as a local part. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.grocery",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients (groceries) are exempt from Rhode Island sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-30(9)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.htm",
+        "quote": "From the sale and storage, use, or other consumption in this state of food and food ingredients"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-30(9)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.htm",
+        "quote": "“food and food ingredients” shall not include candy, soft drinks, dietary supplements, alcoholic beverages, tobacco, food sold through vending machines, or prepared food"
+      }
+    ],
+    "notes": "Candy, soft drinks, dietary supplements, alcohol, tobacco, vending-machine food and prepared food are excluded from the exemption (separate codes). Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.bakery",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils are exempt; with utensils they are taxable prepared food, 8% from an eating or drinking establishment and 7% from a store without eating facilities.",
+    "conditions": [
+      {
+        "when": "Sold without utensils (plates, cutlery, napkins, cups, straws) provided by the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with utensils by an eating and/or drinking establishment (e.g. a bakery/café with seating)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Sold with utensils by a store without eating facilities",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Bakery items sold as such, including but not limited to bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, Danish, cakes, tortes, pie, tarts, muffins, bars, cookies, and tortillas unless sold by the seller with utensils;"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "A convenience or food store sells prepared food but does not provide facilities for immediate consumption (tables, chairs or counters); the store is not an “eating and/or drinking establishment; therefore, the one percent (1%) local meals and beverage tax does not apply."
+      }
+    ],
+    "notes": "Whether utensils are 'provided by the seller' follows the threshold test: a seller whose prepared food sales exceed 75% provides utensils merely by making them available (280-RICR-20-70-4.13). The 1% local meals and beverage tax applies only when an eating and/or drinking establishment sells a meal (280-RICR-20-70-4.8); a food store becomes one if it provides seating or counters for eating (the whole store, or only a separately registered area). The seller's kind is not carried by the code. The 8% condition is the 7% sales tax plus that statewide 1%, a rate of its own, HIGHER than 7%. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.cold",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a store prepared is exempt when sold unheated by weight or volume as a single item without utensils; otherwise it is taxable prepared food, 8% where the store has eating facilities or a deli selling platters and sandwiches.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (e.g. potato salad by the pound), without utensils from the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller into a single item, or sold with utensils, by a store that has eating facilities or a deli area (or by that area)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Combined by the seller into a single item, or sold with utensils, by a food store without eating facilities or a deli area",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food sold in an unheated state by weight or volume as a single item unless sold by the seller with utensils;"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food items that are a result of the combination of two or more food ingredients by the seller to make single items except:"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "The term caterer also includes a delicatessen store or deli area within a food store that sells prepared food as part of a party platter, deli tray, sandwiches etc."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "A convenience or food store sells prepared food but does not provide facilities for immediate consumption (tables, chairs or counters); the store is not an “eating and/or drinking establishment; therefore, the one percent (1%) local meals and beverage tax does not apply."
+      }
+    ],
+    "notes": "The 1% local meals and beverage tax applies only when an eating and/or drinking establishment sells a meal (280-RICR-20-70-4.8); a food store becomes one if it provides seating or counters for eating (the whole store, or only a separately registered area). The seller's kind is not carried by the code. The 8% condition is the 7% sales tax plus that statewide 1%, a rate of its own, HIGHER than 7%. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a restaurant prepares is taxable prepared food at 8%, unless sold unheated by weight or volume as a single item without utensils.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (e.g. a quart of soup or salad by volume), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the restaurant into a single item, or sold with utensils (sold by an eating and/or drinking establishment)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food items that are a result of the combination of two or more food ingredients by the seller to make single items except:"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food sold in an unheated state by weight or volume as a single item unless sold by the seller with utensils;"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "A convenience or food store sells prepared food but does not provide facilities for immediate consumption (tables, chairs or counters); the store is not an “eating and/or drinking establishment; therefore, the one percent (1%) local meals and beverage tax does not apply."
+      }
+    ],
+    "notes": "Food sold by weight or volume without utensils is not 'prepared food', so it is neither taxable nor a 'meal' for the 1% tax (which taxes meals, defined as prepared food). The 1% local meals and beverage tax applies only when an eating and/or drinking establishment sells a meal (280-RICR-20-70-4.8); a food store becomes one if it provides seating or counters for eating (the whole store, or only a separately registered area). The seller's kind is not carried by the code. The 8% condition is the 7% sales tax plus that statewide 1%, a rate of its own, HIGHER than 7%. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.dine_in",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Food served for eating at the seller's tables or counters is taxed at 8% in Rhode Island (7% sales tax plus the 1% meals and beverage tax).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Prepared Food and Meals are subject to tax based on the definitions in § 4.5(I) of this Part and the application of the Threshold Test in § 4.13 of this Part."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "other like places of business that furnish or provide facilities for immediate consumption of food at tables, chairs, or, counters"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "that business may issue sales checks or other proof of sale with the taxes combined at an eight percent (8%) rate"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 7%: 8%, the 7% sales tax plus the 1% local meals and beverage tax (R.I. Gen. Laws § 44-18-18.1). That 1% is levied statewide on every eating and drinking establishment and collected by the Division of Taxation with the sales tax (the cities and towns only receive it), and Rhode Island has no other local sales tax, so it is modelled as part of the state part's rate rather than as a local part. A seller that provides tables, chairs or counters for eating is an eating and/or drinking establishment. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.hot",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Hot prepared food is taxable: 8% from an eating or drinking establishment, 7% from a food store without eating facilities.",
+    "conditions": [
+      {
+        "when": "Sold by an eating and/or drinking establishment (restaurant, café, or a food store that provides seating or counters for eating)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Sold by a food store or supermarket without eating facilities (or from its separately registered grocery section)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food sold in a heated state or heated by the seller;"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Prepared Food and Meals are subject to tax based on the definitions in § 4.5(I) of this Part and the application of the Threshold Test in § 4.13 of this Part."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "A convenience or food store sells prepared food but does not provide facilities for immediate consumption (tables, chairs or counters); the store is not an “eating and/or drinking establishment; therefore, the one percent (1%) local meals and beverage tax does not apply."
+      }
+    ],
+    "notes": "The 1% local meals and beverage tax applies only when an eating and/or drinking establishment sells a meal (280-RICR-20-70-4.8); a food store becomes one if it provides seating or counters for eating (the whole store, or only a separately registered area). The seller's kind is not carried by the code. The 8% condition is the 7% sales tax plus that statewide 1%, a rate of its own, HIGHER than 7%. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.platter",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Prepared party platters and deli trays are taxed at 8% in Rhode Island: a deli or food store deli area selling them is a caterer, which is an eating establishment.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "The term caterer also includes a delicatessen store or deli area within a food store that sells prepared food as part of a party platter, deli tray, sandwiches etc."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food items that are a result of the combination of two or more food ingredients by the seller to make single items except:"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "clubs, caterers, drive-in theatres"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 7%: 8%, the 7% sales tax plus the 1% local meals and beverage tax (R.I. Gen. Laws § 44-18-18.1). That 1% is levied statewide on every eating and drinking establishment and collected by the Division of Taxation with the sales tax (the cities and towns only receive it), and Rhode Island has no other local sales tax, so it is modelled as part of the state part's rate rather than as a local part. A platter of a single food sold by weight without utensils (e.g. sliced cheese only) may not be 'prepared food'; not separated here. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.prepared.sandwich",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A sandwich made by the seller is taxable prepared food: 8% from an eating establishment or a deli (including a food store's deli area), 7% from a food store without a deli or eating facilities.",
+    "conditions": [
+      {
+        "when": "Sold by an eating and/or drinking establishment, or by a delicatessen or a food store's deli area (a 'caterer' under the regulation)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Sold by a food store without a deli area or eating facilities",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food items that are a result of the combination of two or more food ingredients by the seller to make single items except:"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "The term caterer also includes a delicatessen store or deli area within a food store that sells prepared food as part of a party platter, deli tray, sandwiches etc."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "A convenience or food store sells prepared food but does not provide facilities for immediate consumption (tables, chairs or counters); the store is not an “eating and/or drinking establishment; therefore, the one percent (1%) local meals and beverage tax does not apply."
+      }
+    ],
+    "notes": "A deli area within a food store that sells sandwiches is a caterer, and caterers are eating and/or drinking establishments. The 1% local meals and beverage tax applies only when an eating and/or drinking establishment sells a meal (280-RICR-20-70-4.8); a food store becomes one if it provides seating or counters for eating (the whole store, or only a separately registered area). The seller's kind is not carried by the code. The 8% condition is the 7% sales tax plus that statewide 1%, a rate of its own, HIGHER than 7%. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "food.soft_drink",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks are taxable at 7%, plus the 1% meals and beverage tax (8%) when sold by an eating or drinking establishment.",
+    "conditions": [
+      {
+        "when": "Sold by an eating and/or drinking establishment (restaurant, café, store with eating facilities)",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Sold by a food store or other seller without eating facilities",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-30(9)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.htm",
+        "quote": "“food and food ingredients” shall not include candy, soft drinks, dietary supplements, alcoholic beverages, tobacco, food sold through vending machines, or prepared food"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Soft Drinks as defined in § 4.5(J) of this Part are subject to sales tax."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "“Beverage” means all nonalcoholic beverages"
+      }
+    ],
+    "notes": "The 1% local meals and beverage tax applies only when an eating and/or drinking establishment sells a meal (280-RICR-20-70-4.8); a food store becomes one if it provides seating or counters for eating (the whole store, or only a separately registered area). The seller's kind is not carried by the code. The 8% condition is the 7% sales tax plus that statewide 1%, a rate of its own, HIGHER than 7%. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); the SST-based rules are older (the 1% since 2003-08-01) but earlier versions were not read."
+  },
+  {
+    "tax": "RI",
+    "code": "goods.general",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in Rhode Island at 7%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-18, Sales tax imposed",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.htm",
+        "quote": "A tax is imposed upon sales at retail in this state"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18, Sales tax imposed",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.htm",
+        "quote": "for the period commencing July 1, 1990, the tax rate is seven percent (7%)"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "seven percent (7%) state sales tax"
+      }
+    ],
+    "notes": "The 7% rate dates from 1990-07-01 (§ 44-18-18); taxability of goods generally is older still. The date is that of the regulation quoted; earlier text was read only for the rate."
+  },
+  {
+    "tax": "RI",
+    "code": "service.professional",
+    "from": "2025-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not among the services Rhode Island taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-7.3, Services defined (as amended effective October 1, 2025)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.3.htm",
+        "quote": "The following businesses and services performed in this state, along with the applicable 2017 North American Industrial Classification System (NAICS) codes, are included in the definition of services:"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-7.3, Services defined (as amended effective October 1, 2025)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.3.htm",
+        "quote": "P.L. 2025, ch. 278, art. 5, § 6, effective October 1, 2025."
+      }
+    ],
+    "notes": "§ 44-18-7.3 lists the taxable services: taxicab and limousine, other road transportation, pet care, room resellers, investigation, guard and armored car services, and parking; none of the seven professional subcodes. Earliest date: the current text, as amended effective 2025-10-01; earlier versions (e.g. 2018, adding investigation and guard services) did not include these services either, but were not read in full."
+  },
+  {
+    "tax": "RI",
+    "code": "software.custom.development",
+    "from": "2018-09-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software written to one customer's specifications is not prewritten software and is not taxable in Rhode Island.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RI Division of Taxation ADV 2018-38 (September 4, 2018, rev. September 13, 2018)",
+        "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/Advisory/ADV_2018_38.pdf",
+        "quote": "not designed and developed by the author or other creator to the specifications of a specific purchaser"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-7.1(g), software definitions",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.1.htm",
+        "quote": "“Prewritten computer software” means “computer software,” including prewritten upgrades, that is not designed and developed by the author or other creator to the specifications of a specific purchaser."
+      }
+    ],
+    "notes": "Rhode Island taxes prewritten software (delivered or vendor-hosted), not custom software or programming services, which are not among the services in § 44-18-7.3. Custom software resold to someone other than the specific purchaser becomes prewritten. Earliest date: ADV 2018-38's definition."
+  },
+  {
+    "tax": "RI",
+    "code": "software.custom.modification",
+    "from": "2018-09-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom modifications to prewritten software, charged separately, are not taxable in Rhode Island.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-7.1(g), software definitions",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.1.htm",
+        "quote": "provided, however, that where there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such modification or enhancement, such modification or enhancement shall not constitute “prewritten computer software.”"
+      }
+    ],
+    "notes": "The code's 'charged separately' meets the statute's condition. The statute text read is current; the date is ADV 2018-38's, which quotes the same definition of prewritten software."
+  },
+  {
+    "tax": "RI",
+    "code": "software.prewritten",
+    "from": "2011-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Rhode Island at 7%, on media or delivered electronically (electronic delivery since October 1, 2011).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RI Division of Taxation ADV 2018-38 (September 4, 2018, rev. September 13, 2018)",
+        "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/Advisory/ADV_2018_38.pdf",
+        "quote": "Pre-written computer software delivered electronically or by “load and leave” became subject to Rhode Island sales and use tax October 1, 2011."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-7, Sales defined",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.htm",
+        "quote": "computer software delivered electronically or by load and leave"
+      }
+    ],
+    "notes": "Software on tangible media was taxable before 2011; the rule starts at the date both delivery forms were taxable."
+  },
+  {
+    "tax": "RI",
+    "code": "software.saas",
+    "from": "2018-09-04",
+    "to": "2018-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Vendor-hosted (remotely accessed) prewritten software was not taxable in Rhode Island before October 1, 2018.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RI Division of Taxation ADV 2018-38 (September 4, 2018, rev. September 13, 2018)",
+        "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/Advisory/ADV_2018_38.pdf",
+        "quote": "Effective October 1, 2018, vendor-hosted prewritten computer software will become subject to Rhode Island sales and use tax"
+      }
+    ],
+    "notes": "Earliest date: the advisory's issue date; the advisory says the tax newly applies from 2018-10-01, so SaaS was untaxed before, but earlier text was not read."
+  },
+  {
+    "tax": "RI",
+    "code": "software.saas",
+    "from": "2018-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Vendor-hosted (remotely accessed) prewritten software is taxable in Rhode Island at 7% from October 1, 2018.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RI Division of Taxation ADV 2018-38 (September 4, 2018, rev. September 13, 2018)",
+        "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/Advisory/ADV_2018_38.pdf",
+        "quote": "On and after that date, the sale, storage, use, or other consumption of vendor-hosted prewritten computer software, sometimes referred to as “software as a service”, or SaaS, will be subject to Rhode Island’s 7 percent sales and use tax."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-7, Sales defined",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.htm",
+        "quote": "The sale, storage, use, or other consumption of vendor-hosted prewritten computer software"
+      }
+    ]
+  },
+  {
+    "tax": "RI:local",
+    "code": "food.catering",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Rhode Island beyond the statewide 1% meals and beverage tax already in the RI rule.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "This local meals and beverage tax shall be administered and collected by the division of taxation"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "at a rate of one percent of the gross receipts"
+      }
+    ],
+    "notes": "Rhode Island has no local sales tax parts in the rate data: its 1% local meals and beverage tax is statewide and collected by the Division of Taxation, and is included in the RI rule's 8%. This rule exists because the schema requires an RI:local rule beside a special-rate RI rule; no local part is ever charged."
+  },
+  {
+    "tax": "RI:local",
+    "code": "food.prepared.dine_in",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Rhode Island beyond the statewide 1% meals and beverage tax already in the RI rule.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "This local meals and beverage tax shall be administered and collected by the division of taxation"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "at a rate of one percent of the gross receipts"
+      }
+    ],
+    "notes": "Rhode Island has no local sales tax parts in the rate data: its 1% local meals and beverage tax is statewide and collected by the Division of Taxation, and is included in the RI rule's 8%. This rule exists because the schema requires an RI:local rule beside a special-rate RI rule; no local part is ever charged."
+  },
+  {
+    "tax": "RI:local",
+    "code": "food.prepared.platter",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Rhode Island beyond the statewide 1% meals and beverage tax already in the RI rule.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "This local meals and beverage tax shall be administered and collected by the division of taxation"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "at a rate of one percent of the gross receipts"
+      }
+    ],
+    "notes": "Rhode Island has no local sales tax parts in the rate data: its 1% local meals and beverage tax is statewide and collected by the Division of Taxation, and is included in the RI rule's 8%. This rule exists because the schema requires an RI:local rule beside a special-rate RI rule; no local part is ever charged."
+  }
+]

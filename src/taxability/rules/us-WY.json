@@ -1,0 +1,599 @@
+[
+  {
+    "tax": "WY",
+    "code": "construction.real_property",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction, improvement and repair of real property are not taxed to the owner in Wyoming; the contractor pays sales or use tax on the materials it uses.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Contractor (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1M5LpCi1QHcCEFYcEuqhkxzByRTsXujy0",
+        "quote": "Charges for labor to alter, improve or construct real property are not subject to sales/use tax, unless performed within an oil or gas wellsite."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Contractor (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1M5LpCi1QHcCEFYcEuqhkxzByRTsXujy0",
+        "quote": "Any contractor who furnishes tangible personal property in the construction, alteration, improvement or repair of real property is the consumer or user of tangible personal property within the meaning of the sales and use tax laws of Wyoming."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The labor sentence names alteration, improvement and construction; repair labor on real property is not an enumerated taxable service (only repair of tangible personal property is, W.S. 39-15-103(a)(i)(J)), and the contractor is the consumer of materials for repairs too, so repair is treated the same. Work within an oil or gas well site is taxable (W.S. 39-15-103(a)(i)(K)). The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "delivery",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated charge for delivering goods to the buyer (outbound freight) is not subject to Wyoming sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Freight and Transportation Charges (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1WVhY-1246s5L7JgAbkVAIrjD62onnlIl",
+        "quote": "Both intrastate (instate) and interstate (state-to-state) outbound freight is exempt from Wyoming sales tax provided it is separately stated and distinguishable from any taxable charges that may appear on the same invoice."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Freight and Transportation Charges (last revised August 2026): Rules ch. 2 sec. 5(i)",
+        "url": "https://drive.google.com/uc?export=download&id=1WVhY-1246s5L7JgAbkVAIrjD62onnlIl",
+        "quote": "Transportation or outbound freight charges are not taxable and shall not be included within the taxable sales price of any retail sale."
+      },
+      {
+        "title": "Wyoming DOR bulletin, Freight and Transportation Charges (revised August 1, 2014; archived 2017-01-19)",
+        "url": "https://web.archive.org/web/20170119162127id_/http://revenue.wyo.gov/04-FreightTransportationCharges.pdf?attredirects=0",
+        "quote": "outbound freight is exempt from Wyoming sales tax provided it is separately stated and distinguishable from any taxable charges"
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Inbound freight the seller passes on (e.g. a dealer's delivery charge for bringing goods to its store) is part of the taxable price even when itemized; a delivery charge not separately stated is taxed with the goods. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.candy",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy is food for domestic home consumption in Wyoming and is exempt from state and local sales tax.",
+    "conditions": [
+      {
+        "when": "The seller is a food vendor more than 75% of whose food sales are prepared food (heated or combined by the seller), and the item is a single-serving item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Candy is food for domestic home consumption and is generally exempt."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "If more than seventy five percent (75%) of the food vendor’s sales are comprised of food that is heated by the seller or foods where the seller combined two or more ingredients to make a single item, then all of the vendor’s sales of single serve items are subject to tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Wyoming's 'food for domestic home consumption' has no candy exclusion (W.S. 39-15-101(a)(xli)). The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.catering",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is taxed in Wyoming like a restaurant's prepared meals, on the whole charge including preparation.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Restaurant Industry (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1RjL8ufwZ4PQ7XxxpfdSRQqtv2nqyTHmk",
+        "quote": "Catering services, which entail supplying the food and preparing the meals, are viewed no differently than prepared meals by a restaurant, which are subject to sales tax."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Wedding cakes sold and served by a caterer are taxable as prepared foods."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Gratuities, mandatory or voluntary, are excluded from the sales price (W.S. 39-15-103(a)(i)(F); Restaurant Industry bulletin). Separately stated rentals and staffing charges are not addressed by the bulletins. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.grocery",
+    "from": "2008-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food for domestic home consumption (groceries) is exempt from Wyoming state and local sales tax.",
+    "conditions": [
+      {
+        "when": "The seller is a food vendor more than 75% of whose food sales are prepared food (heated or combined by the seller), and the item is a single-serving item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "HEA0088 was passed by the Wyoming Legislature and signed into law by Governor Freudenthal in 2007 exempting food for domestic home consumption."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026): W.S. 39-15-105(a)(vi)(E)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "For the purpose of exempting sales of services and tangible personal property which are essential human goods and services, the following are exempt: Sales of food for domestic home consumption."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "If more than seventy five percent (75%) of the food vendor’s sales are comprised of food that is heated by the seller or foods where the seller combined two or more ingredients to make a single item, then all of the vendor’s sales of single serve items are subject to tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The bulletin says the exemption was enacted temporarily in 2006 and made permanent by 2007 HEA0088; the exact effective dates were not verified, so 2008-01-01 is the earliest date this rule asserts. The 75% prepared-food vendor rule is administrative (DOR bulletins); the Restaurant Industry bulletin words it as 75% 'or more' and 'all food sales' except packages of four or more servings. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.bakery",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without eating utensils are not prepared food in Wyoming and are exempt.",
+    "conditions": [
+      {
+        "when": "The seller is a food vendor more than 75% of whose food sales are prepared food (heated or combined by the seller), and the item is a single-serving item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Combined with other food by the seller (a bagel with cream cheese)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "However, a loaf of bread or a dozen bagels or donuts made in a bakery would be exempt."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Generally, no, unless the bakery good is sold with utensils or is combined with other food products by the seller."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "If more than seventy five percent (75%) of the food vendor’s sales are comprised of food that is heated by the seller or foods where the seller combined two or more ingredients to make a single item, then all of the vendor’s sales of single serve items are subject to tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "A coffee shop or restaurant with more than 75% prepared food sales taxes its single-serving bakery items under the DOR's 75% rule. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.cold",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food prepared by a grocery or deli is exempt in Wyoming when only cut or sold by weight without utensils, and taxable when sold with utensils or combined by the seller as a single item.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller (plates, forks, napkins, cups)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (cut fruit, sliced deli meat), or sold unheated by weight or volume as a single item, without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more ingredients combined by the seller and sold as a single item, not by weight or volume, without utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller is a food vendor more than 75% of whose food sales are prepared food (heated or combined by the seller), and the item is a single-serving item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Deli meats that are sliced and packaged by the seller and sold by weight are exempt as are deli salads sold by weight."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "A salad sold in a package with a fork and dressing would also be taxable as prepared food."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026): W.S. 39-15-101(a)(xlvi)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Two (2) or more food ingredients mixed or combined by the seller for sale as a single item; or"
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "If more than seventy five percent (75%) of the food vendor’s sales are comprised of food that is heated by the seller or foods where the seller combined two or more ingredients to make a single item, then all of the vendor’s sales of single serve items are subject to tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Whether a deli item sold in a fixed-size container counts as sold 'by weight or volume' is not addressed by the bulletin. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells to go is prepared food, taxable in Wyoming.",
+    "conditions": [
+      {
+        "when": "A package of four or more servings sold for a single price (a bag of coffee beans, a six-pack of soda)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Even if it is not consumed on the premises of the seller, the food is still considered prepared food and is taxable."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Restaurant Industry (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1RjL8ufwZ4PQ7XxxpfdSRQqtv2nqyTHmk",
+        "quote": "or more of the sales are prepared food, the vendor must impose sales tax on all food sales, with one exception for multiple serving packages"
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.dine_in",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Meals served at a restaurant or other place where meals are regularly served to the public are taxable in Wyoming.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Restaurant Industry (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1RjL8ufwZ4PQ7XxxpfdSRQqtv2nqyTHmk",
+        "quote": "Wyoming imposes sales tax on all meals at any place where they are regularly sold to the public."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Food sold in restaurants is prepared food, typically sold with utensils and is designed for immediate consumption."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Meals served by hospitals, schools and nursing homes not held out to the public, and by senior citizen centers, are not taxed (Rules ch. 2 sec. 12(q)); that turns on the seller, not the code. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.hot",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, taxable in Wyoming.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Heated deli chicken and other products heated by the seller are taxable."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "“Food for domestic home consumption” does not include alcoholic beverages, tobacco or prepared foods."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.platter",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Party trays assembled by a deli, grocery or other non-manufacturer are prepared food, taxable in Wyoming.",
+    "conditions": [
+      {
+        "when": "The tray is made by a seller whose primary NAICS classification is food manufacturing",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Party trays assembled by the deli, grocery store, or any entities other than NAICS-classified food manufacturers are taxable as prepared food."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.prepared.sandwich",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller combines two or more ingredients, so it is prepared food and taxable in Wyoming.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "An example of this would be a bagel and cream cheese or a sandwich. These would then become prepared foods and taxable."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Sandwiches sold by a seller whose primary NAICS classification is food manufacturing (sector 311, except bakeries 3118) are excluded from prepared food by W.S. 39-15-101(a)(xlvi)(B)(III); the code describes a sandwich the seller prepared, not a manufacturer's packaged one. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "food.soft_drink",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Soft drinks are food for domestic home consumption in Wyoming and are exempt unless sold as prepared food (e.g. a fountain drink with a cup and straw).",
+    "conditions": [
+      {
+        "when": "The seller is a food vendor more than 75% of whose food sales are prepared food (heated or combined by the seller), and the item is a single-serving item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold as prepared food: a fountain drink with a cup and straw from the seller, or a single-serving drink sold as part of a prepared meal or by a concessionaire",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Soft drinks are generally considered food for domestic home consumption unless they sold as prepared food."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "If more than seventy five percent (75%) of the food vendor’s sales are comprised of food that is heated by the seller or foods where the seller combined two or more ingredients to make a single item, then all of the vendor’s sales of single serve items are subject to tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "goods.general",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of general tangible goods are subject to Wyoming state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Professional Services (last revised August 2026): W.S. 39-15-103(a)(i)(A)",
+        "url": "https://drive.google.com/uc?export=download&id=1SEkgLO2pPVXKJUn5fbHtoxMsCiXB0fFH",
+        "quote": "Except as provided by W.S. 39-15-105, there is levied an excise tax upon: The sales price of every retail sale of tangible personal property within the state;"
+      },
+      {
+        "title": "W.S. 39-15-204(a)(i) (county general purpose tax)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "upon retail sales of tangible personal property, admissions and services made within the county, the purpose of which is for general revenue;"
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The 4% state tax on retail sales of tangible goods long predates 2026; 2026-08-01 is only the date of the bulletin read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "service.professional",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, engineering, design and similar) are not subject to Wyoming sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Professional Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1SEkgLO2pPVXKJUn5fbHtoxMsCiXB0fFH",
+        "quote": "In general, Wyoming currently has no statutory provisions to impose sales or use taxes on professional services provided that they do not include any sales of or repairs, alterations or improvements to tangible personal property in the scope of those services"
+      },
+      {
+        "title": "Wyoming DOR bulletin, Professional Services (revised August 1, 2014; archived 2017-01-19)",
+        "url": "https://web.archive.org/web/20170119162138id_/http://revenue.wyo.gov/22-ProfessionalServicesBulletin.pdf?attredirects=0",
+        "quote": "In general, Wyoming currently has no statutory provisions to impose sales or use taxes on professional services"
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "Generally, consulting and graphic designing services are considered a non-taxable professional service provided that the service does not include any sales of or repairs, alterations, or improvements to tangible personal property in the scope of that service."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Applies to legal, accounting, consulting, engineering, interior design and advertising services; the bulletins name accountants, engineers, attorneys, tax preparers, consultants and graphic design, but not interior designers or advertising agencies specifically (they fall under the general rule that services are taxed only if enumerated). Goods sold with the service (furnishings, printed materials) are taxable. IT services have their own rule. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "service.professional.it",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT support and consulting are not taxed in Wyoming unless the service repairs, alters or improves hardware or prewritten software, such as installing software or removing malware.",
+    "conditions": [
+      {
+        "when": "Advice, monitoring, help-desk guidance or training only, separately stated, with no repair, alteration or improvement of hardware or prewritten software",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The service repairs, alters or improves computer hardware or prewritten software, including installing software, updates or patches, configuration changes or virus removal, on site or remotely",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "Generally, monitoring and/or IT support services are not subject to sales tax provided that the service does not result in a repair, alteration and/or improvement to tangible personal property and is separately stated from taxable charges on the same invoice."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "A service which repair, alter, or improve computer hardware or canned/prewritten software are subject to sales tax and includes installation of software packages."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "software.custom",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software, and a separately stated charge for customizing prewritten software, are not subject to Wyoming sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "The sale of custom software, delivered electronically or otherwise, is not subject to sales tax nor is the creation of such software."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "In such case, the prewritten portion would be taxable and the separate charge for the modification or enhancement would not be taxable."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "A modification not separately stated from the prewritten software remains prewritten and taxable; installing software is a taxable service. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "software.prewritten",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in Wyoming and taxable however it is delivered, including downloads.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "Please be aware that sales of prewritten computer software are taxable regardless of the delivery method."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "An annual license fee for possession/usage of software is subject to sales tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "software.saas",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software as a service (remote access without receiving a copy) is not subject to Wyoming sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "are not subject to Wyoming sales tax provided the customer does not receive any tangible personal property or enumerated service embedded within the service."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Computer Sales & Services (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1G7wMRbQOm56A9GQzlqX7PjkCzQC1CvvA",
+        "quote": "Fees charged to access web hosted sites are not subject to sales tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "Taxable if the customer must also buy the seller's app (prewritten software) or receives another taxable item with the service. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  }
+]

@@ -1,0 +1,1033 @@
+[
+  {
+    "tax": "AR",
+    "code": "construction.real_property.improvement",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Arkansas, new construction and work on a building's nonmechanical components (walls, roofs, wiring, plumbing) is not taxed to the customer, but installing mechanical or electrical equipment, appliances or flooring in an existing building is taxable.",
+    "conditions": [
+      {
+        "when": "New construction or a substantially modified building, including first-time installation of equipment and flooring there",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Work on nonmechanical, passive components of an existing building (walls, roofs, doors, windows, wiring, pipes, ductwork)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Installing mechanical or electrical equipment, appliances, HVAC units or flooring in an existing building",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR §30-1003(a)(1)(B)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "All contractors are deemed to be consumers or users of all tangible personal property including materials, supplies, and equipment used or consumed by them in performing any contract, and the sales of all such property to contractors are taxable sales."
+      },
+      {
+        "title": "26 CAR §30-1003(b)(1)(B)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "This means, generally, that services performed on nonmechanical components or fixtures within or on a building or other improvement to real estate are not taxable;"
+      },
+      {
+        "title": "26 CAR §30-1003(b)(2)(A)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "First-time installation of mechanical or electrical equipment into a newly constructed or substantially modified building or other improvement to real estate is not a taxable service."
+      },
+      {
+        "title": "26 CAR §30-1003(b)(2)(C)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "The initial installation of mechanical or electrical equipment into an existing building is taxable."
+      },
+      {
+        "title": "26 CAR §30-1003(b)(3)(B)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "The initial installation of carpet or other flooring in an existing building is taxable."
+      }
+    ],
+    "notes": "A kitchen remodel in an existing building mixes the two: installing cabinets and plumbing is not taxable, installing appliances and flooring is; nontaxable charges must be separately stated or the whole charge is taxable (26 CAR §30-519(d)(4)). The contractor pays tax on materials for nontaxable work. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "construction.real_property.repair",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Arkansas, repairing a building's nonmechanical components (roofs, walls, plumbing pipes, wiring) is not taxed to the customer, but repairing or replacing mechanical or electrical equipment, appliances, flooring or carpet is taxable.",
+    "conditions": [
+      {
+        "when": "Repair or replacement of nonmechanical components (roofs, walls, doors, windows, pipes, wiring, ductwork, painting)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or replacement of mechanical or electrical equipment, appliances, HVAC units, elevators, flooring or carpet",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR §30-1003(a)(1)(B)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "All contractors are deemed to be consumers or users of all tangible personal property including materials, supplies, and equipment used or consumed by them in performing any contract, and the sales of all such property to contractors are taxable sales."
+      },
+      {
+        "title": "26 CAR §30-1003(b)(1)(B)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "This means, generally, that services performed on nonmechanical components or fixtures within or on a building or other improvement to real estate are not taxable;"
+      },
+      {
+        "title": "26 CAR §30-1003(c)(3)(A)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63002",
+        "quote": "The initial installation, alteration, addition, cleaning, refinishing, replacement, and repair of motors, electrical appliances, machines, and other mechanical items are taxable."
+      },
+      {
+        "title": "26 CAR §30-519(e)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62983",
+        "quote": "The repair or replacement of flooring is taxable."
+      }
+    ],
+    "notes": "Cleaning of a building's interior or exterior is a taxable service (26 CAR §30-1003(c)(2)). Repainting is not addressed by name; it falls with nonmechanical components. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "delivery.exempt_goods",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges on goods exempt from Arkansas sales tax are also exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-901(a)(2)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "If the tangible personal property being shipped is exempt from sales and use tax, the delivery charges are also exempt from tax."
+      },
+      {
+        "title": "DFA Sales and Use Tax FAQs",
+        "url": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/sales-and-use-tax-faqs/",
+        "quote": "If the products being shipped are non-taxable, then the freight charges for shipping those non-taxable goods is not subject to sales and use tax."
+      }
+    ],
+    "notes": "Groceries are exempt from the state tax only from 2026 (reduced before) and stay locally taxable; their delivery charge follows them, so it is locally taxable (the caller should treat the local part as delivery.taxable_goods). The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read."
+  },
+  {
+    "tax": "AR",
+    "code": "delivery.taxable_goods",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges on taxable goods are part of the taxable gross receipts in Arkansas unless a carrier bills the buyer directly.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-901(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "Delivery charges are part of the gross receipts or gross proceeds on which the tax must be collected and remitted unless the charges are billed directly to the purchaser by a carrier other than the seller."
+      },
+      {
+        "title": "DFA Sales and Use Tax FAQs",
+        "url": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/sales-and-use-tax-faqs/",
+        "quote": "All freight, shipping, or transportation charges are part of the gross receipts or invoice total on which sales and use tax must be collected and remitted by the seller if the products being shipped are subject to sales and use tax."
+      }
+    ],
+    "notes": "With one delivery charge for taxable and exempt goods, tax applies to the share allocated to the taxable goods (26 CAR §30-901(a)(3)). The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Candy is taxed at the full Arkansas state sales tax rate plus local taxes: Act 141 of 2017 removed it from the reduced-rate food definition.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, What's New in Sales Tax (2017)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/Whatsnew2017.pdf",
+        "quote": "Act 141: Removes candy and soft drinks from the definitions “Food” and “Food Ingredients” and applies the full 6.5% State sales and use tax rate to these items sold at retail."
+      },
+      {
+        "title": "DFA notice, Candy, Soft Drinks, and Digital Products",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/CandySoftDrinkDigitalProducts.pdf",
+        "quote": "Act 141 of the 2017 Legislative Session becomes effective on January 1, 2018."
+      }
+    ],
+    "notes": "Arkansas's candy definition excludes preparations containing flour and items requiring refrigeration (those are food at the reduced or, from 2026, exempt state rate). Before 2018 candy was food at the reduced state rate; not modeled. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered food and beverages are prepared food in Arkansas, taxed at the full state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §31-105",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37618",
+        "quote": "Individuals or businesses that provide catered foods or beverages are deemed to be selling prepared food, which is subject to the full state sales and use tax rate plus all applicable local taxes."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      }
+    ],
+    "notes": "26 CAR §31-105 (official from 2025) states the caterer rule; for 2018-2024 the rule rests on the DFA guide's prepared-food definitions (food heated, combined or served with utensils by the seller). Whether separately stated staffing, setup or rental charges are part of the taxable receipts was not found in the sources read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.grocery",
+    "from": "2011-07-01",
+    "to": "2018-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.015,
+    "summary": "Food and food ingredients were taxed at a reduced Arkansas state rate of 1.5%, plus full local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Beginning July 1, 2011, the state sales and use tax rate on food and food ingredients will be reduced to 1.5%."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Local city and county sales and use taxes will continue to apply to all sales of food and food ingredients and prepared food."
+      }
+    ],
+    "notes": "Candy and soft drinks were food at this rate until 2017-12-31 (Act 141 of 2017); the code excludes them. The 1.5% is the state part only; city and county taxes applied in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.grocery",
+    "from": "2019-01-01",
+    "to": "2025-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.00125,
+    "summary": "Food and food ingredients are taxed at a reduced Arkansas state rate of 0.125%, plus full local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA Revenue quarterly newsletter, 2019 no. 1",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/quarterly2019-1.pdf",
+        "quote": "The State Tax Rate on food and food ingredients is reduced from 1.5% to 0.125%."
+      },
+      {
+        "title": "DFA Revenue quarterly newsletter, 2019 no. 1",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/quarterly2019-1.pdf",
+        "quote": "Effective January 1, 2019"
+      },
+      {
+        "title": "DFA Consumer Use Tax form instructions (rev. 06/2019)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/cu1.pdf",
+        "quote": "The use tax rate is the same as the sales tax rate, 6.50% for all transactions except food purchases which has a reduced rate of 0.125%"
+      }
+    ],
+    "notes": "The 0.125% is the state part only; city and county taxes apply in full (AR:local rule). The drop from 1.5% followed the Secretary's determination under Ark. Code §26-52-317(a) (the 1.375% levy set to 0%), leaving the 1/8 cent Amendment 75 tax; the determination itself was not read."
+  },
+  {
+    "tax": "AR",
+    "code": "food.grocery",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients are exempt from Arkansas state sales tax from 2026-01-01 (Act 1008 of 2025, the Grocery Tax Relief Act); city and county sales taxes still apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §2",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "To exempt the gross receipts or gross proceeds derived from the sale of food and food ingredients from state taxes; and"
+      },
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §15",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "Sections 1-14 of this act are effective on and after January 1, 2026."
+      },
+      {
+        "title": "DFA, What's New in Sales Tax for 2025",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/Whatsnew2025_1.pdf",
+        "quote": "Act 1008: Provides a state sales and use tax exemption for sales of food and food ingredients. Gross receipts and gross proceeds derived from the sale of food and food ingredients will continue to be subject to sales and use taxes levied by municipalities and counties."
+      },
+      {
+        "title": "DFA, State Sales & Use Tax Rate Changes",
+        "url": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/recent-changes-in-sales-use-tax/recent-changes-in-state-taxes/",
+        "quote": "State Reduced Food Tax 0.000% Effective 01/01/2026"
+      }
+    ],
+    "notes": "Act 1008's printed text does not show which lines are struck, so whether the 1/8 cent Amendment 75 conservation tax still reaches food was not read from the Act itself; DFA's rate table lists the State Reduced Food Tax at 0.000% from 2026-01-01, which is taken as settling the state part. City and county taxes apply (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Bakery items the seller bakes are prepared food in Arkansas (baking is heating by the seller), taxed at the full state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Bakery items made by the seller"
+      },
+      {
+        "title": "26 CAR §31-103(b)(1)(D)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "(D) Heating includes, but is not limited to: (i) Baking;"
+      }
+    ],
+    "notes": "Arkansas has no bakery exception to prepared food: items baked or decorated by the seller are taxed at the full rate; bakery items made by others and resold unheated without utensils are food. Prepared food is taxed at the full state rate plus local taxes. The DFA guide states the rules in effect on 2018-01-01; 26 CAR pt. 31 carries the same definitions today (its §31-101 still quotes the 2007 rates). Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "to": "2018-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food from a grocery or deli is taxed in full in Arkansas if the seller made, combined or cooked it or provides utensils; food only cut, sliced or repackaged is taxed at the reduced 1.5% state rate, with local taxes in full.",
+    "conditions": [
+      {
+        "when": "Made, mixed or combined by the seller (salads, mixed fruit), or cooked or heated by the seller at any time before sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, sliced, repackaged or pasteurized by the seller (sliced deli meat, cut melon), sold without utensils: food at the reduced 1.5% state rate",
+        "treatment": "special_rate",
+        "rate": 0.015
+      }
+    ],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller; or"
+      },
+      {
+        "title": "26 CAR §31-103(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is food sold in a heated state or heated by the seller."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is anything made or combined by the seller and is taxable at the full state sales and use tax rate."
+      },
+      {
+        "title": "26 CAR §31-104(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "Prepared food does not include food that is only cut, repackaged, or pasteurized by the seller, and such items are taxable at the reduced state sales and use tax rate."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Beginning July 1, 2011, the state sales and use tax rate on food and food ingredients will be reduced to 1.5%."
+      }
+    ],
+    "notes": "Food heated by the seller at any time before sale (e.g. a cooked chicken sold cold) is prepared food (26 CAR §31-103(b)(1)(C)). The non-prepared branch is the state part; city and county taxes apply in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.cold",
+    "from": "2019-01-01",
+    "to": "2025-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold food from a grocery or deli is taxed in full in Arkansas if the seller made, combined or cooked it or provides utensils; food only cut, sliced or repackaged is taxed at the reduced 0.125% state rate, with local taxes in full.",
+    "conditions": [
+      {
+        "when": "Made, mixed or combined by the seller (salads, mixed fruit), or cooked or heated by the seller at any time before sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, sliced, repackaged or pasteurized by the seller (sliced deli meat, cut melon), sold without utensils: food at the reduced 0.125% state rate",
+        "treatment": "special_rate",
+        "rate": 0.00125
+      }
+    ],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller; or"
+      },
+      {
+        "title": "26 CAR §31-103(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is food sold in a heated state or heated by the seller."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is anything made or combined by the seller and is taxable at the full state sales and use tax rate."
+      },
+      {
+        "title": "26 CAR §31-104(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "Prepared food does not include food that is only cut, repackaged, or pasteurized by the seller, and such items are taxable at the reduced state sales and use tax rate."
+      },
+      {
+        "title": "DFA Revenue quarterly newsletter, 2019 no. 1",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/quarterly2019-1.pdf",
+        "quote": "The State Tax Rate on food and food ingredients is reduced from 1.5% to 0.125%."
+      },
+      {
+        "title": "DFA Revenue quarterly newsletter, 2019 no. 1",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/quarterly2019-1.pdf",
+        "quote": "Effective January 1, 2019"
+      }
+    ],
+    "notes": "Food heated by the seller at any time before sale (e.g. a cooked chicken sold cold) is prepared food (26 CAR §31-103(b)(1)(C)). The non-prepared branch is the state part; city and county taxes apply in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.cold",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold food from a grocery or deli is taxed in full in Arkansas if the seller made, combined or cooked it or provides utensils; food only cut, sliced or repackaged is exempt from the state tax, with local taxes in full.",
+    "conditions": [
+      {
+        "when": "Made, mixed or combined by the seller (salads, mixed fruit), or cooked or heated by the seller at any time before sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut, sliced, repackaged or pasteurized by the seller (sliced deli meat, cut melon), sold without utensils: food, exempt from state tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller; or"
+      },
+      {
+        "title": "26 CAR §31-103(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is food sold in a heated state or heated by the seller."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is anything made or combined by the seller and is taxable at the full state sales and use tax rate."
+      },
+      {
+        "title": "26 CAR §31-104(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "Prepared food does not include food that is only cut, repackaged, or pasteurized by the seller, and such items are taxable at the reduced state sales and use tax rate."
+      },
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §15",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "Sections 1-14 of this act are effective on and after January 1, 2026."
+      },
+      {
+        "title": "DFA, State Sales & Use Tax Rate Changes",
+        "url": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/recent-changes-in-sales-use-tax/recent-changes-in-state-taxes/",
+        "quote": "State Reduced Food Tax 0.000% Effective 01/01/2026"
+      }
+    ],
+    "notes": "Food heated by the seller at any time before sale (e.g. a cooked chicken sold cold) is prepared food (26 CAR §31-103(b)(1)(C)). The non-prepared branch is the state part; city and county taxes apply in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant makes and sells to go is prepared food, taxed at the full Arkansas state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is anything made or combined by the seller and is taxable at the full state sales and use tax rate."
+      },
+      {
+        "title": "26 CAR §31-103(d)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is food sold with an eating utensil provided by the seller."
+      }
+    ],
+    "notes": "A seller whose prepared-food sales exceed 75% and that makes utensils available treats all its food sales as prepared food (26 CAR §31-106). Prepared food is taxed at the full state rate plus local taxes. The DFA guide states the rules in effect on 2018-01-01; 26 CAR pt. 31 carries the same definitions today (its §31-101 still quotes the 2007 rates). Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating at the seller's premises, on its plates or with its utensils, is prepared food taxed at the full Arkansas state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      },
+      {
+        "title": "26 CAR §31-103(d)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is food sold with an eating utensil provided by the seller."
+      }
+    ],
+    "notes": "Prepared food is taxed at the full state rate plus local taxes. The DFA guide states the rules in effect on 2018-01-01; 26 CAR pt. 31 carries the same definitions today (its §31-101 still quotes the 2007 rates). Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, taxed at the full Arkansas state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Food sold in a heated state or is heated by the seller; or"
+      },
+      {
+        "title": "26 CAR §31-103(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is food sold in a heated state or heated by the seller."
+      }
+    ],
+    "notes": "Prepared food is taxed at the full state rate plus local taxes. The DFA guide states the rules in effect on 2018-01-01; 26 CAR pt. 31 carries the same definitions today (its §31-101 still quotes the 2007 rates). Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Party trays of meats, cheese, fruit or vegetables made up by the seller are prepared food in Arkansas, taxed at the full state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Deli trays and foods combined by the seller"
+      },
+      {
+        "title": "26 CAR §31-104(c), Example 2",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "A deli tray, cheese platter, mixed fruit, or similar item where the seller has mixed or combined two (2) or more food ingredients for sale as a single item is prepared food and is taxable at the full state sales and use tax rate."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Salads, birthday cakes, meat and cheese trays, popcorn seasoned with salt and butter, take and bake pizza, candy, and mixed fruit are prepared food and taxable at the full state sales and use tax rate if the item is made by the seller."
+      }
+    ],
+    "notes": "Prepared food is taxed at the full state rate plus local taxes. The DFA guide states the rules in effect on 2018-01-01; 26 CAR pt. 31 carries the same definitions today (its §31-101 still quotes the 2007 rates). Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller is prepared food, taxed at the full Arkansas state rate plus local taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Foods heated, combined or sold with utensils provided by the seller"
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "Prepared food is anything made or combined by the seller and is taxable at the full state sales and use tax rate."
+      }
+    ],
+    "notes": "A sandwich made by a third party and resold from the cooler without utensils is food at the reduced (from 2026, exempt) state rate (DFA guide, convenience-store example); the code describes the seller's own prepared sandwich. Prepared food is taxed at the full state rate plus local taxes. The DFA guide states the rules in effect on 2018-01-01; 26 CAR pt. 31 carries the same definitions today (its §31-101 still quotes the 2007 rates). Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxed at the full Arkansas state sales tax rate plus local taxes: Act 141 of 2017 removed them from the reduced-rate food definition.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, What's New in Sales Tax (2017)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/Whatsnew2017.pdf",
+        "quote": "Act 141: Removes candy and soft drinks from the definitions “Food” and “Food Ingredients” and applies the full 6.5% State sales and use tax rate to these items sold at retail."
+      },
+      {
+        "title": "DFA notice, Candy, Soft Drinks, and Digital Products",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/CandySoftDrinkDigitalProducts.pdf",
+        "quote": "Act 141 of the 2017 Legislative Session becomes effective on January 1, 2018."
+      }
+    ],
+    "notes": "Beverages with milk or milk substitutes, or more than 50% fruit or vegetable juice, are not soft drinks. The DFA food guide's grocery example still lists a 2-liter soda at the reduced rate; that example predates Act 141 and conflicts with the guide's own exclusion list, which names soft drinks. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "goods.general",
+    "from": "2013-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods such as furniture, tools and electronics are taxable at the Arkansas state and local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "DFA, State Sales & Use Tax Rates",
+        "url": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/sales-use-tax-rates/state-sales-use-tax-rates/",
+        "quote": "State Sales and Use Tax – 07/01/2013 6.500%"
+      }
+    ],
+    "notes": "2013-07-01 is the effective date DFA lists for the current 6.5% state rate; taxation of tangible goods is far older. 26 CAR §30-103 still states the pre-2013 6% rate, so only its description of the base is cited. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.accounting",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing, bookkeeping and tax preparation are not taxable services in Arkansas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      },
+      {
+        "title": "26 CAR §30-901",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "tax is not due on the separate installation charge, unless the installation is a specifically enumerated taxable service"
+      },
+      {
+        "title": "26 CAR §30-522(a)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62986",
+        "quote": "The gross receipts or gross proceeds derived from sales of the following services are not subject to the tax:"
+      }
+    ],
+    "notes": "Data processing and word processing services are also expressly nontaxable (26 CAR §30-522). Arkansas taxes only the services enumerated in Ark. Code §26-52-301 and 26 CAR §§30-502 to 30-519; this one is not listed. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.advertising",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not taxable in Arkansas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      },
+      {
+        "title": "26 CAR §30-901",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "tax is not due on the separate installation charge, unless the installation is a specifically enumerated taxable service"
+      },
+      {
+        "title": "26 CAR §30-1124(b)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9369&sectionID=63033",
+        "quote": "Advertising services shall not be subject to gross receipts tax."
+      }
+    ],
+    "notes": "Promotional goods printed with the buyer's message are taxable sales of goods. Arkansas taxes only the services enumerated in Ark. Code §26-52-301 and 26 CAR §§30-502 to 30-519; this one is not listed. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.consulting",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not a taxable service in Arkansas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      },
+      {
+        "title": "26 CAR §30-901",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "tax is not due on the separate installation charge, unless the installation is a specifically enumerated taxable service"
+      }
+    ],
+    "notes": "Arkansas taxes only the services enumerated in Ark. Code §26-52-301 and 26 CAR §§30-502 to 30-519; this one is not listed. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.design",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design and decorating services are not a taxable service in Arkansas; furnishings sold and installation of flooring or furniture can be taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      },
+      {
+        "title": "26 CAR §30-901",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "tax is not due on the separate installation charge, unless the installation is a specifically enumerated taxable service"
+      }
+    ],
+    "notes": "Initial installation of flooring or furniture is an enumerated taxable service (26 CAR §30-519). Arkansas taxes only the services enumerated in Ark. Code §26-52-301 and 26 CAR §§30-502 to 30-519; this one is not listed. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.engineering",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural design services are not taxable services in Arkansas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      },
+      {
+        "title": "26 CAR §30-901",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "tax is not due on the separate installation charge, unless the installation is a specifically enumerated taxable service"
+      }
+    ],
+    "notes": "Repair of engineering instruments is a taxable service, outside this code. Arkansas taxes only the services enumerated in Ark. Code §26-52-301 and 26 CAR §§30-502 to 30-519; this one is not listed. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.it",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT services in Arkansas are taxable when they install, repair or maintain computer hardware; software support, programming, consulting and data processing are not taxable.",
+    "conditions": [
+      {
+        "when": "Installation, repair or maintenance of computers or computer hardware, or a service contract covering it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Separately stated software technical support, help-desk advice, consulting, programming or data processing with no hardware work",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR §30-1008(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "(C) The service of repairing or maintaining computer equipment or hardware in any form."
+      },
+      {
+        "title": "26 CAR §30-1008(d)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "Computers are electrical devices, and any services performed on computers, including initial installation of the computer or any of its hardware, are taxable services."
+      },
+      {
+        "title": "26 CAR §30-1008(h)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "Separately stated charges for technical support for software are not subject to tax."
+      }
+    ],
+    "notes": "Service contracts covering taxable computer repair are taxable (26 CAR §30-1008(e)). IT training and network design are not enumerated services; no page addressing them by name was read. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "service.professional.legal",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not a taxable service in Arkansas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      },
+      {
+        "title": "26 CAR §30-901",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9367&sectionID=62999",
+        "quote": "tax is not due on the separate installation charge, unless the installation is a specifically enumerated taxable service"
+      }
+    ],
+    "notes": "Arkansas taxes only the services enumerated in Ark. Code §26-52-301 and 26 CAR §§30-502 to 30-519; this one is not listed. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "software.custom",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software development and programming services are not taxable in Arkansas.",
+    "conditions": [
+      {
+        "when": "Sold for one unitemized price with more than a de minimis amount of software on a tangible medium, where the programming is not the true object",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR §30-1008(h)(2)(A)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "Software programming services and the development of custom software for a particular customer are not taxable services."
+      },
+      {
+        "title": "26 CAR §30-1008(c)(3)(B)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "However, where there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such modification or enhancement, such modification or enhancement shall not constitute prewritten computer software."
+      }
+    ],
+    "notes": "Modifications to prewritten software that are not separately charged remain part of the prewritten software (taxable only if delivered on a tangible medium). Programming sold together with software on tangible media for one price is taxable unless the programming is the true object or the media are de minimis (26 CAR §30-1008(h)(3); §30-1226). The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "software.prewritten",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxable in Arkansas when delivered on a tangible medium (disk, CD) and not taxable when downloaded or delivered electronically.",
+    "conditions": [
+      {
+        "when": "Delivered on a tangible storage medium transferred to the buyer (disk, CD, USB)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Downloaded or otherwise delivered electronically, or by load and leave, with the license charge separately stated from any tangible items",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR §30-1008(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "Sales tax is levied on the gross receipts or gross proceeds received from sales of: (A) Computer hardware; (B) Computer software; and"
+      },
+      {
+        "title": "26 CAR §30-1008(a)(2)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "Software that is delivered electronically or by load and leave is not taxable."
+      },
+      {
+        "title": "26 CAR §30-1008(f)(2)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "The licensing of software downloaded through a modem or by other electronic means is not subject to tax if charges for the licensing are separately stated on the invoice or billing statement from charges for any:"
+      }
+    ],
+    "notes": "'Load and leave' (installed from media the seller keeps) counts as electronic delivery. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR",
+    "code": "software.saas",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Remotely accessed software (SaaS) is not taxable in Arkansas: software is taxed only when delivered on a tangible medium, and remote access is not an enumerated taxable service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "26 CAR §30-1008(a)(2)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9368&sectionID=63007",
+        "quote": "Software that is delivered electronically or by load and leave is not taxable."
+      },
+      {
+        "title": "26 CAR §30-103(a)(1)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9359&sectionID=62959",
+        "quote": "derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed"
+      },
+      {
+        "title": "26 CAR §30-502(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=971&subPartID=9363&sectionID=62966",
+        "quote": "Additional services subject to gross receipts tax include:"
+      }
+    ],
+    "notes": "No DFA text naming SaaS was retrieved (DFA legal opinions on remote software are reported but the opinion database could not be read); the rule rests on the electronic-delivery exclusion and the closed list of taxable services. Specified digital products taxed since 2018 (Act 141) are digital audio, audio-visual works, books and codes, not software. The Code of Arkansas Rules is the official text from 2025-01-01, so the rule starts there; the same provisions were in the earlier Gross Receipts Tax Rules (GR series) but those versions were not read. Arkansas city and county sales taxes apply to the same sales as the state tax for this code, so this rule covers the state and local parts."
+  },
+  {
+    "tax": "AR:local",
+    "code": "food.grocery",
+    "from": "2011-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Arkansas city and county sales taxes apply in full to food and food ingredients; only the state tax is reduced or exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Local city and county sales and use taxes will continue to apply to all sales of food and food ingredients and prepared food."
+      },
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §2",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "sale of food and food ingredients to continue to be subject to taxes levied"
+      },
+      {
+        "title": "DFA, What's New in Sales Tax for 2025",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/Whatsnew2025_1.pdf",
+        "quote": "Act 1008: Provides a state sales and use tax exemption for sales of food and food ingredients. Gross receipts and gross proceeds derived from the sale of food and food ingredients will continue to be subject to sales and use taxes levied by municipalities and counties."
+      }
+    ],
+    "notes": "2011-07-01 is the start of the first state rule in this file; local taxation of food is older."
+  },
+  {
+    "tax": "AR:local",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Arkansas city and county sales taxes apply in full to cold deli and grocery food, prepared or not.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Local city and county sales and use taxes will continue to apply to all sales of food and food ingredients and prepared food."
+      },
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §2",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "sale of food and food ingredients to continue to be subject to taxes levied"
+      }
+    ],
+    "notes": "Local taxes reach food and food ingredients and prepared food alike."
+  }
+]

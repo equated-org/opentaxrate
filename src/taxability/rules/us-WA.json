@@ -84,6 +84,84 @@
   },
   {
     "tax": "WA",
+    "code": "food.candy",
+    "from": "2011-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy is food and food ingredients in Washington and exempt from retail sales tax.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine (tax applies to 57% of the gross receipts)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold heated, combined with other food by the seller, or with utensils the seller provides (prepared food)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RCW 82.08.0293(1)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The tax levied by RCW 82.08.020 does not apply to sales of food and food ingredients."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "WAC 458-20-244(9)(b) example (vending machine candy)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Jane must also report an exempt food sales deduction representing the remaining 43 percent of the gross candy machine proceeds."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Findings—2011 c 2 (Initiative Measure No. 1107)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "For these reasons, the people repeal the food and beverage taxes imposed by the 2010 legislature."
+      }
+    ],
+    "notes": "Candy is not among RCW 82.08.0293's exclusions (prepared food, soft drinks, bottled water, dietary supplements, alcohol, tobacco, cannabis), so it is exempt food. The 2010 legislature taxed candy from 2010-06-01 (2010 1st sp.s. c 23); Initiative 1107 (approved November 2, 2010; 2011 c 2) repealed it. The initiative's effective day (reported as 2010-12-02) is not on the fetched pages, so the rule starts 2011-01-01, the first date the repeal is certainly law. Local sales taxes share the state base."
+  },
+  {
+    "tax": "WA",
+    "code": "food.soft_drink",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Soft drinks (nonalcoholic beverages with natural or artificial sweeteners) are excluded from Washington's food exemption and are subject to retail sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293(2)(d)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "\"Soft drinks\" means nonalcoholic beverages that contain natural or artificial sweeteners."
+      },
+      {
+        "title": "WAC 458-20-244(4)(g)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "For example, sweetened sports beverages are considered \"soft drinks,\" but a sweetened soy beverage is a food or food ingredient."
+      },
+      {
+        "title": "Laws of 2003, ch. 168, sec. 301",
+        "url": "https://lawfilesext.leg.wa.gov/biennium/2003-04/Pdf/Bills/Session%20Laws/Senate/5783.sl.pdf",
+        "quote": "to prepared food, soft drinks, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.010, note: Effective dates—2003 c 168",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.010",
+        "quote": "Sections 101 through 104, 201 through 216, 401 through 412, 501, 502, 601 through 604, 701 through 704, 801, 901, and 902 of this act take effect July 1, 2004. Sections 301 through 305 of this act take effect January 1, 2004."
+      }
+    ],
+    "notes": "The code excludes milk drinks and drinks over half juice, which Washington's definition also excludes. Beverage mixes not sold in liquid form (powders, frozen concentrate) aren't soft drinks (WAC 458-20-244(4)(g)). Local sales taxes share the state base."
+  },
+  {
+    "tax": "WA",
     "code": "food.prepared",
     "from": "2004-01-01",
     "fromIs": "effective",
@@ -143,6 +221,346 @@
       }
     ],
     "notes": "Before 2004-01-01 WA taxed comparable items under a different test (food handled under a food worker permit, parking/admission tests); not modeled. The utensil and 75% rules were refined after 2004 (e.g. 2009 c 483); the overall treatment (prepared food taxable) is unchanged, but the exact pre-2009 exceptions are unverified. Code's 'delivered meals' are taxable; any delivery charge follows the meal."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.hot",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, subject to Washington retail sales tax (a warmed bakery item sold without utensils is the exception; see food.prepared.bakery).",
+    "conditions": [
+      {
+        "when": "A bakery item (bread, pastry, muffin, cookie, etc.) sold warmed without eating utensils provided by the seller",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RCW 82.08.0293(2)(c)(i)(A)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "\"Prepared food\" means: (A) Food sold in a heated state or heated by the seller;"
+      },
+      {
+        "title": "WAC 458-20-244(5)(a)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Food or food ingredients are \"prepared foods\" if sold in a heated state or are heated by the seller, except bakery items."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030)."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.dine_in",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Food served on the seller's plates, glasses, cups or other utensils for eating at its premises is prepared food, subject to Washington retail sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RCW 82.08.0293(2)(c)(i)(B)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "(B) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Utensils include plates, knives, forks, spoons, glasses, cups, napkins, and straws."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030). Washington's test is utensils, not where the food is eaten; food served at the seller's tables comes on its plates or with its utensils."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.sandwich",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "A sandwich the seller assembles is two or more foods combined by the seller, so it is prepared food subject to Washington retail sales tax even sold cold to go.",
+    "conditions": [
+      {
+        "when": "Sold unheated and priced by weight, without utensils (rare for a sandwich)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "WAC 458-20-244(5)(b)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Food or food ingredients are \"prepared foods\" if the item sold consists of two or more foods or food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "WAC 458-20-244(5)(d) Example 2(D)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Sandwiches prepared by the caterer are subject to retail sales tax."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030). A sandwich made by a food manufacturer (NAICS 311) and resold sealed, without utensils, isn't the seller's own; the code covers the seller's own."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.cold",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold food a store prepared is exempt when sold by weight or volume, or only cut or repackaged, without utensils; mixed or combined items sold at a fixed price, salad-bar food and items handed over with utensils are taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (deli salad by the pound), without utensils the seller provides",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (cut fruit, sliced cheese), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Single-ingredient cooked food sold cold at a fixed price (a cooled roast chicken), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more foods mixed or combined by the seller and sold at a fixed price per item (a packaged salad, a cold meal)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "From a self-serve salad bar, or with a fork, napkin or other utensil the seller customarily hands over or packs with it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared food is over 75% of its food sales and it makes utensils available (fewer than four servings)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "WAC 458-20-244(5)(b)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Food or food ingredients are \"prepared foods\" if the item sold consists of two or more foods or food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "RCW 82.08.0293(2)(c)(iii)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "\"Prepared food\" does not include the following items, if sold without eating utensils provided by the seller:"
+      },
+      {
+        "title": "RCW 82.08.0293(2)(c)(iii)(B)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Food sold in an unheated state by weight or volume as a single item"
+      },
+      {
+        "title": "WAC 458-20-244(5)(b)(ii)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Items that the seller only cuts, repackages, or pasteurizes;"
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)(ii)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "For example, items obtained from a self-serve salad bar are sold with utensils provided by the seller, because the customer must use a bowl or plate provided by the seller in order to receive the items."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030). Food is 'heated' only if sold above room temperature (WAC 458-20-244(5)(a)), so a cooled roast chicken is not heated; whether seasoning makes it 'combined' is not addressed in the fetched pages (unverified)."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant or café prepared (mixed or combined by it, or sold in its cups or with its utensils) is prepared food subject to Washington retail sales tax; at a seller whose prepared food is over 75% of its food sales, even its other food sold with utensils available is taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume, or only cut, by a seller whose prepared food is 75% or less of its food sales, and without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Four or more servings packaged as one item for one price, where the seller doesn't customarily hand over utensils with it",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "WAC 458-20-244(5)(b)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Food or food ingredients are \"prepared foods\" if the item sold consists of two or more foods or food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "RCW 82.08.0293(2)(c)(i)(B)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "(B) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)(iii)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "are \"sold with utensils provided by the seller\" if the seller makes utensils available to its customers and the seller's gross retail sales of prepared food under (a), (b), and (c)(ii) of this subsection equal more than 75 percent of the seller's gross retail sales of all food and food ingredients"
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)(iii)(A)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Even if a seller has more than 75 percent prepared food sales, four servings or more of food or food ingredients packaged for sale as a single item and sold for a single price are not \"sold with utensils provided by the seller\" unless the seller's customary practice for the package is to physically hand or otherwise deliver a utensil to the customer as part of the sales transaction."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030). A cold soft drink is taxable either way (food.soft_drink); a cold drink in the seller's cup is sold with a utensil needed to receive it (WAC 458-20-244(5)(c)(ii))."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.bakery",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils are exempt even if warmed, the usual case at a bakery or grocery; at a café or restaurant whose prepared food is over 75% of its food sales and that makes utensils available, single servings are taxable.",
+    "conditions": [
+      {
+        "when": "Seller's prepared food is 75% or less of its food sales (most bakeries and groceries), and it doesn't customarily hand over a utensil with the item",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller's prepared food is over 75% of its food sales and it makes utensils available: items under four servings",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared food is over 75% of its food sales: a package of four or more servings sold for one price, with no utensil customarily handed over",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RCW 82.08.0293(2)(c)(iii)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "\"Prepared food\" does not include the following items, if sold without eating utensils provided by the seller:"
+      },
+      {
+        "title": "RCW 82.08.0293(2)(c)(iii)(C)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The term \"bakery items\" includes bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, Danish, cakes, tortes, pies, tarts, muffins, bars, cookies, or tortillas."
+      },
+      {
+        "title": "WAC 458-20-244(5)(a)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Food or food ingredients are \"prepared foods\" if sold in a heated state or are heated by the seller, except bakery items."
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)(iii)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "are \"sold with utensils provided by the seller\" if the seller makes utensils available to its customers and the seller's gross retail sales of prepared food under (a), (b), and (c)(ii) of this subsection equal more than 75 percent of the seller's gross retail sales of all food and food ingredients"
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)(iii)(A)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Even if a seller has more than 75 percent prepared food sales, four servings or more of food or food ingredients packaged for sale as a single item and sold for a single price are not \"sold with utensils provided by the seller\" unless the seller's customary practice for the package is to physically hand or otherwise deliver a utensil to the customer as part of the sales transaction."
+      },
+      {
+        "title": "WAC 458-20-244(5)(d) Example 2(F)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Milk and juice in single serving containers, whole fruit, cookies, pastries, slices of cake, and whole cakes are not subject to retail sales tax unless the seller's customary practice is to hand a utensil to the customer as part of the sales transaction."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030). The 75% test is the seller's prior-year sales mix, which no code carries. A bakery item combined by the seller with other food (a filled bagel sandwich) is a sandwich, not this code."
+  },
+  {
+    "tax": "WA",
+    "code": "food.prepared.platter",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A tray of foods the seller combined (cold cuts and cheese, sandwiches, vegetables with dip) is prepared food subject to Washington retail sales tax; a tray of produce the seller only cut, sold without utensils, is exempt.",
+    "conditions": [
+      {
+        "when": "Two or more foods combined by the seller (meat and cheese, sandwiches, vegetables with dip), or sold with utensils (plates, napkins) the seller provides",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Only cut and arranged produce or a single food, with no dip or other added food, and no utensils provided",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "WAC 458-20-244(5)(b)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Food or food ingredients are \"prepared foods\" if the item sold consists of two or more foods or food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "WAC 458-20-244(5)(b)(ii)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Items that the seller only cuts, repackages, or pasteurizes;"
+      },
+      {
+        "title": "RCW 82.08.0293(2)(c)(i)(B)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "(B) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "WAC 458-20-244(5)(c)(iii)(A)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "Even if a seller has more than 75 percent prepared food sales, four servings or more of food or food ingredients packaged for sale as a single item and sold for a single price are not \"sold with utensils provided by the seller\" unless the seller's customary practice for the package is to physically hand or otherwise deliver a utensil to the customer as part of the sales transaction."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.0293, note: Retroactive effective date—2004 c 153",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Section 201 of this act is necessary for the immediate preservation of the public peace, health, or safety, or support of the state government and its existing public institutions, and retroactively takes effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as the parent food.prepared rule: the 2003 SSUTA definitions (2003 c 168 s 301) took effect then, amended by 2004 c 153 s 201 retroactively to the same day. The wording quoted is today's RCW 82.08.0293 and WAC 458-20-244 (effective 2024-02-16); that every detail (the bakery-even-if-heated exclusion, the 75% utensil rule) reads the same back to 2004 is unverified. Local sales taxes share the state base (RCW 82.14.030). A platter is usually four or more servings, so the 75% utensil rule doesn't make it taxable unless utensils are handed over with it. Whether arranging several cut fruits on one tray counts as 'combined' rather than 'only cut' isn't addressed in the fetched pages (unverified)."
   },
   {
     "tax": "WA",
@@ -220,6 +638,28 @@
   },
   {
     "tax": "WA",
+    "code": "software.prewritten",
+    "from": "2013-03-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software sold to a consumer is subject to Washington retail sales tax whether delivered on tangible media or electronically.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "WAC 458-20-15502(3)(b)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-15502",
+        "quote": "Regardless of the method of delivery, whether through tangible media or electronic means, prewritten computer software remains subject to retail sales tax and retailing B&O tax."
+      },
+      {
+        "title": "WAC 458-20-15502 history",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-15502",
+        "quote": "WSR 13-06-015, § 458-20-15502, filed 2/25/13, effective 3/28/13."
+      }
+    ],
+    "notes": "2013-03-28 is when the current WAC 458-20-15502 took effect; prewritten software was taxable long before (electronically delivered since 2009-07-26 under 2009 c 535), but earlier dates aren't modeled. A key or activation code is part of the software's sale (RCW 82.04.050(6)(a)). Local sales taxes share the state base."
+  },
+  {
+    "tax": "WA",
     "code": "software.custom",
     "from": "2009-07-26",
     "to": "2025-09-30",
@@ -274,9 +714,20 @@
         "title": "RCW 82.04.050, note: Effective date—2025 c 422 ss 101 and 201",
         "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
         "quote": "Sections 101 and 201 of this act take effect October 1, 2025."
+      },
+      {
+        "title": "RCW 82.04.050(6)(b) as amended by 2026 c 238 (effective January 1, 2029)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "The term \"retail sale\" does not include the sale of or charge made for: (i) Custom software; or (ii) The customization of prewritten computer software."
+      },
+      {
+        "title": "RCW 82.04.050, note: Effective date—2026 c 238 ss 1001 and 1002",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Sections 1001 and 1002 of this act take effect January 1, 2029."
       }
     ],
-    "notes": "2026 c 250 (applied retroactively to 2025-10-01) kept custom software taxable and moved the affiliated-group exclusion into a new RCW 82.04.050(17)(b); sales between affiliated-group members are excluded, which depends on the buyer. DOR states ESSB 5814 is the subject of ongoing legal proceedings (constitutional challenge); as of 2026-10-30 DOR says taxpayers must keep collecting. Outcome of that litigation unverified."
+    "notes": "2026 c 250 (applied retroactively to 2025-10-01) kept custom software taxable and moved the affiliated-group exclusion into a new RCW 82.04.050(17)(b); sales between affiliated-group members are excluded, which depends on the buyer. DOR states ESSB 5814 is the subject of ongoing legal proceedings (constitutional challenge); as of 2026-10-30 DOR says taxpayers must keep collecting. Outcome of that litigation unverified. Ends 2028-12-31: RCW 82.04.050 as amended by 2026 c 238 (effective 2029-01-01) takes custom software and customization back out of retail sales. The legislature's final bill report on 2026 c 238 says the whole act is void if a court invalidates its income tax, so no rule is written from 2029 until that settles. From 2026-07-01 schools and libraries buy it exempt (2026 c 238 ss 1101-1104), a buyer fact. One rule covers both subcodes (development and modification are treated alike).",
+    "to": "2028-12-31"
   },
   {
     "tax": "WA",
@@ -382,9 +833,200 @@
         "title": "RCW 82.04.050, note: Effective date—2025 c 422 ss 101 and 201",
         "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
         "quote": "Sections 101 and 201 of this act take effect October 1, 2025."
+      },
+      {
+        "title": "RCW 82.04.050, note: Effective date—2026 c 238 ss 1001 and 1002",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Sections 1001 and 1002 of this act take effect January 1, 2029."
       }
     ],
-    "notes": "The code is too broad for one answer; the caller must say which kind of service. 2026 c 250 (applied retroactively to 2025-10-01) revised the enumerated services: live-presentation exclusions were rewritten (one-on-one tutoring, consulting and music lessons; accredited school classes; youth camps), temporary staffing excludes hospital staffing and paymaster services, and affiliated-group exclusions moved to RCW 82.04.050(17). DOR describes some live-presentation and hospital-staffing changes as effective 2026-07-01, while the RCW note says 2026 c 250 applies retroactively to 2025-10-01; the exact date for those sub-changes is unverified. ESSB 5814 also removed the DAS 'primarily human effort' exclusion; DOR's FAQ says lawyers and accountants are generally still not DAS, so the DAS condition is narrow. DOR reports ongoing litigation over ESSB 5814; outcome unverified."
+    "notes": "The code is too broad for one answer; the caller must say which kind of service. 2026 c 250 (applied retroactively to 2025-10-01) revised the enumerated services: live-presentation exclusions were rewritten (one-on-one tutoring, consulting and music lessons; accredited school classes; youth camps), temporary staffing excludes hospital staffing and paymaster services, and affiliated-group exclusions moved to RCW 82.04.050(17). DOR describes some live-presentation and hospital-staffing changes as effective 2026-07-01, while the RCW note says 2026 c 250 applies retroactively to 2025-10-01; the exact date for those sub-changes is unverified. ESSB 5814 also removed the DAS 'primarily human effort' exclusion; DOR's FAQ says lawyers and accountants are generally still not DAS, so the DAS condition is narrow. DOR reports ongoing litigation over ESSB 5814; outcome unverified. Ends 2028-12-31: from 2029-01-01, 2026 c 238 removes IT services, website development, investigation/security and temporary staffing from retail sales (advertising stays taxable), contingent on its income tax surviving in court; no rule is written from 2029. The subcodes now have their own rules from 2025-10-01.",
+    "to": "2028-12-31"
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.legal",
+    "from": "2025-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Legal services are not among the services Washington taxes as retail sales, so they carry no sales tax; lawyers pay B&O tax under the service classification.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DOR FAQ about ESSB 5814",
+        "url": "https://dor.wa.gov/frequently-asked-questions-about-essb-5814",
+        "quote": "Generally, accountants and lawyers provide professional services that are subject to business and occupation (B&O) tax under the Service and Other Activities classification."
+      },
+      {
+        "title": "WAC 458-20-224(2)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-224",
+        "quote": "In general, it includes persons rendering professional or personal services to persons (as distinguished from services rendered to personal property of persons) such as accountants, aerial surveyors and map makers, agents, ambulances, appraisers, architects, assayers, attorneys"
+      }
+    ],
+    "notes": "From 2025-10-01, when ESSB 5814 began taxing some services; before that the parent service.professional rule (exempt) covers legal services. ESSB 5814 did not add legal services. Work delivered as a digital automated service (e.g. a self-service document portal) would be taxable; the FAQ says lawyers using software are generally not DAS."
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.accounting",
+    "from": "2025-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing, bookkeeping and tax preparation are not retail sales in Washington and carry no sales tax; accountants pay B&O tax under the service classification.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DOR FAQ about ESSB 5814",
+        "url": "https://dor.wa.gov/frequently-asked-questions-about-essb-5814",
+        "quote": "Generally, accountants and lawyers provide professional services that are subject to business and occupation (B&O) tax under the Service and Other Activities classification."
+      },
+      {
+        "title": "WAC 458-20-224(2)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-224",
+        "quote": "In general, it includes persons rendering professional or personal services to persons (as distinguished from services rendered to personal property of persons) such as accountants"
+      }
+    ],
+    "notes": "From 2025-10-01; before that the parent rule (exempt) covers. Data entry and data processing services, which ESSB 5814 taxes as IT services, are a different code (service.professional.it); payroll processing could fall there (RCW 82.04.050(3)(g), unverified for bookkeeping)."
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.consulting",
+    "from": "2025-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Management and business consulting (not IT, not advertising) is not among the services Washington taxes as retail sales, so it carries no sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "WAC 458-20-224(2)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-224",
+        "quote": "In general, it includes persons rendering professional or personal services to persons (as distinguished from services rendered to personal property of persons)"
+      },
+      {
+        "title": "DOR: Services newly subject to retail sales tax (IT services row)",
+        "url": "https://dor.wa.gov/NewRetailServices",
+        "quote": "Help desk services, network support, training, IT consulting, data processing, and data entry."
+      },
+      {
+        "title": "DOR: Services newly subject to retail sales tax",
+        "url": "https://dor.wa.gov/NewRetailServices",
+        "quote": "The table below lists a summary of the services newly subject to retail sales tax effective Oct. 1, 2025."
+      }
+    ],
+    "notes": "No DOR page fetched names management consulting as untaxed; this rests on RCW 82.04.050(3) taxing only the services it enumerates, the DOR list naming only IT consulting, and WAC 458-20-224 classing professional services under the service B&O classification. Consulting on IT or advertising is taxable under those codes. Live group seminars or workshops are taxable live presentations; one-on-one consulting is excluded (RCW 82.04.050(3)(l))."
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.it",
+    "from": "2025-10-01",
+    "to": "2028-12-31",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From October 1, 2025, information technology services, including IT consulting, network support, help desk and IT training, are retail sales subject to Washington sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RCW 82.04.050(3)(g)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Information technology training services, technical support, and other services including, but not limited to, assisting with network operations and support, help desk services, in-person training related to hardware or software, network system support services, data entry services, and data processing services;"
+      },
+      {
+        "title": "DOR interim guidance: IT services (2025-09-12)",
+        "url": "https://dor.wa.gov/laws-rules/interim_guidance_statements/interim-guidance-statement-regarding-changes-made-essb-5814-information-technology-services",
+        "quote": "Under ESSB 5814, the sale of information technology services (IT Services) is a retail sale."
+      },
+      {
+        "title": "RCW 82.04.050, note: Effective date—2025 c 422 ss 101 and 201",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Sections 101 and 201 of this act take effect October 1, 2025."
+      },
+      {
+        "title": "RCW 82.04.050, note: Effective date—2026 c 238 ss 1001 and 1002",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Sections 1001 and 1002 of this act take effect January 1, 2029."
+      }
+    ],
+    "notes": "Ends 2028-12-31: the version of RCW 82.04.050 'as amended by 2026 c 238', effective 2029-01-01, deletes IT services (and website development, investigation/security and temporary staffing) from (3). The legislature's final bill report on 2026 c 238 (ESSB 6346, the millionaires' income tax) says the whole act is void if a court invalidates the income tax, so no rule is written from 2029 until that settles. From 2026-07-01 schools, school districts and libraries are exempt buyers of these services (2026 c 238 ss 1101-1104), a buyer fact the caller carries. DOR reports litigation over ESSB 5814."
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.engineering",
+    "from": "2025-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural design services are not retail sales in Washington and carry no sales tax; engineers and architects pay B&O tax under the service classification.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "WAC 458-20-224(2)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-224",
+        "quote": "In general, it includes persons rendering professional or personal services to persons (as distinguished from services rendered to personal property of persons) such as accountants, aerial surveyors and map makers, agents, ambulances, appraisers, architects"
+      },
+      {
+        "title": "DOR FAQ about ESSB 5814",
+        "url": "https://dor.wa.gov/frequently-asked-questions-about-essb-5814",
+        "quote": "Examples of other professional services contemplated in this FAQ include:"
+      }
+    ],
+    "notes": "From 2025-10-01; before that the parent rule (exempt) covers. The FAQ's list after the quoted line names engineers and architects among traditional professional services that are generally not digital automated services. Engineering for IT infrastructure is an IT service (DOR IT guidance), a different code."
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.design",
+    "from": "2025-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Interior design and decorating advice, when the designer doesn't sell the goods or do the work, is not a retail sale in Washington and carries no sales tax.",
+    "conditions": [
+      {
+        "when": "The designer also sells the furniture or other goods, or is responsible for the improvements (installing, building): the goods or construction are retail sales",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DOR Interior decorators, designers & consultants guide: specific activities",
+        "url": "https://dor.wa.gov/education/industry-guides/interior-decorators-designers-consultants-guide/specific-activities",
+        "quote": "When design/consultant services are limited to making recommendations for certain types of furniture, paint, fabrics, or artwork, you are merely providing advice to the client on decorating ideas."
+      },
+      {
+        "title": "DOR Interior decorators, designers & consultants guide: specific activities",
+        "url": "https://dor.wa.gov/education/industry-guides/interior-decorators-designers-consultants-guide/specific-activities",
+        "quote": "Income from providing design/consulting services is subject to B&O tax under the Service and Other Activities classification"
+      }
+    ],
+    "notes": "From 2025-10-01 (the guide carries DOR's post-ESSB 5814 banner); before that the parent rule (exempt) covers. Graphic design sold alone isn't an advertising service (DOR FAQ)."
+  },
+  {
+    "tax": "WA",
+    "code": "service.professional.advertising",
+    "from": "2025-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From October 1, 2025, advertising services (ad design, placement, campaign planning, advice on advertising) are retail sales subject to Washington sales tax.",
+    "conditions": [
+      {
+        "when": "Services for newspapers, printing or publishing, radio or TV broadcasting, or out-of-home advertising (billboards, transit, signage), or web hosting and domain registration",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RCW 82.04.050(3)(k)(i)(A)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Layout, art direction, graphic design, mechanical preparation, production supervision, placement, referrals, acquisition of advertising space, and rendering advice concerning the best methods of advertising products or services"
+      },
+      {
+        "title": "DOR interim guidance: advertising services (2025-09-17)",
+        "url": "https://dor.wa.gov/laws-rules/interim_guidance_statements/interim-guidance-statement-regarding-changes-made-essb-5814-advertising-services",
+        "quote": "Under ESSB 5814, effective October 1, 2025, the sale of advertising services will be treated as a “retail sale.”"
+      },
+      {
+        "title": "RCW 82.04.050, note: Effective date—2025 c 422 ss 101 and 201",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.04.050",
+        "quote": "Sections 101 and 201 of this act take effect October 1, 2025."
+      }
+    ],
+    "notes": "2026 c 238 (effective 2029-01-01) keeps advertising services taxable; only their subsection letter changes. Between members of an affiliated group the sale isn't retail (RCW 82.04.050(8)). DOR reports litigation over ESSB 5814."
   },
   {
     "tax": "WA",
@@ -462,5 +1104,59 @@
       }
     ],
     "notes": "2004-07-01 is the effective date of the SSUTA 'sales price' definition (2003 c 168 s 101) that lists delivery charges as non-deductible; delivery was also part of the taxable price before that under older wording, not modeled. Charges the buyer alone owes a carrier after taking delivery are not part of the seller's price (WAC 458-20-110(3)(d))."
+  },
+  {
+    "tax": "WA",
+    "code": "delivery.taxable_goods",
+    "from": "2004-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "A seller's delivery charge is part of the selling price, so it is taxed with taxable goods even when stated separately.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RCW 82.08.010(1)(a)(i)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.010",
+        "quote": "(D) delivery charges; and (E) installation charges."
+      },
+      {
+        "title": "WAC 458-20-110(3)(a)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-110",
+        "quote": "Amounts received by a seller from a buyer for delivery charges are included in the measure of tax regardless of whether charges for such costs are billed separately, itemized, or whether the seller is also the carrier."
+      },
+      {
+        "title": "RCW 82.08.010, note: Effective dates—2003 c 168",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.010",
+        "quote": "Sections 101 through 104, 201 through 216, 401 through 412, 501, 502, 601 through 604, 701 through 704, 801, 901, and 902 of this act take effect July 1, 2004. Sections 301 through 305 of this act take effect January 1, 2004."
+      }
+    ],
+    "notes": "As the parent delivery rule. When one charge covers taxable and exempt goods, only the share allocated to the taxable goods is taxed (WAC 458-20-110). Charges the buyer alone owes a carrier after taking delivery aren't the seller's price."
+  },
+  {
+    "tax": "WA",
+    "code": "delivery.exempt_goods",
+    "from": "2004-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A seller's delivery charge for exempt goods, such as groceries, is part of an exempt selling price and carries no sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "WAC 458-20-110(3)(b)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-110",
+        "quote": "If the sale of the tangible personal property or service is exempt from retail sales tax, such as certain \"food and food ingredients,\" retail sales tax does not apply to the selling price, including delivery charges, associated with that sale."
+      },
+      {
+        "title": "RCW 82.08.010(1)(a)(i)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.010",
+        "quote": "(D) delivery charges; and (E) installation charges."
+      },
+      {
+        "title": "RCW 82.08.010, note: Effective dates—2003 c 168",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.010",
+        "quote": "Sections 101 through 104, 201 through 216, 401 through 412, 501, 502, 601 through 604, 701 through 704, 801, 901, and 902 of this act take effect July 1, 2004. Sections 301 through 305 of this act take effect January 1, 2004."
+      }
+    ],
+    "notes": "As the parent delivery rule."
   }
 ]

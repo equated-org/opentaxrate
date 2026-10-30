@@ -1,0 +1,601 @@
+[
+ {
+  "tax": "ID",
+  "code": "construction.real_property",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "A contractor who builds, repairs or improves real property is the consumer of its materials and pays tax on them; it does not charge sales tax to the owner in Idaho.",
+  "conditions": [
+   {
+    "when": "The contractor sells materials only, with no installation",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Such contractors are defined as the consumers of the materials they install and are required to pay sales or use tax on their cost for the materials. They do not charge sales tax to their customers unless they make a sale of materials only, with no installation."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "A contractor is any person acting as a general contractor, subcontractor, contractee, subcontractee, or speculative builder who builds, alters, repairs, or improves real property."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "Contractors are the consumers of all the goods they use."
+   }
+  ],
+  "notes": "Repair and improvement are treated alike, so one rule covers both subcodes. Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "delivery",
+  "from": "1997-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Separately stated charges for transporting and handling goods to the buyer are not part of the taxable sales price in Idaho.",
+  "conditions": [
+   {
+    "when": "Not separately stated, or a charge for delivery to the seller (freight-in), or used to avoid tax on the goods' price",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho Code 63-3613(b)(7)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3613/",
+    "quote": "Delivery and handling charges for transportation of tangible personal property to the consumer, provided that the transportation is stated separately"
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Charges for transportation and handling of goods to the consumer are not included as a part of the sales price regardless of when title passes."
+   },
+   {
+    "title": "Idaho State Tax Commission, Sales Price – Food, Meals, and Drinks",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/food-drinks/sales-price/",
+    "quote": "Separately stated on the receipt Not used to avoid sales tax on the actual meal price"
+   }
+  ],
+  "notes": "Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "food.candy",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Candy is taxable at Idaho's full 6% rate, like all food.",
+  "conditions": [
+   {
+    "when": "Paid for with SNAP benefits or WIC checks",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Purchases from these snack displays are subject to sales tax."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "prepackaged snack foods, such as candy, gum, chips, cookies or crackers,"
+   },
+   {
+    "title": "Idaho State Tax Commission, Sales – Grocers",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/grocers/sales/",
+    "quote": "Retail sales of food, drink, cosmetics, and household supplies to the final consumer"
+   }
+  ],
+  "notes": "Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "food.catering",
+  "from": "2012-03-29",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Catering is taxable in Idaho: the food, drinks and the caterer's service charges, but not a tip or gratuity paid to the servers as their income.",
+  "conditions": [
+   {
+    "when": "A gratuity or tip, voluntary or mandatory, separately stated and paid to the servers as additional income",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, Sales Price – Food, Meals, and Drinks",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/food-drinks/sales-price/",
+    "quote": "Service charges other than tips"
+   },
+   {
+    "title": "Idaho Code 63-3613(f)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3613/",
+    "quote": "Sales price shall not include a gratuity or tip received when paid to the service provider of a meal."
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Gratuities. When a gratuity is paid in addition to the price of a meal, no sales tax applies to the"
+   },
+   {
+    "title": "Idaho Code 63-3612(2)(b)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3612/",
+    "quote": "Furnishing, preparing, or serving food, meals, or drinks and nondepreciable goods and services directly consumed by customers included in the charge thereof."
+   }
+  ],
+  "notes": "2012-03-29 is the effective date on the gratuity rule text read (2017 snapshot). Equipment rentals on the bill are taxable as rentals of tangible personal property (63-3612(2)(h)). Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "food.grocery",
+  "from": "1998-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Idaho taxes groceries at the full 6% sales tax rate; relief comes through the income tax grocery credit, not an exemption.",
+  "conditions": [
+   {
+    "when": "Paid for with SNAP (food stamp) benefits or WIC checks",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, Sales – Grocers",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/grocers/sales/",
+    "quote": "Retail sales of food, drink, cosmetics, and household supplies to the final consumer"
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Purchases of food with coupons issued under the Federal Food Stamp Program or food checks issued by the Federal Special Supplemental Food Program for Women, Infants, and Children,"
+   }
+  ],
+  "notes": "No Idaho exemption for food exists (the chapter's food-related exemptions are school/church/senior meals and WIC/SNAP purchases). 2026 H.B. 633 (grocery exemption) was filed in the Chief Clerk's office without passing; a proposed November 2026 ballot initiative would act only from fiscal 2028 if adopted. 1998-07-01 is the date on the 2017 rule text quoted. Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "food.prepared",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Idaho taxes every kind of prepared food, meal or drink (hot, cold, dine-in, to go, bakery, platters) at the full 6% rate.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "Idaho Code 63-3612(2)(b)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3612/",
+    "quote": "Furnishing, preparing, or serving food, meals, or drinks and nondepreciable goods and services directly consumed by customers included in the charge thereof."
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Sales tax is imposed on the amount paid for food, meals, or drinks furnished by any restaurant, cafeteria, eating house, hotel, drugstore, diner, club, or any other place or organization regardless of whether meals are regularly served to the public."
+   },
+   {
+    "title": "Idaho State Tax Commission, Sales Price – Food, Meals, and Drinks",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/food-drinks/sales-price/",
+    "quote": "The sale of food, meals and drinks is taxable."
+   }
+  ],
+  "notes": "Idaho has no prepared-food definition to apply because all food is taxable; one parent rule covers all seven subcodes. Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "food.soft_drink",
+  "from": "1998-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Soft drinks are taxable at Idaho's full 6% rate, like all food and drink.",
+  "conditions": [
+   {
+    "when": "Paid for with SNAP benefits or WIC checks (where eligible)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, Sales – Grocers",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/grocers/sales/",
+    "quote": "Retail sales of food, drink, cosmetics, and household supplies to the final consumer"
+   },
+   {
+    "title": "Idaho State Tax Commission, Sales Price – Food, Meals, and Drinks",
+    "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/food-drinks/sales-price/",
+    "quote": "The sale of food, meals and drinks is taxable."
+   }
+  ],
+  "notes": "1998-07-01 matches the grocery rule's earliest date. Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "goods.general",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "taxable",
+  "summary": "Retail sales of tangible goods are subject to Idaho's 6% sales tax.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Retail sales include all sales of tangible personal property except for property that will be resold, leased, or rented in the regular course of the buyer’s business."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "The sales tax applies to retail sales of tangible personal property."
+   },
+   {
+    "title": "Idaho Code 63-3612(1)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3612/",
+    "quote": "The term \"sale\" means any transfer of title, exchange or barter, conditional or otherwise, of tangible personal property for a consideration"
+   }
+  ],
+  "notes": "1993-07-01 is the effective date shown on the 2017 rule text quoted; the tax is older (1965). Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "service.professional",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not sales of tangible goods and are not taxed in Idaho; the professional pays tax on what it uses.",
+  "conditions": [
+   {
+    "when": "The object of the transaction is tangible goods the professional produces or sells (printed materials, furnishings an interior designer supplies, reports on storage media), or the service is part of a sale of goods",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "When such persons are engaged in the rendering of professional services, no sales tax applies to the service."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "If the service is the object of the transaction, then it will depend on whether the transfer of the tangible personal property is an incidental part of the transaction. If so, then no part of the transaction is taxable."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "Separately stated charges for training services are not taxable, unless they are incidental services agreed to be rendered as a part of the sale of tangible personal property."
+   }
+  ],
+  "notes": "The Idaho rules address advertising (Rule 055) and training by name; other professions rest on the tax reaching only the sales listed in 63-3612 and the mixed-transaction test. Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "software.custom.development",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Custom software is not tangible personal property in Idaho; its sale or licence is not taxed in any form.",
+  "conditions": [
+   {
+    "when": "Custom programming sold with computer equipment and not separately stated from it",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho Code 63-3616(b)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3616/",
+    "quote": "The term \"tangible personal property\" includes any computer software except the following: custom computer programs;"
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "The transfer of title, possession, or use for a consideration of custom software is not subject to sales tax."
+   }
+  ]
+ },
+ {
+  "tax": "ID",
+  "code": "software.custom.modification",
+  "from": "1993-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Separately stated charges to modify prewritten software for one customer are custom programming, not taxed in Idaho.",
+  "conditions": [
+   {
+    "when": "The modification charge is not separately stated",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho Code 63-3616(b)(ii)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3616/",
+    "quote": "Modification to an existing prewritten program to meet the customer’s needs is custom computer programming only to the extent of the modification, and only to the extent that the actual amount charged for the modification is separately stated on invoices, statements, and other billing documents supplied to the purchaser."
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "The term includes those services that are represented by separately stated and identified charges for modification to existing canned software which are made to the special order of the customer, even though the sales, lease, or license of the existing program remains taxable."
+   }
+  ]
+ },
+ {
+  "tax": "ID",
+  "code": "software.prewritten",
+  "from": "2015-04-11",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Prewritten (canned) software is taxable in Idaho only when delivered on storage media the buyer keeps; downloaded or load-and-leave software is not taxed.",
+  "conditions": [
+   {
+    "when": "Delivered on storage media that the buyer keeps",
+    "treatment": "taxable"
+   },
+   {
+    "when": "Delivered electronically (download), by load and leave, or as a key code in a box without the software on media",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho Code 63-3616(b)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3616/",
+    "quote": "The term \"tangible personal property\" includes any computer software except the following: custom computer programs; computer software that is delivered electronically; remotely accessed computer software;"
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "If canned software is sold and delivered electronically or by the load and leave method, it is not tangible personal property and the sale is not taxable."
+   },
+   {
+    "title": "IDAPA 35.01.02 (rules in force 2026-07-01)",
+    "url": "https://adminrules.idaho.gov/rules/current/35/350102.pdf",
+    "quote": "The taxability of canned software depends on how it is delivered."
+   }
+  ],
+  "notes": "Digital music, books, videos and games with a permanent right of use are taxable however delivered (63-3616(b)). Idaho's only general local sales taxes are resort-city taxes; this ID rule covers the state 6% tax (and a local part where no ID:local rule exists). Where a code is taxed by the state, the ID:local rule for it says the resort-city tax depends on the city's ordinance."
+ },
+ {
+  "tax": "ID",
+  "code": "software.saas",
+  "from": "2015-04-11",
+  "fromIs": "earliest_verified",
+  "treatment": "exempt",
+  "summary": "Remotely accessed software is not tangible personal property in Idaho, so charges to use or access it are not taxed.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "Idaho Code 63-3616(b)",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title63/T63CH36/SECT63-3616/",
+    "quote": "The term \"tangible personal property\" includes any computer software except the following: custom computer programs; computer software that is delivered electronically; remotely accessed computer software;"
+   },
+   {
+    "title": "IDAPA 35.01.02 as published July 2017 (Wayback snapshot)",
+    "url": "https://web.archive.org/web/20170706034215id_/https://adminrules.idaho.gov/rules/current/35/0102.pdf",
+    "quote": "Remotely accessed computer software is not tangible personal property and charges to use or access such software are not subject to tax."
+   }
+  ],
+  "notes": "The exclusion predates 2018: the statute's history shows amendments in 2013-2015 (not a 2018 bill; no 2018 amendment to 63-3616 is listed), and the rule text read carries the date (4-11-15). The exact first effective date (reported as 2013) was not verified. Digital music, books, videos and games with a permanent right of use are taxable however delivered."
+ },
+ {
+  "tax": "ID:local",
+  "code": "food.candy",
+  "from": "2013-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Whether an Idaho resort city's local sales tax applies to candy depends on that city's ordinance: some tax everything the state taxes, others only lodging, liquor by the drink and restaurant food.",
+  "conditions": [
+   {
+    "when": "The city's ordinance taxes all sales subject to the state sales tax, or names this kind of sale",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The city limits its tax to other categories (e.g. lodging and alcohol by the drink only)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+   },
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+   },
+   {
+    "title": "Idaho Code 50-1044",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH10/SECT50-1044/",
+    "quote": "are hereby given the freedom to authorize their city government to adopt, implement and collect one (1) or more local-option nonproperty taxes as provided herein."
+   }
+  ],
+  "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+ },
+ {
+  "tax": "ID:local",
+  "code": "food.catering",
+  "from": "2013-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Whether an Idaho resort city's local sales tax applies to catering depends on that city's ordinance: some tax everything the state taxes, others only lodging, liquor by the drink and restaurant food.",
+  "conditions": [
+   {
+    "when": "The city's ordinance taxes all sales subject to the state sales tax, or names this kind of sale",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The city limits its tax to other categories (e.g. lodging and alcohol by the drink only)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+   },
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+   },
+   {
+    "title": "Idaho Code 50-1044",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH10/SECT50-1044/",
+    "quote": "are hereby given the freedom to authorize their city government to adopt, implement and collect one (1) or more local-option nonproperty taxes as provided herein."
+   }
+  ],
+  "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+ },
+ {
+  "tax": "ID:local",
+  "code": "food.grocery",
+  "from": "2013-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Whether an Idaho resort city's local sales tax applies to groceries depends on that city's ordinance: some tax everything the state taxes, others only lodging, liquor by the drink and restaurant food.",
+  "conditions": [
+   {
+    "when": "The city's ordinance taxes all sales subject to the state sales tax, or names this kind of sale",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The city limits its tax to other categories (e.g. lodging and alcohol by the drink only)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+   },
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+   },
+   {
+    "title": "Idaho Code 50-1044",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH10/SECT50-1044/",
+    "quote": "are hereby given the freedom to authorize their city government to adopt, implement and collect one (1) or more local-option nonproperty taxes as provided herein."
+   }
+  ],
+  "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+ },
+ {
+  "tax": "ID:local",
+  "code": "food.prepared",
+  "from": "2013-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Whether an Idaho resort city's local sales tax applies to prepared food depends on that city's ordinance: some tax everything the state taxes, others only lodging, liquor by the drink and restaurant food.",
+  "conditions": [
+   {
+    "when": "The city's ordinance taxes all sales subject to the state sales tax, or names this kind of sale",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The city limits its tax to other categories (e.g. lodging and alcohol by the drink only)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+   },
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+   },
+   {
+    "title": "Idaho Code 50-1044",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH10/SECT50-1044/",
+    "quote": "are hereby given the freedom to authorize their city government to adopt, implement and collect one (1) or more local-option nonproperty taxes as provided herein."
+   }
+  ],
+  "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+ },
+ {
+  "tax": "ID:local",
+  "code": "food.soft_drink",
+  "from": "2013-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Whether an Idaho resort city's local sales tax applies to soft drinks depends on that city's ordinance: some tax everything the state taxes, others only lodging, liquor by the drink and restaurant food.",
+  "conditions": [
+   {
+    "when": "The city's ordinance taxes all sales subject to the state sales tax, or names this kind of sale",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The city limits its tax to other categories (e.g. lodging and alcohol by the drink only)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+   },
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+   },
+   {
+    "title": "Idaho Code 50-1044",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH10/SECT50-1044/",
+    "quote": "are hereby given the freedom to authorize their city government to adopt, implement and collect one (1) or more local-option nonproperty taxes as provided herein."
+   }
+  ],
+  "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+ },
+ {
+  "tax": "ID:local",
+  "code": "goods.general",
+  "from": "2013-07-01",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Whether an Idaho resort city's local sales tax applies to general retail goods depends on that city's ordinance: some tax everything the state taxes, others only lodging, liquor by the drink and restaurant food.",
+  "conditions": [
+   {
+    "when": "The city's ordinance taxes all sales subject to the state sales tax, or names this kind of sale",
+    "treatment": "taxable"
+   },
+   {
+    "when": "The city limits its tax to other categories (e.g. lodging and alcohol by the drink only)",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+   },
+   {
+    "title": "Idaho State Tax Commission, City Sales Taxes",
+    "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+    "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+   },
+   {
+    "title": "Idaho Code 50-1044",
+    "url": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH10/SECT50-1044/",
+    "quote": "are hereby given the freedom to authorize their city government to adopt, implement and collect one (1) or more local-option nonproperty taxes as provided herein."
+   }
+  ],
+  "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+ }
+]

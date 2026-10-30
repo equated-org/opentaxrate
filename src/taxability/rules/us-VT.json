@@ -1,0 +1,841 @@
+[
+  {
+    "tax": "VT",
+    "code": "construction.real_property",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Contractors improving or repairing real property do not charge Vermont sales tax to the customer; they pay tax on the materials they buy.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Contractors",
+        "url": "https://tax.vermont.gov/node/129",
+        "quote": "When contractors incorporate tangible personal property (TPP) into buildings, structures, and landscapes, the contractor should not charge sales tax to the customer."
+      },
+      {
+        "title": "VT Dept. of Taxes, Contractors",
+        "url": "https://tax.vermont.gov/node/129",
+        "quote": "Examples of real property improvements include electrical, plumbing, heating, ventilation, and cooling systems; carpentry; roofing; plastering; foundations; landscaping; and painting."
+      }
+    ],
+    "notes": "A retailer or manufacturer that elects to be treated as a retailer when installing goods it sells charges sales tax instead (not this code). Only the current, undated Department page was read, so the rule starts on the day it was read; the treatment is long-standing. Covers improvement and repair alike."
+  },
+  {
+    "tax": "VT",
+    "code": "delivery.exempt_goods",
+    "from": "2019-04-17",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for exempt goods are not taxable in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Sales and Use Tax FAQs (official page as archived 2019-04-17)",
+        "url": "https://web.archive.org/web/20190417041539/https://tax.vermont.gov/business-and-corp/sales-and-use-tax/faqs",
+        "quote": "If the item is taxable, then tax is also due on delivery and freight charges for delivery of the item. Conversely, if the item is tax-exempt, delivery charges are also exempt."
+      },
+      {
+        "title": "VT Dept. of Taxes, Sales and Use Tax FAQs",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/faqs",
+        "quote": "If the item is taxable, then tax is also due on delivery and freight charges for delivery of the item. Conversely, if the item is tax-exempt, delivery charges are also exempt."
+      }
+    ]
+  },
+  {
+    "tax": "VT",
+    "code": "delivery.taxable_goods",
+    "from": "2019-04-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges for taxable goods are taxable in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Sales and Use Tax FAQs (official page as archived 2019-04-17)",
+        "url": "https://web.archive.org/web/20190417041539/https://tax.vermont.gov/business-and-corp/sales-and-use-tax/faqs",
+        "quote": "If the item is taxable, then tax is also due on delivery and freight charges for delivery of the item. Conversely, if the item is tax-exempt, delivery charges are also exempt."
+      },
+      {
+        "title": "VT Dept. of Taxes, Sales and Use Tax FAQs",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/faqs",
+        "quote": "If the item is taxable, then tax is also due on delivery and freight charges for delivery of the item. Conversely, if the item is tax-exempt, delivery charges are also exempt."
+      }
+    ],
+    "notes": "Earliest dated text read: the Department FAQ as archived 2019-04-17. A delivery charge for a taxable meal is part of the meal's charge (§ 9202(10)) at 9%."
+  },
+  {
+    "tax": "VT",
+    "code": "food.candy",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Candy is exempt food in Vermont when sold by a store; sold by a restaurant it is a taxable meal at the 9% meals tax.",
+    "conditions": [
+      {
+        "when": "Sold by a store (not a restaurant), prepackaged or self-serve by weight",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant (including an establishment with 80% or more taxable food sales)",
+        "treatment": "special_rate",
+        "rate": 0.09
+      }
+    ],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9701, Sales tax definitions (last amended eff. Jan. 1, 2025)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09701",
+        "quote": "“Food and food ingredients” does not include alcoholic beverages, tobacco, cannabis and cannabis products as defined under 7 V.S.A. § 831, or soft drinks."
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of food and food ingredients sold for human consumption off the premises where sold"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Any food or beverage furnished within the State by a restaurant for which a charge is made"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "whole pies or cakes; loaves of bread; single-serving bakery items sold in quantities of three or more; delicatessen and nonprepackaged candy sales by weight or measure, except party platters"
+      }
+    ],
+    "notes": "Vermont's definition of food excludes soft drinks but not candy, so candy is exempt food under the sales tax. The 9% case is the Meals and Rooms Tax charged instead of the sales tax, a rate of its own HIGHER than 6%. Earliest date: last amendment of § 9701."
+  },
+  {
+    "tax": "VT",
+    "code": "food.catering",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Catering is a taxable meal at the 9% meals and rooms tax in Vermont, on the whole package.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "or person engaged in the business of catering"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Any food or beverage furnished within the State by a restaurant for which a charge is made"
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 9%. This is Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225), a separate tax charged INSTEAD of the 6% sales tax: meals taxed under chapter 225 are exempt from the sales tax (§ 9741(10)). It is modelled as the state part's rate so the answer gives the tax actually charged on the sale. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.grocery",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients sold for eating off the premises (groceries) are exempt from Vermont sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of food and food ingredients sold for human consumption off the premises where sold"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "Groceries are not taxable."
+      }
+    ],
+    "notes": "Earliest date: the last amendment of § 9701 (eff. 2025-01-01), whose definition of 'food and food ingredients' the exemption uses; the exemption is older."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.bakery",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt as grocery-type take-out when whole (pies, cakes, loaves) or three or more single servings; one or two single servings from a restaurant or unpackaged are a taxable meal at 9%.",
+    "conditions": [
+      {
+        "when": "Whole pies, cakes or loaves, or three or more single-serving items, to go",
+        "treatment": "exempt"
+      },
+      {
+        "when": "One or two single-serving items from a restaurant, or nonprepackaged from another seller, or eaten on the premises",
+        "treatment": "special_rate",
+        "rate": 0.09
+      },
+      {
+        "when": "Prepackaged single items from a store that is not a restaurant",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "whole pies or cakes; loaves of bread; single-serving bakery items sold in quantities of three or more; delicatessen and nonprepackaged candy sales by weight or measure, except party platters"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "Grocery-type items furnished for take-out such as whole pies or cakes, loaves of bread, single serving bakery items sold in quantities of three or more"
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": " The 9% cases are the Meals and Rooms Tax, charged instead of the 6% sales tax (§ 9741(10)): a rate of its own, HIGHER than 6%. The 1% local option meals tax in some towns is not included in these conditions. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.cold",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food from a store is a taxable meal (9%) when not prepackaged; deli food sold by weight or measure, and prepackaged food, are exempt groceries.",
+    "conditions": [
+      {
+        "when": "Deli food sold by weight or measure (not a party platter), or prepackaged food",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Nonprepackaged prepared food (e.g. a deli salad in a container filled for the sale, salad-bar items)",
+        "treatment": "special_rate",
+        "rate": 0.09
+      }
+    ],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Where furnished by other than a restaurant, any nonprepackaged food or beverage furnished within the State and for which a charge is made"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "whole pies or cakes; loaves of bread; single-serving bakery items sold in quantities of three or more; delicatessen and nonprepackaged candy sales by weight or measure, except party platters"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "When food and beverage are sold by non-restaurants, non-pre-packaged foods are taxable. Examples include sandwiches (except frozen), heated food or beverages, items from a salad bar, and party platters and prepared food."
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "'Prepackaged' items packaged by the store count only if it sells at least 80% of items in that packaging for resale (§ 9202); the packaging and sale method are not carried by the code. The 9% cases are the Meals and Rooms Tax, charged instead of the 6% sales tax (§ 9741(10)): a rate of its own, HIGHER than 6%. The 1% local option meals tax in some towns is not included in these conditions. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Cold food a restaurant sells to go is a taxable meal at the 9% meals and rooms tax in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Any food or beverage furnished within the State by a restaurant for which a charge is made"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "All food and beverage are taxable when sold by restaurants."
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 9%. This is Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225), a separate tax charged INSTEAD of the 6% sales tax: meals taxed under chapter 225 are exempt from the sales tax (§ 9741(10)). It is modelled as the state part's rate so the answer gives the tax actually charged on the sale. Grocery-type take-out items (whole pies, loaves, three or more bakery items, deli sales by weight) are excluded, but are not this code. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.dine_in",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Food served by a restaurant for eating on its premises is a taxable meal at the 9% meals and rooms tax in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Any food or beverage furnished within the State by a restaurant for which a charge is made"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "All food and beverage are taxable when sold by restaurants."
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "The Vermont Meals and Rooms Tax is 9%"
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 9%. This is Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225), a separate tax charged INSTEAD of the 6% sales tax: meals taxed under chapter 225 are exempt from the sales tax (§ 9741(10)). It is modelled as the state part's rate so the answer gives the tax actually charged on the sale. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.hot",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Hot food or drink is a taxable meal wherever sold in Vermont, at the 9% meals and rooms tax instead of the 6% sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Regardless where sold and whether or not prepackaged: (i) sandwiches of any kind except frozen; (ii) food or beverage furnished from a salad bar; (iii) heated food or beverage"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "The Vermont Meals and Rooms Tax is 9%"
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 9%. This is Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225), a separate tax charged INSTEAD of the 6% sales tax: meals taxed under chapter 225 are exempt from the sales tax (§ 9741(10)). It is modelled as the state part's rate so the answer gives the tax actually charged on the sale. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.platter",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Party platters are taxable meals at the 9% meals and rooms tax in Vermont, even from a deli.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "whole pies or cakes; loaves of bread; single-serving bakery items sold in quantities of three or more; delicatessen and nonprepackaged candy sales by weight or measure, except party platters"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "When food and beverage are sold by non-restaurants, non-pre-packaged foods are taxable. Examples include sandwiches (except frozen), heated food or beverages, items from a salad bar, and party platters and prepared food."
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 9%. This is Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225), a separate tax charged INSTEAD of the 6% sales tax: meals taxed under chapter 225 are exempt from the sales tax (§ 9741(10)). It is modelled as the state part's rate so the answer gives the tax actually charged on the sale. Deli sales by weight are excluded from taxable meals 'except party platters' (§ 9202(10)(D)(i)). Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.prepared.sandwich",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Sandwiches (except frozen) are taxable meals wherever sold in Vermont, at the 9% meals and rooms tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Regardless where sold and whether or not prepackaged: (i) sandwiches of any kind except frozen; (ii) food or beverage furnished from a salad bar; (iii) heated food or beverage"
+      },
+      {
+        "title": "VT Dept. of Taxes, Meals and Rooms Tax: Getting Started",
+        "url": "https://tax.vermont.gov/business-and-corp/meals-and-rooms-tax/getting-started",
+        "quote": "When food and beverage are sold by non-restaurants, non-pre-packaged foods are taxable. Examples include sandwiches (except frozen), heated food or beverages, items from a salad bar, and party platters and prepared food."
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as 'special_rate' because the schema's special_rate means a rate of its own for this code; here the rate is HIGHER than the general 6%: 9%. This is Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225), a separate tax charged INSTEAD of the 6% sales tax: meals taxed under chapter 225 are exempt from the sales tax (§ 9741(10)). It is modelled as the state part's rate so the answer gives the tax actually charged on the sale. Earliest date: the last amendment of the meals definitions in § 9202 (eff. 2023-06-19); the 9% rate and these rules are older but earlier text was not read. Burlington and Rutland levy their own city meals taxes under their charters (FS-1151), outside this calculation."
+  },
+  {
+    "tax": "VT",
+    "code": "food.soft_drink",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks are taxable at the 6% sales tax when a store sells them prepackaged, and at the 9% meals tax when a restaurant sells them or they are poured.",
+    "conditions": [
+      {
+        "when": "Prepackaged, sold by a store that is not a restaurant",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold by a restaurant, or nonprepackaged (fountain or poured) from any seller",
+        "treatment": "special_rate",
+        "rate": 0.09
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes FS-1151, Taxation of Chips and Soft Drinks in Vermont (revised March 2025)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/FS-1151.pdf",
+        "quote": "Sales of soft drinks are subject to the Vermont Sales and Use Tax when they are neither taxed under nor exempted from the meals tax."
+      },
+      {
+        "title": "32 V.S.A. § 9701, Sales tax definitions (last amended eff. Jan. 1, 2025)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09701",
+        "quote": "or soft drinks"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Any food or beverage furnished within the State by a restaurant for which a charge is made"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Where furnished by other than a restaurant, any nonprepackaged food or beverage furnished within the State and for which a charge is made"
+      }
+    ],
+    "notes": "The 9% case is the Meals and Rooms Tax, charged instead of the sales tax, a rate of its own HIGHER than 6%. Earliest date: last amendment of § 9701 (eff. 2025-01-01)."
+  },
+  {
+    "tax": "VT",
+    "code": "goods.general",
+    "from": "2009-09-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in Vermont at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes Ruling 2009-06 (September 4, 2009)",
+        "url": "https://tax.vermont.gov/node/14221",
+        "quote": "Vermont imposes a 6 percent sales tax on retail sales in the state. The tax applies to charges for tangible personal property"
+      },
+      {
+        "title": "VT Dept. of Taxes, Sales and Use Tax",
+        "url": "https://tax.vermont.gov/business/sales-and-use-tax",
+        "quote": "Vermont Sales Tax is charged on the retail sales of tangible personal property unless exempted by law. The sales tax rate is 6%."
+      }
+    ],
+    "notes": "Earliest dated text read: Ruling 2009-06. The 1% local option sales tax, where levied, follows the state base for this code."
+  },
+  {
+    "tax": "VT",
+    "code": "service.professional",
+    "from": "2009-09-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not taxable in Vermont, which taxes only enumerated services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes Ruling 2009-06 (September 4, 2009)",
+        "url": "https://tax.vermont.gov/node/14221",
+        "quote": "Vermont does not have a broad-based tax on services and thus only those services that are specifically enumerated in the statute are subject to tax."
+      },
+      {
+        "title": "VT Dept. of Taxes Ruling 2024-08 (December 16, 2024)",
+        "url": "https://tax.vermont.gov/node/14811",
+        "quote": "This is a service that is not taxable in Vermont, even if you utilize taxable software to assist you in providing these services."
+      }
+    ],
+    "notes": "The taxable services in 32 V.S.A. § 9771 are utilities, fabrication, admissions, telecommunications and similar; none of the seven professional subcodes. Ruling 2009-06 found help-desk and monitoring services untaxed; Ruling 2024-08 found tax preparation untaxed. Software and goods sold with a service are taxable on their own."
+  },
+  {
+    "tax": "VT",
+    "code": "software.custom.development",
+    "from": "2009-09-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software written for one customer is not prewritten software and is not taxable in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Prewritten Computer Software",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/prewritten-computer-software",
+        "quote": "Custom software (software designed for a specific customer)."
+      },
+      {
+        "title": "VT Dept. of Taxes Ruling 2009-06 (September 4, 2009)",
+        "url": "https://tax.vermont.gov/node/14221",
+        "quote": "Vermont does not have a broad-based tax on services and thus only those services that are specifically enumerated in the statute are subject to tax."
+      }
+    ],
+    "notes": "The software page lists custom software under what prewritten software 'does not include'; programming is not an enumerated taxable service. Earliest date: Ruling 2009-06; the software page is current."
+  },
+  {
+    "tax": "VT",
+    "code": "software.custom.modification",
+    "from": "2024-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom changes to prewritten software, charged separately and reasonably, are exempt from Vermont sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Prewritten Computer Software",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/prewritten-computer-software",
+        "quote": "However, if there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such modification or enhancement, such modification or enhancement shall not constitute prewritten computer software and is exempt from tax."
+      }
+    ],
+    "notes": "The code's 'charged separately' meets the condition. Earliest date: the software page describes the law from 2024-07-01; earlier text not read."
+  },
+  {
+    "tax": "VT",
+    "code": "software.prewritten",
+    "from": "2009-09-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software delivered on media or electronically is taxable in Vermont at 6%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes Ruling 2009-06 (September 4, 2009)",
+        "url": "https://tax.vermont.gov/node/14221",
+        "quote": "Note that the sale of prewritten computer software is subject to the Vermont sales tax regardless of whether delivered electronically or in tangible form."
+      },
+      {
+        "title": "VT Dept. of Taxes, Prewritten Computer Software",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/prewritten-computer-software",
+        "quote": "Effective July 1, 2024, all sales of prewritten computer software are subject to sales and use tax, including software purchased on storage media, downloaded to a computer system, or accessed remotely via the internet."
+      }
+    ],
+    "notes": "Earliest dated text read: Ruling 2009-06. Remote access (SaaS) is the separate code."
+  },
+  {
+    "tax": "VT",
+    "code": "software.saas",
+    "from": "2016-01-01",
+    "to": "2024-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Prewritten software accessed remotely, and not downloaded, was exempt from Vermont sales tax until June 30, 2024.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Prewritten Computer Software",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/prewritten-computer-software",
+        "quote": "From 2015 to June 30, 2024, prewritten software accessed remotely and not downloaded was exempt from sales tax."
+      }
+    ],
+    "notes": "The Department dates the exemption only 'from 2015'; the rule starts 2016-01-01, a day it certainly applied. The 2015 start date and the treatment before 2015 were not verified."
+  },
+  {
+    "tax": "VT",
+    "code": "software.saas",
+    "from": "2024-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Remotely accessed prewritten software is taxable in Vermont at 6% from July 1, 2024.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Prewritten Computer Software",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/prewritten-computer-software",
+        "quote": "Effective July 1, 2024, all sales of prewritten computer software are subject to sales and use tax, including software purchased on storage media, downloaded to a computer system, or accessed remotely via the internet."
+      },
+      {
+        "title": "32 V.S.A. § 9701, Sales tax definitions (last amended eff. Jan. 1, 2025)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09701",
+        "quote": "prewritten computer software regardless of the method in which the prewritten computer software is paid for, delivered, or accessed"
+      },
+      {
+        "title": "VT Dept. of Taxes, Prewritten Computer Software",
+        "url": "https://tax.vermont.gov/business-and-corp/sales-and-use-tax/prewritten-computer-software",
+        "quote": "Act 183 (H.887) of 2024 specifically applies the sales and use tax to all prewritten computer software"
+      }
+    ],
+    "notes": "The 1% local option sales tax, where levied, follows the state base."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.catering",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on a taxable meal is the 1% local option meals tax where the town levies it; the local option sales tax does not apply to meals.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on a taxable meal is the 1% local option meals tax where the town levies it; the local option sales tax does not apply to meals.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.prepared.dine_in",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on a taxable meal is the 1% local option meals tax where the town levies it; the local option sales tax does not apply to meals.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.prepared.hot",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on a taxable meal is the 1% local option meals tax where the town levies it; the local option sales tax does not apply to meals.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.prepared.platter",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on a taxable meal is the 1% local option meals tax where the town levies it; the local option sales tax does not apply to meals.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.prepared.sandwich",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on a taxable meal is the 1% local option meals tax where the town levies it; the local option sales tax does not apply to meals.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  }
+]

@@ -1,0 +1,341 @@
+[
+  {
+    "tax": "MT",
+    "code": "construction.real_property",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to construction and repair work on real property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "delivery",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to separately stated delivery charges.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "food.candy",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to candy.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "food.catering",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to catering.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      },
+      {
+        "title": "Montana Department of Revenue, Local Resort Tax",
+        "url": "https://revenue.mt.gov/taxes/miscellaneous/local-resort-tax",
+        "quote": "The resort tax also applies to luxuries sold in the resort area."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes. In a designated resort area, a food service establishment's sales may be subject to the local resort tax."
+  },
+  {
+    "tax": "MT",
+    "code": "food.grocery",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to groceries.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "food.prepared",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to prepared food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      },
+      {
+        "title": "Montana Department of Revenue, Local Resort Tax",
+        "url": "https://revenue.mt.gov/taxes/miscellaneous/local-resort-tax",
+        "quote": "The resort tax also applies to luxuries sold in the resort area."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes. In a designated resort area, sales by restaurants, fast food stores and other food service establishments are subject to the local resort tax."
+  },
+  {
+    "tax": "MT",
+    "code": "food.soft_drink",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to soft drinks.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "goods.general",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to general tangible goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      },
+      {
+        "title": "Montana Department of Revenue, Local Resort Tax",
+        "url": "https://revenue.mt.gov/taxes/miscellaneous/local-resort-tax",
+        "quote": "The resort tax also applies to luxuries sold in the resort area."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes. In a designated resort area, goods the community's ordinance defines as luxuries are subject to the local resort tax."
+  },
+  {
+    "tax": "MT",
+    "code": "service.professional",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to professional services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "software.custom",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to custom software.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "software.prewritten",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to prewritten software.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "software.saas",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to software as a service (SaaS).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  }
+]

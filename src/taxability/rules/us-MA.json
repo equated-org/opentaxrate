@@ -1,0 +1,691 @@
+[
+  {
+    "tax": "MA",
+    "code": "construction.real_property",
+    "from": "2026-05-07",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Construction, improvement and repair of real property is not taxed to the owner in Massachusetts; the contractor pays tax on the materials it buys.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Mass. DOR, A Guide to Sales and Use Tax (updated May 7, 2026)",
+        "url": "https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Persons who complete installations as part of a contract for the construction, reconstruction, alteration, improvement, remodeling, or repair of real property. The construction contractor or subcontractor pays tax when they buy materials used to perform the contract."
+      }
+    ],
+    "notes": "A contractor that installs a complete unit of a standard item with nothing beyond installing or connecting acts as a retailer and charges tax on the item (not this code). Only the current DOR guide (updated May 7, 2026) was read for this rule, so it starts there; the treatment is long-standing but earlier text was not read. Covers improvement and repair alike."
+  },
+  {
+    "tax": "MA",
+    "code": "delivery",
+    "from": "2004-09-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A separately stated, reasonable charge for delivering goods to the buyer is not taxable in Massachusetts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Mass. DOR Directive 04-5, Transportation Charges",
+        "url": "https://www.mass.gov/directive/directive-04-5-transportation-charges",
+        "quote": "Effective September 1, 2004, the Commissioner will not assess sales tax on separately stated transportation charges"
+      },
+      {
+        "title": "Mass. DOR Directive 04-5, Transportation Charges",
+        "url": "https://www.mass.gov/directive/directive-04-5-transportation-charges",
+        "quote": "A transportation charge, i.e., a charge by the seller of tangible personal property for preparation and delivery of goods to a location designated by the purchaser is excluded from the sales price subject to tax."
+      }
+    ],
+    "notes": "The charge must reflect the cost of moving the goods to the buyer and be set in good faith; freight-in passed on (e.g. a car maker's destination charge) stays taxable. Applies to taxable and exempt goods alike."
+  },
+  {
+    "tax": "MA",
+    "code": "food.candy",
+    "from": "1989-06-09",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy and confectionery sold for home consumption are exempt from Massachusetts sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of food products for human consumption is exempt from the sales tax unless the food products are prepared for human consumption and provided by a restaurant."
+      },
+      {
+        "title": "M.G.L. c. 64H, § 6(h)",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
+        "quote": "Sales of food products for human consumption."
+      },
+      {
+        "title": "M.G.L. c. 64H, § 6(h)",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
+        "quote": "sugar and sugar products, candy and confectionery"
+      }
+    ],
+    "notes": "830 CMR 64H.6.5 (promulgated 1989-06-09, no later amendment listed) is the earliest dated text read. Candy is a 'food product' in Massachusetts (M.G.L. c. 64H, § 6(h)); it is taxable only as part of a restaurant meal, or from a vending machine at $3.50 or more."
+  },
+  {
+    "tax": "MA",
+    "code": "food.catering",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Catering is a taxable sale of meals in Massachusetts (a caterer is a restaurant); 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "A caterer is a restaurant."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "When a caterer prepares or serves food it owns to a client's employees or customers, the amount charged the employees or customers is subject to tax."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": "When a caterer only prepares or serves food the client owns, its service charge is not taxable (830 CMR 64H.6.5); the code assumes the caterer supplies the food. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.grocery",
+    "from": "1989-06-09",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Groceries (food products for human consumption) sold for home consumption are exempt from Massachusetts sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of food products for human consumption is exempt from the sales tax unless the food products are prepared for human consumption and provided by a restaurant."
+      },
+      {
+        "title": "M.G.L. c. 64H, § 6(h)",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
+        "quote": "Sales of food products for human consumption."
+      }
+    ],
+    "notes": "830 CMR 64H.6.5 (promulgated 1989-06-09, no later amendment listed) is the earliest dated text read."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.bakery",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt in units of six or more, and from a bakery that sells only baked goods; a restaurant's or coffee-selling bakery's sales of five or fewer are taxable meals, 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Six or more items (or a whole pie, cake or loaf) to go, from any seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "From a bakery or store bakery section that sells only baked goods (no beverages or meals at that counter), any quantity, to go",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Prepackaged single items sold by a store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Bakery products (baked goods) sold in units of six or more for off premises consumption are not subject to tax wherever sold."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "When a bakery sells only baked goods, its sales of baked goods for off-premises consumption are not subject to tax regardless of the number of baked goods sold."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Its sales of all baked goods for consumption on the premises are subject to tax, and its sales of baked goods sold for consumption off-premises are subject to tax, except when sold in units of six or more."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": "The meal cases are five or fewer items from a restaurant, or from a bakery counter that also sells coffee or other meals. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.cold",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food from a store is exempt unless sold as a meal (a combination plate, a salad-bar salad, a single-portion entree where the store provides a microwave); taxable meals are 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Unheated deli food sold by a store not as a meal: salads by the container, cold fried chicken or ribs, whole cooked chicken, sliced meats",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Salads except salads from a salad bar and salads sold in a manner reasonably and commonly considered a meal;"
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Meat, poultry, or fish items, for example, fried chicken or barbecued spare ribs, if sold unheated;"
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale by a store of prepared foods sold as a unit in a manner reasonably and commonly considered a meal is taxable whether or not heated."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": "Store sales are taxable when presented as a meal (combination plate, salad-bar salad, single-portion entree or quick meal with a heating unit provided); the presentation is not carried by the code. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a restaurant prepares and sells to go is a taxable meal; 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Food a restaurant sells by weight, measure or count in the same manner as a grocery store (e.g. a pint of ice cream, a quart of sauce), not ready-made meals",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "A meal includes food or beverages sold on a \"take out\" or \"to go\" basis, whether or not they are packaged or wrapped, and whether or not they are taken from the premises."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Prepared meals, snacks, sandwiches, food platters, poultry, fish or meat items, or other food combinations, to the extent that such items are sold by a restaurant whose principal business is the preparation or sale of such items in such form as to be available for immediate consumption without further significant preparation, whether for on or off premise consumption, are not to be excluded"
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": " Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.dine_in",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food served by a restaurant or a store's restaurant part for eating there is a taxable meal; 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sales tax is imposed on all meals sold by a restaurant or a restaurant part of a store."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "A meal is any food or beverage, or both, served or presented by a restaurant or restaurant part in a manner that is reasonably and commonly considered a meal."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": " Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.hot",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Hot prepared food is a taxable meal in Massachusetts, from a restaurant or a store; 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale by a store of any prepared food item heated is taxable."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sales tax is imposed on all meals sold by a restaurant or a restaurant part of a store."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": " Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.platter",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A store's party platters are exempt; a restaurant's or caterer's platters are taxable meals, 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "A party platter of meats, poultry or cheeses sold by a store (not a restaurant)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of party packs or party platters by a store is not taxable."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Prepared meals, snacks, sandwiches, food platters, poultry, fish or meat items"
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": "Whether the seller is a store or a restaurant is not carried by the code. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.prepared.sandwich",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Sandwiches are taxable meals from any restaurant or store, packaged or not; 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of sandwiches is taxable whether or not prepackaged and whether or not heated."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": " Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "food.soft_drink",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Soft drinks are exempt food products when a store sells them in unopened containers; poured drinks and a restaurant's drinks (other than unopened containers of 26 oz or more) are taxable meals.",
+    "conditions": [
+      {
+        "when": "Sold by a store (not a restaurant) in an unopened original container",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a restaurant in an unopened container of at least 26 fl oz, to go",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Poured or fountain drink from any seller, or a restaurant's drink in a smaller container, in a town with the local meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Poured or fountain drink from any seller, or a restaurant's drink in a smaller container, elsewhere",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "M.G.L. c. 64H, § 6(h)",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
+        "quote": "soft drinks, herbs, spices and salt"
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of a poured beverage, such as a cup of coffee or a fountain soda, is taxable."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Beverages sold by a store in unopened original containers for off-premises consumption are not taxable"
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "Beverages in unopened , original containers or packages when sold as a unit with a capacity of at least twenty-six fluid ounces."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      }
+    ],
+    "notes": "Who sells and in what container is not carried by the code. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+  },
+  {
+    "tax": "MA",
+    "code": "goods.general",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are taxable in Massachusetts at 6.25%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "M.G.L. c. 64H, § 2",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section2",
+        "quote": "An excise is hereby imposed upon sales at retail in the commonwealth, by any vendor, of tangible personal property"
+      },
+      {
+        "title": "Mass. DOR Directive 04-5, Transportation Charges",
+        "url": "https://www.mass.gov/directive/directive-04-5-transportation-charges",
+        "quote": "An excise is imposed upon retail sales in the Commonwealth by any vendor of tangible personal property"
+      },
+      {
+        "title": "Mass. DOR, A Guide to Sales and Use Tax (updated May 7, 2026)",
+        "url": "https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "The Massachusetts sales tax is 6.25% of the sales price or rental charge of tangible personal property"
+      }
+    ],
+    "notes": "The rate was 5% until 2009-08-01 and 6.25% since; the rule covers taxability, not the rate. Clothing up to $175 is exempt (not this code). Massachusetts has no local sales tax on goods."
+  },
+  {
+    "tax": "MA",
+    "code": "service.professional",
+    "from": "2006-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not taxable in Massachusetts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.1.3, Computer Industry Services and Products (applies to transactions on and after April 1, 2006)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h13-computer-industry-services-and-products",
+        "quote": "Sales of custom software, personal and professional services, and reports of individual information are generally exempt from Massachusetts sales and use taxes."
+      },
+      {
+        "title": "Mass. DOR, A Guide to Sales and Use Tax (updated May 7, 2026)",
+        "url": "https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Legal and medical services"
+      },
+      {
+        "title": "Mass. DOR, A Guide to Sales and Use Tax (updated May 7, 2026)",
+        "url": "https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "If you're a service provider with questions about the taxability of your transactions, refer to the Services Enterprises regulation, 830 CMR 64H.1.1"
+      }
+    ],
+    "notes": "Massachusetts taxes services only where c. 64H names them (telecommunications); none of the seven professional subcodes is named. Goods sold with a service (e.g. furnishings from an interior designer, printed advertising materials) are taxable when transferred. Earliest dated text read: 830 CMR 64H.1.3 (2006)."
+  },
+  {
+    "tax": "MA",
+    "code": "software.custom.development",
+    "from": "2006-04-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Custom software written for one customer is exempt from Massachusetts sales tax as a professional service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.1.3, Computer Industry Services and Products (applies to transactions on and after April 1, 2006)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h13-computer-industry-services-and-products",
+        "quote": "Sales of custom software are generally exempt from sales tax as professional service transactions regardless of the method of delivery."
+      }
+    ]
+  },
+  {
+    "tax": "MA",
+    "code": "software.custom.modification",
+    "from": "2006-04-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Custom changes to prewritten software, charged separately from the software, are exempt from Massachusetts sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.1.3, Computer Industry Services and Products (applies to transactions on and after April 1, 2006)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h13-computer-industry-services-and-products",
+        "quote": "Sales of custom modifications to prewritten software are generally not taxable if the sales price of the prewritten software and the charges for the custom modification are separately stated."
+      }
+    ],
+    "notes": "The code's 'charged separately' meets the regulation's separately-stated condition; the allocation must be reasonable and in good faith."
+  },
+  {
+    "tax": "MA",
+    "code": "software.prewritten",
+    "from": "2006-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Massachusetts at 6.25%, however delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.1.3, Computer Industry Services and Products (applies to transactions on and after April 1, 2006)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h13-computer-industry-services-and-products",
+        "quote": "Sales in Massachusetts of computer hardware, computer equipment, and prewritten computer software, regardless of the method of delivery"
+      },
+      {
+        "title": "Mass. DOR, A Guide to Sales and Use Tax (updated May 7, 2026)",
+        "url": "https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Sales of standardized software are taxed, regardless of whether the software is delivered electronically or in a physical format."
+      }
+    ],
+    "notes": "Earlier treatment (before the 2006 regulation) not researched."
+  },
+  {
+    "tax": "MA",
+    "code": "software.saas",
+    "from": "2006-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Prewritten software used on a remote server is taxable in Massachusetts at 6.25%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "830 CMR 64H.1.3, Computer Industry Services and Products (applies to transactions on and after April 1, 2006)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h13-computer-industry-services-and-products",
+        "quote": "transfers of rights to use software installed on a remote server"
+      },
+      {
+        "title": "830 CMR 64H.1.3, Computer Industry Services and Products (applies to transactions on and after April 1, 2006)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h13-computer-industry-services-and-products",
+        "quote": "This regulation, 830 CMR 64H.1.3, is effective October 20, 2006, applies to transactions on and after April 1, 2006."
+      },
+      {
+        "title": "Mass. DOR, A Guide to Sales and Use Tax (updated May 7, 2026)",
+        "url": "https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Charges to access or use software on a remote server are also taxable."
+      }
+    ],
+    "notes": "Software used in more than one state may be apportioned (830 CMR 64H.1.3(15)); the rule gives the in-state case. Massachusetts has no local sales tax outside meals."
+  }
+]

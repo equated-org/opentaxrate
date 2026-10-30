@@ -1,0 +1,846 @@
+[
+  {
+    "tax": "IN",
+    "code": "construction.real_property",
+    "from": "2011-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "An Indiana contractor's real property work is not taxed to the owner under a lump-sum contract (the contractor pays tax on its materials); under a time-and-material contract it collects tax on the separately stated materials, not the labor.",
+    "conditions": [
+      {
+        "when": "Lump-sum (or other non time-and-material) contract: one price for labor and materials",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Time-and-material contract: the separately stated charge for construction materials",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Time-and-material contract: the separately stated labor charges",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #60, Contractors and Construction Material (March 2024)",
+        "url": "https://www.in.gov/dor/files/sib60.pdf",
+        "quote": "Generally, a contractor operating under a time and material contract is a retail merchant that is selling the construction material that it incorporates into real property, and must be registered with the department and collect sales tax on the material portion of their contracts."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #60, Contractors and Construction Material (March 2024)",
+        "url": "https://www.in.gov/dor/files/sib60.pdf",
+        "quote": "Instead, such contractors will not charge their customers sales tax."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #60, Contractors and Construction Material (March 2024)",
+        "url": "https://www.in.gov/dor/files/sib60.pdf",
+        "quote": "Incorporations and installations of tangible personal property into facilities or structures may include improvements to and repairs of existing facilities or structures."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "under a time and material contract. As such a retail merchant, a contractor described in this subsection shall collect, as an agent of the state, the state gross retail tax on the resale of the construction material"
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #60 (April 2011), archived",
+        "url": "https://web.archive.org/web/20151229114117/http://in.gov/dor/reference/files/sib60.pdf",
+        "quote": "However, the construction contractor must collect sales tax on the resale of the construction materials and remit the sales tax"
+      }
+    ],
+    "notes": "Applies alike to new construction, improvements and repairs (SIB #60). A time-and-material contract is one stating material and labor costs separately; a lump-sum contractor may give a breakdown without changing its nature (2011 bulletin). Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "delivery.exempt_goods",
+    "from": "2013-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for goods exempt at that sale (such as groceries) are not taxable in Indiana.",
+    "conditions": [
+      {
+        "when": "A shipment mixing taxable and exempt goods: the share of the delivery charge for the taxable goods (by price or weight)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #92, Delivery Charges, Installation Charges (June 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib92.pdf",
+        "quote": "If the item being sold is not subject to sales tax, the delivery charges related to that item also are not subject to sales tax."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Retail sales tax is not due on delivery charges due on exempt goods."
+      },
+      {
+        "title": "Indiana DOR Commissioner's Directive #23, Delivery and Installation Charges (July 2013), archived",
+        "url": "https://web.archive.org/web/20151229160745/http://in.gov/dor/reference/files/cd23.pdf",
+        "quote": "If the item being sold is not subject to sales tax, the delivery charges related to that item also are not subject to sales tax."
+      }
+    ],
+    "notes": "Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "delivery.taxable_goods",
+    "from": "2013-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges on taxable goods are part of gross retail income and taxable in Indiana, separately stated or not.",
+    "conditions": [
+      {
+        "when": "Postage for delivery by the U.S. mail, separately stated and at cost",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A separately stated charge for serving or delivering food for consumption at a location or on equipment the merchant provides",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "delivery charges; or"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #92, Delivery Charges, Installation Charges (June 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib92.pdf",
+        "quote": "“Delivery charges” consist of transportation, shipping, crating, handling, and packing, whether or not separately stated on the invoice, bill of sale, or similar document."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "An exception is delivery charges, which are subject to sales tax whether they are separately stated or not."
+      },
+      {
+        "title": "Indiana DOR Commissioner's Directive #23, Delivery and Installation Charges (July 2013), archived",
+        "url": "https://web.archive.org/web/20151229160745/http://in.gov/dor/reference/files/cd23.pdf",
+        "quote": "regardless of the shipping terms used. However, delivery charges billed and furnished by a third party are exempt."
+      }
+    ],
+    "notes": "from is Commissioner's Directive #23 (July 2013). Delivery of prepared food beyond the seller's location is taxable (SIB #7, #92). Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "delivery.taxable_goods.mail",
+    "from": "2013-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Postage for goods sent by U.S. mail, separately stated at cost, is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana Department of Revenue, Sales Tax Information Bulletin #92",
+        "url": "https://www.in.gov/dor/files/sib92.pdf",
+        "quote": "Only $100 of the invoice is subject to sales tax since postage charges through the United States mail are not subject to tax."
+      }
+    ],
+    "notes": "Delivery by other carriers stays taxable (delivery.taxable_goods). Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "IN",
+    "code": "food.candy",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is excluded from Indiana's food exemption and is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "The term does not include alcoholic beverages, candy, dietary supplements, tobacco products, or soft drinks."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The term does not include any preparation that contains flour listed on the label or any preparation that requires refrigeration."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "Candy is defined as preparations of sugar, honey, or other natural or artificial sweeteners in combination with chocolate, fruits, nuts, or other ingredients or flavorings in the form of bars, drops, or pieces."
+      }
+    ],
+    "notes": "Items containing flour (many candy bars) or requiring refrigeration are not 'candy' and are exempt food. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "food.catering",
+    "from": "2011-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catered meals and banquets are taxable in Indiana; a separately stated charge for serving the food is not.",
+    "conditions": [
+      {
+        "when": "A charge for serving the food, stated separately from the price of the food and beverages",
+        "treatment": "exempt"
+      },
+      {
+        "when": "An unsolicited gratuity left by the customer",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #7, Meals and Banquets (June 2023)",
+        "url": "https://www.in.gov/dor/files/sib07.pdf",
+        "quote": "Indiana sales tax generally applies to the selling price of meals, banquets, smorgasbords, and all other food and beverage services"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #7, Meals and Banquets (June 2023)",
+        "url": "https://www.in.gov/dor/files/sib07.pdf",
+        "quote": "However, this exclusion only applies if the charges for the serving are stated separately from the price of the food and/or beverages when the purchaser pays the charge."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #7 (August 2011), archived",
+        "url": "https://web.archive.org/web/20160404031319/http://in.gov/dor/reference/files/sib07.pdf",
+        "quote": "Indiana sales tax generally applies to the selling price of meals, banquets, smorgasbords, and all other food and beverage services"
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "charges for serving or delivering food and food ingredients furnished, prepared, or served for consumption at a location, or on equipment, provided by the retail merchant"
+      }
+    ],
+    "notes": "from is the date of Information Bulletin #7 (August 2011). Rentals and setup billed with the meal are not separately addressed; delivery of prepared food is taxable whether or not separately stated (SIB #7). Local FAB taxes also apply to catered meals in adopting counties (separate tax)."
+  },
+  {
+    "tax": "IN",
+    "code": "food.grocery",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients for home consumption (unheated, not mixed by the seller, sold without utensils) are exempt from Indiana sales tax.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant (75% or more of its sales are prepared food) that makes utensils available, unless a bulk item of four or more servings, or food that ordinarily requires cooking by the consumer",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "Sales of food and food ingredients for human consumption are exempt from the state gross retail tax."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The Indiana sales tax does not apply to the sale of food and food ingredients if they are sold unheated and without eating utensils provided by the seller."
+      },
+      {
+        "title": "Indiana Code 2017, Title 6",
+        "url": "https://iga.in.gov/ic/2017/Title_6.pdf",
+        "quote": "Sales of food and food ingredients for human consumption are exempt from the state gross retail tax."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "Generally, the sale of food and food ingredients for human consumption is exempt from Indiana sales tax."
+      }
+    ],
+    "notes": "from is the April 2016 bulletin's date; the exemption dates to 1980 and its SST definitions to 2004. A restaurant (75% or more prepared-food sales) that makes utensils available taxes even otherwise-exempt items ready for immediate consumption (bottled water, fruit, chips), per SIB #29 and #11. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.bakery",
+    "from": "2016-04-01",
+    "to": "2025-08-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils were exempt unless sold heated (or sold by a restaurant that makes utensils available).",
+    "conditions": [
+      {
+        "when": "Sold in a heated state (warmed, or hot from the oven)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Utensils handed to the customer, or sold by a restaurant (75% or more prepared-food sales) that makes utensils available, unless four or more servings packaged as one item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold unheated without utensils provided by the seller",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "Prepared food does not include bakery items"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29 (August 2023), archived 2025-08-30",
+        "url": "https://web.archive.org/web/20250830204155/https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "are not taxable unless they are:"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29 (August 2023), archived 2025-08-30",
+        "url": "https://web.archive.org/web/20250830204155/https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Sold in a heated state."
+      }
+    ],
+    "notes": "The statute (IC 6-2.5-5-20(b)(3)) did not change; the DOR's reading of heated bakery items did. Earlier bulletins (April 2016, August 2023) listed 'Sold in a heated state' as making a bakery item taxable; the September 2025 bulletin reversed that. The end date is the last day before September 2025; the exact publication day isn't stated. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.bakery",
+    "from": "2025-09-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Bakery items sold without utensils provided by the seller are exempt from Indiana sales tax, even when warmed or fresh from the oven.",
+    "conditions": [
+      {
+        "when": "Utensils physically given to the customer, or sold by a restaurant (75% or more prepared-food sales) that makes utensils available, unless four or more servings packaged as one item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Further, a bakery item warmed up by a retail merchant or that is sold right out of the oven does not automatically make the item “prepared food.”"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Apart from technical, nonsubstantive changes, this bulletin has been changed to address the taxability of heated bakery products."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
+      }
+    ],
+    "notes": "SIB #29 dated September 2025, 'Effective Date: Upon Publication'; the exact day in September isn't given, so from is the 1st. Warm bakery items don't count toward the 75% restaurant test, so most bakeries are not restaurants. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.cold",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food a grocery or deli prepared is taxable when mixed or combined and sold by the item or with utensils, but exempt when sold unheated by weight or volume without utensils, or only cut or repackaged.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold by the item or package (not priced by weight or volume)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Mixed food sold unheated by weight or volume as a single item, without utensils (deli salads by the pound)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Food only cut, repackaged or pasteurized by the seller (cut fruit, sliced meat or cheese), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Utensils handed to the customer, or the seller is a restaurant (75% or more prepared-food sales) that makes utensils available",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "Food sold in an unheated state by weight or volume as a single item."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The item is both sold in an unheated state by weight or volume as a single item and is sold without eating utensils (e.g., potato salad);"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The item sold represents food that is only cut, repackaged, or pasteurized by the seller (e.g., vegetable trays);"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "However, otherwise exempt food sold by a combination business, including bakery items and items ready for consumption at the time of sale, are only taxable if utensils are handed to the customer."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "The item is both sold in an unheated state by weight or volume as a single item and is sold without eating utensils (e.g., potato salad);"
+      }
+    ],
+    "notes": "A cooked chicken sold cold is taxable if seasoned or combined (mixed ingredients) unless priced by weight; plain cooked meat isn't addressed directly. 'Combination business' = under 75% prepared-food sales (SIB #29 Appendix B). Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A restaurant (75% or more of sales prepared food) provides utensils, so its food ready for immediate consumption, cold or to go, is taxable in Indiana.",
+    "conditions": [
+      {
+        "when": "A bulk item of four or more servings packaged as one item for one price, not heated or mixed by the seller, with no utensils handed to the customer",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Food that ordinarily requires cooking (not just reheating) by the consumer, sold without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller's prepared-food sales are under 75% (a combination business), and the item is unheated, not mixed and sold without utensils handed over",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Because utensils are provided by a restaurant, this subjects all food items ready for immediate consumption on or off the premises sold by the restaurant to tax, regardless of the portion size."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #11, Restaurant Owners (January 2026)",
+        "url": "https://www.in.gov/dor/files/reference/sib11.pdf",
+        "quote": "Because utensils are provided by a restaurant, this subjects all food items ready for immediate consumption on or off the premises sold by the restaurant to tax, regardless of the portion size."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "Because utensils are provided by a restaurant, this subjects all food items ready for immediate consumption on or off the premises sold by the restaurant to tax, regardless of the portion size."
+      }
+    ],
+    "notes": "The bulk-serving exception appears in SIB #29 from its 2023 versions; the April 2016 bulletin doesn't have it. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.dine_in",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served with the seller's plates, utensils or tableware is prepared food, taxable in Indiana.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "All food items sold with eating utensils provided by the seller."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "food shall be considered to be sold with eating utensils provided by the seller when utensils are given to the purchaser or made available for self-service by the purchaser on the seller’s premises."
+      }
+    ],
+    "notes": "Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.hot",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold in a heated state or heated by the seller is prepared food, taxable in Indiana.",
+    "conditions": [
+      {
+        "when": "A bakery item warmed or sold fresh from the oven, without utensils provided by the seller (from September 2025; see food.prepared.bakery)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "food sold in a heated state or heated by the seller;"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "All food items sold in a heated state or heated by the seller and ready to eat without further cooking by the purchaser."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "All food items sold in a heated state or heated by the seller and ready to eat"
+      }
+    ],
+    "notes": "Heated bakery items are coded food.prepared.bakery. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.platter",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A platter is taxable when its items were mixed or combined by the seller (sandwich trays) or it's sold with utensils; a tray of food only cut or repackaged (vegetables, fruit, sliced meat or cheese) is exempt.",
+    "conditions": [
+      {
+        "when": "The tray holds items the seller mixed or combined (sandwiches, wraps, prepared salads) or heated",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The tray holds only food the seller cut, sliced or repackaged (vegetable, fruit, cheese or cold-cut tray), sold without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Utensils (plates, napkins, forks) are provided with the tray",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "other than food that is only cut, repackaged, or pasteurized by the seller"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The item sold represents food that is only cut, repackaged, or pasteurized by the seller (e.g., vegetable trays);"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "All food items where two or more food ingredients are mixed or combined by the seller and then sold as a single food item."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "The item sold represents food that is only cut, repackaged, or pasteurized by the seller (e.g., vegetable trays);"
+      }
+    ],
+    "notes": "Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.prepared.sandwich",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich assembled by the seller is two or more ingredients combined for sale as one item: prepared food, taxable in Indiana.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item, without utensils, by a seller that is not a restaurant (under 75% prepared-food sales)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Bought already made from a manufacturer (NAICS 311) and resold unheated without utensils by a combination business",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "two (2) or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "All food items where two or more food ingredients are mixed or combined by the seller and then sold as a single food item."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #11, Restaurant Owners (January 2026)",
+        "url": "https://www.in.gov/dor/files/reference/sib11.pdf",
+        "quote": "A restaurant is a retail merchant that sells prepared food such as meals, sandwiches, or other food for consumption on or off the premises and which provides utensils."
+      }
+    ],
+    "notes": "Indiana's statute exempts mixed food 'sold in an unheated state by weight or volume as a single item' without utensils; a sandwich priced per item doesn't meet it. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+  },
+  {
+    "tax": "IN",
+    "code": "food.soft_drink",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks (sweetened non-alcoholic beverages) are excluded from Indiana's food exemption and are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "The term does not include alcoholic beverages, candy, dietary supplements, tobacco products, or soft drinks."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Soft drinks are defined as nonalcoholic beverages that contain natural or artificial sweeteners."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "Soft drinks are defined as nonalcoholic beverages that contain natural or artificial sweeteners."
+      }
+    ],
+    "notes": "Beverages with milk or milk substitutes, or more than 50% fruit or vegetable juice, are not soft drinks. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "goods.general",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Indiana's 7% state gross retail tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "An excise tax, known as the state gross retail tax, is imposed on retail transactions made in Indiana."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "A person is engaged in selling at retail when, in the ordinary course of the person's regularly conducted trade or business, the person:"
+      },
+      {
+        "title": "Indiana Code 2017, Title 6",
+        "url": "https://iga.in.gov/ic/2017/Title_6.pdf",
+        "quote": "An excise tax, known as the state gross retail tax, is imposed on retail transactions made in Indiana."
+      }
+    ],
+    "notes": "from is the 2017 Indiana Code edition (laws in force after the 2017 session); the tax is far older. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "service.professional",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Indiana's sales tax applies to transfers of tangible goods and a few enumerated services; professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not taxable.",
+    "conditions": [
+      {
+        "when": "Tangible goods (printed materials, furnishings, hardware) or prewritten software transferred to the customer and billed with the service",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #93, Products Transferred Electronically (April 2023)",
+        "url": "https://www.in.gov/dor/files/sib93.pdf",
+        "quote": "Except for certain enumerated services, sales of services generally are not retail transactions and are not subject to sales or use tax."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "acquires tangible personal property for the purpose of resale; and"
+      },
+      {
+        "title": "Indiana Code 2017, Title 6",
+        "url": "https://iga.in.gov/ic/2017/Title_6.pdf",
+        "quote": "transfers that property to another person for consideration."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2016), archived",
+        "url": "https://web.archive.org/web/20170125023922/https://in.gov/dor/reference/files/sib08.pdf",
+        "quote": "Training services are not taxable."
+      }
+    ],
+    "notes": "from is the 2017 Indiana Code edition, which defines retail transactions as transfers of tangible personal property. Computer software maintenance contracts (IC 6-2.5-4-17) are taxable but aren't coded here. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "service.professional.advertising",
+    "from": "2015-12-29",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not taxable in Indiana; tangible property the agency transfers to its client is.",
+    "conditions": [
+      {
+        "when": "The agency transfers tangible property (printed brochures, signs, physical media) for consideration, other than as the client's agent",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A digital audiovisual or audio work delivered electronically that is more than 10% of the transaction",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #14, Advertising Agencies (August 2023)",
+        "url": "https://www.in.gov/dor/files/sib14.pdf",
+        "quote": "The transfer of tangible personal property for a consideration shall constitute a retail sale by the advertising agency and is subject to Indiana sales tax unless transferred to the principal for whom the agency purchased the tangible personal property as outlined in the above paragraph."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #14, Advertising Agencies (August 2023)",
+        "url": "https://www.in.gov/dor/files/sib14.pdf",
+        "quote": "Further, Indiana sales tax is imposed on products transferred electronically only if the products meet the definition of specified digital products or prewritten computer software."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #93, Products Transferred Electronically (April 2023)",
+        "url": "https://www.in.gov/dor/files/sib93.pdf",
+        "quote": "Except for certain enumerated services, sales of services generally are not retail transactions and are not subject to sales or use tax."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #14 (December 2002), archived",
+        "url": "https://web.archive.org/web/20151229113911/http://in.gov/dor/reference/files/sib14.pdf",
+        "quote": "The transfer of tangible personal property for a consideration shall constitute a retail sale by the advertising agency and is subject to Gross Retail Tax"
+      }
+    ],
+    "notes": "from is the date the December 2002 bulletin was archived. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "software.custom.development",
+    "from": "2016-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software written to one purchaser's specifications is not subject to Indiana sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #8, Computer Hardware, Software and Digital Goods (January 2023)",
+        "url": "https://www.in.gov/dor/files/sib08.pdf",
+        "quote": "As a general rule, transactions involving computer software in the form of a custom program specifically designed for the purchaser are not subject to Indiana sales or use tax."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2016), archived",
+        "url": "https://web.archive.org/web/20170125023922/https://in.gov/dor/reference/files/sib08.pdf",
+        "quote": "As a general rule, transactions involving computer software are not subject to Indiana sales or use tax provided the software is in the form of a custom program specifically designed for the purchaser."
+      }
+    ],
+    "notes": "Prewritten software includes custom software sold to a person other than the purchaser it was written for. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "software.custom.modification",
+    "from": "2016-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A reasonable, separately stated charge for customizing prewritten software to one purchaser's specifications is a nontaxable service in Indiana.",
+    "conditions": [
+      {
+        "when": "The modification is not separately stated from the prewritten software's price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #8, Computer Hardware, Software and Digital Goods (January 2023)",
+        "url": "https://www.in.gov/dor/files/sib08.pdf",
+        "quote": "However, where there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such a modification or enhancement, the modification or enhancement is considered a non-taxable service and not prewritten computer software."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2016), archived",
+        "url": "https://web.archive.org/web/20170125023922/https://in.gov/dor/reference/files/sib08.pdf",
+        "quote": "the modification or enhancement is considered a non-taxable service and not prewritten computer software."
+      }
+    ],
+    "notes": "Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "software.prewritten",
+    "from": "2016-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Indiana whether delivered on media, by load-and-leave, or downloaded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #8, Computer Hardware, Software and Digital Goods (January 2023)",
+        "url": "https://www.in.gov/dor/files/sib08.pdf",
+        "quote": "Sales and use tax is also imposed on prewritten computer software transferred electronically."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #8, Computer Hardware, Software and Digital Goods (January 2023)",
+        "url": "https://www.in.gov/dor/files/sib08.pdf",
+        "quote": "Purchases of software stored in a tangible medium (on a disc or disk, a USB flash drive, etc.) are subject to sales tax."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "a person is a retail merchant making a retail transaction when the person sells, rents, leases, or licenses for consideration the right to use prewritten computer software delivered electronically."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2016), archived",
+        "url": "https://web.archive.org/web/20170125023922/https://in.gov/dor/reference/files/sib08.pdf",
+        "quote": "Purchases of software stored in a tangible medium (on a disc or disk, a USB flash drive, etc.) are subject to sales tax."
+      }
+    ],
+    "notes": "from is the December 2016 bulletin's date. Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "software.saas",
+    "from": "2016-12-01",
+    "to": "2018-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2018, remotely accessed software was taxable only if the customer got control, possession or ownership rights in it; plain access was not taxable.",
+    "conditions": [
+      {
+        "when": "The customer is not transferred the software, has no ownership interest, and doesn't control or possess the software or server",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The customer obtains possession, control or ownership rights in the software (per the bulletin's factors: right to download copies, modify, unlimited term)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2016), archived",
+        "url": "https://web.archive.org/web/20170125023922/https://in.gov/dor/reference/files/sib08.pdf",
+        "quote": "Depending on the factors of the transaction and arrangement, SaaS may or may not be subject to tax."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2016), archived",
+        "url": "https://web.archive.org/web/20170125023922/https://in.gov/dor/reference/files/sib08.pdf",
+        "quote": "Charges for accessing prewritten computer software maintained on the vendor’s or a third party’s computer or servers are not subject to tax when accessed electronically via the Internet if the customer is not transferred the software, does not have an ownership interest in the software, and does not control or possess the software or the server."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2019), archived",
+        "url": "https://web.archive.org/web/20200818055450/https://www.in.gov/dor/files/reference/sib08.pdf",
+        "quote": "Because SEA 257 applies only to transactions occurring after June 30, 2018,"
+      }
+    ],
+    "notes": "from is the December 2016 bulletin's date; earlier (2011) guidance not checked. Contracts paid in full before July 1, 2018 stay under this rule (SIB #8, December 2019). Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "software.saas",
+    "from": "2018-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Remote access to prewritten software (SaaS) is not a retail transaction in Indiana and is not taxable.",
+    "conditions": [
+      {
+        "when": "Software downloaded to the customer's computer as part of the deal is more than incidental (10% or more of the price)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "is not considered to be a transaction in which prewritten computer software is delivered electronically; and"
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "As added by P.L.200-2018, SEC.1."
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #8 (December 2019), archived",
+        "url": "https://web.archive.org/web/20200818055450/https://www.in.gov/dor/files/reference/sib08.pdf",
+        "quote": "As of July 1, 2018, prewritten computer software sold, rented, leased, or licensed for consideration that is remotely accessed over the internet, over private or public networks, or through wireless media, is not considered an electronic transfer of computer software and is not considered a retail transaction."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #8, Computer Hardware, Software and Digital Goods (January 2023)",
+        "url": "https://www.in.gov/dor/files/sib08.pdf",
+        "quote": "transactions for prewritten computer software remotely accessed from a hosted computer or server or through a pool of shared resources from multiple computers and servers (“cloud computing”), without having to download the software to the user’s computer, are not considered retail transactions"
+      }
+    ],
+    "notes": "IC 6-2.5-4-16.7 (SEA 257-2018, P.L.200-2018). Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  }
+]

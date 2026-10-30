@@ -1,0 +1,703 @@
+[
+  {
+    "tax": "MD",
+    "code": "construction.real_property",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A contractor who builds, improves or repairs real property pays tax on its materials; the customer's contract is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Therefore, a person who constructs, improves, alters, or repairs"
+      },
+      {
+        "title": "Md. Code, Tax-General § 11-101 (definitions), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412031847/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-101&enactments=false",
+        "quote": "for use or resale in the form of real estate by a builder, contractor, or landowner"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. Covers improvement and repair alike."
+  },
+  {
+    "tax": "MD",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Wall-to-wall carpet a contractor supplies and installs is a taxable sale: the contractor collects sales tax from the customer.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #18: Real Property Contractors",
+        "url": "https://marylandtaxes.gov/forms/business_tax_tips/bustip18.pdf",
+        "quote": "However, a contractor may use a resale certificate to purchase carpet tax free if the carpet is for wall‐to‐wall installation; in this situation, the contractor must collect the sales tax from its customer."
+      }
+    ],
+    "notes": "The tip names carpet; other floor coverings are read the same way, unverified. Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."
+  },
+  {
+    "tax": "MD",
+    "code": "delivery",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated charge for delivery directly to the buyer is not part of the taxable price.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-101 (definitions), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412031847/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-101&enactments=false",
+        "quote": "a delivery, freight, or other transportation service for delivery directly to the buyer by the vendor or by another person acting for the vendor, unless the transportation service is a taxable service"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "A delivery, freight, or other transportation service for delivery directly to the buyer by"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. Applies to deliveries of taxable and exempt goods alike."
+  },
+  {
+    "tax": "MD",
+    "code": "food.candy",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy and confectionery are not \"food\" in Maryland and are taxable at 6%, even from a grocery.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "2. a soft drink or carbonated beverage; or 3. candy or confectionery"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "The following items are not considered food under Maryland law and their sale is subject to sales and use tax:"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.catering",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's charges for food, drink and services at the customer's event are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "In general, a licensed caterer's charges for food, beverages, and any services provided for a customer's specific event are subject to sales tax."
+      },
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "food that the vendor serves for consumption on the premises of the buyer or of a third party"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.grocery",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Grocery food sold for eating off the premises by a store that operates a substantial grocery or market business is exempt.",
+    "conditions": [
+      {
+        "when": "Sold by a vendor that does not operate a substantial grocery or market business (under 10% of its food sales are grocery or market items)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "the sales and use tax does not apply to a sale of food for consumption off the premises by a food vendor who operates a substantial grocery or market business at the same location where the food is sold"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "A substantial grocery or market business is one in which at least 10% of food sales are sales of grocery or market items."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. Settled for groceries sold by grocery stores and markets, the usual seller; the same food from a vendor that isn't a substantial grocery or market business is taxable (Tax-General § 11-206(c))."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.bakery",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are exempt when sold to go by a substantial grocery or market business, and taxable otherwise.",
+    "conditions": [
+      {
+        "when": "Sold for consumption off the premises by a vendor operating a substantial grocery or market business at that location (including a bakery whose food sales are at least 10% grocery or market items)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a vendor that is not a substantial grocery or market business, heated, or for consumption on the premises",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "the sales and use tax does not apply to a sale of food for consumption off the premises by a food vendor who operates a substantial grocery or market business at the same location where the food is sold"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Any food item sold for consumption off premises by a vendor that does not qualify as a substantial grocery or market business is also taxable."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.cold",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold prepared food from a grocery's deli is exempt when sold to go by a substantial grocery or market business, unless it comes from a salad, soup or dessert bar.",
+    "conditions": [
+      {
+        "when": "Taken from a salad, soup, dessert bar or buffet",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to go (deli salads, food by weight, a cooled cooked chicken) by a vendor operating a substantial grocery or market business at that location",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a deli or food vendor that is not a substantial grocery or market business (under 10% of food sales are grocery items)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "the sales and use tax does not apply to a sale of food for consumption off the premises by a food vendor who operates a substantial grocery or market business at the same location where the food is sold"
+      },
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "(i) food obtained from a salad, soup, or dessert bar"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Food obtained from a salad, soup, dessert bar, or buffet is taxable whether served hot or cold."
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Any food item sold for consumption off premises by a vendor that does not qualify as a substantial grocery or market business is also taxable."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food sold to go by a restaurant is taxable: the grocery exemption reaches only vendors operating a substantial grocery or market business.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Any food item sold for consumption off premises by a vendor that does not qualify as a substantial grocery or market business is also taxable."
+      },
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "the sales and use tax does not apply to a sale of food for consumption off the premises by a food vendor who operates a substantial grocery or market business at the same location where the food is sold"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. A restaurant that also ran a substantial grocery or market business at the same location (at least 10% of its food sales grocery items) could sell unheated, non-sandwich food to go exempt; that is rare and the code describes a food-service business."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.dine_in",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold for consumption on the seller's premises is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "In addition, any other food that is sold for consumption on the premises of the vendor or the premises of a third party but made available to the vendor for consumption of food is subject to tax."
+      },
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "the sales and use tax does not apply to a sale of food for consumption off the premises by a food vendor who operates a substantial grocery or market business at the same location where the food is sold"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. The grocery exemption covers only food for consumption off the premises."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.hot",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Heated food is food for immediate consumption and taxable wherever it is sold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "(iii) heated food"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Food for immediate consumption is subject to tax regardless of whether sold for consumption on or off the premises of the vendor."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.platter",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Party platters are food for immediate consumption and taxable wherever they are sold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "(ii) party platters"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Food for immediate consumption is subject to tax regardless of whether sold for consumption on or off the premises of the vendor."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.prepared.sandwich",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sandwiches suitable for immediate consumption are taxable wherever they are sold.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "(iv) sandwiches suitable for immediate consumption"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Food for immediate consumption is subject to tax regardless of whether sold for consumption on or off the premises of the vendor."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "food.soft_drink",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks and carbonated beverages are not \"food\" in Maryland and are taxable at 6%, even from a grocery.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-206 (food), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412233644/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-206&enactments=false",
+        "quote": "2. a soft drink or carbonated beverage; or 3. candy or confectionery"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "The following items are not considered food under Maryland law and their sale is subject to sales and use tax:"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older."
+  },
+  {
+    "tax": "MD",
+    "code": "goods.general",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at Maryland's 6% rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Md. Code, Tax-General § 11-104 (rates), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412031856/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-104&enactments=false",
+        "quote": "6 cents for each exact dollar"
+      },
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Sales of tangible personal property are subject to Maryland sales and use tax unless they are specifically exempt under Maryland law."
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. Maryland has no general local sales tax (Business Tax Tip #8), so the state rule is the whole answer; the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not to these codes."
+  },
+  {
+    "tax": "MD",
+    "code": "service.professional",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, engineering, design, advertising) are not taxable services in Maryland.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "A personal, professional, or insurance service, that is not a defined taxable service and"
+      },
+      {
+        "title": "Md. Code, Tax-General § 11-101 (definitions), as archived 2020-04-12",
+        "url": "https://web.archive.org/web/20200412031847/http://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-101&enactments=false",
+        "quote": "“Taxable service” means: (1) fabrication, printing, or production of tangible personal property by special order"
+      }
+    ],
+    "notes": "2020-04-12 is the date of the archived statute read here; the treatment is older. Maryland taxes only the services listed in Tax-General § 11-101(m); none of these is listed. From 2025-07-01 IT services are (service.professional.it). Computer systems design work classed under NAICS 5415 (e.g. CAD systems integration design) is taxed at 3% even when an engineering firm sells it."
+  },
+  {
+    "tax": "MD",
+    "code": "service.professional.it",
+    "from": "2025-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "IT consulting, systems integration and support are taxed at 3% from July 1, 2025 as NAICS 5415 services; IT training is not on the list.",
+    "conditions": [
+      {
+        "when": "IT consulting, systems integration, network design, installation, disaster recovery, software support or facilities management (NAICS 5415, 518)",
+        "treatment": "special_rate",
+        "rate": 0.03
+      },
+      {
+        "when": "IT training sold on its own (NAICS 6114, not a listed taxable service)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Tax Alert: Sales and Use Tax Updates 2025-2026",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/alerts/tax-alert-sales-and-use-tax-updates.pdf",
+        "quote": "The law imposes a 3.0% sales and use tax rate on a sale of these services."
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "Computer software consulting"
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "Computer systems integration analysis and"
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "Custom computer software support"
+      }
+    ],
+    "notes": "Before 2025-07-01 the service.professional rule (exempt) applies. Contracts signed before 2025-07-01 aren't taxed. Maryland has no general local sales tax (Business Tax Tip #8), so the state rule is the whole answer; the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not to these codes."
+  },
+  {
+    "tax": "MD",
+    "code": "software.custom",
+    "from": "2021-03-14",
+    "to": "2025-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software, and services relating to it, were exempt until June 30, 2025.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "The sales and use tax does not apply to a sale of custom computer software, regardless of the"
+      },
+      {
+        "title": "Comptroller of Maryland, Tax Alert: Sales and Use Tax Updates 2025-2026",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/alerts/tax-alert-sales-and-use-tax-updates.pdf",
+        "quote": "A sale of custom computer software, regardless of the method transferred or"
+      }
+    ],
+    "notes": "Custom computer services were never a listed taxable service; 2021-03-14 is BTT #29's effective date, the earliest read here. The exemption also covered prewritten software that needed significant customization or configuration."
+  },
+  {
+    "tax": "MD",
+    "code": "software.custom",
+    "from": "2025-07-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.03,
+    "summary": "Custom software development and modification are taxed at 3% as NAICS 5415 computer systems design services from July 1, 2025.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Tax Alert: Sales and Use Tax Updates 2025-2026",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/alerts/tax-alert-sales-and-use-tax-updates.pdf",
+        "quote": "The law imposes a 3.0% sales and use tax rate on a sale of these services."
+      },
+      {
+        "title": "Comptroller of Maryland, Tax Alert: Sales and Use Tax Updates 2025-2026",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/alerts/tax-alert-sales-and-use-tax-updates.pdf",
+        "quote": "Pursuant to Section 4 of Chapter 604 of the Acts of 2025, the following exemptions from the"
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "Custom computer program or software"
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "No. The exemption from the sales and use tax for customized software or"
+      }
+    ],
+    "notes": "Contracts signed before 2025-07-01 are not taxed even when paid or performed later; subscription and auto-renewal payments after that date are (TB 56). Maryland has no general local sales tax (Business Tax Tip #8), so the state rule is the whole answer; the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not to these codes."
+  },
+  {
+    "tax": "MD",
+    "code": "software.prewritten",
+    "from": "2021-03-14",
+    "to": "2025-06-30",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxable at 6% on tangible media, and electronically as a digital product unless bought solely for use in an enterprise computer system.",
+    "conditions": [
+      {
+        "when": "Delivered on tangible media",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Obtained electronically for individual use, or for commercial use outside an enterprise computer system",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Obtained electronically solely for commercial use in an enterprise computer system",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "The sale of canned or commercial off-the-shelf (“COTS”) software if delivered in tangible form is"
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "software obtained electronically by the buyer is a digital product and is subject to the Maryland"
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "A digital product does not include computer software or software as a service purchased or"
+      }
+    ],
+    "notes": "Electronically delivered prewritten software became taxable on 2021-03-14 (tangible copies were taxable before); the earlier period isn't written here. The enterprise exclusion's statutory date is 2022-07-01; the Comptroller applies it from the start."
+  },
+  {
+    "tax": "MD",
+    "code": "software.prewritten",
+    "from": "2025-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Prewritten software is taxed at 6% (tangible, or a digital product for individual use) or 3% as a software publishing service when bought for an enterprise computer system.",
+    "conditions": [
+      {
+        "when": "Delivered on tangible media",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Obtained electronically for individual use, or outside an enterprise computer system",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Obtained electronically solely for commercial use in an enterprise computer system",
+        "treatment": "special_rate",
+        "rate": 0.03
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "The definition of a digital product excludes computer software and SaaS"
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "Packaged computer software publishing"
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "The sale of canned or commercial off-the-shelf (“COTS”) software if delivered in tangible form is"
+      }
+    ],
+    "notes": "TB 56 states the 3%/6% split for 'computer software and SaaS' bought for an enterprise computer system; it lists packaged software publishing (NAICS 5132) among 3% services. Maryland has no general local sales tax (Business Tax Tip #8), so the state rule is the whole answer; the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not to these codes."
+  },
+  {
+    "tax": "MD",
+    "code": "software.saas",
+    "from": "2021-03-14",
+    "to": "2025-06-30",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "SaaS is a taxable digital product at 6% unless bought solely for commercial use in an enterprise computer system.",
+    "conditions": [
+      {
+        "when": "Bought for individual (non-commercial) use, or for commercial use outside an enterprise computer system (single-user, standalone)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Bought solely for commercial purposes for use in an enterprise computer system",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "Thus, the sale of software or software as a service (SaaS) that is delivered or"
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #29, Sales of Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip29.pdf",
+        "quote": "A digital product does not include computer software or software as a service purchased or"
+      },
+      {
+        "title": "Comptroller of Maryland, Sales and Use Tax Bulletin 21-1, Application of Sales and Use Tax to Digital Products and Digital Codes",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/bulletins/sales-and-use-tax/su_bul21-1.pdf",
+        "quote": "became subject to Maryland’s 6% sales and use tax effective"
+      }
+    ],
+    "notes": "The enterprise exclusion is in Tax-General § 11-101 effective July 1, 2022; the Comptroller (BTT #29, note 51) treats such software as never within the 2021 tax. Before 2021-03-14 SaaS was not taxed in Maryland; that earlier period isn't written here."
+  },
+  {
+    "tax": "MD",
+    "code": "software.saas",
+    "from": "2025-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "SaaS is taxed at 6% as a digital product for individual use, and at 3% as a software publishing service when bought for use in an enterprise computer system.",
+    "conditions": [
+      {
+        "when": "Bought for individual or other use outside an enterprise computer system",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Bought solely for commercial use in an enterprise computer system",
+        "treatment": "special_rate",
+        "rate": 0.03
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "This means that SaaS sold for individual use is taxed at the 6% rate, and the same SaaS is taxed at the 3% rate when"
+      },
+      {
+        "title": "Comptroller of Maryland, Technical Bulletin No. 56 (revised June 30, 2025), Data or Information Technology Services and Software Publishing Services",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-56.pdf",
+        "quote": "SaaS meets the definitions of both a digital product and a software publishing"
+      }
+    ],
+    "notes": "Maryland has no general local sales tax (Business Tax Tip #8), so the state rule is the whole answer; the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not to these codes."
+  },
+  {
+    "tax": "MD:local",
+    "code": "service.professional.it",
+    "from": "2025-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maryland has no general local sales tax, so no local tax applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #8, Calculating Maryland's Sales and Use Tax",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip8.pdf",
+        "quote": "There are no general local sales taxes in Maryland."
+      }
+    ],
+    "notes": "Written because the state rule carries a reduced (3%) rate; a reduced state rule must say how local parts treat the code. Maryland has none: the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not this code."
+  },
+  {
+    "tax": "MD:local",
+    "code": "software.custom",
+    "from": "2025-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maryland has no general local sales tax, so no local tax applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #8, Calculating Maryland's Sales and Use Tax",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip8.pdf",
+        "quote": "There are no general local sales taxes in Maryland."
+      }
+    ],
+    "notes": "Written because the state rule carries a reduced (3%) rate; a reduced state rule must say how local parts treat the code. Maryland has none: the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not this code."
+  },
+  {
+    "tax": "MD:local",
+    "code": "software.prewritten",
+    "from": "2025-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maryland has no general local sales tax, so no local tax applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #8, Calculating Maryland's Sales and Use Tax",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip8.pdf",
+        "quote": "There are no general local sales taxes in Maryland."
+      }
+    ],
+    "notes": "Written because the state rule carries a reduced (3%) rate; a reduced state rule must say how local parts treat the code. Maryland has none: the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not this code."
+  },
+  {
+    "tax": "MD:local",
+    "code": "software.saas",
+    "from": "2025-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maryland has no general local sales tax, so no local tax applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip #8, Calculating Maryland's Sales and Use Tax",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip8.pdf",
+        "quote": "There are no general local sales taxes in Maryland."
+      }
+    ],
+    "notes": "Written because the state rule carries a reduced (3%) rate; a reduced state rule must say how local parts treat the code. Maryland has none: the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not this code."
+  }
+]

@@ -1,0 +1,907 @@
+[
+  {
+    "tax": "MN",
+    "code": "construction.real_property.improvement",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Minnesota contractors pay tax on their materials and charge no sales tax on construction contracts that improve real property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, General Contractors and Subcontractors",
+        "url": "https://www.revenue.state.mn.us/guide/general-contractors-and-subcontractors-applies-all-contractor-types",
+        "quote": "Do not charge sales tax on construction contracts."
+      },
+      {
+        "title": "Minnesota Revenue, General Contractors and Subcontractors",
+        "url": "https://www.revenue.state.mn.us/guide/general-contractors-and-subcontractors-applies-all-contractor-types",
+        "quote": "You must pay sales and use tax on the cost of all materials, supplies, and equipment used to complete a construction contract."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(d)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "A sale of building materials, supplies, and equipment to owners, contractors, subcontractors, or builders for the erection of buildings or the alteration, repair, or improvement of real property is a retail sale in whatever quantity sold"
+      }
+    ],
+    "notes": "Items that stay tangible personal property (free-standing appliances, business machinery and equipment, bleachers, lockers) are taxable with their installation. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "construction.real_property.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Repairs and repainting of real property are not taxable services in Minnesota; the contractor pays tax on its materials. Building cleaning and maintenance services are taxable.",
+    "conditions": [
+      {
+        "when": "Building cleaning or maintenance services (janitorial, lighting maintenance, furnace or duct cleaning, pool maintenance), not repair",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, General Contractors and Subcontractors",
+        "url": "https://www.revenue.state.mn.us/guide/general-contractors-and-subcontractors-applies-all-contractor-types",
+        "quote": "Do not charge sales tax on construction contracts."
+      },
+      {
+        "title": "Minnesota Revenue, General Contractors and Subcontractors: improving real property includes repairs",
+        "url": "https://www.revenue.state.mn.us/guide/general-contractors-and-subcontractors-applies-all-contractor-types",
+        "quote": "Repair, replace, or incorporate items such as furnaces, garbage disposals, built-in dishwashers and stovetops, water heaters, and central air conditioners"
+      },
+      {
+        "title": "Minnesota Revenue, Sales - Building Cleaning and Maintenance",
+        "url": "https://www.revenue.state.mn.us/guide/sales-building-cleaning-and-maintenance",
+        "quote": "Building cleaning and maintenance includes both interior and exterior cleaning of commercial and residential buildings, homes, and apartments. It does not include repairs to buildings."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 3(g)(6)(iii)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(iii) building and residential cleaning, maintenance, and disinfecting services and pest control and exterminating services;"
+      }
+    ],
+    "notes": "The Revenue cleaning guide lists 'Painting and wallpapering' and 'Repairs to real property' as nontaxable services. Starting July 1, 2026 certain water mitigation charges are not taxable (cleaning guide); not modeled. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "delivery.exempt_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delivery charges for exempt goods, such as groceries, are not taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 7(a)(4)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(4) delivery charges, except the percentage of the delivery charge allocated to delivery of tax exempt property"
+      },
+      {
+        "title": "Minnesota Revenue, Delivery Charges",
+        "url": "https://www.revenue.state.mn.us/guide/delivery-charges",
+        "quote": "Delivery charges for nontaxable items are not taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 7 last amended 2008",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2008 Subd. 7 Amended 2008 c 154 art 12 s 7"
+      }
+    ],
+    "notes": "A charge covering taxable and exempt goods is allocated by price or weight. The separate retail delivery fee (from July 1, 2024) is not sales tax. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "delivery.taxable_goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Delivery charges for taxable goods are part of the sales price and taxable in Minnesota, even if separately stated.",
+    "conditions": [
+      {
+        "when": "Delivery furnished and billed by a third party, not the seller (other than aggregate or concrete block)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 7(a)(4)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(4) delivery charges, except the percentage of the delivery charge allocated to delivery of tax exempt property"
+      },
+      {
+        "title": "Minnesota Revenue, Delivery Charges",
+        "url": "https://www.revenue.state.mn.us/guide/delivery-charges",
+        "quote": "Delivery charges are part of the sales price, even if separately stated."
+      },
+      {
+        "title": "Minnesota Revenue, Delivery Charges",
+        "url": "https://www.revenue.state.mn.us/guide/delivery-charges",
+        "quote": "When the item or service sold is taxable, the delivery charges are also taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 7 last amended 2008",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2008 Subd. 7 Amended 2008 c 154 art 12 s 7"
+      }
+    ],
+    "notes": "Since July 1, 2024 Minnesota also charges a separate 50-cent retail delivery fee on qualifying deliveries; it is a fee, not sales tax, and is not modeled. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy is taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Candy",
+        "url": "https://www.revenue.state.mn.us/guide/candy",
+        "quote": "Candy is taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 3(d)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "Notwithstanding section 297A.67, subdivision 2, taxable food includes, but is not limited to, the following:"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 33, candy",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "Candy does not include any preparation containing flour and must require no refrigeration."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 33 new 2001",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2001 Subd. 33 New 2001 c 5 art 12 s 29"
+      }
+    ],
+    "notes": "Subd. 33 has not been amended since 2001. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering, including the caterer's charges for delivery, preparation, service and rentals, is taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Sales - Food",
+        "url": "https://www.revenue.state.mn.us/guide/sales-food",
+        "quote": "Catering services are taxable, including:"
+      },
+      {
+        "title": "Minnesota Revenue, Sales - Food",
+        "url": "https://www.revenue.state.mn.us/guide/sales-food",
+        "quote": "Rentals of chairs, tables, tablecloths, and tableware"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) the food is sold in a heated state or heated by the seller or two or more food ingredients are mixed or combined by the seller for sale as a single item, except for:"
+      }
+    ],
+    "notes": "A personal chef cooking food the customer provides is not taxable (same page). The guide is undated; 2018-01-01 rests on the unchanged prepared-food definition (subd. 31, last amended 2002). Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food and food ingredients (groceries) are exempt from Minnesota sales tax; candy, soft drinks, dietary supplements and prepared food are not.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.67, subd. 2",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.67",
+        "quote": "Except as otherwise provided in this subdivision, food and food ingredients are exempt."
+      },
+      {
+        "title": "Minn. Stat. 297A.67, subd. 2 (exclusions)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.67",
+        "quote": "Food and food ingredients exempt under this subdivision do not include candy, soft drinks, dietary supplements, and prepared foods."
+      },
+      {
+        "title": "Minnesota Revenue, Food and Food Ingredients",
+        "url": "https://www.revenue.state.mn.us/guide/food-and-food-ingredients",
+        "quote": "Food and food ingredients are exempt from sales tax."
+      },
+      {
+        "title": "Minn. Stat. 297A.67, history: subd. 2 amended 2017 and 2023 (cannabis), earlier 2005",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.67",
+        "quote": "2023 Subd. 2 Amended 2023 c 63 art 2 s 12"
+      }
+    ],
+    "notes": "Subd. 2 was amended in 2017 and 2023 (adding cannabis products to the exclusions); the grocery exemption itself is unchanged over the period. Food sold through vending machines is taxable. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items sold without utensils are exempt in Minnesota, unless the seller's prepared food sales exceed 75 percent and it makes utensils available.",
+    "conditions": [
+      {
+        "when": "The seller neither hands nor makes utensils available, or its prepared food sales are 75 percent or less of its food sales",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller's prepared food sales exceed 75 percent and utensils are available, for an item of fewer than four servings",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Four or more servings sold for a single price, and the seller does not hand utensils with it",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2)(i), bakery items excluded",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(i) bakery items, including, but not limited to, bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, tortillas;"
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "Bakery items are not \"prepared food\" unless sold with eating utensils provided by the seller under Minnesota Rules, part 8130.4705."
+      },
+      {
+        "title": "Minn. R. 8130.4705, subp. 3: utensils made available by a seller whose prepared food sales exceed 75 percent",
+        "url": "https://www.revisor.mn.gov/rules/8130.4705/",
+        "quote": "if the seller's prepared food sales percentage, as determined in subpart 5, is greater than 75 percent; except that"
+      },
+      {
+        "title": "Minn. R. 8130.4705, example: four or more servings for a single price",
+        "url": "https://www.revisor.mn.gov/rules/8130.4705/",
+        "quote": "Since the item of four or more servings is sold for a single price, the item is not considered prepared food unless the utensils are physically given or handed to the customer, even if the seller has utensils available to the customer."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "Ice cream cakes and pies are not bakery items (RN 21-02). The 75 percent test is computed annually over all the seller's Minnesota establishments (Minn. R. 8130.4705, subp. 5). Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.cold",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food prepared by a grocery or deli is taxable in Minnesota if the seller combined ingredients or fully cooked it, but sliced-only food and ready-to-eat meat sold by weight are exempt unless sold with utensils.",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller (deli salads, a dressed salad), whether or not sold by weight",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Food the seller fully cooked and sells cold (other than ready-to-eat meat or seafood sold by weight)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Ready-to-eat meat or seafood sold unheated by weight (sliced deli meat, a cooked chicken sold cold by weight), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Food only sliced, repackaged or pasteurized by the seller (cut fruit), without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with eating utensils the seller provides, including utensils merely made available by a seller whose prepared food sales exceed 75 percent (except items of four or more servings)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) the food is sold in a heated state or heated by the seller or two or more food ingredients are mixed or combined by the seller for sale as a single item, except for:"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2)(ii)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(ii) ready-to-eat meat and seafood in an unheated state sold by weight;"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2)(iv)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(iv) food that is only sliced, repackaged, or pasteurized by the seller."
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "Sliced, repackaged, or pasteurized food is not subject to tax if the seller did not prepare it other than to slice, repackage, or pasteurize it, unless the food is sold with eating utensils provided by the seller."
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "However, if ingredients that are not part of the ready-to-eat meat or seafood are added to the ready-to-eat meat or seafood"
+      },
+      {
+        "title": "Minn. R. 8130.4705, subp. 3: utensils made available by a seller whose prepared food sales exceed 75 percent",
+        "url": "https://www.revisor.mn.gov/rules/8130.4705/",
+        "quote": "if the seller's prepared food sales percentage, as determined in subpart 5, is greater than 75 percent; except that"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "Unlike the Streamlined model, Minnesota's 'sold by weight' exclusion covers only ready-to-eat meat and seafood, not other deli foods. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells to go is taxable prepared food in Minnesota.",
+    "conditions": [
+      {
+        "when": "Only sliced, repackaged or ready-to-eat meat sold by weight, the seller hands no utensils, and the seller's prepared food sales are 75 percent or less (or no utensils are available)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) the food is sold in a heated state or heated by the seller or two or more food ingredients are mixed or combined by the seller for sale as a single item, except for:"
+      },
+      {
+        "title": "Minnesota Revenue, Sales - Food",
+        "url": "https://www.revenue.state.mn.us/guide/sales-food",
+        "quote": "Most food and drink sold by an eating establishment is taxable unless a specific exemption applies."
+      },
+      {
+        "title": "Minnesota Revenue, Sales - Food",
+        "url": "https://www.revenue.state.mn.us/guide/sales-food",
+        "quote": "Any food prepared by the seller or sold with eating utensils provided by the seller is taxable."
+      },
+      {
+        "title": "Minn. R. 8130.4705, subp. 3: utensils made available by a seller whose prepared food sales exceed 75 percent",
+        "url": "https://www.revisor.mn.gov/rules/8130.4705/",
+        "quote": "if the seller's prepared food sales percentage, as determined in subpart 5, is greater than 75 percent; except that"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "Restaurants nearly always exceed the 75 percent prepared-food threshold, so available utensils count as provided. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served on the seller's plates or tableware, or at its tables, is taxable prepared food in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(1), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(1) the food is sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws; or"
+      },
+      {
+        "title": "Minn. R. 8130.4705, subp. 2: utensils placed on a table count as provided by the seller",
+        "url": "https://www.revisor.mn.gov/rules/8130.4705/",
+        "quote": "it is the seller's practice to place the utensil on a table, counter, or similar surface for the customer to use."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "Utensils provided make even otherwise-exempt items (bakery items, sliced food) prepared food. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold hot or heated by the seller is taxable prepared food in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) the food is sold in a heated state or heated by the seller or two or more food ingredients are mixed or combined by the seller for sale as a single item, except for:"
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "Food is \"in a heated state\" if it is hot or warm."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "Bakery items are excluded from prepared food even if heated, unless sold with utensils (see food.prepared.bakery). Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.platter",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A party platter or tray of food is taxable prepared food in Minnesota: serving platters and trays count as eating utensils.",
+    "conditions": [
+      {
+        "when": "The food is packed only in material used to package and transport it (not a tray designed for serving), and is only sliced or is ready-to-eat meat sold by weight",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(1), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(1) the food is sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws; or"
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food: eating utensils",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "Eating utensils include, but are not limited to, plates, knives, forks, spoons, glasses, cups, bowls, dishes, napkins, chopsticks, straws, platters, a wooden skewer inserted into food and handed to the customer, and platters and trays designed for serving and displaying the food."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "RN 21-02 also says 'Material used solely for packaging and transporting the food is not an eating utensil.' Sandwich or combined-food trays are prepared food regardless. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller combines food ingredients and is taxable prepared food in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31(2), prepared food",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) the food is sold in a heated state or heated by the seller or two or more food ingredients are mixed or combined by the seller for sale as a single item, except for:"
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "the resulting item is \"prepared food\" because ingredients are combined with the ready-to-eat meat or seafood"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 31 last amended 2002",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2002 Subd. 31 Amended 2002 c 377 art 3 s 4"
+      }
+    ],
+    "notes": "If the seller only buys sandwiches made by another legal entity and resells them cold without utensils, RN 21-02 says the sale is not prepared food; the code describes a sandwich the seller made. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Food and Food Ingredients",
+        "url": "https://www.revenue.state.mn.us/guide/food-and-food-ingredients",
+        "quote": "Candy, soft drinks, alcoholic beverages, prepared food, dietary supplements, and food sold through vending machines are taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 32, soft drinks",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "\"Soft drinks\" means nonalcoholic beverages that contain natural or artificial sweeteners."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 32 new 2001",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2001 Subd. 32 New 2001 c 5 art 12 s 28"
+      }
+    ],
+    "notes": "Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Minnesota sales tax and any local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.62, subd. 1",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.62",
+        "quote": "a sales tax of 6.5 percent is imposed on the gross receipts from retail sales as defined in section 297A.61, subdivision 4"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(a)(1)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(1) any sale, lease, or rental of tangible personal property for any purpose, other than resale, sublease, or subrent of items by the purchaser in the normal course of business as defined in subdivision 21; and"
+      },
+      {
+        "title": "Minn. Stat. 297A.99, subd. 4: local sales taxes apply to sales taxable under chapter 297A",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.99",
+        "quote": "The tax applies to sales taxable under this chapter that occur within the political subdivision."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 4 (retail sale) amended 2013 and 2023",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2023 Subd. 4 Amended 2023 c 64 art 5 s 2"
+      }
+    ],
+    "notes": "The general retail sales tax long predates 2018; 2018-01-01 is only the start of the period modeled. The state rate is 6.5% plus the 0.375% constitutional increase (297A.62, subd. 1a), 6.875% in all. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.accounting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting services are not taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Accounting Services",
+        "url": "https://www.revenue.state.mn.us/guide/accounting-services",
+        "quote": "Fees charged for accounting services are not taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(a)(2): a retail sale of a service is a sale of an enumerated service",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) any sale of a service enumerated in subdivision 3, for any purpose other than resale by the purchaser in the normal course of business as defined in subdivision 21."
+      }
+    ],
+    "notes": "Prewritten software an accounting firm resells is taxable. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.advertising",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services are not a taxable service in Minnesota.",
+    "conditions": [
+      {
+        "when": "Tangible goods or printed materials the agency sells to the client",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(a)(2): a retail sale of a service is a sale of an enumerated service",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) any sale of a service enumerated in subdivision 3, for any purpose other than resale by the purchaser in the normal course of business as defined in subdivision 21."
+      },
+      {
+        "title": "Minnesota Revenue, Professional Services",
+        "url": "https://www.revenue.state.mn.us/guide/professional-services-industry-guide",
+        "quote": "Most professional services are not taxable."
+      }
+    ],
+    "notes": "Advertising services are not among the services enumerated in 297A.61, subd. 3(g); no Revenue page names advertising agencies specifically, so this rests on the enumeration. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.consulting",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not a taxable service in Minnesota.",
+    "conditions": [
+      {
+        "when": "The service is required as a condition of buying taxable goods or services from the same seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(a)(2): a retail sale of a service is a sale of an enumerated service",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) any sale of a service enumerated in subdivision 3, for any purpose other than resale by the purchaser in the normal course of business as defined in subdivision 21."
+      },
+      {
+        "title": "Minnesota Revenue, Professional Services",
+        "url": "https://www.revenue.state.mn.us/guide/professional-services-industry-guide",
+        "quote": "Most professional services are not taxable."
+      },
+      {
+        "title": "Revenue Notice 22-04, services necessary to complete the sale",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/22-04-sales-and-use-tax-sales-price-services-necessary-complete-sale-revocation-and",
+        "quote": "Services necessary to complete the sale, regardless of the time that has lapsed between the service necessary to complete the sale and the sale of the taxable goods or services, are subject to sales tax."
+      }
+    ],
+    "notes": "Minnesota taxes only the services enumerated in 297A.61, subd. 3(g); consulting is not among them. No page names management consulting specifically. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.design",
+    "from": "2018-01-01",
+    "to": "2023-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Interior design is not taxable in Minnesota by itself, but is taxable when tied to the designer's own sale of taxable goods (ordered within a year, or credited against them).",
+    "conditions": [
+      {
+        "when": "Design services alone, or the client buys the goods from another business",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The same business sells the client taxable goods within a year of the related design services, or credits the design fee against them",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Notice 06-06, Interior Design Services",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/06-06-sales-and-use-tax-sales-price-interior-design-services",
+        "quote": "Interior design services are taxable if they result in the sale of taxable goods or services from the same business that provides the interior design service, even if the design service fee is separately stated from the sale of the taxable item or service."
+      },
+      {
+        "title": "Revenue Notice 06-06, Interior Design Services",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/06-06-sales-and-use-tax-sales-price-interior-design-services",
+        "quote": "The client orders the tangible personal property or taxable service within a year of receiving related design services; or"
+      },
+      {
+        "title": "Revenue Notice 06-06, Interior Design Services",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/06-06-sales-and-use-tax-sales-price-interior-design-services",
+        "quote": "If the client does not buy furniture and pays only for the consultation, the payment is not subject to tax."
+      }
+    ],
+    "notes": "RN 06-06 (May 30, 2006) was revoked by RN 22-04; the one-year lookback ends for interior design purchased after March 31, 2023. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.design",
+    "from": "2023-04-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Interior design is not taxable in Minnesota by itself, but is taxable when it is necessary to complete the designer's own sale of taxable goods, whenever those goods are bought.",
+    "conditions": [
+      {
+        "when": "Design services alone, or the client buys the goods from another business",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The design service is necessary to complete the same business's sale of taxable goods to the client (e.g. credited against them), regardless of elapsed time",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Notice 22-04, services necessary to complete the sale",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/22-04-sales-and-use-tax-sales-price-services-necessary-complete-sale-revocation-and",
+        "quote": "By revoking Revenue Notice # 06-06, the department is removing the one-year lookback period for interior design services"
+      },
+      {
+        "title": "Revenue Notice 22-04: effective date of the change",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/22-04-sales-and-use-tax-sales-price-services-necessary-complete-sale-revocation-and",
+        "quote": "except that revocation of the Notice's one-year lookback period is effective for purchases of interior design services made after March 31, 2023."
+      },
+      {
+        "title": "Revenue Notice 22-04: interior design credited against furniture",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/22-04-sales-and-use-tax-sales-price-services-necessary-complete-sale-revocation-and",
+        "quote": "the interior design services are necessary to complete the sale of the furniture and are included in the sales price of the furniture, even though the services are not otherwise taxable under Chapter 297A"
+      }
+    ],
+    "notes": "Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.engineering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are not taxable in Minnesota.",
+    "conditions": [
+      {
+        "when": "The seller requires the engineering service as a condition of buying taxable equipment from it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Architectural Services",
+        "url": "https://www.revenue.state.mn.us/guide/architectural-services",
+        "quote": "Fees charged for these services are not taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(a)(2): a retail sale of a service is a sale of an enumerated service",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) any sale of a service enumerated in subdivision 3, for any purpose other than resale by the purchaser in the normal course of business as defined in subdivision 21."
+      },
+      {
+        "title": "Revenue Notice 22-04: engineering required to buy equipment",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/22-04-sales-and-use-tax-sales-price-services-necessary-complete-sale-revocation-and",
+        "quote": "Because the company requires the purchase of the engineering service to purchase the equipment, the engineering service is necessary to complete the sale of the equipment"
+      }
+    ],
+    "notes": "The Revenue guide names architectural services; engineering is not an enumerated taxable service (297A.61, subd. 3(g)). Additional blueprint copies sold after the service are taxable. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.it",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT consulting, support and training are not taxable in Minnesota, but installing or setting up computer systems, hardware or prewritten software is.",
+    "conditions": [
+      {
+        "when": "IT consulting, technical or help-desk support, or training, not required as a condition of a taxable sale",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Installing or setting up a computer system, hardware or prewritten software (systems integration that installs them)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Services the seller requires as a condition of selling it prewritten software or hardware",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fact Sheet 134, Computer Software (rev. Sept. 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS134.pdf",
+        "quote": "Support services. Corrections received in any format, consultation services, or technical or telephone support for computer programs are not taxable."
+      },
+      {
+        "title": "Fact Sheet 134, Computer Software (rev. Sept. 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS134.pdf",
+        "quote": "Training services are not taxable."
+      },
+      {
+        "title": "Fact Sheet 134, Computer Software (rev. Sept. 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS134.pdf",
+        "quote": "Installation or set up of a computer system, or installation of hardware or prewritten software upgrades, is taxable."
+      },
+      {
+        "title": "Revenue Notice 22-04, services necessary to complete the sale",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/22-04-sales-and-use-tax-sales-price-services-necessary-complete-sale-revocation-and",
+        "quote": "If the company requires its purchaser to purchase certain services (e.g., software configuration services) as a condition of its sale of prewritten computer software, those services are taxable as services necessary to complete the sale of the software"
+      }
+    ],
+    "notes": "Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.legal",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Legal Services",
+        "url": "https://www.revenue.state.mn.us/guide/legal-services",
+        "quote": "Fees charged for legal services are not taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 4(a)(2): a retail sale of a service is a sale of an enumerated service",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(2) any sale of a service enumerated in subdivision 3, for any purpose other than resale by the purchaser in the normal course of business as defined in subdivision 21."
+      }
+    ],
+    "notes": "Extra copies sold apart from the legal service are taxable. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software, and separately stated charges to modify prewritten software for one customer, are not taxable in Minnesota.",
+    "conditions": [
+      {
+        "when": "Modification charge not separately stated from the prewritten software",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Computer Software and Digital Products",
+        "url": "https://www.revenue.state.mn.us/guide/computer-software-and-digital-products",
+        "quote": "Fees charged for custom software are not taxable."
+      },
+      {
+        "title": "Fact Sheet 134, Computer Software (rev. Sept. 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS134.pdf",
+        "quote": "A custom computer software program is not taxable."
+      },
+      {
+        "title": "Fact Sheet 134, Computer Software (rev. Sept. 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS134.pdf",
+        "quote": "The price for modifying or adapting the program is not taxable if separately stated on the bill."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 17",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "if there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for such modification or enhancement, the modification or enhancement does not constitute"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, history: subd. 17 last amended 2006",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "2006 Subd. 17 Amended 2006 c 259 art 6 s 6"
+      }
+    ],
+    "notes": "Covers software.custom.development and software.custom.modification alike. The custom-software vendor pays tax on its materials. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is taxable in Minnesota however it is delivered (download, load and leave, or media).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minn. Stat. 297A.61, subd. 3(f)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "A sale and a purchase includes the transfer for a consideration of prewritten computer software whether delivered electronically, by load and leave, or otherwise."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 10: tangible personal property includes prewritten software",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "\"Tangible personal property\" includes, but is not limited to, electricity, water, gas, steam, and prewritten computer software."
+      },
+      {
+        "title": "Fact Sheet 134, Computer Software (rev. Sept. 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS134.pdf",
+        "quote": "The sale, lease or license to use a canned or prewritten computer software program is taxable."
+      },
+      {
+        "title": "Minnesota Revenue, Computer Software and Digital Products",
+        "url": "https://www.revenue.state.mn.us/guide/computer-software-and-digital-products",
+        "quote": "Prewritten computer software is taxable."
+      }
+    ],
+    "notes": "Mandatory maintenance agreements are taxable; optional ones are taxed on upgrades (20% of a combined charge), per FS 134. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Subscriptions to remotely accessed (online-hosted) software are not taxable in Minnesota.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Computer Software and Digital Products",
+        "url": "https://www.revenue.state.mn.us/guide/computer-software-and-digital-products",
+        "quote": "Subscriptions to use online-hosted software are not taxable."
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 3(f): taxable sales of software are transfers of prewritten software",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "A sale and a purchase includes the transfer for a consideration of prewritten computer software whether delivered electronically, by load and leave, or otherwise."
+      }
+    ],
+    "notes": "The guide page is undated; the treatment rests on the requirement of a transfer of software (subd. 3(f)), and specified/other digital products (subd. 54-55) do not include software. Earliest date of the guide's statement not verified; 2018-01-01 is the start of the period modeled. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  }
+]

@@ -11,9 +11,10 @@ const ny: RatePart[] = [
   { kind: "state", name: "New York", code: "45:36", rate: 0.04, ids: {} },
   { kind: "county", name: "Kings", code: "00:047", rate: 0.04875, ids: {} },
 ];
+// A place with no rules at all.
 const tx: RatePart[] = [
-  { kind: "state", name: "Texas", code: "48", rate: 0.0625, ids: {} },
-  { kind: "city", name: "Austin", code: "05000", rate: 0.02, ids: {} },
+  { kind: "state", name: "Nowhere", code: "48", rate: 0.0625, ids: {} },
+  { kind: "city", name: "Nowhere City", code: "05000", rate: 0.02, ids: {} },
 ];
 const CODES = Object.keys(TAX_CODES) as TaxCode[];
 // The reviewed files, read and checked as ingest reads them.
@@ -22,13 +23,13 @@ const RULES = ruleSet(rows as Rule[]);
 
 describe("taxability", () => {
   it("never falls back: a state with no rules is not researched, with the general rate untouched", () => {
-    const t = taxabilityOf({ state: "TX", parts: tx }, "food.catering", "2026-06-15", RULES);
+    const t = taxabilityOf({ state: "ZZ", parts: tx }, "food.catering", "2026-06-15", RULES);
     expect(t).toMatchObject({ treatment: "not_researched", rate: null });
-    expect(t.taxes).toEqual([{ tax: "TX", parts: ["48", "05000"], treatment: "not_researched", rate: null, rule: null }]);
+    expect(t.taxes).toEqual([{ tax: "ZZ", parts: ["48", "05000"], treatment: "not_researched", rate: null, rule: null }]);
   });
 
   it("a nontaxable line is not taxed anywhere, without consulting a rule", () => {
-    const t = taxabilityOf({ state: "TX", parts: tx }, "nontaxable", "2026-06-15", RULES);
+    const t = taxabilityOf({ state: "ZZ", parts: tx }, "nontaxable", "2026-06-15", RULES);
     expect(t).toMatchObject({ treatment: "not_taxed", rate: 0 });
     expect(t.taxes[0]).toMatchObject({ tax: "*", parts: ["48", "05000"], treatment: "not_a_sale", rate: 0 });
   });
@@ -64,7 +65,7 @@ describe("taxability", () => {
   });
 
   it("answers one entry per code asked, and parses a code list", () => {
-    expect(Object.keys(taxabilityByCode({ state: "TX", parts: tx }, ["food.catering", "nontaxable"], "2026-06-15", RULES))).toEqual(["food.catering", "nontaxable"]);
+    expect(Object.keys(taxabilityByCode({ state: "ZZ", parts: tx }, ["food.catering", "nontaxable"], "2026-06-15", RULES))).toEqual(["food.catering", "nontaxable"]);
     expect(parseCodes("food.catering, nontaxable,food.catering")).toEqual({ codes: ["food.catering", "nontaxable"] });
     expect(parseCodes("food.cattering")).toEqual({ unknown: "food.cattering" });
   });

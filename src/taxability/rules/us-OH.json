@@ -1,0 +1,944 @@
+[
+  {
+    "tax": "OH",
+    "code": "construction.real_property",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Under an Ohio construction contract the contractor is the consumer of the materials and pays tax on them; the contractor does not charge sales tax to the owner, for new work, remodels or repairs.",
+    "conditions": [
+      {
+        "when": "Sale and installation of carpeting (never a construction contract)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Installing or repairing items that stay tangible personal property, such as business fixtures",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Building cleaning (building maintenance and janitorial service) by a provider with $5,000 or more of such sales in the year",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(B)(5) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "a construction contract pursuant to which tangible personal property is or is to be incorporated into a structure or improvement on and becoming a part of real property is not a sale of such tangible personal property. The construction contractor is the consumer of such tangible personal property"
+      },
+      {
+        "title": "Ohio Adm.Code 5703-9-14(A)",
+        "url": "https://codes.ohio.gov/ohio-administrative-code/rule-5703-9-14",
+        "quote": "without regard to whether it is new construction or an addition to or alteration of an existing building or structure."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Construction Contracts",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Contractors and home remodelers do not collect sales tax on their work."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Building Maintenance & Janitorial Service",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Keep in mind that building repairs are not considered “building maintenance and janitorial services.”"
+      }
+    ],
+    "notes": "Applies to both subcodes (improvement and repair). Repair or painting of real property is not an enumerated service, and materials incorporated into real property are taxed to the contractor (Ohio Adm.Code 5703-9-14(D)). The current text of Ohio Adm.Code 5703-9-14 is effective October 1, 2026; earlier versions were not read."
+  },
+  {
+    "tax": "OH",
+    "code": "delivery.exempt_goods",
+    "from": "2003-08-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A delivery charge is part of the price of the goods sold, so it is not taxed in Ohio when the goods themselves are exempt.",
+    "citations": [
+      {
+        "title": "Information Release ST 2003-07, Changes to the Definition of Price",
+        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200307",
+        "quote": "If the sale is taxable, tax must be collected from the consumer on the delivery charge."
+      },
+      {
+        "title": "R.C. 5739.01(H)(1)(a) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "means the total amount of consideration, including cash, credit, property, and services, for which tangible personal property or services are sold"
+      }
+    ],
+    "notes": "No Department page states the exempt-goods case in so many words; it follows from delivery charges being part of the 'price' of the sale (ST 2003-07 ties tax on the charge to the sale being taxable). A shipment mixing taxable and exempt goods is not addressed here.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "delivery.taxable_goods",
+    "from": "2003-08-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Delivery charges on a taxable sale are part of the taxable price in Ohio, even when separately stated.",
+    "citations": [
+      {
+        "title": "Information Release ST 2003-07, Changes to the Definition of Price",
+        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200307",
+        "quote": "for sales made after August 1, 2003, where the vendor makes a taxable sale to a consumer and charges the consumer a delivery charge, as defined in R.C. 5739.01(H)(1)(a)(iv), that charge is part of the taxable price of the sale."
+      },
+      {
+        "title": "R.C. 5739.01(H)(1)(a)(iv) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"delivery charges\" means charges by the vendor for preparation and delivery to a location designated by the consumer of tangible personal property or a service, including transportation, shipping, postage, handling, crating, and packing."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Transportation Services",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Delivery Fees: Taxable, including shipping and handling."
+      }
+    ],
+    "notes": "Before August 1, 2003, separately stated delivery charges were not part of 'price' (ST 2003-07). ST 2003-07 says 'after August 1, 2003' in one place and the statute it quotes says 'On and after August 1, 2003'; 2003-08-01 is used.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "food.candy",
+    "from": "2015-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Candy, gum and breath mints are 'food' in Ohio and are exempt from sales tax when sold for consumption off the premises.",
+    "conditions": [
+      {
+        "when": "The candy is consumed on the seller's premises",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2004-01, Food Definition (revised May 2015), FAQ N",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/information_releases/st200401.pdf",
+        "quote": "Yes. These substances are ingested or chewed for their taste and are food within the meaning of R.C."
+      },
+      {
+        "title": "Information Release ST 2004-01 (revised May 2015), Reference Chart",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/information_releases/st200401.pdf",
+        "quote": "Candy, chewing gum, breath mints"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "ST 2004-01 was first issued May 2004; only the May 2015 revision was read, so 2015-05-01 is the earliest date confirmed. Ohio did not exclude candy from 'food' when it adopted the SSUTA definitions."
+  },
+  {
+    "tax": "OH",
+    "code": "food.catering",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ohio taxes catering at the caterer's own facility in full; at another location the food is exempt but beverages and rentals are taxable.",
+    "conditions": [
+      {
+        "when": "The event is held at the caterer's own facility (its premises): food, beverages and rentals",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The event is held elsewhere (off the caterer's premises): the food",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The event is held elsewhere: soft drinks, alcoholic beverages and rentals of tables, chairs, dishware and linens",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Catering Services",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "On-Premises Catering: Taxable, including food, beverages, and rentals."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Catering Services",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Off-Premises Catering: Taxable for beverages and rentals. Food is exempt."
+      },
+      {
+        "title": "R.C. 5739.01(B)(5) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "and include the furnishing, preparing, or serving for a consideration of any tangible personal property consumed on the premises of the person furnishing, preparing, or serving such tangible personal property"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "The FAQ (dated October 14, 2025) is the only Department statement on caterers found; 2018-03-23 rests on the unchanged statute (R.C. 5739.01(B)(5), 5739.02(B)(2)). Whether separately stated staff/service charges at an off-premises event are taxable is not stated in any Department page read; a mixed invoice that does not separate nontaxable items is taxable in full (FAQ)."
+  },
+  {
+    "tax": "OH",
+    "code": "food.grocery",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food sold for human consumption off the seller's premises, such as groceries, is exempt from Ohio sales tax.",
+    "conditions": [
+      {
+        "when": "The food is consumed on the seller's premises (including seating, food-court or parking areas the seller uses)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.02(B)(2) (version effective September 29, 2017)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.02/9-29-2017/5739.02-9-29-2017.pdf",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "Information Release ST 2012-01 (revised August 2014), Q&A P",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "Ohio is unique in that the Ohio Constitution article XII, Section 3 prohibits the state from imposing sales tax on sales of food for consumption off the premises."
+      },
+      {
+        "title": "Information Release ST 2004-01, Food Definition (revised May 2015)",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/information_releases/st200401.pdf",
+        "quote": "The sale of food and food ingredients for human consumption off the premises where sold is exempt from sales tax under R.C. 5739.02 (B)(2)."
+      }
+    ],
+    "notes": "2014-08-01 is the revision date of ST 2012-01 (the off-premises food exemption itself rests on the Ohio Constitution, art. XII, sec. 3, and is far older). 'Food' excludes alcoholic beverages, dietary supplements, soft drinks and tobacco (R.C. 5739.01). The same exemption applies to the county and transit authority taxes, which are levied on the same retail sales."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ohio taxes prepared food only when it is consumed on the seller's premises; food sold to go is exempt, whether hot or cold.",
+    "conditions": [
+      {
+        "when": "Consumed on the seller's premises ('for here', dine-in, food-court seating, the seller's parking lot)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to be consumed off the premises ('to go', drive-through, delivered), and not a soft drink",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "Information Release ST 2012-01 (revised August 2014), Q&A H",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "The taxability of food is determined by whether or not the customer chooses to consume the food on the premises or take it with them off the premises."
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.bakery",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Bakery items are food in Ohio: exempt when sold to go, taxable when eaten on the seller's premises.",
+    "conditions": [
+      {
+        "when": "Consumed on the seller's premises",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for consumption off the premises",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01 (revised August 2014), Q&A B",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "Cookies, pastries, baked goods, ice cream and frozen yogurt are food and are taxable if consumed on the premises."
+      },
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older. Utensils play no part in Ohio's test."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.cold",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cold prepared food sold to go by a grocery or deli is food for consumption off the premises and is exempt from Ohio sales tax.",
+    "conditions": [
+      {
+        "when": "The buyer in fact eats it on the seller's premises and buys it 'for here'",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (version effective September 29, 2017)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.02/9-29-2017/5739.02-9-29-2017.pdf",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cold food a restaurant sells to go is exempt from Ohio sales tax, except sweetened drinks, which are taxable soft drinks.",
+    "conditions": [
+      {
+        "when": "The item is a sweetened drink without milk or more than 50% juice (a soft drink)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Bought 'for here' and consumed on the premises",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "Information Release ST 2012-01 (revised August 2014), Q&A F",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "The retail sale of soft drinks is always taxable, whether they are consumed on or off the premises."
+      },
+      {
+        "title": "Ohio Department of Taxation, Quick Service Restaurants guidance (July 2014)",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/qsr/qsrguidlinesfinal.pdf",
+        "quote": "Food not consumed on premises (“to go” or “take out”) is exempt from sales tax."
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.dine_in",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food consumed on the seller's premises is taxable in Ohio.",
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "Information Release ST 2004-01, Food Definition (revised May 2015), FAQ A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/information_releases/st200401.pdf",
+        "quote": "Food consumed on the premises is always taxable."
+      },
+      {
+        "title": "R.C. 5739.01(B)(5) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "and include the furnishing, preparing, or serving for a consideration of any tangible personal property consumed on the premises of the person furnishing, preparing, or serving such tangible personal property"
+      },
+      {
+        "title": "R.C. 5739.021(A) (county permissive sales tax)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.021",
+        "quote": "any county may levy a tax at the rate of not more than one per cent upon every retail sale made in the county"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.hot",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Hot prepared food is taxable in Ohio when eaten on the seller's premises and exempt when sold to go.",
+    "conditions": [
+      {
+        "when": "Consumed on the seller's premises ('for here')",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to go, through a drive-through or delivered, for consumption off the premises",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "Ohio Department of Taxation, Quick Service Restaurants guidance (July 2014), Q&A 6",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/qsr/qsrguidlinesfinal.pdf",
+        "quote": "Ask your customer if their purchase is “for here\" (taxable) or \"to go\" (exempt)."
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older. Coffee: plain or with milk is food (exempt to go); sweetened by the vendor for a charge without milk is a taxable soft drink (ST 2004-01 FAQ E)."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.platter",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A prepared platter or party tray sold to go is food for consumption off the premises and is exempt from Ohio sales tax.",
+    "conditions": [
+      {
+        "when": "The buyer in fact eats it on the seller's premises and buys it 'for here'",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (version effective September 29, 2017)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.02/9-29-2017/5739.02-9-29-2017.pdf",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older."
+  },
+  {
+    "tax": "OH",
+    "code": "food.prepared.sandwich",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A cold sandwich sold to go is food for consumption off the premises and is exempt from Ohio sales tax.",
+    "conditions": [
+      {
+        "when": "The buyer in fact eats it on the seller's premises and buys it 'for here'",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (version effective September 29, 2017)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.02/9-29-2017/5739.02-9-29-2017.pdf",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      }
+    ],
+    "notes": "Ohio did not adopt the SSUTA 'prepared food' category: R.C. 5739.02(B)(2) exempts all food sold for consumption off the premises, hot or cold, and food consumed on the premises is taxable (R.C. 5739.01(B)(5)). 'Premises' (R.C. 5739.01(K)) includes seating areas, food-court common seating and the parking lot. Sweetened drinks are soft drinks and always taxable. 2014-08-01 is the revision date of ST 2012-01; the rule is older."
+  },
+  {
+    "tax": "OH",
+    "code": "food.soft_drink",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks are not 'food' in Ohio and are taxable whether consumed on or off the premises.",
+    "citations": [
+      {
+        "title": "Information Release ST 2012-01 (revised August 2014), Q&A F",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "The retail sale of soft drinks is always taxable, whether they are consumed on or off the premises."
+      },
+      {
+        "title": "Information Release ST 2004-01, Food Definition (revised May 2015)",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/sales_and_use/information_releases/st200401.pdf",
+        "quote": "All sales of soft drinks are taxable."
+      },
+      {
+        "title": "R.C. 5739.01 (current version), definition of food",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"Food\" does not include alcoholic beverages, dietary supplements, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Ohio's soft-drink definition (sweetened non-alcoholic beverages, excluding those with milk/milk substitutes or more than 50% juice) matches the code. ST 2004-01 FAQ E/F: coffee or tea the vendor sweetens for a charge is a soft drink; sweetener added free at the customer's request, or a drink with milk, stays food.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "goods.general",
+    "from": "2017-09-29",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of general tangible goods are subject to Ohio state sales tax and the county and transit authority sales taxes levied on the same retail sales.",
+    "citations": [
+      {
+        "title": "R.C. 5739.02 (version effective September 29, 2017)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.02/9-29-2017/5739.02-9-29-2017.pdf",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "R.C. 5739.02 (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "R.C. 5739.021(A) (county permissive sales tax)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.021",
+        "quote": "any county may levy a tax at the rate of not more than one per cent upon every retail sale made in the county"
+      },
+      {
+        "title": "R.C. 5739.023(A)(1) (transit authority sales tax)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.023",
+        "quote": "any transit authority may levy a tax upon every retail sale made in the territory of the transit authority"
+      },
+      {
+        "title": "R.C. 5739.021(E)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.021",
+        "quote": "The tax on every retail sale subject to a tax levied pursuant to this section shall be in addition to the tax levied by section 5739.02 of the Revised Code"
+      }
+    ],
+    "notes": "Ohio's general sales tax long predates 2017; 2017-09-29 is the earliest version of R.C. 5739.02 read here. County (R.C. 5739.021, 5739.026) and transit authority (R.C. 5739.023) taxes are levied on 'every retail sale' with only motor vehicle and titled watercraft exceptions, so this OH rule (and every other OH rule here) covers the local parts too. The current R.C. 5739.021/5739.023 text is quoted; earlier versions were not checked.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.accounting",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing and tax preparation services are not a taxable service in Ohio.",
+    "conditions": [
+      {
+        "when": "The true object is automatic data processing (e.g. processing the buyer's transactions or payroll by computer) bought for use in business, rather than the accountant's professional judgment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(Y)(2)(a) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Accounting and legal services such as advice on tax matters"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"personal and professional services\" means all services other than automatic data processing, computer services, or electronic information services, including but not limited to:"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. The Ohio Supreme Court (2022-Ohio-725) applied the true-object test to account-processing services; that line between accounting and ADP is the exception noted here."
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.advertising",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Advertising agency services, including digital advertising services, are not a taxable service in Ohio; printed materials sold are taxable.",
+    "conditions": [
+      {
+        "when": "Printed or reproduced materials (brochures, signs, printing) furnished to the buyer and separately charged",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(Y)(2)(k) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Providing digital advertising services"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"personal and professional services\" means all services other than automatic data processing, computer services, or electronic information services, including but not limited to:"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
+      },
+      {
+        "title": "R.C. 5739.01(B)(4) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "All transactions by which printed, imprinted, overprinted, lithographic, multilithic, blueprinted, photostatic, or other productions or reproductions of written or graphic matter are or are to be furnished or transferred"
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. Digital advertising services are listed among 'personal and professional services', so they are not taxable ADP or electronic information services."
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.consulting",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not a taxable service in Ohio.",
+    "citations": [
+      {
+        "title": "R.C. 5739.01(Y)(2)(b) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Analyzing business policies and procedures"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"personal and professional services\" means all services other than automatic data processing, computer services, or electronic information services, including but not limited to:"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Business Consulting (e.g., training, analysis)"
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.design",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Interior design and decorating services are not an enumerated taxable service in Ohio; furnishings the designer sells are taxable goods.",
+    "conditions": [
+      {
+        "when": "Furniture, fabrics or other goods the designer sells or separately charges for",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(B) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"Sale\" and \"selling\" include all of the following transactions for a consideration in any manner"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. No Department page naming interior design specifically was found; the exemption follows from its absence from the enumerated list."
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.engineering",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural design services are not an enumerated taxable service in Ohio.",
+    "citations": [
+      {
+        "title": "R.C. 5739.01(B) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"Sale\" and \"selling\" include all of the following transactions for a consideration in any manner"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. No Department page naming engineering or architecture specifically was found; the exemption follows from their absence from the enumerated list. Blueprints and other reproductions sold as such are taxable under R.C. 5739.01(B)(4) unless incidental to the service.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.it",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ohio taxes some IT services (computer services, data processing, electronic information services) when bought for use in business; IT consulting and analysis are not taxed.",
+    "conditions": [
+      {
+        "when": "Computer services (specifying hardware configurations, evaluating technical processing characteristics, programming systems software, training programmers or operators) provided to support taxable computer equipment, bought for use in business",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Automatic data processing or electronic information services (e.g. hosted processing, remote access to the provider's computers) bought for use in business",
+        "treatment": "taxable"
+      },
+      {
+        "when": "IT consulting, feasibility studies, analysis of hardware or software needs, application-software training or help, or any IT service bought for personal (non-business) use",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(B)(3)(e) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Automatic data processing, computer services, or electronic information services are or are to be provided for use in business when the true object of the transaction is the receipt by the consumer of automatic data processing, computer services, or electronic information services rather than the receipt of personal or professional services"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(1)(b) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"Computer services\" means providing services consisting of specifying computer hardware configurations and evaluating technical processing characteristics, computer programming, and training of computer programmers and operators, provided in conjunction with and to support the sale, lease, or operation of taxable computer equipment or systems."
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2)(d) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Feasibility studies, including economic and technical analysis of existing or potential computer hardware or software needs and alternatives"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Computer Service",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Generally speaking, “computer consulting” is not a taxable computer service."
+      },
+      {
+        "title": "Ohio Adm.Code 5703-9-46(B)(1)",
+        "url": "https://codes.ohio.gov/ohio-administrative-code/rule-5703-9-46",
+        "quote": "automatic data processing services, computer services, or electronic information services in this state for a consideration for use in business by the consumer is a sale that is subject to the sales tax."
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. Repair or installation of computer hardware (tangible property) is separately taxable under R.C. 5739.01(B)(3)(a)-(b)."
+  },
+  {
+    "tax": "OH",
+    "code": "service.professional.legal",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not a taxable service in Ohio.",
+    "citations": [
+      {
+        "title": "R.C. 5739.01(Y)(2)(a) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Accounting and legal services such as advice on tax matters"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"personal and professional services\" means all services other than automatic data processing, computer services, or electronic information services, including but not limited to:"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
+      }
+    ],
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "software.custom.development",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Software written to one buyer's specifications is not prewritten software and its design is a nontaxable professional service in Ohio.",
+    "conditions": [
+      {
+        "when": "The work is computer programming of systems software provided to support taxable computer equipment, bought for use in business (a taxable 'computer service')",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The same software is later sold to someone other than the buyer it was written for",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(BBB) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"Prewritten computer software\" means computer software, including prewritten upgrades, that is not designed and developed by the author or other creator to the specifications of a specific purchaser."
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2)(e) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Designing policies, procedures, and custom software for collecting business information"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"personal and professional services\" means all services other than automatic data processing, computer services, or electronic information services, including but not limited to:"
+      },
+      {
+        "title": "Ohio Adm.Code 5703-9-46(A)(4)",
+        "url": "https://codes.ohio.gov/ohio-administrative-code/rule-5703-9-46",
+        "quote": "does not include application software programs that are intended to perform business functions or control or monitor processes."
+      }
+    ],
+    "notes": "2003-07-01: the SSUTA 'prewritten computer software' definition took effect (ST 2003-06); before then Ohio Adm.Code 5703-9-46 treated only canned software as tangible property. Programming systems software in support of taxable computer equipment for business use is a taxable computer service (Ohio Adm.Code 5703-9-46(A)(2)(c))."
+  },
+  {
+    "tax": "OH",
+    "code": "software.custom.modification",
+    "from": "2003-07-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A reasonable, separately stated charge for customizing prewritten software for one buyer is not prewritten software and is not taxed in Ohio.",
+    "conditions": [
+      {
+        "when": "The modification charge is not separately stated from the prewritten software",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(BBB) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "where there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for the modification or enhancement, the modification or enhancement shall not constitute prewritten computer software"
+      },
+      {
+        "title": "R.C. 5739.01(BBB) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "where there is a reasonable, separately stated charge or an invoice or other statement of the price given to the purchaser for the modification or enhancement, the modification or enhancement shall not constitute prewritten computer software"
+      },
+      {
+        "title": "Information Release ST 2003-06",
+        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200306",
+        "quote": "Under new R.C. 5739.01(DDD), a reasonable separately stated charge for modifications to prewritten computer software is not part of the prewritten computer software and would be excluded from the tax base."
+      }
+    ],
+    "notes": "Before July 1, 2003, Ohio Adm.Code 5703-9-46 treated a customized canned-software sale as taxable tangible property if modifications were no more than half the price (ST 2003-06); not modeled."
+  },
+  {
+    "tax": "OH",
+    "code": "software.prewritten",
+    "from": "2003-07-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Prewritten computer software, on media or downloaded, is tangible personal property and taxable in Ohio.",
+    "citations": [
+      {
+        "title": "Information Release ST 2003-06, Definition of Tangible Personal Property including Prewritten Computer Software",
+        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200306",
+        "quote": "Effective July 1, 2003, a new R.C. 5739.01(YY) was added to the sales tax chapter."
+      },
+      {
+        "title": "R.C. 5739.01(WW) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"tangible personal property\" includes motor vehicles, electricity, water, gas, steam, and prewritten computer software"
+      },
+      {
+        "title": "R.C. 5739.01(WW) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "\"tangible personal property\" includes motor vehicles, electricity, water, gas, steam, and prewritten computer software"
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Taxable Items",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Prewritten Software (whether purchased online or on physical media)"
+      }
+    ],
+    "notes": "Canned software was already taxable as tangible personal property under Ohio Adm.Code 5703-9-46 before 2003 (ST 2003-06); 2003-07-01 is when the statutory definition took effect.",
+    "conditions": []
+  },
+  {
+    "tax": "OH",
+    "code": "software.saas",
+    "from": "2018-03-23",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ohio taxes remote access to software as automatic data processing or electronic information services only when bought for use in business.",
+    "conditions": [
+      {
+        "when": "Bought for use in the buyer's business, where the true object is the data processing or electronic information service",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Bought for personal (non-business) use",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.01(B)(3)(e) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "Automatic data processing, computer services, or electronic information services are or are to be provided for use in business when the true object of the transaction is the receipt by the consumer of automatic data processing, computer services, or electronic information services rather than the receipt of personal or professional services"
+      },
+      {
+        "title": "R.C. 5739.01(B)(3)(e) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "Automatic data processing, computer services, or electronic information services are or are to be provided for use in business when the true object of the transaction is the receipt by the consumer of automatic data processing, computer services, or electronic information services rather than the receipt of personal or professional services"
+      },
+      {
+        "title": "R.C. 5739.01(Y)(1)(a) (version effective March 23, 2018)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.01/3-23-2018/5739.01-3-23-2018.pdf",
+        "quote": "or providing access to computer equipment for the purpose of processing data"
+      },
+      {
+        "title": "Ohio Adm.Code 5703-9-46(B)(1)",
+        "url": "https://codes.ohio.gov/ohio-administrative-code/rule-5703-9-46",
+        "quote": "automatic data processing services, computer services, or electronic information services in this state for a consideration for use in business by the consumer is a sale that is subject to the sales tax."
+      },
+      {
+        "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Digital Services",
+        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "quote": "Business Data Processing & Electronic Info Services: Taxable"
+      }
+    ],
+    "notes": "No Department page read says in so many words that SaaS is automatic data processing/electronic information service rather than a license to use prewritten software (which R.C. 5739.01(B)(1) would tax regardless of use); the business/personal split follows the statute's 'for use in business' wording. Reviewers: confirm the personal-use exemption against a Department ruling or BTA decision. Business use by members of an affiliated group is not a sale (R.C. 5739.01(B)(3)(e))."
+  }
+]

@@ -1,0 +1,801 @@
+[
+  {
+    "tax": "OK",
+    "code": "construction.real_property",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Oklahoma contractors are the consumers of the materials they install and pay sales tax when buying them; the owner's charge for improving or repairing real property is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Contractors are defined by statute as consumer/users and must pay sales tax on all taxable services and tangible personal property, including materials, supplies, and equipment purchased to develop, repair, alter, remodel, and improve real property."
+      },
+      {
+        "title": "OTC Letter Ruling LR-09-031 (2009), contractor improving real property",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2009/LR-09-031.pdf",
+        "quote": "No sales tax was due on the amounts charged the private individual or company in Situation 1 or on the amounts charged the developer in Situation 2."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Any building structure permanently attached to land will not be subject to sales tax upon the sale of that structure"
+      }
+    ],
+    "notes": "Covers improvement and repair alike. \"Exempt\" means no sales tax on the contract price; the tax was paid on materials. A vendor that sells and installs goods and itemizes parts collects tax on the parts (separately stated labor is not taxed; LR-11-111), and fixtures that keep their personalty are goods; outside this code. 2018-01-01 is the earliest date used (OAC 710:65-7-13 added 2001)."
+  },
+  {
+    "tax": "OK",
+    "code": "delivery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Separately stated delivery charges are not subject to Oklahoma sales tax; delivery charges included in the price of taxable goods are taxable.",
+    "conditions": [
+      {
+        "when": "Delivery charge included in the selling price of taxable goods rather than separately stated",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "In every case where a delivery charge represents the cost of transporting the items sold from the vendor to the consumer, and is separately-stated on the invoice or statement, such charges are not subject to sales tax."
+      },
+      {
+        "title": "Enrolled HB 1955 (2024), as posted by the Oklahoma Tax Commission",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/HB1955-ENR.pdf",
+        "quote": "(5) delivery charges and installation charges, unless separately stated on the invoice, billing or similar document given to the purchaser, and"
+      }
+    ],
+    "notes": "OAC 710:65-19-70 last amended effective 2004-06-25; the 68 O.S. 1352 text is the 2021 compilation reproduced in HB 1955. Covers delivery of taxable and exempt goods. 2018-01-01 is the earliest date used."
+  },
+  {
+    "tax": "OK",
+    "code": "food.candy",
+    "from": "2018-01-01",
+    "to": "2024-08-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Candy were taxable at the full Oklahoma state rate (4.5%) plus local tax until August 28, 2024.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "You will continue to collect and remit state sales tax on sales of food and food ingredients, along with any applicable city and county sales tax, for the period of August 1 through August 28, 2024."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked; the levy (68 O.S. 1354, Laws 1981 and later) long predates it. Oklahoma had no general food exemption before HB 1955."
+  },
+  {
+    "tax": "OK",
+    "code": "food.candy",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Candy are exempt from the Oklahoma state sales tax (0% state rate) from August 29, 2024; city and county sales taxes still apply.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils (or a cup needed to receive a dispensed drink) provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "an excise tax of zero percent (0%) is hereby imposed upon all retail sales of food and food ingredients sold for human consumption off the premises where sold."
+      },
+      {
+        "title": "Enrolled HB 1955 (2024), as posted by the Oklahoma Tax Commission",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/HB1955-ENR.pdf",
+        "quote": "Food and food ingredients shall include bottled water, candy, and soft drinks."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "Candy is considered a food and food ingredient and is exempt from state sales tax."
+      }
+    ],
+    "notes": "Under SB 1283, at a seller over the 75% prepared-food threshold, candy, bottled water and soft drinks become prepared food only if the seller hands utensils to the buyer (or makes a needed cup or plate available), not merely by making utensils available. HB 1955 took effect 2024-08-29 (OTC page and guide)."
+  },
+  {
+    "tax": "OK",
+    "code": "food.catering",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A caterer's charges for serving meals, food and drinks, including dishes, rentals and serving labor, are taxable at the full Oklahoma state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Sales tax must be collected, reported and remitted on all charges made by caterers for serving meals, food, and drinks, inclusive of charges for food, the use of dishes, silverware, glasses, chairs, tables, etc., used in connection with serving meals, and for the labor of serving the meals."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "The gross receipts or gross proceeds derived from the sale of catered foods or beverages are taxed at the state sales and use tax rate of 4.5% and any applicable municipal and county sales taxes."
+      },
+      {
+        "title": "OTC, Prepared Food and Food Ingredients Product List",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Products-List.pdf",
+        "quote": "Catered delivery of hot and cold items"
+      }
+    ],
+    "notes": "OAC 710:65-19-40(b) dates from at least 1998 (15 Ok Reg 2827); paragraph (c) on the 4.5% rate was added 2025-07-15. 2018-01-01 is the earliest date checked. Waitstaff hired directly by the customer are outside the caterer's charge."
+  },
+  {
+    "tax": "OK",
+    "code": "food.grocery",
+    "from": "2018-01-01",
+    "to": "2024-08-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Groceries (food and food ingredients) were taxable at the full Oklahoma state rate (4.5%) plus local tax until August 28, 2024.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "You will continue to collect and remit state sales tax on sales of food and food ingredients, along with any applicable city and county sales tax, for the period of August 1 through August 28, 2024."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked; the levy (68 O.S. 1354, Laws 1981 and later) long predates it. Oklahoma had no general food exemption before HB 1955."
+  },
+  {
+    "tax": "OK",
+    "code": "food.grocery",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Groceries (food and food ingredients) are exempt from the Oklahoma state sales tax (0% state rate) from August 29, 2024; city and county sales taxes still apply.",
+    "conditions": [
+      {
+        "when": "Sold by a seller whose prepared food sales exceed 75% of its food sales and who makes eating utensils available (grocery items only; for candy, bottled water and soft drinks, only if the seller hands over utensils or a needed cup), unless four or more servings packaged and sold as one item not made or heated by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "an excise tax of zero percent (0%) is hereby imposed upon all retail sales of food and food ingredients sold for human consumption off the premises where sold."
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Effective August 29, 2024, sales of food and food ingredients are not subject to the state sales and use tax rate of 4.5%, but will continue to be subject to local sales and use tax rates."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "Milk, soft drinks in a bottle or can, baby food, fruits and vegetables, potato chips, fish and meats, herbs and spices, frozen meals, pasta, and flour."
+      }
+    ],
+    "notes": "Settled for groceries as normally sold (no utensils handed over). Exception listed in conditions: a seller whose prepared food sales exceed 75% of its food sales and who makes utensils available must tax all food items at the state rate unless the item has four or more servings packaged as one item, not made or heated by the seller. HB 1955 took effect 2024-08-29 (OTC page and guide)."
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared",
+    "from": "2018-01-01",
+    "to": "2024-08-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Before August 29, 2024 all food, prepared or not, was taxable at the full Oklahoma state rate plus local tax; food and drinks sold by restaurants and other dispensers are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Foods, confections, and all drinks sold or dispensed by hotels, restaurants, or other dispensers, and sold for immediate consumption upon the premises or delivered or carried away from the premises for consumption elsewhere;"
+      },
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "You will continue to collect and remit state sales tax on sales of food and food ingredients, along with any applicable city and county sales tax, for the period of August 1 through August 28, 2024."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked; the levy (68 O.S. 1354, Laws 1981 and later) long predates it. From 2024-08-29 the subcodes differ (some cold deli food and cut-fruit trays are exempt at the state level); see the subcode rules."
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.bakery",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Bakery items the seller bakes are prepared food in Oklahoma (ingredients mixed by the seller), taxable at the full state rate plus local tax; Oklahoma has no bakery exception.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "food made by the seller (e.g., birthday cakes, sushi, sandwiches, deli and salad)"
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "To be considered prepared food, the legal entity that sells the product at retail must do an activity in addition to selling the item: heat, mix or provide utensils."
+      },
+      {
+        "title": "68 O.S. § 1352 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=438453",
+        "quote": "Prepared food shall not include food sold by a seller whose primary North American Industry Classification System (NAICS) classification is manufacturing in Sector 311, except subsector 3118, food sold in an unheated state by weight or volume as a single item, and food sold that ordinarily requires additional cooking, not including just reheating, by the consumer prior to consumption;"
+      },
+      {
+        "title": "OTC, Prepared Food and Food Ingredients Product List",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Products-List.pdf",
+        "quote": "Bread - made by the seller"
+      }
+    ],
+    "notes": "Prepared food stays taxable at the full state rate after HB 1955 and was taxable before it, so unchanged since 2018 (earliest date checked). The OTC product list marks \"Bread - made by the seller\" at the full state rate (column mark not text-searchable); bakery items not made by the seller are exempt. 68 O.S. 1352 excludes NAICS 311 manufacturers except bakeries (3118). Bakery goods sold by weight unheated could fall in the by-weight exclusion; not addressed by OTC."
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.cold",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cold deli food is exempt from the Oklahoma state tax when sold unheated by weight or volume without utensils, or when only cut or repackaged; at a fixed price per container it is taxable at 4.5%. Local tax applies either way.",
+    "conditions": [
+      {
+        "when": "Sold unheated by weight or volume as a single item (price varies with weight), without eating utensils provided by the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller (e.g. sliced deli meat, sliced fruit)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold at a standard price per container, or with eating utensils provided by the seller, or heated by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "3. Food sold in an unheated state by weight or volume as a single item and eating utensils are not provided by the seller."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "the potato salad is not exempt from state sales tax because it is sold for a standard unit price per container and not for a variable unit price determined by the weight of each individual container."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "2. Food that is only cut, repackaged or pasteurized by the seller."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "an excise tax of zero percent (0%) is hereby imposed upon all retail sales of food and food ingredients sold for human consumption off the premises where sold."
+      }
+    ],
+    "notes": "Turns on pricing (by weight vs. per container) and utensils, which the code does not carry. Before 2024-08-29 the parent food.prepared rule (taxable) applies."
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares and sells to go is prepared food, taxable at the full Oklahoma state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "Food purchased at restaurants is considered \"prepared food\" and is still subject to state sales tax, in addition to any locally levied sales tax."
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Meals, salads, sandwiches, self-service fountain drinks and ice cream sundaes that are made by the seller are prepared food and are not exempt from state sales tax."
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "If a seller has sales of prepared food greater than 75% of total sales of food items, and utensils are made available by way of a self-service station or otherwise, then all food items sold by the seller are considered prepared food and are not exempt from state sales tax"
+      },
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Foods, confections, and all drinks sold or dispensed by hotels, restaurants, or other dispensers, and sold for immediate consumption upon the premises or delivered or carried away from the premises for consumption elsewhere;"
+      }
+    ],
+    "notes": "Prepared food stays taxable at the full state rate after HB 1955 and was taxable before it, so unchanged since 2018 (earliest date checked). Restaurants usually exceed the 75% prepared-food threshold, which makes their food items prepared food when utensils are available."
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.dine_in",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served for eating at the seller's premises or on its plates is prepared food, taxable at the full Oklahoma state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "The seller serves fried chicken and potato salad on a plate. The transaction is a sale of prepared food because the plate is a utensil provided by the seller."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "Food purchased at restaurants is considered \"prepared food\" and is still subject to state sales tax, in addition to any locally levied sales tax."
+      },
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Foods, confections, and all drinks sold or dispensed by hotels, restaurants, or other dispensers, and sold for immediate consumption upon the premises or delivered or carried away from the premises for consumption elsewhere;"
+      }
+    ],
+    "notes": "Prepared food stays taxable at the full state rate after HB 1955 and was taxable before it, so unchanged since 2018 (earliest date checked). "
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.hot",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, taxable at the full Oklahoma state rate (4.5%) plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Hamburgers, rotisserie chicken, baked beans, soups and coffee are foods that are sold in a heated state or heated by the seller and are prepared food."
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "These items are not exempt from state sales tax."
+      },
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Foods, confections, and all drinks sold or dispensed by hotels, restaurants, or other dispensers, and sold for immediate consumption upon the premises or delivered or carried away from the premises for consumption elsewhere;"
+      }
+    ],
+    "notes": "Prepared food stays taxable at the full state rate after HB 1955 and was taxable before it, so unchanged since 2018 (earliest date checked). "
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.platter",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A seller-made tray of cold cheese, sliced meats, fruit or vegetables that are only cut and arranged is exempt from the Oklahoma state tax; a tray of items the seller made or mixed (sandwiches, salads) is taxable at 4.5%. Local tax applies either way.",
+    "conditions": [
+      {
+        "when": "Tray of items the seller only cut or repackaged (cheese, sliced meats, fruit, vegetables), without eating utensils provided by the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Tray containing items the seller made, mixed or heated (sandwiches, salads, dips), or sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "Meat from a deli counter that is sliced and wrapped for a customer, or fruit sliced by the seller and packaged into containers or onto platters for sale."
+      },
+      {
+        "title": "OTC, Prepared Food and Food Ingredients Product List",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Products-List.pdf",
+        "quote": "Party trays containing cold products like cheese, sliced meats, fruits or vegetables - made by the seller"
+      },
+      {
+        "title": "OTC, Prepared Food and Food Ingredients Product List",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Products-List.pdf",
+        "quote": "Prepared food exception - cut and repackaged by seller"
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Meals, salads, sandwiches, self-service fountain drinks and ice cream sundaes that are made by the seller are prepared food and are not exempt from state sales tax."
+      }
+    ],
+    "notes": "The OTC product list marks seller-made cold party trays exempt from state tax (\"Prepared food exception - cut and repackaged by seller\"); the column mark is not text-searchable, so the row and comment are quoted. Before 2024-08-29 the parent food.prepared rule (taxable) applies."
+  },
+  {
+    "tax": "OK",
+    "code": "food.prepared.sandwich",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich made by the seller is prepared food, taxable at the full Oklahoma state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Meals, salads, sandwiches, self-service fountain drinks and ice cream sundaes that are made by the seller are prepared food and are not exempt from state sales tax."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "food made by the seller (e.g., birthday cakes, sushi, sandwiches, deli and salad)"
+      },
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Foods, confections, and all drinks sold or dispensed by hotels, restaurants, or other dispensers, and sold for immediate consumption upon the premises or delivered or carried away from the premises for consumption elsewhere;"
+      }
+    ],
+    "notes": "Prepared food stays taxable at the full state rate after HB 1955 and was taxable before it, so unchanged since 2018 (earliest date checked). A manufacturer-made sandwich resold unheated without utensils is exempt at the state level (OTC product list), but this code is the seller's own sandwich."
+  },
+  {
+    "tax": "OK",
+    "code": "food.soft_drink",
+    "from": "2018-01-01",
+    "to": "2024-08-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Soft drinks were taxable at the full Oklahoma state rate (4.5%) plus local tax until August 28, 2024.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "You will continue to collect and remit state sales tax on sales of food and food ingredients, along with any applicable city and county sales tax, for the period of August 1 through August 28, 2024."
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked; the levy (68 O.S. 1354, Laws 1981 and later) long predates it. Oklahoma had no general food exemption before HB 1955."
+  },
+  {
+    "tax": "OK",
+    "code": "food.soft_drink",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Soft drinks are exempt from the Oklahoma state sales tax (0% state rate) from August 29, 2024; city and county sales taxes still apply.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils (or a cup needed to receive a dispensed drink) provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "an excise tax of zero percent (0%) is hereby imposed upon all retail sales of food and food ingredients sold for human consumption off the premises where sold."
+      },
+      {
+        "title": "Enrolled HB 1955 (2024), as posted by the Oklahoma Tax Commission",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/HB1955-ENR.pdf",
+        "quote": "Food and food ingredients shall include bottled water, candy, and soft drinks."
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "Milk, soft drinks in a bottle or can, baby food, fruits and vegetables, potato chips, fish and meats, herbs and spices, frozen meals, pasta, and flour."
+      }
+    ],
+    "notes": "Bottled or canned soft drinks. A dispensed (fountain) drink is prepared food at the full state rate (OTC guide). Under SB 1283, at a seller over the 75% prepared-food threshold, soft drinks become prepared food only if the seller hands utensils over or makes a needed cup available. HB 1955 took effect 2024-08-29 (OTC page and guide)."
+  },
+  {
+    "tax": "OK",
+    "code": "goods.general",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible personal property are taxable at the Oklahoma state rate (4.5%) plus city and county sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      },
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "There is hereby levied upon all sales, not otherwise exempted in the Oklahoma Sales Tax Code, an excise tax of four and one-half percent (4.5%) of the gross receipts or gross proceeds of each sale of the following:"
+      }
+    ],
+    "notes": "2018-01-01 is the earliest date checked; the levy (68 O.S. 1354, Laws 1981 and later) long predates it. City and county sales taxes apply to the same base."
+  },
+  {
+    "tax": "OK",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT services and training, engineering, design, advertising agency services) are not among the services Oklahoma taxes.",
+    "conditions": [
+      {
+        "when": "Tangible goods sold with the service (printed materials, hardware, furnishings, prewritten software on media), as separate items",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "There is hereby levied upon all sales, not otherwise exempted in the Oklahoma Sales Tax Code, an excise tax of four and one-half percent (4.5%) of the gross receipts or gross proceeds of each sale of the following:"
+      },
+      {
+        "title": "OTC Letter Ruling LR-13-040 (2013), advertising agency digital services",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2013/LR-13-040.pdf",
+        "quote": "Therefore, the described transactions do not constitute the sale of tangible personal property, nor do they fall within one of the services subject to sales tax."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "the charge is for a professional service and the transfer of the data, records, statements, etc. is not subject to sales or use tax."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Advertising agencies perform a service in formulating ideas and programs for advertising purposes."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Written training materials are taxable, although the training services themselves are not."
+      },
+      {
+        "title": "OTC Letter Ruling LR-10-143 (June 13, 2011), consulting firm training",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2010/LR%2010-143.pdf",
+        "quote": "Sales of access to training workshops do not constitute tangible personal property nor do they fall within one of the other enumerated transactions subject to sales tax under Section 1354 of Title 68 of the Oklahoma Statutes."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Sales of electronic data processing services to others are exempt from sales tax."
+      }
+    ],
+    "notes": "Oklahoma taxes only the services listed in 68 O.S. 1354; none of these professional services is listed. Direct official statements read: accounting/bookkeeping (OAC 710:65-19-28), advertising agencies (710:65-19-2; advertising sales in exempt media per 710:65-13-1), training (710:65-19-52(e), LR-10-143), data processing (710:65-19-86), digital design and marketing (LR-13-040). No official page found that names legal, engineering or interior design services specifically; they rest on the enumerated-services rule (lawyers collect tax only on tangible goods and taxable services, 710:65-19-192). Advertising sold in media other than those 710:65-13-1 exempts (newspapers, periodicals, billboards, internet, broadcast) may be taxable under 1354(A)(11); not settled here."
+  },
+  {
+    "tax": "OK",
+    "code": "software.custom",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software is a non-taxable service in Oklahoma, and a reasonable, separately stated charge for modifying prewritten software is not a sale of prewritten software.",
+    "conditions": [
+      {
+        "when": "Modification charge not separately stated from taxable prewritten software (on media), or not documented",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "The sale of a custom computer program is a service transaction, and therefore, is not subject to tax."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "such modification or enhancement shall not constitute prewritten computer software."
+      },
+      {
+        "title": "OTC Letter Ruling LR-11-093 (Oct. 18, 2012), software sales",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2011/LR-11-093.pdf",
+        "quote": "Likewise, sales of custom computer software are not subject to tax."
+      }
+    ],
+    "notes": "OAC 710:65-19-52(f)-(g); LR-11-093 (2012) applied the same rule. 2018-01-01 is the earliest date used."
+  },
+  {
+    "tax": "OK",
+    "code": "software.prewritten",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prewritten software delivered on tangible media or by load and leave is taxable in Oklahoma; prewritten software delivered electronically (downloaded) is exempt.",
+    "conditions": [
+      {
+        "when": "Delivered on tangible storage media (disc, drive) or by load and leave",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Delivered electronically (download), with no tangible storage media",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "The sale of prewritten computer software delivered in a tangible media format is taxable."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "(2) Sales of prewritten computer software, where the software is not transferred from the seller to the purchaser electronically."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "(5) Sales of prewritten computer software that is delivered electronically."
+      },
+      {
+        "title": "OTC Letter Ruling LR-11-093 (Oct. 18, 2012), software sales",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2011/LR-11-093.pdf",
+        "quote": "Sales of prewritten computer software that is delivered electronically, by other than tangible storage media, are not subject to sales and use tax."
+      }
+    ],
+    "notes": "The code covers both delivery methods, so the answer turns on delivery. OAC 710:65-19-156 (amended 2010) and LR-11-093 (2012); 2018-01-01 is the earliest date used."
+  },
+  {
+    "tax": "OK",
+    "code": "software.saas",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Charges for hosted, remotely accessed software (SaaS) are not subject to Oklahoma sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC Letter Ruling LR-12-003 (Oct. 3, 2012), hosted software and training",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2012/LR-12-003.pdf",
+        "quote": "Therefore, the amounts charged by your client for the hosted software product are not subject to sales and use tax."
+      },
+      {
+        "title": "OTC Letter Ruling LR-26-012 (Sept. 8, 2026), SaaS subscriptions",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/letter-rulings/2026/LR-26-012.pdf",
+        "quote": "Sales of prewritten computer software that is delivered electronically are exempt from the tax levied by the Oklahoma Sales Tax Code."
+      },
+      {
+        "title": "OAC 710:65, Sales and Use Tax rules (OTC compilation, 2026)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "(5) Sales of prewritten computer software that is delivered electronically."
+      }
+    ],
+    "notes": "Letter rulings bind only the requester, but LR-12-003 (2012) and LR-26-012 (2026) give the same answer and rest on 68 O.S. 1357(32) and OAC 710:65-19-156(b)(5). 2018-01-01 is a conservative start inside that span."
+  },
+  {
+    "tax": "OK:local",
+    "code": "food.candy",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Candy remain subject to Oklahoma city and county sales taxes; only the state tax was removed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "The sale of food and food ingredients will continue to be subject to local sales tax."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "Any sales tax or excise tax levied by a city, town, county, or any other jurisdiction in this state upon sales of food and food ingredients shall be in effect regardless of ordinance or contractual provisions referring to previously imposed state sales tax on the items."
+      },
+      {
+        "title": "Enrolled HB 1955 (2024), as posted by the Oklahoma Tax Commission",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/HB1955-ENR.pdf",
+        "quote": "Food and food ingredients shall include bottled water, candy, and soft drinks."
+      }
+    ],
+    "notes": "HB 1955 as enacted also said that, until June 30, 2025, a county or municipality submitting a new sales tax increase to voters must exclude food from the increase; the current OSCN text of 68 O.S. 1357.11 omits that paragraph. Levies or increases voted on in that window may not reach food; not researched per jurisdiction."
+  },
+  {
+    "tax": "OK:local",
+    "code": "food.grocery",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Groceries (food and food ingredients) remain subject to Oklahoma city and county sales taxes; only the state tax was removed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "The sale of food and food ingredients will continue to be subject to local sales tax."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "Any sales tax or excise tax levied by a city, town, county, or any other jurisdiction in this state upon sales of food and food ingredients shall be in effect regardless of ordinance or contractual provisions referring to previously imposed state sales tax on the items."
+      }
+    ],
+    "notes": "HB 1955 as enacted also said that, until June 30, 2025, a county or municipality submitting a new sales tax increase to voters must exclude food from the increase; the current OSCN text of 68 O.S. 1357.11 omits that paragraph. Levies or increases voted on in that window may not reach food; not researched per jurisdiction."
+  },
+  {
+    "tax": "OK:local",
+    "code": "food.prepared.cold",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Oklahoma city and county sales taxes apply to this food whether or not it is exempt from the state tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "The sale of food and food ingredients will continue to be subject to local sales tax."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "Any sales tax or excise tax levied by a city, town, county, or any other jurisdiction in this state upon sales of food and food ingredients shall be in effect regardless of ordinance or contractual provisions referring to previously imposed state sales tax on the items."
+      }
+    ],
+    "notes": "HB 1955 as enacted also said that, until June 30, 2025, a county or municipality submitting a new sales tax increase to voters must exclude food from the increase; the current OSCN text of 68 O.S. 1357.11 omits that paragraph. Levies or increases voted on in that window may not reach food; not researched per jurisdiction."
+  },
+  {
+    "tax": "OK:local",
+    "code": "food.prepared.platter",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Oklahoma city and county sales taxes apply to this food whether or not it is exempt from the state tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "The sale of food and food ingredients will continue to be subject to local sales tax."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "Any sales tax or excise tax levied by a city, town, county, or any other jurisdiction in this state upon sales of food and food ingredients shall be in effect regardless of ordinance or contractual provisions referring to previously imposed state sales tax on the items."
+      }
+    ],
+    "notes": "HB 1955 as enacted also said that, until June 30, 2025, a county or municipality submitting a new sales tax increase to voters must exclude food from the increase; the current OSCN text of 68 O.S. 1357.11 omits that paragraph. Levies or increases voted on in that window may not reach food; not researched per jurisdiction."
+  },
+  {
+    "tax": "OK:local",
+    "code": "food.soft_drink",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Soft drinks remain subject to Oklahoma city and county sales taxes; only the state tax was removed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "The sale of food and food ingredients will continue to be subject to local sales tax."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "Any sales tax or excise tax levied by a city, town, county, or any other jurisdiction in this state upon sales of food and food ingredients shall be in effect regardless of ordinance or contractual provisions referring to previously imposed state sales tax on the items."
+      },
+      {
+        "title": "Enrolled HB 1955 (2024), as posted by the Oklahoma Tax Commission",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/HB1955-ENR.pdf",
+        "quote": "Food and food ingredients shall include bottled water, candy, and soft drinks."
+      }
+    ],
+    "notes": "HB 1955 as enacted also said that, until June 30, 2025, a county or municipality submitting a new sales tax increase to voters must exclude food from the increase; the current OSCN text of 68 O.S. 1357.11 omits that paragraph. Levies or increases voted on in that window may not reach food; not researched per jurisdiction."
+  }
+]
