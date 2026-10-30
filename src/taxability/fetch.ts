@@ -172,13 +172,13 @@ const loose = (s: string) =>
 export const quoteOnPage = (text: string, quote: string) => loose(text).includes(loose(quote));
 
 /** A host that answered with a challenge, not the page. */
-const challenged = (text: string) => /just a moment\.\.\.|cf-chl|enable javascript and cookies to continue|access denied/i.test(text.slice(0, 4000));
+export const challenged = (text: string) => /just a moment\.\.\.|cf-chl|enable javascript and cookies to continue|access denied/i.test(text.slice(0, 4000));
 
 export interface SourceCheck {
   url: string;
   /** Watch-list page, cited page, or both. */
   role: Array<"watched" | "cited">;
-  status: "new" | "unchanged" | "changed" | "blocked" | "failed";
+  status: "new" | "unchanged" | "changed" | "blocked" | "failed" | "unreadable";
   /** Lines in the new text that weren't in the archived one; at most 30. */
   added?: string[];
   /** Cited quotes not found in the page as fetched now, with their rules. */
@@ -244,7 +244,13 @@ export async function fetchTaxabilitySources(options: { dir?: string; watchFile?
       continue;
     }
     const text = pageText(bytes, reading);
-    if (text !== null && challenged(text)) {
+    // Text that can't be read can't be checked for its quotes, or told
+    // from an error page: kept out of the archive, for a person to look at.
+    if (text === null) {
+      checks.push({ url, role, status: "unreadable", note: "fetched, but its text couldn't be read; the archived copy is kept" });
+      continue;
+    }
+    if (challenged(text)) {
       blocked.add(host);
       checks.push({ url, role, status: "blocked", note: "answered with a challenge page; the archived copy is kept" });
       continue;
@@ -256,11 +262,11 @@ export async function fetchTaxabilitySources(options: { dir?: string; watchFile?
       continue;
     }
     const check: SourceCheck = { url, role, status: !before ? "new" : oldText === text ? "unchanged" : "changed" };
-    if (check.status === "changed" && oldText !== null && text !== null) {
+    if (check.status === "changed" && oldText !== null) {
       const had = new Set(oldText.split("\n"));
       check.added = text.split("\n").filter((line) => !had.has(line)).slice(0, 30);
     }
-    const missing = (quotes.get(url) ?? []).filter((q) => text !== null && !quoteOnPage(text, q.quote));
+    const missing = (quotes.get(url) ?? []).filter((q) => !quoteOnPage(text, q.quote));
     if (missing.length) check.quotesMissing = missing;
     checks.push(check);
   }
@@ -271,7 +277,7 @@ export async function fetchTaxabilitySources(options: { dir?: string; watchFile?
 export function describeSourceChecks(checks: SourceCheck[]): string {
   const count = (s: SourceCheck["status"]) => checks.filter((c) => c.status === s).length;
   const lines = [
-    `${checks.length} pages: ${count("changed")} changed, ${count("new")} new, ${count("unchanged")} unchanged, ${count("blocked")} blocked, ${count("failed")} failed; ${checks.filter((c) => c.quotesMissing).length} no longer show a cited quote.`,
+    `${checks.length} pages: ${count("changed")} changed, ${count("new")} new, ${count("unchanged")} unchanged, ${count("blocked")} blocked, ${count("failed")} failed, ${count("unreadable")} unreadable; ${checks.filter((c) => c.quotesMissing).length} no longer show a cited quote.`,
   ];
   for (const c of checks.filter((c) => c.status === "changed" || c.status === "new")) {
     lines.push("", `${c.status.toUpperCase()} (${c.role.join(", ")}) ${c.url}`);
@@ -281,7 +287,7 @@ export function describeSourceChecks(checks: SourceCheck[]): string {
     lines.push("", `QUOTE GONE ${c.url}`);
     for (const q of c.quotesMissing!) lines.push(`  ${q.rule}: "${q.quote.slice(0, 160)}"`);
   }
-  for (const c of checks.filter((c) => c.status === "blocked" || c.status === "failed")) lines.push(`${c.status.toUpperCase()} ${c.url} (${c.note})`);
+  for (const c of checks.filter((c) => c.status === "blocked" || c.status === "failed" || c.status === "unreadable")) lines.push(`${c.status.toUpperCase()} ${c.url} (${c.note})`);
   return lines.join("\n") + "\n";
 }
 
@@ -292,7 +298,7 @@ export function describeSourceChecks(checks: SourceCheck[]): string {
  * before a rule change goes to main (docs/maintenance/taxability.md);
  * an empty list of problems means it may.
  */
-export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: string[]; problems: string[] } {
+export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: string[]; removed: string[]; problems: string[] } {
   const key = (r: { tax: string; code: string; from: string }) => `${r.tax} ${r.code} ${r.from}`;
   const before = new Map<string, string>();
   const relative = path.relative(process.cwd(), RULES_DIR);
@@ -304,7 +310,7 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
   }
   for (const file of listed.split("\n").filter((f) => /^(us|ca)-[A-Za-z]+\.json$/.test(f)))
     for (const r of JSON.parse(execFileSync("git", ["show", `${ref}:${relative}/${file}`], { encoding: "utf8", maxBuffer: 64 << 20 })) as Array<{ tax: string; code: string; from: string }>)
-      before.set(key(r), JSON.stringify(r));
+      before.set(key(r), canonical(r));
   const { rules } = readRuleFiles(dir);
   const archived = archivedByUrl();
   const root = sourcesRoot();
@@ -318,7 +324,7 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
   };
   for (const r of rules) {
     const { file, ...rule } = r;
-    if (before.get(key(rule)) === JSON.stringify(rule)) continue;
+    if (before.get(key(rule)) === canonical(rule)) continue;
     changed.push(`${file}: ${key(rule)}`);
     for (const c of rule.citations) {
       const where = `${file}: ${key(rule)}: ${c.url}`;
@@ -335,5 +341,13 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
       if (text === null || !quoteOnPage(text, c.quote)) problems.push(`${where}: the quote isn't on the archived page`);
     }
   }
-  return { changed, problems };
+  // A rule taken away changes answers too (its tax falls back to a broader
+  // rule, or to not researched): it's reported, for a person to approve.
+  const now = new Set(rules.map((r) => key(r)));
+  const removed = [...before.keys()].filter((k) => !now.has(k));
+  return { changed, removed, problems };
 }
+
+/** A rule as text with its keys sorted, so key order isn't a change. */
+const canonical = (value: unknown): string =>
+  JSON.stringify(value, (_k, v) => (v && typeof v === "object" && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => a.localeCompare(b))) : v));

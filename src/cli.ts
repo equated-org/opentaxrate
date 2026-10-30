@@ -12,7 +12,7 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *                                 load the taxability rules (src/taxability/rules) and archive their cited pages
  *   rate STATE "street" "city" [zip] [date] [--include regions] [--code CODES]
  *                                 look one address up, and how each CODES sale is taxed there
- *   taxability score [--cases DIR] [--list]
+ *   taxability score [--cases DIR] [--list | --gate]
  *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals)
  *   taxability fetch [--out DIR]  download every cited and watched page again; report what changed (sources.txt, sources.json)
  *   taxability file URL PATH      file a page downloaded by hand in the archive, under its URL
@@ -121,9 +121,14 @@ async function main() {
       if (positional[0] === "verify") {
         const { verifyChangedRules } = await import("./taxability/fetch.js");
         const ref = flag("--since") ?? "origin/main";
-        const { changed, problems } = verifyChangedRules(ref, flag("--dir"));
+        const { changed, removed, problems } = verifyChangedRules(ref, flag("--dir"));
         console.log(`${changed.length} rules added or changed since ${ref}${changed.length ? ":" : "."}`);
         for (const c of changed) console.log(`  ${c}`);
+        if (removed.length) {
+          console.log(`${removed.length} rules removed since ${ref}; a person approves removals:`);
+          for (const r of removed) console.log(`  ${r}`);
+          process.exitCode = 1;
+        }
         if (problems.length) {
           console.log(`${problems.length} citations don't check:`);
           for (const p of problems) console.log(`  ${p}`);
@@ -136,7 +141,15 @@ async function main() {
       const { loadRules } = await import("./taxability/index.js");
       const rules = await loadRules();
       if (!rules.size) throw new Error("taxability_rules is empty: run `pnpm ingest --kind taxability` first.");
-      printScore(scoreTaxability(rules, flag("--cases")), { list: args.includes("--list") });
+      const scored = scoreTaxability(rules, flag("--cases"));
+      // --gate: one line for the monthly gate, the case set's fingerprint
+      // and every wrong case's id (scripts/rates taxability-check).
+      if (args.includes("--gate")) {
+        const { casesHash } = await import("./taxability/evaluate.js");
+        console.log(`taxability-wrong: ${casesHash(flag("--cases"))} ${scored.filter((s) => s.outcome === "wrong").map((s) => s.case.id).join(" ")}`.trimEnd());
+        return;
+      }
+      printScore(scored, { list: args.includes("--list") });
       return;
     }
     case "evidence": {

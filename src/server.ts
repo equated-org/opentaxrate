@@ -303,7 +303,12 @@ const coverageRoute = createRoute({
 
 app.openapi(coverageRoute, async (c) => {
   const releases = await db.select().from(salesTaxDataReleases);
-  const rules = await loadRules();
+  // Coverage still answers when the rules can't be read (a database
+  // before migration 0015): no code is listed as researched.
+  const rules = await loadRules().catch((error) => {
+    console.warn(`coverage: taxability rules unavailable: ${(error as Error).message}`);
+    return null;
+  });
   const today = new Date().toISOString().slice(0, 10);
   // A nominal state and local part: a state's rules cover both unless it
   // has a local rule of its own, so this says whether both are researched.
@@ -312,7 +317,7 @@ app.openapi(coverageRoute, async (c) => {
   return c.json(
     ADDRESS_RATE_STATES.map((state) => ({
       state,
-      taxabilityCodes: researchedCodes(state, partsOf(state), today, rules),
+      taxabilityCodes: rules ? researchedCodes(state, partsOf(state), today, rules) : [],
       method: addressRates.method(state),
       geocoders: geocoderCoverage(policyFor(c.var.access)),
       regionSources: regionSourcesFor(state),

@@ -8,7 +8,7 @@ every page a rule cites and every page on the watch list again, finds what
 changed, looks for new guidance, and updates the rules. A change that
 passes mechanical gates (`pnpm rates maintain taxability-check`: every
 changed rule's quote is on its archived page, the files load, the tests
-pass, the benchmark's wrong answers don't rise) goes to `main` and into the
+pass, no benchmark case newly wrong) goes to `main` and into the
 month's release; anything short of them goes to a pull request for a
 human, and the release keeps `main`'s rules.
 
@@ -110,9 +110,14 @@ pnpm rates maintain taxability-check    # loads the rules into this run's databa
 It loads the rule files into this run's database (filing any newly cited
 page in the archive), checks every rule changed since `origin/main`
 (`npx tsx src/cli.ts taxability verify`: each citation quotes its page, the page is
-archived, the quote is on it), runs `test/taxability.test.ts`, and scores
-the benchmark against the accepted run's. It ends with `taxability changes
-pass`, or stops naming what failed.
+archived, the quote is on it; a removed rule fails, for a person to
+approve), runs `test/taxability.test.ts`, and scores the benchmark against
+the accepted run's: the wrong count can't rise, and no case may be newly
+wrong (`taxability score --gate` lists the wrong ids with a fingerprint of
+the case set; the accepted run's line is `taxability-wrong:`). If the cases
+themselves changed since the accepted run, it stops: a person reviews the
+new scores and re-accepts. It ends with `taxability changes pass`, or stops
+naming what failed.
 
 - **It passes** (unattended, `MAINT_AUTO_PUBLISH=yes`; attended, with the
   human's approval): commit the rule and watch-list changes, with a message

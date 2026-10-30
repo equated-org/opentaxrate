@@ -13,7 +13,7 @@
 import { db } from "../db/client.js";
 import { taxabilityRules } from "../db/schema.js";
 import { archivedByUrl, downloadedBytes } from "../ingest/archive.js";
-import { fileName, politeFetch, trustListedIntermediates } from "./fetch.js";
+import { challenged, fileName, pageText, politeFetch, trustListedIntermediates } from "./fetch.js";
 import { readRuleFiles } from "./rules/index.js";
 
 /** Files every cited page in the archive, fetching one only when the
@@ -39,6 +39,9 @@ export async function archiveEvidence(urls: string[], options: { fetch?: boolean
       if (response.status === 403 || response.status === 429) refused.add(host);
       if (!response.ok) throw new Error(`answered ${response.status}`);
       const bytes = new Uint8Array(await response.arrayBuffer());
+      // A bot challenge answered 200 is not the page: never filed as evidence.
+      const text = pageText(bytes);
+      if (text !== null && challenged(text)) throw new Error("answered with a challenge page");
       await downloadedBytes(url, new Response(Buffer.from(bytes)), fileName(url, bytes));
     } catch (error) {
       missing.push({ url, reason: (error as Error).message });

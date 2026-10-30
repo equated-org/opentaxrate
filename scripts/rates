@@ -485,6 +485,18 @@ maintain() {
       was=$(grep '^taxability:' artifacts/maintenance/accepted 2>/dev/null | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
       [ -n "$now" ] || die "The taxability benchmark didn't score."
       [ -z "$was" ] || [ "$now" -le "$was" ] || die "Taxability wrong answers rose: $was -> $now."
+      # Case by case: a change that fixes one case and breaks another
+      # keeps the count but isn't a pass. Only against the same cases.
+      gate=$(DATABASE_URL=$url scripts/bench taxability --gate)
+      accepted=$(grep '^taxability-wrong:' artifacts/maintenance/accepted 2>/dev/null || true)
+      if [ -n "$accepted" ]; then
+        [ "$(echo "$gate" | awk '{ print $2 }')" = "$(echo "$accepted" | awk '{ print $2 }')" ] ||
+          die "The taxability cases changed since the accepted run: a person re-accepts (pnpm rates maintain accept) after reviewing them."
+        ids() { cut -d' ' -f3- | tr ' ' '\n' | sed '/^$/d' | sort; }
+        echo "$accepted" | ids > "$dir/taxability/accepted-wrong"
+        newly=$(echo "$gate" | ids | comm -23 - "$dir/taxability/accepted-wrong" | tr '\n' ' ')
+        [ -z "$newly" ] || die "Taxability cases newly wrong: $newly"
+      fi
       echo "taxability changes pass: wrong ${was:-?} -> $now" | tee -a "$out" >&2
       note "taxability changes pass" ;;
     check)
@@ -515,6 +527,7 @@ EOF
       # The taxability rules this run loaded, against the agencies' own cases.
       DATABASE_URL=$url scripts/bench taxability | awk '$1 == "all" {
         printf "taxability: n=%5d  right %5d  wrong %4d  kind %3d  declined %4d  not_researched %4d\n", $2, $3, $4, $5, $6, $7 }' >> "$out"
+      DATABASE_URL=$url scripts/bench taxability --gate >> "$out"
       awk -v now="$(spent)" -v start="$start" -v budget="$budget" 'BEGIN { exit !(now - start >= budget) }' &&
         echo "Over budget: geocoder spend passed \$$budget." >> "$out"
       # A set with more wrong answers than the accepted run's is a regression.
