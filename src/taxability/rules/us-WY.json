@@ -422,6 +422,58 @@
   },
   {
     "tax": "WY",
+    "code": "food.uncooked",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food a Wyoming seller prepares but sells uncooked for the buyer to cook, such as a take-and-bake pizza or raw meat items, is exempt as food for domestic home consumption.",
+    "conditions": [
+      {
+        "when": "The seller is a food vendor more than 75% of whose food sales are prepared food (heated or combined by the seller), and the item is a single-serving item",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "Are products which require preparation by the seller but which will require additional preparation by the consumer taxable? No."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "The pizza is prepared by the vendor however is sold without being cooked."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026): prepared food exclusions",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "eggs, fish, meat, poultry or foods containing raw animal foods and which are required or recommended to be cooked by the consumer to prevent food borne illness"
+      },
+      {
+        "title": "W.S. 39-15-101(a)(xlvi)(B) (prepared food exclusions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "eggs, fish, meat, poultry or foods containing raw animal foods and which are required or recommended to be cooked by the consumer to prevent food borne illness"
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026): W.S. 39-15-105(a)(vi)(E)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "For the purpose of exempting sales of services and tangible personal property which are essential human goods and services, the following are exempt: Sales of food for domestic home consumption."
+      },
+      {
+        "title": "Wyoming DOR Excise Tax Division bulletin, Food Exemption (last revised August 2026)",
+        "url": "https://drive.google.com/uc?export=download&id=1aK1RouzGs3r_irKq8rRWQhgTDlwT_-_D",
+        "quote": "If more than seventy five percent (75%) of the food vendor’s sales are comprised of food that is heated by the seller or foods where the seller combined two or more ingredients to make a single item, then all of the vendor’s sales of single serve items are subject to tax."
+      },
+      {
+        "title": "W.S. 39-15-205 (local sales and use taxes: exemptions)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The DOR bulletin answers that food prepared by the seller but requiring additional preparation by the consumer is not taxable, naming Papa Murphy's take-and-bake pizza; raw-animal-food items are also excluded from 'prepared food' by statute, so both kinds of uncooked food are exempt. The earliest dated copy read is the bulletin as revised August 2026, as for WY's food.prepared.cold rule; the position is likely older but no earlier copy was read. Before then the statutory definition alone would make a seller-combined pizza without raw animal food prepared food; the bulletin's position is not modeled for earlier dates. The bulletin does not say how the 75% vendor rule or utensils apply to take-and-bake items; those exceptions are read from the general prepared-food definition and the grocery rule. County, city and resort-district taxes take the state's exemptions (W.S. 39-15-205)."
+  },
+  {
+    "tax": "WY",
     "code": "goods.general",
     "from": "2026-08-01",
     "fromIs": "earliest_verified",

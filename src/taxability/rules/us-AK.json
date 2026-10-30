@@ -190,6 +190,33 @@
   },
   {
     "tax": "AK:state",
+    "code": "food.uncooked",
+    "from": "2017-01-05",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food assembled for the buyer to cook: Alaska levies no state sales tax; local city or borough sales taxes may apply and differ by place.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Alaska DCCED, Division of Community and Regional Affairs, Local Government Resource Desk: Sales Tax (Wayback snapshot 2026-09-25)",
+        "url": "https://web.archive.org/web/20260925194011/https://www.commerce.alaska.gov/web/dcra/LocalGovernmentResourceDesk/TaxationAssessment/SalesTax",
+        "quote": "At present, the State of Alaska does not levy a sales tax."
+      },
+      {
+        "title": "Alaska DCCED, Office of the State Assessor, Alaska Tax Facts (Wayback snapshot 2026-08-24)",
+        "url": "https://web.archive.org/web/20260824132540/https://www.commerce.alaska.gov/web/dcra/OfficeoftheStateAssessor/AlaskaTaxFacts",
+        "quote": "There is no statewide sales tax levied."
+      },
+      {
+        "title": "Alaska DCCED, Office of the State Assessor, Alaska Tax Facts (Wayback snapshot 2017-01-05)",
+        "url": "https://web.archive.org/web/20170105180651/https://www.commerce.alaska.gov/web/dcra/officeofthestateassessor/alaskataxfacts.aspx",
+        "quote": "There is no statewide sales tax levied."
+      }
+    ],
+    "notes": "State part only, as AK:state food.grocery. About 110 Alaska cities and boroughs levy their own sales taxes with their own exemptions, so AK:local is left unresearched."
+  },
+  {
+    "tax": "AK:state",
     "code": "goods.general",
     "from": "2017-01-05",
     "fromIs": "earliest_verified",

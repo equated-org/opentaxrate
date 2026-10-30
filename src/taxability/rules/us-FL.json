@@ -349,6 +349,57 @@
   },
   {
     "tax": "FL",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a Florida store assembles for the buyer to cook at home is exempt as a food product; the same item sold in or by a restaurant is taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a grocery or other store not operating as a restaurant, for cooking by the buyer away from the seller's premises (raw food kits, meal kits, take-and-bake pizza)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold in or by a restaurant, lunch counter, cafeteria, hotel, tavern or like place of business (e.g. unbaked pizza from a licensed restaurant)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Florida DOR, Technical Assistance Advisement 05A-024, Raw Food Kits (June 2, 2005)",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/05A-024.pdf",
+        "quote": "Since the raw food kits are not sold for immediate consumption, but for further cooking by the customer away from the seller’s premises, they are exempt from sales tax."
+      },
+      {
+        "title": "Florida DOR, Technical Assistance Advisement 06A-016, Unbaked Pizza Sold in a Restaurant (June 15, 2006)",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/06A-016.pdf",
+        "quote": "You produce unbaked pizzas on a special baking tray designed for the customer to take home and bake."
+      },
+      {
+        "title": "Florida DOR, Technical Assistance Advisement 06A-016, Unbaked Pizza Sold in a Restaurant (June 15, 2006)",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/06A-016.pdf",
+        "quote": "clearly states that the exemption for food products does not apply to food sold in or by a restaurant"
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "food products served, prepared, or sold in or by restaurants, lunch counters, cafeterias, hotels, taverns, or other like places of business."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (current), specified exemptions",
+        "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
+        "quote": "food products served, prepared, or sold in or by restaurants, lunch counters, cafeterias, hotels, taverns, or other like places of business."
+      },
+      {
+        "title": "Fla. Stat. § 212.08 (2018), specified exemptions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Food products for human consumption are exempt from the tax imposed by this chapter."
+      }
+    ],
+    "notes": "The TAAs (2005, 2006) bind the Department only for their requesters (s. 213.22, F.S.) but apply § 212.08(1) as it still reads: food not sold for immediate consumption is exempt, and food sold in or by restaurants is not. 2018-01-01 is the earliest date read, as for food.grocery. The discretionary sales surtax follows the state base (§ 212.054(2)(a))."
+  },
+  {
+    "tax": "FL",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

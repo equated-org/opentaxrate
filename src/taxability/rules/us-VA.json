@@ -763,6 +763,90 @@
   },
   {
     "tax": "VA",
+    "code": "food.uncooked",
+    "from": "2005-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.015,
+    "summary": "Food assembled for the buyer to cook (an uncooked pizza, a meal kit) packaged for home consumption is taxed at the reduced 1.5% state rate (2.5% with the 1% local tax) as food for home consumption.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "Before January 1, 2023, the tax imposed by §§ 58.1-603 and 58.1-604 on food purchased for human consumption and essential personal hygiene products shall be one and one-half percent of the gross sales price."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "reduce the state sales and use tax rate on food for home consumption from 3% to 1½% effective July 1, 2005"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Uncooked prepared pizzas packaged in boxes, plastic wrap, or other containers for home consumption."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold prepared foods packaged as one or more meals and marketed for home consumption."
+      }
+    ],
+    "notes": "Tax Bulletin 05-7 lists uncooked prepared pizzas packaged for home consumption, and cold prepared meals marketed for home consumption, among eligible food; food assembled for the buyer to cook is taxed as groceries are (food.grocery, food.prepared.cold). The 80% rule and single-price combinations with ineligible items are the listed exceptions."
+  },
+  {
+    "tax": "VA",
+    "code": "food.uncooked",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food assembled for the buyer to cook (an uncooked pizza, a meal kit) packaged for home consumption is exempt from the state sales tax from January 1, 2023; only the 1% local option tax applies.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Beginning January 1, 2023, the 1.5 percent state Retail Sales and Use Tax levied on food and essential personal hygiene products is eliminated."
+      },
+      {
+        "title": "Code of Virginia § 58.1-611.1 (food and essential personal hygiene products)",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-611.1/",
+        "quote": "On and after January 1, 2023, and except for taxes imposed pursuant to §§ 58.1-605 and 58.1-606 , no tax shall be imposed under this chapter"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Uncooked prepared pizzas packaged in boxes, plastic wrap, or other containers for home consumption."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold prepared foods packaged as one or more meals and marketed for home consumption."
+      }
+    ],
+    "notes": "Tax Bulletin 05-7 lists uncooked prepared pizzas packaged for home consumption, and cold prepared meals marketed for home consumption, among eligible food; food assembled for the buyer to cook is taxed as groceries are (food.grocery, food.prepared.cold). The 80% rule and single-price combinations with ineligible items are the listed exceptions."
+  },
+  {
+    "tax": "VA",
     "code": "goods.general",
     "from": "2017-08-03",
     "fromIs": "earliest_verified",
@@ -1250,5 +1334,52 @@
       }
     ],
     "notes": "VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
+  },
+  {
+    "tax": "VA:local",
+    "code": "food.uncooked",
+    "from": "2005-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.01,
+    "summary": "Food assembled for the buyer to cook (an uncooked pizza, a meal kit) packaged for home consumption bears only the 1% local option tax; regional and additional local taxes don't apply to it.",
+    "conditions": [
+      {
+        "when": "Sold by a retail establishment whose sales of food prepared for immediate consumption exceed 80% of its gross receipts (motor fuel included), or by a vendor presumed to sell food for immediate consumption (caterers, concession, mobile food and vending machine vendors, movie theaters, etc.)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with ineligible items (hot food, alcohol, non-food) for a single price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax Bulletin 22-12 (October 31, 2022), Grocery tax rate reduction",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/22-12",
+        "quote": "Food and essential personal hygiene products will continue to be subject to the 1.0 percent local option tax and will continue to be exempt from all regional and additional local tax rates."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "The law change does not affect the imposition of the 1% local sales and use tax."
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Uncooked prepared pizzas packaged in boxes, plastic wrap, or other containers for home consumption."
+      },
+      {
+        "title": "Code of Virginia § 58.1-603.1 (regional additional tax), as archived 2019-08-22",
+        "url": "https://web.archive.org/web/20190822023553/https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603.1/",
+        "quote": "Such tax shall not be levied upon food purchased for human consumption"
+      },
+      {
+        "title": "Virginia Tax Bulletin 05-7, Reduced sales tax rate on food for home consumption",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/tax-bulletins/05-7",
+        "quote": "Cold prepared foods packaged as one or more meals and marketed for home consumption."
+      }
+    ],
+    "notes": "Tax Bulletin 05-7 lists uncooked prepared pizzas packaged for home consumption, and cold prepared meals marketed for home consumption, among eligible food; food assembled for the buyer to cook is taxed as groceries are (food.grocery, food.prepared.cold). The 80% rule and single-price combinations with ineligible items are the listed exceptions. VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
   }
 ]

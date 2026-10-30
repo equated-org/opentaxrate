@@ -506,6 +506,75 @@
   },
   {
     "tax": "OK",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "to": "2024-08-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "All food, prepared or not, was taxable at the full Oklahoma state rate plus local tax until August 28, 2024.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "68 O.S. § 1354 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      },
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "You will continue to collect and remit state sales tax on sales of food and food ingredients, along with any applicable city and county sales tax, for the period of August 1 through August 28, 2024."
+      }
+    ],
+    "notes": "Groceries and prepared food were taxed alike before HB 1955 (food.grocery and food.prepared rules), so food assembled for the buyer to cook was taxable either way. 2018-01-01 is the earliest date checked."
+  },
+  {
+    "tax": "OK",
+    "code": "food.uncooked",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food that still needs cooking by the buyer, such as a take-and-bake pizza, is exempt from the Oklahoma state sales tax from August 29, 2024 unless the seller provides eating utensils; local taxes apply.",
+    "conditions": [
+      {
+        "when": "Requires additional cooking (not just reheating) by the buyer, sold without eating utensils provided by the seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller (including a seller whose prepared food sales exceed 75% and who makes utensils available)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Food that ordinarily requires additional cooking to finish the product to its desired final condition."
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "If eating utensils are not provided by the specialty store"
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "is exempt from state sales tax because it requires cooking"
+      },
+      {
+        "title": "OTC, Oklahoma Sales and Use Tax Guide for Food and Food Ingredients and Prepared Food",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/brochures/OK-Sales-and-Use-Tax-Guide-for-Prepared-Food-and-Food-Ingredients-Guide.pdf",
+        "quote": "Effective August 29, 2024, sales of food and food ingredients are not subject to the state sales and use tax rate of 4.5%, but will continue to be subject to local sales and use tax rates."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "an excise tax of zero percent (0%) is hereby imposed upon all retail sales of food and food ingredients sold for human consumption off the premises where sold."
+      }
+    ],
+    "notes": "The OTC guide lists food that ordinarily requires additional cooking among prepared food exempt from the state tax, mixed or heated by the seller or not, with a take-and-bake pizza sold without utensils as its example. Whether the 75% utensil rule reaches such items is read from the food.grocery rule, not stated for this item."
+  },
+  {
+    "tax": "OK",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -797,5 +866,27 @@
       }
     ],
     "notes": "HB 1955 as enacted also said that, until June 30, 2025, a county or municipality submitting a new sales tax increase to voters must exclude food from the increase; the current OSCN text of 68 O.S. 1357.11 omits that paragraph. Levies or increases voted on in that window may not reach food; not researched per jurisdiction."
+  },
+  {
+    "tax": "OK:local",
+    "code": "food.uncooked",
+    "from": "2024-08-29",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Oklahoma city and county sales taxes apply to food assembled for the buyer to cook whether or not it is exempt from the state tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC, State Sales Tax on Food and Food Ingredients (FAQ page)",
+        "url": "https://oklahoma.gov/tax/businesses/state-sales-tax-on-food-and-food-ingredients.html",
+        "quote": "The sale of food and food ingredients will continue to be subject to local sales tax."
+      },
+      {
+        "title": "68 O.S. § 1357.11 (OSCN)",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=495310",
+        "quote": "Any sales tax or excise tax levied by a city, town, county, or any other jurisdiction in this state upon sales of food and food ingredients shall be in effect regardless of ordinance or contractual provisions referring to previously imposed state sales tax on the items."
+      }
+    ],
+    "notes": "Only the state tax was removed from food and food ingredients."
   }
 ]

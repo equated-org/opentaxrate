@@ -1107,5 +1107,42 @@
       }
     ],
     "notes": "2017-12-01 is Pub 100's revision month; the treatment is older (the parent delivery rule's first condition covers earlier dates). Pub 100's table pairs the two quoted lines: when the sale is not taxable, related delivery charges are not taxable. Mixed shipments of taxable and exempt goods need apportionment, not researched."
+  },
+  {
+    "tax": "CA",
+    "code": "food.uncooked",
+    "from": "1992-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food sold uncooked for the buyer to cook (a take-and-bake pizza, raw kebabs, a meal kit) is exempt in California as food products for home consumption: food that requires further processing is not in a form suitable for consumption on the seller's premises, so the 80-80 rule for cold food to go does not reach it.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Cal. Rev. & Tax. Code § 6359(a)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html",
+        "quote": "There are exempted from the taxes imposed by this part the gross receipts from the sale of, and the storage, use, or other consumption in this state of, food products for human consumption."
+      },
+      {
+        "title": "CDTFA Business Taxes Law Guide, Annotation 550.0104 (3/27/85), form suitable for consumption on premises",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol2/suta/550-0104.html",
+        "quote": "Food products that require further processing are not in a form \"suitable for immediate consumption.\""
+      },
+      {
+        "title": "State Board of Equalization letter of March 27, 1985 (Annotation 550.0104)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/annotations/550-0104.pdf",
+        "quote": "Food products that require further processing are also considered not in a form suitable for immediate consumption."
+      },
+      {
+        "title": "State Board of Equalization letter of March 27, 1985 (Annotation 550.0104)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/annotations/550-0104.pdf",
+        "quote": "In addition, sales of food products when furnished in a form not suitable for consumption on the seller’s premises remain exempt."
+      },
+      {
+        "title": "18 CCR 1603(c)(2)",
+        "url": "https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html",
+        "quote": "The term does not include cold food products which obviously would not be consumed on the premises of the seller, e.g., a cold party tray or a whole cold chicken."
+      }
+    ],
+    "notes": "No California source read names take-and-bake pizza, raw kebabs or meal kits; the rule rests on Annotation 550.0104's reading that food requiring further processing (its examples: syrup to be mixed, frozen food to be defrosted) is not in a form suitable for immediate consumption, so the 80-80 rule (Rev. & Tax. Code 6359(d)(6), Regulation 1603(c)) does not tax it, and on Regulation 1603(c)(2)'s exclusion of cold food that obviously would not be consumed on the premises. Uncooked food is not hot prepared food. Starts at 1992-12-01 like CA's food.grocery rule. Food served for eating at the seller's tables, or sold within a place charging admission, is taxed under other parts of 6359(d); not expected for uncooked food and not modeled. The state, Bradley-Burns local and district taxes share the base."
   }
 ]

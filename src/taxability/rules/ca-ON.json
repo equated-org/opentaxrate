@@ -585,6 +585,29 @@
   },
   {
     "tax": "ON/CA:HST",
+    "code": "food.uncooked",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: the Ontario point-of-sale rebate on prepared food covers only food ready for immediate consumption, so it does not reach this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      },
+      {
+        "title": "GST/HST Info Sheet GI-064, Harmonized Sales Tax for Ontario - Point-of-Sale Rebate on Prepared Food and Beverages",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
+        "quote": "The rebate is available on qualifying prepared food and beverages sold in Ontario that are ready for immediate consumption."
+      }
+    ],
+    "notes": "Ontario's prepared-food rebate covers only taxable prepared food ready for immediate consumption; uncooked assembled food is zero-rated federally and not ready for immediate consumption, so the rebate has nothing to apply to and the 13% HST base is the federal one (zero-rated)."
+  },
+  {
+    "tax": "ON/CA:HST",
     "code": "goods.general",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",

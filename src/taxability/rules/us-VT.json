@@ -468,6 +468,87 @@
   },
   {
     "tax": "VT",
+    "code": "food.uncooked",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A whole uncooked pizza for take-out is not a taxable meal in Vermont and is exempt as food; other food a seller assembled for the buyer to cook is a 9% taxable meal when sold by a restaurant or sold nonprepackaged, and exempt food when prepackaged or sold by weight from a deli.",
+    "conditions": [
+      {
+        "when": "A whole uncooked pizza furnished for take-out, by any seller",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other assembled-to-cook food sold by a non-restaurant prepackaged, or by weight or measure from a delicatessen",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other assembled-to-cook food (kebabs, marinated or stuffed raw meat, a meal kit) sold by a restaurant, or sold nonprepackaged by another seller",
+        "treatment": "special_rate",
+        "rate": 0.09
+      }
+    ],
+    "citations": [
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "that is a grocery-type item furnished for take-out"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "whole uncooked pizzas"
+      },
+      {
+        "title": "VT Dept. of Taxes, Restaurants (industry guidance)",
+        "url": "https://tax.vermont.gov/business/industry/restaurants",
+        "quote": "These are not considered taxable meals, even when sold by a restaurant:"
+      },
+      {
+        "title": "VT Dept. of Taxes, Restaurants (industry guidance)",
+        "url": "https://tax.vermont.gov/business/industry/restaurants",
+        "quote": "whole uncooked pizzas"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "any food or beverage furnished within the State by a restaurant for which a charge is made"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "Where furnished by other than a restaurant, any nonprepackaged food or beverage furnished within the State and for which a charge is made"
+      },
+      {
+        "title": "32 V.S.A. § 9202 (meals and rooms definitions; last amended eff. June 19, 2023)",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09202",
+        "quote": "whole pies or cakes; loaves of bread; single-serving bakery items sold in quantities of three or more; delicatessen and nonprepackaged candy sales by weight or measure, except party platters"
+      },
+      {
+        "title": "32 V.S.A. § 9241, Imposition of meals and rooms tax",
+        "url": "https://legislature.vermont.gov/statutes/section/32/225/09241",
+        "quote": "An operator shall collect a tax on the sale of each taxable meal at the rate of nine percent"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of food and food ingredients sold for human consumption off the premises where sold"
+      },
+      {
+        "title": "32 V.S.A. § 9701, Definitions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09701",
+        "quote": "\"Food and food ingredients\" does not include alcoholic beverages, tobacco, cannabis and cannabis products as defined under 7 V.S.A. § 831, or soft drinks."
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Only whole uncooked pizza is named in the statute and the Department's guidance (§ 9202(10)(D)(i)); no Vermont source read names kebabs, marinated raw meat or meal kits, so those follow the general meals definitions: a restaurant's food is a taxable meal (§ 9202(10)(A)), a non-restaurant's nonprepackaged food is a taxable meal (§ 9202(10)(B)) unless an exclusion applies (deli sales by weight or measure). Whether a butcher counter's seller-marinated raw meat sold by weight is a 'delicatessen' sale by weight was not settled by the sources read. Food that is not a taxable meal is exempt from the 6% sales tax: Vermont's 'food and food ingredients' has no prepared-food exclusion (§ 9701(31)). The 9% case is the Meals and Rooms Tax, charged instead of the 6% sales tax (§ 9741(10)), a rate of its own, HIGHER than 6%. Earliest date: the last amendment of § 9202 (eff. 2023-06-19), as for the other VT food rules; the whole-uncooked-pizza exclusion is older but earlier text was not read. The Restaurants guidance page is undated."
+  },
+  {
+    "tax": "VT",
     "code": "goods.general",
     "from": "2009-09-04",
     "fromIs": "earliest_verified",
@@ -837,5 +918,66 @@
       }
     ],
     "notes": "Vermont's local option taxes are separate: the 1% local option sales tax (carried in the rate data as the local part where levied) and a 1% local option meals tax that some towns levy instead or as well (a different list of towns). For a taxable meal the local part is the meals tax, not the sales tax: 1% where the town levies the local option meals tax, nothing where it levies only the sales tax. Known gap: a town that levies only the local option meals tax has no local part in the rate data, so its 1% on meals is missed."
+  },
+  {
+    "tax": "VT:local",
+    "code": "food.uncooked",
+    "from": "2023-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Vermont's local option taxes follow the state: no local tax on a whole uncooked pizza or other assembled-to-cook food that is exempt food; on such food that is a taxable meal, the 1% local option meals tax where the town levies it.",
+    "conditions": [
+      {
+        "when": "Not a taxable meal: a whole uncooked pizza for take-out, or other assembled-to-cook food sold prepackaged by a non-restaurant or by weight from a deli (exempt from state sales and meals tax)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A taxable meal (sold by a restaurant, or nonprepackaged by another seller, other than a whole uncooked pizza), in a town that levies the 1% local option meals tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "A taxable meal, in a town that levies only the local option sales tax, not the meals tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "A transaction is subject to local option tax if it is subject to the Vermont sales, meals, rooms, or alcoholic beverage tax."
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Meals Tax: 9% meals tax + 1% = 10% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Restaurants (industry guidance)",
+        "url": "https://tax.vermont.gov/business/industry/restaurants",
+        "quote": "These are not considered taxable meals, even when sold by a restaurant:"
+      },
+      {
+        "title": "VT Dept. of Taxes, Restaurants (industry guidance)",
+        "url": "https://tax.vermont.gov/business/industry/restaurants",
+        "quote": "whole uncooked pizzas"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of food and food ingredients sold for human consumption off the premises where sold"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "A whole uncooked pizza is neither a taxable meal nor subject to sales tax (exempt food), so no local option tax applies to it. The meal cases follow the VT:local food.prepared.hot rule. Known gap, as there: a town that levies only the local option meals tax has no local part in the rate data. Burlington and Rutland city meals taxes (charter) are outside this calculation. Earliest date as for the VT rule."
   }
 ]

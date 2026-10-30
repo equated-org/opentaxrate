@@ -488,6 +488,33 @@
   },
   {
     "tax": "QC:QST",
+    "code": "food.uncooked",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "zero_rated",
+    "summary": "Food assembled for the buyer to cook, such as an uncooked pizza, is a zero-rated basic grocery for QST, even from a restaurant, because it is not in a form for immediate consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 177",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "Supplies of food or beverages for human consumption, including seasonings, sweetening agents and other ingredients to be mixed with or used in the preparation of such food or beverages, other than supplies of the following, are zero-rated supplies"
+      },
+      {
+        "title": "Act respecting the Québec sales tax (CQLR c. T-0.1), s. 177, para. (18)(a)",
+        "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1",
+        "quote": "the food or beverage is sold in a form not suitable for immediate consumption, having regard to the nature of the product, the quantity sold or its packaging"
+      },
+      {
+        "title": "Revenu Québec, Restaurants et établissements hôteliers (archived copy, 2025-10-07)",
+        "url": "https://web.archive.org/web/20251007215230/https://www.revenuquebec.ca/fr/entreprises/taxes/tpstvh-et-tvq/situations-particulieres-liees-a-la-tpstvh-et-a-la-tvq/alimentation-application-de-la-tps-et-de-la-tvq/fournisseurs-de-repas-daliments-et-de-boissons/restaurants-et-etablissements-hoteliers/",
+        "quote": "doivent percevoir la TPS et la TVQ sur les produits alimentaires de base qu'ils vendent, sauf s'ils sont vendus sous une forme qui n'en permet pas la consommation immédiate compte tenu de la nature du produit (par exemple, une pizza non cuite)"
+      }
+    ],
+    "notes": "revenuquebec.ca returns HTTP 403 to this environment; the Revenu Québec page was read from its Internet Archive snapshot (2025-10-07). Revenu Québec names an uncooked pizza only in the restaurant context; at a grocery store it is zero-rated because no s. 177 exclusion (heated, salads, sandwiches, platters...) covers it, mirroring GST Memorandum 4.3's frozen-pizza example. Kebabs, marinated raw meat and meal kits not named. The 2026-07-15 QST zero-rating changes (fruit platters, small sweet baked goods) do not touch this code."
+  },
+  {
+    "tax": "QC:QST",
     "code": "goods.general",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",

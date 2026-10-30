@@ -525,6 +525,47 @@
   },
   {
     "tax": "MN",
+    "code": "food.uncooked",
+    "from": "2021-08-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook (a partially baked or take-and-bake pizza, raw meat items) is not prepared food in Minnesota and is exempt unless sold with eating utensils.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "Food a customer ordinarily must fully cook prior to consumption is not taxable as \"prepared food\" unless sold with eating utensils provided by the seller, even though the seller may have heated the food at some time or may have mixed or combined two or more food ingredients to make the food."
+      },
+      {
+        "title": "Revenue Notice 21-02, Prepared Food",
+        "url": "https://www.revenue.state.mn.us/revenue-notice/21-02-prepared-food-revocation-revenue-notice-10-01",
+        "quote": "Publication Date: August 23, 2021"
+      },
+      {
+        "title": "Minn. Stat. 297A.61, subd. 31",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "(iii) eggs, fish, meat, poultry, and foods containing these raw animal foods requiring cooking by the consumer as recommended by the Food and Drug Administration in chapter 3, part 401.11 of its Food Code so as to prevent food borne illnesses; or"
+      },
+      {
+        "title": "Minn. Stat. 297A.67, subd. 2",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.67",
+        "quote": "Except as otherwise provided in this subdivision, food and food ingredients are exempt."
+      }
+    ],
+    "notes": "Revenue Notice 21-02 (published August 23, 2021) gives the department's position that food the customer must fully cook is not prepared food, even if the seller combined ingredients; it says it was issued in part 'to provide the department's position' on this, so the position before 2021-08-23 is not verified (Revenue Notice 10-01 not read) and no rule is given for earlier dates. Food the seller fully cooked but the buyer reheats is prepared food."
+  },
+  {
+    "tax": "MN",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

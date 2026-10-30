@@ -2177,6 +2177,243 @@
   },
   {
     "tax": "AL",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "to": "2023-08-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food assembled for the buyer to cook was taxed at Alabama's full 4% state rate plus local tax before the food rate cut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Act 2023-554 (HB479 enrolled), amending Code of Ala. 1975 40-23-2(6)",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "four percent of the gross proceeds of the sale of food. On"
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023 (July 25, 2023)",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "In accordance with Act 2023-554, the state sales and use tax rates on food will be reduced from 4 percent to 3 percent on September 1, 2023."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "SNAP eligible food items generally include any food or food product for home consumption, except alcoholic beverages, tobacco, hot foods, or hot food products ready for immediate consumption."
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "(20) FOOD. Food as defined in 7 U.S.C. § 2011, et seq.,"
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "Assistance Program regardless of where or by what means food"
+      },
+      {
+        "title": "7 U.S.C. 2012(k), definition of food (SNAP)",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title7/html/USCODE-2023-title7-chap51-sec2012.htm",
+        "quote": "\"Food\" means (1) any food or food product for home consumption except alcoholic beverages, tobacco, hot foods or hot food products ready for immediate consumption"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Foods that are hot at the point of sale."
+      }
+    ],
+    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Start date: the cited sources describe this as standing law with no change since 2018; the earliest dated copy archived here is Act 2023-554 (2023), whose text shows the 4% food rate it amended. 2018-01-01 is the start of the modeled window, not a date read from a source."
+  },
+  {
+    "tax": "AL",
+    "code": "food.uncooked",
+    "from": "2023-09-01",
+    "to": "2025-08-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.03,
+    "summary": "Food assembled for the buyer to cook is SNAP-eligible food, taxed at Alabama's reduced 3% state food rate; local food rates apply separately.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023 (July 25, 2023)",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "In accordance with Act 2023-554, the state sales and use tax rates on food will be reduced from 4 percent to 3 percent on September 1, 2023."
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), amending Code of Ala. 1975 40-23-2(6)",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "September 1, 2023, the tax rate shall be reduced to three"
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate on Food Remains at Three Percent (2024)",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-on-food-remains-at-three-percent/",
+        "quote": "Alabama’s sales and use tax rate on food will remain at three percent on September 1, 2024."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "SNAP eligible food items generally include any food or food product for home consumption, except alcoholic beverages, tobacco, hot foods, or hot food products ready for immediate consumption."
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "(20) FOOD. Food as defined in 7 U.S.C. § 2011, et seq.,"
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "Assistance Program regardless of where or by what means food"
+      },
+      {
+        "title": "7 U.S.C. 2012(k), definition of food (SNAP)",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title7/html/USCODE-2023-title7-chap51-sec2012.htm",
+        "quote": "\"Food\" means (1) any food or food product for home consumption except alcoholic beverages, tobacco, hot foods or hot food products ready for immediate consumption"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Foods that are hot at the point of sale."
+      }
+    ],
+    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Alabama's food is SNAP food 'regardless of where or by what means food is sold' (Act 2023-554), and SNAP excludes only hot food ready to eat, so cold prepared food sold to go takes the food rate. ALDOR has published no guidance on prepared or restaurant food under the reduced rate; this rule reads the statute and the federal definition."
+  },
+  {
+    "tax": "AL",
+    "code": "food.uncooked",
+    "from": "2025-09-01",
+    "to": "2026-04-30",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Food assembled for the buyer to cook is SNAP-eligible food, taxed at Alabama's reduced 2% state food rate; local food rates apply separately.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2025",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2025/",
+        "quote": "In accordance with Act 2025-305, the state sales and use tax rates on food will be reduced from 3 percent to 2 percent on September 1, 2025."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "SNAP eligible food items generally include any food or food product for home consumption, except alcoholic beverages, tobacco, hot foods, or hot food products ready for immediate consumption."
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "(20) FOOD. Food as defined in 7 U.S.C. § 2011, et seq.,"
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "Assistance Program regardless of where or by what means food"
+      },
+      {
+        "title": "7 U.S.C. 2012(k), definition of food (SNAP)",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title7/html/USCODE-2023-title7-chap51-sec2012.htm",
+        "quote": "\"Food\" means (1) any food or food product for home consumption except alcoholic beverages, tobacco, hot foods or hot food products ready for immediate consumption"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Foods that are hot at the point of sale."
+      }
+    ],
+    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Alabama's food is SNAP food 'regardless of where or by what means food is sold' (Act 2023-554), and SNAP excludes only hot food ready to eat, so cold prepared food sold to go takes the food rate. ALDOR has published no guidance on prepared or restaurant food under the reduced rate; this rule reads the statute and the federal definition."
+  },
+  {
+    "tax": "AL",
+    "code": "food.uncooked",
+    "from": "2026-05-01",
+    "to": "2026-06-30",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "The state tax on food, including food assembled for the buyer to cook, was suspended May 1 - June 30, 2026; local tax still applied.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food (April 17, 2026)",
+        "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
+        "quote": "In accordance with Act 2026-604, the state portion of the sales and use taxes on food shall be suspended for the period of May 1, 2026, through June 30, 2026."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "SNAP eligible food items generally include any food or food product for home consumption, except alcoholic beverages, tobacco, hot foods, or hot food products ready for immediate consumption."
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "(20) FOOD. Food as defined in 7 U.S.C. § 2011, et seq.,"
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "Assistance Program regardless of where or by what means food"
+      },
+      {
+        "title": "7 U.S.C. 2012(k), definition of food (SNAP)",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title7/html/USCODE-2023-title7-chap51-sec2012.htm",
+        "quote": "\"Food\" means (1) any food or food product for home consumption except alcoholic beverages, tobacco, hot foods or hot food products ready for immediate consumption"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Foods that are hot at the point of sale."
+      }
+    ],
+    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Alabama's food is SNAP food 'regardless of where or by what means food is sold' (Act 2023-554), and SNAP excludes only hot food ready to eat, so cold prepared food sold to go takes the food rate. ALDOR has published no guidance on prepared or restaurant food under the reduced rate; this rule reads the statute and the federal definition."
+  },
+  {
+    "tax": "AL",
+    "code": "food.uncooked",
+    "from": "2026-07-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Food assembled for the buyer to cook is SNAP-eligible food, taxed at Alabama's reduced 2% state food rate after the 2026 suspension ended; local food rates apply separately.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food (April 17, 2026)",
+        "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
+        "quote": "In accordance with Act 2026-604, the state portion of the sales and use taxes on food shall be suspended for the period of May 1, 2026, through June 30, 2026."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2025",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2025/",
+        "quote": "In accordance with Act 2025-305, the state sales and use tax rates on food will be reduced from 3 percent to 2 percent on September 1, 2025."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "SNAP eligible food items generally include any food or food product for home consumption, except alcoholic beverages, tobacco, hot foods, or hot food products ready for immediate consumption."
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "(20) FOOD. Food as defined in 7 U.S.C. § 2011, et seq.,"
+      },
+      {
+        "title": "Act 2023-554 (HB479 enrolled), Code of Ala. 1975 40-23-1(a)(20) definition of food",
+        "url": "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2023RS/HB479-enr.pdf",
+        "quote": "Assistance Program regardless of where or by what means food"
+      },
+      {
+        "title": "7 U.S.C. 2012(k), definition of food (SNAP)",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title7/html/USCODE-2023-title7-chap51-sec2012.htm",
+        "quote": "\"Food\" means (1) any food or food product for home consumption except alcoholic beverages, tobacco, hot foods or hot food products ready for immediate consumption"
+      },
+      {
+        "title": "USDA FNS, What Can SNAP Buy?",
+        "url": "https://www.fns.usda.gov/snap/eligible-food-items",
+        "quote": "Foods that are hot at the point of sale."
+      }
+    ],
+    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Alabama's food is SNAP food 'regardless of where or by what means food is sold' (Act 2023-554), and SNAP excludes only hot food ready to eat, so cold prepared food sold to go takes the food rate. ALDOR has published no guidance on prepared or restaurant food under the reduced rate; this rule reads the statute and the federal definition. 2026-07-01: the suspension ran through June 30, 2026 (Act 2026-604); the 2% rate of Act 2025-305 resumes."
+  },
+  {
+    "tax": "AL",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -2619,5 +2856,46 @@
       }
     ],
     "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+  },
+  {
+    "tax": "AL:local",
+    "code": "food.uncooked",
+    "from": "2023-09-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "City and county tax applies to food assembled for the buyer to cook at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
+    "conditions": [
+      {
+        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "The city and county sales and use tax rates on food will be equal to their general sales tax rate in effect as of June 15, 2023."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-reduced-on-food-beginning-september-1-2023/",
+        "quote": "Local governments can reduce their rate on food in 25 percent increments in any year when there is sufficient growth in their local General Fund."
+      },
+      {
+        "title": "ALDOR Notice: State Sales and Use Tax Rate on Food Remains at Three Percent (2024)",
+        "url": "https://www.revenue.alabama.gov/notice-state-sales-and-use-tax-rate-on-food-remains-at-three-percent/",
+        "quote": "Local governments can, by resolution or ordinance, reduce their sales and use tax rate on food by 25 percent if there is sufficient growth in their local general fund."
+      },
+      {
+        "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
+        "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
+        "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      }
+    ],
+    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
   }
 ]

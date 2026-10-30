@@ -903,6 +903,131 @@
   },
   {
     "tax": "NM",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "to": "2021-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Before July 1, 2021: food assembled for the buyer to cook, sold unheated at a retail food store, was deductible from gross receipts; sold by another seller, or completed at the buyer's location, it was taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated for the buyer to cook at home by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP) and the sale takes place at the store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a retail food store but the sale is completed at the buyer's location (e.g. groceries paid for on delivery)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92, annotation on the 2021 amendment (Laws 2021, ch. 65, § 26)",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "The 2021 amendment, effective July 1, 2021, provided that the existing gross receipts tax deduction for receipts from the sale of food for home consumption is available for food sold by a retail food store and not at a retail food store"
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Answer 2 (prior to July 1, 2021)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "In this case, due to the plain reading of the statute, receipts from sale of the food and the separate delivery charge are both taxable."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Retail food store is an establishment that sells food for home preparation and consumption."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. Before July 1, 2021 the statute allowed it for food sold 'at' a retail food store; Laws 2021, ch. 65, § 26 changed this to 'by'. The NM rule is in force since Laws 2004, ch. 116 (start date not researched; rule begins at the research window). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. A deli or specialty food store qualifies only if it meets the SNAP retail food store definition (staple-food variety or more than 50% staple-food sales). No New Mexico source read names take-and-bake pizza, raw kebabs or meal kits; the deduction turns only on the food not being hot (or eaten in the store) and on the seller being a retail food store, so uncooked assembled food is treated like other cold food for home consumption. A take-and-bake pizza shop or restaurant that is not a SNAP-type retail food store gets no deduction."
+  },
+  {
+    "tax": "NM",
+    "code": "food.uncooked",
+    "from": "2021-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food assembled for the buyer to cook (take-and-bake pizza, raw kebabs, a meal kit) sold unheated by a retail food store, delivered or not, is deductible from gross receipts; sold by any other seller it is taxable.",
+    "conditions": [
+      {
+        "when": "Sold unheated for the buyer to cook at home by a retail food store (a store meeting the federal SNAP retail food store definition, whether or not it accepts SNAP), including when delivered",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller is not a retail food store (restaurant, vending machine, concession, convenience store without the required staple stock)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid for with SNAP benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NMSA 1978, § 7-9-92(A), deduction for sale of food at retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "Receipts from the sale of food by a retail food store that are not exempt from gross receipts taxation and are not deductible pursuant to another provision of the Gross Receipts and Compensating Tax Act may be deducted from gross receipts."
+      },
+      {
+        "title": "NMSA 1978, § 7-9-92(B)(2), definition of retail food store",
+        "url": "https://nmonesource.com/nmos/nmsa/en/4340/1/document.do",
+        "quote": "\"retail food store\" means an establishment that sells food for home preparation and consumption and that meets the definition of retail food store in 7 USCA 2012(o)(1) for purposes of the federal supplemental nutrition assistance program, whether or not the establishment participates in the supplemental nutrition assistance program."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Delivered groceries",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Starting July 1, 2021, the law allows for this deduction to be claimed by the retail food store even if the groceries are delivered."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Food deduction summary",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Based on the United States government definition, the New Mexico definition of food eligible for the deduction from gross receipts includes most staple grocery food items and cold, prepared foods packaged for home consumption."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Exceptions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Any food purchased at establishments that do not meet the definition of retail food store."
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Eligible Food is (1) any food or food product intended for human consumption except alcoholic beverages, tobacco, hot foods, and hot food products prepared for immediate consumption"
+      },
+      {
+        "title": "NM TRD FYI-201, Gross Receipts Tax and Certain Foods (Rev. 7/2023), Definitions",
+        "url": "https://realfile.tax.newmexico.gov/FYI-201.pdf",
+        "quote": "Retail food store is an establishment that sells food for home preparation and consumption."
+      }
+    ],
+    "notes": "The deduction is technically a deduction from gross receipts, recorded here as exempt. New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts. A deli or specialty food store qualifies only if it meets the SNAP retail food store definition (staple-food variety or more than 50% staple-food sales). No New Mexico source read names take-and-bake pizza, raw kebabs or meal kits; the deduction turns only on the food not being hot (or eaten in the store) and on the seller being a retail food store, so uncooked assembled food is treated like other cold food for home consumption. A take-and-bake pizza shop or restaurant that is not a SNAP-type retail food store gets no deduction."
+  },
+  {
+    "tax": "NM",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

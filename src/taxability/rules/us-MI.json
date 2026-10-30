@@ -738,6 +738,62 @@
   },
   {
     "tax": "MI",
+    "code": "food.uncooked",
+    "from": "2014-03-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Michigan, food the seller assembled for the buyer to cook is exempt if it contains raw egg, fish, meat or poultry that needs cooking, and taxable as prepared food otherwise (e.g. a cheese take-and-bake pizza).",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook to prevent foodborne illness (seasoned raw patties, kebabs, a take-and-bake pizza whose dough contains raw egg)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more ingredients combined by the seller with no raw animal food requiring cooking (a take-and-bake pizza of dough, sauce and cheese or cured meats; a kit of non-raw ingredients combined as one item)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "MCL 205.54g(3)(g)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "(ii) Raw eggs, fish, meat, poultry, and foods containing those raw items requiring cooking by the consumer"
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
+        "title": "RAB 2026-2, Food for Human Consumption (approved January 29, 2026), Example 8",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "A grocery store makes and sells uncooked pizza for a purchaser to bake and eat at home."
+      },
+      {
+        "title": "RAB 2026-2, Example 8",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The pizza is “two or more food ingredients mixed or combined by the seller for sale as a single item”; therefore, the pizza is subject to tax as “prepared food.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 47",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "A grocery store prepares and sells uncooked hamburger patties from a mixture of raw ground beef and seasoning. The patties are not subject to tax as “prepared food.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 48",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The pizza’s dough contains raw egg. The pizza is not subject to tax as “prepared food.”"
+      },
+      {
+        "title": "RAB 2022-4, Food for Human Consumption (approved March 31, 2022)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2022-revenue-administrative-bulletins/revenue-administrative-bulletin-2022-4",
+        "quote": "raw eggs, fish, meat, poultry, and foods containing those raw items requiring cooking by the consumer"
+      }
+    ],
+    "notes": "RAB 2026-2 Examples 8 and 48 apply the statute to uncooked pizza both ways; RAB 2022-4 states the same raw-food exclusion. 2014-03-14 follows the MI food rules (definitions as amended by 2013 PA 211/2015 PA 171); the RAB examples are from 2026. A meal kit whose ingredients are packaged separately rather than combined as one item is not addressed. Michigan has no local sales tax."
+  },
+  {
+    "tax": "MI",
     "code": "goods.general",
     "from": "2004-09-01",
     "fromIs": "earliest_verified",

@@ -971,5 +971,42 @@
       }
     ],
     "notes": "Added 2026-10-30 after held-out case ho-oh-01 showed the inherited construction.real_property rule was wrong for this code; the cited page is that case's source, so ho-oh-01 no longer counts as held out."
+  },
+  {
+    "tax": "OH",
+    "code": "food.uncooked",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook at home (take-and-bake pizza, kebabs, meal kits) is food sold for consumption off the premises and is exempt from Ohio sales tax.",
+    "conditions": [
+      {
+        "when": "The food is consumed on the seller's premises (including seating, food-court or parking areas the seller uses)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "R.C. 5739.02(B)(2) (version effective September 29, 2017)",
+        "url": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/57/5739/5739.02/9-29-2017/5739.02-9-29-2017.pdf",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "R.C. 5739.02(B)(2) (current version)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "Sales of food for human consumption off the premises where sold"
+      },
+      {
+        "title": "Information Release ST 2012-01, Restaurants and Other Food Vendors (revised August 2014), Q&A A",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "All food sold for consumption on the premises of your restaurant is taxable. Food sold to be consumed off the premises is not taxable."
+      },
+      {
+        "title": "Information Release ST 2012-01 (revised August 2014), Q&A H",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/communications/information_releases/RestInfoRelease8-14.pdf",
+        "quote": "The taxability of food is determined by whether or not the customer chooses to consume the food on the premises or take it with them off the premises."
+      }
+    ],
+    "notes": "Ohio does not classify food as prepared or not: groceries and prepared food alike are exempt when sold for consumption off the premises (R.C. 5739.02(B)(2); Ohio Const. art. XII, sec. 3) and taxable when consumed on the premises, so uncooked assembled food is settled without classifying it. No Ohio source names take-and-bake pizza or meal kits specifically."
   }
 ]

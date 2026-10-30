@@ -459,6 +459,62 @@
   },
   {
     "tax": "RI",
+    "code": "food.uncooked",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a seller assembled for the buyer to cook is exempt in Rhode Island when it contains raw eggs, fish, meat or poultry requiring cooking; otherwise it is taxable prepared food, 8% where the seller is an eating establishment or a deli area selling platters and sandwiches.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry requiring cooking by the consumer (e.g. kebabs, stuffed or marinated raw meat, a pizza topped with raw sausage), sold without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller with no raw animal food requiring cooking (e.g. a cheese or vegetable take-and-bake pizza, a meal kit of combined non-raw ingredients), sold by a store that has eating facilities or a deli area (or by that area), or by a restaurant",
+        "treatment": "special_rate",
+        "rate": 0.08
+      },
+      {
+        "when": "Combined by the seller with no raw animal food requiring cooking, sold by a food store without eating facilities or a deli area",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Food items that are a result of the combination of two or more food ingredients by the seller to make single items except:"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "eggs, fish, meat, poultry, and foods containing these raw animal foods requiring cooking by the consumer as recommended by the U.S. Food and Drug Administration"
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "The term caterer also includes a delicatessen store or deli area within a food store that sells prepared food as part of a party platter, deli tray, sandwiches etc."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      },
+      {
+        "title": "280-RICR-20-70-4, Meals and Beverages (current version effective 01/04/2022)",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "A convenience or food store sells prepared food but does not provide facilities for immediate consumption (tables, chairs or counters); the store is not an “eating and/or drinking establishment; therefore, the one percent (1%) local meals and beverage tax does not apply."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-30(9)",
+        "url": "http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.htm",
+        "quote": "From the sale and storage, use, or other consumption in this state of food and food ingredients"
+      }
+    ],
+    "notes": "No Rhode Island source read names take-and-bake pizza or meal kits; the rule applies the Streamlined prepared-food definition in 280-RICR-20-70-4. The 8% condition is the 7% sales tax plus the statewide 1% local meals and beverage tax, which applies only when an eating and/or drinking establishment sells a meal (a rate of its own, HIGHER than 7%); the seller's kind is not carried by the code. Earliest date: the current version of 280-RICR-20-70-4 (effective 01/04/2022); earlier versions not read."
+  },
+  {
+    "tax": "RI",
     "code": "goods.general",
     "from": "2022-01-04",
     "fromIs": "earliest_verified",

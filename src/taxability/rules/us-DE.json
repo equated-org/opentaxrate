@@ -155,6 +155,28 @@
   },
   {
     "tax": "DE",
+    "code": "food.uncooked",
+    "from": "2018-01-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food a seller assembled for the buyer to cook bears no sales tax: Delaware has no state or local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Gross Receipts Taxes, as archived 2018-01-02",
+        "url": "https://web.archive.org/web/20180102035645/https://revenue.delaware.gov/services/Business_Tax/Step4.shtml",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Doing Business in Delaware, Step 4: Learn About Gross Receipts Taxes",
+        "url": "https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here."
+  },
+  {
+    "tax": "DE",
     "code": "goods.general",
     "from": "2018-01-02",
     "fromIs": "earliest_verified",

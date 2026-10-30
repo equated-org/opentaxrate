@@ -1158,5 +1158,69 @@
       }
     ],
     "notes": "As the parent delivery rule."
+  },
+  {
+    "tax": "WA",
+    "code": "food.uncooked",
+    "from": "2004-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food a seller assembles for the buyer to cook is prepared food taxed in Washington when it combines two or more ingredients (a take-and-bake pizza), but stays exempt food when it contains raw meat, fish, poultry or eggs that need cooking for safety (raw kebabs, stuffed raw meat).",
+    "conditions": [
+      {
+        "when": "Two or more ingredients combined by the seller, none of them raw eggs, fish, meat or poultry that must be cooked to prevent foodborne illness (e.g. an unbaked cheese, vegetable or cured-meat pizza; a meal kit of non-raw ingredients)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contains raw eggs, fish, meat or poultry requiring cooking by the consumer as the FDA Food Code recommends (raw kebabs, marinated or stuffed raw meat, a pizza topped with raw sausage), sold without eating utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Only cut, repackaged or pasteurized by the seller, or sold unheated by weight or volume as a single item, without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RCW 82.08.0293(2)(c)(i)(C)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, except:"
+      },
+      {
+        "title": "RCW 82.08.0293(2)(c)(i)(C)(II)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "raw eggs, fish, meat, poultry, and foods containing these raw animal foods requiring cooking by the consumer as recommended by the federal food and drug administration"
+      },
+      {
+        "title": "WAC 458-20-244(5)(b)(iii)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "items that contain eggs, fish, meat, or poultry, in a raw or undercooked state requiring cooking as recommended by the federal food and drug administration"
+      },
+      {
+        "title": "WAC 458-20-244(5)(d)(iii), Example 3 (ready-to-bake pizza)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "If the unheated ready-to-bake pizzas are prepared by the seller, they are \"prepared food\" because the seller has mixed or combined two or more food ingredients."
+      },
+      {
+        "title": "WAC 458-20-244(5)(d)(iii), Example 3 (ready-to-bake pizza)",
+        "url": "https://app.leg.wa.gov/WAC/default.aspx?cite=458-20-244",
+        "quote": "This is true even though some ingredients in the unheated pizzas are raw or uncooked, because those ingredients do not require cooking to prevent foodborne illness."
+      },
+      {
+        "title": "RCW 82.08.0293(2)",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.0293",
+        "quote": "The exemption of \"food and food ingredients\" provided for in subsection (1) of this section does not apply to prepared food, soft drinks, bottled water, or dietary supplements."
+      },
+      {
+        "title": "RCW 82.08.010, note: Effective dates—2003 c 168",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=82.08.010",
+        "quote": "Sections 101 through 104, 201 through 216, 401 through 412, 501, 502, 601 through 604, 701 through 704, 801, 901, and 902 of this act take effect July 1, 2004. Sections 301 through 305 of this act take effect January 1, 2004."
+      }
+    ],
+    "notes": "From 2004-01-01, as WA's food.grocery and food.prepared rules: the SSUTA 'prepared food' definition with its raw-animal-food exception took effect then (2003 c 168 s 301). The ready-to-bake pizza example is in today's WAC 458-20-244 (effective 2024-02-16); whether the earlier WAC text carried it is unverified, but the outcome follows from the statute's definition. The WAC example adds that a ready-to-bake pizza made by a manufacturer other than the seller is prepared food only if sold with utensils (outside this code). Whether a pizza with some raw-meat toppings counts as 'containing' raw animal food is read from the statute's words 'foods containing these raw animal foods'; the WAC example's pizza had no ingredient requiring cooking. Local sales taxes share the state base (RCW 82.14.030). Sellers over 75% prepared food that make utensils available may be deemed to sell with utensils (RCW 82.08.0293), not modeled separately."
   }
 ]

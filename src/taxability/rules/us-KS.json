@@ -1036,6 +1036,194 @@
   },
   {
     "tax": "KS",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "to": "2022-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Before 2023 all food in Kansas, prepared or not, including food the seller assembled for the buyer to cook, was taxable at the full state rate plus local tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(a) The gross receipts received from the sale of tangible personal property at retail within this state;"
+      },
+      {
+        "title": "K.S.A. 79-3603 as in force January 2019 (L. 2015 text; Wayback snapshot 2019-01-06)",
+        "url": "https://web.archive.org/web/20190106114315id_/http://www.ksrevisor.org/statutes/chapters/ch79/079_036_0003.html",
+        "quote": "(d) the gross receipts from the sale of meals or drinks furnished at any private club, drinking establishment, catered event, restaurant, eating house, dining car, hotel, drugstore or other place where meals or drinks are regularly sold to the public;"
+      }
+    ],
+    "notes": "Kansas taxed groceries and prepared food alike before the 2023 food rate cut, so uncooked assembled food is settled without classifying it."
+  },
+  {
+    "tax": "KS",
+    "code": "food.uncooked",
+    "from": "2023-01-01",
+    "to": "2023-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, raw meat items, meal kits) was taxed at the reduced Kansas state food rate of 4% in 2023 unless sold with eating utensils; local sales taxes applied in full.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(1) Commencing on January 1, 2023, at the rate of 4%;"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "In accordance with 2022 House Bill 2106, starting January 1, 2023, the state sales and use tax rate on food and food ingredients, and certain prepared food, will be reduced from 6.5% to 4.0%."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "K.S.A. 79-3603d(b)(4) (L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(4) food sold that ordinarily requires additional cooking, as opposed to just reheating, by the consumer prior to consumption."
+      },
+      {
+        "title": "K.S.A. 79-3603d(b)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "The provisions of this section shall not apply to prepared food unless sold without eating utensils provided by the seller"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If eating utensils are not provided by the specialty store, the take-and-bake pizza is taxed at the reduced state sales tax rate because it requires cooking."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23), meal kits",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "These meal kits are taxed at the reduced rate as food and food ingredients."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d(b) applies the food rate to prepared food that ordinarily requires additional cooking (as opposed to reheating) when sold without utensils; raw animal foods requiring cooking are not prepared food at all (Pub. KS-1223). Pub. KS-1223 names take-and-bake pizza and meal kits. A prepackaged meal the buyer only reheats is taxed at the full rate."
+  },
+  {
+    "tax": "KS",
+    "code": "food.uncooked",
+    "from": "2024-01-01",
+    "to": "2024-12-31",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.02,
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, raw meat items, meal kits) was taxed at the reduced Kansas state food rate of 2% in 2024 unless sold with eating utensils; local sales taxes applied in full.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(2) commencing on January 1, 2024, at the rate of 2%; and"
+      },
+      {
+        "title": "KDOR Notice 23-12, Food Sales Tax Rate Reduction (Oct. 24, 2023)",
+        "url": "https://ksrevenue.gov/taxnotices/notice23-12.pdf",
+        "quote": "Retailers making sales of food and food ingredients should note the state sales tax rate reduction from 4% to 2% that starts January 1, 2024"
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "K.S.A. 79-3603d(b)(4) (L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(4) food sold that ordinarily requires additional cooking, as opposed to just reheating, by the consumer prior to consumption."
+      },
+      {
+        "title": "K.S.A. 79-3603d(b)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "The provisions of this section shall not apply to prepared food unless sold without eating utensils provided by the seller"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If eating utensils are not provided by the specialty store, the take-and-bake pizza is taxed at the reduced state sales tax rate because it requires cooking."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23), meal kits",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "These meal kits are taxed at the reduced rate as food and food ingredients."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d(b) applies the food rate to prepared food that ordinarily requires additional cooking (as opposed to reheating) when sold without utensils; raw animal foods requiring cooking are not prepared food at all (Pub. KS-1223). Pub. KS-1223 names take-and-bake pizza and meal kits. A prepackaged meal the buyer only reheats is taxed at the full rate."
+  },
+  {
+    "tax": "KS",
+    "code": "food.uncooked",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, raw meat items, meal kits) is taxed at the 0% Kansas state food rate from 2025 unless sold with eating utensils; city and county sales taxes still apply.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "K.S.A. 79-3603d (food and food ingredients rate; L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(3) commencing on January 1, 2025, and thereafter, at the rate of 0%."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Retailers should make sure to adjust their point-of-sale systems and software to reflect the new state rate of 0.0% that is effective January 1, 2025."
+      },
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "K.S.A. 79-3603d(b)(4) (L. 2022, ch. 89, sec. 1)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "(4) food sold that ordinarily requires additional cooking, as opposed to just reheating, by the consumer prior to consumption."
+      },
+      {
+        "title": "K.S.A. 79-3603d(b)",
+        "url": "https://www.ksrevisor.gov/statutes/chapters/ch79/079_036_0003d.html",
+        "quote": "The provisions of this section shall not apply to prepared food unless sold without eating utensils provided by the seller"
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "If eating utensils are not provided by the specialty store, the take-and-bake pizza is taxed at the reduced state sales tax rate because it requires cooking."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23), meal kits",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "These meal kits are taxed at the reduced rate as food and food ingredients."
+      }
+    ],
+    "notes": "K.S.A. 79-3603d(b) applies the food rate to prepared food that ordinarily requires additional cooking (as opposed to reheating) when sold without utensils; raw animal foods requiring cooking are not prepared food at all (Pub. KS-1223). A prepackaged meal the buyer only reheats is taxed at the full rate."
+  },
+  {
+    "tax": "KS",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -1522,5 +1710,26 @@
       }
     ],
     "notes": "K.S.A. 79-3603d sets only the state rate; KDOR says city and county sales taxes on food are unaffected. Whether a particular city or county levy exempts food is not researched here; KDOR states generally that they remain."
+  },
+  {
+    "tax": "KS:local",
+    "code": "food.uncooked",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Food the seller assembled for the buyer to cook remains subject to Kansas city and county sales taxes at their full rates; only the state rate on food was cut.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "KDOR Notice 24-21, Kansas Food Sales Tax Rate Reduction (Dec. 9, 2024)",
+        "url": "https://ksrevenue.gov/taxnotices/notice24-21.pdf",
+        "quote": "Sales of food and food ingredients remain subject to sales taxes imposed by cities and counties."
+      },
+      {
+        "title": "KDOR Pub. KS-1223, Food Sales Tax Rate Reduction (Rev. 1-23)",
+        "url": "https://www.ksrevenue.gov/pdf/pub1223.pdf",
+        "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
+      }
+    ]
   }
 ]

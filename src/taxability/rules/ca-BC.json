@@ -345,6 +345,28 @@
   },
   {
     "tax": "BC:PST",
+    "code": "food.uncooked",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food for human consumption, whether basic groceries or prepared food, is exempt from B.C. PST, so food assembled for the buyer to cook is exempt too.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Small Business Guide to PST (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/small-business-guide",
+        "quote": "Food for human consumption, including basic groceries, prepared foods, such as restaurant meals, candies, confections and some non-alcoholic beverages (soda beverages are subject to PST"
+      },
+      {
+        "title": "Food and beverage service providers and retail liquor sellers (gov.bc.ca)",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "Sales of food for human consumption are exempt from PST, including: Meals"
+      }
+    ],
+    "notes": "No B.C. page names uncooked or take-and-bake food; settled because groceries and prepared food are both exempt. Pages are 2026 versions; continuity since 2013-04-01 not verified against 2013 text, as for BC's food.grocery and food.prepared rules."
+  },
+  {
+    "tax": "BC:PST",
     "code": "goods.general",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",

@@ -865,6 +865,38 @@
   },
   {
     "tax": "CA:GST/HST",
+    "code": "food.uncooked",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "zero_rated",
+    "summary": "Food the seller assembled for the buyer to cook, such as an uncooked pizza, is zero-rated as basic groceries, even from a restaurant, because it is not sold in a form suitable for immediate consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 118, Example 3 (frozen pizzas)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "The pizzas require a significant amount of additional preparation (they must be cooked) before they can be eaten"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 118, Example 3 (frozen pizzas)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "These frozen pizzas are not considered \"other arrangements of prepared food\" for the purpose paragraph 1(o.3) and are zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, catering, Example 1 (uncooked pizza made to order by a grocery store)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "The preparation and delivery of an uncooked pizza is not considered to be catering and is therefore zero-rated."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1(q)(i)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "the food or beverage is sold in a form not suitable for immediate consumption, having regard to the nature of the product, the quantity sold or its packaging"
+      }
+    ],
+    "notes": "CRA's examples are uncooked pizzas (a frozen one at retail and one made to order by a grocery store); the same reasoning (must be cooked before eating) is applied here to kebabs, stuffed or marinated raw meat and meal kits, for which no CRA text was found. Memorandum 4.3 adds that a butcher's cutting or marinating of beef to order is not by itself catering. At a restaurant-type establishment (s. 1(q)) the not-suitable-for-immediate-consumption exception keeps it zero-rated; food sold under a catering contract (s. 1(o.5)) is taxable but that is food.catering. The December 14, 2024 to February 15, 2025 GST/HST break changed nothing for this code (already zero-rated). Memorandum 4.3 dates from January 2007 and is still published."
+  },
+  {
+    "tax": "CA:GST/HST",
     "code": "goods.general",
     "from": "2013-04-01",
     "to": "2024-12-13",

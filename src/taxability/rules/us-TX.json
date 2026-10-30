@@ -575,6 +575,43 @@
   },
   {
     "tax": "TX",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food the buyer must cook before it is edible, including raw meat or fish items the seller assembled, is exempt in Texas as a food product.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tex. Tax Code §151.314(c-3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The exemption provided by Subsection (a) includes:"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-3)(3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "eggs, fish, meat, and poultry, and foods containing these raw animal foods, that require cooking by the consumer"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(c-3)(3)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "and any other food that requires cooking by the consumer before the food is edible"
+      },
+      {
+        "title": "Tex. Tax Code §151.314(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Food products for human consumption are exempted from the taxes imposed by this chapter."
+      },
+      {
+        "title": "Tex. Tax Code §151.314, amendment history",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "Acts 2017, 85th Leg., R.S., Ch. 379 (H.B. 4054 ), Sec. 1, eff. September 1, 2017."
+      }
+    ],
+    "notes": "§151.314(c-3)(3) keeps in the food exemption both raw animal foods the consumer must cook and any other food that requires cooking before it is edible, which covers a take-and-bake pizza or meal kit even though the seller combined ingredients ((c-2)(3)). The section was last amended effective 2017-09-01; 2018-01-01 is the earliest date taken, as for food.grocery. The exemption covers state and local sales taxes alike."
+  },
+  {
+    "tax": "TX",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

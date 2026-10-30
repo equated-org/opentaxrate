@@ -244,6 +244,48 @@
   },
   {
     "tax": "SD",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, kebabs, meal kits) is taxed in South Dakota at the full state rate plus municipal sales tax, like all food; only SNAP and WIC purchases are exempt.",
+    "conditions": [
+      {
+        "when": "Paid with SNAP (food stamp) benefits or WIC vouchers",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SDCL 10-45-2",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-2.html",
+        "quote": "upon the gross receipts of all sales of tangible personal property consisting of goods, wares, or merchandise, except as otherwise provided in this chapter"
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026), Exemptions",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "Food Stamp Purchases - All food stamp purchases (SNAP) are not subject to sales tax."
+      },
+      {
+        "title": "SD DOR, Sales and Use Tax Guide (July 2026)",
+        "url": "https://dor.sd.gov/media/avyep2sr/2026-7_sales-use-tax-guide.pdf",
+        "quote": "The sales tax applies to the gross receipts of all retail sales, including the sale, lease, or rental of personal property or any product transferred electronically, and the sale of services."
+      },
+      {
+        "title": "SDCL 10-45-1(5)",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-1.html",
+        "quote": "(5) \"Food\" and \"food ingredient,\" any substance"
+      },
+      {
+        "title": "SD DOR Tax Fact: Bars and Restaurants (July 2026)",
+        "url": "https://dor.sd.gov/media/x5wn31vv/bars-and-restaurants.pdf",
+        "quote": "Examples of taxable sales are sales of liquor, cigarettes, food, and cover charges."
+      }
+    ],
+    "notes": "South Dakota taxes groceries and prepared food alike (state and municipal sales tax), so uncooked assembled food is settled without classifying it. The municipal gross receipts tax (MGRT, up to 1%) on prepared food for immediate consumption is separate and not modeled; the DOR's Prepared Food tax fact (January 2026) lists take-and-bake pizza and food requiring cooking by the consumer among items not subject to MGRT. The 2023-07-01 state rate cut is a rate change, not modeled."
+  },
+  {
+    "tax": "SD",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

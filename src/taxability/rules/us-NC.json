@@ -347,6 +347,42 @@
   },
   {
     "tax": "NC",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a North Carolina retailer assembles for the buyer to cook is prepared food (taxable) unless it contains raw eggs, fish, meat or poultry the buyer must cook, which stays qualifying food, exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook (seasoned, marinated or stuffed raw meat or fish, raw kebabs, a pizza topped with raw meat)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "food containing raw eggs, fish, meat, or poultry that requires cooking by the consumer as recommended by the Food and Drug Administration in chapter 3, part 401.11 of its Food Code so as to prevent foodborne illnesses."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "It consists of two or more foods mixed or combined by the retailer for sale as a single item."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-164.13B (food exempt from tax)",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.13B.html",
+        "quote": "Prepared food, other than bakery items sold without eating utensils by an artisan bakery."
+      }
+    ],
+    "notes": "North Carolina's prepared-food definition excludes from the 'mixed or combined' test food containing raw eggs, fish, meat or poultry that the consumer must cook; no NCDOR guidance naming take-and-bake pizza or meal kits was found, so the code turns on whether the item contains raw animal food. The NCDOR food page is undated; 2018-01-01 is the earliest date taken as verified, as for the food.grocery and food.prepared.cold rules."
+  },
+  {
+    "tax": "NC",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -541,5 +577,46 @@
       }
     ],
     "notes": "North Carolina taxes qualifying food at a 2.00% local rate only: the county's general local sales taxes (Articles 39, 40 and 42) apply to it and the transit and other local taxes (e.g. Articles 43 and 46) don't. A reduced rule's rate replaces each local part's rate, so the 2% is given to the part carrying the county's general local tax and the transit or additional parts are exempt; a single rate on every local part would double-count it where a transit tax applies."
+  },
+  {
+    "tax": "NC:local",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local tax: full local and transit rates when the assembled item is prepared food; the 2% local food rate when it contains raw animal food the buyer must cook.",
+    "conditions": [
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients): every local part",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contains raw eggs, fish, meat or poultry the buyer must cook (qualifying food): the local part carrying the county's general local sales tax (Articles 39, 40 and 42, with any Article 46 tax in the same part)",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "Contains raw eggs, fish, meat or poultry the buyer must cook (qualifying food): a transit tax (Article 43) or other additional local part",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "food containing raw eggs, fish, meat, or poultry that requires cooking by the consumer as recommended by the Food and Drug Administration in chapter 3, part 401.11 of its Food Code so as to prevent foodborne illnesses."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "A 2.00% local rate of sales and use tax applies to the sales price qualifying food."
+      },
+      {
+        "title": "NCDOR, Food, Non-Qualifying Food, and Prepaid Meal Plans",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/food-non-qualifying-food-and-prepaid-meal-plans",
+        "quote": "The state, transit, and other local rates of tax do not apply to qualifying food."
+      }
+    ],
+    "notes": "Mirrors the NC:local food.grocery and food.prepared.cold rules: qualifying food bears only the 2.00% local rate, given to the part carrying the county's general local tax. North Carolina's prepared-food definition excludes from the 'mixed or combined' test food containing raw eggs, fish, meat or poultry that the consumer must cook; no NCDOR guidance naming take-and-bake pizza or meal kits was found, so the code turns on whether the item contains raw animal food. The NCDOR food page is undated; 2018-01-01 is the earliest date taken as verified, as for the food.grocery and food.prepared.cold rules."
   }
 ]

@@ -585,6 +585,48 @@
   },
   {
     "tax": "IN",
+    "code": "food.uncooked",
+    "from": "2016-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, seasoned or breaded raw meat or fish) is not prepared food in Indiana and is exempt from sales tax unless sold with eating utensils.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils handed to the customer by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "(4) The item ordinarily requires additional cooking (e.g., take and bake pizza)."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025)",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "(3) The item sold contains raw animal foods that require cooking (e.g. breaded or seasoned raw fish or meat); or"
+      },
+      {
+        "title": "Indiana DOR Information Bulletin #29, Sales Tax (April 2016), archived",
+        "url": "https://web.archive.org/web/20160501020704/http://in.gov/dor/reference/files/sib29.pdf",
+        "quote": "(d) the item ordinarily requires additional cooking (e.g., take and bake pizza)."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "Sales of food and food ingredients for human consumption are exempt from the state gross retail tax."
+      },
+      {
+        "title": "Indiana Code 2026, Title 6",
+        "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
+        "quote": "food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws"
+      }
+    ],
+    "notes": "Indiana DOR Information Bulletin #29 (April 2016 and September 2025) lists, among mixed or combined items that are not taxable, items with raw animal foods requiring cooking and any item that 'ordinarily requires additional cooking (e.g., take and bake pizza)'. The statutory definition (IC 6-2.5-1-20 as printed in Title 6) excludes only the raw-animal-food items from 'two or more food ingredients mixed or combined by the seller'; it has no express 'requires additional cooking' exclusion, so a non-raw take-and-bake pizza rests on the DOR's bulletin rather than the statute's text. The grocery rule's restaurant (75%) 'utensils made available' test excludes food that ordinarily requires cooking by the consumer, so only utensils actually provided make it taxable."
+  },
+  {
+    "tax": "IN",
     "code": "goods.general",
     "from": "2017-07-01",
     "fromIs": "earliest_verified",

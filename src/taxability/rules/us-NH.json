@@ -208,6 +208,28 @@
   },
   {
     "tax": "NH",
+    "code": "food.uncooked",
+    "from": "2021-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "New Hampshire has no sales tax, and food a seller assembled for the buyer to cook is not a 'meal' under its Meals and Rooms Tax, which reaches only food available for immediate consumption without further significant preparation.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "RSA 78-A:3, Definitions (VIII, \"Meal\")",
+        "url": "https://gc.nh.gov/rsa/html/V/78-A/78-A-3.htm",
+        "quote": "provided by a restaurant in such form as to be available for immediate consumption without further significant preparation"
+      },
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/faq/general-information.htm",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      }
+    ],
+    "notes": "No NH source read (RSA 78-A:3, Rev 700 as readopted 2024-10-29) names take-and-bake pizza, raw kebabs or meal kits; the rule reads baking or cooking as 'further significant preparation'. Earliest date: 2021-10-01, as for the NH food.prepared rule; the RSA text read is the current one, and earlier text was not compared. NH has no local sales taxes."
+  },
+  {
+    "tax": "NH",
     "code": "goods.general",
     "from": "2016-11-28",
     "fromIs": "earliest_verified",

@@ -200,6 +200,33 @@
   },
   {
     "tax": "MT",
+    "code": "food.uncooked",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general sales tax; no state sales tax applies to food assembled for the buyer to cook.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax"
+      },
+      {
+        "title": "Montana Department of Revenue, Sales Tax Guidance: Impacts to Montanans Shopping Online",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana Department of Revenue memorandum, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "Montana levies no general state sales tax; dates as MT's food.grocery rule. Local resort taxes (up to 3%) in designated resort areas apply to restaurant and food-service sales and 'luxuries' as each community defines them; whether they reach take-and-bake food was not checked, and MT:local is left unresearched."
+  },
+  {
+    "tax": "MT",
     "code": "goods.general",
     "from": "2016-01-15",
     "fromIs": "earliest_verified",

@@ -543,6 +543,61 @@
   },
   {
     "tax": "SK:PST",
+    "code": "food.uncooked",
+    "from": "2013-04-01",
+    "to": "2017-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before April 1, 2017 both basic groceries and prepared food were exempt from Saskatchewan PST, so food assembled for the buyer to cook was exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "Basic groceries are exempt from tax"
+      },
+      {
+        "title": "Information Bulletin PST-33, Information for Restaurants (revised May 2002; archived finance.gov.sk.ca copy, December 2016)",
+        "url": "https://web.archive.org/web/20161217080753/http://finance.gov.sk.ca/revenue/pst/bulletins/PST-33%20Restaurants.pdf",
+        "quote": "Meals and liquor are not subject to Provincial Sales Tax."
+      },
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "The PST exemption previously provided for many food and beverage items, such as snack foods and prepared meals, has been removed."
+      }
+    ],
+    "notes": "Settled because groceries and prepared meals were both exempt; no pre-2017 text naming uncooked food was read. Citations at web.archive.org are archived copies of Ministry of Finance bulletins."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "food.uncooked",
+    "from": "2017-04-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Since April 1, 2017 Saskatchewan PST applies to food on the same basis as GST, and food such as pizza that is fully prepared but sold uncooked stays exempt as basic groceries.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-2, Grocery, Convenience and Drug Stores (revised March 2025), Appendix",
+        "url": "https://publications.saskatchewan.ca/api/v1/products/23469/formats/30220/download",
+        "quote": "Food, such as pizza, that is fully prepared but sold uncooked."
+      },
+      {
+        "title": "Information Bulletin PST-2, Grocery, Convenience and Drug Stores (revised March 2025), Appendix",
+        "url": "https://publications.saskatchewan.ca/api/v1/products/23469/formats/30220/download",
+        "quote": "therefore when tax applies for GST purposes, PST also applies."
+      },
+      {
+        "title": "Information Notice IN 2017-03, PST - Restaurant Meals, Food and Beverages (issued March 22, 2017; archived finance.gov.sk.ca copy)",
+        "url": "https://web.archive.org/web/20170715050238/http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf",
+        "quote": "Effective April 1, 2017, restaurant meals and other food and beverage items are subject to Provincial Sales Tax (PST) on the same basis as the Goods and Services Tax (GST)."
+      }
+    ],
+    "notes": "PST-2 (March 2025) lists the uncooked pizza under 'Tax exempt food and beverages: Basic groceries'; its wording before 2025 was not read, but IN 2017-03 ties PST on food to GST from 2017-04-01 and GST zero-rates uncooked pizza (Memorandum 4.3). Kebabs, marinated raw meat and meal kits are not named; treated alike as food sold uncooked. Whether a restaurant's uncooked pizza is exempt is not stated by Saskatchewan, but follows GST's s. 1(q)(i) exception on the same-basis rule. The GST/HST break (Dec 14, 2024 to Feb 15, 2025) did not change this code."
+  },
+  {
+    "tax": "SK:PST",
     "code": "goods.general",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",

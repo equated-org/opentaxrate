@@ -663,6 +663,173 @@
   },
   {
     "tax": "AR",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "to": "2018-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food an Arkansas seller assembles for the buyer to cook is prepared food taxed in full unless it contains raw eggs, fish, meat or poultry the buyer must cook, which is food at the reduced 1.5% state rate.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook (seasoned, marinated or stuffed raw meat or fish, raw kebabs, a pizza topped with raw meat): food at the reduced 1.5% state rate",
+        "treatment": "special_rate",
+        "rate": 0.015
+      },
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "food containing raw animal products which require cooking by the consumer as recommended by the U.S. Food and Drug Administration."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "take and bake pizza, candy, and mixed fruit are prepared food and taxable at the full state sales and use tax rate if the item is made by the seller."
+      },
+      {
+        "title": "26 CAR §31-104(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "that contains raw eggs, fish, meat, or poultry products that require cooking after the sale to prevent food-borne illnesses; and"
+      },
+      {
+        "title": "26 CAR §31-104(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "The seasoned meat is food and taxed at the reduced state sales and use tax rate."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Beginning July 1, 2011, the state sales and use tax rate on food and food ingredients will be reduced to 1.5%."
+      }
+    ],
+    "notes": "26 CAR §31-103(c) names take-and-bake pizza made by the seller as prepared food, while §31-104(b) and the DFA guide exclude food containing raw eggs, fish, meat or poultry the customer must cook (e.g. seasoned raw meat), so a take-and-bake item turns on its ingredients. The food branch is the state part; city and county taxes apply in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.uncooked",
+    "from": "2019-01-01",
+    "to": "2025-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food an Arkansas seller assembles for the buyer to cook is prepared food taxed in full unless it contains raw eggs, fish, meat or poultry the buyer must cook, which is food at the reduced 0.125% state rate.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook (seasoned, marinated or stuffed raw meat or fish, raw kebabs, a pizza topped with raw meat): food at the reduced 0.125% state rate",
+        "treatment": "special_rate",
+        "rate": 0.00125
+      },
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "food containing raw animal products which require cooking by the consumer as recommended by the U.S. Food and Drug Administration."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "take and bake pizza, candy, and mixed fruit are prepared food and taxable at the full state sales and use tax rate if the item is made by the seller."
+      },
+      {
+        "title": "26 CAR §31-104(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "that contains raw eggs, fish, meat, or poultry products that require cooking after the sale to prevent food-borne illnesses; and"
+      },
+      {
+        "title": "26 CAR §31-104(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "The seasoned meat is food and taxed at the reduced state sales and use tax rate."
+      },
+      {
+        "title": "DFA Revenue quarterly newsletter, 2019 no. 1",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/quarterly2019-1.pdf",
+        "quote": "The State Tax Rate on food and food ingredients is reduced from 1.5% to 0.125%."
+      },
+      {
+        "title": "DFA Revenue quarterly newsletter, 2019 no. 1",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/quarterly2019-1.pdf",
+        "quote": "Effective January 1, 2019"
+      }
+    ],
+    "notes": "26 CAR §31-103(c) names take-and-bake pizza made by the seller as prepared food, while §31-104(b) and the DFA guide exclude food containing raw eggs, fish, meat or poultry the customer must cook (e.g. seasoned raw meat), so a take-and-bake item turns on its ingredients. The food branch is the state part; city and county taxes apply in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
+    "code": "food.uncooked",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food an Arkansas seller assembles for the buyer to cook is prepared food taxed in full unless it contains raw eggs, fish, meat or poultry the buyer must cook, which is food, exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook (seasoned, marinated or stuffed raw meat or fish, raw kebabs, a pizza topped with raw meat): food, exempt from state tax",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "food containing raw animal products which require cooking by the consumer as recommended by the U.S. Food and Drug Administration."
+      },
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "The information contained in this guide is based on the Arkansas Code and Rules in effect on January 1, 2018."
+      },
+      {
+        "title": "26 CAR §31-103(c)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37616",
+        "quote": "take and bake pizza, candy, and mixed fruit are prepared food and taxable at the full state sales and use tax rate if the item is made by the seller."
+      },
+      {
+        "title": "26 CAR §31-104(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "that contains raw eggs, fish, meat, or poultry products that require cooking after the sale to prevent food-borne illnesses; and"
+      },
+      {
+        "title": "26 CAR §31-104(b)",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?levelType=section&titleID=26&chapterID=33&subChapterID=241&partID=950&subPartID=5765&sectionID=37617",
+        "quote": "The seasoned meat is food and taxed at the reduced state sales and use tax rate."
+      },
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §15",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "Sections 1-14 of this act are effective on and after January 1, 2026."
+      },
+      {
+        "title": "DFA, State Sales & Use Tax Rate Changes",
+        "url": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/recent-changes-in-sales-use-tax/recent-changes-in-state-taxes/",
+        "quote": "State Reduced Food Tax 0.000% Effective 01/01/2026"
+      }
+    ],
+    "notes": "26 CAR §31-103(c) names take-and-bake pizza made by the seller as prepared food, while §31-104(b) and the DFA guide exclude food containing raw eggs, fish, meat or poultry the customer must cook (e.g. seasoned raw meat), so a take-and-bake item turns on its ingredients. The food branch is the state part; city and county taxes apply in full (AR:local rule)."
+  },
+  {
+    "tax": "AR",
     "code": "goods.general",
     "from": "2013-07-01",
     "fromIs": "earliest_verified",
@@ -1015,6 +1182,28 @@
     "fromIs": "earliest_verified",
     "treatment": "taxable",
     "summary": "Arkansas city and county sales taxes apply in full to cold deli and grocery food, prepared or not.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DFA, \"Food and Food Ingredients\" State Sales & Use Tax Guide (law in effect Jan. 1, 2018)",
+        "url": "https://dfa.arkansas.gov/wp-content/uploads/Food_FoodIngAct141_2017.pdf",
+        "quote": "Local city and county sales and use taxes will continue to apply to all sales of food and food ingredients and prepared food."
+      },
+      {
+        "title": "Act 1008 of 2025 (HB 1685), §2",
+        "url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+        "quote": "sale of food and food ingredients to continue to be subject to taxes levied"
+      }
+    ],
+    "notes": "Local taxes reach food and food ingredients and prepared food alike."
+  },
+  {
+    "tax": "AR:local",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Arkansas city and county sales taxes apply in full to food assembled for the buyer to cook, prepared food or not.",
     "conditions": [],
     "citations": [
       {

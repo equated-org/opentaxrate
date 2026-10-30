@@ -391,6 +391,47 @@
   },
   {
     "tax": "PA",
+    "code": "food.uncooked",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a seller assembled for the buyer to cook is not taxable in Pennsylvania when sold by a grocery store or similar seller (meals requiring additional preparation are excluded from taxable meals); from a restaurant or other establishment selling ready-to-eat food, all food is taxable.",
+    "conditions": [
+      {
+        "when": "Sold by a grocery store, supermarket, delicatessen, butcher, convenience store or similar seller (not an establishment selling ready-to-eat food)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a caterer or an establishment selling ready-to-eat food (restaurant, pizzeria, café, snack bar and the like), in any quantity",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "Meals - not including prepackaged frozen meals or meals requiring additional preparation"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is not imposed on food and beverages sold from other than a caterer or establishment selling ready-to-eat food and beverages. However, tax is imposed upon selected food and beverage items listed as taxable below, when sold from the establishments listed above."
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "All food and beverages, in any quantity, including both food and beverages prepared on the premises and prepackaged food and beverages, unless specifically exempt"
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (official copy as archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "tax is imposed on food and beverages sold from a caterer or an establishment selling ready-to-eat food and beverages for consumption on or off the premises, on a take-out or to-go basis, or delivered to the purchaser or consumer"
+      }
+    ],
+    "notes": "REV-717 lists 'hot pizza' as taxable but does not name unbaked pizza; the store branch rests on its exclusion of 'meals requiring additional preparation' from taxable meals. Whether a pizzeria whose take-and-bake sales dominate is an 'establishment selling ready-to-eat food' was not settled by the sources read; who sells is not carried by the code. Earliest date: REV-717 as archived 2018-06-19, as for the PA food rules. Allegheny County and Philadelphia local sales taxes share the state base, so this rule covers the local parts too."
+  },
+  {
+    "tax": "PA",
     "code": "goods.general",
     "from": "2018-06-19",
     "fromIs": "earliest_verified",

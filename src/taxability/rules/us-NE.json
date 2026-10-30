@@ -587,6 +587,58 @@
   },
   {
     "tax": "NE",
+    "code": "food.uncooked",
+    "from": "2016-10-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, marinated raw meat, meal kits) is not prepared food in Nebraska and is exempt from state and local sales tax unless sold with eating utensils.",
+    "conditions": [
+      {
+        "when": "The seller hands over a plate, fork, napkin or other eating utensil, or the seller's prepared-food sales exceed 75% of its food sales and utensils are available",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Neb. Rev. Stat. 77-2704.24(2)(e)(ii)(F)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2704.24",
+        "quote": "(F) Food that ordinarily requires additional cooking to finish the product to its desired final condition"
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-2704.24 (Wayback snapshot of 2017-07-02)",
+        "url": "https://web.archive.org/web/20170702164234/http://nebraskalegislature.gov:80/laws/statutes.php?statute=77-2704.24",
+        "quote": "(F) Food that ordinarily requires additional cooking to finish the product to its desired final condition"
+      },
+      {
+        "title": "LB776 (2016), section 1",
+        "url": "https://www.nebraskalegislature.gov/FloorDocs/104/PDF/Final/LB776.pdf",
+        "quote": "Section 77-2704.24, Reissue Revised Statutes of Nebraska, is amended to read:"
+      },
+      {
+        "title": "LB776 (2016), section 7: sections 1 and 10 operative date",
+        "url": "https://www.nebraskalegislature.gov/FloorDocs/104/PDF/Final/LB776.pdf",
+        "quote": "become operative on October 1, 2016."
+      },
+      {
+        "title": "Prepared Food and Beverage Service guide (June 2023)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-432.pdf",
+        "quote": "Food that ordinarily requires additional cooking to finish the product to its desired final condition."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-2704.24(2)(e)(i)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2704.24",
+        "quote": "Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      },
+      {
+        "title": "Neb. Rev. Stat. 77-27,142(1)",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-27,142",
+        "quote": "upon the same transactions that are sourced under the provisions of sections 77-2703.01 to 77-2703.04 within such incorporated municipality on which the State of Nebraska is authorized to impose a tax pursuant to the Nebraska Revenue Act of 1967, as amended from time to time."
+      }
+    ],
+    "notes": "LB776 (2016) added exception (F), food that ordinarily requires additional cooking, to the mixed-or-combined and heated categories of prepared food, operative October 1, 2016 (sec. 7 makes sections 1 and 10 operative then; section 1 amends 77-2704.24); raw animal foods requiring cooking were already excluded. The utensils category ((e)(i)) has no such exception. Before 2016-10-01 a non-raw take-and-bake pizza would have been prepared food; not modeled. Reg-1-083 (2013) has not been updated for (F). Local sales tax follows the state base (77-27,142)."
+  },
+  {
+    "tax": "NE",
     "code": "goods.general",
     "from": "2003-10-01",
     "fromIs": "earliest_verified",

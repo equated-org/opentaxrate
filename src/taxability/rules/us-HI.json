@@ -210,6 +210,43 @@
   },
   {
     "tax": "HI",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food assembled for the buyer to cook is subject to Hawaii general excise tax, like groceries and prepared food; only food paid for with SNAP or WIC benefits is deducted.",
+    "conditions": [
+      {
+        "when": "Paid for with SNAP benefits or WIC vouchers",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "HRS § 237-13(2)(A), tax on business of selling tangible personal property",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q5",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q9 common deductions",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Food paid for by the Supplemental Nutrition Assistance Program (SNAP) or with Women, Infants, and Children (WIC) food vouchers."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the General Excise Tax (brochure, rev. May 2025), Q3",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Second, the GET is a tax on income from almost all business activities."
+      }
+    ],
+    "notes": "Hawaii's general excise tax applies to the retail sale of all tangible goods at 4% plus the county surcharge, groceries and prepared food alike, so this code needs no classification; dates as HI's food.grocery and food.prepared rules. Sales at wholesale (0.5%) are a buyer fact outside the code."
+  },
+  {
+    "tax": "HI",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

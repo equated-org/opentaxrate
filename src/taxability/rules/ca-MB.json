@@ -692,6 +692,38 @@
   },
   {
     "tax": "MB:RST",
+    "code": "food.uncooked",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food such as pizza that is sold uncooked but fully prepared is an exempt basic grocery in Manitoba, and stays exempt even from an eating establishment because it is not in a form for immediate consumption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026), Section 2 Basic Groceries",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food such as pizza that is sold uncooked but fully prepared"
+      },
+      {
+        "title": "Information Bulletin RST 029 - Food and Beverages (rev. July 2026), Sales in eating establishments",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "The food or beverage is sold in a form not suitable for immediate consumption, having regard to the nature of the product, the quantity sold or its packaging, such as a non-baked pizza."
+      },
+      {
+        "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014), archived copy of gov.mb.ca PDF",
+        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "food such as pizza that is sold uncooked but fully prepared."
+      },
+      {
+        "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014), archived copy of gov.mb.ca PDF",
+        "url": "http://web.archive.org/web/20160529133039/http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "such as a non-baked pizza"
+      }
+    ],
+    "notes": "The same entries appear in the June 2014 and July 2026 bulletins, so the treatment did not change on 2026-07-01 (that change widened the exemption for ready-to-eat food). Kebabs, marinated raw meat and meal kits are not named; treated alike as fully prepared food sold uncooked. Earlier than the June 2014 bulletin not read."
+  },
+  {
+    "tax": "MB:RST",
     "code": "goods.general",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",

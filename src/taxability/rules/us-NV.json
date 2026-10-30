@@ -728,6 +728,199 @@
  },
  {
   "tax": "NV",
+  "code": "food.uncooked",
+  "from": "2009-11-25",
+  "to": "2017-06-20",
+  "fromIs": "earliest_verified",
+  "treatment": "conditional",
+  "summary": "Before June 21, 2017: food a Nevada seller combined for the buyer to cook was taxable prepared food unless it contained raw meat, fish, poultry or eggs requiring cooking, or was sold unheated by weight or volume, without utensils.",
+  "conditions": [
+   {
+    "when": "Two or more ingredients combined by the seller and sold as a single item, none of them raw animal food requiring cooking (e.g. an unbaked cheese or vegetable pizza), not sold by weight or volume",
+    "treatment": "taxable"
+   },
+   {
+    "when": "Contains raw eggs, fish, meat or poultry requiring cooking by the consumer to prevent food-borne illness (raw kebabs, stuffed raw meat), sold without utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Sold unheated by weight or volume as a single item, without utensils",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Sold with eating utensils provided by the seller",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "NRS 372.284(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "Prepared food intended for immediate consumption."
+   },
+   {
+    "title": "NRS 360B.460(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, unless the food ingredients:"
+   },
+   {
+    "title": "NRS 360B.460(2)(b)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Contain any raw eggs, fish, meat or poultry, or other such raw animal foods requiring cooking by the consumer to prevent food-borne illnesses"
+   },
+   {
+    "title": "NAC 372.605(1)(b)(1)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "In an unheated state by weight or volume as a single item."
+   },
+   {
+    "title": "NAC 372.605, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "A by R021-08, 4-17-2008; R104-09, 11-25-2009; R020-16, 6-21-2017; R056-18, 6-8-2020)"
+   }
+  ],
+  "notes": "Begins 2009-11-25 like NV's food.prepared.cold rule (the NAC 372.605 amendment R104-09); the statutory definition (NRS 360B.460, added 2005, amended 2007) is older. Wayback copies of NAC chapter 372 from 2010-11-15 and 2017-06-07 lack the 'food ordinarily requiring cooking' exclusion, which R020-16 added effective 2017-06-21. Local sales taxes (NRS 374 and the local school support and county option taxes) share the state's food exemption (NRS 374.289), so tax NV covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.uncooked",
+  "from": "2017-06-21",
+  "to": "2020-06-07",
+  "fromIs": "effective",
+  "treatment": "conditional",
+  "summary": "Food a Nevada seller assembled for the buyer to cook (take-and-bake pizza, raw kebabs, a meal kit) is exempt food when sold without eating utensils, and taxable when the seller provides utensils.",
+  "conditions": [
+   {
+    "when": "Sold without eating utensils provided by the seller, and it ordinarily requires cooking (not just reheating) by the buyer",
+    "treatment": "exempt"
+   },
+   {
+    "when": "Sold with eating utensils provided by the seller (plate, fork, napkin)",
+    "treatment": "taxable"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "NRS 372.284(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "Prepared food intended for immediate consumption."
+   },
+   {
+    "title": "NAC 372.605(1)(b)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Exclude, if sold without eating utensils provided by the seller:"
+   },
+   {
+    "title": "NAC 372.605(1)(b)(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Food ordinarily requiring cooking, as opposed to reheating, by the consumer before consumption."
+   },
+   {
+    "title": "LCB File No. R020-16 (adopted regulation)",
+    "url": "https://www.leg.state.nv.us/Register/2016Register/R020-16A.pdf",
+    "quote": "Effective June 21, 2017"
+   },
+   {
+    "title": "LCB File No. R020-16 (adopted regulation), digest",
+    "url": "https://www.leg.state.nv.us/Register/2016Register/R020-16A.pdf",
+    "quote": "by the consumer before consumption and sold without eating utensils, is not prepared food intended for immediate consumption and, thus, is exempt from the sales and use tax."
+   },
+   {
+    "title": "NRS 360B.460(2)(b)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Contain any raw eggs, fish, meat or poultry, or other such raw animal foods requiring cooking by the consumer to prevent food-borne illnesses"
+   }
+  ],
+  "notes": "R020-16 adopted the Streamlined agreement's exclusion for food requiring cooking by the consumer, effective 2017-06-21; it covers seller-combined items whether or not they contain raw animal food. Local sales taxes (NRS 374 and the local school support and county option taxes) share the state's food exemption (NRS 374.289), so tax NV covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "food.uncooked",
+  "from": "2020-06-08",
+  "fromIs": "effective",
+  "treatment": "conditional",
+  "summary": "Food a Nevada seller assembled for the buyer to cook (take-and-bake pizza, raw kebabs, a meal kit) is exempt food when sold without eating utensils, unless the seller's prepared-food share exceeds 75% and it makes utensils available, when it is deemed sold with utensils and taxable.",
+  "conditions": [
+   {
+    "when": "Sold with eating utensils the seller provides, or the seller's prepared-food share (NAC 372.607) is over 75% and it makes utensils available, e.g. at a kiosk or common area",
+    "treatment": "taxable"
+   },
+   {
+    "when": "Sold without utensils (the seller's prepared-food share is 75% or less, or over 75% without making utensils available), and it ordinarily requires cooking (not just reheating) by the buyer",
+    "treatment": "exempt"
+   }
+  ],
+  "citations": [
+   {
+    "title": "NRS 372.284(1)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "There are exempted from the taxes imposed by this chapter the gross receipts from sales and the storage, use or other consumption of food for human consumption."
+   },
+   {
+    "title": "NRS 372.284(2)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "Prepared food intended for immediate consumption."
+   },
+   {
+    "title": "NAC 372.605(1)(b)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Exclude, if sold without eating utensils provided by the seller:"
+   },
+   {
+    "title": "NAC 372.605(1)(b)(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Food ordinarily requiring cooking, as opposed to reheating, by the consumer before consumption."
+   },
+   {
+    "title": "LCB File No. R020-16 (adopted regulation)",
+    "url": "https://www.leg.state.nv.us/Register/2016Register/R020-16A.pdf",
+    "quote": "Effective June 21, 2017"
+   },
+   {
+    "title": "LCB File No. R020-16 (adopted regulation), digest",
+    "url": "https://www.leg.state.nv.us/Register/2016Register/R020-16A.pdf",
+    "quote": "by the consumer before consumption and sold without eating utensils, is not prepared food intended for immediate consumption and, thus, is exempt from the sales and use tax."
+   },
+   {
+    "title": "NRS 360B.460(2)(b)",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-360B.html",
+    "quote": "Contain any raw eggs, fish, meat or poultry, or other such raw animal foods requiring cooking by the consumer to prevent food-borne illnesses"
+   },
+   {
+    "title": "NAC 372.607(4)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is more than 75 percent, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller if the seller:"
+   },
+   {
+    "title": "NAC 372.607(4)(b)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "Makes utensils available to the purchaser, including, without limitation, by permitting the purchaser to obtain utensils at a kiosk or common area."
+   },
+   {
+    "title": "NAC 372.607(3)",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "is 75 percent or less, food sold at retail by the seller is deemed to be food sold with eating utensils provided by the seller:"
+   },
+   {
+    "title": "NAC 372.607, history",
+    "url": "https://www.leg.state.nv.us/NAC/NAC-372.html",
+    "quote": "by R056-18, eff. 6-8-2020)"
+   }
+  ],
+  "notes": "From 2020-06-08 R056-18 added NAC 372.607's deemed-utensils test, as in NV's food.prepared.bakery and food.prepared.cold rules. The adopted text of R056-18 section 2 does not reprint the (b)(3) cooking exclusion, but the codified NAC 372.605 (2022 and current copies) still includes it, and NAC 372.605's history lists no later amendment. Local sales taxes (NRS 374 and the local school support and county option taxes) share the state's food exemption (NRS 374.289), so tax NV covers state and local parts."
+ },
+ {
+  "tax": "NV",
   "code": "goods.general",
   "from": "1955-07-01",
   "fromIs": "effective",

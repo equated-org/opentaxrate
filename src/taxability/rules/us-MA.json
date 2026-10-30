@@ -554,6 +554,43 @@
   },
   {
     "tax": "MA",
+    "code": "food.uncooked",
+    "from": "2009-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food a seller assembled for the buyer to cook is not a taxable meal in Massachusetts, even from a restaurant, because it needs significant additional preparation or cooking; it is exempt food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "imposes the meals tax on the sale of any food or beverage (including alcohol) that is prepared for human consumption in a way that it doesn't need any significant additional preparation or cooking to make it edible"
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "those frozen dinners aren't considered meals and therefore aren't taxable because they need additional preparation"
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of food products for human consumption is exempt from the sales tax unless the food products are prepared for human consumption and provided by a restaurant."
+      },
+      {
+        "title": "M.G.L. c. 64H, § 6(h)",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
+        "quote": "in such form as to be available for immediate consumption without further significant preparation"
+      },
+      {
+        "title": "M.G.L. c. 64H, § 6(h)",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
+        "quote": "Sales of food products for human consumption."
+      }
+    ],
+    "notes": "The Guide's test (no 'significant additional preparation or cooking') and its frozen-lasagna example are read as covering an unbaked pizza, raw kebabs or a meal kit; no Massachusetts source read names those items. Store sales are taxable only in the listed forms (heated, combination plates, single-portion entrees or quick meals 'prepared for immediate human consumption'), none of which reaches food sold for the buyer to cook. The 0.75% local option meals excise applies only to taxable meals, so it does not apply either. Earliest date: 2009-10-01, as for the other MA meals rules; the statute and 1989 regulation are older, and the Guide's current text is dated 2026."
+  },
+  {
+    "tax": "MA",
     "code": "goods.general",
     "from": "2004-09-01",
     "fromIs": "earliest_verified",

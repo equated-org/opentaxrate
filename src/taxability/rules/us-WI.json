@@ -531,6 +531,70 @@
   },
   {
     "tax": "WI",
+    "code": "food.uncooked",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Wisconsin, a take-and-bake pizza or other food the retailer combined for the buyer to cook is taxable prepared food, unless it contains raw meat, fish, egg or poultry requiring cooking (and wasn't heated by the retailer) or is sold unheated by weight or volume.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook, no part previously heated by the retailer, sold unheated (marinated or seasoned raw meat, kebabs, a raw-meat take-and-bake pizza)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold unheated and priced by weight or volume",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more ingredients combined by the retailer with no raw animal food requiring cooking, priced per item (a cheese or cured-meat take-and-bake pizza)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller customarily hands utensils to the customer, or its prepared-food sales exceed 75% of food sales and it makes utensils available",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin Tax Bulletin 183 (January 2014), Sales of Take and Bake Pizza",
+        "url": "https://www.revenue.wi.gov/WisconsinTaxBulletin/183.pdf",
+        "quote": "Sales of take and bake pizzas made by a retailer are subject to Wisconsin sales tax because the pizzas are prepared food."
+      },
+      {
+        "title": "Wisconsin Tax Bulletin 183 (January 2014), Sales of Take and Bake Pizza",
+        "url": "https://www.revenue.wi.gov/WisconsinTaxBulletin/183.pdf",
+        "quote": "Pizzas, no part of which was previously heated by the retailer, that are sold unheated, contain meat, fish, egg, or poultry in raw form, and that require cooking by the consumer"
+      },
+      {
+        "title": "Wisconsin Tax Bulletin 183 (January 2014), Sales of Take and Bake Pizza",
+        "url": "https://www.revenue.wi.gov/WisconsinTaxBulletin/183.pdf",
+        "quote": "Pizzas sold unheated by volume or weight."
+      },
+      {
+        "title": "Wis. Stat. 77.51(10m), \"Prepared food\"",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.51(10m)",
+        "quote": "eggs, fish, meat, and poultry, and foods containing any of them in raw form, that require cooking by the consumer"
+      },
+      {
+        "title": "Wisconsin DOR Publication 220, Grocers (01/25)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb220.pdf",
+        "quote": "This meat is not prepared food since it is a meat that requires cooking by the consumer."
+      },
+      {
+        "title": "Wis. Stat. 77.54(20n)",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/77.54(20n)",
+        "quote": "The sales price from the sale of and the storage, use, or other consumption of food and food ingredients, except candy, soft drinks, dietary supplements, and prepared food."
+      },
+      {
+        "title": "Wisconsin DOR Publication 201, Sales and Use Tax Information (10/26)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "If products or services are exempt from the 5% state tax, they are also exempt from the 0.5% or 0.9% county and 2% city taxes."
+      }
+    ],
+    "notes": "Wisconsin Tax Bulletin 183 (January 2014) addresses take-and-bake pizza directly; Pub. 220 (01/25) gives the marinated raw meat example. 2014-12-01 follows the WI prepared.cold rule. County and city taxes follow the state exemption (Pub. 201). Meal kits are not addressed specifically."
+  },
+  {
+    "tax": "WI",
     "code": "goods.general",
     "from": "2012-04-01",
     "fromIs": "earliest_verified",

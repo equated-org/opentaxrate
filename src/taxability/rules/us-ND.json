@@ -415,6 +415,52 @@
   },
   {
     "tax": "ND",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, raw meat items, meal kits) is not prepared food in North Dakota and is exempt unless sold with eating utensils.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NDCC 57-39.2-04.1(2)(e)(3)(d)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(d) Food sold that ordinarily requires additional cooking, as opposed to just reheating, by the consumer prior to consumption."
+      },
+      {
+        "title": "NDCC 57-39.2-04.1(2)(e)(2)",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "(2) Eggs, fish, meat, poultry, and foods containing these raw animal foods requiring cooking by the consumer"
+      },
+      {
+        "title": "NDCC chapter 57-39.2 (legis.nd.gov, Wayback snapshot of 2016-12-22), 57-39.2-04.1(2)(e)(3)(d)",
+        "url": "https://web.archive.org/web/20161222031352/http://www.legis.nd.gov/cencode/t57c39-2.pdf",
+        "quote": "(d) Food sold that ordinarily requires additional cooking, as opposed to just reheating, by the consumer prior to consumption."
+      },
+      {
+        "title": "NDCC chapter 57-39.2 (legis.nd.gov, Wayback snapshot of 2016-12-22), 57-39.2-04.1(2)(e)(3)",
+        "url": "https://web.archive.org/web/20161222031352/http://www.legis.nd.gov/cencode/t57c39-2.pdf",
+        "quote": "If sold without eating utensils provided by the seller"
+      },
+      {
+        "title": "NDCC 57-39.2-04.1",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Gross receipts from sales for human consumption of food and food ingredients are exempt from taxes imposed under this chapter."
+      }
+    ],
+    "notes": "NDCC 57-39.2-04.1 excludes from prepared food both raw animal foods requiring cooking ((2)(e)(2)) and, if sold without utensils, food that ordinarily requires additional cooking as opposed to reheating ((e)(3)(d)); the latter was in the code by December 2016 (a 2015 Tax Commissioner bill, 15-8061, proposed it). No Tax Commissioner guideline names take-and-bake pizza."
+  },
+  {
+    "tax": "ND",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

@@ -437,6 +437,48 @@
   },
   {
     "tax": "ME",
+    "code": "food.uncooked",
+    "from": "2017-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food a seller assembled for the buyer to cook is not prepared food in Maine (it requires baking or cooking), so it is an exempt grocery staple, even where the 75% prepared-food rule applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "All food and drink prepared by the retailer and ready for consumption without further preparation."
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "means that the product does not require boiling, frying, grilling, baking or cooking"
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "the retailer is required to collect tax at the prepared food rate on all sales of food and drinks that require no further preparation"
+      },
+      {
+        "title": "MRS Instructional Bulletin No. 27, Sales of Prepared Food (last revised November 1, 2017)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf",
+        "quote": "means food products ordinarily consumed for human nourishment, but excludes prepared food"
+      },
+      {
+        "title": "36 M.R.S. § 1752, Definitions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1752.html",
+        "quote": "Food and drinks that are prepared by the retailer and ready for consumption without further preparation"
+      },
+      {
+        "title": "36 M.R.S. § 1760, Exemptions",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1760.html",
+        "quote": "Sales of grocery staples."
+      }
+    ],
+    "notes": "IB 27 defines 'without further preparation' to exclude food that requires baking or cooking, and applies the 75% rule (§ 1752(8-A)(C)) only to food and drinks that require no further preparation; the statute's (C) reads 'all food and drinks', but the Bureau's reading is followed here. 'Meals served on or off the premises' (§ 1752(8-A)(A)) is not read as reaching uncooked food sold for the buyer to cook; no Maine source read names take-and-bake pizza or meal kits. Earliest date: IB 27's last revision (2017-11-01). Maine has no local sales taxes."
+  },
+  {
+    "tax": "ME",
     "code": "goods.general",
     "from": "2013-10-01",
     "fromIs": "effective",

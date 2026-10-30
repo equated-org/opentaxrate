@@ -535,6 +535,56 @@
   },
   {
     "tax": "KY",
+    "code": "food.uncooked",
+    "from": "2007-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a Kentucky seller assembles for the buyer to cook is taxable prepared food unless it contains raw eggs, fish, meat or poultry the buyer must cook, which stays exempt food.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook (seasoned, marinated or stuffed raw meat or fish, raw kebabs, a pizza topped with raw meat)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold without eating utensils by a seller whose primary NAICS classification is food manufacturing (sector 311, except bakeries 3118)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "KRS 139.485(1)",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "the terms \"retail sale,\" \"use,\" \"storage,\" and \"consumption\" as used in this chapter shall not include the sale, use, storage or consumption of food and food ingredients for human consumption"
+      },
+      {
+        "title": "KRS 139.485(3)(g)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Two (2) or more food ingredients mixed or combined by the retailer for sale as a single item except food that is only cut, repackaged, or pasteurized by the retailer"
+      },
+      {
+        "title": "KRS 139.485(3)(g)2",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "eggs, fish, meat, poultry, and foods containing these raw animal foods requiring cooking by the consumer as recommended by the Food and Drug Administration in Chapter 3, part 401.11 of the FDA Food Code so as to prevent food-borne illnesses"
+      },
+      {
+        "title": "KRS 139.485(3)(h)1",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Food sold by a seller whose proper primary North American Industry Classification System classification is manufacturing in sector 311, except subsector 3118; or"
+      },
+      {
+        "title": "KRS 139.485, effective-date line",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28898",
+        "quote": "Effective: Ju1y 1, 2007"
+      }
+    ],
+    "notes": "No Kentucky guidance naming take-and-bake pizza or meal kits was found; the statute's raw-animal-food exclusion decides it. Kentucky has no local sales taxes. 2007-07-01 is the statute's effective-date line, as for food.prepared.cold."
+  },
+  {
+    "tax": "KY",
     "code": "goods.general",
     "from": "1990-07-01",
     "fromIs": "earliest_verified",

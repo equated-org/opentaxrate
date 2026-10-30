@@ -155,6 +155,28 @@
   },
   {
     "tax": "OR",
+    "code": "food.uncooked",
+    "from": "2016-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Oregon has no sales tax, so food assembled for the buyer to cook is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Oregon Department of Revenue, Sales Tax in Oregon",
+        "url": "https://www.oregon.gov/dor/programs/businesses/Pages/sales-tax.aspx",
+        "quote": "The Wayfair decision doesn't affect Oregonians purchasing goods or services online because Oregon doesn't have a general sales tax."
+      },
+      {
+        "title": "Oregon Legislative Revenue Office, 2016 Oregon Public Finance: Basic Facts (Research Report #1-16)",
+        "url": "https://www.oregonlegislature.gov/lro/Documents/Basic%20Facts%202016.pdf",
+        "quote": "In addition to being one of five states without a general sales tax, Oregon ranks 32nd in selective sales tax collections per person."
+      }
+    ],
+    "notes": "Oregon has no general state or local sales tax; dates as OR's food.grocery and food.prepared rules. Ashland's 5% Food & Beverage Tax on prepared foods is a city meals tax, not modelled; whether it reaches take-and-bake food was not checked."
+  },
+  {
+    "tax": "OR",
     "code": "goods.general",
     "from": "2016-01-01",
     "fromIs": "earliest_verified",

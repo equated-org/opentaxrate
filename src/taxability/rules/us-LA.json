@@ -596,6 +596,56 @@
   },
   {
     "tax": "LA",
+    "code": "food.uncooked",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a Louisiana seller assembles for the buyer to cook is taxable prepared food unless it contains raw eggs, fish, meat or poultry the buyer must cook, which stays exempt from the state tax as food for home consumption.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that the buyer must cook (seasoned, marinated or stuffed raw meat or fish, raw kebabs, a pizza topped with raw meat)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Combined by the seller with no raw animal food needing cooking (a take-and-bake pizza of cheese, vegetables or cured meats; a meal kit of combined ingredients)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "LAC 61:I.4401(F)(3)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "and eggs, fish, meat, poultry, and food containing these raw animal foods requiring cooking by the consumer in order to prevent food borne illnesses"
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "or eggs, fish, meat, poultry, and food containing these raw animal foods requiring cooking by the consumer in order to prevent food borne illnesses"
+      },
+      {
+        "title": "Revenue Ruling 03-002-A (Aug. 24, 2005)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/RR03002.pdf",
+        "quote": "Two or more food ingredients mixed or combined by the seller for sale as a single item, which does not include food that is only cut, repackaged, or pasteurized by the seller,"
+      },
+      {
+        "title": "LAC 61:I.4401(F)(3)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups,"
+      },
+      {
+        "title": "La. Const. art. VII, §2.2(B)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=206549",
+        "quote": "Effective July 1, 2003, the sales and use tax imposed by the state of Louisiana or by a political subdivision whose boundaries are coterminous with those of the state shall not apply to sales or purchases of the following items: (1) Food for home consumption, as defined in R.S. 47:305(D)(1)(n) through (r) on January 1, 2003."
+      }
+    ],
+    "notes": "No Louisiana guidance naming take-and-bake pizza or meal kits was found; the prepared-food definition's raw-animal-food exclusion decides it. The exempt branch is the state part only; parish and municipal taxes apply (LA:local rule). 2003-07-01 is the constitutional exemption's start, as for food.prepared.cold; LAC 61:I.4401 was last amended August 2003 (LR 29:1520)."
+  },
+  {
+    "tax": "LA",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -1097,5 +1147,32 @@
       }
     ],
     "notes": "The state food exemption does not extend to local levies (R.S. 47:302(E); Const. art. VII, §2.2 limits only the state and statewide levies). A 2024 bill to require a local food exemption (HB 37, 2024 R.S.) was read only as introduced; nothing found shows it passed. Individual parishes may exempt food under their own ordinances; not researched. 2003-07-01 is the start of the state exemption; local taxation of food is older."
+  },
+  {
+    "tax": "LA:local",
+    "code": "food.uncooked",
+    "from": "2003-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Parish and municipal sales taxes in Louisiana apply to food assembled for the buyer to cook whether or not the state tax exempts it.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR FAQ: Is there sales tax on food?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/fairs-festivals-and-other-special-events/is-there-sales-tax-on-food",
+        "quote": "Local sales taxes may still apply , depending on the location of the sale."
+      },
+      {
+        "title": "La. R.S. 47:302(E)",
+        "url": "https://www.legis.la.gov/legis/Law.aspx?d=101816",
+        "quote": "In the absence of any such specific application of the state exemption to sales and use tax levies of any local governmental subdivision or school board, any state exemption granted pursuant to the provisions of this Chapter or Chapter 2-A of Title 47 of the Louisiana Revised Statutes of 1950 shall be applicable only to the levy and collection of the state sales and use tax."
+      },
+      {
+        "title": "LAC 61:I.4401(F)(1)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC61_I_4401.pdf",
+        "quote": "R.S. 47:305(D) provides an exemption from state sales tax upon the sale at retail of food sold for preparation and consumption in the home"
+      }
+    ],
+    "notes": "Local taxes reach food for home consumption as well as prepared food, so the raw-animal-food distinction does not change the local answer."
   }
 ]

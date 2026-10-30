@@ -414,6 +414,47 @@
   },
   {
     "tax": "NJ",
+    "code": "food.uncooked",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a seller assembled for the buyer to cook is exempt in New Jersey when it contains raw eggs, fish, meat or poultry requiring cooking; otherwise (a cheese or vegetable take-and-bake pizza, a meal kit of non-raw ingredients) it is taxable prepared food.",
+    "conditions": [
+      {
+        "when": "Contains raw eggs, fish, meat or poultry that require cooking by the consumer (e.g. kebabs, stuffed or marinated raw meat, a pizza topped with raw sausage), sold without utensils",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Two or more ingredients combined by the seller with no raw animal food requiring cooking (e.g. a cheese, vegetable or cured-meat take-and-bake pizza, a meal kit of combined non-raw ingredients), or sold with utensils",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Two or more food ingredients combined by the seller and sold as a single item; or"
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food that is only cut, repackaged, or pasteurized by the seller, as well as eggs, fish, meat, poultry, and foods that contain these raw animal foods that require cooking by the consumer are not treated as prepared food."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Food sold with eating utensils provided by the seller."
+      },
+      {
+        "title": "NJ Division of Taxation S&U-4, New Jersey Sales Tax Guide (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Exempt items include most food sold as grocery items"
+      }
+    ],
+    "notes": "No New Jersey source read names take-and-bake pizza or meal kits; the rule applies the Streamlined prepared-food definition in S&U-4. Whether a meal kit of separately packaged, uncombined ingredients is 'combined by the seller ... as a single item' is not settled by the sources read. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County half-rate sales are not modelled."
+  },
+  {
+    "tax": "NJ",
     "code": "goods.general",
     "from": "2022-07-06",
     "fromIs": "earliest_verified",

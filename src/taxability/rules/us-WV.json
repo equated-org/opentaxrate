@@ -601,5 +601,37 @@
       }
     ],
     "notes": "Added 2026-10-30 after held-out case ho-wv-01 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-wv-01 no longer counts as held out. Dated from the bulletin's revision; earlier editions weren't checked."
+  },
+  {
+    "tax": "WV",
+    "code": "food.uncooked",
+    "from": "2015-11-10",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food sold for the buyer to cook (as opposed to reheat) is not prepared food in West Virginia, so it is exempt as food and food ingredients.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "West Virginia State Tax Department, Administrative Notice 2015-20, Definition of Prepared Food (November 10, 2015)",
+        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2015/AdministrativeNotice.2015-20.pdf",
+        "quote": "any food sold that ordinarily requires additional cooking (as opposed to reheating) by the consumer prior to consumption"
+      },
+      {
+        "title": "West Virginia State Tax Department, Administrative Notice 2015-20, Definition of Prepared Food (November 10, 2015)",
+        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2015/AdministrativeNotice.2015-20.pdf",
+        "quote": "This interpretation is binding on the Tax Department until it is changed by subsequent legislation."
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "and eggs, fish, meat, poultry and foods containing these raw animal foods requiring cooking by the consumer"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Prepared food is subject to Sales Tax at the regular rate of 6%, while food and food ingredients are not taxed."
+      }
+    ],
+    "notes": "Administrative Notice 2015-20 (issued 2015-11-10) reads the prepared-food definition to exclude any food that ordinarily requires additional cooking by the consumer, raw animal food or not, e.g. a take-and-bake pizza. No later notice or legislation withdrawing it was found; the current § 11-15B-2 definition is the one the notice quotes. Food sold with seller-provided utensils isn't addressed by the notice. Municipal sales taxes share the state base (§ 8-13C-4)."
   }
 ]

@@ -409,6 +409,47 @@
   },
   {
     "tax": "SC",
+    "code": "food.uncooked",
+    "from": "2007-11-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Food assembled for the buyer to cook at home is exempt from the South Carolina state tax as unprepared food when sold for home consumption by a grocery or similar store, and taxable from a location that holds itself out as selling ready-to-eat food.",
+    "conditions": [
+      {
+        "when": "Sold for home consumption by a grocery, convenience or similar store authorized to accept food stamps, from a location not holding itself out as selling ready-to-eat food",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "S.C. Code Title 12, Chapter 36 (Sales and Use Tax)",
+        "url": "https://www.scstatehouse.gov/code/t12c036.php",
+        "quote": "However, the exemption allowed by this item applies only to the state sales and use tax imposed pursuant to this chapter"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "Effective November 1, 2007, SC Code §12-36-2120(75) exempts from the state sales and use tax"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "then all sales of food from that identifiable location shall be deemed to be for immediate consumption and subject to the sales tax at the full state rate"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "Any food intended to be eaten at home by people, including snacks, beverages and seasonings;"
+      }
+    ],
+    "notes": "South Carolina's exemption turns on the selling location and sale for home consumption, not on how the food was assembled (SC Regulation 117-337), so food assembled for the buyer to cook is treated as groceries and cold prepared food are (food.grocery, food.prepared.cold). No SC guidance naming take-and-bake pizza or meal kits was found. Turns on whether the store's deli area offers seating, utensils or heated food (SC Regulation 117-337.3)."
+  },
+  {
+    "tax": "SC",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -853,5 +894,54 @@
       }
     ],
     "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2007-11-01 is the state exemption's start; the local exceptions have their own dates."
+  },
+  {
+    "tax": "SC:local",
+    "code": "food.uncooked",
+    "from": "2007-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local taxes: taxable when sold from a location selling food for immediate consumption; when sold for home consumption, as the place's local unprepared-food treatment says.",
+    "conditions": [
+      {
+        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for home consumption by a grocery, convenience or similar store authorized to accept food stamps, from a location not holding itself out as selling ready-to-eat food, and every local sales tax at the place exempts unprepared food",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold for home consumption by a grocery, convenience or similar store authorized to accept food stamps, from a location not holding itself out as selling ready-to-eat food, and no local sales tax at the place exempts unprepared food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for home consumption by a grocery, convenience or similar store authorized to accept food stamps, from a location not holding itself out as selling ready-to-eat food, and some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "This exemption does not apply to local sales and use taxes that are administered and collected by the Department on behalf of the counties and other jurisdictions, unless the local tax law specifically exempts the sales of such unprepared food."
+      },
+      {
+        "title": "S.C. Code Title 12, Chapter 36 (Sales and Use Tax)",
+        "url": "https://www.scstatehouse.gov/code/t12c036.php",
+        "quote": "However, the exemption allowed by this item applies only to the state sales and use tax imposed pursuant to this chapter"
+      },
+      {
+        "title": "SC DOR ST-575, South Carolina Sales Tax Rate by Municipality (Rev. 2/5/26)",
+        "url": "https://www.dor.sc.gov/sites/dor/files/forms/ST575.pdf",
+        "quote": "This form provides a list of Sales Tax rates, Accommodations Tax rates, unprepared foods tax rates, and local taxes"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "then all sales of food from that identifiable location shall be deemed to be for immediate consumption and subject to the sales tax at the full state rate"
+      }
+    ],
+    "notes": "South Carolina's exemption turns on the selling location and sale for home consumption, not on how the food was assembled (SC Regulation 117-337), so food assembled for the buyer to cook is treated as groceries and cold prepared food are (food.grocery, food.prepared.cold). No SC guidance naming take-and-bake pizza or meal kits was found. The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base."
   }
 ]
