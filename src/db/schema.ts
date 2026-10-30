@@ -16,6 +16,7 @@ import {
   bigserial,
   boolean,
   check,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { SourcedPoint } from "../geocoding/types.js";
@@ -321,6 +322,8 @@ export const taxabilityRules = pgTable(
      *  the earliest day it was confirmed in force. */
     fromIs: text("from_is").notNull(),
     treatment: text("treatment").notNull(),
+    /** For treatment "special_rate": the rate this tax charges on the code. */
+    rate: doublePrecision("rate"),
     /** For treatment "follows": the tax whose rule for the code applies. */
     follows: text("follows"),
     summary: text("summary").notNull(),
@@ -335,7 +338,8 @@ export const taxabilityRules = pgTable(
     primaryKey({ columns: [t.tax, t.code, t.startsOn] }),
     check("ck_taxability_rules_dates", sql`${t.endsOn} >= ${t.startsOn}`),
     check("ck_taxability_rules_from_is", sql`${t.fromIs} in ('effective', 'earliest_verified')`),
-    check("ck_taxability_rules_treatment", sql`${t.treatment} in ('taxable', 'exempt', 'zero_rated', 'conditional', 'follows')`),
+    check("ck_taxability_rules_treatment", sql`${t.treatment} in ('taxable', 'special_rate', 'exempt', 'zero_rated', 'conditional', 'follows')`),
+    check("ck_taxability_rules_special_rate", sql`(${t.treatment} = 'special_rate') = (${t.rate} is not null)`),
     check("ck_taxability_rules_follows", sql`(${t.treatment} = 'follows') = (${t.follows} is not null)`),
     check("ck_taxability_rules_conditional", sql`${t.treatment} <> 'conditional' or jsonb_array_length(${t.conditions}) > 0`),
     check("ck_taxability_rules_cited", sql`jsonb_typeof(${t.citations}) = 'array' and jsonb_array_length(${t.citations}) > 0`),

@@ -66,7 +66,7 @@ const treatmentOf = (t: Taxability, partCode: string) => t.taxes.find((g) => g.p
 function compare(treatment: string, expected: Expected): Outcome {
   if (treatment === "not_researched") return "not_researched";
   if (treatment === "conditional") return "declined";
-  const got: Expected = treatment === "taxable" ? "taxed" : treatment === "zero_rated" ? "zero_rated" : "not_taxed";
+  const got: Expected = treatment === "taxable" || treatment === "special_rate" ? "taxed" : treatment === "zero_rated" ? "zero_rated" : "not_taxed";
   if (got === expected) return "right";
   return (got === "taxed") !== (expected === "taxed") ? "wrong" : "kind";
 }

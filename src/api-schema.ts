@@ -120,7 +120,7 @@ export const RegionsSchema = z
     description: "With include=regions: published areas the address is in. Evidence only; they don't change the rate.",
   });
 
-const TREATMENTS = ["taxable", "exempt", "zero_rated", "conditional", "not_a_sale"] as const;
+const TREATMENTS = ["taxable", "special_rate", "exempt", "zero_rated", "conditional", "not_a_sale"] as const;
 
 export const TaxabilityRuleSchema = z
   .object({
@@ -130,11 +130,12 @@ export const TaxabilityRuleSchema = z
       description: "effective: the sources give from as the day the rule took effect. earliest_verified: the rule is likely older, but earlier dates are not researched.",
     }),
     treatment: z.enum(TREATMENTS),
+    rate: z.number().optional().openapi({ description: "For special_rate: the rate this tax charges on the code instead of its general rate (lower, like a grocery rate, or higher, like a meals tax).", example: 0.04 }),
     summary: z.string().openapi({ example: "Catering is taxable, including staff, rentals and service charges on the bill." }),
     conditions: z.array(
       z.object({
         when: z.string(),
-        treatment: z.enum(["taxable", "exempt", "zero_rated"]),
+        treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]),
         rate: z.number().optional().openapi({ description: "The part's rate in this case, where it isn't the part's full rate." }),
       }),
     ).openapi({ description: "For a conditional rule, each fact the outcome turns on; for a settled one, exceptions worth knowing." }),
@@ -146,7 +147,7 @@ export const TaxabilitySchema = z
   .object({
     treatment: z.enum(["taxable", "partial", "not_taxed", "conditional", "not_researched"]).openapi({
       description:
-        "taxable: every part at its rate. partial: some parts, or a reduced rate. not_taxed: no part. conditional: the outcome turns on facts the code doesn't fix, listed in the rules' conditions. not_researched: a part has no researched rule for this code on this date; never use the general rate instead.",
+        "taxable: every part at its rate. partial: some parts, or a special rate. not_taxed: no part. conditional: the outcome turns on facts the code doesn't fix, listed in the rules' conditions. not_researched: a part has no researched rule for this code on this date; never use the general rate instead.",
     }),
     rate: z.number().nullable().openapi({ description: "The combined rate on this sale; null exactly when conditional or not researched.", example: 0.08875 }),
     taxes: z.array(

@@ -28,10 +28,10 @@
  *   evaluate.ts     the benchmark: the rules against the agencies' examples
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
-import { TAX_CODES, type TaxCode } from "./codes.js";
+import { parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
 import { ruleOn, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
-export { TAX_CODES, isTaxCode, type TaxCode } from "./codes.js";
+export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
 export { loadRules, forgetRules, ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
 
 /** A rule as an answer shows it: without the tax and code it's keyed by. */
@@ -53,7 +53,7 @@ export interface TaxGroup {
 }
 
 export interface Taxability {
-  /** taxable: every part at its rate; partial: some parts, or a reduced
+  /** taxable: every part at its rate; partial: some parts, or a special
    *  rate; not_taxed: no part; conditional: turns on the rules' listed
    *  facts; not_researched: a part has no rule for this code on this date. */
   treatment: "taxable" | "partial" | "not_taxed" | "conditional" | "not_researched";
@@ -78,21 +78,82 @@ function keysFor(state: string, part: RatePart): string[] {
   // base unchecked.
   if (part.code === "CA:HST") return [`${state}/CA:HST`];
   if (/^[A-Z]{2}:(PST|QST|RST)$/.test(part.code)) return [part.code];
-  return part.kind === "state" ? [state] : [`${state}:local`, state];
+  // "XX:state" and "XX:local" decide one side only; "XX" both, where
+  // they share the base.
+  return part.kind === "state" ? [`${state}:state`, state] : [`${state}:local`, state];
 }
 
-/** The rule deciding `part`, a "follows" resolved to the rule it follows,
- *  whose citations it adds to. */
+/** The rule for `code` under one tax: the code's own, else its nearest
+ *  parent's (a parent's rule covers every kind under it), else, for a
+ *  code with subcodes and no rule of its own, one settled from them:
+ *  their shared treatment where they all agree, else conditional on
+ *  which subcode it is. Null when any of that is missing. */
+function ruleForCode(rules: RuleSet, tax: string, code: TaxCode, date: string): Rule | null {
+  for (let c: TaxCode | null = code; c; c = parentOf(c)) {
+    const found = ruleOn(rules, tax, c, date);
+    if (found) return found;
+  }
+  return fromSubcodes(rules, tax, code, date);
+}
+
+function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string): Rule | null {
+  const subs = subcodesOf(code);
+  if (!subs.length) return null;
+  const found: Rule[] = [];
+  for (const sub of subs) {
+    // Only rules at or below the subcode: the parent has none, or this
+    // wouldn't be asked.
+    const own = ruleOn(rules, tax, sub, date) ?? fromSubcodes(rules, tax, sub, date);
+    if (!own) return null;
+    found.push(own.treatment === "follows" ? (resolveFollows(rules, own, sub, date) ?? own) : own);
+    if (found.at(-1)!.treatment === "follows") return null;
+  }
+  const citations = [...new Map(found.flatMap((r) => r.citations).map((c) => [c.url, c])).values()];
+  const window = {
+    from: found.map((r) => r.from).sort().at(-1)!,
+    ...(found.some((r) => r.to) ? { to: found.flatMap((r) => (r.to ? [r.to] : [])).sort()[0] } : {}),
+    fromIs: found.every((r) => r.fromIs === "effective") ? ("effective" as const) : ("earliest_verified" as const),
+  };
+  const first = found[0];
+  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate))
+    return { tax, code, ...window, treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations };
+  return {
+    tax,
+    code,
+    ...window,
+    treatment: "conditional",
+    summary: `Depends on which kind of ${code} it is; send the narrower code to settle it.`,
+    conditions: found.flatMap((r, i) =>
+      r.treatment === "conditional"
+        ? r.conditions.map((c) => ({ ...c, when: `${subs[i]}: ${c.when}` }))
+        : [{ when: `${subs[i]}: ${TAX_CODES[subs[i]]}`, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}) }],
+    ),
+    citations,
+  };
+}
+
+/** A "follows" rule resolved to the rule it follows, whose citations it
+ *  adds to; null when that's missing. */
+function resolveFollows(rules: RuleSet, rule: Rule, code: TaxCode, date: string): Rule | null {
+  const followed = ruleForCode(rules, rule.follows!, code, date);
+  return followed && followed.treatment !== "follows" ? { ...followed, citations: [...followed.citations, ...rule.citations] } : null;
+}
+
+/** The rule deciding `part`. */
 function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, date: string): Rule | null {
   for (const key of keysFor(state, part)) {
-    const found = ruleOn(rules, key, code, date);
+    const found = ruleForCode(rules, key, code, date);
     if (!found) continue;
-    if (found.treatment !== "follows") return found;
-    const followed = ruleOn(rules, found.follows!, code, date);
-    return followed && followed.treatment !== "follows" ? { ...followed, citations: [...followed.citations, ...found.citations] } : null;
+    return found.treatment === "follows" ? resolveFollows(rules, found, code, date) : found;
   }
   return null;
 }
+
+/** What one part adds to the sale's rate under `treatment`. A special-rate
+ *  rule's rate is the rate of every part it decides together (Utah's 1.25%
+ *  for all its local taxes on food), so only the first of them adds it. */
+const partRate = (treatment: PartTreatment, part: RatePart, rule: Rule | null, first = true): number | null =>
+  treatment === "taxable" ? part.rate : treatment === "special_rate" ? (first ? (rule?.rate ?? null) : 0) : treatment === "conditional" ? null : 0;
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -111,7 +172,8 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
     const group = groups.get(key);
     if (group) {
       group.parts.push(part.code);
-      if (group.rate !== null) group.rate = round(group.rate + (group.treatment === "taxable" ? part.rate : 0));
+      const add = group.treatment === "not_a_sale" ? 0 : partRate(group.treatment as PartTreatment, part, rule, false);
+      group.rate = group.rate === null || add === null ? null : round(group.rate + add);
       continue;
     }
     if (code === "nontaxable") groups.set(key, { tax: "*", parts: [part.code], treatment: "not_a_sale", rate: 0, rule: NOT_A_SALE });
@@ -119,7 +181,7 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
     else {
       const { tax, code: _code, notes: _notes, follows: _follows, treatment, ...rest } = rule;
       const decided = treatment as PartTreatment;
-      const rate = decided === "taxable" ? part.rate : decided === "conditional" ? null : 0;
+      const rate = partRate(decided, part, rule);
       groups.set(key, { tax, parts: [part.code], treatment: decided, rate, rule: { ...rest, treatment: decided } });
     }
   }

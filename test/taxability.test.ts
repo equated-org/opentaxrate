@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
+import { parentOf, parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
 import { pageText, quoteOnPage } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
 import { answerKey } from "../src/cache.js";
@@ -81,7 +81,7 @@ describe("taxability", () => {
     for (const r of rows) expect(r.citations.every((c) => /^https?:\/\//.test(c.url)), `${r.tax} ${r.code}`).toBe(true);
     // Every HST province reads a rule of its own for every researched code.
     for (const p of ["ON", "NS", "NB", "NL", "PE"])
-      for (const code of CODES.filter((c) => c !== "nontaxable"))
+      for (const code of CODES.filter((c) => !parentOf(c) && rows.some((r) => r.tax === "CA:GST/HST" && r.code === c)))
         expect(rows.some((r) => r.tax === `${p}/CA:HST` && r.code === code), `${p} ${code}`).toBe(true);
   });
 
@@ -115,5 +115,38 @@ describe("taxability", () => {
     const abbr = pageText(new TextEncoder().encode("<html><body><p>Sales (excluding <abbr>HST</abbr>) of not more than $4.</p></body></html>"))!;
     expect(quoteOnPage(abbr, "Sales (excluding HST) of not more than $4.")).toBe(true);
     expect(quoteOnPage(abbr, "Sales (excluding GST) of not more than $4.")).toBe(false);
+  });
+
+  it("a subcode answers from its parent's rule; a parent with only subcode rules is settled from them", () => {
+    const base = { fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const set = ruleSet([
+      { ...base, tax: "ZZ", code: "food.prepared", from: "2020-01-01", treatment: "taxable" },
+      { ...base, tax: "ZZ", code: "food.prepared.bakery", from: "2020-01-01", treatment: "exempt" },
+      { ...base, tax: "ZZ", code: "service.professional.legal", from: "2020-01-01", treatment: "exempt" },
+      { ...base, tax: "ZZ", code: "service.professional.accounting", from: "2020-01-01", treatment: "exempt" },
+    ] as Rule[]);
+    const at = (code: TaxCode) => taxabilityOf({ state: "ZZ", parts: [{ kind: "state", code: "ZZ", rate: 0.05 }] }, code, "2026-06-15", set);
+    expect(at("food.prepared.hot")).toMatchObject({ treatment: "taxable", rate: 0.05 });
+    expect(at("food.prepared.bakery")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    expect(at("service.professional.legal").treatment).toBe("not_taxed");
+    // Some professional subcodes have no rule: the parent can't be settled.
+    expect(at("service.professional").treatment).toBe("not_researched");
+  });
+
+  it("charges a reduced rate on the state part only", () => {
+    const base = { fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const set = ruleSet([
+      { ...base, tax: "ZZ", code: "food.grocery", from: "2020-01-01", treatment: "special_rate", rate: 0.04 },
+      { ...base, tax: "ZZ:local", code: "food.grocery", from: "2020-01-01", treatment: "taxable" },
+    ] as Rule[]);
+    const t = taxabilityOf({ state: "ZZ", parts: [{ kind: "state", code: "ZZ", rate: 0.07 }, { kind: "city", code: "ZZ-C", rate: 0.0225 }] }, "food.grocery", "2026-06-15", set);
+    expect(t).toMatchObject({ treatment: "partial", rate: 0.0625 });
+    // A reduced local rule's rate is for all the local parts together, charged once.
+    const local = ruleSet([
+      { ...base, tax: "ZZ", code: "food.grocery", from: "2020-01-01", treatment: "special_rate", rate: 0.0175 },
+      { ...base, tax: "ZZ:local", code: "food.grocery", from: "2020-01-01", treatment: "special_rate", rate: 0.0125 },
+    ] as Rule[]);
+    const three = [{ kind: "state" as const, code: "ZZ", rate: 0.0485 }, { kind: "county" as const, code: "ZZ-1", rate: 0.01 }, { kind: "city" as const, code: "ZZ-2", rate: 0.01 }, { kind: "district" as const, code: "ZZ-3", rate: 0.0025 }];
+    expect(taxabilityOf({ state: "ZZ", parts: three }, "food.grocery", "2026-06-15", local).rate).toBe(0.03);
   });
 });

@@ -1,16 +1,39 @@
 <script lang="ts">
 	/** The codes and their definitions, as src/taxability/codes.ts gives them. */
 	const CODES: Array<[string, string]> = [
-		['goods.general', 'Tangible goods sold at retail that no narrower code here describes: furniture, tools, electronics, household goods. Not food, clothing, medicine or other goods a jurisdiction treats on their own.'],
-		['food.grocery', 'Food and food ingredients sold unprepared, for eating at home: produce, meat, dairy, bread, packaged staples. Not candy, soft drinks, alcohol, dietary supplements or tobacco, and not food the seller prepared.'],
-		['food.prepared', "Food the seller sells ready to eat: sold heated, mixed or combined by the seller (sandwiches, salads, meals), or sold with eating utensils the seller provides; delivered meals included. Not catering at the customer's event."],
-		['food.catering', "Food and drink the seller prepares and serves at the customer's event, with the service on the same bill: staff, setup, rentals and service charges."],
-		['software.saas', 'Prewritten software the customer uses remotely, by subscription or access, without receiving a copy.'],
-		['software.custom', 'Software written for one customer to its specifications, or prewritten software customized for it; the development work, not a prewritten copy.'],
-		['service.professional', "Professional advice or work sold to the customer: legal, accounting, consulting, engineering and similar, where the product is the professional's work rather than goods or software."],
-		['construction.real_property', "Building, repairing, painting or improving the customer's building or land, labour and materials billed together, sold to the owner (not to another contractor)."],
-		['delivery', 'A separately stated charge for delivering goods to the buyer.'],
-		['nontaxable', "An amount that isn't a sale of anything: card fees passed through, deposits held, reimbursements. The caller's assertion; no jurisdiction's rule is consulted."]
+		["goods.general", "Tangible goods sold at retail that no narrower code here describes: furniture, tools, electronics, household goods. Not food, clothing, medicine or other goods a jurisdiction treats on their own."],
+		["food.grocery", "Food and food ingredients sold unprepared, for eating at home: produce, meat, dairy, bread, packaged staples. Not candy, soft drinks, alcohol, dietary supplements or tobacco, and not food the seller prepared."],
+		["food.candy", "Candy and confectionery: sweets, chocolate, gum, candy bars; not baked goods or anything with flour."],
+		["food.soft_drink", "Non-alcoholic beverages with natural or artificial sweeteners: soda, sweetened tea, energy drinks; not milk, juice of more than half fruit or vegetable, or plain water."],
+		["food.prepared", "Food the seller sells ready to eat: sold heated, mixed or combined by the seller (sandwiches, salads, meals), or sold with eating utensils the seller provides; delivered meals included. Not catering at the customer's event."],
+		["food.prepared.hot", "Prepared food sold heated, above the room's temperature, to go or to stay: a hot meal, a rotisserie chicken from the warmer, a hot sandwich, coffee."],
+		["food.prepared.dine_in", "Prepared food, hot or cold, served to be eaten at the seller's tables, counters or premises, or on its plates and tableware."],
+		["food.prepared.sandwich", "A cold sandwich, wrap, sub or similar, sold to go."],
+		["food.prepared.cold", "Other cold food the seller prepared, sold to go by a grocery, deli or other food store: salads, cut fruit, a cooked chicken sold cold, food sold by weight from the deli counter."],
+		["food.prepared.cold_restaurant", "Cold food the seller prepared, sold to go by a restaurant, café or other food-service business: a salad, a cold meal, a cold drink from the counter."],
+		["food.prepared.bakery", "Bakery items the seller baked, sold without eating utensils: bread, pastries, muffins, cookies, cakes and pies, even if warmed."],
+		["food.prepared.platter", "Prepared food arranged on a platter or tray to go: party trays of sandwiches, cheese, cold cuts, fruit or vegetables."],
+		["food.catering", "Food and drink the seller prepares and serves at the customer's event, with the service on the same bill: staff, setup, rentals and service charges."],
+		["software.saas", "Prewritten software the customer uses remotely, by subscription or access, without receiving a copy."],
+		["software.prewritten", "Prewritten (off-the-shelf) software the customer receives a copy of, downloaded or on media, with its license."],
+		["software.custom", "Software written for one customer to its specifications, or prewritten software customized for it; the development work, not a prewritten copy."],
+		["software.custom.development", "Software written from scratch for one customer to its specifications."],
+		["software.custom.modification", "Changes made to prewritten software for one customer, charged separately from the prewritten copy."],
+		["service.professional", "Professional advice or work sold to the customer: legal, accounting, consulting, engineering and similar, where the product is the professional's work rather than goods or software."],
+		["service.professional.legal", "Legal services: advice, representation, drafting by a lawyer or notary."],
+		["service.professional.accounting", "Accounting, auditing, bookkeeping and tax return preparation."],
+		["service.professional.consulting", "Management and business consulting: strategy, operations, finance or human-resources advice, not IT and not advertising."],
+		["service.professional.it", "Information technology services: IT consulting, systems integration, network and help-desk support, IT training; not writing software."],
+		["service.professional.engineering", "Engineering and architectural design services."],
+		["service.professional.design", "Interior design and decorating services."],
+		["service.professional.advertising", "Advertising agency services: advice on, design of and placement of advertising."],
+		["construction.real_property", "Building, repairing, painting or improving the customer's building or land, labour and materials billed together, sold to the owner (not to another contractor)."],
+		["construction.real_property.improvement", "New construction, or a capital improvement or remodel that becomes part of the building or land and adds to its value or life: an addition, a new roof, a kitchen remodel."],
+		["construction.real_property.repair", "Repair, maintenance or repainting of an existing building or its fixtures: fixing a leak, replacing a broken step, repainting."],
+		["delivery", "A separately stated charge for delivering goods to the buyer."],
+		["delivery.taxable_goods", "A separately stated charge for delivering goods that are taxable at that sale."],
+		["delivery.exempt_goods", "A separately stated charge for delivering goods that are exempt at that sale, such as groceries."],
+		["nontaxable", "An amount that isn't a sale of anything: card fees passed through, deposits held, reimbursements. The caller's assertion; no jurisdiction's rule is consulted."]
 	];
 
 	/** OpenTaxRate, Streamlined definition, Stripe Tax, TaxJar, Avalara; * is
@@ -76,17 +99,23 @@
 	<code>&amp;code=food.catering,delivery</code>. An unknown code is a 400 listing the valid ones, so a typo can't look like
 	<code>not_researched</code>. See <a class="link" href="/docs#taxability">Taxability</a> in the API reference for the response.
 </p>
+<p>
+	Codes form a hierarchy: <code>food.prepared.hot</code> is a narrower kind of <code>food.prepared</code>. Send the narrowest
+	code that's true. It carries the fact a state's rule turns on (hot or cold, legal or IT, repair or improvement), so the answer
+	comes back settled instead of <code>conditional</code>. A parent code still answers: from its own rule where a place treats
+	every kind alike, else as conditional on its subcodes, each listed in the rule's <code>conditions</code>.
+</p>
 <table>
 	<thead><tr><th>Code</th><th>What it covers</th></tr></thead>
 	<tbody>
 		{#each CODES as [code, definition] (code)}
-			<tr><td><code>{code}</code></td><td>{definition}</td></tr>
+			<tr><td class={CODES.some(([parent]) => code.startsWith(parent + '.')) ? 'sub' : ''}><code>{code}</code></td><td>{definition}</td></tr>
 		{/each}
 	</tbody>
 </table>
 <p>
-	The list grows only when a rule needs a split: clothing, candy and soft drinks, medicine and digital goods each get a code when
-	their rules are researched.
+	The list grows only when a rule needs a split: clothing, medicine and digital goods each get a code when their rules are
+	researched.
 </p>
 
 <h2 id="mapping">Other taxonomies</h2>
@@ -108,7 +137,7 @@
 
 <h2 id="coverage">Coverage</h2>
 <p>
-	Rules are researched for Washington, New York, California and every Canadian province and territory, for the ten codes. Each one
+	Rules are researched for Washington, New York, California and every Canadian province and territory. Each one
 	is read from the state's or agency's own statutes, regulations and bulletins, and cites the pages it came from. No state
 	publishes taxability as data, so the rules are written down by hand from those pages and tested against the agencies' worked
 	examples.
@@ -151,3 +180,9 @@
 	A sandwich to go in Los Angeles is conditional: hot, it's taxed; cold, it isn't, unless the seller falls under California's 80-80
 	rule. The code can't say which, so the answer lists each case (shortened above; the API returns each condition in full).
 </p>
+
+<style>
+	.sub {
+		padding-left: 1.75rem;
+	}
+</style>

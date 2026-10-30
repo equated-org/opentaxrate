@@ -12,6 +12,8 @@
  *   "NY"           every part of a New York answer, state and local;
  *   "GA:local"     only the local parts there, where they differ from the
  *                  state's ("GA" then covers the state part alone);
+ *   "AK:state"     only the state part, leaving local parts to an
+ *                  "AK:local" rule or unresearched;
  *   "CA:GST/HST"   the federal base, GST or HST;
  *   "ON/CA:HST"    a province's HST, which either has its own rule (Ontario's
  *                  prepared-food rebate) or "follows" the federal base, as
@@ -30,7 +32,9 @@ import { TAX_CODES, type TaxCode } from "../codes.js";
  *  aren't compiled, and only ingest and the tests read them. */
 export const RULES_DIR = new URL("../../../src/taxability/rules/", import.meta.url).pathname;
 
-export type PartTreatment = "taxable" | "exempt" | "zero_rated" | "conditional" | "not_a_sale";
+/** special_rate: taxed at the rule's own `rate` instead of the part's general rate
+ *  (a state's lower rate on groceries). */
+export type PartTreatment = "taxable" | "special_rate" | "exempt" | "zero_rated" | "conditional" | "not_a_sale";
 
 export interface Citation {
   title: string;
@@ -41,7 +45,7 @@ export interface Citation {
 
 export interface Condition {
   when: string;
-  treatment: "taxable" | "exempt" | "zero_rated";
+  treatment: "taxable" | "special_rate" | "exempt" | "zero_rated";
   /** The part's rate in this case, where it isn't the part's full rate. */
   rate?: number;
 }
@@ -58,6 +62,10 @@ export interface Rule {
   fromIs: "effective" | "earliest_verified";
   /** "follows": the rule for `follows` applies, as checked for this code. */
   treatment: Exclude<PartTreatment, "not_a_sale"> | "follows";
+  /** For "special_rate": the rate charged on the code instead, for all the
+   *  parts the rule decides together (a state part; or every local part of
+   *  an "XX:local" rule, Utah's 1.25% across its local taxes on food). */
+  rate?: number;
   follows?: string;
   summary: string;
   /** The facts the outcome turns on, for a conditional rule; exceptions
@@ -99,6 +107,7 @@ export function loadRules(): Promise<RuleSet> {
           ...(r.endsOn === "9999-12-31" ? {} : { to: r.endsOn }),
           fromIs: r.fromIs as Rule["fromIs"],
           treatment: r.treatment as Rule["treatment"],
+          ...(r.rate !== null ? { rate: r.rate } : {}),
           ...(r.follows ? { follows: r.follows } : {}),
           summary: r.summary,
           conditions: r.conditions as Condition[],
@@ -122,16 +131,17 @@ const day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const RuleFile = z.array(
   z
     .object({
-      tax: z.string().regex(/^([A-Z]{2}(:local)?|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
+      tax: z.string().regex(/^([A-Z]{2}(:local|:state)?|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
       code: z.enum(Object.keys(TAX_CODES) as [keyof typeof TAX_CODES]).refine((c) => c !== "nontaxable", "nontaxable is never a rule"),
       from: day,
       to: day.optional(),
       fromIs: z.enum(["effective", "earliest_verified"]),
-      treatment: z.enum(["taxable", "exempt", "zero_rated", "conditional", "follows"]),
+      treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated", "conditional", "follows"]),
+      rate: z.number().min(0).max(0.3).optional(),
       follows: z.string().optional(),
       summary: z.string().min(10),
       conditions: z.array(
-        z.object({ when: z.string().min(3), treatment: z.enum(["taxable", "exempt", "zero_rated"]), rate: z.number().min(0).max(1).optional() }).strict(),
+        z.object({ when: z.string().min(3), treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]), rate: z.number().min(0).max(1).optional() }).strict(),
       ),
       citations: z.array(z.object({ title: z.string().min(2), url: z.string().url(), quote: z.string().optional() }).strict()).min(1),
       notes: z.string().optional(),
@@ -139,6 +149,7 @@ const RuleFile = z.array(
     .strict()
     .refine((r) => !r.to || r.to >= r.from, "to is before from")
     .refine((r) => (r.treatment === "follows") === Boolean(r.follows), "follows is set exactly when treatment is follows")
+    .refine((r) => (r.treatment === "special_rate") === (r.rate !== undefined), "rate is set exactly when treatment is reduced")
     .refine((r) => r.treatment !== "conditional" || r.conditions.length > 0, "a conditional rule lists its conditions"),
 );
 
@@ -169,9 +180,14 @@ export function readRuleFiles(dir = RULES_DIR): { rules: RuleRow[]; files: Array
     for (let i = 1; i < sorted.length; i++)
       if (end(sorted[i - 1]) >= sorted[i].from) problems.push(`${key}: ${sorted[i - 1].from} (${sorted[i - 1].file}) overlaps ${sorted[i].from} (${sorted[i].file})`);
   }
-  for (const r of rules)
+  for (const r of rules) {
     if (r.follows && !(byKey.get(`${r.follows}|${r.code}`) ?? []).some((t) => t.from <= end(r) && end(t) >= r.from))
       problems.push(`${r.file}: ${r.tax} ${r.code} follows ${r.follows}, which has no rule for ${r.code} in ${r.from}..${end(r)}`);
+    // A US state's special rate is the state part's; its local parts need a
+    // rule of their own, or they'd be charged the state's rate.
+    if (r.treatment === "special_rate" && /^[A-Z]{2}$/.test(r.tax) && !(byKey.get(`${r.tax}:local|${r.code}`) ?? []).some((t) => t.from <= end(r) && end(t) >= r.from))
+      problems.push(`${r.file}: ${r.tax} ${r.code} has a special rate from ${r.from}, so ${r.tax}:local needs a rule for ${r.code} over the same dates`);
+  }
   if (problems.length) throw new Error(`The taxability rules have problems:\n  ${problems.join("\n  ")}`);
   return { rules, files };
 }

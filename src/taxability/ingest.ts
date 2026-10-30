@@ -62,6 +62,7 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
           endsOn: r.to ?? "9999-12-31",
           fromIs: r.fromIs,
           treatment: r.treatment,
+          rate: r.rate ?? null,
           follows: r.follows ?? null,
           summary: r.summary,
           conditions: r.conditions,
