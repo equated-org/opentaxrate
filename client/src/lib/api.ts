@@ -60,7 +60,7 @@ export interface AddressRate {
 	regions?: Regions;
 }
 
-export type RuleTreatment = 'taxable' | 'exempt' | 'zero_rated' | 'conditional' | 'not_a_sale';
+export type RuleTreatment = 'taxable' | 'special_rate' | 'exempt' | 'zero_rated' | 'conditional' | 'not_a_sale';
 
 /** A dated, cited rule for how one tax treats one code. */
 export interface TaxabilityRule {
@@ -74,7 +74,9 @@ export interface TaxabilityRule {
 	summary: string;
 	/** For a conditional rule, each fact the outcome turns on; for a settled
 	 *  one, exceptions worth knowing. */
-	conditions: Array<{ when: string; treatment: 'taxable' | 'exempt' | 'zero_rated'; rate?: number }>;
+	/** For special_rate: the rate charged on the code instead. */
+	rate?: number;
+	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number }>;
 	citations: Array<{ title: string; url: string; quote?: string }>;
 }
 
@@ -165,6 +167,8 @@ export interface RateQuery {
 	street: string;
 	city: string;
 	zip: string;
+	/** What was sold (code=, a taxability code); the answer adds how it's taxed. */
+	code?: string;
 }
 
 interface Common {
@@ -193,6 +197,7 @@ export function apiBase(): string {
 export function rateUrl(q: RateQuery, trace: boolean): string {
 	const params = new URLSearchParams({ state: q.state, street: q.street, city: q.city });
 	if (q.zip) params.set('zip', q.zip);
+	if (q.code) params.set('code', q.code);
 	params.set('include', trace ? 'trace,regions' : 'regions');
 	const path = `${apiBase()}/v1/rate?${params}`;
 	return path.startsWith('/') && typeof location !== 'undefined' ? location.origin + path : path;

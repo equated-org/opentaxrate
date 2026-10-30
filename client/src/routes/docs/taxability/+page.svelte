@@ -109,7 +109,7 @@
 	<thead><tr><th>Code</th><th>What it covers</th></tr></thead>
 	<tbody>
 		{#each CODES as [code, definition] (code)}
-			<tr><td class={CODES.some(([parent]) => code.startsWith(parent + '.')) ? 'sub' : ''}><code>{code}</code></td><td>{definition}</td></tr>
+			<tr id={code}><td class={CODES.some(([parent]) => code.startsWith(parent + '.')) ? 'sub' : ''}><code>{code}</code></td><td>{definition}</td></tr>
 		{/each}
 	</tbody>
 </table>

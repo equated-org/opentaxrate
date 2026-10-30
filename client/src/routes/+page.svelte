@@ -22,6 +22,8 @@
 	import RateList from '$lib/result/RateList.svelte';
 	import Refusal from '$lib/result/Refusal.svelte';
 	import AddressSearch from '$lib/search/AddressSearch.svelte';
+	import CodePicker from '$lib/search/CodePicker.svelte';
+	import { isCode } from '$lib/codes';
 	import { PARSE_HINT } from '$lib/search/parse';
 	import { resolve, type Suggestion } from '$lib/search/suggest';
 	import { stateName } from '$lib/states';
@@ -34,6 +36,8 @@
 	});
 
 	let text = $state('');
+	/** What was sold (&code=); empty for the general rate alone. */
+	let code = $state('');
 	let loading = $state(false);
 	let result = $state<LookupResult | null>(null);
 	let shown = $state<Suggestion | null>(null);
@@ -65,7 +69,7 @@
 				return;
 			}
 			const r = await lookUp(
-				{ state: target.state, street: target.street, city: target.city, zip: target.zip },
+				{ state: target.state, street: target.street, city: target.city, zip: target.zip, code: code || undefined },
 				c.signal,
 				fixture()
 			);
@@ -140,6 +144,7 @@
 		const url = new URL(page.url);
 		url.searchParams.set('q', s.label);
 		url.searchParams.delete('vs');
+		setCode(url);
 		pushState(url, {});
 		run(s);
 	}
@@ -161,8 +166,23 @@
 		const url = new URL(page.url);
 		url.searchParams.set('q', q);
 		url.searchParams.delete('vs');
+		setCode(url);
 		pushState(url, {});
 		fromText(q);
+	}
+
+	/** The page's URL carries the code, so a shared lookup shows the same sale. */
+	function setCode(url: URL) {
+		if (code) url.searchParams.set('code', code);
+		else url.searchParams.delete('code');
+	}
+
+	/** A new code re-asks about the address shown, if there is one. */
+	function pickCode() {
+		const url = new URL(page.url);
+		setCode(url);
+		pushState(url, {});
+		if (shown) run(shown);
 	}
 
 	function reset() {
@@ -178,6 +198,8 @@
 
 	// Loading a shared link, and back/forward between lookups.
 	$effect(() => {
+		const linked = page.url.searchParams.get('code') ?? '';
+		if (isCode(linked) || linked === '') code = linked;
 		const q = page.url.searchParams.get('q');
 		const vs = page.url.searchParams.getAll('vs').slice(0, 2);
 		const key = q && vs.length ? [q, ...vs].join('\n') : q;
@@ -239,7 +261,8 @@
 
 				<div class="relative z-10 mt-10 w-full max-w-[640px]">
 					<AddressSearch bind:value={text} onpick={go} onsubmit={submit} autofocus />
-					<div class="mt-4 h-[6px] px-6">
+					<div class="mt-3 flex justify-center"><CodePicker bind:value={code} /></div>
+					<div class="mt-3 h-[6px] px-6">
 						{#if loading}<ProgressStrip />{/if}
 					</div>
 					{#if hint}<p class="mt-1 text-center text-sm text-[var(--warn)]" role="alert">{hint}</p>{/if}
@@ -295,7 +318,10 @@
 	<div class="flex min-h-dvh flex-col">
 		<SiteNav onhome={home}>
 			{#snippet center()}
-				<AddressSearch bind:value={text} onpick={go} onsubmit={submit} size="sm" />
+				<div class="flex items-center gap-3">
+					<div class="min-w-0 flex-1"><AddressSearch bind:value={text} onpick={go} onsubmit={submit} size="sm" /></div>
+					<div class="hidden sm:block"><CodePicker bind:value={code} onchange={pickCode} size="sm" /></div>
+				</div>
 			{/snippet}
 			{#snippet below()}
 				<div class="h-[6px]">{#if loading}<ProgressStrip cells={64} />{/if}</div>

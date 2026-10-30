@@ -2,6 +2,7 @@
 	import type { AddressRate, Trace } from '$lib/api';
 	import RateBar from '$lib/pixel/RateBar.svelte';
 	import Actions from './Actions.svelte';
+	import Taxability from './Taxability.svelte';
 	import { howPlaced, MATCH_SHORT, partRows, pct, regionEditions, regionRows } from './format';
 	import { isProvince } from '$lib/states';
 
@@ -46,6 +47,10 @@
 	<RateBar
 		segments={rows.filter((r) => !r.dim).map((r) => ({ rate: r.rate, color: r.color, label: `${r.name} ${pct(r.rate)}` }))}
 	/>
+
+	{#if rate.taxability && Object.keys(rate.taxability).length}
+		<Taxability taxability={rate.taxability} {date} parts={rate.parts} {preview} />
+	{/if}
 
 	<ul class="-mt-2 divide-y divide-[var(--border)] border-y border-[var(--border)]">
 		{#each rows as row, i (i)}
