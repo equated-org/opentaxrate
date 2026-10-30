@@ -15,8 +15,10 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *   taxability score [--cases DIR] [--list]
  *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals)
  *   taxability fetch [--out DIR]  download every cited and watched page again; report what changed (sources.txt, sources.json)
- *   taxability verify [--since REF]
+ *   taxability file URL PATH      file a page downloaded by hand in the archive, under its URL
+ *   taxability verify [--since REF] [--dir D]
  *                                 the rules changed since REF (default origin/main): each citation archived and its quote on the page
+ *   evidence                      upload every source copy the evidence archive lacks, and its catalog (src/evidence.ts)
  *   check --cases file.csv        published cases against the lookup
  *                                 (columns state,street,city,zip,date,expected)
  */
@@ -104,10 +106,22 @@ async function main() {
         console.log(`Report: ${out}/sources.txt`);
         return;
       }
+      if (positional[0] === "file") {
+        // A page downloaded by hand (a site that blocks scripts), filed in
+        // the archive under the URL it came from.
+        const [, url, file] = positional;
+        if (!url || !file) throw new Error("taxability file URL PATH");
+        const { keepLocalCopy } = await import("./ingest/archive.js");
+        const { fileNameFor } = await import("./taxability/fetch.js");
+        const { readFileSync } = await import("node:fs");
+        await keepLocalCopy(url, file, fileNameFor(url, new Uint8Array(readFileSync(file))));
+        console.log(`Filed ${file} as ${url}`);
+        return;
+      }
       if (positional[0] === "verify") {
         const { verifyChangedRules } = await import("./taxability/fetch.js");
         const ref = flag("--since") ?? "origin/main";
-        const { changed, problems } = verifyChangedRules(ref);
+        const { changed, problems } = verifyChangedRules(ref, flag("--dir"));
         console.log(`${changed.length} rules added or changed since ${ref}${changed.length ? ":" : "."}`);
         for (const c of changed) console.log(`  ${c}`);
         if (problems.length) {
@@ -117,12 +131,19 @@ async function main() {
         }
         return;
       }
-      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, fetch or verify");
+      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, fetch, file or verify");
       const { scoreTaxability, printScore } = await import("./taxability/evaluate.js");
       const { loadRules } = await import("./taxability/index.js");
       const rules = await loadRules();
       if (!rules.size) throw new Error("taxability_rules is empty: run `pnpm ingest --kind taxability` first.");
       printScore(scoreTaxability(rules, flag("--cases")), { list: args.includes("--list") });
+      return;
+    }
+    case "evidence": {
+      // The public evidence archive (src/evidence.ts): every source copy to R2, and its catalog.
+      const { uploadEvidence } = await import("./evidence.js");
+      const { uploaded, kept, bytes } = await uploadEvidence();
+      console.log(`Evidence: ${uploaded} copies uploaded (${(bytes / 1e6).toFixed(1)} MB), ${kept} already there; catalog updated.`);
       return;
     }
     case "check":

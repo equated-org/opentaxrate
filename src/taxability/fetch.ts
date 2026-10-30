@@ -55,6 +55,12 @@ export function fileName(url: string, bytes: Uint8Array): string | undefined {
   return `${last}.${Buffer.from(bytes.slice(0, 5)).toString("latin1") === "%PDF-" ? "pdf" : "html"}`;
 }
 
+/** The name a page is filed under from a local copy: always the URL's,
+ *  never the downloaded file's ("page.htm"), so two pages in one folder
+ *  can't take each other's place. */
+export const fileNameFor = (url: string, bytes: Uint8Array): string =>
+  fileName(url, bytes) ?? (decodeURIComponent(new URL(url).pathname).split("/").filter(Boolean).at(-1) || "index.html");
+
 /** A page to watch for news, and the CSV columns whose values change on
  *  their own (a "days since" counter) and so don't count as a change. */
 interface Watched {
@@ -286,7 +292,7 @@ export function describeSourceChecks(checks: SourceCheck[]): string {
  * before a rule change goes to main (docs/maintenance/taxability.md);
  * an empty list of problems means it may.
  */
-export function verifyChangedRules(ref: string): { changed: string[]; problems: string[] } {
+export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: string[]; problems: string[] } {
   const key = (r: { tax: string; code: string; from: string }) => `${r.tax} ${r.code} ${r.from}`;
   const before = new Map<string, string>();
   const relative = path.relative(process.cwd(), RULES_DIR);
@@ -299,7 +305,7 @@ export function verifyChangedRules(ref: string): { changed: string[]; problems: 
   for (const file of listed.split("\n").filter((f) => /^(us|ca)-[A-Za-z]+\.json$/.test(f)))
     for (const r of JSON.parse(execFileSync("git", ["show", `${ref}:${relative}/${file}`], { encoding: "utf8", maxBuffer: 64 << 20 })) as Array<{ tax: string; code: string; from: string }>)
       before.set(key(r), JSON.stringify(r));
-  const { rules } = readRuleFiles();
+  const { rules } = readRuleFiles(dir);
   const archived = archivedByUrl();
   const root = sourcesRoot();
   const changed: string[] = [];

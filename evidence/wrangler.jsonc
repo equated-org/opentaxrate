@@ -1,0 +1,12 @@
+{
+	// The public evidence archive (worker.js), served at evidence.opentaxrate.com
+	// from the R2 bucket `opentaxrate evidence` (src/evidence.ts) fills. Deploy
+	// from this folder: wrangler deploy. The account comes from
+	// CLOUDFLARE_ACCOUNT_ID, as for the site (client/cloudflare).
+	"name": "opentaxrate-evidence",
+	"main": "worker.js",
+	"compatibility_date": "2026-10-01",
+	"routes": [{ "pattern": "evidence.opentaxrate.com", "custom_domain": true }],
+	"r2_buckets": [{ "binding": "EVIDENCE", "bucket_name": "opentaxrate-evidence" }],
+	"observability": { "enabled": true }
+}

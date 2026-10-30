@@ -75,6 +75,19 @@ Manage API tokens → Create API token, *Object Read & Write*, applied to
 (`scripts/backup-sources.sh`) ignores unrelated `RESTIC_*` settings, so a
 backup cannot land in another repository.
 
+### Evidence
+
+`npx tsx src/cli.ts evidence` mirrors every file in `artifacts/sources/` (older
+versions included) to the public R2 bucket `opentaxrate-evidence`, unchanged,
+as `sha256/<hash>`, plus `catalog.json`: each URL's captures and the
+taxability rules citing it. It uploads only what the bucket lacks, with the
+same R2 settings as backups. The Worker in `evidence/` serves it at
+[evidence.opentaxrate.com](https://evidence.opentaxrate.com): a readable
+view of each page in the site's style (its scripts, styles and menus left
+out; made on request, never stored), the raw bytes, every capture of a URL
+(`/url?u=`), and the capture in force on a day (`/<YYYYMMDD>/<url>`). Deploy
+it from `evidence/` with `wrangler deploy`.
+
 ## Snapshots and releases
 
 `scripts/rates` (also `pnpm rates`) moves the published data between this machine, GitHub Releases and production. Data reaches production only as a release: load and benchmark it locally, publish it, then pull it. Never refresh or ingest on the server.
