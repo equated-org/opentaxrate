@@ -127,7 +127,11 @@ export const forgetRules = () => {
   loaded = null;
 };
 
-const day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+// A real calendar day: 2020-02-31 fails here, not at load.
+const day = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .refine((d) => new Date(`${d}T00:00:00Z`).toISOString().slice(0, 10) === d, "not a calendar date");
 const RuleFile = z.array(
   z
     .object({
@@ -137,7 +141,7 @@ const RuleFile = z.array(
       to: day.optional(),
       fromIs: z.enum(["effective", "earliest_verified"]),
       treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated", "conditional", "follows"]),
-      rate: z.number().min(0).max(0.3).optional(),
+      rate: z.number().gt(0).max(0.3).optional(),
       follows: z.string().optional(),
       summary: z.string().min(10),
       conditions: z.array(
@@ -184,10 +188,36 @@ export function readRuleFiles(dir = RULES_DIR): { rules: RuleRow[]; files: Array
     if (r.follows && !(byKey.get(`${r.follows}|${r.code}`) ?? []).some((t) => t.from <= end(r) && end(t) >= r.from))
       problems.push(`${r.file}: ${r.tax} ${r.code} follows ${r.follows}, which has no rule for ${r.code} in ${r.from}..${end(r)}`);
     // A US state's special rate is the state part's; its local parts need a
-    // rule of their own, or they'd be charged the state's rate.
-    if (r.treatment === "special_rate" && /^[A-Z]{2}$/.test(r.tax) && !(byKey.get(`${r.tax}:local|${r.code}`) ?? []).some((t) => t.from <= end(r) && end(t) >= r.from))
-      problems.push(`${r.file}: ${r.tax} ${r.code} has a special rate from ${r.from}, so ${r.tax}:local needs a rule for ${r.code} over the same dates`);
+    // rule of their own for every day of it (on the code or a broader one),
+    // or they'd join the state's group and their own rate would vanish.
+    if (r.treatment === "special_rate" && /^[A-Z]{2}$/.test(r.tax)) {
+      const local = [r.code, ...ancestors(r.code)].flatMap((c) => byKey.get(`${r.tax}:local|${c}`) ?? []);
+      const gap = uncovered(r.from, end(r), local.map((t) => [t.from, end(t)]));
+      if (gap) problems.push(`${r.file}: ${r.tax} ${r.code} has a special rate from ${r.from}, but ${r.tax}:local has no rule for it on ${gap}`);
+    }
   }
   if (problems.length) throw new Error(`The taxability rules have problems:\n  ${problems.join("\n  ")}`);
   return { rules, files };
+}
+
+/** The codes a code sits under, nearest first. */
+function ancestors(code: string): string[] {
+  const out: string[] = [];
+  for (let c = code; c.includes("."); ) {
+    c = c.slice(0, c.lastIndexOf("."));
+    if (c in TAX_CODES) out.push(c);
+  }
+  return out;
+}
+
+/** The first day of [from, to] none of `spans` covers, or null. */
+function uncovered(from: string, to: string, spans: Array<[string, string]>): string | null {
+  const next = (d: string) => new Date(Date.parse(`${d}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
+  let day = from;
+  for (const [a, b] of [...spans].sort((x, y) => x[0].localeCompare(y[0]))) {
+    if (a > day) break;
+    if (b >= to) return null;
+    if (b >= day) day = next(b);
+  }
+  return day;
 }

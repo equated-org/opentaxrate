@@ -9,6 +9,7 @@ export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, nam
 		group: 'Food',
 		codes: [
 			['food.grocery', 'Groceries'],
+			['food.uncooked', 'Assembled, to cook at home'],
 			['food.candy', 'Candy'],
 			['food.soft_drink', 'Soft drinks'],
 			['food.prepared', 'Prepared food'],
@@ -39,12 +40,14 @@ export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, nam
 			['service.professional.legal', 'Legal'],
 			['service.professional.accounting', 'Accounting'],
 			['service.professional.accounting.tax_return', 'Personal tax return'],
+			['service.professional.accounting.other', 'Other accounting'],
 			['service.professional.consulting', 'Management consulting'],
 			['service.professional.it', 'IT services'],
 			['service.professional.engineering', 'Engineering and architecture'],
 			['service.professional.design', 'Interior design'],
 			['service.professional.advertising', 'Advertising'],
-			['service.professional.lobbying', 'Lobbying']
+			['service.professional.lobbying', 'Lobbying'],
+			['service.professional.other', 'Other professional service']
 		]
 	},
 	{
@@ -53,6 +56,7 @@ export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, nam
 			['construction.real_property', 'Construction for an owner'],
 			['construction.real_property.improvement', 'New work, improvement'],
 			['construction.real_property.improvement.flooring', 'Flooring installed'],
+			['construction.real_property.improvement.other', 'Other new work'],
 			['construction.real_property.repair', 'Repair, maintenance']
 		]
 	},
@@ -63,6 +67,7 @@ export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, nam
 			['delivery.taxable_goods', 'Delivering taxable goods'],
 			['delivery.taxable_goods.mail', 'By mail, at cost'],
 			['delivery.taxable_goods.carrier', 'By carrier, F.O.B. origin'],
+			['delivery.taxable_goods.other', 'Other delivery of taxable goods'],
 			['delivery.exempt_goods', 'Delivering exempt goods']
 		]
 	},

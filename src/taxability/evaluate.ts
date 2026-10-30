@@ -15,9 +15,11 @@
  * decline sends the caller to the facts, a wrong rate charges the wrong
  * tax.
  */
+import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isProvince, provinceParts } from "../rates/canada.js";
+import { STATEWIDE_STATES } from "../rates/statewide.js";
 import type { RatePart } from "../rates/types.js";
 import { isTaxCode, taxabilityOf, type RuleSet, type Taxability } from "./index.js";
 
@@ -49,14 +51,19 @@ export interface Scored {
  *  (artifacts/, git-ignored, backed up by `pnpm bench backup`). */
 const DEFAULT_DIR = new URL("../../artifacts/taxability/evals", import.meta.url).pathname;
 
-/** The parts a case is scored on. A US state gets a state part and one
- *  local part, so a case can expect them apart; the rates are nominal. */
+/** Range states whose files carry only the state's rate: no local sales
+ *  taxes (read from the loaded rates, 2026-10-30). */
+const STATE_RATE_ONLY = ["IN", "KY", "MI", "NJ", "RI"];
+
+/** The parts a case is scored on, as a real answer there has them: a
+ *  province's taxes; a state part alone where the state has one rate
+ *  everywhere (no local sales taxes); else a state and a local part, so a
+ *  case can expect them apart. The rates are nominal. */
 function partsAt(place: string, date: string): RatePart[] {
   if (isProvince(place)) return provinceParts(place, date);
-  return [
-    { kind: "state", name: place, code: `${place}:state`, rate: 0.04 },
-    { kind: "city", name: `${place} local`, code: `${place}:local`, rate: 0.02 },
-  ];
+  const state: RatePart = { kind: "state", name: place, code: `${place}:state`, rate: 0.04 };
+  if (STATEWIDE_STATES.includes(place) || STATE_RATE_ONLY.includes(place)) return [state];
+  return [state, { kind: "city", name: `${place} local`, code: `${place}:local`, rate: 0.02 }];
 }
 
 /** The treatment of the group holding a part. */
@@ -85,8 +92,13 @@ export function scoreCase(c: TaxabilityCase, rules: RuleSet): Scored {
     got.push(`${label} ${treatment}`);
   };
   const e = c.expected;
-  // The sale as a whole: taxed if any part taxes it.
-  expect("sales", t.treatment === "taxable" || t.treatment === "partial" ? "taxable" : t.treatment === "not_taxed" ? treatmentOf(t, parts[0].code) : t.treatment, e.sales);
+  // The sale as a whole: every part must agree with the source, so a wrong
+  // state answer can't hide behind a conditional local one.
+  if (e.sales) {
+    const each = parts.map((p) => compare(treatmentOf(t, p.code), e.sales!));
+    outcomes.push(WORST.find((o) => each.includes(o)) ?? "right");
+    got.push(`sales ${parts.map((p) => treatmentOf(t, p.code)).join("/")}`);
+  }
   expect("state", treatmentOf(t, `${c.place}:state`), e.state);
   expect("local", treatmentOf(t, `${c.place}:local`), e.local);
   const federal = parts.find((p) => p.code === "CA:GST" || p.code === "CA:HST");
@@ -108,6 +120,14 @@ export function loadCases(dir = DEFAULT_DIR): TaxabilityCase[] {
   return readdirSync(dir, { withFileTypes: true })
     .sort((a, b) => a.name.localeCompare(b.name))
     .flatMap((f) => (f.isDirectory() ? loadCases(join(dir, f.name)) : f.name.endsWith(".json") ? (JSON.parse(readFileSync(join(dir, f.name), "utf8")) as TaxabilityCase[]) : []));
+}
+
+/** A fingerprint of the case set: the gate compares wrong answers case by
+ *  case only between runs scored on the same cases. */
+export function casesHash(dir = DEFAULT_DIR): string {
+  const hash = createHash("sha256");
+  for (const c of loadCases(dir).sort((a, b) => a.id.localeCompare(b.id))) hash.update(JSON.stringify(c));
+  return hash.digest("hex").slice(0, 16);
 }
 
 /** Every case scored against `rules`: the database's, as lookups read them. */

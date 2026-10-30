@@ -1,3 +1,6 @@
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { parentOf, parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
 import { pageText, quoteOnPage } from "../src/taxability/fetch.js";
@@ -95,6 +98,44 @@ describe("taxability", () => {
     expect(taxabilityOf({ state: "NS", parts: provinceParts("NS", "2026-06-15") }, "food.catering", "2026-06-15", without).treatment).toBe("not_researched");
   });
 
+  it("a broad code with differing subcodes is conditional, and .other settles the rest by the broad rule", () => {
+    const ky: RatePart[] = [{ kind: "state", name: "Kentucky", code: "21", rate: 0.06, ids: {} }];
+    const broad = taxabilityOf({ state: "KY", parts: ky }, "service.professional", "2026-10-30", RULES);
+    expect(broad).toMatchObject({ treatment: "conditional", rate: null });
+    const when = broad.taxes[0].rule!.conditions.map((c) => [c.when.split(":")[0], c.treatment]);
+    expect(when).toEqual(expect.arrayContaining([["service.professional.design", "taxable"], ["service.professional.lobbying", "taxable"], ["service.professional.other", "exempt"]]));
+    expect(taxabilityOf({ state: "KY", parts: ky }, "service.professional.other", "2026-10-30", RULES)).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    expect(taxabilityOf({ state: "KY", parts: ky }, "service.professional.design", "2026-10-30", RULES)).toMatchObject({ treatment: "taxable", rate: 0.06 });
+    // Before Kentucky taxed design, every kind it lists was exempt: the broad code settles.
+    expect(taxabilityOf({ state: "KY", parts: ky }, "service.professional", "2022-06-01", RULES)).toMatchObject({ treatment: "not_taxed", rate: 0 });
+  });
+
+  it("refuses rule files that can't be right: an impossible day, a zero rate, overlaps, a special rate whose local parts go uncovered", () => {
+    const cite = [{ title: "A bulletin", url: "https://example.gov/x", quote: "Groceries are exempt." }];
+    const base = { fromIs: "effective", summary: "How groceries are taxed here.", conditions: [], citations: cite };
+    const problems = (rules: object[]) => {
+      const dir = mkdtempSync(path.join(tmpdir(), "otr-rules-"));
+      writeFileSync(path.join(dir, "us-ZZ.json"), JSON.stringify(rules));
+      try {
+        readRuleFiles(dir);
+        return "";
+      } catch (error) {
+        return (error as Error).message;
+      }
+    };
+    expect(problems([{ ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "exempt" }])).toBe("");
+    expect(problems([{ ...base, tax: "ZZ", code: "food.grocery", from: "2021-02-30", treatment: "exempt" }])).not.toBe("");
+    expect(problems([{ ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "special_rate", rate: 0 }])).not.toBe("");
+    expect(problems([
+      { ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "exempt" },
+      { ...base, tax: "ZZ", code: "food.grocery", from: "2022-01-01", treatment: "taxable" },
+    ])).not.toBe("");
+    // A state special rate needs its local parts settled for every day it's in force.
+    const special = { ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "special_rate", rate: 0.02 };
+    expect(problems([special, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2021-01-01", treatment: "exempt" }])).toBe("");
+    expect(problems([special, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2022-01-01", treatment: "exempt" }])).toContain("ZZ:local");
+  });
+
   it("fits the API schema with and without a code", () => {
     const base = {
       state: "NY", rate: 0.08875, stateRate: 0.04, localRate: 0.04875,
@@ -149,5 +190,45 @@ describe("taxability", () => {
     ] as Rule[]);
     const three = [{ kind: "state" as const, code: "ZZ", rate: 0.0485 }, { kind: "county" as const, code: "ZZ-1", rate: 0.01 }, { kind: "city" as const, code: "ZZ-2", rate: 0.01 }, { kind: "district" as const, code: "ZZ-3", rate: 0.0025 }];
     expect(taxabilityOf({ state: "ZZ", parts: three }, "food.grocery", "2026-06-15", local).rate).toBe(0.03);
+  });
+
+  it("keeps its promises for every place, every code and dates from 2013 to 2027, on the real rules", () => {
+    const provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
+    // Every US state with rules ("CA" here is California; Canada's federal
+    // rules are reached through the provinces).
+    const places = [...new Set(rows.map((r) => r.tax.slice(0, 2)))].filter((p) => !provinces.includes(p));
+    const dates = ["2013-06-01", "2016-01-01", "2019-07-01", "2021-03-15", "2023-01-01", "2024-12-20", "2025-07-01", "2025-10-15", "2026-06-15", "2026-10-30", "2027-03-01"];
+    let answers = 0;
+    for (const date of dates)
+      for (const place of [...places, ...provinces]) {
+        const parts: RatePart[] = provinces.includes(place)
+          ? provinceParts(place, date)
+          : [{ kind: "state", code: `${place}-S`, rate: 0.05 }, { kind: "county", code: `${place}-C`, rate: 0.01 }, { kind: "city", code: `${place}-T`, rate: 0.015 }];
+        const general = parts.reduce((sum, p) => sum + p.rate, 0);
+        for (const code of CODES) {
+          const t = taxabilityOf({ state: place, parts }, code, date, RULES);
+          answers++;
+          const where = `${place} ${code} ${date}`;
+          expect(t.rate === null, where).toBe(t.treatment === "conditional" || t.treatment === "not_researched");
+          expect(t.taxes.flatMap((g) => g.parts).sort(), where).toEqual(parts.map((p) => p.code).sort());
+          for (const g of t.taxes) {
+            expect(g.rate === null, where).toBe(g.treatment === "conditional" || g.treatment === "not_researched");
+            if (g.treatment === "not_researched") expect(g.rule, where).toBeNull();
+            else expect(g.rule?.citations.length, where).toBeGreaterThan(code === "nontaxable" ? -1 : 0);
+          }
+          // A settled broad code never hides a narrower code taxed differently.
+          if (t.rate !== null)
+            for (const narrower of CODES.filter((c) => c.startsWith(`${code}.`)))
+              expect(taxabilityOf({ state: place, parts }, narrower, date, RULES).rate, `${where} vs ${narrower}`).toBe(t.rate);
+          if (t.rate !== null) {
+            const special = t.taxes.some((g) => g.treatment === "special_rate");
+            if (!special) expect(t.rate, where).toBeLessThanOrEqual(general + 1e-9);
+            expect(t.rate, where).toBeGreaterThanOrEqual(0);
+            if (t.treatment === "taxable") expect(t.rate, where).toBeCloseTo(general, 9);
+            if (t.treatment === "not_taxed") expect(t.rate, where).toBe(0);
+          }
+        }
+      }
+    expect(answers).toBeGreaterThan(20_000);
   });
 });

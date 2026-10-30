@@ -103,7 +103,10 @@
 	Codes form a hierarchy: <code>food.prepared.hot</code> is a narrower kind of <code>food.prepared</code>. Send the narrowest
 	code that's true. It carries the fact a state's rule turns on (hot or cold, legal or IT, repair or improvement), so the answer
 	comes back settled instead of <code>conditional</code>. A parent code still answers: from its own rule where a place treats
-	every kind alike, else as conditional on its subcodes, each listed in the rule's <code>conditions</code>.
+	every kind alike, else as conditional on its subcodes, each listed in the rule's <code>conditions</code>. Where the
+	subcodes list exceptions (a few professional services a state taxes), <code>.other</code> is everything else under the code:
+	<code>service.professional.other</code> is a professional service that is none of the listed kinds, and answers by the broad
+	code's own rule.
 </p>
 <table>
 	<thead><tr><th>Code</th><th>What it covers</th></tr></thead>

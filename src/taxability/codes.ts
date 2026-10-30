@@ -10,11 +10,17 @@
  * turns on (hot or cold, legal or IT), so fewer answers come back
  * conditional. A parent code still answers: by its own rule where a place
  * treats every kind alike, else as conditional on its subcodes.
+ *
+ * Where the subcodes list exceptions rather than split the whole (a few
+ * professional services a state taxes), "<code>.other" is the rest: none
+ * of the listed kinds. It answers by the broad code's own rule, so a
+ * caller who knows the sale is none of them gets a settled rate.
  */
 export const TAX_CODES = {
   "goods.general": "Tangible goods sold at retail that no narrower code here describes: furniture, tools, electronics, household goods. Not food, clothing, medicine or other goods a jurisdiction treats on their own.",
 
   "food.grocery": "Food and food ingredients sold unprepared, for eating at home: produce, meat, dairy, bread, packaged staples. Not candy, soft drinks, alcohol, dietary supplements or tobacco, and not food the seller prepared.",
+  "food.uncooked": "Food the seller assembled or combined for the buyer to cook before eating: a take-and-bake pizza, kebabs, stuffed or marinated raw meat, a meal kit. Not groceries sold as they came, and not food sold ready to eat.",
   "food.candy": "Candy and confectionery: sweets, chocolate, gum, candy bars; not baked goods or anything with flour.",
   "food.soft_drink": "Non-alcoholic beverages with natural or artificial sweeteners: soda, sweetened tea, energy drinks; not milk, juice of more than half fruit or vegetable, or plain water.",
 
@@ -39,22 +45,26 @@ export const TAX_CODES = {
   "service.professional.legal": "Legal services: advice, representation, drafting by a lawyer or notary.",
   "service.professional.accounting": "Accounting, auditing, bookkeeping and tax return preparation.",
   "service.professional.accounting.tax_return": "Preparing and filing a person's own income tax return, alone.",
+  "service.professional.accounting.other": "Accounting, auditing or bookkeeping other than preparing a person's own income tax return alone.",
   "service.professional.consulting": "Management and business consulting: strategy, operations, finance or human-resources advice, not IT and not advertising.",
   "service.professional.it": "Information technology services: IT consulting, systems integration, network and help-desk support, IT training; not writing software.",
   "service.professional.engineering": "Engineering and architectural design services.",
   "service.professional.design": "Interior design and decorating services.",
   "service.professional.advertising": "Advertising agency services: advice on, design of and placement of advertising.",
   "service.professional.lobbying": "Lobbying a government on the customer's behalf.",
+  "service.professional.other": "A professional service that is none of the kinds listed under service.professional: not legal, accounting, consulting, IT, engineering, design, advertising or lobbying.",
 
   "construction.real_property": "Building, repairing, painting or improving the customer's building or land, labour and materials billed together, sold to the owner (not to another contractor).",
   "construction.real_property.improvement": "New construction, or a capital improvement or remodel that becomes part of the building or land and adds to its value or life: an addition, a new roof, a kitchen remodel.",
   "construction.real_property.improvement.flooring": "Supplying and installing floor covering in a building: wall-to-wall carpet, vinyl, tile, hardwood or laminate.",
+  "construction.real_property.improvement.other": "New construction or a capital improvement other than installing floor covering.",
   "construction.real_property.repair": "Repair, maintenance or repainting of an existing building or its fixtures: fixing a leak, replacing a broken step, repainting.",
 
   delivery: "A separately stated charge for delivering goods to the buyer.",
   "delivery.taxable_goods": "A separately stated charge for delivering goods that are taxable at that sale.",
   "delivery.taxable_goods.mail": "Postage for taxable goods sent by the postal service, separately stated at its cost.",
   "delivery.taxable_goods.carrier": "Shipping of taxable goods by a common or contract carrier (not the seller's own vehicle), separately stated, the buyer owning the goods once shipped (F.O.B. origin).",
+  "delivery.taxable_goods.other": "Delivery of taxable goods other than postage at cost or F.O.B.-origin carrier shipping: the seller's own vehicle, a courier, or shipping marked up or F.O.B. destination.",
   "delivery.exempt_goods": "A separately stated charge for delivering goods that are exempt at that sale, such as groceries.",
 
   nontaxable: "An amount that isn't a sale of anything: card fees passed through, deposits held, reimbursements. The caller's assertion; no jurisdiction's rule is consulted.",
