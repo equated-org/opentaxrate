@@ -98,7 +98,9 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
     readSync(fd, head, 0, 512, 0);
     closeSync(fd);
     const record = (urls[entry.url] ??= { captures: [], citedBy: [] });
-    if (!record.captures.some((c) => c.sha256 === entry.sha256))
+    // A refetch of the same bytes isn't a new capture; a page that changed
+    // and changed back (A, B, A) is three.
+    if (record.captures.at(-1)?.sha256 !== entry.sha256)
       record.captures.push({ at: entry.at, sha256: entry.sha256, bytes: entry.bytes, type: typeOf(entry.file, head) });
   }
   for (const r of readRuleFiles().rules)
