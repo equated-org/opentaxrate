@@ -13,8 +13,12 @@ The browser talks to three services directly:
 - the address autocomplete: Photon (default) or Geoapify, while typing;
 - OpenFreeMap's tiles, drawn with MapLibre after the first result.
 
-This app is standalone. It has its own `package.json` and lockfile, imports
-nothing from `../src`, and the API's Docker build ignores it.
+This app is standalone. It has its own `package.json` and lockfile, and the
+API's Docker build ignores it. It imports no code from `../src`; the one thing
+it reads from there is the taxability rule files
+(`../src/taxability/rules/{us,ca}-*.json`), which `/sources` reduces at build
+time (`src/routes/sources/+page.server.ts`) to the pages they cite, so the
+client must be built from a full checkout.
 
 ## Develop
 

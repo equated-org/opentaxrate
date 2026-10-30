@@ -5,6 +5,7 @@
 	 *  copy, scrolled to the quoted sentence. */
 	import type { Taxability } from '$lib/api';
 	import { codeName } from '$lib/codes';
+	import { archivedOn } from '$lib/evidence';
 	import { pct } from './format';
 
 	interface Props {
@@ -35,17 +36,7 @@
 	};
 
 	/** The archived copy in force on the answer's day, scrolled to the quote. */
-	function archived(url: string, quote?: string): string {
-		const day = date.replaceAll('-', '');
-		const words = (quote ?? '').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
-		const enc = (s: string) => encodeURIComponent(s).replace(/-/g, '%2D');
-		const fragment = !words.length
-			? ''
-			: words.length <= 8
-				? `#:~:text=${enc(words.join(' '))}`
-				: `#:~:text=${enc(words.slice(0, 4).join(' '))},${enc(words.slice(-4).join(' '))}`;
-		return `https://evidence.opentaxrate.com/${day}/${url}${fragment}`;
-	}
+	const archived = (url: string, quote?: string) => archivedOn(url, date, quote);
 	const partName = (code: string) => parts.find((p) => p.code === code)?.name ?? code;
 	const docsHref = (code: string) => `/docs/taxability#${encodeURIComponent(code)}`;
 </script>

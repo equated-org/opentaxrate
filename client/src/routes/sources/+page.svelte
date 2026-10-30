@@ -4,6 +4,9 @@
 	import StateSources from '$lib/landing/StateSources.svelte';
 	import SiteFooter from '$lib/landing/SiteFooter.svelte';
 	import SiteNav from '$lib/landing/SiteNav.svelte';
+	import TaxabilitySources from '$lib/landing/TaxabilitySources.svelte';
+
+	let { data } = $props();
 </script>
 
 <svelte:head>
@@ -84,6 +87,7 @@
 				</p>
 			</div>
 			<StateSources />
+			<TaxabilitySources places={data.taxabilitySources} />
 		</article>
 	</main>
 

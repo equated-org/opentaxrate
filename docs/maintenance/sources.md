@@ -60,7 +60,18 @@ published: rows carry their own dates.
 
 The taxability rules have their own watch list, `src/taxability/rules/watch.json`
 (each agency's notices and bulletin indexes), and their own step in the
-monthly run: [taxability.md](taxability.md).
+monthly run: [taxability.md](taxability.md). Every page a rule cites is kept,
+as fetched and under its SHA-256, in the public evidence archive at
+<https://evidence.opentaxrate.com> (`evidence/worker.js`, uploaded by
+`opentaxrate evidence`): `/url?u=<url>` lists every capture of a page, and
+`/<YYYYMMDD>/<url>` opens the copy in force on that day, optionally with a
+`#:~:text=` fragment at the quoted sentence. For Maine's prepared-food
+bulletin (IB 27):
+`https://evidence.opentaxrate.com/url?u=https%3A%2F%2Fwww.maine.gov%2FREVENUE%2Fsalesuse%2FIB27SalesPreparedFood20171101.pdf`
+and
+`https://evidence.opentaxrate.com/20261030/https://www.maine.gov/REVENUE/salesuse/IB27SalesPreparedFood20171101.pdf`.
+The public [Sources page](https://opentaxrate.com/sources) lists the cited
+pages by place, built from the rule files.
 
 ## History sources
 
