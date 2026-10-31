@@ -2,8 +2,17 @@
  * The taxability codes the API's code= takes (src/taxability/codes.ts), with
  * a short name for each, grouped as a picker shows them; a subcode follows
  * its parent. The full definitions are on /docs/taxability.
+ *
+ * Only the server's TaxCode type is imported (erased at build), so the
+ * bundle carries no server code; `satisfies` below makes a server code
+ * without a name here, or a name for a code the server lacks, a type error
+ * in `pnpm check`.
  */
-export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, name: string]> }> = [
+import type { TaxCode } from '../../../src/taxability/codes';
+
+type Group = { group: string; codes: Array<[code: TaxCode, name: string]> };
+
+const GROUPS = [
 	{ group: 'Goods', codes: [['goods.general', 'General goods']] },
 	{
 		group: 'Food',
@@ -72,9 +81,17 @@ export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, nam
 		]
 	},
 	{ group: 'Other', codes: [['nontaxable', 'Not a sale (fees, deposits)']] }
-];
+] satisfies Group[];
 
-const NAMES = new Map(CODE_GROUPS.flatMap((g) => g.codes));
+type Named = (typeof GROUPS)[number]['codes'][number][0];
+// A server code with no name above is a type error here.
+({}) as Record<Named, string> satisfies Record<TaxCode, string>;
+
+const pairs = (GROUPS as Group[]).flatMap((g) => g.codes);
+
+export const CODE_GROUPS: Array<{ group: string; codes: Array<[code: string, name: string]> }> = GROUPS;
+
+const NAMES = new Map<string, string>(pairs);
 
 /** A code's short name, else the code. */
 export const codeName = (code: string) => NAMES.get(code) ?? code;

@@ -14,11 +14,12 @@ The browser talks to three services directly:
 - OpenFreeMap's tiles, drawn with MapLibre after the first result.
 
 This app is standalone. It has its own `package.json` and lockfile, and the
-API's Docker build ignores it. It imports no code from `../src`; the one thing
-it reads from there is the taxability rule files
-(`../src/taxability/rules/{us,ca}-*.json`), which `/sources` reduces at build
-time (`src/routes/sources/+page.server.ts`) to the pages they cite, so the
-client must be built from a full checkout.
+API's Docker build ignores it. It reads three things from `../src`, all at
+build time, so the client must be built from a full checkout: the taxability
+rule files (`../src/taxability/rules/{us,ca}-*.json`), which `/sources`
+reduces to the pages they cite; the code list (`../src/taxability/codes.ts`)
+for `/docs/taxability`; and the `TaxCode` type, which `src/lib/codes.ts`
+checks its names against.
 
 ## Develop
 

@@ -13,7 +13,7 @@
 	import Refusal from './Refusal.svelte';
 	import { distance, pct } from './format';
 
-	let { pair, onretry }: { pair: { suggestion: Suggestion; result: LookupResult | null }[]; onretry: () => void } = $props();
+	let { pair, onretry, code = '' }: { pair: { suggestion: Suggestion; result: LookupResult | null }[]; onretry: () => void; code?: string } = $props();
 
 	const TAGS = ['A', 'B', 'C'];
 	const rates = $derived(pair.map(({ result }) => (result?.kind === 'rate' ? result.rate.rate : null)));
@@ -82,7 +82,7 @@
 				<p class="mb-5 flex items-baseline gap-2 text-sm break-words text-[var(--text-muted)]">
 					<span class="font-num shrink-0 rounded-full bg-[var(--text)] px-2 text-[12px] font-semibold text-[var(--bg)]">{TAGS[i]}</span>
 					<span class="min-w-0 flex-1">{suggestion.label}</span>
-					<a class="link shrink-0" href="/?q={encodeURIComponent(suggestion.label)}">Map →</a>
+					<a class="link shrink-0" href="/?q={encodeURIComponent(suggestion.label)}{code ? `&code=${encodeURIComponent(code)}` : ''}">Map →</a>
 				</p>
 				{#if result?.kind === 'rate'}
 					<RateList rate={result.rate} trace={result.trace} url={result.url} raw={result.raw} />

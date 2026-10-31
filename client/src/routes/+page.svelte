@@ -7,7 +7,7 @@
 	 */
 	import { page } from '$app/state';
 	import { goto, pushState } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import { ACCOUNTS, seemsSignedIn } from '$lib/accounts';
 	import { lookUp, type LookupResult } from '$lib/api';
 	import { EXAMPLES, GITHUB, SAME_ZIP } from '$lib/examples';
@@ -44,10 +44,19 @@
 	/** Lookups side by side (?q=A&vs=B&vs=C), instead of one. */
 	let pair = $state<{ suggestion: Suggestion; result: LookupResult | null }[] | null>(null);
 	let hint = $state('');
-	/** The ?q= (and &vs=) this page last acted on, so its own pushState isn't re-run. */
+	/** The lookup (?q=, &vs=, &code=) this page last acted on, so its own pushState isn't re-run. */
 	let activeQ: string | null = null;
 	let controller: AbortController | undefined;
 	let mapModule = $state.raw<Promise<typeof import('$lib/result/TaxMap.svelte')>>();
+
+	/** What a URL asks for: its addresses and code; null with no ?q=. A
+	 *  change in any of them, back/forward included, is a new lookup. */
+	function lookupKey(url: URL): string | null {
+		const q = url.searchParams.get('q');
+		if (!q) return null;
+		const linked = url.searchParams.get('code') ?? '';
+		return [isCode(linked) ? linked : '', q, ...url.searchParams.getAll('vs').slice(0, 2)].join('\n');
+	}
 
 	const fixture = () => (import.meta.env.DEV ? page.url.searchParams.get('fixture') : null);
 
@@ -90,6 +99,7 @@
 	}
 
 	async function compare(texts: string[]) {
+		const asked = code || undefined;
 		controller?.abort();
 		const c = new AbortController();
 		controller = c;
@@ -111,7 +121,9 @@
 			if (c.signal.aborted) return;
 			pair = targets.map((suggestion) => ({ suggestion, result: null }));
 			const results = await Promise.all(
-				targets.map((t) => lookUp({ state: t.state, street: t.street, city: t.city, zip: t.zip }, c.signal, fixture()))
+				targets.map((t) =>
+					lookUp({ state: t.state, street: t.street, city: t.city, zip: t.zip, code: asked }, c.signal, fixture())
+				)
 			);
 			if (c.signal.aborted) return;
 			pair = targets.map((suggestion, i) => ({ suggestion, result: results[i] }));
@@ -126,11 +138,12 @@
 
 	function openPair(list: Suggestion[]) {
 		const labels = list.map((s) => s.label);
-		activeQ = labels.join('\n');
 		const url = new URL(page.url);
 		url.searchParams.set('q', labels[0]);
 		url.searchParams.delete('vs');
 		for (const label of labels.slice(1)) url.searchParams.append('vs', label);
+		setCode(url);
+		activeQ = lookupKey(url);
 		pushState(url, {});
 		compare(labels);
 	}
@@ -140,18 +153,17 @@
 
 	function go(s: Suggestion) {
 		text = s.label;
-		activeQ = s.label;
 		const url = new URL(page.url);
 		url.searchParams.set('q', s.label);
 		url.searchParams.delete('vs');
 		setCode(url);
+		activeQ = lookupKey(url);
 		pushState(url, {});
 		run(s);
 	}
 
 	function fromText(q: string) {
 		text = q;
-		activeQ = q;
 		const example = known(q);
 		if (example) return run(example);
 		run(async () => {
@@ -167,6 +179,7 @@
 		url.searchParams.set('q', q);
 		url.searchParams.delete('vs');
 		setCode(url);
+		activeQ = lookupKey(url);
 		pushState(url, {});
 		fromText(q);
 	}
@@ -177,12 +190,14 @@
 		else url.searchParams.delete('code');
 	}
 
-	/** A new code re-asks about the address shown, if there is one. */
+	/** A new code re-asks about the addresses shown, one or side by side. */
 	function pickCode() {
 		const url = new URL(page.url);
 		setCode(url);
+		activeQ = lookupKey(url);
 		pushState(url, {});
-		if (shown) run(shown);
+		if (pair) compare(pair.map((p) => p.suggestion.label));
+		else if (shown) run(shown);
 	}
 
 	function reset() {
@@ -196,21 +211,32 @@
 		activeQ = null;
 	}
 
-	// Loading a shared link, and back/forward between lookups.
+	// Loading a shared link, and back/forward between lookups. The lookups
+	// are shallow history entries (pushState), and SvelteKit leaves page.url
+	// at the last real navigation for them, so the address bar is read
+	// instead; page.state changes on each such entry, which reruns this.
 	$effect(() => {
-		const linked = page.url.searchParams.get('code') ?? '';
-		if (isCode(linked) || linked === '') code = linked;
-		const q = page.url.searchParams.get('q');
-		const vs = page.url.searchParams.getAll('vs').slice(0, 2);
-		const key = q && vs.length ? [q, ...vs].join('\n') : q;
+		void page.url;
+		void page.state;
+		const url = new URL(location.href);
+		const linked = url.searchParams.get('code') ?? '';
+		code = isCode(linked) ? linked : '';
+		const key = lookupKey(url);
 		if (key === activeQ) return;
+		const q = url.searchParams.get('q');
 		if (!q) return reset();
 		activeQ = key;
-		if (vs.length) {
-			compare([q, ...vs]);
-			return;
-		}
-		fromText(q);
+		const vs = url.searchParams.getAll('vs').slice(0, 2);
+		untrack(() => {
+			if (vs.length) return compare([q, ...vs]);
+			// Only the code changed (back/forward over the picker): re-ask
+			// about the address shown without resolving its text again.
+			if (shown?.label === q) {
+				text = q;
+				return run(shown);
+			}
+			fromText(q);
+		});
 	});
 
 	function home(event: MouseEvent) {
@@ -332,7 +358,7 @@
 
 		{#if pair}
 		<main class="mx-auto w-full max-w-[1120px] flex-1 px-4 py-8 transition-opacity sm:px-6 {loading ? 'opacity-60' : ''}" aria-busy={loading}>
-			<Compare {pair} onretry={() => pair && compare(pair.map((p) => p.suggestion.label))} />
+			<Compare {pair} {code} onretry={() => pair && compare(pair.map((p) => p.suggestion.label))} />
 		</main>
 		{:else}
 		<main

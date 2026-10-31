@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { depth } from '$lib/codes';
+
 	let { data } = $props();
 	/** The codes and their definitions, from src/taxability/codes.ts (+page.server.ts). */
 	const CODES = $derived(data.codes);
@@ -79,7 +81,7 @@
 	<thead><tr><th>Code</th><th>What it covers</th></tr></thead>
 	<tbody>
 		{#each CODES as [code, definition] (code)}
-			<tr id={code}><td class={CODES.some(([parent]) => code.startsWith(parent + '.')) ? 'sub' : ''}><code>{code}</code></td><td>{definition}</td></tr>
+			<tr id={code}><td class={depth(code) ? 'sub' : ''}><code>{code}</code></td><td>{definition}</td></tr>
 		{/each}
 	</tbody>
 </table>
@@ -107,13 +109,12 @@
 
 <h2 id="coverage">Coverage</h2>
 <p>
-	Rules are researched for Washington, New York, California and every Canadian province and territory. Each one
-	is read from the state's or agency's own statutes, regulations and bulletins, and cites the pages it came from. No state
+	Rules are researched for every state, DC, and every Canadian province and territory. Each one is read from the state's or agency's own statutes, regulations and bulletins, and cites the pages it came from. No state
 	publishes taxability as data, so the rules are written down by hand from those pages and tested against the agencies' worked
 	examples.
 </p>
 <p>
-	Everywhere else, and any code or date without a rule there, answers <code>not_researched</code>. The general <code>rate</code> is
+	Any code or date without a rule in a place answers <code>not_researched</code>. The general <code>rate</code> is
 	still returned as always. <code>GET /v1/coverage</code> lists each state's <code>taxabilityCodes</code>: the codes with a
 	researched rule there today.
 </p>

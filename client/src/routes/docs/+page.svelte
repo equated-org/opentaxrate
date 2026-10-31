@@ -226,8 +226,8 @@ else sendElsewhere();                                   // not_researched: never
 <p>
 	Name what was sold with <code>code</code> and the answer says whether that sale is taxed at the address on the date, at what
 	rate, and the government page that says so. The general <code>rate</code> and <code>parts</code> don't change. Rules are
-	researched for Washington, New York, California and every Canadian province and territory; everywhere else, and any code without
-	a rule there, answers <code>not_researched</code>. See <a class="link" href="/docs/taxability">Taxability codes</a> for the
+	researched for every state, DC, and every Canadian province and territory; a code without a rule in that place answers
+	<code>not_researched</code>. See <a class="link" href="/docs/taxability">Taxability codes</a> for the
 	codes and what each covers.
 </p>
 <pre><code>{TAX_LINE}</code></pre>
