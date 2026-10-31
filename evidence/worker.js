@@ -129,9 +129,8 @@ const SECURITY = {
 
 /** The header above every capture: where it came from, when, its hash, and
  *  the rules that cite it, each linked to its quote on the page. */
-function card(hash, places, asked) {
-	// The URL shown first is one a rule cites, if any does.
-	const { url, capture, record } = places.find((p) => p.record.citedBy.length) ?? places[0];
+function card(hash, places, shown, asked) {
+	const { url, capture, record } = shown;
 	const others = record.captures.filter((c) => c.sha256 !== hash);
 	const alsoAt = places.filter((p) => p.url !== url);
 	// Quotes grouped by the rule citing them, shown by their first words.
@@ -161,8 +160,6 @@ ${byRule.size ? `<h2>Cited by ${byRule.size} rule${byRule.size > 1 ? 's' : ''}</
 </section>`;
 }
 
-/** An archived HTML page's content, in this site's style: no script, style,
- *  form or site chrome; links and images pointed at the original site. */
 /** The part of a page its site marks as the content (<main>, role="main",
  *  id="main-content"), so a site's menus don't come first; else the whole
  *  page. Every quote the rules cite on an HTML page falls inside it
@@ -180,8 +177,10 @@ function mainPart(html) {
 	return html.slice(marked, footer > marked ? footer : html.length);
 }
 
+/** An archived HTML page's content, in this site's style: no script, style,
+ *  site chrome (a page-wide form is unwrapped); links and images pointed at the original site. */
 async function readable(object, base) {
-	const strip = 'script, style, link, meta, base, object, embed, noscript, iframe, frame, form, button, input, select, textarea, svg, canvas, header, footer, nav, aside, [role=banner], [role=navigation], [role=contentinfo], [role=search], [aria-hidden=true], .breadcrumb, .breadcrumbs, #breadcrumb, .skip-link, .visually-hidden, .sr-only, [role=menu], [role=menubar], [class*=sidenav], [class*=sidebar], [id*=sidebar], [class*=menu--], [class*=-menu-block], [class*=nav-menu], [class*=megamenu]';
+	const strip = 'script, style, link, meta, base, object, embed, noscript, iframe, frame, button, input, select, textarea, svg, canvas, header, footer, nav, aside, [role=banner], [role=navigation], [role=contentinfo], [role=search], [aria-hidden=true], .breadcrumb, .breadcrumbs, #breadcrumb, .skip-link, .visually-hidden, .sr-only, [role=menu], [role=menubar], [class*=sidenav], [class*=sidebar], [id*=sidebar], [class*=menu--], [class*=-menu-block], [class*=nav-menu], [class*=megamenu]';
 	const absolute = (attr) => ({
 		element(e) {
 			const v = e.getAttribute(attr);
@@ -199,6 +198,9 @@ async function readable(object, base) {
 	const title = (source.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1] ?? '').replace(/&amp;/g, '&');
 	const rewritten = new HTMLRewriter()
 		.on(strip, { element: (e) => e.remove() })
+		// ASP.NET and SharePoint wrap the whole page in one <form>: unwrap it,
+		// keeping the page (its inputs and buttons are stripped above).
+		.on('form', { element: (e) => e.removeAndKeepContent() })
 		.on('head', { element: (e) => e.remove() })
 		.on('*', {
 			element(e) {
@@ -220,12 +222,14 @@ async function readable(object, base) {
 const TEXT_SHOWN = 200_000;
 
 async function capturePage(env, hash, places, asked) {
-	const { url, capture } = places.find((p) => p.record.citedBy.length) ?? places[0];
+	// The URL shown for a copy at several is one a rule cites, if any does.
+	const shown = places.find((p) => p.record.citedBy.length) ?? places[0];
+	const { url, capture } = shown;
 	const type = capture.type.split(';')[0];
 	const isText = type.startsWith('text/') && type !== 'text/html';
 	const object = await env.EVIDENCE.get(`sha256/${hash}`, isText || type === 'application/json' ? { range: { offset: 0, length: TEXT_SHOWN } } : undefined);
 	if (!object) return page('Not found', '<p>That copy isn\'t in the archive.</p>', 404);
-	const head = card(hash, places, asked);
+	const head = card(hash, places, shown, asked);
 	if (type === 'text/html') {
 		const { html, title } = await readable(object, url);
 		return page(title || url, `<div class="capture"><article class="doc">${html}</article>${head}</div>`);
