@@ -17,7 +17,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import tls from "node:tls";
 import { archivedByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
-import { readRuleFiles, RULES_DIR } from "./rules/index.js";
+import { readRuleFiles, RULE_FILE, RULES_DIR } from "./rules/index.js";
 
 export const WATCH_FILE = path.join(RULES_DIR, "watch.json");
 const INTERMEDIATES_FILE = path.join(RULES_DIR, "intermediates.pem");
@@ -301,15 +301,24 @@ export function describeSourceChecks(checks: SourceCheck[]): string {
 export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: string[]; removed: string[]; problems: string[] } {
   const key = (r: { tax: string; code: string; from: string }) => `${r.tax} ${r.code} ${r.from}`;
   const before = new Map<string, string>();
-  const relative = path.relative(process.cwd(), RULES_DIR);
+  // A ref that can't be read is an error, not "every rule is new": that
+  // would pass with no removal reported.
+  const git = (...args: string[]) => execFileSync("git", args, { encoding: "utf8", maxBuffer: 64 << 20, stdio: ["ignore", "pipe", "pipe"] });
+  try {
+    git("rev-parse", "--verify", "--quiet", `${ref}^{commit}`);
+  } catch {
+    throw new Error(`${ref} isn't a commit this repository has.`);
+  }
+  // ref:path reads from the repository's root, wherever this runs.
+  const relative = path.relative(git("rev-parse", "--show-toplevel").trim(), RULES_DIR);
   let listed = "";
   try {
-    listed = execFileSync("git", ["ls-tree", "--name-only", `${ref}:${relative}`], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    listed = git("ls-tree", "--name-only", `${ref}:${relative}`);
   } catch {
-    // The folder isn't at ref: every rule is new.
+    // The folder isn't at ref (before the rules moved here): every rule is new.
   }
-  for (const file of listed.split("\n").filter((f) => /^(us|ca)-[A-Za-z]+\.json$/.test(f)))
-    for (const r of JSON.parse(execFileSync("git", ["show", `${ref}:${relative}/${file}`], { encoding: "utf8", maxBuffer: 64 << 20 })) as Array<{ tax: string; code: string; from: string }>)
+  for (const file of listed.split("\n").filter((f) => RULE_FILE.test(f)))
+    for (const r of JSON.parse(git("show", `${ref}:${relative}/${file}`)) as Array<{ tax: string; code: string; from: string }>)
       before.set(key(r), canonical(r));
   const { rules } = readRuleFiles(dir);
   const archived = archivedByUrl();

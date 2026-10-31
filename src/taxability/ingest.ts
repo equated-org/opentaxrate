@@ -39,9 +39,15 @@ export async function archiveEvidence(urls: string[], options: { fetch?: boolean
       if (response.status === 403 || response.status === 429) refused.add(host);
       if (!response.ok) throw new Error(`answered ${response.status}`);
       const bytes = new Uint8Array(await response.arrayBuffer());
-      // A bot challenge answered 200 is not the page: never filed as evidence.
+      // A page whose text can't be read can't be checked for its quotes, and
+      // a bot challenge answered 200 isn't the page: neither is filed, and a
+      // host that challenged isn't asked again this run.
       const text = pageText(bytes);
-      if (text !== null && challenged(text)) throw new Error("answered with a challenge page");
+      if (text === null) throw new Error("its text couldn't be read");
+      if (challenged(text)) {
+        refused.add(host);
+        throw new Error("answered with a challenge page");
+      }
       await downloadedBytes(url, new Response(Buffer.from(bytes)), fileName(url, bytes));
     } catch (error) {
       missing.push({ url, reason: (error as Error).message });

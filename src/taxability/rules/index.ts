@@ -5,8 +5,7 @@
  * The table `taxability_rules` is what a release carries and the resolver
  * reads: every row, once per process, indexed by tax and code. A data
  * release replaces the table and restarts the API, so the copy here is
- * never stale for long; `forgetRules()` drops it for a process that
- * reloads in place.
+ * never stale for long.
  *
  * `tax` is what a rule covers:
  *   "NY"           every part of a New York answer, state and local;
@@ -26,7 +25,7 @@ import path from "node:path";
 import { z } from "zod";
 import { db } from "../../db/client.js";
 import { taxabilityRules } from "../../db/schema.js";
-import { TAX_CODES, type TaxCode } from "../codes.js";
+import { parentOf, TAX_CODES, type TaxCode } from "../codes.js";
 
 /** This folder in the source tree, also from a build in dist/: the files
  *  aren't compiled, and only ingest and the tests read them. */
@@ -123,9 +122,8 @@ export function loadRules(): Promise<RuleSet> {
   return loaded;
 }
 
-export const forgetRules = () => {
-  loaded = null;
-};
+/** A place's rule file: us-NY.json, ca-BC.json, ca-federal.json. */
+export const RULE_FILE = /^(us|ca)-[A-Za-z]+\.json$/;
 
 // A real calendar day: 2020-02-31 fails here, not at load.
 const day = z
@@ -169,7 +167,7 @@ export function readRuleFiles(dir = RULES_DIR): { rules: RuleRow[]; files: Array
   const files: Array<{ file: string; rules: number; sha256: string }> = [];
   // One file per place (us-NY.json, ca-BC.json, ca-federal.json); watch.json
   // beside them is the monthly fetch's, not rules.
-  for (const file of readdirSync(dir).filter((f) => /^(us|ca)-[A-Za-z]+\.json$/.test(f)).sort()) {
+  for (const file of readdirSync(dir).filter((f) => RULE_FILE.test(f)).sort()) {
     const text = readFileSync(path.join(dir, file), "utf8");
     const parsed = RuleFile.safeParse(JSON.parse(text));
     if (!parsed.success) {
@@ -194,23 +192,14 @@ export function readRuleFiles(dir = RULES_DIR): { rules: RuleRow[]; files: Array
     // rule of their own for every day of it (on the code or a broader one),
     // or they'd join the state's group and their own rate would vanish.
     if (r.treatment === "special_rate" && /^[A-Z]{2}$/.test(r.tax)) {
-      const local = [r.code, ...ancestors(r.code)].flatMap((c) => byKey.get(`${r.tax}:local|${c}`) ?? []);
+      const local: RuleRow[] = [];
+      for (let c: TaxCode | null = r.code; c; c = parentOf(c)) local.push(...(byKey.get(`${r.tax}:local|${c}`) ?? []));
       const gap = uncovered(r.from, end(r), local.map((t) => [t.from, end(t)]));
       if (gap) problems.push(`${r.file}: ${r.tax} ${r.code} has a special rate from ${r.from}, but ${r.tax}:local has no rule for it on ${gap}`);
     }
   }
   if (problems.length) throw new Error(`The taxability rules have problems:\n  ${problems.join("\n  ")}`);
   return { rules, files };
-}
-
-/** The codes a code sits under, nearest first. */
-function ancestors(code: string): string[] {
-  const out: string[] = [];
-  for (let c = code; c.includes("."); ) {
-    c = c.slice(0, c.lastIndexOf("."));
-    if (c in TAX_CODES) out.push(c);
-  }
-  return out;
 }
 
 /** The first day of [from, to] none of `spans` covers, or null. */

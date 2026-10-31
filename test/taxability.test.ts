@@ -138,6 +138,28 @@ describe("taxability", () => {
     expect(problems([{ ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "exempt" }, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2021-01-01", treatment: "follows", follows: "ZZ" }])).toContain("HST");
   });
 
+  it("before a rule's earliest verified day, a code isn't researched rather than inheriting a broader rule", () => {
+    const cite = [{ title: "A bulletin", url: "https://example.gov/x", quote: "q" }];
+    const r = (tax: string, code: string, from: string, fromIs: "effective" | "earliest_verified", treatment: Rule["treatment"]) =>
+      ({ tax, code, from, fromIs, treatment, summary: "s", conditions: [], citations: cite }) as Rule;
+    const zz: RatePart[] = [{ kind: "state", name: "Z", code: "ZZ", rate: 0.07, ids: {} }];
+    const set = ruleSet([r("ZZ", "construction.real_property", "2001-01-01", "effective", "exempt"), r("ZZ", "construction.real_property.improvement.flooring", "2025-02-05", "earliest_verified", "taxable")]);
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "construction.real_property.improvement.flooring", "2024-06-15", set).treatment).toBe("not_researched");
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "construction.real_property.improvement.flooring", "2025-06-15", set)).toMatchObject({ treatment: "taxable", rate: 0.07 });
+    // A change in law (fromIs effective) leaves the broader rule in force before it.
+    const law = ruleSet([r("ZZ", "construction.real_property", "2001-01-01", "effective", "exempt"), r("ZZ", "construction.real_property.improvement.flooring", "2025-02-05", "effective", "taxable")]);
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "construction.real_property.improvement.flooring", "2024-06-15", law).treatment).toBe("not_taxed");
+  });
+
+  it("a local tax's own rule for a narrower code makes the broad code conditional", () => {
+    const cite = [{ title: "A bulletin", url: "https://example.gov/x", quote: "q" }];
+    const r = (tax: string, code: string, treatment: Rule["treatment"]) => ({ tax, code, from: "2021-01-01", fromIs: "effective", treatment, summary: "s", conditions: [], citations: cite }) as Rule;
+    const set = ruleSet([r("ZZ", "service.professional", "exempt"), r("ZZ:local", "service.professional.design", "taxable")]);
+    const zz: RatePart[] = [{ kind: "state", name: "Z", code: "ZZ", rate: 0.05, ids: {} }, { kind: "city", name: "Zc", code: "ZZ1", rate: 0.02, ids: {} }];
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "service.professional", "2026-01-01", set)).toMatchObject({ treatment: "conditional", rate: null });
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "service.professional.design", "2026-01-01", set)).toMatchObject({ rate: 0.02 });
+  });
+
   it("a parent settled from its subcodes sees their own narrower codes", () => {
     const cite = [{ title: "A bulletin", url: "https://example.gov/x", quote: "q" }];
     const r = (code: string, treatment: Rule["treatment"]) => ({ tax: "ZZ", code, from: "2021-01-01", fromIs: "effective", treatment, summary: "s", conditions: [], citations: cite }) as Rule;
@@ -227,10 +249,14 @@ describe("taxability", () => {
             if (g.treatment === "not_researched") expect(g.rule, where).toBeNull();
             else expect(g.rule?.citations.length, where).toBeGreaterThan(code === "nontaxable" ? -1 : 0);
           }
-          // A settled broad code never hides a narrower code taxed differently.
+          // A settled broad code never hides a narrower code taxed
+          // differently. (A narrower code researched only from a later day
+          // is not researched before it, which hides nothing.)
           if (t.rate !== null)
-            for (const narrower of CODES.filter((c) => c.startsWith(`${code}.`)))
-              expect(taxabilityOf({ state: place, parts }, narrower, date, RULES).rate, `${where} vs ${narrower}`).toBe(t.rate);
+            for (const narrower of CODES.filter((c) => c.startsWith(`${code}.`))) {
+              const n = taxabilityOf({ state: place, parts }, narrower, date, RULES);
+              if (n.treatment !== "not_researched") expect(n.rate, `${where} vs ${narrower}`).toBe(t.rate);
+            }
           if (t.rate !== null) {
             const special = t.taxes.some((g) => g.treatment === "special_rate");
             if (!special) expect(t.rate, where).toBeLessThanOrEqual(general + 1e-9);
