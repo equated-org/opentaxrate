@@ -137,7 +137,7 @@ case "$command" in
     rm -rf "$tmp"
     BACKUP_TAG=bench scripts/backup-sources.sh --restore "$tmp"
     # The snapshot keeps the absolute paths it was taken from.
-    for dir in bench tuning; do
+    for dir in bench tuning taxability; do
       found=$(find "$tmp" -type d -path "*/artifacts/$dir" -prune | head -1)
       [ -n "$found" ] && cp -rn "$found" artifacts/
     done

@@ -1317,11 +1317,11 @@
         },
         "ck_taxability_rules_treatment": {
           "name": "ck_taxability_rules_treatment",
-          "value": "\"taxability_rules\".\"treatment\" in ('taxable', 'reduced', 'exempt', 'zero_rated', 'conditional', 'follows')"
+          "value": "\"taxability_rules\".\"treatment\" in ('taxable', 'special_rate', 'exempt', 'zero_rated', 'conditional', 'follows')"
         },
-        "ck_taxability_rules_reduced": {
-          "name": "ck_taxability_rules_reduced",
-          "value": "(\"taxability_rules\".\"treatment\" = 'reduced') = (\"taxability_rules\".\"rate\" is not null)"
+        "ck_taxability_rules_special_rate": {
+          "name": "ck_taxability_rules_special_rate",
+          "value": "(\"taxability_rules\".\"treatment\" = 'special_rate') = (\"taxability_rules\".\"rate\" is not null)"
         },
         "ck_taxability_rules_follows": {
           "name": "ck_taxability_rules_follows",

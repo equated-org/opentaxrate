@@ -57,6 +57,28 @@ db=opentaxrate
 
 usage() { sed -n '6,17p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 1; }
 die() { echo "$*" >&2; exit 1; }
+# Runs a command with its output shown and appended to LOG, and fails as
+# the command does: in sh, "cmd | tee" has tee's status, not cmd's.
+teed() {
+  log=$1; shift
+  status=$(mktemp)
+  # "|| echo" keeps set -e from ending the group before the status is kept.
+  { "$@" 2>&1 && echo 0 > "$status" || echo $? > "$status"; } | tee -a "$log"
+  code=$(cat "$status"); rm -f "$status"
+  [ -n "$code" ] || code=1
+  return "$code"
+}
+# The taxability cases wrong now that the accepted run didn't have wrong,
+# from two "taxability-wrong: <cases hash> <ids…>" lines; dies if the case
+# set itself changed, which a person reviews and re-accepts.
+newly_wrong() {
+  [ "$(echo "$1" | cut -d' ' -f2)" = "$(echo "$2" | cut -d' ' -f2)" ] ||
+    die "The taxability cases changed since the accepted run: a person re-accepts (pnpm rates maintain accept) after reviewing them."
+  ids() { cut -d' ' -f3- | tr ' ' '\n' | sed '/^$/d' | sort; }
+  was=$(mktemp); echo "$2" | ids > "$was"
+  echo "$1" | ids | comm -23 - "$was" | tr '\n' ' '
+  rm -f "$was"
+}
 psql() { $COMPOSE exec -T db psql -U opentaxrate -d "$db" -At -v ON_ERROR_STOP=1 "$@"; }
 # psql on the server's own database, for creating and dropping others.
 psql_server() { $COMPOSE exec -T db psql -U opentaxrate -d postgres -At -v ON_ERROR_STOP=1 "$@"; }
@@ -451,9 +473,9 @@ maintain() {
     update)
       need
       note "refresh $*"
-      DATABASE_URL=$url pnpm -s refresh "$@" 2>&1 | tee -a "$dir/update.log"
+      teed "$dir/update.log" env DATABASE_URL="$url" pnpm -s refresh "$@" || die "The refresh failed: see $dir/update.log."
       note "ingest $*"
-      DATABASE_URL=$url pnpm -s ingest "$@" 2>&1 | tee -a "$dir/update.log"
+      teed "$dir/update.log" env DATABASE_URL="$url" pnpm -s ingest "$@" || die "The ingest failed: see $dir/update.log."
       # The taxability rules as they are in this checkout (rules/taxability).
       # Not piped, so a rule file that fails its checks stops the update
       # instead of leaving the last release's rules in place unnoticed.
@@ -465,7 +487,7 @@ maintain() {
       # Every page a rule cites and every watched page, downloaded again:
       # what changed, and which cited quotes are gone (taxability.md).
       note "taxability sources"
-      npx tsx src/cli.ts taxability fetch --out "$dir/taxability" 2>&1 | tee -a "$dir/taxability.log"
+      teed "$dir/taxability.log" npx tsx src/cli.ts taxability fetch --out "$dir/taxability" || die "The taxability fetch failed: see $dir/taxability.log."
       note "done: $dir/taxability/sources.txt" ;;
     taxability-check)
       # The gates a rule change passes before it goes to main unattended:
@@ -481,21 +503,18 @@ maintain() {
       npx tsx src/cli.ts taxability verify --since "${MAINT_BASE:-origin/main}" >> "$out" 2>&1 ||
         { cat "$out" >&2; die "A changed rule's citation doesn't check: $out."; }
       pnpm -s vitest run test/taxability.test.ts >> "$out" 2>&1 || { tail -20 "$out" >&2; die "test/taxability.test.ts fails."; }
-      now=$(DATABASE_URL=$url scripts/bench taxability | awk '$1 == "all" { print $4 }')
+      # One scoring: the case set's fingerprint and every wrong case's id.
+      gate=$(DATABASE_URL=$url scripts/bench taxability --gate) || die "The taxability benchmark didn't score."
+      now=$(echo "$gate" | cut -d' ' -f3- | wc -w)
       was=$(grep '^taxability:' artifacts/maintenance/accepted 2>/dev/null | grep -o 'wrong *[0-9]*' | grep -o '[0-9]*$' | head -1)
-      [ -n "$now" ] || die "The taxability benchmark didn't score."
-      [ -z "$was" ] || [ "$now" -le "$was" ] || die "Taxability wrong answers rose: $was -> $now."
-      # Case by case: a change that fixes one case and breaks another
-      # keeps the count but isn't a pass. Only against the same cases.
-      gate=$(DATABASE_URL=$url scripts/bench taxability --gate)
+      # Case by case where the accepted run recorded its wrong cases: a
+      # change that fixes one case and breaks another isn't a pass.
       accepted=$(grep '^taxability-wrong:' artifacts/maintenance/accepted 2>/dev/null || true)
       if [ -n "$accepted" ]; then
-        [ "$(echo "$gate" | awk '{ print $2 }')" = "$(echo "$accepted" | awk '{ print $2 }')" ] ||
-          die "The taxability cases changed since the accepted run: a person re-accepts (pnpm rates maintain accept) after reviewing them."
-        ids() { cut -d' ' -f3- | tr ' ' '\n' | sed '/^$/d' | sort; }
-        echo "$accepted" | ids > "$dir/taxability/accepted-wrong"
-        newly=$(echo "$gate" | ids | comm -23 - "$dir/taxability/accepted-wrong" | tr '\n' ' ')
+        newly=$(newly_wrong "$gate" "$accepted")
         [ -z "$newly" ] || die "Taxability cases newly wrong: $newly"
+      else
+        [ -z "$was" ] || [ "$now" -le "$was" ] || die "Taxability wrong answers rose: $was -> $now."
       fi
       echo "taxability changes pass: wrong ${was:-?} -> $now" | tee -a "$out" >&2
       note "taxability changes pass" ;;
@@ -517,7 +536,10 @@ EOF
       need
       budget=${MAINT_GEOCODE_BUDGET:-2}
       spent() { scripts/bench cost | cut -d' ' -f1 | tr -d '$'; }
-      start=$(spent); out=$dir/bench.txt
+      # Written aside and moved into place only when every step ran: a bench
+      # that stops partway leaves no bench.txt for publish to accept.
+      start=$(spent); out=$dir/bench.txt.partial
+      rm -f "$dir/bench.txt"
       keys() { set -a; [ -n "${KEYS_ENV:-}" ] && . "$KEYS_ENV"; set +a; }
       # A fresh check the agent ran on today's addresses (docs/maintenance/cron.md)
       # is kept: fresh.txt, one score line.
@@ -525,9 +547,11 @@ EOF
       # The standing sets (pnpm bench all), with recorded geocodes.
       ( keys; DATABASE_URL=$url scripts/bench all "maint-$run" ) >> "$out"
       # The taxability rules this run loaded, against the agencies' own cases.
-      DATABASE_URL=$url scripts/bench taxability | awk '$1 == "all" {
+      score=$(DATABASE_URL=$url scripts/bench taxability) || die "The taxability benchmark didn't score."
+      echo "$score" | awk '$1 == "all" {
         printf "taxability: n=%5d  right %5d  wrong %4d  kind %3d  declined %4d  not_researched %4d\n", $2, $3, $4, $5, $6, $7 }' >> "$out"
-      DATABASE_URL=$url scripts/bench taxability --gate >> "$out"
+      gate=$(DATABASE_URL=$url scripts/bench taxability --gate) || die "The taxability benchmark didn't score."
+      echo "$gate" >> "$out"
       awk -v now="$(spent)" -v start="$start" -v budget="$budget" 'BEGIN { exit !(now - start >= budget) }' &&
         echo "Over budget: geocoder spend passed \$$budget." >> "$out"
       # A set with more wrong answers than the accepted run's is a regression.
@@ -543,9 +567,16 @@ EOF
           [ -n "$now" ] || { echo "  $set: no score this run  REGRESSION" >> "$out"; continue; }
           echo "  $set: wrong $was -> $now$([ "$now" -gt "$was" ] && echo "  REGRESSION")" >> "$out"
         done
+        # And case by case, as taxability-check does.
+        accepted=$(grep '^taxability-wrong:' artifacts/maintenance/accepted || true)
+        if [ -n "$accepted" ]; then
+          newly=$(newly_wrong "$gate" "$accepted")
+          [ -z "$newly" ] || echo "  taxability: newly wrong $newly REGRESSION" >> "$out"
+        fi
       fi
       echo "Geocoder spend: \$$(awk -v now="$(spent)" -v start="$start" 'BEGIN { printf "%.2f", now - start }')" >> "$out"
-      cat "$out" ;;
+      mv "$out" "$dir/bench.txt"
+      cat "$dir/bench.txt" ;;
     publish)
       tag=${1:?Usage: scripts/rates maintain publish TAG}
       need

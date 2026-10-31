@@ -138,4 +138,7 @@ needs no gate beyond the files loading.
 Write what changed and where it went in
 `artifacts/maintenance/<run>/taxability.md`, for the run's report. `pnpm
 rates maintain bench` then scores the loaded rules beside the address sets
-and marks a rise in wrong answers as `REGRESSION`, as for rates.
+and marks a rise in wrong answers, or any taxability case newly wrong, as
+`REGRESSION`, as for rates; so rules that failed `taxability-check` but stayed
+loaded can't be published. A bench that stops partway leaves no `bench.txt`,
+and publish needs one.
