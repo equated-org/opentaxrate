@@ -158,9 +158,13 @@
     "code": "delivery.taxable_goods",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
-    "treatment": "taxable",
+    "treatment": "conditional",
     "summary": "A seller's delivery charge for taxable goods, even separately stated, is part of the goods' taxable purchase price when incurred at or before title transfers, which is the usual case.",
     "conditions": [
+      {
+        "when": "the delivery charge is incurred at or before title to the goods transfers (the usual case)",
+        "treatment": "taxable"
+      },
       {
         "when": "the delivery charge is incurred after title has passed to the buyer",
         "treatment": "exempt"
@@ -173,7 +177,7 @@
         "quote": "In most cases, delivery charges are incurred at or before the time title to the goods transfers. As a result, you generally charge PST on delivery charges as they form part of the taxable purchase price of the goods."
       }
     ],
-    "notes": "Bulletin PST 302 issued April 2013, revised April 2026."
+    "notes": "Bulletin PST 302 issued April 2013, revised April 2026. Made conditional 2026-10-31: the code doesn't say when title passed, and PST 302's example (bc-03) is the exempt branch."
   },
   {
     "tax": "BC:PST",

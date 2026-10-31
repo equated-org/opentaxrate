@@ -134,6 +134,17 @@ describe("taxability", () => {
     const special = { ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "special_rate", rate: 0.02 };
     expect(problems([special, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2021-01-01", treatment: "exempt" }])).toBe("");
     expect(problems([special, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2022-01-01", treatment: "exempt" }])).toContain("ZZ:local");
+    // Only a province's HST follows another rule.
+    expect(problems([{ ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "exempt" }, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2021-01-01", treatment: "follows", follows: "ZZ" }])).toContain("HST");
+  });
+
+  it("a parent settled from its subcodes sees their own narrower codes", () => {
+    const cite = [{ title: "A bulletin", url: "https://example.gov/x", quote: "q" }];
+    const r = (code: string, treatment: Rule["treatment"]) => ({ tax: "ZZ", code, from: "2021-01-01", fromIs: "effective", treatment, summary: "s", conditions: [], citations: cite }) as Rule;
+    const set = ruleSet([r("construction.real_property.improvement", "exempt"), r("construction.real_property.improvement.flooring", "taxable"), r("construction.real_property.repair", "exempt")]);
+    const zz: RatePart[] = [{ kind: "state", name: "Z", code: "ZZ", rate: 0.07, ids: {} }];
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "construction.real_property", "2026-01-01", set).treatment).toBe("conditional");
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "construction.real_property.improvement.flooring", "2026-01-01", set)).toMatchObject({ treatment: "taxable", rate: 0.07 });
   });
 
   it("fits the API schema with and without a code", () => {

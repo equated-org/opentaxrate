@@ -114,7 +114,7 @@ async function main() {
         const { keepLocalCopy } = await import("./ingest/archive.js");
         const { fileNameFor } = await import("./taxability/fetch.js");
         const { readFileSync } = await import("node:fs");
-        await keepLocalCopy(url, file, fileNameFor(url, new Uint8Array(readFileSync(file))));
+        if (!(await keepLocalCopy(url, file, fileNameFor(url, new Uint8Array(readFileSync(file)))))) throw new Error(`${file} wasn't filed.`);
         console.log(`Filed ${file} as ${url}`);
         return;
       }

@@ -150,7 +150,9 @@ function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string):
   for (const sub of subs) {
     // Only rules at or below the subcode: the parent has none, or this
     // wouldn't be asked.
-    const own = ruleOn(rules, tax, sub, date) ?? fromSubcodes(rules, tax, sub, date);
+    // The subcode's answer as asked directly, its own narrower codes
+    // included (no ancestor has a rule, so only its own and below count).
+    const own = ruleForCode(rules, tax, sub, date);
     if (!own) return null;
     found.push(own.treatment === "follows" ? (resolveFollows(rules, own, sub, date) ?? own) : own);
     if (found.at(-1)!.treatment === "follows") return null;

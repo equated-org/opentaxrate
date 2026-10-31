@@ -153,6 +153,9 @@ const RuleFile = z.array(
     .strict()
     .refine((r) => !r.to || r.to >= r.from, "to is before from")
     .refine((r) => (r.treatment === "follows") === Boolean(r.follows), "follows is set exactly when treatment is follows")
+    // Only a province's HST follows the federal base. A US local rule that
+    // followed its state's would join the state's parts and lose its rate.
+    .refine((r) => r.treatment !== "follows" || r.tax.includes("/"), "only a province's HST rule (\"XX/CA:HST\") may follow another")
     .refine((r) => (r.treatment === "special_rate") === (r.rate !== undefined), "rate is set exactly when treatment is reduced")
     .refine((r) => r.treatment !== "conditional" || r.conditions.length > 0, "a conditional rule lists its conditions"),
 );

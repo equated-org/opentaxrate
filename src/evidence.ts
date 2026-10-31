@@ -90,14 +90,17 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
   const urls: Catalog["urls"] = {};
   for (const line of readFileSync(path.join(root, "manifest.jsonl"), "utf8").split("\n")) {
     if (!line.trim()) continue;
-    const entry = JSON.parse(line) as { at: string; url: string; sha256: string; bytes: number; file: string };
+    const entry = JSON.parse(line) as { at: string; url: string; method?: string; body?: string; sha256: string; bytes: number; file: string };
     const file = files.get(entry.sha256);
     if (!file) continue;
     const head = Buffer.alloc(512);
     const fd = openSync(file, "r");
     readSync(fd, head, 0, 512, 0);
     closeSync(fd);
-    const record = (urls[entry.url] ??= { captures: [], citedBy: [] });
+    // An API's answer to one posted query isn't a version of a page: each
+    // query is its own entry, keyed by the request's hash.
+    const key = entry.body ? `${entry.url} (${entry.method ?? "POST"} ${createHash("sha256").update(entry.body).digest("hex").slice(0, 12)})` : entry.url;
+    const record = (urls[key] ??= { captures: [], citedBy: [] });
     // A refetch of the same bytes isn't a new capture; a page that changed
     // and changed back (A, B, A) is three.
     if (record.captures.at(-1)?.sha256 !== entry.sha256)

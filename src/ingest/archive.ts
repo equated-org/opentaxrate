@@ -188,16 +188,18 @@ export async function downloadedBytes(url: string, response: Response, name?: st
 
 /** Copies a file read from a local folder (--dir) in under the URL it would
  *  have been downloaded from, so the sources hold every input either way. */
-export async function keepLocalCopy(url: string, file: string, name?: string) {
+export async function keepLocalCopy(url: string, file: string, name?: string): Promise<boolean> {
   try {
     const place = sourcePath({ url }, name ?? path.basename(file));
-    if (path.resolve(file) === path.resolve(place.destination)) return;
+    if (path.resolve(file) === path.resolve(place.destination)) return true;
     await mkdir(place.directory, { recursive: true });
     const temporary = `${place.destination}.${randomUUID()}.partial`;
     await copyFile(file, temporary);
     await commit({ url }, place, temporary, await sha256Of(temporary), path.resolve(file));
+    return true;
   } catch (error) {
     console.warn(`Couldn't keep a copy of ${file}: ${(error as Error).message}`);
+    return false;
   }
 }
 
