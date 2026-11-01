@@ -1,5 +1,21 @@
 [
   {
+    "tag": "data-2026-11-01-taxability",
+    "published": "2026-11-01",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-01-taxability",
+    "dump": {
+      "name": "opentaxrate-2026-11-01.dump",
+      "bytes": 699307956
+    },
+    "changes": [
+      "Taxability rules for every state, DC and Canadian province and territory: 1,700 dated rules across 43 codes, with subcodes such as hot and cold food, legal and IT services, flooring, mail and carrier delivery, and take-and-bake food.",
+      "Each rule cites the agency page it was read from, and each citation links OpenTaxRate's archived copy of that page, pinned by its hash and opening at the quoted sentence.",
+      "A conditional answer lists each case with its combined rate, and the narrower code to send where there is one.",
+      "Scored against 1,097 development and 362 held-out sales from the agencies' own worked examples: 0 wrong in each.",
+      "No rate changed from data-2026-10-30-taxability."
+    ]
+  },
+  {
     "tag": "data-2026-10-30-taxability",
     "published": "2026-10-30",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-10-30-taxability",
