@@ -76,7 +76,8 @@ export interface TaxabilityRule {
 	 *  one, exceptions worth knowing. */
 	/** For special_rate: the rate charged on the code instead. */
 	rate?: number;
-	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number }>;
+	/** code: in an answer for a broad code, the narrower code this case is. */
+	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; code?: string }>;
 	citations: Array<{ title: string; url: string; quote?: string }>;
 }
 
@@ -97,6 +98,9 @@ export interface Taxability {
 		/** Null only when not researched. */
 		rule: TaxabilityRule | null;
 	}>;
+	/** Only when conditional: each case with the sale's combined rate, and the
+	 *  narrower code that is that case, where one is. */
+	outcomes?: Array<{ when: string; rate: number; code?: string }>;
 }
 
 export interface RegionSource {

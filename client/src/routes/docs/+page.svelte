@@ -89,7 +89,7 @@
 
 	const READ = `const t = answer.taxability[code];
 if (t.rate !== null) charge(amount * t.rate);          // taxable, partial, not_taxed
-else if (t.treatment === 'conditional') ask(t.taxes);  // show each rule's conditions; a person picks
+else if (t.treatment === 'conditional') ask(t.outcomes); // each case with its rate; send o.code where there is one
 else sendElsewhere();                                   // not_researched: never use the general rate`;
 
 	const ERROR = `{ "error": "This address is within 12 m of a city line ...", "code": "ADDRESS_NEEDS_CONFIRMATION" }`;
@@ -267,7 +267,8 @@ else sendElsewhere();                                   // not_researched: never
 			</td>
 		</tr>
 		<tr><td><code>rule.summary</code>, <code>rule.treatment</code></td><td>The rule in one sentence, and what it decides.</td></tr>
-		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate? }'}</code>. For a settled one, exceptions worth knowing.</td></tr>
+		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, code? }'}</code>; <code>code</code> is the narrower code that case is. For a settled one, exceptions worth knowing.</td></tr>
+		<tr><td><code>outcomes</code></td><td>Only when <code>conditional</code>: each case with the sale's combined rate, <code>{'{ when, rate, code? }'}</code>. Where <code>code</code> is set, sending that code instead settles the answer at that rate.</td></tr>
 		<tr><td><code>rule.citations</code></td><td>The official pages the rule was read from: <code>title</code>, <code>url</code>, and sometimes a <code>quote</code>.</td></tr>
 	</tbody>
 </table>

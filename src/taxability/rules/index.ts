@@ -47,6 +47,9 @@ export interface Condition {
   treatment: "taxable" | "special_rate" | "exempt" | "zero_rated";
   /** The part's rate in this case, where it isn't the part's full rate. */
   rate?: number;
+  /** In an answer for a broad code: the narrower code this case is, which
+   *  the caller can send instead. Never in rule files. */
+  code?: string;
 }
 
 export interface Rule {

@@ -13,8 +13,10 @@
 		raw: unknown;
 		/** A picture of a result (the landing's showcase): no buttons, no ids. */
 		preview?: boolean;
+		/** Ask again with a narrower code a conditional answer names. */
+		onpick?: (code: string) => void;
 	}
-	let { rate, trace, url, raw, preview = false }: Props = $props();
+	let { rate, trace, url, raw, preview = false, onpick }: Props = $props();
 
 	const rows = $derived(partRows(rate, trace));
 	const locationIds = $derived(Object.entries(rate.locationIds ?? {}));
@@ -49,7 +51,7 @@
 	/>
 
 	{#if rate.taxability && Object.keys(rate.taxability).length}
-		<Taxability taxability={rate.taxability} {date} parts={rate.parts} {preview} />
+		<Taxability taxability={rate.taxability} {date} parts={rate.parts} {preview} {onpick} />
 	{/if}
 
 	<ul class="-mt-2 divide-y divide-[var(--border)] border-y border-[var(--border)]">

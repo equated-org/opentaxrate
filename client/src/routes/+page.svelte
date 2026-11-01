@@ -369,7 +369,7 @@
 			<div class="min-w-0">
 				{#if shown}<p class="mb-5 text-sm break-words text-[var(--text-muted)]">{shown.label}</p>{/if}
 				{#if result?.kind === 'rate'}
-					<RateList rate={result.rate} trace={result.trace} url={result.url} raw={result.raw} />
+					<RateList rate={result.rate} trace={result.trace} url={result.url} raw={result.raw} onpick={(c) => { code = c; pickCode(); }} />
 				{:else if result?.kind === 'refusal'}
 					<Refusal message={result.message} code={result.code} trace={result.trace} url={result.url} raw={result.raw} />
 				{:else if result?.kind === 'limited'}

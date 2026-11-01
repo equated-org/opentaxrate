@@ -15,8 +15,10 @@
 		/** The answer's parts, for naming the taxes a rule decides. */
 		parts: Array<{ code: string; name?: string | null }>;
 		preview?: boolean;
+		/** Ask again with a narrower code (an outcome's), where the page can. */
+		onpick?: (code: string) => void;
 	}
-	let { taxability, date, parts, preview = false }: Props = $props();
+	let { taxability, date, parts, preview = false, onpick }: Props = $props();
 
 	const HEADLINE: Record<Taxability['treatment'], string> = {
 		taxable: 'Taxed',
@@ -58,6 +60,21 @@
 				</p>
 			{:else if t.treatment === 'conditional'}
 				<p class="mt-1 text-sm text-[var(--text-2)]">The answer turns on facts this code doesn't carry; each is listed below.</p>
+				{#if t.outcomes?.length}
+					<ul class="mt-3 flex flex-col gap-1.5 text-sm">
+						{#each t.outcomes as o, j (j)}
+							<li class="flex items-baseline gap-3">
+								<span class="font-num w-14 shrink-0 font-semibold text-[var(--text)]">{pct(o.rate)}</span>
+								<span class="text-[var(--text-2)]">
+									{o.when}
+									{#if o.code && onpick}
+										<button type="button" class="link ml-1 text-[12.5px]" onclick={() => onpick(o.code!)}>use {codeName(o.code)}</button>
+									{/if}
+								</span>
+							</li>
+						{/each}
+					</ul>
+				{/if}
 			{/if}
 
 			<ul class="mt-3 flex flex-col gap-3">

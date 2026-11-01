@@ -137,6 +137,7 @@ export const TaxabilityRuleSchema = z
         when: z.string(),
         treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]),
         rate: z.number().optional().openapi({ description: "The part's rate in this case, where it isn't the part's full rate." }),
+        code: z.string().optional().openapi({ description: "In an answer for a broad code: the narrower code this case is; send it to settle the answer.", example: "service.professional.design" }),
       }),
     ).openapi({ description: "For a conditional rule, each fact the outcome turns on; for a settled one, exceptions worth knowing." }),
     citations: z.array(z.object({ title: z.string(), url: z.string(), quote: z.string().optional() })).openapi({ description: "The official pages the rule was read from." }),
@@ -161,6 +162,16 @@ export const TaxabilitySchema = z
         })
         .openapi("TaxGroup"),
     ),
+    outcomes: z
+      .array(
+        z.object({
+          when: z.string().openapi({ description: "The case, as the rules state it; cases of different taxes joined by \"; and\"." }),
+          rate: z.number().openapi({ description: "The sale's combined rate in this case.", example: 0.12 }),
+          code: z.string().optional().openapi({ description: "The narrower code this case is, where it is one: send it instead to get this answer settled." }),
+        }),
+      )
+      .optional()
+      .openapi({ description: "Only when conditional: each case the rules list with the combined rate it gives. Absent when a case's rate can't be computed or there are too many combinations." }),
   })
   .openapi("Taxability", {
     description: "How one kind of sale is taxed at the address on the date: the parts grouped by the rule that decided them, with the rules and their official sources.",

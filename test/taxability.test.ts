@@ -169,6 +169,23 @@ describe("taxability", () => {
     expect(taxabilityOf({ state: "ZZ", parts: zz }, "construction.real_property.improvement.flooring", "2026-01-01", set)).toMatchObject({ treatment: "taxable", rate: 0.07 });
   });
 
+  it("a conditional answer lists each case with its combined rate, and the code to send where a case is one", () => {
+    const ky: RatePart[] = [{ kind: "state", name: "Kentucky", code: "21", rate: 0.06, ids: {} }];
+    const broad = taxabilityOf({ state: "KY", parts: ky }, "service.professional", "2026-10-30", RULES);
+    expect(broad.outcomes).toEqual(expect.arrayContaining([
+      expect.objectContaining({ rate: 0.06, code: "service.professional.lobbying" }),
+      expect.objectContaining({ rate: 0, code: "service.professional.other" }),
+    ]));
+    // Sending the code an outcome names gives that outcome's rate, settled.
+    for (const o of broad.outcomes!.filter((o) => o.code === "service.professional.lobbying" || o.code === "service.professional.other"))
+      expect(taxabilityOf({ state: "KY", parts: ky }, o.code as TaxCode, "2026-10-30", RULES).rate).toBe(o.rate);
+    // Two taxes, one undecided: the settled federal 5% is in every case.
+    const mb = taxabilityOf({ state: "MB", parts: provinceParts("MB", "2026-10-31") }, "food.prepared.sandwich", "2026-10-31", RULES);
+    expect(mb.outcomes?.map((o) => o.rate).sort()).toEqual([0.05, 0.12]);
+    // A settled answer has none.
+    expect(taxabilityOf({ state: "KY", parts: ky }, "service.professional.other", "2026-10-30", RULES).outcomes).toBeUndefined();
+  });
+
   it("fits the API schema with and without a code", () => {
     const base = {
       state: "NY", rate: 0.08875, stateRate: 0.04, localRate: 0.04875,
@@ -178,6 +195,7 @@ describe("taxability", () => {
     } as const;
     expect(AddressRateSchema.parse(base)).toBeTruthy();
     expect(AddressRateSchema.parse({ ...base, taxability: taxabilityByCode(base, ["food.catering", "nontaxable"], "2026-10-08", RULES) })).toBeTruthy();
+    expect(AddressRateSchema.parse({ ...base, state: "KY", taxability: taxabilityByCode({ ...base, state: "KY" }, ["service.professional"], "2026-10-30", RULES) })).toBeTruthy();
   });
 
   it("reads a page's text the way its quotes were copied: entities decoded once, daily columns ignored", () => {
@@ -257,6 +275,14 @@ describe("taxability", () => {
               const n = taxabilityOf({ state: place, parts }, narrower, date, RULES);
               if (n.treatment !== "not_researched") expect(n.rate, `${where} vs ${narrower}`).toBe(t.rate);
             }
+          // An outcome that names a code is what sending that code gives,
+          // wherever that answer is settled.
+          if (t.treatment !== "conditional") expect(t.outcomes, where).toBeUndefined();
+          for (const o of t.outcomes ?? []) {
+            if (!o.code) continue;
+            const sent = taxabilityOf({ state: place, parts }, o.code as TaxCode, date, RULES);
+            if (sent.rate !== null && !t.outcomes!.some((p) => p !== o && p.code === o.code)) expect(sent.rate, `${where} → ${o.code}`).toBe(o.rate);
+          }
           if (t.rate !== null) {
             const special = t.taxes.some((g) => g.treatment === "special_rate");
             if (!special) expect(t.rate, where).toBeLessThanOrEqual(general + 1e-9);
