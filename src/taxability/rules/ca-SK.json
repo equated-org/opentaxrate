@@ -707,6 +707,29 @@
     "code": "service.professional.advertising",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Advertising services are on Saskatchewan's list of taxable services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Information Bulletin PST-46, Service Enterprises (revised February 2025), list of taxable services",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/e7535a1a-5e1e-4b4c-aef1-3376d5248d06/PST.046+Service+Enterprises.pdf?MOD=AJPERES",
+        "quote": "Advertising services (PST-67)"
+      },
+      {
+        "title": "Information Bulletin PST-46 (revised June 2009; archived finance.gov.sk.ca copy, January 2013), list of taxable services",
+        "url": "https://web.archive.org/web/20130124014849/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf",
+        "quote": "Advertising services"
+      }
+    ],
+    "notes": "Advertising services listed as taxable (PST-46); whether media placement was exempt before PST-67's July 2024 revision isn't verified.",
+    "to": "2024-06-30"
+  },
+  {
+    "tax": "SK:PST",
+    "code": "service.professional.advertising",
+    "from": "2024-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "conditional",
     "summary": "Advertising services are on Saskatchewan's list of taxable services.",
     "conditions": [
@@ -715,7 +738,7 @@
         "treatment": "taxable"
       },
       {
-        "when": "charges for placing advertising in the media (newspapers, magazines, television, radio, billboards, the Internet)",
+        "when": "charges for placing advertising in the media (newspapers, magazines, television, radio, billboards, the Internet), shown separately on the invoice",
         "treatment": "exempt"
       }
     ],
@@ -734,9 +757,14 @@
         "title": "PST Bulletin PST-67, Advertising",
         "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/a14b1339-3418-4973-ac53-47147e0012b0/PST.067+Advertising.pdf?MOD=AJPERES",
         "quote": "Charges for the placement of advertising in the media, such as newspapers, magazines, periodicals, television, radio, billboards and the Internet."
+      },
+      {
+        "title": "PST Bulletin PST-67, Advertising",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/a14b1339-3418-4973-ac53-47147e0012b0/PST.067+Advertising.pdf?MOD=AJPERES",
+        "quote": "Where exempt and taxable goods and services are provided to a client, the exempt goods and services must be shown separately, or the entire charge is taxable."
       }
     ],
-    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. Bulletin PST-67 (advertising) was not found or read, so its scope and exceptions (e.g. for media placement or services for use outside Saskatchewan) are unverified. Made conditional 2026-11-01: PST-67 exempts media placement charges (d2-sk-14)."
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. Bulletin PST-67 (advertising) was not found or read, so its scope and exceptions (e.g. for media placement or services for use outside Saskatchewan) are unverified. Made conditional 2026-11-01: PST-67 exempts media placement charges (d2-sk-14). 2026-11-01: dated from PST-67's July 2024 revision, the earliest text verified for the placement exemption (Codex verification)."
   },
   {
     "tax": "SK:PST",

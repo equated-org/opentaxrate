@@ -152,11 +152,15 @@
     "summary": "During the temporary GST/HST break, candy and other snacks were zero-rated.",
     "conditions": [
       {
-        "when": "sold any way other than through a vending machine",
+        "when": "paid for in full during the break (Dec 14, 2024 – Feb 15, 2025) and delivered or made available during the break, other than through a vending machine",
         "treatment": "zero_rated"
       },
       {
         "when": "sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "any of the consideration paid, or the goods delivered or service rendered, outside the break",
         "treatment": "taxable"
       }
     ],
@@ -175,9 +179,14 @@
         "title": "Questions and answers about the GST/HST tax break for all Canadians",
         "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
         "quote": "Food and non-alcoholic beverages sold through a vending machine are not zero-rated."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI (temporary relief)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "eligible supply means a supply (other than an exempt supply), made no later than the end of the eligible period, of property in respect of which the following conditions are met: (a) all of the consideration for the supply is paid during the eligible period; and (b) the property is delivered or made available to the recipient during the eligible period."
       }
     ],
-    "notes": "Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02)."
+    "notes": "Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02). 2026-11-01: payment and delivery conditions from ETA Sch. VI Part XI (Codex verification)."
   },
   {
     "tax": "CA:GST/HST",
@@ -355,11 +364,15 @@
     "summary": "During the temporary GST/HST break, prepared meals, food and non-alcoholic beverages (including restaurant and take-out meals) were zero-rated.",
     "conditions": [
       {
-        "when": "sold any way other than through a vending machine",
+        "when": "paid for in full during the break (Dec 14, 2024 – Feb 15, 2025) and the service is rendered entirely during the break, other than through a vending machine",
         "treatment": "zero_rated"
       },
       {
         "when": "sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "any of the consideration paid, or the goods delivered or service rendered, outside the break",
         "treatment": "taxable"
       }
     ],
@@ -378,9 +391,14 @@
         "title": "Questions and answers about the GST/HST tax break for all Canadians",
         "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
         "quote": "Food and non-alcoholic beverages sold through a vending machine are not zero-rated."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI (temporary relief)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "eligible supply means a supply (other than an exempt supply), made no later than the end of the eligible period, of property in respect of which the following conditions are met: (a) all of the consideration for the supply is paid during the eligible period; and (b) the property is delivered or made available to the recipient during the eligible period."
       }
     ],
-    "notes": "Spirits, alcoholic beverages over 7% ABV other than beer and wine, and cannabis edibles were not relieved, but they are outside this code. The timing conditions (delivered or paid in the period) were not fully checked. A delivery charge billed by a third-party platform was not relieved. Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02)."
+    "notes": "Spirits, alcoholic beverages over 7% ABV other than beer and wine, and cannabis edibles were not relieved, but they are outside this code. The timing conditions (delivered or paid in the period) were not fully checked. A delivery charge billed by a third-party platform was not relieved. Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02). 2026-11-01: payment and delivery conditions from ETA Sch. VI Part XI (Codex verification)."
   },
   {
     "tax": "CA:GST/HST",
@@ -844,11 +862,15 @@
     "summary": "During the temporary GST/HST break, all non-alcoholic beverages, carbonated drinks included, were zero-rated.",
     "conditions": [
       {
-        "when": "sold any way other than through a vending machine",
+        "when": "paid for in full during the break (Dec 14, 2024 – Feb 15, 2025) and delivered or made available during the break, other than through a vending machine",
         "treatment": "zero_rated"
       },
       {
         "when": "sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "any of the consideration paid, or the goods delivered or service rendered, outside the break",
         "treatment": "taxable"
       }
     ],
@@ -867,9 +889,14 @@
         "title": "Questions and answers about the GST/HST tax break for all Canadians",
         "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
         "quote": "Food and non-alcoholic beverages sold through a vending machine are not zero-rated."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI (temporary relief)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "eligible supply means a supply (other than an exempt supply), made no later than the end of the eligible period, of property in respect of which the following conditions are met: (a) all of the consideration for the supply is paid during the eligible period; and (b) the property is delivered or made available to the recipient during the eligible period."
       }
     ],
-    "notes": "Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02)."
+    "notes": "Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02). 2026-11-01: payment and delivery conditions from ETA Sch. VI Part XI (Codex verification)."
   },
   {
     "tax": "CA:GST/HST",
