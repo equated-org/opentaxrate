@@ -90,6 +90,71 @@
   },
   {
     "tax": "GA",
+    "code": "food.catering",
+    "from": "2016-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A caterer's food and drink, with the services the customer must buy with them and mandatory gratuities, are taxable at the state and local rates; a separately itemized optional service, or a gratuity stated to be optional, is not.",
+    "conditions": [
+      {
+        "when": "The food and drink, and charges the customer must pay with them: staff or bartenders the caterer requires, setup, delivery or fuel surcharges, cover or minimum charges, and mandatory tips, gratuities or service charges (even if separately itemized)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A separately itemized charge for an optional service that isn't needed to complete the sale of the food (coat checking, for example)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A tip, gratuity or service charge the bill, menu or signage clearly and conspicuously states is optional and may be removed at the customer's discretion",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.65, Meals",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Retail sales of food and food ingredients by restaurants, hotels, clubs, cafes, caterers, boarding houses, and others are taxable."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.65, Meals",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Cover, minimum and room service charges, and mandatory tips and gratuities are deemed a part of the sales price and are subject to the tax."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Charges by the seller for any services that are necessary to complete the sale of taxable tangible personal property are taxable, even if such charges are separately itemized."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "A caterer requires customers purchasing alcohol to purchase bartender and ID checking services. The bartender and ID checking service charges are taxable."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Charges by the seller for any services that are not necessary to complete the sale of taxable tangible personal property are not subject to sales or use tax if separately itemized."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "the amount added is optional and not subject to tax when the seller clearly and conspicuously states on the bill, menu, or signage located in an area visible to customers that tips, gratuities, and service charges are optional and may be removed from the bill at the customer's discretion."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants (Wayback Machine copy, October 24, 2016)",
+        "url": "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2",
+        "quote": "Charges by the seller for any services that are not necessary to complete the sale of taxable tangible personal property are not subject to sales or use tax if separately itemized."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2015-08 (June 16, 2015), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2015-08/download",
+        "quote": "Retail sales of food and food ingredients by restaurants, hotels, clubs, cafes, caterers, boarding houses, and others are taxable."
+      }
+    ],
+    "notes": "Prepared food is taxed at the state and local rates (Rule 560-12-2-.104), so no GA:local rule is needed: the exempt cases are outside the sale for both. 2016-10-24 is the earliest Wayback copy of the rules read with Rule 560-12-2-.115; LR SUT-2015-08 (2015-06-16) already applied Rule .65 to caterers. Rentals of tables or linens billed to the customer weren't read separately; Georgia taxes rentals of tangible personal property generally."
+  },
+  {
+    "tax": "GA",
     "code": "food.grocery",
     "from": "2014-11-12",
     "fromIs": "earliest_verified",
@@ -109,6 +174,120 @@
       }
     ],
     "notes": "Exemption applies only to sales to individual consumers for off-premises consumption; food bought for use in operating a business is taxable (state and local)."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared",
+    "from": "2016-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Prepared food is taxable at the Georgia state and local rates, except that food a manufacturer sells without utensils, or food prepared away from where it is sold and sold unheated without utensils to go, is exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller (food customarily eaten with them), or sold for consumption on the seller's premises",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to go without utensils, sold heated or heated, mixed or combined by the seller at the place where it is sold, by a seller that isn't a seller whose primary NAICS classification is food manufacturing (subsector 311), other than bakeries and tortilla manufacturing (industry group 3118)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold to go without utensils by a seller whose primary NAICS classification is food manufacturing (subsector 311), other than bakeries and tortilla manufacturing (industry group 3118) (local taxes still apply)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold to go without utensils and not heated, prepared entirely by the seller away from the place where it is sold (a commissary or central kitchen) (local taxes still apply)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Food sold in a heated state or heated by the seller at the seller's location (i.e., the place where the sale takes place)."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Food with two or more food ingredients mixed or combined at the seller's location by the seller for sale as a single item; or"
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Food sold with eating utensils provided by the seller."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Food sold without eating utensils by a seller whose proper primary North American Industrial Classification System (NAICS) code is subsector 311 (food manufacturing) except industry group 3118 (bakeries and tortilla manufacturing)"
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "The term \"prepared food\" generally includes meals sold by a restaurant but does not include food items entirely prepared off the seller's premises."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "\"Food and food ingredients\" sold for on-premises consumption is subject to both state and local sales and use tax."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption (Wayback Machine copy, October 24, 2016)",
+        "url": "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2",
+        "quote": "Food sold without eating utensils by a seller whose proper primary North American Industrial Classification System (NAICS) code is subsector 311 (food manufacturing) except industry group 3118 (bakeries and tortilla manufacturing)"
+      }
+    ],
+    "notes": "The state part only in the exempt cases: GA:local food.prepared keeps local taxes on every case. The Rule .104 and .115 text read in the 2016-10-24 Wayback copy matches the current rule. The existing subcode rules (hot, sandwich, platter, dine_in, cold_restaurant) are settled taxable without the manufacturer and off-site-preparation cases; see the report."
+  },
+  {
+    "tax": "GA",
+    "code": "food.prepared.bakery",
+    "from": "2016-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Georgia taxes bakery items baked by the seller where they are sold as prepared food at the state and local rates, with or without utensils; items baked elsewhere and sold unheated without utensils to go are exempt from the state tax.",
+    "conditions": [
+      {
+        "when": "Baked or heated by the seller at the place where it is sold (a retail bakery, or a grocery store's in-store bakery), with or without utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold with eating utensils provided by the seller, or for consumption on the seller's premises",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Baked by the seller somewhere other than the place where it is sold (a central bakery supplying its shops), sold to go unheated and without utensils (local taxes still apply)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Cakes, breads and pastries made by a retail bakery onsite and sold with or without utensils for off-premises consumption;"
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Bread heated or baked by the seller at the seller's location, even though the dough was made off-site;"
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Food sold in a heated state or heated by the seller at the seller's location (i.e., the place where the sale takes place)."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.115, Restaurants",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "if sold for off-premises consumption without utensils, cakes prepared off-premises are exempt from state sales and use tax, but are subject to local sales and use tax."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption (Wayback Machine copy, October 24, 2016)",
+        "url": "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2",
+        "quote": "Cakes, breads and pastries made by a retail bakery onsite and sold with or without utensils for off-premises consumption;"
+      }
+    ],
+    "notes": "Georgia doesn't adopt the Streamlined exclusion of bakery items from prepared food: baking is heating by the seller. The food-manufacturer exemption excludes bakeries (NAICS 3118), so a bakery's own items stay prepared food. The existing notes on GA food.prepared.* rules say the bakery exclusion 'wasn't read in an official text'; Rule .104(4)(c)3 settles that it doesn't apply."
   },
   {
     "tax": "GA",
@@ -343,6 +522,79 @@
   },
   {
     "tax": "GA",
+    "code": "software.custom.development",
+    "from": "2016-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Custom software is a nontaxable professional service in Georgia, even on a tangible medium, unless its charge is bundled, not separately stated, with a sale of hardware.",
+    "conditions": [
+      {
+        "when": "Sold on its own, or its charge separately stated on the invoice from any hardware, machinery or equipment sold with it (delivered electronically or on a tangible medium)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Its charge isn't separately stated on the invoice from a sale, lease or rental of hardware, machinery or equipment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.111, Computer Software and Computer-Related Services",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "The sale, lease, rental, license, or use of custom computer software is a professional service transaction not subject to sales and use tax."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.111, Computer Software and Computer-Related Services",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "The transfer to the purchaser in a tangible medium is deemed to be merely an incidental part of the sale of a nontaxable professional service."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.111, Computer Software and Computer-Related Services",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Charges for custom computer software that are not separately stated on the dealer's invoice from the sale, lease, or rental of hardware, machinery, or equipment are considered subject to the tax as part of the hardware, machinery, or equipment sale."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.111, Computer Software and Computer-Related Services (Wayback Machine copy, October 24, 2016)",
+        "url": "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2",
+        "quote": "The sale, lease, rental, license, or use of custom computer software is a professional service transaction not subject to sales and use tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-21 (October 20, 2016), Professional Services",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-21/download",
+        "quote": "the former being taxable tangible property while the latter is a nontaxable professional service."
+      }
+    ],
+    "notes": "Custom software sold later to anyone other than the customer it was written for is prewritten software (Rule .111(2)(e)). Separately stated custom software maintenance agreements are also not taxed (Rule .111(5)(f))."
+  },
+  {
+    "tax": "GA",
+    "code": "software.custom.modification",
+    "from": "2016-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated charge for modifying prewritten software to a customer's specifications is not taxed in Georgia; the prewritten copy itself is taxed by its delivery.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.111, Computer Software and Computer-Related Services",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "If there is a separately stated charge on the dealer's invoice for the modification or enhancement of prewritten computer software, the charge for modification or enhancement is not subject to sales and use tax."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.111, Computer Software and Computer-Related Services (Wayback Machine copy, October 24, 2016)",
+        "url": "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2",
+        "quote": "If there is a separately stated charge on the dealer's invoice for the modification or enhancement of prewritten computer software, the charge for modification or enhancement is not subject to sales and use tax."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2017-04 (February 23, 2017), Services, Software & Online Courses",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2017-04/download",
+        "quote": "charges made by Taxpayer for software-related services, including customization and translation, are not subject to the tax."
+      }
+    ],
+    "notes": "The modified software remains prewritten software (Rule .111(3)(c)1), taxable when delivered on a tangible medium (GA software.prewritten). A modification charge bundled, not separately stated, with taxable prewritten software would be taxed with it (Rule .111(6)(b)); the code is the separately charged work."
+  },
+  {
+    "tax": "GA",
     "code": "software.prewritten",
     "from": "2016-03-30",
     "fromIs": "earliest_verified",
@@ -461,6 +713,43 @@
       }
     ],
     "notes": "OpenTaxRate's Georgia local part is the place's combined local rate; the one exception (DeKalb outside Atlanta, SPLOST tied to its EHOST) is listed as a condition, so the answer there is the place's food rate, not the full local rate. 2014-11-12 is the earliest dated DOR statement read; the state exemption is older."
+  },
+  {
+    "tax": "GA:local",
+    "code": "food.prepared",
+    "from": "2016-10-24",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Local sales taxes apply to prepared food, and to the food exempt from the state tax as well.",
+    "conditions": [
+      {
+        "when": "DeKalb County outside Atlanta, for food exempt from the state tax only (a food manufacturer's, or food prepared away from where it is sold): the SPLOST imposed with the EHOST doesn't apply to it (food rate 3% there per the DOR chart)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "\"Prepared food\", which is subject to both state and local sales and use taxes, means:"
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2-.104, Food Exemption",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "food and food ingredients sold to natural persons for consumption off premises are not subject to state sales and use tax, but are subject to any local sales and use tax."
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "These sales are subject to all local sales and use taxes, except the SPLOST imposed in connection with an EHOST."
+      },
+      {
+        "title": "Georgia DOR, Sales Exempt from Certain Local Taxes, rate chart effective October 1, 2026",
+        "url": "https://dor.georgia.gov/document/document/effective-october-1-2026-december-31-2026-miscellaneous-rate-chart-only/download",
+        "quote": "In all other jurisdictions, exempt food is subject to all applicable local taxes."
+      }
+    ],
+    "notes": "Covers the local parts of every food.prepared subcode without a GA:local rule of its own (GA:local food.prepared.cold has one), so the state part's exempt cases (GA food.prepared, GA food.prepared.bakery) keep local tax. Same DeKalb handling as the existing GA:local food rules."
   },
   {
     "tax": "GA:local",

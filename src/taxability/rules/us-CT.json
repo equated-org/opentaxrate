@@ -974,6 +974,42 @@
   },
   {
     "tax": "CT",
+    "code": "service.professional",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Connecticut taxes only the services Conn. Gen. Stat. § 12-407 enumerates; professional services not on that list are not taxed.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service CT's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Connecticut DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Conn. Gen. Stat. § 12-407 specifically enumerates services subject to Connecticut sales and use taxes."
+      },
+      {
+        "title": "Conn. Gen. Stat. § 12-410(11) (chapter 219)",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "Professional, insurance or personal service transactions, except any such service transaction described in subdivision (2) of subsection (a) of section 12-407"
+      },
+      {
+        "title": "Connecticut DRS, IP 2018(2), Building Contractors' Guide",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "only certain services are taxable"
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The DRS page calls its list partial and points to the statute for the complete list, which is § 12-407(a)(37). Some enumerated services that a caller might call professional are taxable there: business analysis, management consulting and public relations (consulting has its own rule), non-media advertising (own rule), interior design (own rule), computer and data processing (IT, own rule at 1%), credit information and reporting, employment and personnel agency services, private investigation, stenographic services and lobbying (own rule). A .other service that is one of those enumerated services is taxable, not exempt. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "CT",
     "code": "service.professional.accounting",
     "from": "2019-02-01",
     "fromIs": "earliest_verified",
@@ -1187,6 +1223,33 @@
       }
     ],
     "notes": "Connecticut taxes only the services §12-407(a)(37) enumerates; legal services are not among them (DRS lists of taxable services, 2019 and current). The quote settles that only listed services are taxed; the absence of legal from the list was checked by reading it. Earliest dated list read: 2019-02-01 (archived DRS page). Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+  },
+  {
+    "tax": "CT",
+    "code": "service.professional.lobbying",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Lobbying or consulting to represent a client's interests before a government body is an enumerated taxable service in Connecticut, at 6.35%.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Conn. Gen. Stat. § 12-407(a)(37)(R) (chapter 219)",
+        "url": "https://www.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "(R) Lobbying or consulting services for purposes of representing the interests of a client in relation to the functions of any governmental entity or instrumentality;"
+      },
+      {
+        "title": "Connecticut DRS, Services Subject to Sales and Use Taxes (archived 2019-02-01)",
+        "url": "https://web.archive.org/web/20190201211136/https://portal.ct.gov/DRS/Sales-Tax/Services-Subject-to-Sales-and-Use-Taxes",
+        "quote": "Lobbying or consulting services for the purpose of representing a client's interests in relation to any governmental body."
+      },
+      {
+        "title": "Connecticut DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Lobbying or consulting services for the purpose of representing a client’s interests in relation to any Connecticut state or local governmental bodies;"
+      }
+    ],
+    "notes": "Connecticut has no local sales tax, so no CT:local rule is needed. The 2019 DRS page names Conn. Agencies Regs. § 12-407(2)(i)(R)-1 as the regulation; not read. The current DRS page limits the description to Connecticut state or local governmental bodies, while the statute says any governmental entity; where the service is used is a sourcing question for the caller."
   },
   {
     "tax": "CT",

@@ -663,6 +663,42 @@
   },
   {
     "tax": "LA",
+    "code": "service.professional",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Louisiana taxes only services the law specifically enumerates; professional services are not among them.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service LA's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Louisiana DOR, Digital Products Guidance (Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Under Louisiana law, only specifically enumerated services are subject to the sales and use tax."
+      },
+      {
+        "title": "Louisiana DOR, Digital Products Guidance (Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "Louisiana DOR FAQ, How many services are subject to sales tax in Louisiana?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The ten enumerated categories (La. R.S. 47:301(14) and 47:301.3) are mostly services to property, admissions, lodging, telecommunications and digital products; work on computer hardware and software updates are taxable (IT has its own rule). Starts 2025-01-01 like Louisiana's other professional-service rules (the 2025 tax reform, Act 11 of the 2024 third extraordinary session); not researched before. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "LA",
     "code": "service.professional.accounting",
     "from": "2025-01-01",
     "fromIs": "earliest_verified",
@@ -872,6 +908,33 @@
       }
     ],
     "notes": "Louisiana taxes only the services enumerated in R.S. 47:301.3; this one is not listed. The rule starts 2025-01-01 because the sources read state the post-reform law; services were also enumerated before 2025 (former R.S. 47:301(14)) but that text was not read. A lawyer's electronically delivered work product is not a digital product (R.S. 47:301(31)(c)). Louisiana parish and municipal sales taxes share the state base for this code (R.S. 47:301.3 and the definitions in R.S. 47:301 apply to all taxing authorities), so this rule covers state and local parts."
+  },
+  {
+    "tax": "LA",
+    "code": "service.professional.lobbying",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not an enumerated taxable service in Louisiana, and only enumerated services are taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Louisiana DOR, Digital Products Guidance (Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Under Louisiana law, only specifically enumerated services are subject to the sales and use tax."
+      },
+      {
+        "title": "Louisiana DOR, Digital Products Guidance (Nov. 20, 2025)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/Digital%20Products%20Guidance%2011.20.25(r).pdf",
+        "quote": "Any service that is not listed as a taxable service in law is not subject to the sales and use tax regardless of how the service is delivered."
+      },
+      {
+        "title": "Louisiana DOR FAQ, How many services are subject to sales tax in Louisiana?",
+        "url": "https://revenue.louisiana.gov/tax-education-and-faqs/faqs/sales-tax-reform/how-many-services-are-subject-to-sales-tax-in-louisiana/",
+        "quote": "There are 10 categories of services subject to Louisiana state sales tax."
+      }
+    ],
+    "notes": "Lobbying is not in La. R.S. 47:301(14) as archived. Bills to tax lobbying have been filed but none was found enacted."
   },
   {
     "tax": "LA",

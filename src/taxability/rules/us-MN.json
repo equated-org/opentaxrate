@@ -598,6 +598,42 @@
   },
   {
     "tax": "MN",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Minnesota taxes a service only if the statutes specifically list it (Minn. Stat. § 297A.61, subd. 3); professional services are not listed.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service MN's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota DOR, Introduction to Sales and Use Tax webinar (fall 2026)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2026-05/introduction-sales-and-use-tax-webinar-fall-2026-accessible-pdf-1.pdf",
+        "quote": "Taxable if specifically stated in the statutes"
+      },
+      {
+        "title": "Minn. Stat. § 297A.61, subd. 4 (retail sale)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "any sale of a service enumerated in subdivision 3"
+      },
+      {
+        "title": "Minnesota DOR, Professional Services industry guide",
+        "url": "https://www.revenue.state.mn.us/guide/professional-services-industry-guide",
+        "quote": "Most professional services are not taxable."
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The DOR course slide says services are 'Taxable if specifically stated in the statutes' under 'Categories of Sales - Services', citing 297A.61 subd. 3. Listed services a caller might call professional: detective and security services, building cleaning, and services necessary to complete a taxable sale (design and IT have their own rules). The explicit DOR statement is from the 2026 course; the start date follows the statute's definition of a retail sale (an enumerated service) and Minnesota's other professional-service rules. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "MN",
     "code": "service.professional.accounting",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -848,6 +884,33 @@
       }
     ],
     "notes": "Extra copies sold apart from the legal service are taxable. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "service.professional.lobbying",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not among the services Minnesota's statutes list as taxable, and only listed services are taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota DOR, Introduction to Sales and Use Tax webinar (fall 2026)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2026-05/introduction-sales-and-use-tax-webinar-fall-2026-accessible-pdf-1.pdf",
+        "quote": "Taxable if specifically stated in the statutes"
+      },
+      {
+        "title": "Minn. Stat. § 297A.61, subd. 4 (retail sale)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.61",
+        "quote": "any sale of a service enumerated in subdivision 3"
+      },
+      {
+        "title": "Minnesota DOR, Professional Services industry guide",
+        "url": "https://www.revenue.state.mn.us/guide/professional-services-industry-guide",
+        "quote": "Most professional services are not taxable."
+      }
+    ],
+    "notes": "Minn. Stat. § 297A.61, subd. 3 (archived) does not mention lobbying. No DOR page on lobbying was found."
   },
   {
     "tax": "MN",

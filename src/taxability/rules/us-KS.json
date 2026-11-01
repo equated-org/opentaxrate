@@ -1251,6 +1251,47 @@
   },
   {
     "tax": "KS",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Kansas taxes services only when they install, apply, repair, service, alter or maintain tangible property (plus admissions); professional services are not taxed.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service KS's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kansas DOR Pub. KS-1510, Sales Tax and Compensating Use Tax",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Kansas sales tax generally applies to three types of transactions."
+      },
+      {
+        "title": "Kansas DOR Pub. KS-1510",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Charges for labor services to install, apply, repair, service, alter, or maintain tangible personal property"
+      },
+      {
+        "title": "Kansas DOR Pub. KS-1510",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "Kansas DOR Pub. KS-1510 (archived 2018-12-15)",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Kansas sales tax generally applies to three types of transactions."
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). KS-1510 names the three kinds of taxable transactions and calls accounting, architectural, consulting, engineering and legal services not taxable because they do not involve work on tangible personal property; it says 'generally', and its list of untaxed services is representative, so the test (work on tangible property) is what settles a professional service. Work on computer hardware or prewritten software is taxable (IT has its own rule). The 2018 archived copy carries the same text. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "KS",
     "code": "service.professional.accounting",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -1499,6 +1540,38 @@
       }
     ],
     "notes": "Kansas taxes only enumerated services (K.S.A. 79-3603); this one is not among them. 2018-01-01 is the earliest date checked (KS-1510 Rev. 6-18). KS-1510 lists \"legal services\" among non-taxable services (quoted as the list item)."
+  },
+  {
+    "tax": "KS",
+    "code": "service.professional.lobbying",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not taxed in Kansas: it does not install, apply, repair, service, alter or maintain tangible property, the test for a taxable service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kansas DOR Pub. KS-1510, Sales Tax and Compensating Use Tax",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Kansas sales tax generally applies to three types of transactions."
+      },
+      {
+        "title": "Kansas DOR Pub. KS-1510",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Charges for labor services to install, apply, repair, service, alter, or maintain tangible personal property"
+      },
+      {
+        "title": "Kansas DOR Pub. KS-1510",
+        "url": "https://www.ksrevenue.gov/pdf/pub1510.pdf",
+        "quote": "Following is a representative list of services that are NOT TAXABLE because they do not involve the installation, application, service, maintenance, or repair of tangible personal property:"
+      },
+      {
+        "title": "Kansas DOR Pub. KS-1510 (archived 2018-12-15)",
+        "url": "https://web.archive.org/web/20181215062405id_/https://www.ksrevenue.org/pdf/pub1510.pdf",
+        "quote": "Kansas sales tax generally applies to three types of transactions."
+      }
+    ],
+    "notes": "KS-1510 does not name lobbying; it follows from the publication's test for taxable services, which lobbying does not meet. No Kansas page on lobbying was found."
   },
   {
     "tax": "KS",

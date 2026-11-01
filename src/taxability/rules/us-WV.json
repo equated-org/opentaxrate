@@ -28,6 +28,32 @@
   },
   {
     "tax": "WV",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2024-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In West Virginia a retailer that installs wall-to-wall carpeting sold from its own inventory collects sales tax on the carpet, labour and materials; flooring installed by a contractor as a capital improvement is contracting, not taxed to the customer.",
+    "conditions": [
+      {
+        "when": "Wall-to-wall carpeting sold from the retailer's inventory and installed by it, the installation incidental to the sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Installed by a contractor as a capital improvement",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "TSD-325, Sales and Use Tax for Incidental Installation (Rev. August 2024)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd325.pdf",
+        "quote": "Any retailer/dealer who installs wall to wall carpeting, certain household appliances, drapery rods, window shades, venetian blinds, canvas awnings, mobile homes and other products that are sold from the retailer’s inventory must collect and remit state sales and use tax on not only the sale of the product, but also any labor and material charges when the installation of the product is incidental to the sale of the product."
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-wv-01 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-wv-01 no longer counts as held out. Dated from the bulletin's revision; earlier editions weren't checked."
+  },
+  {
+    "tax": "WV",
     "code": "construction.real_property.repair",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -361,6 +387,38 @@
   },
   {
     "tax": "WV",
+    "code": "food.uncooked",
+    "from": "2015-11-10",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food sold for the buyer to cook (as opposed to reheat) is not prepared food in West Virginia, so it is exempt as food and food ingredients.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "West Virginia State Tax Department, Administrative Notice 2015-20, Definition of Prepared Food (November 10, 2015)",
+        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2015/AdministrativeNotice.2015-20.pdf",
+        "quote": "any food sold that ordinarily requires additional cooking (as opposed to reheating) by the consumer prior to consumption"
+      },
+      {
+        "title": "West Virginia State Tax Department, Administrative Notice 2015-20, Definition of Prepared Food (November 10, 2015)",
+        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2015/AdministrativeNotice.2015-20.pdf",
+        "quote": "This interpretation is binding on the Tax Department until it is changed by subsequent legislation."
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "and eggs, fish, meat, poultry and foods containing these raw animal foods requiring cooking by the consumer"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
+        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
+        "quote": "Prepared food is subject to Sales Tax at the regular rate of 6%, while food and food ingredients are not taxed."
+      }
+    ],
+    "notes": "Administrative Notice 2015-20 (issued 2015-11-10) reads the prepared-food definition to exclude any food that ordinarily requires additional cooking by the consumer, raw animal food or not, e.g. a take-and-bake pizza. No later notice or legislation withdrawing it was found; the current § 11-15B-2 definition is the one the notice quotes. Food sold with seller-provided utensils isn't addressed by the notice. Municipal sales taxes share the state base (§ 8-13C-4)."
+  },
+  {
+    "tax": "WV",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -421,6 +479,52 @@
       }
     ],
     "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. Administrative Notice 10-25 quotes 110 CSR 15-8.1.1.1, which lists CPAs, public accountants and enrolled agents as professionals and bookkeepers as nonprofessional. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.advertising",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Advertising agency services (layout, artwork, design and the agency's fee or commission for buying on a client's behalf) are taxable in West Virginia; broadcasting time and newspaper or outdoor advertising space are exempt.",
+    "conditions": [
+      {
+        "when": "The agency's own services: advice, layout, artwork, design, writing, and its fee or commission for purchasing on the client's behalf",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Radio or television broadcasting time, preprinted advertising circulars, or newspaper or outdoor advertising space billed to the client",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "110 CSR 15 § 71.1 (Consumers Sales and Service Tax rule, eff. 7/15/1993)",
+        "url": "https://apps.sos.wv.gov/adlaw/csr/readfile.aspx?DocId=20946&Format=WORD&KeyWord=",
+        "quote": "71.1.  Advertising agencies render services, such as layout and artwork services, which are subject to the consumers sales and service tax and use tax"
+      },
+      {
+        "title": "110 CSR 15 § 71.2",
+        "url": "https://apps.sos.wv.gov/adlaw/csr/readfile.aspx?DocId=20946&Format=WORD&KeyWord=",
+        "quote": "71.2.  Advertising agencies who purchase items on behalf of their clients, and receive a fee or commission for such services, must collect consumers sales and service tax or use tax on such fee or commission unless the client may issue an exemption certificate or direct pay permit."
+      },
+      {
+        "title": "110 CSR 15 § 71.3",
+        "url": "https://apps.sos.wv.gov/adlaw/csr/readfile.aspx?DocId=20946&Format=WORD&KeyWord=",
+        "quote": "Purchases of radio and television broadcasting time, preprinted advertising circulars, newspaper and outdoor advertising space for the advertisement of goods or services are exempt from the consumers sales and service tax and use tax."
+      },
+      {
+        "title": "W. Va. Code § 11-15-9(a)(12)",
+        "url": "https://code.wvlegislature.gov/11-15-9/",
+        "quote": "(12) Sales of radio and television broadcasting time, preprinted advertising circulars, and newspaper and outdoor advertising space for the advertisement of goods or services;"
+      },
+      {
+        "title": "WV Tax Division TSD-372, Broadcast Media and Artist Services (rev. July 2024)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd372.pdf",
+        "quote": "However, sales of advertising services and materials (including artwork, layout, writing, scripting, directing and recording broadcast announcements) that are not performed in conjunction with the sale of broadcasting time are generally taxable."
+      }
+    ],
+    "notes": "The rule text is cited from the Secretary of State's Word copy of the active 110 CSR 15 (effective 7/15/1993); the PDF there is a scanned image. Whether an agency's own commission on exempt media time or space is taxable is not addressed separately: § 71.2 taxes fees or commissions for purchasing on a client's behalf, and § 71.3 exempts the media purchase itself. A client's exemption certificate is the buyer's fact. Magazine space is listed as exempt in TSD-300 but not in § 11-15-9(a)(12). Municipal sales tax of up to 1% applies where imposed."
   },
   {
     "tax": "WV",
@@ -539,6 +643,88 @@
   },
   {
     "tax": "WV",
+    "code": "service.professional.lobbying",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Lobbying is not a professional service in West Virginia and is taxable at 6% (plus any municipal tax); a licensed attorney's legal services to a client, such as drafting or analyzing legislation, are excepted.",
+    "conditions": [
+      {
+        "when": "A licensed attorney provides professional legal services to a specific client, including legislative drafting or written analysis of legislation, rules or regulations",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other lobbying for a client",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "WV Tax Division TSD-409, Sales & Use Tax for Lobbyists (rev. July 2024)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd409.pdf",
+        "quote": "Lobbying is not a professional service and is not exempt or excepted from tax."
+      },
+      {
+        "title": "WV Tax Division TSD-409 (rev. July 2024)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd409.pdf",
+        "quote": "A licensed attorney provides their professional legal services to a specific client, including legislative drafting, or written analysis of legislation, rules or regulations for consideration."
+      },
+      {
+        "title": "WV State Tax Department TSD-409 (rev. Sept. 2003), archived 2018-11-26",
+        "url": "https://web.archive.org/web/20181126084525id_/http://tax.wv.gov/Documents/TSD/tsd409.pdf",
+        "quote": "Lobbying is not a professional service and is not exempt or excepted from the tax."
+      },
+      {
+        "title": "WV State Tax Department TSD-409 (rev. Sept. 2003), archived 2018-11-26",
+        "url": "https://web.archive.org/web/20181126084525id_/http://tax.wv.gov/Documents/TSD/tsd409.pdf",
+        "quote": "Lobbying services are subject to the consumers sales and service tax."
+      }
+    ],
+    "notes": "Wages an employer pays an employee for lobbying on the employer's own behalf are not a sale (the employer may owe tax on what it bills its client). The 2003 publication, in force through 2018 (the Wayback copy is the same file from 2016 to 2023), says an attorney's services 'may be designated as a professional activity'; the 2024 revision lists them as an exception. Tax is on gross compensation including reimbursed expenses. Municipal sales tax of up to 1% applies where imposed."
+  },
+  {
+    "tax": "WV",
+    "code": "service.professional.other",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "West Virginia taxes all nonprofessional services; services of the licensed professions the Tax Division recognizes as professional are excepted.",
+    "conditions": [
+      {
+        "when": "A professional service of a profession 110 CSR 15 § 8.1.1.1 recognizes (e.g. physicians, lawyers, CPAs, architects, professional engineers, enrolled agents, licensed real estate appraisers and brokers, licensed professional counselors)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other professional-type service (a nonprofessional activity, e.g. by consultants, bookkeepers, interior decorators, private investigators)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "110 CSR 15 § 8.1.1.1",
+        "url": "https://apps.sos.wv.gov/adlaw/csr/readfile.aspx?DocId=20946&Format=WORD&KeyWord=",
+        "quote": "Persons who provide services classified as nonprofessional for consumers sales and service tax purposes include interior decorators, private detectives/investigators, security guards, bookkeepers"
+      },
+      {
+        "title": "110 CSR 15 § 8.1.1.1",
+        "url": "https://apps.sos.wv.gov/adlaw/csr/readfile.aspx?DocId=20946&Format=WORD&KeyWord=",
+        "quote": "The determination as to whether other activities are \"professional\" in nature will be determined by the State Tax Division on a case-by-case basis"
+      },
+      {
+        "title": "WV Tax Division TSD-300",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "Sales of services recognized as “professional” under West Virginia law, such as those provided by doctors, lawyers, engineers, architects and CPA’s."
+      }
+    ],
+    "notes": "Whether the seller practises a recognized profession is a fact the code does not carry. Professionals' nonprofessional activities are taxable (§ 8.1.1.3). Municipal sales tax of up to 1% applies where imposed."
+  },
+  {
+    "tax": "WV",
     "code": "software.custom",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -575,63 +761,5 @@
       }
     ],
     "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. The definition of tangible personal property draws no line by delivery method. Software for direct use in a high-technology business, or incorporated into a manufactured product, can be exempt (§ 11-15-9h); those turn on the buyer. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
-  },
-  {
-    "tax": "WV",
-    "code": "construction.real_property.improvement.flooring",
-    "from": "2024-08-01",
-    "fromIs": "earliest_verified",
-    "treatment": "conditional",
-    "summary": "In West Virginia a retailer that installs wall-to-wall carpeting sold from its own inventory collects sales tax on the carpet, labour and materials; flooring installed by a contractor as a capital improvement is contracting, not taxed to the customer.",
-    "conditions": [
-      {
-        "when": "Wall-to-wall carpeting sold from the retailer's inventory and installed by it, the installation incidental to the sale",
-        "treatment": "taxable"
-      },
-      {
-        "when": "Installed by a contractor as a capital improvement",
-        "treatment": "exempt"
-      }
-    ],
-    "citations": [
-      {
-        "title": "TSD-325, Sales and Use Tax for Incidental Installation (Rev. August 2024)",
-        "url": "https://tax.wv.gov/Documents/TSD/tsd325.pdf",
-        "quote": "Any retailer/dealer who installs wall to wall carpeting, certain household appliances, drapery rods, window shades, venetian blinds, canvas awnings, mobile homes and other products that are sold from the retailer’s inventory must collect and remit state sales and use tax on not only the sale of the product, but also any labor and material charges when the installation of the product is incidental to the sale of the product."
-      }
-    ],
-    "notes": "Added 2026-10-30 after held-out case ho-wv-01 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-wv-01 no longer counts as held out. Dated from the bulletin's revision; earlier editions weren't checked."
-  },
-  {
-    "tax": "WV",
-    "code": "food.uncooked",
-    "from": "2015-11-10",
-    "fromIs": "earliest_verified",
-    "treatment": "exempt",
-    "summary": "Food sold for the buyer to cook (as opposed to reheat) is not prepared food in West Virginia, so it is exempt as food and food ingredients.",
-    "conditions": [],
-    "citations": [
-      {
-        "title": "West Virginia State Tax Department, Administrative Notice 2015-20, Definition of Prepared Food (November 10, 2015)",
-        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2015/AdministrativeNotice.2015-20.pdf",
-        "quote": "any food sold that ordinarily requires additional cooking (as opposed to reheating) by the consumer prior to consumption"
-      },
-      {
-        "title": "West Virginia State Tax Department, Administrative Notice 2015-20, Definition of Prepared Food (November 10, 2015)",
-        "url": "https://tax.wv.gov/Documents/AdministrativeNotices/2015/AdministrativeNotice.2015-20.pdf",
-        "quote": "This interpretation is binding on the Tax Department until it is changed by subsequent legislation."
-      },
-      {
-        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
-        "url": "https://code.wvlegislature.gov/11-15B-2/",
-        "quote": "and eggs, fish, meat, poultry and foods containing these raw animal foods requiring cooking by the consumer"
-      },
-      {
-        "title": "West Virginia Tax Division, TSD 420, Sales Tax Regarding Prepared Foods (Rev. May 2023)",
-        "url": "https://tax.wv.gov/documents/tsd/tsd420.pdf",
-        "quote": "Prepared food is subject to Sales Tax at the regular rate of 6%, while food and food ingredients are not taxed."
-      }
-    ],
-    "notes": "Administrative Notice 2015-20 (issued 2015-11-10) reads the prepared-food definition to exclude any food that ordinarily requires additional cooking by the consumer, raw animal food or not, e.g. a take-and-bake pizza. No later notice or legislation withdrawing it was found; the current § 11-15B-2 definition is the one the notice quotes. Food sold with seller-provided utensils isn't addressed by the notice. Municipal sales taxes share the state base (§ 8-13C-4)."
   }
 ]

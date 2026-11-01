@@ -472,6 +472,42 @@
   },
   {
     "tax": "NJ",
+    "code": "service.professional",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "New Jersey taxes only the services listed in N.J.S.A. 54:32B-3, and lists professional services as exempt.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service NJ's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales Tax Guide (rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "and the sale of certain services, except as otherwise provided in the Act"
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales Tax Guide (rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Professional Services (doctor, lawyer, etc.) ... E"
+      },
+      {
+        "title": "NJ Division of Taxation, TB-72, Cloud Computing",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb72.pdf",
+        "quote": "not subject to Sales Tax as they are not specifically listed under N.J.S.A. 54:32B-3."
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). No Division page says in one sentence that only listed services are taxed; TB-72 applies that rule (a service not specifically listed under 54:32B-3 is not taxed), and S&U-4 marks professional services exempt. Listed services a caller might call professional: information services, investigation and security services, and services to tangible property (IT has its own rule). Starts on the S&U-4 revision date, like New Jersey's other professional-service rules. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "NJ",
     "code": "service.professional.accounting",
     "from": "2022-07-06",
     "fromIs": "earliest_verified",
@@ -632,6 +668,33 @@
       }
     ],
     "notes": "New Jersey taxes only the services N.J.S.A. 54:32B-3(b) lists; S&U-4's list marks this one exempt. Earliest date: S&U-4's July 6, 2022 revision; the treatment is older. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.professional.lobbying",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not a service New Jersey lists as taxable; services not listed under N.J.S.A. 54:32B-3 are not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales Tax Guide (rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "and the sale of certain services, except as otherwise provided in the Act"
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales Tax Guide (rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Professional Services (doctor, lawyer, etc.) ... E"
+      },
+      {
+        "title": "NJ Division of Taxation, TB-72, Cloud Computing",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/tb/tb72.pdf",
+        "quote": "not subject to Sales Tax as they are not specifically listed under N.J.S.A. 54:32B-3."
+      }
+    ],
+    "notes": "S&U-4 does not name lobbying; N.J.S.A. 54:32B-3 was not read directly, so the absence of lobbying from the statute is not verified from the statute itself (no Division page or ruling naming lobbying as taxable was found)."
   },
   {
     "tax": "NJ",

@@ -497,6 +497,37 @@
   },
   {
     "tax": "DC",
+    "code": "service.professional",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Professional service transactions are not retail sales in the District unless D.C. Code § 47-2001(n)(1) names the service, so professional services are not taxed.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service DC's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001(n)(2)(B)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection;"
+      },
+      {
+        "title": "D.C. Code § 47-2001(n)(2)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The terms “retail sale” and “sale at retail” shall not include the following:"
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The exclusion reaches professional services except those listed in § 47-2001(n)(1): data processing and information services (IT and accounting have their own rules), real property maintenance, landscaping, security and private investigation services, and the others listed there; a .other service that is one of those is taxable. Lobbying is not listed in § 47-2001(n)(1). OTR's own services page says its list of examples is not exhaustive, so the statute is cited instead. The earliest date matches the archived OTR services page the District's other professional-service rules rest on; the statute is the current text. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "DC",
     "code": "service.professional.accounting",
     "from": "2019-10-19",
     "fromIs": "earliest_verified",
@@ -671,6 +702,28 @@
       }
     ],
     "notes": "The District taxes only the services its statute lists (data processing, information services, real property maintenance, landscaping, security, and others in § 47-2001(n)(1)); legal services are not among them. Earliest date: OTR's 2019-10-19 page listing the taxable services; the statute text is current."
+  },
+  {
+    "tax": "DC",
+    "code": "service.professional.lobbying",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is a professional service the District does not tax: professional service transactions are not retail sales unless § 47-2001(n)(1) names them, and lobbying is not named.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001(n)(2)(B)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Professional, insurance, or personal service transactions which involve sales as inconsequential elements for which no separate charges are made, except as otherwise provided in paragraph (1) of this subsection;"
+      },
+      {
+        "title": "D.C. Code § 47-2001(n)(2)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The terms “retail sale” and “sale at retail” shall not include the following:"
+      }
+    ],
+    "notes": "D.C. Code § 47-2001(n)(1) lists the taxable services; lobbying is not among them (the text was read in full for 'lobby'). No OTR page on lobbying was found."
   },
   {
     "tax": "DC",

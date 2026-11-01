@@ -503,6 +503,74 @@
   },
   {
     "tax": "SD",
+    "code": "service.professional.lobbying",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Lobbying is subject to South Dakota state and municipal sales tax: every service is taxable unless specifically exempt, and lobbying is not exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      },
+      {
+        "title": "SDCL 10-45-4.1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.1.html",
+        "quote": "\"Service\" means all activities engaged in for other persons for a fee, retainer, commission, or other monetary charge, which activities involve predominantly the performance of a service as distinguished from selling property."
+      },
+      {
+        "title": "SDCL 10-45-12.1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-12.1.html",
+        "quote": "Services specifically exempt from tax."
+      },
+      {
+        "title": "South Dakota DOR Tax Fact, Advertising",
+        "url": "https://dor.sd.gov/media/cpuocuwk/advertising.pdf",
+        "quote": "Professional business services such as public relations and consulting services are taxable."
+      }
+    ],
+    "notes": "No DOR page names lobbying; the rule follows from SDCL 10-45-4 (all services taxable unless specifically exempt) and the exemption list in 10-45-12.1, which does not cover lobbying (read in full). Lobbyists fall under SIC industry 8743 (public relations services) in the 1987 SIC Manual the statute uses, and the DOR says public relations services are taxable. An employee lobbying for the employer is not a sale (10-45-4.1). Municipal sales tax applies with the state tax."
+  },
+  {
+    "tax": "SD",
+    "code": "service.professional.other",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Other professional services are taxable in South Dakota unless the service is one SDCL 10-45-12.1 specifically exempts.",
+    "conditions": [
+      {
+        "when": "The service is in a group SDCL 10-45-12.1 exempts (e.g. health services, SIC major group 80; educational or social services; security brokers; insurance agents' commissions; services of brokers and agents licensed under Title 47; vocational counseling)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other professional service",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SDCL 10-45-4",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.html",
+        "quote": "Any service as defined by § 10-45-4.1 shall be taxable, unless the service is specifically exempt from the provisions of this chapter."
+      },
+      {
+        "title": "SDCL 10-45-4.1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-4.1.html",
+        "quote": "\"Service\" means all activities engaged in for other persons for a fee, retainer, commission, or other monetary charge, which activities involve predominantly the performance of a service as distinguished from selling property."
+      },
+      {
+        "title": "SDCL 10-45-12.1",
+        "url": "https://sdlegislature.gov/api/Statutes/10-45-12.1.html",
+        "quote": "Services specifically exempt from tax."
+      }
+    ],
+    "notes": "SDCL 10-45-12.1 lists the exempt services by 1987 SIC group; which group a .other service falls in is not carried by the code, so the rule is conditional. Municipal sales tax applies with the state tax where the service is taxable."
+  },
+  {
+    "tax": "SD",
     "code": "software.custom",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

@@ -28,6 +28,32 @@
   },
   {
     "tax": "NC",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In North Carolina, installing carpet or other floor covering that replaces an existing one is a taxable repair, maintenance and installation service; flooring installed as part of new construction or another capital improvement is not taxed to the customer.",
+    "conditions": [
+      {
+        "when": "replacing existing carpet or floor covering, as a job of its own",
+        "treatment": "taxable"
+      },
+      {
+        "when": "installed as part of new construction, a reconstruction or another capital improvement",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The term includes floor refinishing and the installation of carpet, flooring, floor coverings, windows, doors, cabinets, countertops, and other installations where the item being installed may replace a similar existing item."
+      }
+    ],
+    "notes": "Added 2026-11-01 after dev case d2-nc-06 showed the inherited capital-improvement rule was wrong for replacing carpet. Dated from the earliest verified NC capital-improvement rule; the 2026 bulletin is the source checked. 2026-11-01: re-dated to the 2026 bulletins, the text checked (Codex verification); earlier years aren't verified for this code."
+  },
+  {
+    "tax": "NC",
     "code": "construction.real_property.repair",
     "from": "2017-01-01",
     "fromIs": "effective",
@@ -52,32 +78,6 @@
       }
     ],
     "notes": "Exceptions: work resolving an issue from a real property contract within 12 months (new construction) or 6 months (other capital improvements), work requiring a building permit, and similar items in the Services to Real Property Taxability Chart."
-  },
-  {
-    "tax": "NC",
-    "code": "construction.real_property.improvement.flooring",
-    "from": "2026-01-01",
-    "fromIs": "earliest_verified",
-    "treatment": "conditional",
-    "summary": "In North Carolina, installing carpet or other floor covering that replaces an existing one is a taxable repair, maintenance and installation service; flooring installed as part of new construction or another capital improvement is not taxed to the customer.",
-    "conditions": [
-      {
-        "when": "replacing existing carpet or floor covering, as a job of its own",
-        "treatment": "taxable"
-      },
-      {
-        "when": "installed as part of new construction, a reconstruction or another capital improvement",
-        "treatment": "exempt"
-      }
-    ],
-    "citations": [
-      {
-        "title": "NCDOR Sales and Use Tax Bulletins (2026)",
-        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
-        "quote": "The term includes floor refinishing and the installation of carpet, flooring, floor coverings, windows, doors, cabinets, countertops, and other installations where the item being installed may replace a similar existing item."
-      }
-    ],
-    "notes": "Added 2026-11-01 after dev case d2-nc-06 showed the inherited capital-improvement rule was wrong for replacing carpet. Dated from the earliest verified NC capital-improvement rule; the 2026 bulletin is the source checked. 2026-11-01: re-dated to the 2026 bulletins, the text checked (Codex verification); earlier years aren't verified for this code."
   },
   {
     "tax": "NC",
@@ -428,6 +428,270 @@
       }
     ],
     "notes": "Local sales taxes share the state base except for food (§ 105-467(b))."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "North Carolina taxes only tangible property, certain digital property and a short list of specified services; professional services are not among them.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service NC's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The NCDOR overview says North Carolina imposes the tax on taxable sales of three things (tangible personal property, certain digital property, and 'specified services') and lists the specified services: admissions, dry cleaning and laundry, leases and rentals, prepaid calling, real property contracts, accommodations, repair, maintenance and installation services, satellite radio, service contracts, telecommunications and video programming. No professional service is among them; the page does not use the word 'only', but the imposition sentence names the whole base. The overview's wording dates from a 2026 redesign (Wayback copies through 2024 are a link list), and SUTB is the 01/01/2026 edition, so the rule starts 2026-01-01; the treatment is older (the RMI services regime dates from 2016-03-01) but earlier evidence was not gathered. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3). Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.accounting",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Accounting, auditing, bookkeeping and tax return preparation are not among the services North Carolina taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "The NCDOR overview says North Carolina imposes the tax on taxable sales of three things (tangible personal property, certain digital property, and 'specified services') and lists the specified services: admissions, dry cleaning and laundry, leases and rentals, prepaid calling, real property contracts, accommodations, repair, maintenance and installation services, satellite radio, service contracts, telecommunications and video programming. No professional service is among them; the page does not use the word 'only', but the imposition sentence names the whole base. The overview's wording dates from a 2026 redesign (Wayback copies through 2024 are a link list), and SUTB is the 01/01/2026 edition, so the rule starts 2026-01-01; the treatment is older (the RMI services regime dates from 2016-03-01) but earlier evidence was not gathered. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.advertising",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "An advertising agency's professional services (advice, concept, production and media placement, or a research report) are not taxed in North Carolina if separately stated; charges tied to printed or digital items it sells the client are taxable.",
+    "conditions": [
+      {
+        "when": "Professional services for advertising the agency places in the media, or research or consulting resulting only in a report, separately stated on the invoice",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Charges (creative time, commissions, retainers, consultation) for producing items the agency sells to the client (brochures, catalogs, signs, photographs, digital audiovisual works), even if separately stated; or professional charges not separately stated",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR SUTB 8-1, Professional Advertising Services (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Charges by advertising agencies for furnishing such professional services are not subject to sales"
+      },
+      {
+        "title": "NCDOR SUTB 8-2, Retail Sales by Advertising Agencies and Artists (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Advertising agencies and artists are retailers when they produce, cause to be produced, fabricate,"
+      },
+      {
+        "title": "NCDOR SUPLR 2026-0004 (Aug. 3, 2026), quoting 17 NCAC 07B .0901(a)",
+        "url": "https://www.ncdor.gov/suplr-2026-0004pdf/open",
+        "quote": "Professional services “are not subject to sales or use tax if the charges are separately stated on the invoice or similar billing document given to the purchaser at the time of sale.”"
+      }
+    ],
+    "notes": "17 NCAC 07B .0901 is the rule SUTB 8 restates (quoted in SUPLR 2026-0004, a ruling for one taxpayer). Whether charges are separately stated and whether a taxable item is delivered to the client are facts of the sale. Media time and space are bought by the agency as its own purchase (SUTB 8-1)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.consulting",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Management and business consulting is not among the services North Carolina taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "The NCDOR overview says North Carolina imposes the tax on taxable sales of three things (tangible personal property, certain digital property, and 'specified services') and lists the specified services: admissions, dry cleaning and laundry, leases and rentals, prepaid calling, real property contracts, accommodations, repair, maintenance and installation services, satellite radio, service contracts, telecommunications and video programming. No professional service is among them; the page does not use the word 'only', but the imposition sentence names the whole base. The overview's wording dates from a 2026 redesign (Wayback copies through 2024 are a link list), and SUTB is the 01/01/2026 edition, so the rule starts 2026-01-01; the treatment is older (the RMI services regime dates from 2016-03-01) but earlier evidence was not gathered. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3). SUTB 60-2 also says a public relations firm's research, analysis and report to a client are not taxed."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.design",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Interior design services are not taxed in North Carolina when sold alone or separately stated; design charges bundled into the designer's sale of furnishings without being separately stated are taxable.",
+    "conditions": [
+      {
+        "when": "Design services sold with the designer's sale of furnishings or other items, not separately stated on the invoice",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Design services separately stated, or sold without any sale of items",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR SUTB 49-2, Interior Designer Services (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Charges for interior design services provided in conjunction with a sale of items are exempt from sales and use tax provided the charges for such services are separately stated on the invoice or similar billing document given to the purchaser at the time of sale."
+      },
+      {
+        "title": "NCDOR SUTB 49-1 (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Retail sales of items by interior designers or decorators are subject to sales and use tax."
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "Design alone is not a specified service. Furnishings the designer sells are taxable goods. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.engineering",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Engineering and architectural services are not among the services North Carolina taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "The NCDOR overview says North Carolina imposes the tax on taxable sales of three things (tangible personal property, certain digital property, and 'specified services') and lists the specified services: admissions, dry cleaning and laundry, leases and rentals, prepaid calling, real property contracts, accommodations, repair, maintenance and installation services, satellite radio, service contracts, telecommunications and video programming. No professional service is among them; the page does not use the word 'only', but the imposition sentence names the whole base. The overview's wording dates from a 2026 redesign (Wayback copies through 2024 are a link list), and SUTB is the 01/01/2026 edition, so the rule starts 2026-01-01; the treatment is older (the RMI services regime dates from 2016-03-01) but earlier evidence was not gathered. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.it",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "IT services in North Carolina are taxable when they repair, maintain or install computer hardware or software; consulting and training on software, and information services, are not.",
+    "conditions": [
+      {
+        "when": "Repair, maintenance or installation of computer hardware or software (including set-up, configuration and upgrades), or a service contract for them",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Consulting or training only, on how to use software, or an information service",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR SUTB 19, Computer Services (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "A person performing repair, maintenance, and installation services on computer hardware and"
+      },
+      {
+        "title": "NCDOR SUTB 19, Computer Services (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Charges by a person to solely furnish consulting and training services for how to use computer"
+      },
+      {
+        "title": "NCDOR SUTB 19, Computer Services (01/01/2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "An information service is not subject to sales and use tax."
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "Repair, maintenance and installation services are taxed under G.S. 105-164.4(a)(1)c.; service contracts under 105-164.4(a)(11). SUTB's sentences run across a page break, so only their first lines are quoted. Help-desk support that does not repair or maintain software was not separately addressed. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.legal",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Legal services are not among the services North Carolina taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "The NCDOR overview says North Carolina imposes the tax on taxable sales of three things (tangible personal property, certain digital property, and 'specified services') and lists the specified services: admissions, dry cleaning and laundry, leases and rentals, prepaid calling, real property contracts, accommodations, repair, maintenance and installation services, satellite radio, service contracts, telecommunications and video programming. No professional service is among them; the page does not use the word 'only', but the imposition sentence names the whole base. The overview's wording dates from a 2026 redesign (Wayback copies through 2024 are a link list), and SUTB is the 01/01/2026 edition, so the rule starts 2026-01-01; the treatment is older (the RMI services regime dates from 2016-03-01) but earlier evidence was not gathered. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3)."
+  },
+  {
+    "tax": "NC",
+    "code": "service.professional.lobbying",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not among the services North Carolina taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "North Carolina imposes sales and use tax on the sales price of, or gross receipts derived from, taxable sales of the following:"
+      },
+      {
+        "title": "NCDOR, Taxable Items (Overview of Sales and Use Taxes)",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/overview-sales-and-use-taxes",
+        "quote": "The following services and items are subject to sales and use tax:"
+      }
+    ],
+    "notes": "The NCDOR overview says North Carolina imposes the tax on taxable sales of three things (tangible personal property, certain digital property, and 'specified services') and lists the specified services: admissions, dry cleaning and laundry, leases and rentals, prepaid calling, real property contracts, accommodations, repair, maintenance and installation services, satellite radio, service contracts, telecommunications and video programming. No professional service is among them; the page does not use the word 'only', but the imposition sentence names the whole base. The overview's wording dates from a 2026 redesign (Wayback copies through 2024 are a link list), and SUTB is the 01/01/2026 edition, so the rule starts 2026-01-01; the treatment is older (the RMI services regime dates from 2016-03-01) but earlier evidence was not gathered. A professional charge billed by a retailer as part of a taxable sale, not separately stated, is part of the sales price (G.S. 105-164.3)."
   },
   {
     "tax": "NC",

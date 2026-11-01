@@ -28,6 +28,41 @@
   },
   {
     "tax": "IA",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2025-02-05",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Iowa carpeting is never a building material: its sale is a taxable retail sale, and a lump-sum carpet-and-installation price is taxed in full. Other floor coverings attached to the floor are building materials, taxed to the contractor, not the customer.",
+    "conditions": [
+      {
+        "when": "Carpet and installation billed as one charge or lump sum",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Carpet with the installation itemized separately, or under a separate contract: the carpet's price is taxed, the installation is not",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Floor coverings other than carpeting, shaped to fit and permanently attached (building materials in a construction contract)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Admin. Code 701—213.14, Carpeting and other floor coverings (IAC 2/5/25)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.213.pdf",
+        "quote": "If the selling price of the carpeting and the installation charge are stated as one charge or lump sum, the entire charge is subject to sales tax."
+      },
+      {
+        "title": "Iowa Admin. Code 701—213.14, Carpeting and other floor coverings (IAC 2/5/25)",
+        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.213.pdf",
+        "quote": "The sale of carpeting is not to be treated as the sale of a “building material.”"
+      }
+    ],
+    "notes": "Added 2026-10-30 after held-out case ho-ia-07 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-ia-07 no longer counts as held out. Dated from the chapter's IAC date; the rule is older."
+  },
+  {
+    "tax": "IA",
     "code": "construction.real_property.repair",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -440,6 +475,52 @@
   },
   {
     "tax": "IA",
+    "code": "food.uncooked",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, raw meat items, meal kits) is not prepared food in Iowa and is exempt from sales tax unless sold with eating utensils.",
+    "conditions": [
+      {
+        "when": "Sold with eating utensils provided by the seller",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine (unless SNAP-eligible)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(e)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(e) Food sold that ordinarily requires additional cooking by the consumer prior to consumption."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(3)(e) (2018 Code)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
+        "quote": "(e) Food sold that ordinarily requires additional cooking by the consumer prior to consumption."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Food sold that ordinarily requires additional cooking by the consumer prior to consumption, such as take-and-bake pizzas."
+      },
+      {
+        "title": "Iowa Code 423.3(57)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "The sales price from all sales of food and food ingredients."
+      },
+      {
+        "title": "Iowa Code 423.3(57)(f)(4)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(4) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
+      }
+    ],
+    "notes": "Iowa's prepared-food definition excludes both raw animal foods requiring cooking (423.3(57)(f)(3)(b)) and any food that ordinarily requires additional cooking by the consumer ((3)(e)), so the raw/non-raw split doesn't matter. Utensils are a separate prepared-food category ((f)(4)); that the (3) exclusions don't reach it is read from the statute's structure. Earlier history not checked."
+  },
+  {
+    "tax": "IA",
     "code": "goods.general",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -464,6 +545,42 @@
       }
     ],
     "notes": "The 2018 Code edition shows the same text; earlier history not modeled. Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Iowa taxes a service only when state law specifically names it; professional services not on the enumerated list are not taxed.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service IA's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Sales and Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Sales of services are not subject to Iowa sales tax unless specifically taxed by state law."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa Code § 423.2(6) (2018)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax"
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). Iowa Code § 423.2(6) enumerates the taxable services; some a caller might call professional are on it (investment counseling, interior decorating, credit reporting, detective services, and since 2019 services to specified digital products and software). Those with codes have their own rules (consulting, design, IT); a .other service that is enumerated is taxable. The 2018 Code is cited for the start date; the DOR guide pages are current. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
   },
   {
     "tax": "IA",
@@ -748,6 +865,33 @@
   },
   {
     "tax": "IA",
+    "code": "service.professional.lobbying",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not an enumerated taxable service in Iowa, and Iowa taxes services only when state law names them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Sales and Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Sales of services are not subject to Iowa sales tax unless specifically taxed by state law."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa Code § 423.2(6) (2018)",
+        "url": "https://www.legis.iowa.gov/docs/code/2018/423.2.pdf",
+        "quote": "The sales price of any of the following enumerated services is subject to the tax"
+      }
+    ],
+    "notes": "Lobbying is not among the services enumerated in Iowa Code § 423.2(6) (2018 and current texts read for 'lobby'). No Iowa DOR page names lobbying."
+  },
+  {
+    "tax": "IA",
     "code": "software.custom",
     "from": "2018-01-01",
     "to": "2018-12-31",
@@ -951,86 +1095,5 @@
       }
     ],
     "notes": "Infrastructure as a service and stand-alone web hosting are not SaaS (r. 701-211.35; DOR guidance). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
-  },
-  {
-    "tax": "IA",
-    "code": "construction.real_property.improvement.flooring",
-    "from": "2025-02-05",
-    "fromIs": "earliest_verified",
-    "treatment": "conditional",
-    "summary": "In Iowa carpeting is never a building material: its sale is a taxable retail sale, and a lump-sum carpet-and-installation price is taxed in full. Other floor coverings attached to the floor are building materials, taxed to the contractor, not the customer.",
-    "conditions": [
-      {
-        "when": "Carpet and installation billed as one charge or lump sum",
-        "treatment": "taxable"
-      },
-      {
-        "when": "Carpet with the installation itemized separately, or under a separate contract: the carpet's price is taxed, the installation is not",
-        "treatment": "taxable"
-      },
-      {
-        "when": "Floor coverings other than carpeting, shaped to fit and permanently attached (building materials in a construction contract)",
-        "treatment": "exempt"
-      }
-    ],
-    "citations": [
-      {
-        "title": "Iowa Admin. Code 701—213.14, Carpeting and other floor coverings (IAC 2/5/25)",
-        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.213.pdf",
-        "quote": "If the selling price of the carpeting and the installation charge are stated as one charge or lump sum, the entire charge is subject to sales tax."
-      },
-      {
-        "title": "Iowa Admin. Code 701—213.14, Carpeting and other floor coverings (IAC 2/5/25)",
-        "url": "https://www.legis.iowa.gov/docs/iac/chapter/701.213.pdf",
-        "quote": "The sale of carpeting is not to be treated as the sale of a “building material.”"
-      }
-    ],
-    "notes": "Added 2026-10-30 after held-out case ho-ia-07 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-ia-07 no longer counts as held out. Dated from the chapter's IAC date; the rule is older."
-  },
-  {
-    "tax": "IA",
-    "code": "food.uncooked",
-    "from": "2018-01-01",
-    "fromIs": "earliest_verified",
-    "treatment": "exempt",
-    "summary": "Food the seller assembled for the buyer to cook (take-and-bake pizza, raw meat items, meal kits) is not prepared food in Iowa and is exempt from sales tax unless sold with eating utensils.",
-    "conditions": [
-      {
-        "when": "Sold with eating utensils provided by the seller",
-        "treatment": "taxable"
-      },
-      {
-        "when": "Sold through a vending machine (unless SNAP-eligible)",
-        "treatment": "taxable"
-      }
-    ],
-    "citations": [
-      {
-        "title": "Iowa Code 423.3(57)(f)(3)(e)",
-        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
-        "quote": "(e) Food sold that ordinarily requires additional cooking by the consumer prior to consumption."
-      },
-      {
-        "title": "Iowa Code 423.3(57)(f)(3)(e) (2018 Code)",
-        "url": "https://www.legis.iowa.gov/docs/code/2018/423.3.pdf",
-        "quote": "(e) Food sold that ordinarily requires additional cooking by the consumer prior to consumption."
-      },
-      {
-        "title": "Iowa DOR, Iowa Sales Tax on Food",
-        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
-        "quote": "Food sold that ordinarily requires additional cooking by the consumer prior to consumption, such as take-and-bake pizzas."
-      },
-      {
-        "title": "Iowa Code 423.3(57)",
-        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
-        "quote": "The sales price from all sales of food and food ingredients."
-      },
-      {
-        "title": "Iowa Code 423.3(57)(f)(4)",
-        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
-        "quote": "(4) Food sold with eating utensils provided by the seller, including plates, knives, forks, spoons, glasses, cups, napkins, or straws."
-      }
-    ],
-    "notes": "Iowa's prepared-food definition excludes both raw animal foods requiring cooking (423.3(57)(f)(3)(b)) and any food that ordinarily requires additional cooking by the consumer ((3)(e)), so the raw/non-raw split doesn't matter. Utensils are a separate prepared-food category ((f)(4)); that the (3) exclusions don't reach it is read from the statute's structure. Earlier history not checked."
   }
 ]

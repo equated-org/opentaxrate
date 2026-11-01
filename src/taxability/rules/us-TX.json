@@ -639,6 +639,42 @@
   },
   {
     "tax": "TX",
+    "code": "service.professional",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Texas taxes only the services enumerated in Tax Code § 151.0101; professional services are not among them.",
+    "conditions": [
+      {
+        "when": "a service the state's law doesn't list as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a service TX's law lists as taxable (an enumerated service, such as investment counseling or credit reporting where listed)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Comptroller's Decision, Hearing No. 119,097 (Nov. 19, 2024)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/202411013H",
+        "quote": "only those services enumerated in Texas Tax Code § 151.0101 are subject to tax."
+      },
+      {
+        "title": "Texas Tax Code § 151.0101",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means:"
+      },
+      {
+        "title": "Texas Tax Code § 151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The Comptroller's decision states the rule (citing Decision No. 102,386 of 2014; audit period 2016–2019). Enumerated services a caller might call professional: data processing and information services (IT and accounting have their own rules), credit reporting, debt collection, security services, and real property services. A .other service that is one of those is taxable. STAR is cited through the Comptroller's API address, which serves the decision text; the reader is star.comptroller.texas.gov/view/202411013H. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+  },
+  {
+    "tax": "TX",
     "code": "service.professional.accounting",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -908,6 +944,33 @@
       }
     ],
     "notes": "Texas taxes only the services listed in §151.0101(a); this service is not among them. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "service.professional.lobbying",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Lobbying is not one of the services Texas Tax Code § 151.0101 enumerates, so it is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Comptroller's Decision, Hearing No. 119,097 (Nov. 19, 2024)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/202411013H",
+        "quote": "only those services enumerated in Texas Tax Code § 151.0101 are subject to tax."
+      },
+      {
+        "title": "Texas Tax Code § 151.0101",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(a) \"Taxable services\" means:"
+      },
+      {
+        "title": "Texas Tax Code § 151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "§ 151.0101 (archived text, read for 'lobby') does not list lobbying."
   },
   {
     "tax": "TX",

@@ -631,6 +631,28 @@
   },
   {
     "tax": "PA",
+    "code": "service.professional.lobbying",
+    "from": "2018-06-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Lobbying services are taxable in Pennsylvania when the benefit or delivery of the service occurs in the state.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR REV-717, Retailer's Information (archived 2018-06-19)",
+        "url": "https://web.archive.org/web/20180619105523id_/http://www.revenue.pa.gov:80/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf",
+        "quote": "services provided by a lobbyist as that term is defined under the Lobbying Registration and Regulation Act are subject to tax if the benefit or delivery of the service occurs in Pennsylvania."
+      },
+      {
+        "title": "PA DOR REV-717, Retailer's Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Services provided by a lobbyist as that term is defined under the Lobbying Registration and Regulation Act are subject to tax if the benefit or delivery of the service occurs in Pennsylvania."
+      }
+    ],
+    "notes": "72 P.S. § 7201(k)(11), (o)(9) and 61 Pa. Code § 60.6 (not read directly); lobbying has been taxable since 1991. Where the benefit or delivery occurs is sourcing, the caller's. Philadelphia and Allegheny County local taxes share the state base. Lobbyist is as defined in Pennsylvania's Lobbying Registration and Regulation Act; whether an in-house employee's lobbying is a sale was not checked (an employee's work for an employer is not a sale)."
+  },
+  {
+    "tax": "PA",
     "code": "software.custom.development",
     "from": "2018-06-19",
     "fromIs": "earliest_verified",
