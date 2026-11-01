@@ -34,7 +34,7 @@ export interface Capture {
 
 export interface Catalog {
   generatedAt: string;
-  urls: Record<string, { captures: Capture[]; citedBy: Array<{ rule: string; quote?: string }> }>;
+  urls: Record<string, { captures: Capture[]; citedBy: Array<{ rule: string; tax: string; code: string; from: string; to?: string; quote?: string }> }>;
 }
 
 const TYPES: Array<[RegExp, string]> = [
@@ -109,7 +109,7 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
   for (const r of readRuleFiles().rules)
     for (const c of r.citations) {
       const record = urls[c.url];
-      if (record) record.citedBy.push({ rule: `${r.tax} ${r.code} from ${r.from}${r.to ? ` to ${r.to}` : ""}`, ...(c.quote ? { quote: c.quote } : {}) });
+      if (record) record.citedBy.push({ rule: `${r.tax} ${r.code} from ${r.from}${r.to ? ` to ${r.to}` : ""}`, tax: r.tax, code: r.code, from: r.from, ...(r.to ? { to: r.to } : {}), ...(c.quote ? { quote: c.quote } : {}) });
     }
   return { catalog: { generatedAt: new Date().toISOString(), urls }, files };
 }

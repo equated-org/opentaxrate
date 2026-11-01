@@ -73,7 +73,11 @@ h1, h2, h3 { font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
 .about h2 { margin: 18px 0 4px; font-size: 15px; color: var(--ink); }
 .about ul { margin: 0; padding-left: 18px; }
 .about li { margin: 3px 0; }
-.about .rule { color: var(--ink); }
+.about ul.quotes { list-style: none; padding: 0; }
+.about ul.quotes > li { margin: 10px 0; }
+.badges { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 4px; }
+.badge { font: 12px/1.7 "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text-2); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; white-space: nowrap; }
+.badge b { font-weight: 600; color: var(--ink); }
 .doc { margin: 8px 0 96px; max-width: 72ch; overflow-wrap: anywhere; }
 .doc h1 { font-size: 1.75rem; margin: 1.2em 0 .5em; } .doc h2 { font-size: 1.3rem; margin: 1.6em 0 .4em; } .doc h3, .doc h4 { font-size: 1.05rem; margin: 1.4em 0 .3em; }
 .doc ul, .doc ol { padding-left: 22px; }
@@ -127,27 +131,59 @@ const SECURITY = {
 	'referrer-policy': 'no-referrer',
 };
 
+/** A URL the archive has no copy under: the original, and any copy kept
+ *  under another address (an Internet Archive capture, where the site
+ *  blocks downloads). */
+function notArchived(data, target) {
+	const bare = target.replace(/^https?:\/\//, '');
+	const elsewhere = Object.keys(data.urls).filter((u) => u !== target && u.endsWith(bare));
+	const safe = /^https?:\/\//.test(target);
+	return page(
+		'Not archived',
+		`<div class="url"><h1>${escape(target)}</h1><p>The archive has no copy fetched from this address.${safe ? ` <a href="${escape(target)}" rel="noopener">Open the original</a>.` : ''}</p>${
+			elsewhere.length
+				? `<p>Copies of it kept under another address:</p><ul>${elsewhere.map((u) => `<li><a href="/url?u=${encodeURIComponent(u)}">${escape(u)}</a></li>`).join('')}</ul>`
+				: ''
+		}</div>`,
+		404,
+	);
+}
+
+/** A catalog's cited-by entry as { id, tax, code, from, to, quote }. */
+function ruleOf(c) {
+	if (c.tax) return { ...c, id: `${c.tax}|${c.code}|${c.from}` };
+	const m = /^(\S+) (\S+) from (\S+)(?: to (\S+))?$/.exec(c.rule ?? '');
+	return m ? { id: c.rule, tax: m[1], code: m[2], from: m[3], to: m[4], quote: c.quote } : { id: c.rule, tax: '', code: c.rule ?? '', from: '', quote: c.quote };
+}
+
 /** The header above every capture: where it came from, when, its hash, and
  *  the rules that cite it, each linked to its quote on the page. */
 function card(hash, places, shown, asked) {
 	const { url, capture, record } = shown;
 	const others = record.captures.filter((c) => c.sha256 !== hash);
 	const alsoAt = places.filter((p) => p.url !== url);
-	// Quotes grouped by the rule citing them, shown by their first words.
-	// The header comes after the document in the page (CSS shows it first),
-	// so the browser's text search finds the sentence in the document.
-	const byRule = new Map();
-	for (const c of places.flatMap((p) => p.record.citedBy)) {
-		if (!byRule.has(c.rule)) byRule.set(c.rule, []);
-		if (c.quote) byRule.get(c.rule).push(c.quote);
+	// Each quote once, with the rules that cite it as badges; rules citing
+	// the page without a quote at the end. The header comes after the
+	// document in the page (CSS shows it first), so the browser's text
+	// search finds the sentence in the document.
+	const cited = places.flatMap((p) => p.record.citedBy).map(ruleOf);
+	const byQuote = new Map();
+	for (const c of cited) {
+		const key = c.quote ?? '';
+		if (!byQuote.has(key)) byQuote.set(key, []);
+		if (!byQuote.get(key).some((r) => r.id === c.id)) byQuote.get(key).push(c);
 	}
+	const rules = new Set(cited.map((c) => c.id)).size;
 	const opening = (quote) => {
 		const words = quote.replace(/\s+/g, ' ').trim().split(' ');
-		const shown = words.slice(0, Math.min(8, words.length));
+		const shown = words.slice(0, Math.min(12, words.length));
 		return escape(shown.join(' ')) + (shown.length < words.length ? ' …' : '');
 	};
-	const cites = [...byRule.entries()]
-		.map(([rule, quotes]) => `<li><span class="rule">${escape(rule)}</span>${quotes.length ? ': ' : ''}${quotes.map((q) => `<a href="/sha256/${hash}${fragment(q)}">“${opening(q)}”</a>`).join('; ')}</li>`)
+	const badge = (r) =>
+		`<span class="badge" title="${escape(`${r.tax} ${r.code}, from ${r.from}${r.to ? ` to ${r.to}` : ''}`)}"><b>${escape(r.tax)}</b> ${escape(r.code)}</span>`;
+	const cites = [...byQuote.entries()]
+		.sort(([a], [b]) => (a === '') - (b === ''))
+		.map(([quote, rs]) => `<li>${quote ? `<a href="/sha256/${hash}${fragment(quote)}">“${opening(quote)}”</a>` : '<span class="quiet">Cited without a quote</span>'}<div class="badges">${rs.map(badge).join('')}</div></li>`)
 		.join('');
 	return `<section class="about">
 <h1><a href="${escape(url)}" rel="noopener">${escape(url)}</a></h1>
@@ -156,7 +192,7 @@ ${others.length ? `<p>Other captures: ${others.map((c) => `<a href="/sha256/${c.
 ${alsoAt.length ? `<p>Same bytes at ${alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join(', ')}</p>` : ''}
 ${asked ? `<p>Asked for ${escape(asked)}: no copy is from that day or before, so this is the earliest the archive has.</p>` : ''}
 <p class="quiet">The original may have changed since.</p>
-${byRule.size ? `<h2>Cited by ${byRule.size} rule${byRule.size > 1 ? 's' : ''}</h2><ul>${cites}</ul>` : ''}
+${rules ? `<h2>Cited by ${rules} rule${rules > 1 ? 's' : ''}</h2><ul class="quotes">${cites}</ul>` : ''}
 </section>`;
 }
 
@@ -326,7 +362,7 @@ export default {
 				? page(target, `<div class="list url"><h1><a href="${escape(target)}" rel="noopener">${escape(target)}</a></h1><p class="quiet">${record.captures.length} capture${record.captures.length > 1 ? 's' : ''}, oldest first</p><ul>${record.captures
 						.map((c) => `<li><a href="/sha256/${c.sha256}">${escape(c.at.replace('T', ' ').slice(0, 16))} UTC</a><span class="mono quiet">${c.sha256.slice(0, 12)}</span></li>`)
 						.join('')}</ul></div>`)
-				: page('Not archived', `<p>${escape(target)} isn't in the archive.</p>`, 404);
+				: notArchived(data, target);
 		} else if (/^\/\d{8}\//.test(url.pathname)) {
 			const on = `${url.pathname.slice(1, 5)}-${url.pathname.slice(5, 7)}-${url.pathname.slice(7, 9)}T23:59:59Z`;
 			const target = url.pathname.slice(10) + url.search;
@@ -336,7 +372,7 @@ export default {
 			// so, rather than passing it off as the page on that day.
 			const capture = inForce ?? record?.captures[0];
 			const where = capture && `/sha256/${capture.sha256}${inForce ? '' : `?asked=${on.slice(0, 10)}`}`;
-			response = capture ? Response.redirect(new URL(where, url).toString(), 302) : page('Not archived', `<p>${escape(target)} isn't in the archive.</p>`, 404);
+			response = capture ? Response.redirect(new URL(where, url).toString(), 302) : notArchived(data, target);
 		} else if (url.pathname === '/') response = index(data);
 		else response = page('Not found', '<p>Nothing here. <a href="/">The archive</a>.</p>', 404);
 		if (response.status === 200 && request.method === 'GET') {

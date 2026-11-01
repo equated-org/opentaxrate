@@ -44,7 +44,7 @@ export async function politeFetch(url: string): Promise<Response> {
 
 /** A dated Wayback Machine snapshot: its contents never change, so once
  *  archived it isn't fetched again. */
-export const snapshot = (url: string) => /^https?:\/\/web\.archive\.org\/web\/\d{8,14}\//.test(url);
+export const snapshot = (url: string) => /^https?:\/\/web\.archive\.org\/web\/\d{8,14}(?:[a-z]{2}_)?\//.test(url);
 
 /** The name a newly archived page is filed under: its own, but with an
  *  extension when its path has none, so ".../pst" can't collide with the
