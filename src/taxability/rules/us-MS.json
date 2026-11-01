@@ -66,6 +66,33 @@
   },
   {
     "tax": "MS",
+    "code": "delivery.exempt_goods",
+    "from": "2017-10-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge follows the tax treatment of the goods delivered in Mississippi, so it is exempt when the goods are exempt.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Mississippi DOR fact sheet, Delivery Charges (revised October 2017; Internet Archive copy of July 9, 2025)",
+        "url": "https://web.archive.org/web/20250709001224/https://www.dor.ms.gov/sites/default/files/Business/Delivery%20Charges.pdf",
+        "quote": "Delivery charges are exempt if the product being shipped or delivered is exempt."
+      },
+      {
+        "title": "Mississippi DOR fact sheet, Delivery Charges (revised October 2017; Internet Archive copy of July 9, 2025)",
+        "url": "https://web.archive.org/web/20250709001224/https://www.dor.ms.gov/sites/default/files/Business/Delivery%20Charges.pdf",
+        "quote": "The rate and application of sales or use tax on delivery charges follows the tax treatment of the property being shipped or delivered."
+      },
+      {
+        "title": "Mississippi DOR, Sales Tax Rates",
+        "url": "https://www.dor.ms.gov/business/sales-use-tax/sales-tax-rates",
+        "quote": "same rate as property being shipped."
+      }
+    ],
+    "notes": "The fact sheet was on dor.ms.gov through at least July 2025 and returns 404 there on 2026-11-01; no replacement or contrary statement was found, so it is read from the Internet Archive copy. 2017-10-31 is the end of the month the sheet says it was revised. The rates-page quote concerns transportation charges paid directly by the consumer, and supports the same principle. Groceries are not exempt in Mississippi from 2025-07-01 (taxed at 5%); their delivery is not this code. No local levy applies where the state exempts the goods."
+  },
+  {
+    "tax": "MS",
     "code": "delivery.taxable_goods",
     "from": "2026-08-03",
     "fromIs": "earliest_verified",

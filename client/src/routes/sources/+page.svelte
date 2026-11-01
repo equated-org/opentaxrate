@@ -69,8 +69,9 @@
 			<section>
 				<h2>What a result covers</h2>
 				<p>
-					The result is the general sales tax rate for the address. What you actually owe can depend
-					on what you sell, exemptions and where the sale takes place.
+					The result is the general sales tax rate for the address. Name what was sold (a code, such as
+					groceries or SaaS) and it also says whether that sale is taxed there, from dated rules that cite the
+					agency's own page. Who bought it and where the sale is sourced are still yours to decide.
 				</p>
 				<p>
 					We have lookup methods for all 50 states and DC, but some addresses and local tax districts

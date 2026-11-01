@@ -28,6 +28,33 @@
   },
   {
     "tax": "GA",
+    "code": "delivery.exempt_goods",
+    "from": "2016-02-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge on goods exempt at that sale is taxed in the same manner as the sale, so it isn't subject to Georgia's state sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax? (delivery charges FAQ)",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "subject to sales tax in the same manner as the underlying sale"
+      },
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax? (delivery charges FAQ)",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "Charges for delivery that are not associated with the sale of taxable property are not taxable."
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2016-04 (February 15, 2016), Sales Price - Delivery Charges",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2016-04/download",
+        "quote": "If a transaction between Taxpayer and a customer includes both taxable items and nontaxable items, Taxpayer may either charge and collect tax on the entire delivery charge or charge tax on a portion of the delivery charge"
+      }
+    ],
+    "notes": "This rule is the state part; GA:local has its own rule, since groceries exempt from the state tax stay subject to local taxes. A delivery charge covering taxable and exempt goods may be taxed whole or allocated by price or weight (LR SUT-2016-04). 2016-02-15 is the date of the earliest DOR statement read; the FAQ page is undated."
+  },
+  {
+    "tax": "GA",
     "code": "delivery.taxable_goods",
     "from": "2016-02-15",
     "fromIs": "earliest_verified",
@@ -649,6 +676,46 @@
       }
     ],
     "notes": "Rule 560-12-2-.118 (digital products, 2024) reportedly lists software as a service among exempt items; its text wasn't read (the DOR copy was unavailable)."
+  },
+  {
+    "tax": "GA:local",
+    "code": "delivery.exempt_goods",
+    "from": "2016-02-15",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local sales taxes treat a delivery charge as they treat the goods: not taxed on goods exempt from local tax too, taxed on groceries (exempt from the state tax only).",
+    "conditions": [
+      {
+        "when": "The goods are exempt from Georgia's local sales taxes as well as the state tax",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The goods are food and food ingredients exempt from the state tax only (groceries for off-premises consumption), outside DeKalb County's EHOST area",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Groceries in DeKalb County outside Atlanta, where the SPLOST imposed with the EHOST doesn't apply to food (the place's food rate per the DOR chart)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax? (delivery charges FAQ)",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "subject to sales tax in the same manner as the underlying sale"
+      },
+      {
+        "title": "Georgia DOR Letter Ruling LR SUT-2014-18 (November 12, 2014), Food",
+        "url": "https://dor.georgia.gov/document/sut-lr/lr-sut-2014-18/download",
+        "quote": "exempts “food and food ingredients” from state (but not local) sales and use tax when such items are sold to individual consumers for off-premises human consumption"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "These sales are subject to all local sales and use taxes, except the SPLOST imposed in connection with an EHOST."
+      }
+    ],
+    "notes": "Which kind of exempt goods are delivered isn't carried by the code. That local taxes reach the delivery charge on groceries is read from the FAQ's 'same manner as the underlying sale' with the local taxation of food (as in the GA:local food.grocery rule); no DOR page states it for grocery delivery in so many words."
   },
   {
     "tax": "GA:local",

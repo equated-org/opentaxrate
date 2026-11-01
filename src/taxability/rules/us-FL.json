@@ -33,6 +33,160 @@
   },
   {
     "tax": "FL",
+    "code": "delivery.taxable_goods",
+    "from": "1994-10-17",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge on taxable goods is taxable in Florida when the buyer can't avoid it, and not taxable when the buyer could avoid it (pick up, own carrier, choice of shipping) or the goods are sold F.O.B. origin.",
+    "conditions": [
+      {
+        "when": "The buyer could avoid the charge by its own decision: it could pick the goods up, arrange its own carrier, or choose F.O.B. origin instead",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The goods are sold F.O.B. origin (title passes at shipment), or the records don't show where title passes (presumed F.O.B. origin)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller requires the delivery and sells F.O.B. destination, so the buyer can't avoid the charge",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(3)(a), Transportation Charges (effective 10/17/1994)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "the charge for the transportation service is subject to tax, even if separately stated on an invoice or bill of sale."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(4)(a)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "The charge can be avoided by a decision or action solely on the part of the purchaser"
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(5)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "transportation services arranged by the seller and rendered to the buyer are not a part of the taxable selling price, provided the transportation charges are separately stated."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(5)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "it is presumed that the tangible personal property was sold F.O.B. origin"
+      },
+      {
+        "title": "Florida DOR FAQ: Are delivery charges subject to sales tax?",
+        "url": "https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1277&&IsDlg=1",
+        "quote": "Charges for delivery services are generally subject to tax when imposed with the sale of a taxable item."
+      },
+      {
+        "title": "Florida DOR FAQ: Are delivery charges subject to sales tax?",
+        "url": "https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1277&&IsDlg=1",
+        "quote": "the charge can be avoided by a decision or action solely on the part of the purchaser (e.g., the purchaser has the option of picking the item up or arranging for third-party transportation services on its own)"
+      }
+    ],
+    "notes": "Whether the buyer could avoid the charge, and the F.O.B. terms, aren't carried by the code. Rule 12A-1.045 has not been amended since 10/17/1994 (flrules.org history). A charge the buyer pays directly to its own carrier isn't the seller's charge and isn't taxed (12A-1.045(6)). County discretionary sales surtax applies to the same transactions as the state tax, so this rule covers state and surtax parts (as the existing FL rules do). Delivery of exempt goods (delivery.exempt_goods) is not written: the FAQ speaks only of a taxable item."
+  },
+  {
+    "tax": "FL",
+    "code": "delivery.taxable_goods.carrier",
+    "from": "1994-10-17",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "A separately stated charge for shipping taxable goods by carrier F.O.B. origin is not part of the taxable sales price in Florida.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(5), Transportation Charges (effective 10/17/1994)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "transportation services arranged by the seller and rendered to the buyer are not a part of the taxable selling price, provided the transportation charges are separately stated."
+      },
+      {
+        "title": "Florida DOR Technical Assistance Advisement 14A-009, Shipping and Handling Fees (April 3, 2014)",
+        "url": "https://floridarevenue.com/TaxLaw/Documents/14A-009.pdf",
+        "quote": "DEMONSTRATED THAT IT SEPARATELY STATES ALL SHIPPING AND HANDLING FEES AND THAT ALL SALES ARE SHIPPED F.O.B. ORIGIN"
+      }
+    ],
+    "notes": "The code fixes the facts 12A-1.045(5) turns on: separately stated, F.O.B. origin. TAA 14A-009 is a ruling for one taxpayer applying the rule."
+  },
+  {
+    "tax": "FL",
+    "code": "delivery.taxable_goods.mail",
+    "from": "1994-10-17",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Separately stated postage on taxable goods is taxable in Florida when the seller mandates mailing F.O.B. destination, and not taxable when the buyer could avoid it or the goods are sold F.O.B. origin.",
+    "conditions": [
+      {
+        "when": "The buyer could avoid the charge (pick up, or choose another shipping method or F.O.B. origin), or the goods are sold F.O.B. origin or the records don't show where title passes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller mandates shipping by mail F.O.B. destination, so the buyer can't avoid the charge",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(3)(b)2. (mail-order example)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "Since the method of shipping is mandated by the mail order company, the transportation charge becomes a part of the sales price."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(4)(a)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "The charge can be avoided by a decision or action solely on the part of the purchaser"
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(5)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "transportation services arranged by the seller and rendered to the buyer are not a part of the taxable selling price, provided the transportation charges are separately stated."
+      }
+    ],
+    "notes": "Postage at cost doesn't change the Florida test: avoidability and F.O.B. terms decide, and neither is carried by the code."
+  },
+  {
+    "tax": "FL",
+    "code": "delivery.taxable_goods.other",
+    "from": "1994-10-17",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "A separately stated delivery charge (seller's vehicle, courier, F.O.B. destination) is taxable in Florida when the seller requires it, and not taxable when the buyer could avoid it.",
+    "conditions": [
+      {
+        "when": "The buyer could avoid the charge by its own decision: pick up, arrange its own carrier, or choose F.O.B. origin instead",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The seller requires the delivery and the buyer can't avoid the charge",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(3)(a), Transportation Charges (effective 10/17/1994)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "the charge for the transportation service is subject to tax, even if separately stated on an invoice or bill of sale."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(4)(b)1. (optional delivery example)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "Since the separately stated $25 delivery fee could be avoided by a decision or action on the part of C, the $25 delivery fee is not subject to tax."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.045(5)(b) (choice of F.O.B. terms example)",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=1276246&type=1&file=12A-1.045.doc",
+        "quote": "the separately stated transportation charge is not considered a part of the sales price of the widgets and is not subject to tax."
+      },
+      {
+        "title": "Florida DOR FAQ: Are delivery charges subject to sales tax?",
+        "url": "https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1277&&IsDlg=1",
+        "quote": "the charge can be avoided by a decision or action solely on the part of the purchaser (e.g., the purchaser has the option of picking the item up or arranging for third-party transportation services on its own)"
+      }
+    ],
+    "notes": "Whether the buyer could avoid the charge isn't carried by the code. A markup on shipping isn't addressed separately by the rule."
+  },
+  {
+    "tax": "FL",
     "code": "food.candy",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
