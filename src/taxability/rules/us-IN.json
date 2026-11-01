@@ -295,9 +295,13 @@
     "code": "food.prepared.bakery",
     "from": "2025-09-01",
     "fromIs": "effective",
-    "treatment": "exempt",
+    "treatment": "conditional",
     "summary": "Bakery items sold without utensils provided by the seller are exempt from Indiana sales tax, even when warmed or fresh from the oven.",
     "conditions": [
+      {
+        "when": "sold without utensils provided by the seller",
+        "treatment": "exempt"
+      },
       {
         "when": "Utensils physically given to the customer, or sold by a restaurant (75% or more prepared-food sales) that makes utensils available, unless four or more servings packaged as one item",
         "treatment": "taxable"
@@ -320,7 +324,7 @@
         "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
       }
     ],
-    "notes": "SIB #29 dated September 2025, 'Effective Date: Upon Publication'; the exact day in September isn't given, so from is the 1st. Warm bakery items don't count toward the 75% restaurant test, so most bakeries are not restaurants. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes')."
+    "notes": "SIB #29 dated September 2025, 'Effective Date: Upon Publication'; the exact day in September isn't given, so from is the 1st. Warm bakery items don't count toward the 75% restaurant test, so most bakeries are not restaurants. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes'). Made conditional 2026-11-01: the utensil exception is an ordinary fact of the sale (d2-in-04)."
   },
   {
     "tax": "IN",

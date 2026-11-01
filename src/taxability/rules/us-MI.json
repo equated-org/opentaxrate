@@ -146,9 +146,13 @@
     "code": "food.candy",
     "from": "2014-03-14",
     "fromIs": "earliest_verified",
-    "treatment": "exempt",
+    "treatment": "conditional",
     "summary": "Candy is food and food ingredients in Michigan and is exempt unless sold as prepared food.",
     "conditions": [
+      {
+        "when": "sold as food, without utensils, unheated and uncombined",
+        "treatment": "exempt"
+      },
       {
         "when": "The seller gives or hands eating utensils (e.g. a napkin) with the candy, or the candy is heated or combined by the seller",
         "treatment": "taxable"
@@ -181,7 +185,7 @@
         "quote": "therefore, the candy is not subject to tax as “prepared food.”"
       }
     ],
-    "notes": "Michigan's food definition excludes only alcoholic beverages and tobacco, so candy is not carved out of the exemption (unlike the SSUTA default). Since 2024-02-13 a seller with over 75% prepared-food sales still needs to give or hand the utensil for candy to become prepared food (MCL 205.54g(3)(e)(i)); before that the general handing/packaging standard applied. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+    "notes": "Michigan's food definition excludes only alcoholic beverages and tobacco, so candy is not carved out of the exemption (unlike the SSUTA default). Since 2024-02-13 a seller with over 75% prepared-food sales still needs to give or hand the utensil for candy to become prepared food (MCL 205.54g(3)(e)(i)); before that the general handing/packaging standard applied. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. Made conditional 2026-11-01: the utensil exception is an ordinary fact of the sale (d2-mi-02)."
   },
   {
     "tax": "MI",

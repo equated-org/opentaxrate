@@ -52,9 +52,18 @@
     "code": "food.candy",
     "from": "2014-11-12",
     "fromIs": "earliest_verified",
-    "treatment": "exempt",
+    "treatment": "conditional",
     "summary": "Candy, as \"food and food ingredients\", is exempt from the 4% state sales tax; local sales taxes still apply.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "sold for home consumption",
+        "treatment": "exempt"
+      },
+      {
+        "when": "sold for on-premises consumption, such as at a movie theater or sports arena",
+        "treatment": "taxable"
+      }
+    ],
     "citations": [
       {
         "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
@@ -70,9 +79,14 @@
         "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, O.C.G.A. § 48-8-3 (July 1, 2023)",
         "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
         "quote": "“Food and food ingredients” means substances, whether in liquid, concentrated, solid, frozen, dried, or dehydrated form, that are sold for ingestion or chewing by humans and are consumed for their taste or nutritional value."
+      },
+      {
+        "title": "Ga. Comp. R. & Regs. 560-12-2",
+        "url": "https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Food and food ingredients sold for on-premises consumption, such as prepackaged candy sold at movie theaters and sports arenas."
       }
     ],
-    "notes": "Georgia's definition of food and food ingredients for this exemption excludes only prepared food, drugs, alcohol, dietary supplements, tobacco, OTC drugs and medical/hygiene items; candy is not excluded. Exemption applies only to sales to individual consumers for off-premises consumption; food bought for use in operating a business is taxable (state and local)."
+    "notes": "Georgia's definition of food and food ingredients for this exemption excludes only prepared food, drugs, alcohol, dietary supplements, tobacco, OTC drugs and medical/hygiene items; candy is not excluded. Exemption applies only to sales to individual consumers for off-premises consumption; food bought for use in operating a business is taxable (state and local). Made conditional 2026-11-01: Rule 560-12-2-.105 taxes candy sold for on-premises consumption (d2-ga-02)."
   },
   {
     "tax": "GA",

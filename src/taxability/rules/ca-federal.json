@@ -148,9 +148,18 @@
     "from": "2024-12-14",
     "to": "2025-02-15",
     "fromIs": "effective",
-    "treatment": "zero_rated",
+    "treatment": "conditional",
     "summary": "During the temporary GST/HST break, candy and other snacks were zero-rated.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "sold any way other than through a vending machine",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
     "citations": [
       {
         "title": "Canada.ca, GST/HST break - Closed",
@@ -161,8 +170,14 @@
         "title": "Excise Tax Act, Schedule VI, Part XI, s. 11",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
         "quote": "A supply that is an eligible supply and that would be a supply included in section 1 of Part III if that section were read without reference to paragraphs (c) to (o.5) and (q)."
+      },
+      {
+        "title": "Questions and answers about the GST/HST tax break for all Canadians",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
+        "quote": "Food and non-alcoholic beverages sold through a vending machine are not zero-rated."
       }
-    ]
+    ],
+    "notes": "Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02)."
   },
   {
     "tax": "CA:GST/HST",
@@ -336,9 +351,18 @@
     "from": "2024-12-14",
     "to": "2025-02-15",
     "fromIs": "effective",
-    "treatment": "zero_rated",
+    "treatment": "conditional",
     "summary": "During the temporary GST/HST break, prepared meals, food and non-alcoholic beverages (including restaurant and take-out meals) were zero-rated.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "sold any way other than through a vending machine",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
     "citations": [
       {
         "title": "Excise Tax Act, Schedule VI, Part XI, s. 11",
@@ -349,9 +373,14 @@
         "title": "Canada.ca, GST/HST break - Closed",
         "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
         "quote": "Prepared meals and food, as well as all non-alcoholic beverages and eligible alcoholic beverages qualified for GST/HST relief"
+      },
+      {
+        "title": "Questions and answers about the GST/HST tax break for all Canadians",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
+        "quote": "Food and non-alcoholic beverages sold through a vending machine are not zero-rated."
       }
     ],
-    "notes": "Spirits, alcoholic beverages over 7% ABV other than beer and wine, and cannabis edibles were not relieved, but they are outside this code. The timing conditions (delivered or paid in the period) were not fully checked. A delivery charge billed by a third-party platform was not relieved."
+    "notes": "Spirits, alcoholic beverages over 7% ABV other than beer and wine, and cannabis edibles were not relieved, but they are outside this code. The timing conditions (delivered or paid in the period) were not fully checked. A delivery charge billed by a third-party platform was not relieved. Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02)."
   },
   {
     "tax": "CA:GST/HST",
@@ -811,9 +840,18 @@
     "from": "2024-12-14",
     "to": "2025-02-15",
     "fromIs": "effective",
-    "treatment": "zero_rated",
+    "treatment": "conditional",
     "summary": "During the temporary GST/HST break, all non-alcoholic beverages, carbonated drinks included, were zero-rated.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "sold any way other than through a vending machine",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "sold through a vending machine",
+        "treatment": "taxable"
+      }
+    ],
     "citations": [
       {
         "title": "Canada.ca, GST/HST break - Closed",
@@ -824,8 +862,14 @@
         "title": "Excise Tax Act, Schedule VI, Part XI, s. 11",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
         "quote": "A supply that is an eligible supply and that would be a supply included in section 1 of Part III if that section were read without reference to paragraphs (c) to (o.5) and (q)."
+      },
+      {
+        "title": "Questions and answers about the GST/HST tax break for all Canadians",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
+        "quote": "Food and non-alcoholic beverages sold through a vending machine are not zero-rated."
       }
-    ]
+    ],
+    "notes": "Made conditional 2026-11-01: CRA excluded vending-machine sales from the break (dev cases d2-bc-18, d2-on-11, d2-nl-02)."
   },
   {
     "tax": "CA:GST/HST",

@@ -181,6 +181,38 @@
   },
   {
     "tax": "NH",
+    "code": "food.prepared.cold",
+    "from": "2021-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "New Hampshire's meals tax doesn't reach food products a store provides: a grocery deli's coleslaw or potato salad, in any quantity, isn't a taxable meal unless sold as part of a combination plate.",
+    "conditions": [
+      {
+        "when": "deli items sold by the container or weight",
+        "treatment": "exempt"
+      },
+      {
+        "when": "sold as part of a combination plate",
+        "treatment": "special_rate",
+        "rate": 0.085
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSA 78-A:3, Definitions (VIII, \"Meal\")",
+        "url": "https://gc.nh.gov/rsa/html/V/78-A/78-A-3.htm",
+        "quote": "The term shall not include food products provided by a store or bakery products when sold in units of 6 or more."
+      },
+      {
+        "title": "NH DRA TIR 2007-005",
+        "url": "https://web.archive.org/web/20240526103200id_/https://www.revenue.nh.gov/tirs/documents/2007-005.pdf",
+        "quote": "Deli items, such as coleslaw, potato salad, etc, in any quantity, unless sold as part of a combination plate."
+      }
+    ],
+    "notes": "Added 2026-11-01 after dev case d2-nh-02 showed the inherited food.prepared rule taxed a grocery deli's sides. Dated from the 8.5% rate."
+  },
+  {
+    "tax": "NH",
     "code": "food.soft_drink",
     "from": "2016-11-28",
     "fromIs": "earliest_verified",

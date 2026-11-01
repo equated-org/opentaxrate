@@ -55,6 +55,32 @@
   },
   {
     "tax": "NC",
+    "code": "construction.real_property.improvement.flooring",
+    "from": "2017-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In North Carolina, installing carpet or other floor covering that replaces an existing one is a taxable repair, maintenance and installation service; flooring installed as part of new construction or another capital improvement is not taxed to the customer.",
+    "conditions": [
+      {
+        "when": "replacing existing carpet or floor covering, as a job of its own",
+        "treatment": "taxable"
+      },
+      {
+        "when": "installed as part of new construction, a reconstruction or another capital improvement",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The term includes floor refinishing and the installation of carpet, flooring, floor coverings, windows, doors, cabinets, countertops, and other installations where the item being installed may replace a similar existing item."
+      }
+    ],
+    "notes": "Added 2026-11-01 after dev case d2-nc-06 showed the inherited capital-improvement rule was wrong for replacing carpet. Dated from the earliest verified NC capital-improvement rule; the 2026 bulletin is the source checked."
+  },
+  {
+    "tax": "NC",
     "code": "delivery.taxable_goods",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

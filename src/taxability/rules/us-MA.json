@@ -43,9 +43,18 @@
     "code": "food.candy",
     "from": "1989-06-09",
     "fromIs": "earliest_verified",
-    "treatment": "exempt",
+    "treatment": "conditional",
     "summary": "Candy and confectionery sold for home consumption are exempt from Massachusetts sales tax.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "sold for home consumption, other than by a restaurant",
+        "treatment": "exempt"
+      },
+      {
+        "when": "individual snack-size candy or mints sold by a restaurant",
+        "treatment": "taxable"
+      }
+    ],
     "citations": [
       {
         "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
@@ -61,9 +70,14 @@
         "title": "M.G.L. c. 64H, § 6(h)",
         "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64H/Section6",
         "quote": "sugar and sugar products, candy and confectionery"
+      },
+      {
+        "title": "830 CMR 64H.6.5: Sales Tax on Meals",
+        "url": "https://web.archive.org/web/20261021012116/https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sale of individual snack size candy or mints by a restaurant is taxable."
       }
     ],
-    "notes": "830 CMR 64H.6.5 (promulgated 1989-06-09, no later amendment listed) is the earliest dated text read. Candy is a 'food product' in Massachusetts (M.G.L. c. 64H, § 6(h)); it is taxable only as part of a restaurant meal, or from a vending machine at $3.50 or more."
+    "notes": "830 CMR 64H.6.5 (promulgated 1989-06-09, no later amendment listed) is the earliest dated text read. Candy is a 'food product' in Massachusetts (M.G.L. c. 64H, § 6(h)); it is taxable only as part of a restaurant meal, or from a vending machine at $3.50 or more. Made conditional 2026-11-01: 830 CMR 64H.6.5 taxes a restaurant's snack-size candy (d2-ma-02)."
   },
   {
     "tax": "MA",

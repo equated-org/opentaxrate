@@ -707,9 +707,18 @@
     "code": "service.professional.advertising",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
-    "treatment": "taxable",
+    "treatment": "conditional",
     "summary": "Advertising services are on Saskatchewan's list of taxable services.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "advertising services other than placement: design, layout, production and similar",
+        "treatment": "taxable"
+      },
+      {
+        "when": "charges for placing advertising in the media (newspapers, magazines, television, radio, billboards, the Internet)",
+        "treatment": "exempt"
+      }
+    ],
     "citations": [
       {
         "title": "Information Bulletin PST-46, Service Enterprises (revised February 2025), list of taxable services",
@@ -720,9 +729,14 @@
         "title": "Information Bulletin PST-46 (revised June 2009; archived finance.gov.sk.ca copy, January 2013), list of taxable services",
         "url": "https://web.archive.org/web/20130124014849/http://finance.gov.sk.ca:80/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf",
         "quote": "Advertising services"
+      },
+      {
+        "title": "PST Bulletin PST-67, Advertising",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/a14b1339-3418-4973-ac53-47147e0012b0/PST.067+Advertising.pdf?MOD=AJPERES",
+        "quote": "Charges for the placement of advertising in the media, such as newspapers, magazines, periodicals, television, radio, billboards and the Internet."
       }
     ],
-    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. Bulletin PST-67 (advertising) was not found or read, so its scope and exceptions (e.g. for media placement or services for use outside Saskatchewan) are unverified."
+    "notes": "Citations at web.archive.org are archived copies of Ministry of Finance bulletins formerly published at finance.gov.sk.ca. Bulletin PST-67 (advertising) was not found or read, so its scope and exceptions (e.g. for media placement or services for use outside Saskatchewan) are unverified. Made conditional 2026-11-01: PST-67 exempts media placement charges (d2-sk-14)."
   },
   {
     "tax": "SK:PST",

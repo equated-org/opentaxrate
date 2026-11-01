@@ -380,9 +380,13 @@
     "code": "food.soft_drink",
     "from": "2007-11-01",
     "fromIs": "effective",
-    "treatment": "exempt",
+    "treatment": "conditional",
     "summary": "Soft drinks, as SNAP-eligible food sold for home consumption, are exempt from the 6% state sales tax from November 1, 2007; local taxes may apply.",
     "conditions": [
+      {
+        "when": "sold for home consumption",
+        "treatment": "exempt"
+      },
       {
         "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
         "treatment": "taxable"
@@ -405,7 +409,7 @@
         "quote": "bottled soft drinks are eligible to be purchased with USDA food stamps"
       }
     ],
-    "notes": "The exemption follows the federal SNAP definition of food, which includes candy and soft drinks, and requires a sale for home consumption (SC Regulation 117-337). Sales by grocery and convenience stores authorized to accept food stamps are deemed for home consumption."
+    "notes": "The exemption follows the federal SNAP definition of food, which includes candy and soft drinks, and requires a sale for home consumption (SC Regulation 117-337). Sales by grocery and convenience stores authorized to accept food stamps are deemed for home consumption. Made conditional 2026-11-01: sale for immediate consumption (a festival concession stand) is an ordinary fact of the sale (d2-sc-02)."
   },
   {
     "tax": "SC",
