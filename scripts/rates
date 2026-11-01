@@ -11,8 +11,9 @@
 #   scripts/rates pull TAG --local [--db D]   load it into this stack (database D), to try it first
 #   scripts/rates load DUMP [--db D]          replace this stack's published data with DUMP's
 #   scripts/rates install DUMP|URL            fill a new, empty install from a dump
-#   scripts/rates backup                      back up every input to restic: the raw sources (tag
-#                                             sources) and the benchmark and taxability sets (tag bench)
+#   scripts/rates backup                      back up every input to restic (private): the raw sources
+#                                             (tag sources) and the benchmark and taxability sets (tag
+#                                             bench); then the sources' public mirror, evidence.opentaxrate.com
 #   scripts/rates maintain STEP               a maintenance run: prepare [TAG], update [STATE...],
 #                                             taxability, taxability-check, check, bench, publish TAG,
 #                                             accept, drop, cron
@@ -223,6 +224,10 @@ backup() {
   if [ $# -gt 0 ]; then
     BACKUP_TAG=bench scripts/backup-sources.sh "$@" >&2 || die "Backing up $* failed."
   fi
+  # The public mirror of the same sources (evidence.opentaxrate.com): only
+  # copies it lacks are sent, then the catalog, so a rule's newly cited
+  # page has its archived copy when the release that cites it goes out.
+  npx tsx src/cli.ts evidence >&2 || die "Uploading the evidence archive failed."
 }
 
 publish() {

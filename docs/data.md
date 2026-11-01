@@ -53,11 +53,15 @@ One command backs up every input, versioned:
 pnpm rates backup     # artifacts/sources (tag sources); artifacts/bench, tuning, taxability (tag bench)
 ```
 
-It makes a dated [restic](https://restic.net) snapshot of each, in R2, and
-never prunes them, so every earlier version stays restorable
-(`restic snapshots`, `restic restore`; `pnpm bench restore` brings the
-`bench` tag back). `pnpm rates publish` (and `maintain publish`) runs it
-first and stops if it fails: no release exists without its inputs stored.
+It makes a dated [restic](https://restic.net) snapshot of each, in the
+private R2 bucket `opentaxrate-sources`, and never prunes them, so every
+earlier version stays restorable (`restic snapshots`, `restic restore`;
+`pnpm bench restore` brings the `bench` tag back). Then it updates the
+public mirror of the sources, the [evidence archive](#evidence) (bucket
+`opentaxrate-evidence`): the cases and benchmarks never go there. `pnpm
+rates publish` (and `maintain publish`) runs it first and stops if it
+fails: no release exists without its inputs stored, and no rule it
+carries cites a page the public archive lacks.
 `pnpm bench backup` is the same command.
 
 It needs `R2_ACCOUNT_ID`, an R2 access key (`OPENTAXRATE_R2_ACCESS_KEY_ID`
