@@ -102,9 +102,9 @@
 							{#if !preview}
 								{#snippet cite(c: (typeof g.rule.citations)[number])}
 									<li>
-										<a class="link" href={c.url} target="_blank" rel="noopener">{c.title}</a>
+										<a class="link" href={c.archived ?? archived(c.url, c.quote)} target="_blank" rel="noopener" title="OpenTaxRate's archived copy, opening at the quoted sentence">{c.title}</a>
 										<span class="text-[var(--text-muted)]">
-											· <a class="link" href={archived(c.url, c.quote)} target="_blank" rel="noopener" title="OpenTaxRate's archived copy, at the quoted sentence">archived copy</a>
+											· <a class="link" href={c.url} target="_blank" rel="noopener" title="The page as published today; it may have changed">original ↗</a>
 										</span>
 										{#if c.quote}<span class="mt-0.5 block text-[12.5px] text-[var(--text-muted)]">“{c.quote}”</span>{/if}
 									</li>

@@ -140,7 +140,20 @@ export const TaxabilityRuleSchema = z
         code: z.string().optional().openapi({ description: "In an answer for a broad code: the narrower code this case is; send it to settle the answer.", example: "service.professional.design" }),
       }),
     ).openapi({ description: "For a conditional rule, each fact the outcome turns on; for a settled one, exceptions worth knowing." }),
-    citations: z.array(z.object({ title: z.string(), url: z.string(), quote: z.string().optional() })).openapi({ description: "The official pages the rule was read from." }),
+    citations: z
+      .array(
+        z.object({
+          title: z.string(),
+          url: z.string().openapi({ description: "The official page, as published." }),
+          quote: z.string().optional().openapi({ description: "The sentence on it the rule rests on, verbatim." }),
+          archived: z.string().optional().openapi({
+            description: "OpenTaxRate's archived copy that shows the quote, opening at the sentence; it names the original too.",
+            example: "https://evidence.opentaxrate.com/sha256/e4465b57cef9b1132a0a459c7ad61459a1285fb8a8e9fa58ac916a12de0aeca2#:~:text=Food%20prepared%20for%20sale,further%20preparation%20are%20taxable",
+          }),
+          sha256: z.string().optional().openapi({ description: "That copy's SHA-256: the exact bytes the rule was checked against." }),
+        }),
+      )
+      .openapi({ description: "The official pages the rule was read from." }),
   })
   .openapi("TaxabilityRule");
 

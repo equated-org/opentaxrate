@@ -269,7 +269,7 @@ else sendElsewhere();                                   // not_researched: never
 		<tr><td><code>rule.summary</code>, <code>rule.treatment</code></td><td>The rule in one sentence, and what it decides.</td></tr>
 		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, code? }'}</code>; <code>code</code> is the narrower code that case is. For a settled one, exceptions worth knowing.</td></tr>
 		<tr><td><code>outcomes</code></td><td>Only when <code>conditional</code>: each case with the sale's combined rate, <code>{'{ when, rate, code? }'}</code>. Where <code>code</code> is set, sending that code instead settles the answer at that rate.</td></tr>
-		<tr><td><code>rule.citations</code></td><td>The official pages the rule was read from: <code>title</code>, <code>url</code>, and sometimes a <code>quote</code>.</td></tr>
+		<tr><td><code>rule.citations</code></td><td>The official pages the rule was read from: <code>title</code>, <code>url</code> (the page as published), the <code>quote</code> the rule rests on, and <code>archived</code>: OpenTaxRate's copy of the page that shows the quote, opening at the sentence, pinned to its <code>sha256</code>. Link to <code>archived</code>; it names the original too.</td></tr>
 	</tbody>
 </table>
 

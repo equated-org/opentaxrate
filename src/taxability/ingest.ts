@@ -10,11 +10,13 @@
  * it; a page that can't be fetched is reported, never a reason to drop its
  * rule.
  */
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { db } from "../db/client.js";
 import { taxabilityRules } from "../db/schema.js";
-import { copiesByUrl, downloadedBytes } from "../ingest/archive.js";
-import { challenged, fileName, pageText, politeFetch, trustListedIntermediates } from "./fetch.js";
-import { readRuleFiles } from "./rules/index.js";
+import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
+import { challenged, evidenceLink, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
+import { readRuleFiles, type Citation } from "./rules/index.js";
 
 /** Files every cited page in the archive, fetching one only when the
  *  archive has none. Returns the URLs that couldn't be filed. */
@@ -56,10 +58,28 @@ export async function archiveEvidence(urls: string[], options: { fetch?: boolean
   return missing;
 }
 
+/** Each citation with the archived copy that shows its quote: the newest
+ *  copy of the page whose text has the sentence (an older edition for an
+ *  older rule), else the newest copy; none when the page isn't archived. */
+function pinned(citations: Citation[], copies: ReturnType<typeof copiesByUrl>, textOf: (file: string) => string | null): Citation[] {
+  return citations.map((c) => {
+    const held = copies.get(c.url) ?? [];
+    const copy = c.quote ? [...held].reverse().find((k) => { const t = textOf(k.file); return t !== null && quoteOnPage(t, c.quote!); }) : held.at(-1);
+    return copy ? { ...c, archived: evidenceLink(copy.sha256, c.quote), sha256: copy.sha256 } : c;
+  });
+}
+
 /** Replaces `taxability_rules` with the rules in `dir`. */
 export async function loadTaxabilityRules(options: { dir?: string; fetch?: boolean } = {}) {
   const { rules, files } = readRuleFiles(options.dir);
   const missing = await archiveEvidence(rules.flatMap((r) => r.citations.map((c) => c.url)), { fetch: options.fetch });
+  // Read once per file: many rules cite one page.
+  const copies = copiesByUrl();
+  const texts = new Map<string, string | null>();
+  const textOf = (file: string) => {
+    if (!texts.has(file)) texts.set(file, pageText(new Uint8Array(readFileSync(path.join(sourcesRoot(), file)))));
+    return texts.get(file)!;
+  };
   await db.transaction(async (tx) => {
     await tx.delete(taxabilityRules);
     for (let i = 0; i < rules.length; i += 500)
@@ -75,7 +95,7 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
           follows: r.follows ?? null,
           summary: r.summary,
           conditions: r.conditions,
-          citations: r.citations,
+          citations: pinned(r.citations, copies, textOf),
           notes: r.notes ?? null,
           file: r.file,
         })),

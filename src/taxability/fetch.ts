@@ -42,6 +42,18 @@ export async function politeFetch(url: string): Promise<Response> {
   }
 }
 
+/** The public evidence archive (evidence/worker.js). */
+export const EVIDENCE = "https://evidence.opentaxrate.com";
+
+/** OpenTaxRate's copy with this hash, opening at `quote`: its words, or a
+ *  long one's first and last four (a text fragment browsers scroll to). */
+export function evidenceLink(sha256: string, quote?: string): string {
+  const words = (quote ?? "").replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
+  const enc = (s: string) => encodeURIComponent(s).replace(/-/g, "%2D");
+  const fragment = !words.length ? "" : words.length <= 8 ? `#:~:text=${enc(words.join(" "))}` : `#:~:text=${enc(words.slice(0, 4).join(" "))},${enc(words.slice(-4).join(" "))}`;
+  return `${EVIDENCE}/sha256/${sha256}${fragment}`;
+}
+
 /** A dated Wayback Machine snapshot: its contents never change, so once
  *  archived it isn't fetched again. */
 export const snapshot = (url: string) => /^https?:\/\/web\.archive\.org\/web\/\d{8,14}(?:[a-z]{2}_)?\//.test(url);

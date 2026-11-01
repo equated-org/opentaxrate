@@ -40,6 +40,11 @@ export interface Citation {
   url: string;
   /** The sentence on that page the rule rests on, verbatim. */
   quote?: string;
+  /** Set at ingest, never in rule files: OpenTaxRate's archived copy that
+   *  shows the quote (evidence.opentaxrate.com, pinned to its SHA-256 and
+   *  opening at the sentence), and that copy's hash. */
+  archived?: string;
+  sha256?: string;
 }
 
 export interface Condition {
