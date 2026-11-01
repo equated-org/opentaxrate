@@ -1,1072 +1,1072 @@
 [
- {
-  "tax": "UT",
-  "code": "construction.real_property.improvement",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "exempt",
-  "summary": "A contractor who builds or improves real property is the consumer of its materials and pays tax on them; its charge to the owner is not taxed.",
-  "conditions": [
-   {
-    "when": "Appliances (dishwasher, refrigerator, stove, washer, dryer and similar) stay tangible personal property even when installed, so their sale is taxed",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-42/",
-    "quote": "The contractor must pay sales tax on the purchase of the materials, while the transaction between the contractor and the real property owner is not taxable."
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "The contractor is the final consumer and must pay sales and use tax on the purchase of materials converted to real property."
-   }
-  ],
-  "notes": "2017-07-01 chosen for consistency with the statute versions read; Publication 42 (Rev. 07/26) and 25 (Rev. 09/26) are current. Earlier date unverified."
- },
- {
-  "tax": "UT",
-  "code": "construction.real_property.repair",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "Labor to repair or maintain real property is not taxed and the contractor pays tax on materials; repairs of tangible personal property attached to the building (a furnace, a water heater) are taxed on the parts, and on labor unless it is separately stated.",
-  "conditions": [
-   {
-    "when": "Repair of the building or land itself (roof, wall, step, plumbing lines, repainting), where the materials become part of the real property",
-    "treatment": "exempt"
-   },
-   {
-    "when": "Repair of tangible personal property permanently attached to the building (e.g. a furnace or water heater): parts taxed, and labor too unless separately stated",
-    "treatment": "taxable"
-   },
-   {
-    "when": "Repair of an appliance (dishwasher, refrigerator, stove, washer, dryer), which stays tangible personal property: all repair charges taxed",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-42/",
-    "quote": "Labor to service, repair , renovate or improve real property ."
-   },
-   {
-    "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-42/",
-    "quote": "Labor to service, repair or renovate tangible personal property attached to real property, if the labor charges are separately stated on the invoice. If not, the entire charge for labor and parts is taxable."
-   },
-   {
-    "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-42/",
-    "quote": "Sales and use tax applies to charges for parts used in repair or renovation unless an exemption from the tax applies."
-   }
-  ],
-  "notes": "Whether a fixture is real property or permanently attached personal property is decided item by item in Publication 42's chart."
- },
- {
-  "tax": "UT",
-  "code": "delivery",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "exempt",
-  "summary": "A separately stated delivery charge is not part of the taxable sales price in Utah, whether the goods delivered are taxable or not.",
-  "conditions": [
-   {
-    "when": "The delivery charge is not separately stated (it is then part of the taxable price), or is a charge to return an item to a location the seller designates",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "Delivery charges are not subject to sales tax if stated separately on the invoice."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
-    "quote": "(B) a delivery charge;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Delivery charge\" includes a charge for the following: (i) transportation; (ii) shipping; (iii) postage; (iv) handling; (v) crating; or (vi) packing."
-   }
-  ],
-  "notes": "Publication 25 also says a charge to return an item to a location designated by the seller is not a delivery charge and is taxable."
- },
- {
-  "tax": "UT",
-  "code": "food.candy",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "special_rate",
-  "rate": 0.0175,
-  "summary": "Candy is food and food ingredients in Utah (the definition excludes only alcohol, tobacco and prepared food), so it bears the reduced grocery 1.75% state rate.",
-  "conditions": [
-   {
-    "when": "Candy the seller heats, mixes or sells with eating utensils (e.g. loose candy with a napkin) is prepared food at the full rate",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
-   }
-  ],
-  "notes": "Utah's definition of food and food ingredients has no candy exclusion; the Tax Commission's industry chart also shows candy bars at the reduced rate. 2017-07-01 is the earliest statute version read; the definition likely dates from 2008. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.catering",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Catering is a sale of prepared food; the food and the caterer's required service charges and gratuities are taxed at Utah's full combined rate.",
-  "conditions": [
-   {
-    "when": "A tip or service charge the bill states, in the same size font, is voluntary and may be changed by the customer is not taxed",
-    "treatment": "exempt"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(e) sales of prepared food;"
-   },
-   {
-    "title": "Utah Publication 55, Sales Tax Information for Restaurants (Rev. 04/25)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-55/",
-    "quote": "Restaurants and caterers in counties that impose the restaurant tax must charge the additional 1 percent tax on all sales, even if prepared foods are delivered to locations that do not impose the restaurant tax."
-   },
-   {
-    "title": "Utah Publication 55, Sales Tax Information for Restaurants (Rev. 04/25)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-55/",
-    "quote": "Tips, gratuities and other service charges are subject to tax if they are included as a line item on a customer’s bill that the customer must pay."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "(iii) a charge by the seller for any service necessary to complete the sale;"
-   }
-  ],
-  "notes": "Equipment rentals on the caterer's bill are themselves taxable leases of tangible personal property (59-12-103(1)(k)). Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.grocery",
-  "from": "2008-01-01",
-  "fromIs": "effective",
-  "treatment": "special_rate",
-  "rate": 0.0175,
-  "summary": "Food and food ingredients (groceries) bear Utah's reduced state rate of 1.75% instead of the general state rate.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "The state sales tax rate for grocery food is 1.75 percent."
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "As of January 1, 2008, the statewide grocery food sales tax rate is 3 percent."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The statewide grocery food sales tax rate is 3 percent."
-   }
-  ],
-  "notes": "The 1.75% state rate dates from 2008-01-01 (the Tax Commission's page: 3% combined 'As of January 1, 2008'). No change took effect since 2018: the 2019 tax-reform bill that would have raised it was repealed before taking effect, and the 2023 plan to drop the state food tax depended on a 2024 constitutional amendment that did not take effect (news reports; not cited); the statute in force from 2026-07-01 still says 1.75%. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.bakery",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "special_rate",
-  "rate": 0.0175,
-  "summary": "Bakery items sold without eating utensils are not prepared food in Utah, even if heated, so they bear the reduced grocery rate (1.75% state part).",
-  "conditions": [
-   {
-    "when": "Sold with an eating utensil the seller provides, including a napkin, plate or fork (the chart puts bagels and donuts sold with a napkin at the full rate)",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "a bakery item, including: (I) a bagel; (II) a bar; (III) a biscuit; (IV) bread;"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
-   }
-  ],
-  "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.cold",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "Cold deli food from a grocery is taxed at the full rate when the seller mixed or combined it or provides utensils, and at the reduced grocery rate when it is only cut or repackaged, or sold unheated by weight or volume as a single item without utensils.",
-  "conditions": [
-   {
-    "when": "The seller provides eating utensils in the area, or sells food it mixed or combined by the piece or package rather than by weight or volume (e.g. potato salad where utensils are provided; a packaged salad)",
-    "treatment": "taxable"
-   },
-   {
-    "when": "Food the seller only cut or repackaged (sliced meat or cheese, cut fruit), sold without utensils",
+  {
+    "tax": "UT",
+    "code": "construction.real_property.improvement",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A contractor who builds or improves real property is the consumer of its materials and pays tax on them; its charge to the owner is not taxed.",
+    "conditions": [
+      {
+        "when": "Appliances (dishwasher, refrigerator, stove, washer, dryer and similar) stay tangible personal property even when installed, so their sale is taxed",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-42/",
+        "quote": "The contractor must pay sales tax on the purchase of the materials, while the transaction between the contractor and the real property owner is not taxable."
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "The contractor is the final consumer and must pay sales and use tax on the purchase of materials converted to real property."
+      }
+    ],
+    "notes": "2017-07-01 chosen for consistency with the statute versions read; Publication 42 (Rev. 07/26) and 25 (Rev. 09/26) are current. Earlier date unverified."
+  },
+  {
+    "tax": "UT",
+    "code": "construction.real_property.repair",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Labor to repair or maintain real property is not taxed and the contractor pays tax on materials; repairs of tangible personal property attached to the building (a furnace, a water heater) are taxed on the parts, and on labor unless it is separately stated.",
+    "conditions": [
+      {
+        "when": "Repair of the building or land itself (roof, wall, step, plumbing lines, repainting), where the materials become part of the real property",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair of tangible personal property permanently attached to the building (e.g. a furnace or water heater): parts taxed, and labor too unless separately stated",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair of an appliance (dishwasher, refrigerator, stove, washer, dryer), which stays tangible personal property: all repair charges taxed",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-42/",
+        "quote": "Labor to service, repair , renovate or improve real property ."
+      },
+      {
+        "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-42/",
+        "quote": "Labor to service, repair or renovate tangible personal property attached to real property, if the labor charges are separately stated on the invoice. If not, the entire charge for labor and parts is taxable."
+      },
+      {
+        "title": "Utah Publication 42, Sales Tax Information for Sales, Installation and Repair of Tangible Personal Property Attached to Real Property (Rev. 07/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-42/",
+        "quote": "Sales and use tax applies to charges for parts used in repair or renovation unless an exemption from the tax applies."
+      }
+    ],
+    "notes": "Whether a fixture is real property or permanently attached personal property is decided item by item in Publication 42's chart."
+  },
+  {
+    "tax": "UT",
+    "code": "delivery",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A separately stated delivery charge is not part of the taxable sales price in Utah, whether the goods delivered are taxable or not.",
+    "conditions": [
+      {
+        "when": "The delivery charge is not separately stated (it is then part of the taxable price), or is a charge to return an item to a location the seller designates",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Delivery charges are not subject to sales tax if stated separately on the invoice."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
+        "quote": "(B) a delivery charge;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Delivery charge\" includes a charge for the following: (i) transportation; (ii) shipping; (iii) postage; (iv) handling; (v) crating; or (vi) packing."
+      }
+    ],
+    "notes": "Publication 25 also says a charge to return an item to a location designated by the seller is not a delivery charge and is taxable."
+  },
+  {
+    "tax": "UT",
+    "code": "food.candy",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "special_rate",
-    "rate": 0.0175
-   },
-   {
-    "when": "Sold unheated by weight or volume as a single item with no eating utensils provided (e.g. potato salad by the pound with no utensils in the area)",
+    "rate": 0.0175,
+    "summary": "Candy is food and food ingredients in Utah (the definition excludes only alcohol, tobacco and prepared food), so it bears the reduced grocery 1.75% state rate.",
+    "conditions": [
+      {
+        "when": "Candy the seller heats, mixes or sells with eating utensils (e.g. loose candy with a napkin) is prepared food at the full rate",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
+      }
+    ],
+    "notes": "Utah's definition of food and food ingredients has no candy exclusion; the Tax Commission's industry chart also shows candy bars at the reduced rate. 2017-07-01 is the earliest statute version read; the definition likely dates from 2008. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.catering",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Catering is a sale of prepared food; the food and the caterer's required service charges and gratuities are taxed at Utah's full combined rate.",
+    "conditions": [
+      {
+        "when": "A tip or service charge the bill states, in the same size font, is voluntary and may be changed by the customer is not taxed",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(e) sales of prepared food;"
+      },
+      {
+        "title": "Utah Publication 55, Sales Tax Information for Restaurants (Rev. 04/25)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants and caterers in counties that impose the restaurant tax must charge the additional 1 percent tax on all sales, even if prepared foods are delivered to locations that do not impose the restaurant tax."
+      },
+      {
+        "title": "Utah Publication 55, Sales Tax Information for Restaurants (Rev. 04/25)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Tips, gratuities and other service charges are subject to tax if they are included as a line item on a customer’s bill that the customer must pay."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "(iii) a charge by the seller for any service necessary to complete the sale;"
+      }
+    ],
+    "notes": "Equipment rentals on the caterer's bill are themselves taxable leases of tangible personal property (59-12-103(1)(k)). Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.grocery",
+    "from": "2008-01-01",
+    "fromIs": "effective",
     "treatment": "special_rate",
-    "rate": 0.0175
-   },
-   {
-    "when": "Heated by the seller (e.g. a rotisserie chicken from the warmer)",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "food and food ingredients sold in an unheated state: (I) by weight or volume; and (II) as a single item;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The potato salad is prepared food taxed at the full rate."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "If you do not provide utensils, the potato salad is grocery food taxed at the lower rate (because it is unheated and sold by weight as a single item)."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
-   }
-  ],
-  "notes": "Whether utensils are 'available in the area' is the seller's fact. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.cold_restaurant",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Cold food a restaurant prepares (mixed or combined by it, or sold with its utensils, cups or napkins) is prepared food, taxed at Utah's full combined rate.",
-  "conditions": [
-   {
-    "when": "A bakery item, or food the restaurant only cut or repackaged, sold without eating utensils (no napkin, cup or straw) is grocery food at the reduced rate, 1.75% state plus 1.25% local",
-    "treatment": "special_rate"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(e) sales of prepared food;"
-   },
-   {
-    "title": "Utah Publication 55, Sales Tax Information for Restaurants (Rev. 04/25)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-55/",
-    "quote": "Vending machine sales are taxable at either the full rate for prepared food and non-food items or the reduced rate for food and food ingredients."
-   }
-  ],
-  "notes": "The reduced-rate exception's local part is 1.25%, as for groceries; no UT:local rule is written for this code because the main case is full rate. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.dine_in",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Food served on the seller's plates or with its utensils for eating at its premises is prepared food, taxed at Utah's full combined rate.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "(e) sales of prepared food;"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(e) sales of prepared food;"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "(Sales of prepared food are taxed at the full combined rate.)"
-   }
-  ],
-  "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.hot",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Food sold heated or heated by the seller is prepared food, taxed at Utah's full combined rate.",
-  "conditions": [
-   {
-    "when": "A bakery item (bread, roll, pastry, etc.) sold without eating utensils is not prepared food even if heated: reduced grocery rate, 1.75% state plus 1.25% local (see food.prepared.bakery)",
-    "treatment": "special_rate"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Prepared food\" means: (i) food: (A) sold in a heated state; or (B) heated by a seller;"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "(e) sales of prepared food;"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(e) sales of prepared food;"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "(Sales of prepared food are taxed at the full combined rate.)"
-   }
-  ],
-  "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.platter",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "A party tray is taxed at the full rate when it holds food the seller combined (sandwiches, mixed salads) or comes with utensils, and at the reduced grocery rate when the seller only cut and arranged meat, cheese, fruit or vegetables and provides no utensils.",
-  "conditions": [
-   {
-    "when": "The tray holds food the seller made by combining ingredients (sandwiches, mixed salads), or is sold with plates, forks, napkins or other utensils",
-    "treatment": "taxable"
-   },
-   {
-    "when": "The seller only cut, sliced or repackaged the meat, cheese, fruit or vegetables on it and provides no utensils",
+    "rate": 0.0175,
+    "summary": "Food and food ingredients (groceries) bear Utah's reduced state rate of 1.75% instead of the general state rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "The state sales tax rate for grocery food is 1.75 percent."
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "As of January 1, 2008, the statewide grocery food sales tax rate is 3 percent."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The statewide grocery food sales tax rate is 3 percent."
+      }
+    ],
+    "notes": "The 1.75% state rate dates from 2008-01-01 (the Tax Commission's page: 3% combined 'As of January 1, 2008'). No change took effect since 2018: the 2019 tax-reform bill that would have raised it was repealed before taking effect, and the 2023 plan to drop the state food tax depended on a 2024 constitutional amendment that did not take effect (news reports; not cited); the statute in force from 2026-07-01 still says 1.75%. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.bakery",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "special_rate",
-    "rate": 0.0175
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
-   }
-  ],
-  "notes": "The Tax Commission's product matrix marks meat/cheese platters and mixed fruit trays (by price or weight) as food; its table rendering was not relied on for quotes. Whether arranging several cut items on a tray is 'combining' them is not addressed in the cited text. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.prepared.sandwich",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "A sandwich the seller makes combines two or more food ingredients, so it is prepared food taxed at Utah's full combined rate.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Sandwich – prepared food (two or more ingredients mixed by the seller) taxed at full rate"
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "Sandwich – prepared food (two or more ingredients mixed by the seller) taxed at full rate"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(e) sales of prepared food;"
-   }
-  ],
-  "notes": "Unverified edge: the statute's exclusion for unheated food sold by weight or volume as a single item without utensils could in principle reach a sandwich sold by weight; the Tax Commission's examples treat sandwiches as prepared food. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.soft_drink",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "special_rate",
-  "rate": 0.0175,
-  "summary": "Soft drinks are food and food ingredients in Utah (no soft-drink exclusion), so packaged soft drinks bear the reduced grocery 1.75% state rate.",
-  "conditions": [
-   {
-    "when": "A fountain or self-serve drink in a cup, or any drink sold with a cup or straw the seller provides, is prepared food at the full rate",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
-   }
-  ],
-  "notes": "The Tax Commission's chart: soft drinks in a cooler reduced, soft drinks from a fountain full (cups/straws are eating utensils). Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "food.uncooked",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "Food a Utah seller assembles for the buyer to cook is taxed at the full rate when it combines ingredients without raw animal food (a take-and-bake cheese pizza), and at the 1.75% grocery state rate when it contains raw meat, fish, poultry or eggs needing cooking (store-made raw kebabs).",
-  "conditions": [
-   {
-    "when": "Two or more ingredients mixed or combined by the seller and sold as a single item, none of them raw egg, fish, meat or poultry that must be cooked to prevent food-borne illness (e.g. an unbaked cheese or vegetable pizza, a meal kit of non-raw ingredients)",
-    "treatment": "taxable"
-   },
-   {
-    "when": "Contains raw egg, fish, meat or poultry the FDA Food Code says to cook (e.g. shish kebabs of raw meat made in the store, stuffed or marinated raw meat), sold without eating utensils",
+    "rate": 0.0175,
+    "summary": "Bakery items sold without eating utensils are not prepared food in Utah, even if heated, so they bear the reduced grocery rate (1.75% state part).",
+    "conditions": [
+      {
+        "when": "Sold with an eating utensil the seller provides, including a napkin, plate or fork (the chart puts bagels and donuts sold with a napkin at the full rate)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "a bakery item, including: (I) a bagel; (II) a bar; (III) a biscuit; (IV) bread;"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
+      }
+    ],
+    "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.cold",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food from a grocery is taxed at the full rate when the seller mixed or combined it or provides utensils, and at the reduced grocery rate when it is only cut or repackaged, or sold unheated by weight or volume as a single item without utensils.",
+    "conditions": [
+      {
+        "when": "The seller provides eating utensils in the area, or sells food it mixed or combined by the piece or package rather than by weight or volume (e.g. potato salad where utensils are provided; a packaged salad)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Food the seller only cut or repackaged (sliced meat or cheese, cut fruit), sold without utensils",
+        "treatment": "special_rate",
+        "rate": 0.0175
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item with no eating utensils provided (e.g. potato salad by the pound with no utensils in the area)",
+        "treatment": "special_rate",
+        "rate": 0.0175
+      },
+      {
+        "when": "Heated by the seller (e.g. a rotisserie chicken from the warmer)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "food and food ingredients sold in an unheated state: (I) by weight or volume; and (II) as a single item;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The potato salad is prepared food taxed at the full rate."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "If you do not provide utensils, the potato salad is grocery food taxed at the lower rate (because it is unheated and sold by weight as a single item)."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
+      }
+    ],
+    "notes": "Whether utensils are 'available in the area' is the seller's fact. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cold food a restaurant prepares (mixed or combined by it, or sold with its utensils, cups or napkins) is prepared food, taxed at Utah's full combined rate.",
+    "conditions": [
+      {
+        "when": "A bakery item, or food the restaurant only cut or repackaged, sold without eating utensils (no napkin, cup or straw) is grocery food at the reduced rate, 1.75% state plus 1.25% local",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(e) sales of prepared food;"
+      },
+      {
+        "title": "Utah Publication 55, Sales Tax Information for Restaurants (Rev. 04/25)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Vending machine sales are taxable at either the full rate for prepared food and non-food items or the reduced rate for food and food ingredients."
+      }
+    ],
+    "notes": "The reduced-rate exception's local part is 1.25%, as for groceries; no UT:local rule is written for this code because the main case is full rate. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.dine_in",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food served on the seller's plates or with its utensils for eating at its premises is prepared food, taxed at Utah's full combined rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "(e) sales of prepared food;"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(e) sales of prepared food;"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "(Sales of prepared food are taxed at the full combined rate.)"
+      }
+    ],
+    "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.hot",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Food sold heated or heated by the seller is prepared food, taxed at Utah's full combined rate.",
+    "conditions": [
+      {
+        "when": "A bakery item (bread, roll, pastry, etc.) sold without eating utensils is not prepared food even if heated: reduced grocery rate, 1.75% state plus 1.25% local (see food.prepared.bakery)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Prepared food\" means: (i) food: (A) sold in a heated state; or (B) heated by a seller;"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "(e) sales of prepared food;"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(e) sales of prepared food;"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "(Sales of prepared food are taxed at the full combined rate.)"
+      }
+    ],
+    "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.platter",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxed at the full rate when it holds food the seller combined (sandwiches, mixed salads) or comes with utensils, and at the reduced grocery rate when the seller only cut and arranged meat, cheese, fruit or vegetables and provides no utensils.",
+    "conditions": [
+      {
+        "when": "The tray holds food the seller made by combining ingredients (sandwiches, mixed salads), or is sold with plates, forks, napkins or other utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller only cut, sliced or repackaged the meat, cheese, fruit or vegetables on it and provides no utensils",
+        "treatment": "special_rate",
+        "rate": 0.0175
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
+      }
+    ],
+    "notes": "The Tax Commission's product matrix marks meat/cheese platters and mixed fruit trays (by price or weight) as food; its table rendering was not relied on for quotes. Whether arranging several cut items on a tray is 'combining' them is not addressed in the cited text. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.prepared.sandwich",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "A sandwich the seller makes combines two or more food ingredients, so it is prepared food taxed at Utah's full combined rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Sandwich – prepared food (two or more ingredients mixed by the seller) taxed at full rate"
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "Sandwich – prepared food (two or more ingredients mixed by the seller) taxed at full rate"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(e) sales of prepared food;"
+      }
+    ],
+    "notes": "Unverified edge: the statute's exclusion for unheated food sold by weight or volume as a single item without utensils could in principle reach a sandwich sold by weight; the Tax Commission's examples treat sandwiches as prepared food. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.soft_drink",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "special_rate",
-    "rate": 0.0175
-   },
-   {
-    "when": "Sold unheated by weight or volume as a single item, with no eating utensils provided",
+    "rate": 0.0175,
+    "summary": "Soft drinks are food and food ingredients in Utah (no soft-drink exclusion), so packaged soft drinks bear the reduced grocery 1.75% state rate.",
+    "conditions": [
+      {
+        "when": "A fountain or self-serve drink in a cup, or any drink sold with a cup or straw the seller provides, is prepared food at the full rate",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
+      }
+    ],
+    "notes": "The Tax Commission's chart: soft drinks in a cooler reduced, soft drinks from a fountain full (cups/straws are eating utensils). Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "food.uncooked",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a Utah seller assembles for the buyer to cook is taxed at the full rate when it combines ingredients without raw animal food (a take-and-bake cheese pizza), and at the 1.75% grocery state rate when it contains raw meat, fish, poultry or eggs needing cooking (store-made raw kebabs).",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as a single item, none of them raw egg, fish, meat or poultry that must be cooked to prevent food-borne illness (e.g. an unbaked cheese or vegetable pizza, a meal kit of non-raw ingredients)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contains raw egg, fish, meat or poultry the FDA Food Code says to cook (e.g. shish kebabs of raw meat made in the store, stuffed or marinated raw meat), sold without eating utensils",
+        "treatment": "special_rate",
+        "rate": 0.0175
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item, with no eating utensils provided",
+        "treatment": "special_rate",
+        "rate": 0.0175
+      },
+      {
+        "when": "The seller provides eating utensils in the area",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "(I) raw egg; (II) raw fish; (III) raw meat; (IV) raw poultry;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "that a consumer cook the items described in Subsection (101)(b)(ii)(A) to prevent food borne illness"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (deli inside a store)",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "raw eggs, raw fish, raw meat, raw poultry, or a food containing these items if the Food and Drug Administration (FDA) advises buyers to cook the items to prevent food borne illness"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (Food versus Non-Food Matrix)",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Shiskabobs made in store x Raw meat"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "The state sales tax rate for grocery food is 1.75 percent."
+      }
+    ],
+    "notes": "Begins 2017-07-01 like UT's food.prepared.cold rule. The Tax Commission's Food versus Non-Food Matrix lists 'Shiskabobs made in store' in the Food (grocery-rate) column with the comment 'Raw meat'. No Utah source read names take-and-bake pizza or meal kits; they follow the statute's mixed-or-combined test. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is not part of these rules."
+  },
+  {
+    "tax": "UT",
+    "code": "goods.general",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail sales of tangible goods are subject to Utah state and local sales tax at the full combined rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(a) retail sales of tangible personal property made within the state;"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "(a) retail sales of tangible personal property made within the state;"
+      }
+    ],
+    "notes": "Taxed long before 2017; 2017-07-01 is the earliest statute version read here."
+  },
+  {
+    "tax": "UT",
+    "code": "service.professional",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not among the transactions Utah taxes; the firms are consumers of what they buy.",
+    "conditions": [
+      {
+        "when": "The charge is for tangible goods or prewritten software the professional sells (printed advertising materials, furnishings an interior designer supplies, software licences), or IT work performed as part of repairing hardware",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "(1) A tax is imposed on the purchaser as provided in this part on the purchase price or sales price for amounts paid or charged for the following transactions:"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "consumers such as professional firms and construction contractors"
+      },
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
+        "quote": "The following services are examples of services that are not repairs, and therefore not taxable, unless they are performed as part of a repair: Providing customer service or technical support"
+      }
+    ],
+    "notes": "Utah taxes only the transactions listed in 59-12-103(1); no professional service is listed. No single Tax Commission page says so per profession; the IT statement is Publication 64's."
+  },
+  {
+    "tax": "UT",
+    "code": "software.custom.development",
+    "from": "2012-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Custom software is not tangible personal property in Utah; its sale and use are not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
+        "quote": "Sales, rentals, leases and charges for using custom software are nontaxable."
+      },
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://files.tax.utah.gov/tax/forms/pubs/pub-64.pdf",
+        "quote": "Custom software is not tangible personal property."
+      }
+    ]
+  },
+  {
+    "tax": "UT",
+    "code": "software.custom.modification",
+    "from": "2012-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Separately stated, reasonable charges to modify prewritten software for one customer are not taxed in Utah.",
+    "conditions": [
+      {
+        "when": "The modification charge isn't reasonable, or isn't separately stated from the prewritten software, or only adds a client name or account number",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
+        "quote": "Charges to modify or adapt prewritten software for a customer are nontaxable if the charges are reasonable and separately stated on the invoice."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Prewritten computer software\" does not include a modification or enhancement described in Subsection (103)(b)(iii) if the charges for the modification or enhancement are: (i) reasonable;"
+      }
+    ]
+  },
+  {
+    "tax": "UT",
+    "code": "software.prewritten",
+    "from": "2012-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Prewritten software is tangible personal property in Utah and taxable however it is delivered.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
+        "quote": "Sales, rentals, leases and charges for using prewritten software in Utah are taxable regardless of delivery method (boxed, hosted, downloaded, etc."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
+        "quote": "prewritten computer software, regardless of the manner in which the prewritten computer software is transferred"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "(i) prewritten computer software delivered electronically or by load and leave;"
+      }
+    ]
+  },
+  {
+    "tax": "UT",
+    "code": "software.saas",
+    "from": "2012-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Remotely accessed prewritten software (SaaS) used in Utah is taxable; from July 1, 2026 the statute names seller-hosted prewritten software expressly.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
+        "quote": "License fees for remotely accessed prewritten software are taxable if the purchased software is used in Utah."
+      },
+      {
+        "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
+        "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
+        "quote": "Remotely accessed software includes hosted software, application service provider (ASP) software, software-as-a-service (SAAS), and cloud computing applications."
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "(ii) seller-hosted prewritten computer software."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "Seller-hosted prewritten computer software\" means prewritten computer software that is accessed through the internet or a seller-hosted server, regardless of whether: (a) the access is permanent; or (b) any downloading occurs."
+      }
+    ],
+    "notes": "2012-05-01 is Publication 64's revision date (Rev. 05/12), the earliest Tax Commission statement read. 2026 S.B. 162 (effective 2026-07-01) wrote seller-hosted software into 59-12-103(1)(p); commentators call it a codification of existing practice, so no split is made. Remotely accessed custom software is not taxable (Pub 64)."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.candy",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "special_rate",
-    "rate": 0.0175
-   },
-   {
-    "when": "The seller provides eating utensils in the area",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "(I) raw egg; (II) raw fish; (III) raw meat; (IV) raw poultry;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "that a consumer cook the items described in Subsection (101)(b)(ii)(A) to prevent food borne illness"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (deli inside a store)",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "raw eggs, raw fish, raw meat, raw poultry, or a food containing these items if the Food and Drug Administration (FDA) advises buyers to cook the items to prevent food borne illness"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (Food versus Non-Food Matrix)",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Shiskabobs made in store x Raw meat"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "a state tax imposed on the amounts paid or charged for food and food ingredients at a tax rate of 1.75%"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "The state sales tax rate for grocery food is 1.75 percent."
-   }
-  ],
-  "notes": "Begins 2017-07-01 like UT's food.prepared.cold rule. The Tax Commission's Food versus Non-Food Matrix lists 'Shiskabobs made in store' in the Food (grocery-rate) column with the comment 'Raw meat'. No Utah source read names take-and-bake pizza or meal kits; they follow the statute's mixed-or-combined test. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is not part of these rules."
- },
- {
-  "tax": "UT",
-  "code": "goods.general",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Retail sales of tangible goods are subject to Utah state and local sales tax at the full combined rate.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(a) retail sales of tangible personal property made within the state;"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "(a) retail sales of tangible personal property made within the state;"
-   }
-  ],
-  "notes": "Taxed long before 2017; 2017-07-01 is the earliest statute version read here."
- },
- {
-  "tax": "UT",
-  "code": "service.professional",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "exempt",
-  "summary": "Professional services (legal, accounting, consulting, IT, engineering, design, advertising) are not among the transactions Utah taxes; the firms are consumers of what they buy.",
-  "conditions": [
-   {
-    "when": "The charge is for tangible goods or prewritten software the professional sells (printed advertising materials, furnishings an interior designer supplies, software licences), or IT work performed as part of repairing hardware",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
-    "quote": "(1) A tax is imposed on the purchaser as provided in this part on the purchase price or sales price for amounts paid or charged for the following transactions:"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "consumers such as professional firms and construction contractors"
-   },
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
-    "quote": "The following services are examples of services that are not repairs, and therefore not taxable, unless they are performed as part of a repair: Providing customer service or technical support"
-   }
-  ],
-  "notes": "Utah taxes only the transactions listed in 59-12-103(1); no professional service is listed. No single Tax Commission page says so per profession; the IT statement is Publication 64's."
- },
- {
-  "tax": "UT",
-  "code": "software.custom.development",
-  "from": "2012-05-01",
-  "fromIs": "earliest_verified",
-  "treatment": "exempt",
-  "summary": "Custom software is not tangible personal property in Utah; its sale and use are not taxed.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
-    "quote": "Sales, rentals, leases and charges for using custom software are nontaxable."
-   },
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://files.tax.utah.gov/tax/forms/pubs/pub-64.pdf",
-    "quote": "Custom software is not tangible personal property."
-   }
-  ]
- },
- {
-  "tax": "UT",
-  "code": "software.custom.modification",
-  "from": "2012-05-01",
-  "fromIs": "earliest_verified",
-  "treatment": "exempt",
-  "summary": "Separately stated, reasonable charges to modify prewritten software for one customer are not taxed in Utah.",
-  "conditions": [
-   {
-    "when": "The modification charge isn't reasonable, or isn't separately stated from the prewritten software, or only adds a client name or account number",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
-    "quote": "Charges to modify or adapt prewritten software for a customer are nontaxable if the charges are reasonable and separately stated on the invoice."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Prewritten computer software\" does not include a modification or enhancement described in Subsection (103)(b)(iii) if the charges for the modification or enhancement are: (i) reasonable;"
-   }
-  ]
- },
- {
-  "tax": "UT",
-  "code": "software.prewritten",
-  "from": "2012-05-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Prewritten software is tangible personal property in Utah and taxable however it is delivered.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
-    "quote": "Sales, rentals, leases and charges for using prewritten software in Utah are taxable regardless of delivery method (boxed, hosted, downloaded, etc."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
-    "quote": "prewritten computer software, regardless of the manner in which the prewritten computer software is transferred"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "(i) prewritten computer software delivered electronically or by load and leave;"
-   }
-  ]
- },
- {
-  "tax": "UT",
-  "code": "software.saas",
-  "from": "2012-05-01",
-  "fromIs": "earliest_verified",
-  "treatment": "taxable",
-  "summary": "Remotely accessed prewritten software (SaaS) used in Utah is taxable; from July 1, 2026 the statute names seller-hosted prewritten software expressly.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
-    "quote": "License fees for remotely accessed prewritten software are taxable if the purchased software is used in Utah."
-   },
-   {
-    "title": "Utah Publication 64, Sales Tax Information for Computer Service Providers (Rev. 05/12)",
-    "url": "https://tax.utah.gov/forms/forms-pubs/pub-64",
-    "quote": "Remotely accessed software includes hosted software, application service provider (ASP) software, software-as-a-service (SAAS), and cloud computing applications."
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "(ii) seller-hosted prewritten computer software."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "Seller-hosted prewritten computer software\" means prewritten computer software that is accessed through the internet or a seller-hosted server, regardless of whether: (a) the access is permanent; or (b) any downloading occurs."
-   }
-  ],
-  "notes": "2012-05-01 is Publication 64's revision date (Rev. 05/12), the earliest Tax Commission statement read. 2026 S.B. 162 (effective 2026-07-01) wrote seller-hosted software into 59-12-103(1)(p); commentators call it a codification of existing practice, so no split is made. Remotely accessed custom software is not taxable (Pub 64)."
- },
- {
-  "tax": "UT:local",
-  "code": "food.candy",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "special_rate",
-  "rate": 0.0125,
-  "summary": "Candy is food and food ingredients in Utah (the definition excludes only alcohol, tobacco and prepared food), so it bears the reduced grocery 1.25% local rate (1% local option + 0.25% county option).",
-  "conditions": [
-   {
-    "when": "Candy the seller heats, mixes or sells with eating utensils (e.g. loose candy with a napkin) is prepared food at the full rate",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
-   }
-  ],
-  "notes": "Utah's definition of food and food ingredients has no candy exclusion; the Tax Commission's industry chart also shows candy bars at the reduced rate. 2017-07-01 is the earliest statute version read; the definition likely dates from 2008. Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
- },
- {
-  "tax": "UT:local",
-  "code": "food.grocery",
-  "from": "2008-01-01",
-  "fromIs": "effective",
-  "treatment": "special_rate",
-  "rate": 0.0125,
-  "summary": "Groceries bear only the 1% local option and 0.25% county option taxes, 1.25% in all of Utah, for 3% combined; the other local taxes don't apply to grocery food.",
-  "conditions": [],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "a local tax equal to the sum of the tax rates a county, city, or town imposes on the amounts paid or charged for food and food ingredients under this chapter other than this part"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "These transactions are also subject to local option and county option and results in a total combined rate on grocery food of 3 percent throughout Utah."
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "Resort/Impacted Communities City or Town Up to 1.60% Grocery food sales."
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "As of January 1, 2008, the statewide grocery food sales tax rate is 3 percent."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The statewide grocery food sales tax rate is 3 percent."
-   }
-  ],
-  "notes": "Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
- },
- {
-  "tax": "UT:local",
-  "code": "food.prepared.bakery",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "special_rate",
-  "rate": 0.0125,
-  "summary": "Bakery items sold without eating utensils are not prepared food in Utah, even if heated, so they bear the reduced grocery rate (1.25% local part).",
-  "conditions": [
-   {
-    "when": "Sold with an eating utensil the seller provides, including a napkin, plate or fork (the chart puts bagels and donuts sold with a napkin at the full rate)",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "a bakery item, including: (I) a bagel; (II) a bar; (III) a biscuit; (IV) bread;"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
-   }
-  ],
-  "notes": "Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
- },
- {
-  "tax": "UT:local",
-  "code": "food.prepared.cold",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "Cold deli food from a grocery is taxed at the full rate when the seller mixed or combined it or provides utensils, and at the reduced grocery rate when it is only cut or repackaged, or sold unheated by weight or volume as a single item without utensils.",
-  "conditions": [
-   {
-    "when": "The seller provides eating utensils in the area, or sells food it mixed or combined by the piece or package rather than by weight or volume (e.g. potato salad where utensils are provided; a packaged salad)",
-    "treatment": "taxable"
-   },
-   {
-    "when": "Food the seller only cut or repackaged (sliced meat or cheese, cut fruit), sold without utensils",
+    "rate": 0.0125,
+    "summary": "Candy is food and food ingredients in Utah (the definition excludes only alcohol, tobacco and prepared food), so it bears the reduced grocery 1.25% local rate (1% local option + 0.25% county option).",
+    "conditions": [
+      {
+        "when": "Candy the seller heats, mixes or sells with eating utensils (e.g. loose candy with a napkin) is prepared food at the full rate",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "Pack of gum from a vending machine – grocery food taxed at lower rate"
+      }
+    ],
+    "notes": "Utah's definition of food and food ingredients has no candy exclusion; the Tax Commission's industry chart also shows candy bars at the reduced rate. 2017-07-01 is the earliest statute version read; the definition likely dates from 2008. Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.grocery",
+    "from": "2008-01-01",
+    "fromIs": "effective",
     "treatment": "special_rate",
-    "rate": 0.0125
-   },
-   {
-    "when": "Sold unheated by weight or volume as a single item with no eating utensils provided (e.g. potato salad by the pound with no utensils in the area)",
+    "rate": 0.0125,
+    "summary": "Groceries bear only the 1% local option and 0.25% county option taxes, 1.25% in all of Utah, for 3% combined; the other local taxes don't apply to grocery food.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "a local tax equal to the sum of the tax rates a county, city, or town imposes on the amounts paid or charged for food and food ingredients under this chapter other than this part"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "These transactions are also subject to local option and county option and results in a total combined rate on grocery food of 3 percent throughout Utah."
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Resort/Impacted Communities City or Town Up to 1.60% Grocery food sales."
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "As of January 1, 2008, the statewide grocery food sales tax rate is 3 percent."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The statewide grocery food sales tax rate is 3 percent."
+      }
+    ],
+    "notes": "Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.prepared.bakery",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "special_rate",
-    "rate": 0.0125
-   },
-   {
-    "when": "Heated by the seller (e.g. a rotisserie chicken from the warmer)",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "food and food ingredients sold in an unheated state: (I) by weight or volume; and (II) as a single item;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The potato salad is prepared food taxed at the full rate."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "If you do not provide utensils, the potato salad is grocery food taxed at the lower rate (because it is unheated and sold by weight as a single item)."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
-   }
-  ],
-  "notes": "Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
- },
- {
-  "tax": "UT:local",
-  "code": "food.prepared.platter",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "A party tray is taxed at the full rate when it holds food the seller combined (sandwiches, mixed salads) or comes with utensils, and at the reduced grocery rate when the seller only cut and arranged meat, cheese, fruit or vegetables and provides no utensils.",
-  "conditions": [
-   {
-    "when": "The tray holds food the seller made by combining ingredients (sandwiches, mixed salads), or is sold with plates, forks, napkins or other utensils",
-    "treatment": "taxable"
-   },
-   {
-    "when": "The seller only cut, sliced or repackaged the meat, cheese, fruit or vegetables on it and provides no utensils",
+    "rate": 0.0125,
+    "summary": "Bakery items sold without eating utensils are not prepared food in Utah, even if heated, so they bear the reduced grocery rate (1.25% local part).",
+    "conditions": [
+      {
+        "when": "Sold with an eating utensil the seller provides, including a napkin, plate or fork (the chart puts bagels and donuts sold with a napkin at the full rate)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "a bakery item, including: (I) a bagel; (II) a bar; (III) a biscuit; (IV) bread;"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "You own a bakery and sell donuts. You do not provide utensils so the food is taxed at the reduced rate."
+      }
+    ],
+    "notes": "Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.prepared.cold",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold deli food from a grocery is taxed at the full rate when the seller mixed or combined it or provides utensils, and at the reduced grocery rate when it is only cut or repackaged, or sold unheated by weight or volume as a single item without utensils.",
+    "conditions": [
+      {
+        "when": "The seller provides eating utensils in the area, or sells food it mixed or combined by the piece or package rather than by weight or volume (e.g. potato salad where utensils are provided; a packaged salad)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Food the seller only cut or repackaged (sliced meat or cheese, cut fruit), sold without utensils",
+        "treatment": "special_rate",
+        "rate": 0.0125
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item with no eating utensils provided (e.g. potato salad by the pound with no utensils in the area)",
+        "treatment": "special_rate",
+        "rate": 0.0125
+      },
+      {
+        "when": "Heated by the seller (e.g. a rotisserie chicken from the warmer)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "food and food ingredients sold in an unheated state: (I) by weight or volume; and (II) as a single item;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The potato salad is prepared food taxed at the full rate."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "If you do not provide utensils, the potato salad is grocery food taxed at the lower rate (because it is unheated and sold by weight as a single item)."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
+      }
+    ],
+    "notes": "Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.prepared.platter",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A party tray is taxed at the full rate when it holds food the seller combined (sandwiches, mixed salads) or comes with utensils, and at the reduced grocery rate when the seller only cut and arranged meat, cheese, fruit or vegetables and provides no utensils.",
+    "conditions": [
+      {
+        "when": "The tray holds food the seller made by combining ingredients (sandwiches, mixed salads), or is sold with plates, forks, napkins or other utensils",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller only cut, sliced or repackaged the meat, cheese, fruit or vegetables on it and provides no utensils",
+        "treatment": "special_rate",
+        "rate": 0.0125
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
+      }
+    ],
+    "notes": "The Tax Commission's product matrix marks meat/cheese platters and mixed fruit trays (by price or weight) as food; its table rendering was not relied on for quotes. Whether arranging several cut items on a tray is 'combining' them is not addressed in the cited text. Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.soft_drink",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
     "treatment": "special_rate",
-    "rate": 0.0125
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Prepared food\" does not include: (i) food that a seller only: (A) cuts; (B) repackages; or (C) pasteurizes;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "food sold with an eating utensil provided by the seller, including a: (A) plate; (B) knife; (C) fork; (D) spoon; (E) glass; (F) cup; (G) napkin; or (H) straw."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "The sliced cheese is grocery food taxed at the lower rate because it was only cut and repackaged."
-   }
-  ],
-  "notes": "The Tax Commission's product matrix marks meat/cheese platters and mixed fruit trays (by price or weight) as food; its table rendering was not relied on for quotes. Whether arranging several cut items on a tray is 'combining' them is not addressed in the cited text. Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
- },
- {
-  "tax": "UT:local",
-  "code": "food.soft_drink",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "special_rate",
-  "rate": 0.0125,
-  "summary": "Soft drinks are food and food ingredients in Utah (no soft-drink exclusion), so packaged soft drinks bear the reduced grocery 1.25% local rate (1% local option + 0.25% county option).",
-  "conditions": [
-   {
-    "when": "A fountain or self-serve drink in a cup, or any drink sold with a cup or straw the seller provides, is prepared food at the full rate",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
-    "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
-   },
-   {
-    "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
-    "url": "https://web.archive.org/web/20171129150553/http://tax.utah.gov:80/sales/food-rate",
-    "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
-   }
-  ],
-  "notes": "The Tax Commission's chart: soft drinks in a cooler reduced, soft drinks from a fountain full (cups/straws are eating utensils). Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
- },
- {
-  "tax": "UT:local",
-  "code": "food.uncooked",
-  "from": "2017-07-01",
-  "fromIs": "earliest_verified",
-  "treatment": "conditional",
-  "summary": "Food a Utah seller assembles for the buyer to cook bears the full local rates when it combines ingredients without raw animal food (a take-and-bake cheese pizza), and the 1.25% local grocery rate when it contains raw meat, fish, poultry or eggs needing cooking (store-made raw kebabs).",
-  "conditions": [
-   {
-    "when": "Two or more ingredients mixed or combined by the seller and sold as a single item, none of them raw egg, fish, meat or poultry that must be cooked to prevent food-borne illness (e.g. an unbaked cheese or vegetable pizza, a meal kit of non-raw ingredients)",
-    "treatment": "taxable"
-   },
-   {
-    "when": "Contains raw egg, fish, meat or poultry the FDA Food Code says to cook (e.g. shish kebabs of raw meat made in the store, stuffed or marinated raw meat), sold without eating utensils",
-    "treatment": "special_rate",
-    "rate": 0.0125
-   },
-   {
-    "when": "Sold unheated by weight or volume as a single item, with no eating utensils provided",
-    "treatment": "special_rate",
-    "rate": 0.0125
-   },
-   {
-    "when": "The seller provides eating utensils in the area",
-    "treatment": "taxable"
-   }
-  ],
-  "citations": [
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "(I) raw egg; (II) raw fish; (III) raw meat; (IV) raw poultry;"
-   },
-   {
-    "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
-    "quote": "that a consumer cook the items described in Subsection (101)(b)(ii)(A) to prevent food borne illness"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (deli inside a store)",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "raw eggs, raw fish, raw meat, raw poultry, or a food containing these items if the Food and Drug Administration (FDA) advises buyers to cook the items to prevent food borne illness"
-   },
-   {
-    "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (Food versus Non-Food Matrix)",
-    "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
-    "quote": "Shiskabobs made in store x Raw meat"
-   },
-   {
-    "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
-    "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
-    "quote": "a local tax equal to the sum of the tax rates a county, city, or town imposes on the amounts paid or charged for food and food ingredients under this chapter other than this part"
-   },
-   {
-    "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
-    "url": "https://tax.utah.gov/forms-pubs/pub-25/",
-    "quote": "These transactions are also subject to local option and county option and results in a total combined rate on grocery food of 3 percent throughout Utah."
-   }
-  ],
-  "notes": "Begins 2017-07-01 like UT's food.prepared.cold rule. The Tax Commission's Food versus Non-Food Matrix lists 'Shiskabobs made in store' in the Food (grocery-rate) column with the comment 'Raw meat'. No Utah source read names take-and-bake pizza or meal kits; they follow the statute's mixed-or-combined test. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is not part of these rules. The 1.25% is the total of the 1% local option and 0.25% county option taxes, as in UT:local food.grocery."
- }
+    "rate": 0.0125,
+    "summary": "Soft drinks are food and food ingredients in Utah (no soft-drink exclusion), so packaged soft drinks bear the reduced grocery 1.25% local rate (1% local option + 0.25% county option).",
+    "conditions": [
+      {
+        "when": "A fountain or self-serve drink in a cup, or any drink sold with a cup or straw the seller provides, is prepared food at the full rate",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2017050920170701.html",
+        "quote": "\"Food and food ingredients\" does not include: (i) an alcoholic beverage; (ii) tobacco; or (iii) prepared food."
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
+      },
+      {
+        "title": "Utah State Tax Commission, Food Rate page (Wayback snapshot 2017-11-29)",
+        "url": "http://tax.utah.gov/sales/food-rate",
+        "quote": "Bag of chips or can of soda – grocery food taxed at lower rate"
+      }
+    ],
+    "notes": "The Tax Commission's chart: soft drinks in a cooler reduced, soft drinks from a fountain full (cups/straws are eating utensils). Utah's local taxes on food are only the 1% local option (59-12-204) and 0.25% county option (59-12-1102): 1.25% in every location, which with the 1.75% state rate makes the statewide 3% grocery rate; Publication 25's chart lists grocery food sales as exempt from the other local taxes (resort, transit, highway, rural health care, town option, emergency services, etc.). The schema's reduced rate is the part's own rate, so this UT:local rule carries 0.0125 as the total of the local parts. CAUTION for reviewers: the resolver (taxabilityOf) adds a reduced rule's rate once per part it decides, so where an answer splits Utah's local rate into several parts (county, city, transit...) the local total would come out as 0.0125 times the number of local parts rather than 0.0125; that needs a resolver change (apply a reduced local rate once per group), not a different rule."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.uncooked",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food a Utah seller assembles for the buyer to cook bears the full local rates when it combines ingredients without raw animal food (a take-and-bake cheese pizza), and the 1.25% local grocery rate when it contains raw meat, fish, poultry or eggs needing cooking (store-made raw kebabs).",
+    "conditions": [
+      {
+        "when": "Two or more ingredients mixed or combined by the seller and sold as a single item, none of them raw egg, fish, meat or poultry that must be cooked to prevent food-borne illness (e.g. an unbaked cheese or vegetable pizza, a meal kit of non-raw ingredients)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Contains raw egg, fish, meat or poultry the FDA Food Code says to cook (e.g. shish kebabs of raw meat made in the store, stuffed or marinated raw meat), sold without eating utensils",
+        "treatment": "special_rate",
+        "rate": 0.0125
+      },
+      {
+        "when": "Sold unheated by weight or volume as a single item, with no eating utensils provided",
+        "treatment": "special_rate",
+        "rate": 0.0125
+      },
+      {
+        "when": "The seller provides eating utensils in the area",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "two or more food ingredients mixed or combined by the seller for sale as a single item"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "(I) raw egg; (II) raw fish; (III) raw meat; (IV) raw poultry;"
+      },
+      {
+        "title": "Utah Code 59-12-102 (eff. 7/1/2026), prepared food exclusions",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S102_2026050620260701.html",
+        "quote": "that a consumer cook the items described in Subsection (101)(b)(ii)(A) to prevent food borne illness"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (deli inside a store)",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "raw eggs, raw fish, raw meat, raw poultry, or a food containing these items if the Food and Drug Administration (FDA) advises buyers to cook the items to prevent food borne illness"
+      },
+      {
+        "title": "Utah State Tax Commission, Grocery Food Sales & Use Tax (Food versus Non-Food Matrix)",
+        "url": "https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Shiskabobs made in store x Raw meat"
+      },
+      {
+        "title": "Utah Code 59-12-103 (eff. 7/1/2026)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "a local tax equal to the sum of the tax rates a county, city, or town imposes on the amounts paid or charged for food and food ingredients under this chapter other than this part"
+      },
+      {
+        "title": "Utah Publication 25, Sales and Use Tax General Information (Rev. 09/26)",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "These transactions are also subject to local option and county option and results in a total combined rate on grocery food of 3 percent throughout Utah."
+      }
+    ],
+    "notes": "Begins 2017-07-01 like UT's food.prepared.cold rule. The Tax Commission's Food versus Non-Food Matrix lists 'Shiskabobs made in store' in the Food (grocery-rate) column with the comment 'Raw meat'. No Utah source read names take-and-bake pizza or meal kits; they follow the statute's mixed-or-combined test. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is not part of these rules. The 1.25% is the total of the 1% local option and 0.25% county option taxes, as in UT:local food.grocery."
+  }
 ]

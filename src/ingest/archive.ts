@@ -223,6 +223,56 @@ export async function archiveResponse(request: Request, bytes: Uint8Array | stri
   }
 }
 
+/** The page an Internet Archive capture is of, and when it was captured:
+ *  "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2"
+ *  is rules.sos.ga.gov/gac/560-12-2 on 2016-10-24. Null for any other URL. */
+export function waybackCapture(url: string): { original: string; at: string } | null {
+  const m = /^https?:\/\/web\.archive\.org\/web\/(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?(\d{2})?(?:[a-z]{2}_)?\/(.+)$/.exec(url);
+  if (!m) return null;
+  const original = m[7].replace(/^(https?:\/\/[^/:]+):(80|443)(?=\/|$)/, "$1");
+  return { original, at: `${m[1]}-${m[2]}-${m[3]}T${m[4] ?? "00"}:${m[5] ?? "00"}:${m[6] ?? "00"}Z` };
+}
+
+export interface Copy {
+  file: string;
+  sha256: string;
+  bytes: number;
+  /** When the copy shows the page: the fetch, or the Internet Archive's capture. */
+  at: string;
+  /** The Internet Archive capture it came through, where the site itself
+   *  blocked downloads or the edition is gone. */
+  via?: string;
+}
+
+/** Every copy the archive holds of each URL, oldest first: its own fetches,
+ *  and Internet Archive captures of it filed under the capture's address. */
+export function copiesByUrl(): Map<string, Copy[]> {
+  const root = sourcesRoot();
+  const found = new Map<string, Copy[]>();
+  let text = "";
+  try {
+    text = fs.readFileSync(path.join(root, "manifest.jsonl"), "utf8");
+  } catch {
+    return found;
+  }
+  const add = (url: string, copy: Copy) => {
+    const list = found.get(url) ?? [];
+    if (list.at(-1)?.sha256 !== copy.sha256 || list.at(-1)?.via !== copy.via) list.push(copy);
+    found.set(url, list);
+  };
+  for (const line of text.split("\n")) {
+    if (!line.trim()) continue;
+    const entry = JSON.parse(line) as { at: string; url: string; file: string; sha256: string; bytes: number };
+    if (!fs.existsSync(path.join(root, entry.file))) continue;
+    const copy = { file: entry.file, sha256: entry.sha256, bytes: entry.bytes, at: entry.at };
+    add(entry.url, copy);
+    const capture = waybackCapture(entry.url);
+    if (capture) add(capture.original, { ...copy, at: capture.at, via: entry.url });
+  }
+  for (const list of found.values()) list.sort((a, b) => a.at.localeCompare(b.at));
+  return found;
+}
+
 /** The newest file the manifest records for each URL, whatever name it was
  *  filed under; a copy since deleted is left out. */
 export function archivedByUrl(): Map<string, { file: string; sha256: string; bytes: number }> {

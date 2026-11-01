@@ -22,7 +22,7 @@ import { createHash } from "node:crypto";
 import { closeSync, createReadStream, openSync, readdirSync, readFileSync, readSync, statSync } from "node:fs";
 import path from "node:path";
 import { AwsClient } from "aws4fetch";
-import { sourcesRoot } from "./ingest/archive.js";
+import { sourcesRoot, waybackCapture } from "./ingest/archive.js";
 import { readRuleFiles } from "./taxability/rules/index.js";
 
 export interface Capture {
@@ -30,6 +30,9 @@ export interface Capture {
   sha256: string;
   bytes: number;
   type: string;
+  /** The Internet Archive capture this copy came through (the site blocked
+   *  downloads, or the edition is gone); `at` is then the capture's day. */
+  via?: string;
 }
 
 export interface Catalog {
@@ -101,11 +104,19 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
     // query is its own entry, keyed by the request's hash.
     const key = entry.body ? `${entry.url} (${entry.method ?? "POST"} ${createHash("sha256").update(entry.body).digest("hex").slice(0, 12)})` : entry.url;
     const record = (urls[key] ??= { captures: [], citedBy: [] });
+    const capture = { at: entry.at, sha256: entry.sha256, bytes: entry.bytes, type: typeOf(entry.file, head) };
     // A refetch of the same bytes isn't a new capture; a page that changed
     // and changed back (A, B, A) is three.
-    if (record.captures.at(-1)?.sha256 !== entry.sha256)
-      record.captures.push({ at: entry.at, sha256: entry.sha256, bytes: entry.bytes, type: typeOf(entry.file, head) });
+    if (record.captures.at(-1)?.sha256 !== entry.sha256) record.captures.push(capture);
+    // An Internet Archive capture is also a copy of the page it captured,
+    // on the day it was captured: citations name the original page.
+    const archived = waybackCapture(entry.url);
+    if (archived) {
+      const original = (urls[archived.original] ??= { captures: [], citedBy: [] });
+      if (!original.captures.some((c) => c.sha256 === entry.sha256)) original.captures.push({ ...capture, at: archived.at, via: entry.url });
+    }
   }
+  for (const record of Object.values(urls)) record.captures.sort((a, b) => a.at.localeCompare(b.at));
   for (const r of readRuleFiles().rules)
     for (const c of r.citations) {
       const record = urls[c.url];

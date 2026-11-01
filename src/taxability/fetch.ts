@@ -16,7 +16,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import tls from "node:tls";
-import { archivedByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
+import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
 import { readRuleFiles, RULE_FILE, RULES_DIR } from "./rules/index.js";
 
 export const WATCH_FILE = path.join(RULES_DIR, "watch.json");
@@ -197,13 +197,16 @@ export async function fetchTaxabilitySources(options: { dir?: string; watchFile?
   const watch = JSON.parse(readFileSync(options.watchFile ?? WATCH_FILE, "utf8")) as Watched[];
   const ignoreColumns = new Map(watch.filter((w) => w.ignoreColumns).map((w) => [w.url, w.ignoreColumns!]));
   trustListedIntermediates();
+  // The quotes each page should still show: those of rules in force today
+  // (an ended rule may quote an edition since replaced).
+  const today = new Date().toISOString().slice(0, 10);
   const quotes = new Map<string, Array<{ rule: string; quote: string }>>();
   for (const r of rules)
     for (const c of r.citations)
-      quotes.set(c.url, [...(quotes.get(c.url) ?? []), ...(c.quote ? [{ rule: `${r.file} ${r.tax} ${r.code} ${r.from}`, quote: c.quote }] : [])]);
+      quotes.set(c.url, [...(quotes.get(c.url) ?? []), ...(c.quote && (!r.to || r.to >= today) ? [{ rule: `${r.file} ${r.tax} ${r.code} ${r.from}`, quote: c.quote }] : [])]);
   const watched = new Set(watch.map((w) => w.url));
   const urls = [...new Set([...watched, ...quotes.keys()])].sort();
-  const archived = archivedByUrl();
+  const copies = copiesByUrl();
   const root = sourcesRoot();
   const lastAsked = new Map<string, number>();
   const blocked = new Set<string>();
@@ -218,7 +221,8 @@ export async function fetchTaxabilitySources(options: { dir?: string; watchFile?
     const wait = (lastAsked.get(host) ?? 0) + 1_000 - Date.now();
     if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
     lastAsked.set(host, Date.now());
-    const before = archived.get(url);
+    // The newest copy, from a fetch or an Internet Archive capture.
+    const before = copies.get(url)?.at(-1);
     const reading = { ignoreColumns: ignoreColumns.get(url) };
     const oldText = before ? pageText(new Uint8Array(readFileSync(path.join(root, before.file))), reading) : null;
     if (before && snapshot(url)) {
@@ -321,7 +325,7 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
     for (const r of JSON.parse(git("show", `${ref}:${relative}/${file}`)) as Array<{ tax: string; code: string; from: string }>)
       before.set(key(r), canonical(r));
   const { rules } = readRuleFiles(dir);
-  const archived = archivedByUrl();
+  const copies = copiesByUrl();
   const root = sourcesRoot();
   const changed: string[] = [];
   const problems: string[] = [];
@@ -341,13 +345,15 @@ export function verifyChangedRules(ref: string, dir = RULES_DIR): { changed: str
         problems.push(`${where}: no quote`);
         continue;
       }
-      const copy = archived.get(c.url);
-      if (!copy) {
+      // Any copy of the page: an older edition quoted for an older rule is
+      // a copy captured then (often through the Internet Archive).
+      const held = copies.get(c.url) ?? [];
+      if (!held.length) {
         problems.push(`${where}: the page isn't archived (run ingest --kind taxability, which files it)`);
         continue;
       }
-      const text = textOf(copy.file);
-      if (text === null || !quoteOnPage(text, c.quote)) problems.push(`${where}: the quote isn't on the archived page`);
+      if (!held.some((copy) => { const text = textOf(copy.file); return text !== null && quoteOnPage(text, c.quote!); }))
+        problems.push(`${where}: the quote isn't on any archived copy of the page`);
     }
   }
   // A rule taken away changes answers too (its tax falls back to a broader

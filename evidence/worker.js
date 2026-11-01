@@ -187,6 +187,7 @@ function card(hash, places, shown, asked) {
 		.join('');
 	return `<section class="about">
 <h1><a href="${escape(url)}" rel="noopener">${escape(url)}</a></h1>
+${capture.via ? `<p>Copied from the <a href="${escape(capture.via)}" rel="noopener">Internet Archive's capture</a> of ${escape(day(capture.at))}: the site blocks downloads, or this edition is no longer online.</p>` : ''}
 <p>Archived copy, as fetched · captured ${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC · <span class="hash">SHA-256 <span class="mono">${hash}</span></span> · ${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a></p>
 ${others.length ? `<p>Other captures: ${others.map((c) => `<a href="/sha256/${c.sha256}">${day(c.at)}</a>`).join(', ')}</p>` : ''}
 ${alsoAt.length ? `<p>Same bytes at ${alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join(', ')}</p>` : ''}
@@ -360,7 +361,7 @@ export default {
 			const record = data.urls[target];
 			response = record
 				? page(target, `<div class="list url"><h1><a href="${escape(target)}" rel="noopener">${escape(target)}</a></h1><p class="quiet">${record.captures.length} capture${record.captures.length > 1 ? 's' : ''}, oldest first</p><ul>${record.captures
-						.map((c) => `<li><a href="/sha256/${c.sha256}">${escape(c.at.replace('T', ' ').slice(0, 16))} UTC</a><span class="mono quiet">${c.sha256.slice(0, 12)}</span></li>`)
+						.map((c) => `<li><a href="/sha256/${c.sha256}">${escape(c.at.replace('T', ' ').slice(0, 16))} UTC</a><span class="mono quiet">${c.sha256.slice(0, 12)}</span>${c.via ? ' <span class="quiet">· through the Internet Archive</span>' : ''}</li>`)
 						.join('')}</ul></div>`)
 				: notArchived(data, target);
 		} else if (/^\/\d{8}\//.test(url.pathname)) {

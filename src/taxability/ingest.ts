@@ -12,14 +12,14 @@
  */
 import { db } from "../db/client.js";
 import { taxabilityRules } from "../db/schema.js";
-import { archivedByUrl, downloadedBytes } from "../ingest/archive.js";
+import { copiesByUrl, downloadedBytes } from "../ingest/archive.js";
 import { challenged, fileName, pageText, politeFetch, trustListedIntermediates } from "./fetch.js";
 import { readRuleFiles } from "./rules/index.js";
 
 /** Files every cited page in the archive, fetching one only when the
  *  archive has none. Returns the URLs that couldn't be filed. */
 export async function archiveEvidence(urls: string[], options: { fetch?: boolean } = {}): Promise<Array<{ url: string; reason: string }>> {
-  const archived = archivedByUrl();
+  const archived = copiesByUrl();
   trustListedIntermediates();
   const missing: Array<{ url: string; reason: string }> = [];
   const lastAsked = new Map<string, number>();
