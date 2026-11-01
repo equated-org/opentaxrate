@@ -81,6 +81,33 @@
   },
   {
     "tax": "NC",
+    "code": "delivery.exempt_goods",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge on goods exempt from the state tax is not taxed at the state rate; only the portion of a delivery charge allocated to taxable items is taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 22-1B",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "All freight, delivery, shipping, postage, handling, crating, packing, or other transportation charges in any way connected with or arising by reason of any taxable sale or purchase are subject to sales and use tax at the same rate as the taxable sale or purchase"
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 22-1C",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The retailer should not tax the portion of the delivery charge allocated to the non-taxable or exempt item."
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 32-2A",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "subject to the 2% food rate of sales and use tax and exempt from the general State rate of sales and use tax."
+      }
+    ],
+    "notes": "Covers the state part; local parts have their own NC:local rule because qualifying food, exempt from the state rate, bears the 2% food rate and a delivery charge takes the rate of the sale it is connected with (SUTB 22-1B). 2026-01-01 is the date of the bulletins read (they supersede earlier editions); the treatment is likely older but earlier editions weren't read."
+  },
+  {
+    "tax": "NC",
     "code": "delivery.taxable_goods",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
@@ -748,6 +775,52 @@
       }
     ],
     "notes": "Private letter rulings bind only their requesters; both state the Department's general position."
+  },
+  {
+    "tax": "NC:local",
+    "code": "delivery.exempt_goods",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local tax on a delivery charge follows the goods: delivery of qualifying food bears the 2% food rate in the county's general local part; delivery of goods exempt from every sales tax is not taxed.",
+    "conditions": [
+      {
+        "when": "Qualifying food (exempt from the state rate only), the local part carrying the county's general local sales tax (Articles 39, 40 and 42, with any Article 46 tax in the same part)",
+        "treatment": "special_rate",
+        "rate": 0.02
+      },
+      {
+        "when": "Qualifying food, a transit tax (Article 43) or other additional local part",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Goods exempt from local sales taxes as well as the state tax (not qualifying food)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 22-1B",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "All freight, delivery, shipping, postage, handling, crating, packing, or other transportation charges in any way connected with or arising by reason of any taxable sale or purchase are subject to sales and use tax at the same rate as the taxable sale or purchase"
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 22-1C",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The retailer should not tax the portion of the delivery charge allocated to the non-taxable or exempt item."
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 32-2A",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "subject to the 2% food rate of sales and use tax and exempt from the general State rate of sales and use tax."
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 1, 2026), SUTB 32-2A",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The local and transit taxes imposed by Articles 43 and 46, respectively, do not apply to qualifying food that is exempt from the State sales and use tax."
+      }
+    ],
+    "notes": "Which kind of exempt goods (qualifying food or goods exempt from every tax) isn't carried by the code. The food conditions mirror NC:local food.grocery. No bulletin sentence names delivery of qualifying food in so many words; it follows from SUTB 22-1B (delivery at the rate of the connected sale) and SUTB 32-2A (qualifying food taxed at 2%). SUTB 32-2A says the Article 46 tax doesn't apply to qualifying food, while NC:local food.grocery puts any Article 46 tax in the 2% part; kept consistent with that rule."
   },
   {
     "tax": "NC:local",

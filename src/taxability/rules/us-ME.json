@@ -23,6 +23,28 @@
   },
   {
     "tax": "ME",
+    "code": "delivery.exempt_goods",
+    "from": "2019-10-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Transportation charges on exempt goods aren't taxed in Maine; on a sale of taxable and exempt goods, the charge is prorated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin No. 39, Sale Price Upon Which Tax is Based (last revised March 11, 2026)",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB39%20Sale%20Price%20Upon%20Which%20Tax%20is%20Based%202026_03_11.pdf",
+        "quote": "When a sale has both taxable and exempt components (e.g., a restaurant buying both food and supplies), transportation charges may be partially exempt from tax if a proration is done."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin No. 39 (last revised October 4, 2019)",
+        "url": "https://www.maine.gov/REVENUE/salesuse/IB39SalePriceOct042019.pdf",
+        "quote": "When a sale has both taxable and exempt components (e.g., a restaurant buying both food and supplies), transportation charges may be partially exempt from tax if a proration is done."
+      }
+    ],
+    "notes": "IB 39 states the exempt share by way of proration on mixed sales; no sentence says outright that delivery of wholly exempt goods is untaxed, though that follows (the charge is part of the sale price of an exempt sale). This holds however the goods travel, so it doesn't turn on the carrier facts in ME delivery.taxable_goods. Also in IB 39: if taxable items are 10% or less of the invoice, the whole transportation charge is deemed not taxable (de minimis), an exception to delivery.taxable_goods on mixed invoices. 2019-10-04 is the earliest edition read. Maine has no local sales tax."
+  },
+  {
+    "tax": "ME",
     "code": "delivery.taxable_goods",
     "from": "2025-01-01",
     "fromIs": "earliest_verified",

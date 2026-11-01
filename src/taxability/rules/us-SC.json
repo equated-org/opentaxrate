@@ -23,6 +23,28 @@
   },
   {
     "tax": "SC",
+    "code": "delivery.exempt_goods",
+    "from": "2019-12-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge on an exempt sale is part of the exempt sale's gross proceeds and isn't taxed, separately stated or not.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SC Revenue Ruling #19-9, Delivery Charges (December 4, 2019)",
+        "url": "https://dor.sc.gov/sites/dor/files/policies/RR19-9.pdf",
+        "quote": "Is a delivery charge subject to tax when the retail sale of the tangible personal property being delivered is exempt from sales and use tax?"
+      },
+      {
+        "title": "SC Revenue Ruling #19-9, Delivery Charges (December 4, 2019)",
+        "url": "https://dor.sc.gov/sites/dor/files/policies/RR19-9.pdf",
+        "quote": "Accordingly, the delivery charge (whether separately stated or included in the price of the item) is not subject to sales and use tax."
+      }
+    ],
+    "notes": "Covers the state part; local parts have their own SC:local rule because the unprepared-food exemption reaches only the state tax unless a local tax law exempts it. RR19-9 applies to all open periods; 2019-12-04 is its date. Mixed shipments: the charge may be prorated on a reasonable basis (RR19-9 Q3)."
+  },
+  {
+    "tax": "SC",
     "code": "delivery.taxable_goods",
     "from": "2003-12-09",
     "fromIs": "earliest_verified",
@@ -577,6 +599,50 @@
       }
     ],
     "notes": "Private letter rulings have found some cloud offerings (IaaS) not to be communications services (PLR #14-2); those are outside this code."
+  },
+  {
+    "tax": "SC:local",
+    "code": "delivery.exempt_goods",
+    "from": "2019-12-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Local tax on a delivery charge follows the goods: delivery of unprepared food exempt only from the state tax is taxed where the local taxes tax that food; delivery of goods exempt from local taxes too isn't.",
+    "conditions": [
+      {
+        "when": "Goods exempt from the local sales taxes at the place as well as the state tax (e.g. manufacturing machinery)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Unprepared food exempt from the state tax, where every local sales tax at the place exempts unprepared food",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Unprepared food exempt from the state tax, where no local sales tax at the place exempts unprepared food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Unprepared food exempt from the state tax, where some of the place's local sales taxes exempt it and others don't (the place's unprepared-food rate in ST-575)",
+        "treatment": "special_rate"
+      }
+    ],
+    "citations": [
+      {
+        "title": "SC Revenue Ruling #19-9, Delivery Charges (December 4, 2019)",
+        "url": "https://dor.sc.gov/sites/dor/files/policies/RR19-9.pdf",
+        "quote": "Accordingly, the delivery charge (whether separately stated or included in the price of the item) is not subject to sales and use tax."
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "This exemption does not apply to local sales and use taxes that are administered and collected by the Department on behalf of the counties and other jurisdictions, unless the local tax law specifically exempts the sales of such unprepared food."
+      },
+      {
+        "title": "SC DOR ST-575, South Carolina Sales Tax Rate by Municipality",
+        "url": "https://www.dor.sc.gov/sites/dor/files/forms/ST575.pdf",
+        "quote": "This form provides a list of Sales Tax rates, Accommodations Tax rates, unprepared foods tax rates, and local taxes"
+      }
+    ],
+    "notes": "The food conditions mirror SC:local food.grocery. RR19-9 reasons that a delivery charge is part of the gross proceeds of the sale it belongs to; that a delivery charge on unprepared food is therefore taxed by local taxes that tax the food is that reasoning applied, not a sentence the Department published."
   },
   {
     "tax": "SC:local",

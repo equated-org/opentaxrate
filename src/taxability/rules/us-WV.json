@@ -81,6 +81,38 @@
   },
   {
     "tax": "WV",
+    "code": "delivery.exempt_goods",
+    "from": "2013-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "A delivery charge is part of an item's sales price, so delivery of food exempt from West Virginia sales tax is not taxed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-3a (tax on food measured by its sales price; cessation after June 30, 2013)",
+        "url": "https://code.wvlegislature.gov/11-15-3a/",
+        "quote": "shall be one percent of its sales price, as defined in that section"
+      },
+      {
+        "title": "W. Va. Code § 11-15-3a",
+        "url": "https://code.wvlegislature.gov/11-15-3a/",
+        "quote": "no such tax shall be imposed on sales, purchases and uses of food and food ingredients so defined"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "without any deduction for the following:"
+      },
+      {
+        "title": "W. Va. Code § 11-15B-2 (Streamlined Sales Tax definitions)",
+        "url": "https://code.wvlegislature.gov/11-15B-2/",
+        "quote": "(iv) Delivery charges; and (v) Installation charges."
+      }
+    ],
+    "notes": "No Tax Department statement on delivery of exempt goods was found (Administrative Notice 09-20 and the SST definitions don't address it; 110CSR15 on the Secretary of State's site is a scanned image). The rule rests on the statutes: the food tax is measured by the item's sales price (§ 11-15-3a), the sales price includes delivery charges without deduction (§ 11-15B-2), and the food tax ceased after June 30, 2013; read for other exempt goods by the same reasoning, unverified. Municipal sales taxes share the state base (W. Va. Code § 8-13C-4), so this covers them. Reviewers may prefer to drop this rule for want of an agency statement."
+  },
+  {
+    "tax": "WV",
     "code": "delivery.taxable_goods",
     "from": "2018-01-01",
     "fromIs": "earliest_verified",

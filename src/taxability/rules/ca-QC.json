@@ -28,6 +28,47 @@
   },
   {
     "tax": "QC:QST",
+    "code": "delivery.exempt_goods",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A seller's delivery charge that is part of the price of zero-rated goods (e.g. sold F.O.B. destination) follows the goods and is zero-rated for QST; delivery supplied as a separate freight service is taxable.",
+    "conditions": [
+      {
+        "when": "the seller's delivery charge is part of the sale of the zero-rated goods (e.g. a sale F.O.B. destination, one supply with the goods)",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "the delivery is supplied separately from the goods, as a freight transportation service (by a carrier or platform, or a separate supply by the seller)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Revenu Québec, Interprétation relative à la TVQ 00-0112425, Traitement des frais de livraison lors d'une vente FAB destination (February 19, 2001)",
+        "url": "https://www.publicationsduquebec.gouv.qc.ca/fileadmin/produits_en_ligne/Fiscalite/pdf/00_011242.pdf",
+        "quote": "lorsqu’une vente est conclue sous les termes « FAB destination » les frais de livraison sont considérés faire partie intégrante du prix de vente des biens."
+      },
+      {
+        "title": "Revenu Québec, Interprétation relative à la TVQ 00-0112425 (February 19, 2001)",
+        "url": "https://www.publicationsduquebec.gouv.qc.ca/fileadmin/produits_en_ligne/Fiscalite/pdf/00_011242.pdf",
+        "quote": "En conséquence, le traitement fiscal de ces frais doit suivre celui des biens auxquels ils sont reliés."
+      },
+      {
+        "title": "Revenu Québec, Interprétation relative à la TVQ 00-0112425 (February 19, 2001)",
+        "url": "https://www.publicationsduquebec.gouv.qc.ca/fileadmin/produits_en_ligne/Fiscalite/pdf/00_011242.pdf",
+        "quote": "seront soumis à la TVQ à 7.5% s’ils sont reliés à une fourniture taxable, ou à 0% s’ils sont reliés à une fourniture détaxée."
+      },
+      {
+        "title": "Revenu Québec, Freight Transportation Services (Internet Archive snapshot, August 3, 2025)",
+        "url": "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/special-cases-gsthst-and-qst/transportation-applying-the-gst-and-qst/freight-carriers/freight-transportation-services/",
+        "quote": "Freight and passenger transportation services (other than municipal transportation services) supplied in Canada are subject to GST (and QST, if supplied in Québec)."
+      }
+    ],
+    "notes": "Mirrors the federal CA:GST/HST delivery.exempt_goods rule. The Québec interpretation is from 2001 (QST then 7.5%) and addresses sales F.O.B. destination; it hasn't been shown superseded, but no later Revenu Québec statement on delivery of zero-rated goods was found. Whether the delivery is part of one supply with the goods is a question of fact, not carried by the code. revenuquebec.ca blocks fetches; the freight page was read from its Internet Archive snapshot. 2013-04-01 is OpenTaxRate's Canadian start date."
+  },
+  {
+    "tax": "QC:QST",
     "code": "delivery.taxable_goods",
     "from": "2013-04-01",
     "fromIs": "earliest_verified",
