@@ -8,6 +8,7 @@
  *                                                    with url.txt saying what was asked
  *   .../previous/<date>-<id>-<file>                  older contents, when they changed
  *   artifacts/sources/manifest.jsonl                 one line per fetch
+ *   artifacts/sources/KNOWN-BAD.md, UNINDEXED.md     kept files that aren't their page; files no line names
  *
  * Files read from a local folder (--dir) are copied in under the URL they
  * would have come from. A file is read back instead of downloaded again
@@ -54,7 +55,28 @@ function sourcePath(request: Request, name?: string) {
     directory = path.join(directory, ...(last ? [last] : []), id);
   }
   const file = safe(path.basename(name ?? last ?? "index.html"));
-  return { directory, destination: path.join(directory, file), asked: Boolean(asked) };
+  return unclashed({ directory, destination: path.join(directory, file), asked: Boolean(asked) });
+}
+
+/** A path that is a page at one URL and a folder at another (Ohio's
+ *  section-5739.01, and section-5739.01/3-23-2018/ for its editions): a
+ *  folder segment already taken by a file becomes "<segment>._dir_", and a
+ *  page whose name is already a folder is kept inside it as "_page". The
+ *  manifest records where each copy went, so readers follow it there. */
+function unclashed(place: { directory: string; destination: string; asked: boolean }) {
+  const root = sourcesRoot();
+  const segments = path.relative(root, place.directory).split(path.sep).filter(Boolean);
+  let directory = root;
+  for (const segment of segments) {
+    const next = path.join(directory, segment);
+    directory = fs.existsSync(next) && !fs.statSync(next).isDirectory() ? `${next}._dir_` : next;
+  }
+  let destination = path.join(directory, path.basename(place.destination));
+  if (fs.existsSync(destination) && fs.statSync(destination).isDirectory()) {
+    directory = destination;
+    destination = path.join(destination, "_page");
+  }
+  return { ...place, directory, destination };
 }
 
 /** File names that say which edition they are, whose contents never change:
@@ -95,7 +117,11 @@ export function savedDownload(url: string, name?: string): string | null {
     fs.readSync(fd, head, 0, 2, 0);
     fs.closeSync(fd);
     if (head[0] !== 0x50 || head[1] !== 0x4b) {
-      fs.rmSync(destination, { force: true });
+      // Set aside, never deleted: the manifest records the fetch, and the
+      // bytes stay evidence of what the site sent (KNOWN-BAD.md).
+      const day = found.mtime.toISOString().slice(0, 10);
+      fs.mkdirSync(path.join(path.dirname(destination), "previous"), { recursive: true });
+      fs.renameSync(destination, path.join(path.dirname(destination), "previous", `${day}-${randomUUID().slice(0, 8)}-${file}`));
       return null;
     }
   }
@@ -144,7 +170,12 @@ async function commit(request: Request, place: ReturnType<typeof sourcePath>, te
     JSON.stringify({
       at: new Date().toISOString(),
       url: request.url,
-      ...(request.body === undefined ? {} : { method: request.method ?? "POST", body: request.body.slice(0, 2000) }),
+      // A long body is cut to its first 2,000 characters here (url.txt keeps
+      // it whole); bodySha256 is the whole body's, so two requests that
+      // share a prefix are never taken for one.
+      ...(request.body === undefined
+        ? {}
+        : { method: request.method ?? "POST", body: request.body.slice(0, 2000), bodySha256: createHash("sha256").update(request.body).digest("hex") }),
       ...(from ? { from } : {}),
       file: path.relative(root, destination),
       sha256,
@@ -273,11 +304,12 @@ export function copiesByUrl(): Map<string, Copy[]> {
   return found;
 }
 
-/** The newest file the manifest records for each URL, whatever name it was
- *  filed under; a copy since deleted is left out. */
-export function archivedByUrl(): Map<string, { file: string; sha256: string; bytes: number }> {
+/** The newest file the manifest records for each URL (by fetch time: a
+ *  recovered older copy may be appended later), whatever name it was filed
+ *  under; a copy since deleted is left out. */
+export function archivedByUrl(): Map<string, { file: string; sha256: string; bytes: number; at: string }> {
   const root = sourcesRoot();
-  const found = new Map<string, { file: string; sha256: string; bytes: number }>();
+  const found = new Map<string, { file: string; sha256: string; bytes: number; at: string }>();
   let text = "";
   try {
     text = fs.readFileSync(path.join(root, "manifest.jsonl"), "utf8");
@@ -286,8 +318,10 @@ export function archivedByUrl(): Map<string, { file: string; sha256: string; byt
   }
   for (const line of text.split("\n")) {
     if (!line.trim()) continue;
-    const entry = JSON.parse(line) as { url: string; file: string; sha256: string; bytes: number };
-    if (fs.existsSync(path.join(root, entry.file))) found.set(entry.url, { file: entry.file, sha256: entry.sha256, bytes: entry.bytes });
+    const entry = JSON.parse(line) as { at: string; url: string; file: string; sha256: string; bytes: number };
+    if (!fs.existsSync(path.join(root, entry.file))) continue;
+    const prior = found.get(entry.url);
+    if (!prior || prior.at <= entry.at) found.set(entry.url, { file: entry.file, sha256: entry.sha256, bytes: entry.bytes, at: entry.at });
   }
   return found;
 }

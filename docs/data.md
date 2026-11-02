@@ -41,7 +41,9 @@ Ingest checks every file before writing (fields, codes, dates, citations, condit
 - `<host>/<path>/<file>`: the newest copy, where its URL says, e.g. `www2.census.gov/geo/tiger/TIGER2026/COUNTY/tl_2026_us_county.zip`.
 - `<host>/<path>/<query id>/`: one folder per query or POST (map layer pages, lookup pages), gzipped, with `url.txt` saying what was asked.
 - `previous/<date>-<id>-<file>` beside a file: its older contents.
-- `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced).
+- `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced; for a POST, its method, the body's first 2,000 characters and `bodySha256`, the whole body's hash).
+- `KNOWN-BAD.md`: captures kept that aren't what their URL publishes (a "Request Rejected" page saved as a `.zip`, an ArcGIS error answer, an Internet Archive replay page instead of the PDF, a fragment, a script-only app shell), each with its SHA-256 and why. Nothing is deleted.
+- `UNINDEXED.md`: files with no manifest line, and why.
 
 The cited taxability pages are filed here too, like any download.
 
@@ -91,6 +93,52 @@ view of each page in the site's style (its scripts, styles and menus left
 out; made on request, never stored), the raw bytes, every capture of a URL
 (`/url?u=`), and the capture in force on a day (`/<YYYYMMDD>/<url>`). Deploy
 it from `evidence/` with `wrangler deploy`.
+
+### Links
+
+`npx tsx --env-file-if-exists=.env scripts/check-links.mts --db <release database>`
+checks every link a reader or API caller can click: the built site
+(`pnpm --dir client build` first), `docs/`, the README, every rule's
+citation and the `archived` link the API returns for it, and the evidence
+archive's pages. It sends a HEAD (a GET when that fails) with a browser
+User-Agent, one request a second to a host, and writes
+`/tmp/otr-links/report.md`: ok, redirect (with where it lands), broken
+(4xx/5xx, DNS, TLS), blocked (a bot challenge or 403: not the same as gone)
+and timeout. A server that leaves out its intermediate certificate is
+retried with the one its certificate names, as browsers do.
+
+`--write-offline` also rewrites `client/src/lib/offline-originals.json`: the
+cited originals that are gone (404/410, no DNS, a certificate for another
+name, or a redirect to an error or search page). The site and the evidence
+archive name those originals without linking them and say they are no
+longer online; the archived copy is the evidence. A blocked, timed-out or
+5xx page is never listed automatically. An entry whose reason starts with
+`by hand:` (a retired portal that answers 502 everywhere, a host that takes
+no connections) is kept until the page answers again. The list is read at
+build time, so a change reaches the site with its next build and the archive
+with its next `wrangler deploy`.
+
+Each POSTed query is its own entry, `<url> (POST <first 12 of the body's
+SHA-256>)`, hashed over the whole body (read back from the query's `url.txt`
+where the manifest line predates `bodySha256`), so requests alike for their
+first 2,000 characters, such as Colorado's rate queries for different dates,
+are never taken for versions of one. A capture listed in `KNOWN-BAD.md`
+carries `bad` in the catalog (`"request rejected"`, `"error answer"`, …)
+and is typed by its bytes, not its name.
+
+**Live lookups are not archived per request.** Some answers are read from a
+state's service when the request is made, not from loaded data: California
+asks CDTFA's rate API (`GetRateByAddress`, `GetRateByLngLat`) where its
+outlines decline; and, where `STATE_LOOKUPS` names them (off by default),
+Missouri's DOR lookup and Colorado's and Alaska's rate services answer at
+the point (`src/rates/california.ts`, `src/rates/state-lookups.ts`). Those
+answers are not saved, so the evidence archive has no copy of any one of
+them; the answer's `source` names the service asked. What is archived
+instead: the bulk inputs those states' loaded data come from (California's
+tax-area layers, Missouri's quarterly DOR files, and every Colorado and
+Alaska request refresh made, each with its date, URL, body and hash). The
+benchmark's labels from the same services are kept too, but privately, in
+the `bench` backup, not in the public archive.
 
 ## Snapshots and releases
 

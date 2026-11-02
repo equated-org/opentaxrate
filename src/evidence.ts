@@ -6,7 +6,14 @@
  * evidence/worker.js serves it at evidence.opentaxrate.com.
  *
  *   sha256/<hash>    the original bytes, named by their hash; never rewritten
- *   catalog.json     { urls: { <url>: { captures: [{ at, sha256, bytes, type }], citedBy: [{ rule, quote }] } } }
+ *   catalog.json     { urls: { <url>: { captures: [{ at, sha256, bytes, type, bad? }], citedBy: [{ rule, quote }] } } }
+ *
+ * A POSTed query's answer is filed under "<url> (POST <first 12 of the
+ * body's sha256>)", hashed over the whole body: the manifest's own copy is
+ * cut at 2,000 characters, so a long body is read back from the query
+ * folder's url.txt (or taken from the line's bodySha256). A capture listed
+ * in artifacts/sources/KNOWN-BAD.md (an error page, a rejected download, a
+ * fragment) carries `bad`, saying what it is instead.
  *
  * Content-addressed, so a citation pinned to a hash always means the same
  * bytes, an unchanged page is stored once, and uploading again sends only
@@ -33,6 +40,9 @@ export interface Capture {
   /** The Internet Archive capture this copy came through (the site blocked
    *  downloads, or the edition is gone); `at` is then the capture's day. */
   via?: string;
+  /** What this copy is instead of the page (KNOWN-BAD.md): "request rejected",
+   *  "error answer", a fragment. Kept, never deleted, but not evidence of it. */
+  bad?: string;
 }
 
 export interface Catalog {
@@ -85,15 +95,64 @@ async function hashArchive(root: string): Promise<Map<string, string>> {
   return byHash;
 }
 
+interface ManifestEntry {
+  at: string;
+  url: string;
+  method?: string;
+  /** The body as recorded: its first 2,000 characters. */
+  body?: string;
+  /** The whole body's SHA-256, on lines written since it was recorded. */
+  bodySha256?: string;
+  sha256: string;
+  bytes: number;
+  file: string;
+}
+
+/** The SHA-256 of a POST's whole body: the line's bodySha256, else the body
+ *  url.txt kept beside the answer where the line's copy may be cut short
+ *  (url.txt is "<METHOD> <url>\n<body>\n"), else the line's body. */
+export function requestBodySha256(entry: ManifestEntry, root: string): string | undefined {
+  if (!entry.body) return undefined; // an empty body was always keyed by the URL alone
+  if (entry.bodySha256) return entry.bodySha256;
+  let body = entry.body;
+  if (body.length >= 2000) {
+    try {
+      const text = readFileSync(path.join(root, path.dirname(entry.file), "url.txt"), "utf8");
+      const newline = text.indexOf("\n");
+      const asked = text.slice(0, newline);
+      const full = text.slice(newline + 1).replace(/\n$/, "");
+      if (asked === `${entry.method ?? "POST"} ${entry.url}` && full.startsWith(body)) body = full;
+    } catch {
+      // No url.txt: the recorded prefix is all there is.
+    }
+  }
+  return createHash("sha256").update(body).digest("hex");
+}
+
+/** Captures that aren't evidence of their page, from KNOWN-BAD.md's table:
+ *  rows "| `<sha256>` | <file> | <marked as> | <why> |". */
+export function knownBad(root: string): Map<string, string> {
+  const bad = new Map<string, string>();
+  let text = "";
+  try {
+    text = readFileSync(path.join(root, "KNOWN-BAD.md"), "utf8");
+  } catch {
+    return bad;
+  }
+  for (const m of text.matchAll(/^\|\s*`([0-9a-f]{64})`\s*\|[^|\n]*\|\s*([^|\n]+?)\s*\|/gm)) bad.set(m[1], m[2]);
+  return bad;
+}
+
 /** The catalog: each URL's captures (from the manifest, those whose bytes
  *  are still here) and the rules that cite it. */
 export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<string, string> }> {
   const root = sourcesRoot();
   const files = await hashArchive(root);
+  const bad = knownBad(root);
   const urls: Catalog["urls"] = {};
   for (const line of readFileSync(path.join(root, "manifest.jsonl"), "utf8").split("\n")) {
     if (!line.trim()) continue;
-    const entry = JSON.parse(line) as { at: string; url: string; method?: string; body?: string; sha256: string; bytes: number; file: string };
+    const entry = JSON.parse(line) as ManifestEntry;
     const file = files.get(entry.sha256);
     if (!file) continue;
     const head = Buffer.alloc(512);
@@ -102,9 +161,13 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
     closeSync(fd);
     // An API's answer to one posted query isn't a version of a page: each
     // query is its own entry, keyed by the request's hash.
-    const key = entry.body ? `${entry.url} (${entry.method ?? "POST"} ${createHash("sha256").update(entry.body).digest("hex").slice(0, 12)})` : entry.url;
+    const bodySha256 = requestBodySha256(entry, root);
+    const key = bodySha256 ? `${entry.url} (${entry.method ?? "POST"} ${bodySha256.slice(0, 12)})` : entry.url;
     const record = (urls[key] ??= { captures: [], citedBy: [] });
-    const capture = { at: entry.at, sha256: entry.sha256, bytes: entry.bytes, type: typeOf(entry.file, head) };
+    const marked = bad.get(entry.sha256);
+    // A file named .zip or .pdf that is an HTML error page is typed by its bytes.
+    const type = marked ? typeOf("", head) : typeOf(entry.file, head);
+    const capture: Capture = { at: entry.at, sha256: entry.sha256, bytes: entry.bytes, type, ...(marked ? { bad: marked } : {}) };
     // A refetch of the same bytes isn't a new capture; a page that changed
     // and changed back (A, B, A) is three.
     if (record.captures.at(-1)?.sha256 !== entry.sha256) record.captures.push(capture);
