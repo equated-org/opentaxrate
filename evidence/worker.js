@@ -117,8 +117,6 @@ p.bad-capture { background: var(--warn-bg); border-left: 3px solid var(--warn-li
 .views [aria-current] { color: var(--ink); font-weight: 600; }
 .doc.wide { max-width: none; }
 .pdf-text pre.layout { white-space: pre; overflow-x: auto; font: 12.5px/1.45 "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
-.machine-note { margin: 18px 0 12px; padding: 10px 14px; border: 1px solid var(--warn-line); border-left: 4px solid var(--warn-line); background: var(--warn-bg); border-radius: 4px; font-size: 15px; }
-.machine-note p { margin: 4px 0; }
 .machine-label { margin: 0 0 8px; font-size: 13px; color: var(--text-2); padding: 2px 8px; border-left: 3px solid var(--warn-line); background: var(--warn-bg); }
 mark.disagree { background: var(--mark); color: var(--ink); border-bottom: 2px solid var(--warn-line); }
 .alt { font-size: .82em; color: var(--text-2); margin: 0 2px; }
@@ -272,12 +270,12 @@ function card(hash, places, shown, asked, marks = []) {
 		.join('');
 	const row = (label, value) => `<dt>${label}</dt><dd>${value}</dd>`;
 	const facts = [
-		row('Captured', `${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC${capture.via ? ` · from the <a href="${escape(capture.via)}" rel="noopener">Internet Archive's capture</a> <span class="quiet">(the site blocks downloads, or this edition is no longer online)</span>` : ''}`),
+		row('Captured', `${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC${capture.via ? ` · via the <a href="${escape(capture.via)}" rel="noopener">Internet Archive</a>` : ''}`),
 		row('File', `${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a>`),
 		row('SHA-256', `<span class="mono">${hash}</span>`),
 		others.length ? row('Other captures', others.map((c) => `<a href="/sha256/${c.sha256}">${day(c.at)}</a>${c.bad ? ` <span class="bad-capture">(${escape(badNote(c))})</span>` : ''}`).join(', ')) : '',
 		alsoAt.length ? row('Same bytes at', alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join('<br>')) : '',
-		row('Original', offline(url) ? `No longer online (checked ${escape(offlineList.checked)}); this copy is the evidence.` : 'May have changed since this capture.'),
+		offline(url) ? row('Original', `No longer online (checked ${escape(offlineList.checked)})`) : '',
 	].join('');
 	return `<section class="about">
 <h1>${original(url)}</h1>
@@ -574,14 +572,12 @@ function webTextPage(hash, url, head, text, full, toggle) {
 	const crop = full ? null : cropOf(text);
 	const shown = crop ? whole.slice(crop.start, crop.end) : whole;
 	const marks = (text.marks ?? []).map((m) => (crop ? { ...m, start: m.start - crop.start, end: m.end - crop.start } : m));
-	const what = text.kind === 'html' ? 'The page' : 'The file';
-	const note = `${what}'s text as the quote checks read it (${escape(text.extractedWith)}), one block a line; each quote the rules cite on it is highlighted. The archived bytes are the evidence: <a href="/sha256/${hash}/raw">raw bytes</a>.`;
 	const cropNote = crop
-		? `<p class="crop-note" title="${escape(`Lines ${text.crop.firstLine}–${text.crop.lastLine} of ${crop.lines}, picked by ${(text.crop.answers ?? [{ model: text.crop.model }]).map((a) => modelName(a.model)).join(' and ')}`)}">Main content only · <a href="/sha256/${hash}?view=text&amp;full=1">full page text</a></p>`
+		? `<p class="crop-note">Main content · <a href="/sha256/${hash}?view=text&amp;full=1">full page</a></p>`
 		: full && cropOf(text)
-			? `<p class="crop-note">The page's whole text, its site's navigation included; <a href="/sha256/${hash}?view=text">its main content only</a>.</p>`
+			? `<p class="crop-note"><a href="/sha256/${hash}?view=text">Main content</a> · full page</p>`
 			: '';
-	return page(url, `<div class="capture"><article class="doc pdf-text">${toggle}<p class="pdf-note">${note}</p>${cropNote}${textHtml(shown, marks, 'lines')}</article>${head}</div>`);
+	return page(url, `<div class="capture"><article class="doc pdf-text">${toggle}${cropNote}${textHtml(shown, marks, 'lines')}</article>${head}</div>`);
 }
 
 /** A PDF as its text, page by page, so a link can open at a quoted
@@ -605,30 +601,27 @@ async function pdfPage(env, hash, url, headOf, wanted) {
 	// A scan's machine transcription (src/pdf-machine.ts): every page of a
 	// whole scan, or, in a PDF with text of its own, only its image-only
 	// pages (null for a page with its own text layer).
-	const [primary, ...rest] = (machine?.models ?? []).map(modelName);
-	const other = rest[0] ?? 'the other model';
-	const cutOffNote = (p) => (p.cutOff?.length ? `<p class="quiet">${escape(p.cutOff.map(modelName).join(' and '))} stopped at its length limit on this page: its reading may be incomplete.</p>` : '');
+	const other = modelName((machine?.models ?? [])[1] ?? 'the other model');
+	const cutOffNote = (p) => (p.cutOff?.length ? '<p class="quiet">This page\'s transcription may be incomplete.</p>' : '');
 	const machinePage = (p) => `${cutOffNote(p)}<pre>${transcribed(p, other) || '<span class="quiet">(no text read on this page)</span>'}</pre>`;
 	if (text?.scanned && machine?.pages?.some(Boolean)) {
-		const count = machine.pages.reduce((n, p) => n + (p?.disagreements?.length ?? 0), 0);
 		const pages = machine.pages
 			.map((p, i) => `<section class="pdf-page" id="page-${i + 1}">${pageLink(i)}${p ? machinePage(p) : '<p class="quiet">(not transcribed)</p>'}</section>`)
 			.join('');
 		return page(
 			url,
-			`<div class="capture"><article class="doc pdf-text"><div class="machine-note"><p><strong>Machine transcription by ${escape([primary, ...rest].join(' and '))}, not reviewed — check against the PDF; quotes are never checked against it.</strong></p><p>This PDF is a scan, with no text of its own: ${escape(primary)} read each page and ${escape(other)} read it again. ${count ? `The ${count} place${count > 1 ? 's' : ''} where they read it differently ${count > 1 ? 'are' : 'is'} highlighted, with both readings.` : 'They read it the same.'} The PDF is the evidence: <a href="${pdf}">open the PDF</a>, or a page's number to open it there.</p></div>${pages}</article>${head}</div>`,
+			`<div class="capture"><article class="doc pdf-text"><p class="machine-label">Scanned PDF, machine-transcribed; check against <a href="${pdf}">the PDF</a>.</p>${pages}</article>${head}</div>`,
 		);
 	}
 	if (text?.kind === 'word') {
 		// A Word document: its text as the quote checks read it, one page.
 		return page(
 			url,
-			`<div class="capture"><article class="doc pdf-text"><p class="pdf-note">The Word document's own text, as read by ${escape(text.extractedWith)}; each quote the rules cite on it is highlighted. The document is the evidence: <a href="${pdf}">download it</a>.</p>${textHtml(text.pages[0] ?? '', marksOnPage(text.marks, text.pages, 0), 'paras')}</article>${head}</div>`,
+			`<div class="capture"><article class="doc pdf-text">${textHtml(text.pages[0] ?? '', marksOnPage(text.marks, text.pages, 0), 'paras')}</article>${head}</div>`,
 		);
 	}
 	if (!text || text.scanned) {
-		const why = text?.scanned ? 'This PDF is a scan: it has no text layer to show.' : 'Its text hasn\'t been extracted yet.';
-		return page(url, `<div class="capture"><div class="doc"><p class="pdf-note">${why} <a href="${pdf}">Open the PDF</a>.</p><object class="pdf" data="${pdf}" type="application/pdf"></object></div>${head}</div>`);
+		return page(url, `<div class="capture"><div class="doc"><p class="pdf-note"><a href="${pdf}">Open the PDF</a></p><object class="pdf" data="${pdf}" type="application/pdf"></object></div>${head}</div>`);
 	}
 	const hasLayout = Array.isArray(text.layout) && text.layout.length === text.pages.length;
 	const formattedPages = formatted?.pages && Object.keys(formatted.pages).length ? formatted.pages : null;
@@ -646,7 +639,7 @@ async function pdfPage(env, hash, url, headOf, wanted) {
 	const scannedPage = (p, i) => {
 		const m = !p.trim() && view !== 'formatted' ? machine?.pages?.[i] : null;
 		return m
-			? `<p class="machine-label">Scanned page: machine transcription by ${escape([primary, ...rest].join(' and '))}, not reviewed — check against the PDF; quotes are never checked against it.${m.disagreements?.length ? ' Where the two read it differently is highlighted, with both readings.' : ''}</p>${machinePage(m)}`
+			? `<p class="machine-label">Scanned page, machine-transcribed; check against the PDF.</p>${machinePage(m)}`
 			: null;
 	};
 	const body = (p, i) => {
@@ -656,18 +649,13 @@ async function pdfPage(env, hash, url, headOf, wanted) {
 		if (view === 'formatted') {
 			const md = formattedPages[String(i + 1)];
 			if (md === undefined) return `<p class="quiet">No formatted view of this page; its text:</p>${plain(p)}`;
-			const recall = formatted.recall?.[String(i + 1)];
-			return `<p class="machine-label">Formatted by ${escape(modelName(formatted.model))}, machine-made, not verified${typeof recall === 'number' ? `; it has ${(recall * 100).toFixed(1)}% of the page's words` : ''}. Check against the PDF.</p><div class="formatted">${markdown(md)}</div>`;
+			return `<p class="machine-label">Machine-formatted; check against the PDF.</p><div class="formatted">${markdown(md)}</div>`;
 		}
 		return plain(p, i);
 	};
-	const notes = {
-		text: `The PDF's own text, page by page, as extracted by ${escape(text.extractedWith)}; each quote the rules cite on it is highlighted. The PDF is the evidence: <a href="${pdf}">open the PDF</a>, or a page's number to open it there.`,
-		layout: `The PDF's own text laid out as printed (${escape(text.extractedWith)} -layout): columns side by side and tables in their columns. Quotes are checked against the text view; the PDF is the evidence: <a href="${pdf}">open the PDF</a>.`,
-		formatted: `Table pages as Markdown, made by a model (${escape(modelName(formatted?.model ?? ''))}) from each page and kept only where it has the page's words; machine-made and not reviewed. Quotes are never checked against it, and citations never link to it; the PDF is the evidence: <a href="${pdf}">open the PDF</a>.`,
-	};
+	const openPdf = `<p class="pdf-note"><a href="${pdf}">Open the PDF</a></p>`;
 	const pages = text.pages.map((p, i) => `<section class="pdf-page" id="page-${i + 1}">${pageLink(i)}${body(p, i)}</section>`).join('');
-	return page(url, `<div class="capture"><article class="doc pdf-text${view === 'layout' ? ' wide' : ''}">${toggle}<p class="pdf-note">${notes[view]}</p>${pages}</article>${head}</div>`);
+	return page(url, `<div class="capture"><article class="doc pdf-text${view === 'layout' ? ' wide' : ''}">${toggle}${openPdf}${pages}</article>${head}</div>`);
 }
 
 async function raw(env, hash, capture) {
