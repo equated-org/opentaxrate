@@ -95,6 +95,7 @@ p.bad-capture { background: var(--warn-bg); border-left: 3px solid var(--warn-li
 .pdf-note { font-size: 14px; color: var(--text-3); margin: 18px 0 8px; }
 .pdf-text pre { white-space: pre-wrap; font: 15px/1.6 Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; margin: 0; }
 .pdf-page { border-top: 1px solid var(--line); padding: 12px 0 20px; }
+.pdf-paras p { margin: 0 0 .7em; }
 .views { font-size: 14px; margin: 18px 0 0; color: var(--text-3); }
 .views [aria-current] { color: var(--ink); font-weight: 600; }
 .doc.wide { max-width: none; }
@@ -449,7 +450,14 @@ async function pdfPage(env, hash, url, head, wanted) {
 		offered.length > 1
 			? `<p class="views">${offered.map((v) => (v === view ? `<span aria-current="page">${VIEWS[v]}</span>` : `<a href="${href(v)}">${VIEWS[v]}</a>`)).join(' · ')}</p>`
 			: '';
-	const plain = (p) => `<pre>${escape(p) || '<span class="quiet">(no text on this page)</span>'}</pre>`;
+	// The text as paragraphs: a PDF's line breaks fall mid-sentence, and a
+	// browser won't match a quoted sentence (a #:~:text= link) across a hard
+	// line break, so lines are joined with spaces; blank lines stay breaks.
+	// The layout view keeps the lines as printed.
+	const plain = (p) => {
+		const paras = p.split(/\n\s*\n/).map((para) => para.split('\n').map((l) => l.trim()).filter(Boolean).join(' ')).filter(Boolean);
+		return paras.length ? `<div class="pdf-paras">${paras.map((x) => `<p>${escape(x)}</p>`).join('')}</div>` : '<p class="quiet">(no text on this page)</p>';
+	};
 	const body = (p, i) => {
 		if (view === 'layout') return `<pre class="layout">${escape(text.layout[i]) || '<span class="quiet">(no text on this page)</span>'}</pre>`;
 		if (view === 'formatted') {
