@@ -1,5 +1,21 @@
 [
   {
+    "tag": "data-2026-11-02-describe",
+    "published": "2026-11-02",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-02-describe",
+    "dump": {
+      "name": "opentaxrate-2026-11-02.dump",
+      "bytes": 699284588
+    },
+    "changes": [
+      "Taxability rules filled where the benchmark cases found gaps, each from the agency's own cited text: Canadian bakery counts (bagels count toward the six), Yukon catering part payments during the GST break, North Carolina single-fixture replacement, Saskatchewan realtor commissions, B.C. goods delivered from outside the province, Alabama lumped postage and handling, Florida store-cooked seafood, New York whole-floor replacement, South Carolina soft drinks and bakery trays, California delivery of hot food.",
+      "Missouri delivery charges split by date: usual and customary delivery charges are exempt from 2017-08-28 (S.B. 16), read from all nine archived versions of RSMo 144.010.",
+      "Conditions reworded as plain facts where the wording was ambiguous (Connecticut renovation and soft drinks, Massachusetts salads, Iowa cut versus combined food, Canadian carbonated drinks, Manitoba real property); each still cites its source word for word.",
+      "A broad code now keeps its narrower kinds' exceptions in its answer, and a local tax lists its own cases for a broad code.",
+      "Benchmarks: taxability 0 wrong (dev 725 right of 1,097; held-out 216 of 362); address sets as the last release."
+    ]
+  },
+  {
     "tag": "data-2026-11-02-links",
     "published": "2026-11-02",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-02-links",
