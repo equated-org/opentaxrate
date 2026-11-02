@@ -575,8 +575,14 @@ EOF
         # And case by case, as taxability-check does.
         accepted=$(grep '^taxability-wrong:' artifacts/maintenance/accepted || true)
         if [ -n "$accepted" ]; then
-          newly=$(newly_wrong "$gate" "$accepted")
-          [ -z "$newly" ] || echo "  taxability: newly wrong $newly REGRESSION" >> "$out"
+          if [ "$(echo "$gate" | cut -d' ' -f2)" = "$(echo "$accepted" | cut -d' ' -f2)" ]; then
+            newly=$(newly_wrong "$gate" "$accepted")
+            [ -z "$newly" ] || echo "  taxability: newly wrong $newly REGRESSION" >> "$out"
+          else
+            # The cases themselves changed (a person edited them): compared by
+            # count above; taxability-check, the unattended gate, still stops.
+            echo "  taxability: the case set changed since the accepted run; compared by count only" >> "$out"
+          fi
         fi
       fi
       echo "Geocoder spend: \$$(awk -v now="$(spent)" -v start="$start" 'BEGIN { printf "%.2f", now - start }')" >> "$out"
