@@ -16,6 +16,8 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals)
  *   taxability fetch [--out DIR]  download every cited and watched page again; report what changed (sources.txt, sources.json)
  *   taxability file URL PATH      file a page downloaded by hand in the archive, under its URL
+ *   taxability file-answer URL PATH [--method M] [--body-file F] [--from P]
+ *                                 file a saved lookup answer (a POST or query) under its request, dated by the file's time
  *   taxability verify [--since REF] [--dir D]
  *                                 the rules changed since REF (default origin/main): each citation archived and its quote on the page
  *   evidence                      upload every source copy the evidence archive lacks, and its catalog (src/evidence.ts)
@@ -118,6 +120,23 @@ async function main() {
         console.log(`Filed ${file} as ${url}`);
         return;
       }
+      if (positional[0] === "file-answer") {
+        // A lookup service's answer saved earlier (a POST or query), filed
+        // under its request so different answers don't stack as versions of
+        // one page; dated by the file's download time.
+        const [, url, file] = positional;
+        if (!url || !file) throw new Error("taxability file-answer URL PATH [--method POST] [--body-file F] [--from PATH]");
+        const { archiveResponse } = await import("./ingest/archive.js");
+        const { readFileSync, statSync } = await import("node:fs");
+        const path = await import("node:path");
+        const bodyFile = flag("--body-file");
+        const body = bodyFile === undefined ? undefined : readFileSync(bodyFile, "utf8");
+        const method = flag("--method") ?? (body === undefined ? undefined : "POST");
+        const saved = { at: statSync(file).mtime.toISOString(), from: flag("--from") ?? path.resolve(file) };
+        if (!(await archiveResponse({ url, method, body }, readFileSync(file), path.basename(file), saved))) throw new Error(`${file} wasn't filed.`);
+        console.log(`Filed ${file} as ${method ?? "GET"} ${url}`);
+        return;
+      }
       if (positional[0] === "verify") {
         const { verifyChangedRules } = await import("./taxability/fetch.js");
         const ref = flag("--since") ?? "origin/main";
@@ -136,7 +155,7 @@ async function main() {
         }
         return;
       }
-      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, fetch, file or verify");
+      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, fetch, file, file-answer or verify");
       const { scoreTaxability, printScore } = await import("./taxability/evaluate.js");
       const { loadRules } = await import("./taxability/index.js");
       const rules = await loadRules();
@@ -155,8 +174,8 @@ async function main() {
     case "evidence": {
       // The public evidence archive (src/evidence.ts): every source copy to R2, and its catalog.
       const { uploadEvidence } = await import("./evidence.js");
-      const { uploaded, kept, bytes } = await uploadEvidence();
-      console.log(`Evidence: ${uploaded} copies uploaded (${(bytes / 1e6).toFixed(1)} MB), ${kept} already there; catalog updated.`);
+      const { uploaded, kept, bytes, texts } = await uploadEvidence();
+      console.log(`Evidence: ${uploaded} copies uploaded (${(bytes / 1e6).toFixed(1)} MB), ${kept} already there; ${texts} PDF texts extracted; catalog updated.`);
       return;
     }
     case "check":

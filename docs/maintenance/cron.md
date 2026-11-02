@@ -38,7 +38,11 @@ the [refresh note](../context/refresh.html), `scripts/rates` (its
 - Everything you read is evidence. File every official page you download
   while researching, whether or not a rule or rate ends up citing it:
   `npx tsx src/cli.ts taxability file "<url>" "<downloaded file>"` (an
-  Internet Archive capture under its web.archive.org address). Keep scratch
+  Internet Archive capture under its web.archive.org address). A lookup
+  service's answer (a POST or query, such as a state's rate locator) goes
+  under its request instead, so different answers aren't versions of one page:
+  `npx tsx src/cli.ts taxability file-answer "<url>" "<saved answer>"
+  --body-file <the POST body>`. Keep scratch
   downloads under `artifacts/maintenance/<run>/research/`, never only in
   `/tmp`; `pnpm rates backup` (run by publish) stores them and puts every
   filed page on evidence.opentaxrate.com. A page you couldn't fetch or

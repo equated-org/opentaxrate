@@ -9,6 +9,7 @@
  *   .../previous/<date>-<id>-<file>                  older contents, when they changed
  *   artifacts/sources/manifest.jsonl                 one line per fetch
  *   artifacts/sources/KNOWN-BAD.md, UNINDEXED.md     kept files that aren't their page; files no line names
+ *   artifacts/sources/GAPS.md                        inputs known of but not obtained, and what was searched
  *
  * Files read from a local folder (--dir) are copied in under the URL they
  * would have come from. A file is read back instead of downloaded again
@@ -147,7 +148,7 @@ async function sha256Of(file: string) {
  * contents that differ are kept as previous/<their date>-<id>-<name>; the
  * fetch is recorded in the manifest either way.
  */
-async function commit(request: Request, place: ReturnType<typeof sourcePath>, temporary: string, sha256: string, from?: string) {
+async function commit(request: Request, place: ReturnType<typeof sourcePath>, temporary: string, sha256: string, from?: string, at?: string) {
   const { directory, destination } = place;
   let previous: string | undefined;
   const old = await stat(destination).catch(() => null);
@@ -168,7 +169,7 @@ async function commit(request: Request, place: ReturnType<typeof sourcePath>, te
   await appendFile(
     path.join(root, "manifest.jsonl"),
     JSON.stringify({
-      at: new Date().toISOString(),
+      at: at ?? new Date().toISOString(),
       url: request.url,
       // A long body is cut to its first 2,000 characters here (url.txt keeps
       // it whole); bodySha256 is the whole body's, so two requests that
@@ -181,6 +182,8 @@ async function commit(request: Request, place: ReturnType<typeof sourcePath>, te
       sha256,
       bytes,
       ...(previous ? { previous: path.relative(root, previous) } : {}),
+      // A copy saved earlier: `at` is its download, filedAt when it came in.
+      ...(at ? { filedAt: new Date().toISOString() } : {}),
     }) + "\n",
   );
 }
@@ -237,9 +240,17 @@ export async function keepLocalCopy(url: string, file: string, name?: string): P
 /**
  * Keeps a live answer (a map layer page, a lookup page) that refresh read
  * without saving, gzipped as <name>.gz. A failure to save never fails the
- * load, which already has the answer.
+ * load, which already has the answer; it returns false.
+ *
+ * An answer saved earlier (a research agent's cache) is filed with `at`,
+ * when it was downloaded, and `from`, the file it was read from.
  */
-export async function archiveResponse(request: Request, bytes: Uint8Array | string, name: string) {
+export async function archiveResponse(
+  request: Request,
+  bytes: Uint8Array | string,
+  name: string,
+  saved: { at?: string; from?: string } = {},
+): Promise<boolean> {
   try {
     const body = Buffer.from(bytes);
     const place = sourcePath(request, `${name}.gz`);
@@ -248,9 +259,11 @@ export async function archiveResponse(request: Request, bytes: Uint8Array | stri
     // gzip's header time is left at zero, so the same answer gives the same file.
     const zipped = gzipSync(body);
     await writeFile(temporary, zipped);
-    await commit(request, place, temporary, createHash("sha256").update(zipped).digest("hex"));
+    await commit(request, place, temporary, createHash("sha256").update(zipped).digest("hex"), saved.from, saved.at);
+    return true;
   } catch (error) {
     console.warn(`Couldn't save ${request.url}: ${(error as Error).message}`);
+    return false;
   }
 }
 

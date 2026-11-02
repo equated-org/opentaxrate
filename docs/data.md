@@ -44,8 +44,9 @@ Ingest checks every file before writing (fields, codes, dates, citations, condit
 - `manifest.jsonl`: one line per fetch (time, URL, file, sha256, bytes, the copy it replaced; for a POST, its method, the body's first 2,000 characters and `bodySha256`, the whole body's hash).
 - `KNOWN-BAD.md`: captures kept that aren't what their URL publishes (a "Request Rejected" page saved as a `.zip`, an ArcGIS error answer, an Internet Archive replay page instead of the PDF, a fragment, a script-only app shell), each with its SHA-256 and why. Nothing is deleted.
 - `UNINDEXED.md`: files with no manifest line, and why.
+- `GAPS.md`: inputs we know of but couldn't get, or got only in part (a scan with no text, an ordinance behind a block), one line each: what, why, and what was searched.
 
-The cited taxability pages are filed here too, like any download.
+The cited taxability pages are filed here too, like any download. A page downloaded by hand is filed with `taxability file URL PATH`; a saved lookup answer (a POST or query) with `taxability file-answer URL PATH --body-file F`, under its request, its manifest `at` the file's download time and `from` the file it came from.
 
 ### Backups
 
