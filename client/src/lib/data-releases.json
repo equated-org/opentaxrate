@@ -1,5 +1,22 @@
 [
   {
+    "tag": "data-2026-11-02-links",
+    "published": "2026-11-02",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-02-links",
+    "dump": {
+      "name": "opentaxrate-2026-11-02.dump",
+      "bytes": 699304078
+    },
+    "changes": [
+      "Every taxability citation's archived link opens the archived copy at its quote, highlighted (all 5,639 citations); web pages get a text view trimmed to their content, no word changed.",
+      "Texas: SaaS is taxed on 80% of the charge (a partial base); its combined rate per possibility reflects that.",
+      "Vermont prepared-food answers list only the combinations that can occur; answers whose taxes depend on separate facts list each tax's cases on its own.",
+      "Michigan bakery items: the statute's and bulletin's conditions in full.",
+      "Scanned pages, including image-only pages inside typed PDFs, have a labelled, unreviewed machine transcription beside the PDF.",
+      "Benchmarks unchanged: taxability 0 wrong (dev 725 right of 1,097; held-out 216 of 362); address sets as the last release."
+    ]
+  },
+  {
     "tag": "data-2026-11-02-evidence",
     "published": "2026-11-02",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-02-evidence",
