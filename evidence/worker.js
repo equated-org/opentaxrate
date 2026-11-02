@@ -281,7 +281,6 @@ function card(hash, places, shown, asked, marks = []) {
 	].join('');
 	return `<section class="about">
 <h1>${original(url)}</h1>
-<p class="quiet">Archived copy, kept byte for byte as fetched.</p>
 ${capture.bad ? `<p class="bad-capture"><strong>${escape(badNote(capture))}</strong>: this capture is kept as fetched, but it isn't evidence of the page. ${others.some((c) => !c.bad) ? 'See the other captures below.' : 'The archive has no other capture that is the page.'}</p>` : ''}
 ${asked ? `<p class="bad-capture">Asked for ${escape(asked)}: no copy of the page is from that day or before, so this is the earliest the archive has.</p>` : ''}
 <dl class="facts">${facts}</dl>
