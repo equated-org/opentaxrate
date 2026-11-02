@@ -19,6 +19,7 @@ import { closeSync, existsSync, mkdirSync, mkdtempSync, openSync, readdirSync, r
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { sourcesRoot } from "./ingest/archive.js";
+import { pageText } from "./taxability/fetch.js";
 
 export interface PdfText {
   sha256: string;
@@ -34,6 +35,8 @@ export interface PdfText {
   scanned: boolean;
   extractedWith: string;
   extractedAt: string;
+  /** "word" for a Word .doc shown as its text; absent for a PDF. */
+  kind?: "word";
 }
 
 /** Where extracted texts are kept: beside artifacts/sources. */
@@ -83,16 +86,28 @@ function layoutPages(bytes: Uint8Array, count: number): string[] {
 /** The extracted text of the PDF with this hash (its bytes in `file`),
  *  made once and kept; null when it isn't a readable PDF. A kept text made
  *  before the layout view existed gets it added, from the same bytes. */
+/** An old Word document (OLE2 compound file). */
+export const isWordDoc = (bytes: Uint8Array) => bytes.length > 8 && bytes[0] === 0xd0 && bytes[1] === 0xcf && bytes[2] === 0x11 && bytes[3] === 0xe0;
+
 export function pdfText(sha256: string, file: string): PdfText | null {
   const kept = path.join(textDir(), `${sha256}.json`);
   if (existsSync(kept)) {
     const text = JSON.parse(readFileSync(kept, "utf8")) as PdfText;
-    if (Array.isArray(text.layout)) return text;
+    if (Array.isArray(text.layout) || text.kind === "word") return text;
     text.layout = layoutPages(new Uint8Array(readFileSync(file)), text.pages.length);
     writeFileSync(kept, JSON.stringify(text));
     return text;
   }
   const bytes = new Uint8Array(readFileSync(file));
+  if (isWordDoc(bytes)) {
+    // A Word .doc, as the quote checks read it: one page, no layout view.
+    const doc = pageText(bytes);
+    if (doc === null) return null;
+    const text: PdfText = { sha256, pages: [doc], layout: [], scanned: !doc.trim(), extractedWith: "OpenTaxRate's Word .doc reader (src/taxability/fetch.ts pageText)", extractedAt: new Date().toISOString(), kind: "word" };
+    mkdirSync(textDir(), { recursive: true });
+    writeFileSync(kept, JSON.stringify(text));
+    return text;
+  }
   const pages = pdfPages(bytes);
   if (pages === null) return null;
   const text: PdfText = { sha256, pages, layout: layoutPages(bytes, pages.length), scanned: !pages.some((p) => p.trim()), extractedWith: pdftotextVersion(), extractedAt: new Date().toISOString() };

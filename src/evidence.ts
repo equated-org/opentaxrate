@@ -78,6 +78,7 @@ function typeOf(file: string, head: Buffer): string {
   for (const [pattern, type] of TYPES) if (pattern.test(file)) return type;
   const start = head.toString("latin1", 0, 512).trimStart().toLowerCase();
   if (start.startsWith("%pdf-")) return "application/pdf";
+  if (head[0] === 0xd0 && head[1] === 0xcf && head[2] === 0x11 && head[3] === 0xe0) return "application/msword";
   if (start.startsWith("<!doctype html") || start.startsWith("<html") || start.includes("<head")) return "text/html; charset=utf-8";
   if (start.startsWith("{") || start.startsWith("[")) return "application/json";
   return "application/octet-stream";
@@ -288,7 +289,7 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
   // Every PDF's text, page by page, for the archive's readable view, and
   // beside it the machine-made readings (a scan's transcription, table pages
   // as Markdown) where they've been made: never evidence, and labelled so.
-  const pdfs = [...new Set(Object.values(catalog.urls).flatMap((r) => r.captures).filter((c) => c.type.startsWith("application/pdf")).map((c) => c.sha256))];
+  const pdfs = [...new Set(Object.values(catalog.urls).flatMap((r) => r.captures).filter((c) => c.type.startsWith("application/pdf") || c.type.startsWith("application/msword")).map((c) => c.sha256))];
   let texts = 0;
   const textQueue = [...pdfs];
   const textWorker = async () => {

@@ -15,7 +15,7 @@ import path from "node:path";
 import { db } from "../db/client.js";
 import { taxabilityRules } from "../db/schema.js";
 import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
-import { challenged, evidenceLink, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
+import { challenged, evidenceLink, pdfParagraphs, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
 import { readRuleFiles, type Citation } from "./rules/index.js";
 import { pageOf, pdfText } from "../pdf-text.js";
 
@@ -72,7 +72,10 @@ function pinned(citations: Citation[], copies: ReturnType<typeof copiesByUrl>, t
       ? pdfText(copy.sha256, path.join(sourcesRoot(), copy.file))
       : null;
     const page = pdf && c.quote ? pageOf(pdf.pages, c.quote, quoteOnPage) : 0;
-    return { ...c, archived: evidenceLink(copy.sha256, c.quote), sha256: copy.sha256, ...(page > 0 ? { page } : {}) };
+    // On a PDF, a quote that isn't inside one of the archive's paragraphs
+    // links to its opening words only (a browser won't match across them).
+    const inOneParagraph = !pdf || !c.quote || pdf.pages.some((pg) => pdfParagraphs(pg).some((para) => quoteOnPage(para, c.quote!)));
+    return { ...c, archived: evidenceLink(copy.sha256, c.quote, { startOnly: !inOneParagraph }), sha256: copy.sha256, ...(page > 0 ? { page } : {}) };
   });
 }
 

@@ -47,12 +47,48 @@ export const EVIDENCE = "https://evidence.opentaxrate.com";
 
 /** OpenTaxRate's copy with this hash, opening at `quote`: its words, or a
  *  long one's first and last four (a text fragment browsers scroll to). */
-export function evidenceLink(sha256: string, quote?: string): string {
-  const words = (quote ?? "").replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
-  const enc = (s: string) => encodeURIComponent(s).replace(/-/g, "%2D");
-  const fragment = !words.length ? "" : words.length <= 8 ? `#:~:text=${enc(words.join(" "))}` : `#:~:text=${enc(words.slice(0, 4).join(" "))},${enc(words.slice(-4).join(" "))}`;
+export function evidenceLink(sha256: string, quote?: string, options: { startOnly?: boolean } = {}): string {
+  // Quote marks and brackets at a term's ends are dropped: a page's curly
+  // quotes don't match a quote's straight ones.
+  const trim = (s: string) => s.replace(/^[\s"'“”‘’«»(\[]+|[\s"'“”‘’«»)\]]+$/g, "");
+  const words = trim(quote ?? "").replace(/\s+/g, " ").split(" ").filter(Boolean);
+  const enc = (s: string) => encodeURIComponent(trim(s)).replace(/-/g, "%2D");
+  // A browser matches each term within one block of the page; a quote that
+  // runs over a paragraph break gets its opening words only, so the link
+  // still opens at it.
+  // A term never holds a quote mark: browsers match punctuation exactly,
+  // and a page may print the quote's straight quotes as curly ones. So each
+  // end is the first (or last) run of words without one.
+  const marked = (w: string) => /["'“”‘’«»]/.test(w);
+  const run = (from: "start" | "end", n: number) => {
+    const list = from === "start" ? words : [...words].reverse();
+    let out: string[] = [];
+    for (const w of list) {
+      if (marked(w)) {
+        if (out.length >= Math.min(3, n)) break;
+        out = [];
+        continue;
+      }
+      out.push(w);
+      if (out.length === n) break;
+    }
+    return from === "start" ? out : out.reverse();
+  };
+  const plain = !words.some(marked);
+  const fragment = !words.length
+    ? ""
+    : words.length <= 8 && plain
+      ? `#:~:text=${enc(words.join(" "))}`
+      : options.startOnly || words.length <= 8
+        ? `#:~:text=${enc(run("start", 6).join(" "))}`
+        : `#:~:text=${enc(run("start", 4).join(" "))},${enc(run("end", 4).join(" "))}`;
   return `${EVIDENCE}/sha256/${sha256}${fragment}`;
 }
+
+/** A PDF page's text as the evidence archive shows it: lines joined into
+ *  paragraphs, blank lines kept as breaks (evidence/worker.js pdfPage). */
+export const pdfParagraphs = (page: string) =>
+  page.split(/\n\s*\n/).map((p) => p.split("\n").map((l) => l.trim()).filter(Boolean).join(" ")).filter(Boolean);
 
 /** A dated Wayback Machine snapshot: its contents never change, so once
  *  archived it isn't fetched again. */

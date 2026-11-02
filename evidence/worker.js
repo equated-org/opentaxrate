@@ -314,7 +314,7 @@ async function capturePage(env, hash, places, asked, view) {
 	const { url, capture } = shown;
 	const type = capture.type.split(';')[0];
 	const isText = type.startsWith('text/') && type !== 'text/html';
-	if (type === 'application/pdf') return pdfPage(env, hash, url, card(hash, places, shown, asked), view);
+	if (type === 'application/pdf' || type === 'application/msword') return pdfPage(env, hash, url, card(hash, places, shown, asked), view);
 	const object = await env.EVIDENCE.get(`sha256/${hash}`, isText || type === 'application/json' ? { range: { offset: 0, length: TEXT_SHOWN } } : undefined);
 	if (!object) return page('Not found', '<p>That copy isn\'t in the archive.</p>', 404);
 	const head = card(hash, places, shown, asked);
@@ -435,6 +435,14 @@ async function pdfPage(env, hash, url, head, wanted) {
 		return page(
 			url,
 			`<div class="capture"><article class="doc pdf-text"><div class="machine-note"><p><strong>Machine transcription by ${escape([primary, ...rest].join(' and '))}, not reviewed — check against the PDF; quotes are never checked against it.</strong></p><p>This PDF is a scan, with no text of its own: ${escape(primary)} read each page and ${escape(other)} read it again. ${count ? `The ${count} place${count > 1 ? 's' : ''} where they read it differently ${count > 1 ? 'are' : 'is'} highlighted, with both readings.` : 'They read it the same.'} The PDF is the evidence: <a href="${pdf}">open the PDF</a>, or a page's number to open it there.</p></div>${pages}</article>${head}</div>`,
+		);
+	}
+	if (text?.kind === 'word') {
+		// A Word document: its text as the quote checks read it, one page.
+		const paras = (text.pages[0] ?? '').split(/\n\s*\n/).map((x) => x.split('\n').map((l) => l.trim()).filter(Boolean).join(' ')).filter(Boolean);
+		return page(
+			url,
+			`<div class="capture"><article class="doc pdf-text"><p class="pdf-note">The Word document's own text, as read by ${escape(text.extractedWith)}; the document is the evidence: <a href="${pdf}">download it</a>.</p><div class="pdf-paras">${paras.map((x) => `<p>${escape(x)}</p>`).join('') || '<p class="quiet">(no text read)</p>'}</div></article>${head}</div>`,
 		);
 	}
 	if (!text || text.scanned) {

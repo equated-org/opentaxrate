@@ -358,3 +358,15 @@ describe("the Louisiana lookup's intermediate certificate", () => {
     expect(lines).toEqual([expect.objectContaining({ url: "https://certs.godaddy.com/repository/gdig2.crt.pem", sha256: createHash("sha256").update(pem).digest("hex") })]);
   });
 });
+
+describe("a citation's archive link", () => {
+  it("drops quote marks at its ends and opens at a quote's start when asked", async () => {
+    const { evidenceLink } = await import("../src/taxability/fetch.js");
+    const h = "a".repeat(64);
+    const range = evidenceLink(h, '"retail food store" means an establishment that sells food for home preparation and consumption under the program.');
+    expect(decodeURIComponent(range.split("#")[1])).toBe(":~:text=means an establishment that,consumption under the program.");
+    const start = evidenceLink(h, "Charges by the retailer for any services necessary to complete the sale. 4. Delivery charges.", { startOnly: true });
+    expect(decodeURIComponent(start.split("#")[1])).toBe(":~:text=Charges by the retailer for any");
+    expect(evidenceLink(h, "“Interior decorating and design services;”")).toContain(encodeURIComponent("Interior decorating and design services;"));
+  });
+});
