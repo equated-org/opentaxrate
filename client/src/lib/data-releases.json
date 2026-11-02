@@ -1,5 +1,20 @@
 [
   {
+    "tag": "data-2026-11-02-evidence",
+    "published": "2026-11-02",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-02-evidence",
+    "dump": {
+      "name": "opentaxrate-2026-11-02.dump",
+      "bytes": 699349604
+    },
+    "changes": [
+      "Citations name each agency page's current address (708 followed pages that moved), and each carries OpenTaxRate's archived copy pinned by hash; a citation on a PDF also carries the page its quote is on.",
+      "The evidence archive is complete for every rule citation, watched page and benchmark source, and holds the research pages and state lookup answers behind the benchmarks; every PDF is readable as text page by page.",
+      "Idaho: Riggins' city tax ends 2027-01-31 and Lava Hot Springs' 2032-12-31, from the cities' ballot records and minutes; no rate in force today changed.",
+      "Benchmarks unchanged: taxability 0 wrong of 1,097 development cases; address sets as the last release."
+    ]
+  },
+  {
     "tag": "data-2026-11-01-taxability",
     "published": "2026-11-01",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-01-taxability",
