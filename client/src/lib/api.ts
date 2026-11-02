@@ -79,7 +79,7 @@ export interface TaxabilityRule {
 	/** code: in an answer for a broad code, the narrower code this case is. */
 	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; code?: string }>;
 	/** archived: OpenTaxRate's copy that shows the quote, opening at it (sha256 is that copy's hash); url: the page as published. */
-	citations: Array<{ title: string; url: string; quote?: string; archived?: string; sha256?: string }>;
+	citations: Array<{ title: string; url: string; quote?: string; archived?: string; sha256?: string; page?: number }>;
 }
 
 /** How one kind of sale is taxed at the address on the date. */

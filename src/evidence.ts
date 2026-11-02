@@ -31,6 +31,7 @@ import path from "node:path";
 import { AwsClient } from "aws4fetch";
 import { sourcesRoot, waybackCapture } from "./ingest/archive.js";
 import { readRuleFiles } from "./taxability/rules/index.js";
+import { pdfText } from "./pdf-text.js";
 
 export interface Capture {
   at: string;
@@ -189,7 +190,7 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
 }
 
 /** Uploads every copy the bucket lacks, then the catalog. */
-export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Promise<{ uploaded: number; kept: number; bytes: number }> {
+export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Promise<{ uploaded: number; kept: number; bytes: number; texts: number }> {
   const account = env.R2_ACCOUNT_ID;
   const accessKeyId = env.OPENTAXRATE_R2_ACCESS_KEY_ID ?? env.R2_ACCESS_KEY_ID;
   const secretAccessKey = env.OPENTAXRATE_R2_SECRET_ACCESS_KEY ?? env.R2_SECRET_ACCESS_KEY;
@@ -198,17 +199,22 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
   const base = `https://${account}.r2.cloudflarestorage.com/${bucket}`;
   const r2 = new AwsClient({ accessKeyId, secretAccessKey, service: "s3", region: "auto" });
 
-  // What the bucket already holds.
-  const have = new Set<string>();
-  let token: string | undefined;
-  do {
-    const query = new URLSearchParams({ "list-type": "2", prefix: "sha256/", "max-keys": "1000", ...(token ? { "continuation-token": token } : {}) });
-    const response = await r2.fetch(`${base}?${query}`);
-    if (!response.ok) throw new Error(`Listing ${bucket} answered ${response.status}: ${(await response.text()).slice(0, 200)}`);
-    const xml = await response.text();
-    for (const m of xml.matchAll(/<Key>sha256\/([0-9a-f]{64})<\/Key>/g)) have.add(m[1]);
-    token = /<IsTruncated>true<\/IsTruncated>/.test(xml) ? xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/)?.[1] : undefined;
-  } while (token);
+  // What the bucket already holds, by hash, under a prefix.
+  const listed = async (prefix: string) => {
+    const found = new Set<string>();
+    let token: string | undefined;
+    do {
+      const query = new URLSearchParams({ "list-type": "2", prefix, "max-keys": "1000", ...(token ? { "continuation-token": token } : {}) });
+      const response = await r2.fetch(`${base}?${query}`);
+      if (!response.ok) throw new Error(`Listing ${bucket} answered ${response.status}: ${(await response.text()).slice(0, 200)}`);
+      const xml = await response.text();
+      for (const m of xml.matchAll(/<Key>[a-z]+\/([0-9a-f]{64})(?:\.json)?<\/Key>/g)) found.add(m[1]);
+      token = /<IsTruncated>true<\/IsTruncated>/.test(xml) ? xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/)?.[1] : undefined;
+    } while (token);
+    return found;
+  };
+  const have = await listed("sha256/");
+  const haveText = await listed("text/");
 
   const { catalog, files } = await buildCatalog();
   const wanted = new Map<string, { file: string; type: string; url: string }>();
@@ -236,11 +242,31 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
     }
   };
   await Promise.all(Array.from({ length: 8 }, worker));
+
+  // Every PDF's text, page by page, for the archive's readable view.
+  const pdfs = [...new Map(Object.values(catalog.urls).flatMap((r) => r.captures).filter((c) => c.type.startsWith("application/pdf") && !haveText.has(c.sha256)).map((c) => [c.sha256, c])).keys()];
+  let texts = 0;
+  const textQueue = [...pdfs];
+  const textWorker = async () => {
+    for (let sha = textQueue.shift(); sha; sha = textQueue.shift()) {
+      const text = pdfText(sha, files.get(sha)!);
+      if (!text) continue;
+      for (let attempt = 0; ; attempt++) {
+        const response = await r2.fetch(`${base}/text/${sha}.json`, { method: "PUT", body: JSON.stringify(text), headers: { "content-type": "application/json", "cache-control": "public, max-age=31536000, immutable" } });
+        if (response.ok) break;
+        if (attempt === 2) throw new Error(`Uploading the text of ${sha} answered ${response.status}`);
+        await new Promise((resolve) => setTimeout(resolve, 2_000 * (attempt + 1)));
+      }
+      texts++;
+    }
+  };
+  await Promise.all(Array.from({ length: 4 }, textWorker));
+
   const put = await r2.fetch(`${base}/catalog.json`, {
     method: "PUT",
     body: JSON.stringify(catalog),
     headers: { "content-type": "application/json", "cache-control": "max-age=300" },
   });
   if (!put.ok) throw new Error(`Uploading the catalog answered ${put.status}`);
-  return { uploaded, kept: have.size, bytes };
+  return { uploaded, kept: have.size, bytes, texts };
 }

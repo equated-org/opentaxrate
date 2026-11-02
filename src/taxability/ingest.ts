@@ -17,6 +17,7 @@ import { taxabilityRules } from "../db/schema.js";
 import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
 import { challenged, evidenceLink, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
 import { readRuleFiles, type Citation } from "./rules/index.js";
+import { pageOf, pdfText } from "../pdf-text.js";
 
 /** Files every cited page in the archive, fetching one only when the
  *  archive has none. Returns the URLs that couldn't be filed. */
@@ -65,7 +66,13 @@ function pinned(citations: Citation[], copies: ReturnType<typeof copiesByUrl>, t
   return citations.map((c) => {
     const held = copies.get(c.url) ?? [];
     const copy = c.quote ? [...held].reverse().find((k) => { const t = textOf(k.file); return t !== null && quoteOnPage(t, c.quote!); }) : held.at(-1);
-    return copy ? { ...c, archived: evidenceLink(copy.sha256, c.quote), sha256: copy.sha256 } : c;
+    if (!copy) return c;
+    // A PDF's page with the quote, for linking into the PDF itself.
+    const pdf = copy.file.toLowerCase().endsWith(".pdf") || /%PDF-/.test(readFileSync(path.join(sourcesRoot(), copy.file)).subarray(0, 1024).toString("latin1"))
+      ? pdfText(copy.sha256, path.join(sourcesRoot(), copy.file))
+      : null;
+    const page = pdf && c.quote ? pageOf(pdf.pages, c.quote, quoteOnPage) : 0;
+    return { ...c, archived: evidenceLink(copy.sha256, c.quote), sha256: copy.sha256, ...(page > 0 ? { page } : {}) };
   });
 }
 

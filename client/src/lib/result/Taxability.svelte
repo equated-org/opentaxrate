@@ -113,7 +113,8 @@
 											{#if offline(c.url)}
 												· <span title="{c.url} was gone when checked on {offlineChecked}; the archived copy is the evidence">original (no longer online)</span>
 											{:else}
-												· <a class="link" href={c.url} target="_blank" rel="noopener" title="The page as published today; it may have changed">original ↗</a>
+												{#if c.page}<span> · p. {c.page}</span>{/if}
+												· <a class="link" href={c.page ? `${c.url}#page=${c.page}` : c.url} target="_blank" rel="noopener" title="The page as published today; it may have changed">original ↗</a>
 											{/if}
 										</span>
 										{#if c.quote}<span class="mt-0.5 block text-[12.5px] text-[var(--text-muted)]">“{c.quote}”</span>{/if}

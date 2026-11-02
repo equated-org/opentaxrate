@@ -17,7 +17,10 @@
  *      files listed in UNINDEXED.md aside)
  *   8. every POSTed answer whose stored body was cut short has its full body
  *      (bodySha256, or the url.txt sidecar), so the catalog keys it rightly
- *   9. (--public) every copy is on the public archive
+ *   9. every PDF copy has its text extracted, page by page (or is a scan,
+ *      which says so)
+ *  10. every quote cited on a PDF is on one of its pages
+ *  11. (--public) every copy is on the public archive
  */
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -25,6 +28,7 @@ import path from "node:path";
 import { copiesByUrl, sourcesRoot } from "../src/ingest/archive.js";
 import { pageText, quoteOnPage } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
+import { pageOf, pdfText } from "../src/pdf-text.js";
 
 const repo = path.resolve(import.meta.dirname, "..");
 const root = sourcesRoot();
@@ -142,9 +146,32 @@ const walkSources = (dir: string) => {
 walkSources(root);
 for (const e of manifest) if (!onDisk.has(e.sha256)) intact.failures.push(`${e.url}: ${e.file} (${e.sha256.slice(0, 12)}) not on disk`);
 
-// 9: the public archive.
+// 9, 10: PDFs as text.
+const extracted = check("9. every PDF copy has its text extracted, page by page");
+const scans: string[] = [];
+const pdfTextOf = new Map<string, ReturnType<typeof pdfText>>();
+for (const [h, p] of onDisk) {
+  if (!readFileSync(p).subarray(0, 1024).toString("latin1").includes("%PDF-")) continue;
+  extracted.checked++;
+  const t = pdfText(h, p);
+  pdfTextOf.set(h, t);
+  if (!t) extracted.failures.push(`${path.relative(root, p)}: pdftotext couldn't read it`);
+  else if (t.scanned) scans.push(path.relative(root, p));
+}
+const onPage = check("10. every quote cited on a PDF is on one of its pages");
+for (const r of rules)
+  for (const c of r.citations) {
+    if (!c.quote) continue;
+    const pdfCopies = (copies.get(c.url) ?? []).filter((k) => pdfTextOf.has(k.sha256));
+    if (!pdfCopies.length) continue;
+    onPage.checked++;
+    if (!pdfCopies.some((k) => pageOf(pdfTextOf.get(k.sha256)?.pages ?? [], c.quote!, quoteOnPage) > 0))
+      onPage.failures.push(`${r.file} ${r.tax} ${r.code} ${r.from}: "${c.quote.slice(0, 50)}" on ${c.url}`);
+  }
+
+// 11: the public archive.
 if (publicCheck) {
-  const pub = check("9. every copy is on evidence.opentaxrate.com");
+  const pub = check("11. every copy is on evidence.opentaxrate.com");
   const hashes = [...manifestHashes];
   for (let i = 0; i < hashes.length; i += 16)
     await Promise.all(
@@ -164,4 +191,5 @@ for (const c of checks) {
   for (const f of c.failures.slice(0, 15)) console.log(`        ${f}`);
   if (c.failures.length > 15) console.log(`        … and ${c.failures.length - 15} more`);
 }
+if (scans.length) console.log(`note  ${scans.length} PDFs are scans with no text layer (the archive says so): ${scans.slice(0, 5).join(", ")}${scans.length > 5 ? ", …" : ""}`);
 process.exit(failed ? 1 : 0);

@@ -89,6 +89,10 @@ h1, h2, h3 { font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
 .badge { font: 12px/1.7 "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text-2); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; white-space: nowrap; }
 .badge b { font-weight: 600; color: var(--ink); }
 .doc { margin: 8px 0 96px; max-width: 72ch; overflow-wrap: anywhere; }
+.pdf-note { font-size: 14px; color: var(--text-3); margin: 18px 0 8px; }
+.pdf-text pre { white-space: pre-wrap; font: 15px/1.6 Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; margin: 0; }
+.pdf-page { border-top: 1px solid var(--line); padding: 12px 0 20px; }
+.page-no { margin: 0 0 6px; font-size: 13px; }
 .doc h1 { font-size: 1.75rem; margin: 1.2em 0 .5em; } .doc h2 { font-size: 1.3rem; margin: 1.6em 0 .4em; } .doc h3, .doc h4 { font-size: 1.05rem; margin: 1.4em 0 .3em; }
 .doc ul, .doc ol { padding-left: 22px; }
 .doc table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 1.2em 0; display: block; overflow-x: auto; }
@@ -274,6 +278,7 @@ async function capturePage(env, hash, places, asked) {
 	const { url, capture } = shown;
 	const type = capture.type.split(';')[0];
 	const isText = type.startsWith('text/') && type !== 'text/html';
+	if (type === 'application/pdf') return pdfPage(env, hash, url, card(hash, places, shown, asked));
 	const object = await env.EVIDENCE.get(`sha256/${hash}`, isText || type === 'application/json' ? { range: { offset: 0, length: TEXT_SHOWN } } : undefined);
 	if (!object) return page('Not found', '<p>That copy isn\'t in the archive.</p>', 404);
 	const head = card(hash, places, shown, asked);
@@ -281,13 +286,33 @@ async function capturePage(env, hash, places, asked) {
 		const { html, title } = await readable(object, url);
 		return page(title || url, `<div class="capture"><article class="doc">${html}</article>${head}</div>`);
 	}
-	if (type === 'application/pdf') return page(url, `<div class="capture"><object class="pdf" data="/sha256/${hash}/raw" type="application/pdf"><p><a href="/sha256/${hash}/raw">Open the PDF</a></p></object>${head}</div>`);
 	if (type.startsWith('text/') || type === 'application/json') {
 		const text = await object.text();
 		const cut = capture.bytes > TEXT_SHOWN;
 		return page(url, `<div class="capture"><article class="doc"><pre>${escape(text)}${cut ? `\n\n… the first ${size(TEXT_SHOWN)} of ${size(capture.bytes)}; <a href="/sha256/${hash}/raw">the whole file</a>` : ''}</pre></article>${head}</div>`);
 	}
 	return page(url, `${head}<p>This file isn't shown here (${escape(type)}); <a href="/sha256/${hash}/raw">download it</a>.</p>`);
+}
+
+/** A PDF as its text, page by page, so a link can open at a quoted
+ *  sentence (browsers don't scroll a PDF to one); the PDF itself, the
+ *  evidence, is a link away, at each page. The text is the PDF's own
+ *  text layer, extracted by pdftotext (src/pdf-text.ts). */
+async function pdfPage(env, hash, url, head) {
+	const stored = await env.EVIDENCE.get(`text/${hash}.json`);
+	const text = stored ? await stored.json() : null;
+	const pdf = `/sha256/${hash}/raw`;
+	if (!text || text.scanned) {
+		const why = text?.scanned ? 'This PDF is a scan: it has no text layer to show.' : 'Its text hasn\'t been extracted yet.';
+		return page(url, `<div class="capture"><div class="doc"><p class="pdf-note">${why} <a href="${pdf}">Open the PDF</a>.</p><object class="pdf" data="${pdf}" type="application/pdf"></object></div>${head}</div>`);
+	}
+	const pages = text.pages
+		.map((p, i) => `<section class="pdf-page" id="page-${i + 1}"><p class="page-no"><a href="${pdf}#page=${i + 1}">Page ${i + 1}</a></p><pre>${escape(p) || '<span class="quiet">(no text on this page)</span>'}</pre></section>`)
+		.join('');
+	return page(
+		url,
+		`<div class="capture"><article class="doc pdf-text"><p class="pdf-note">The PDF's own text, page by page, as extracted by ${escape(text.extractedWith)}; the PDF is the evidence: <a href="${pdf}">open the PDF</a>, or a page's number to open it there.</p>${pages}</article>${head}</div>`,
+	);
 }
 
 async function raw(env, hash, capture) {

@@ -49,6 +49,18 @@ describe("the evidence catalog", () => {
     expect(Object.keys(catalog.urls)).toEqual([keyOf('{"date":"2026-01-01"}')]);
   });
 
+  it("files an answer saved earlier with its download time and where it was read from", async () => {
+    const sources = await setup();
+    const url = "https://lookup.example/results.php";
+    const saved = { at: "2026-10-21T16:23:33.133Z", from: "research/x/dl/oracle/0a.html" };
+    expect(await archiveResponse({ url, method: "POST", body: "Street=1+Main+St&ZIP=72201" }, "<html>9.5%</html>", "0a.html", saved)).toBe(true);
+    const [line] = (await readFile(path.join(sources, "manifest.jsonl"), "utf8")).trim().split("\n").map((l) => JSON.parse(l));
+    expect(line).toMatchObject({ ...saved, method: "POST", body: "Street=1+Main+St&ZIP=72201" });
+    expect(line.file).toMatch(/^lookup\.example\/results\.php\/[0-9a-f]{16}\/0a\.html\.gz$/);
+    const { catalog } = await buildCatalog();
+    expect(Object.values(catalog.urls)[0].captures[0].at).toBe(saved.at);
+  });
+
   it("marks a capture KNOWN-BAD.md lists, typed by its bytes", async () => {
     const sources = await setup();
     const page = "https://census.example/tl_2026_51059_addrfeat.zip";
@@ -115,5 +127,16 @@ describe("copies whose file was later replaced", () => {
     await keepLocalCopy("https://laws.example/pdf/2015-PA-0171.pdf", act171);
     const [copy] = copiesByUrl().get("https://laws.example/pdf/2015-PA-0171.pdf") ?? [];
     expect(await readFile(path.join(sources, copy.file), "utf8")).toContain("Act No. 171");
+  });
+});
+
+describe("a PDF's quoted page", () => {
+  it("finds the page a quote starts on, across a page break too", async () => {
+    const { pageOf } = await import("../src/pdf-text.js");
+    const { quoteOnPage } = await import("../src/taxability/fetch.js");
+    const pages = ["Title page", "Food sold in a heated state is taxable.", "\"Retail food store\" means an establishment that", "sells food for home consumption."];
+    expect(pageOf(pages, "Food sold in a heated state is taxable.", quoteOnPage)).toBe(2);
+    expect(pageOf(pages, "\"Retail food store\" means an establishment that sells food for home consumption.", quoteOnPage)).toBe(3);
+    expect(pageOf(pages, "Not in this document at all.", quoteOnPage)).toBe(0);
   });
 });

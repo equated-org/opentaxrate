@@ -45,6 +45,8 @@ export interface Citation {
    *  opening at the sentence), and that copy's hash. */
   archived?: string;
   sha256?: string;
+  /** For a PDF: the page the quote is on (1-based), set at ingest. */
+  page?: number;
 }
 
 export interface Condition {

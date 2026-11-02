@@ -151,6 +151,7 @@ export const TaxabilityRuleSchema = z
             example: "https://evidence.opentaxrate.com/sha256/e4465b57cef9b1132a0a459c7ad61459a1285fb8a8e9fa58ac916a12de0aeca2#:~:text=Food%20prepared%20for%20sale,further%20preparation%20are%20taxable",
           }),
           sha256: z.string().optional().openapi({ description: "That copy's SHA-256: the exact bytes the rule was checked against." }),
+          page: z.number().int().optional().openapi({ description: "For a PDF, the page the quote is on: open the original or the archived PDF at #page=N.", example: 3 }),
         }),
       )
       .openapi({ description: "The official pages the rule was read from." }),
