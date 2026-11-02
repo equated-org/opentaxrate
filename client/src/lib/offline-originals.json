@@ -1,0 +1,27 @@
+{
+	"checked": "2026-11-02",
+	"note": "Cited pages no longer online, from scripts/check-links.mts --write-offline. The archived copy is the evidence.",
+	"urls": {
+		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-33%20Restaurants.pdf": "DNS ENOTFOUND",
+		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf": "DNS ENOTFOUND",
+		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-46ServiceEnterprises.pdf": "DNS ENOTFOUND",
+		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-64%20Lawyers%20Providing%20Legal%20Services.pdf": "DNS ENOTFOUND",
+		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf": "DNS ENOTFOUND",
+		"http://in.gov/dor/reference/files/cd23.pdf": "404",
+		"http://in.gov/dor/reference/files/sib07.pdf": "404",
+		"http://in.gov/dor/reference/files/sib14.pdf": "404",
+		"http://in.gov/dor/reference/files/sib29.pdf": "404",
+		"http://in.gov/dor/reference/files/sib60.pdf": "404",
+		"http://revenue.wyo.gov/04-FreightTransportationCharges.pdf?attredirects=0": "404",
+		"http://revenue.wyo.gov/22-ProfessionalServicesBulletin.pdf?attredirects=0": "404",
+		"http://www.finance.gov.sk.ca/revenue/pst/IN2017-02-PSTOnServicesToRealProperty.pdf": "by hand: www.finance.gov.sk.ca accepts no connections (Saskatchewan moved to saskatchewan.ca); finance.gov.sk.ca has no DNS",
+		"http://www.finance.gov.sk.ca/revenue/pst/IN2017-03-PSTOnRestaurantMeals.pdf": "by hand: www.finance.gov.sk.ca accepts no connections (Saskatchewan moved to saskatchewan.ca); finance.gov.sk.ca has no DNS",
+		"http://www.revenue.pa.gov/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf": "redirects to https://www.pa.gov/search",
+		"https://adminrules.idaho.gov/rules/current/35/0102.pdf": "404",
+		"https://in.gov/dor/reference/files/sib08.pdf": "404",
+		"https://www.colorado.gov/pacific/sites/default/files/Sales06.pdf": "by hand: colorado.gov retired /pacific; every page under it answers 502",
+		"https://www.dor.ms.gov/sites/default/files/Business/Delivery%20Charges.pdf": "404",
+		"https://www.in.gov/dor/files/reference/sib08.pdf": "404",
+		"https://www.revenue.nh.gov/tirs/documents/2007-005.pdf": "404"
+	}
+}

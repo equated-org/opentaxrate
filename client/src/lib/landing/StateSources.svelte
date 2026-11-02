@@ -44,12 +44,12 @@
 		CO: 'https://salestaxlookup.colorado.gov',
 		FL: 'https://www.floridarevenue.com/Pages/forms_index.aspx',
 		HI: 'https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf',
-		IL: 'https://tax.illinois.gov/content/dam/soi/en/web/tax/research/taxrates/documents/salestaxrates',
+		IL: 'https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files.html',
 		LA: 'https://remotesellersfiling.louisiana.gov/lookup/lookup.aspx',
-		MO: 'https://dor.mo.gov/taxation/business/tax-types/sales-use/documents',
+		MO: 'https://dor.mo.gov/taxation/business/tax-types/sales-use/rate-tables/',
 		NM: 'https://services5.arcgis.com/f4lpEvI6fkgVYigk/arcgis/rest/services',
-		NY: 'https://www.nystax.gov/pubs_and_bulls/publications/sales/st_pubs_and_bulls_by_number.htm',
-		SC: 'https://dor.sc.gov/tax-index/sales-and-use/Sales%20Notices/ST500.pdf',
+		NY: 'https://www.tax.ny.gov/pdf/publications/sales/pub718.pdf',
+		SC: 'https://dor.sc.gov/sites/dor/files/forms/ST500.pdf',
 		TX: 'https://comptroller.texas.gov',
 		VA: 'https://www.tax.virginia.gov/sites/default/files/inline-files/sales-and-use-tax-rates-by-locality-by-date.xlsx'
 	};

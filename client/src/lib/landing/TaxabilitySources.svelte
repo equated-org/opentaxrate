@@ -1,7 +1,8 @@
 <script lang="ts">
 	/** The pages the taxability rules cite, by place: each linked to the
-	 *  original and to its captures in the evidence archive. */
-	import { captures, EVIDENCE, type PlaceSources } from '$lib/evidence';
+	 *  original and to its captures in the evidence archive. A page that's
+	 *  gone (offline-originals.json) links to its captures only. */
+	import { captures, EVIDENCE, offline, offlineChecked, type PlaceSources } from '$lib/evidence';
 
 	let { places }: { places: PlaceSources[] } = $props();
 	const pageCount = $derived(places.reduce((n, p) => n + p.pages.length, 0));
@@ -38,9 +39,10 @@
 					<ul class="flex flex-col gap-2.5 pb-4">
 						{#each p.pages as page (page.url)}
 							<li class="text-[var(--text-2)]">
-								<a class="link" href={page.url} target="_blank" rel="noopener">{page.title}</a>
+								<a class="link" href={offline(page.url) ? captures(page.url) : page.url} target="_blank" rel="noopener">{page.title}</a>
 								<span class="block text-[13px] text-[var(--text-muted)]">
 									{host(page.url)} ·
+									{#if offline(page.url)}<span title="{page.url} was gone when checked on {offlineChecked}">no longer online</span> ·{/if}
 									<a class="link" href={captures(page.url)} target="_blank" rel="noopener" title="OpenTaxRate's archived copies of this page">archived copy</a>
 									· cited by {page.rules} rule{page.rules === 1 ? '' : 's'}
 								</span>

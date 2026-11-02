@@ -2,10 +2,11 @@
 	/** How the sale the lookup named (code=) is taxed here: the rate to charge,
 	 *  or why there isn't one; each tax's rule with its dates and the pages
 	 *  it was read from, linked to the original and to OpenTaxRate's archived
-	 *  copy, scrolled to the quoted sentence. */
+	 *  copy, scrolled to the quoted sentence. An original that's gone
+	 *  (offline-originals.json) is named, not linked: the copy is the evidence. */
 	import type { Taxability } from '$lib/api';
 	import { codeName } from '$lib/codes';
-	import { archivedOn } from '$lib/evidence';
+	import { archivedOn, offline, offlineChecked } from '$lib/evidence';
 	import { pct } from './format';
 
 	interface Props {
@@ -104,7 +105,11 @@
 									<li>
 										<a class="link" href={c.archived ?? archived(c.url, c.quote)} target="_blank" rel="noopener" title="OpenTaxRate's archived copy, opening at the quoted sentence">{c.title}</a>
 										<span class="text-[var(--text-muted)]">
-											· <a class="link" href={c.url} target="_blank" rel="noopener" title="The page as published today; it may have changed">original ↗</a>
+											{#if offline(c.url)}
+												· <span title="{c.url} was gone when checked on {offlineChecked}; the archived copy is the evidence">original (no longer online)</span>
+											{:else}
+												· <a class="link" href={c.url} target="_blank" rel="noopener" title="The page as published today; it may have changed">original ↗</a>
+											{/if}
 										</span>
 										{#if c.quote}<span class="mt-0.5 block text-[12.5px] text-[var(--text-muted)]">“{c.quote}”</span>{/if}
 									</li>

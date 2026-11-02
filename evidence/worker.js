@@ -17,7 +17,17 @@
  * cached at the edge, so restyling never touches what was archived. A cited
  * quote is linked as a text fragment (#:~:text=), which the browser finds
  * and highlights.
+ *
+ * A cited original that's gone (the site's offline-originals.json, written by
+ * scripts/check-links.mts) is named but not linked, and said to be gone.
  */
+import offlineList from '../client/src/lib/offline-originals.json';
+
+const offline = (url) => Object.hasOwn(offlineList.urls, url);
+/** An original page's address: a link, or, when it's gone, plain text that says so. */
+const original = (url, text = escape(url)) =>
+	offline(url) ? `<span title="Gone when checked on ${escape(offlineList.checked)}">${text}</span>` : `<a href="${escape(url)}" rel="noopener">${text}</a>`;
+
 const CATALOG_TTL_MS = 5 * 60_000;
 let cached = null;
 
@@ -140,7 +150,7 @@ function notArchived(data, target) {
 	const safe = /^https?:\/\//.test(target);
 	return page(
 		'Not archived',
-		`<div class="url"><h1>${escape(target)}</h1><p>The archive has no copy fetched from this address.${safe ? ` <a href="${escape(target)}" rel="noopener">Open the original</a>.` : ''}</p>${
+		`<div class="url"><h1>${escape(target)}</h1><p>The archive has no copy fetched from this address.${safe ? ` ${offline(target) ? 'The original is no longer online either.' : `<a href="${escape(target)}" rel="noopener">Open the original</a>.`}` : ''}</p>${
 			elsewhere.length
 				? `<p>Copies of it kept under another address:</p><ul>${elsewhere.map((u) => `<li><a href="/url?u=${encodeURIComponent(u)}">${escape(u)}</a></li>`).join('')}</ul>`
 				: ''
@@ -186,13 +196,13 @@ function card(hash, places, shown, asked) {
 		.map(([quote, rs]) => `<li>${quote ? `<a href="/sha256/${hash}${fragment(quote)}">“${opening(quote)}”</a>` : '<span class="quiet">Cited without a quote</span>'}<div class="badges">${rs.map(badge).join('')}</div></li>`)
 		.join('');
 	return `<section class="about">
-<h1><a href="${escape(url)}" rel="noopener">${escape(url)}</a></h1>
+<h1>${original(url)}</h1>
 ${capture.via ? `<p>Copied from the <a href="${escape(capture.via)}" rel="noopener">Internet Archive's capture</a> of ${escape(day(capture.at))}: the site blocks downloads, or this edition is no longer online.</p>` : ''}
 <p>Archived copy, as fetched · captured ${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC · <span class="hash">SHA-256 <span class="mono">${hash}</span></span> · ${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a></p>
 ${others.length ? `<p>Other captures: ${others.map((c) => `<a href="/sha256/${c.sha256}">${day(c.at)}</a>`).join(', ')}</p>` : ''}
 ${alsoAt.length ? `<p>Same bytes at ${alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join(', ')}</p>` : ''}
 ${asked ? `<p>Asked for ${escape(asked)}: no copy is from that day or before, so this is the earliest the archive has.</p>` : ''}
-<p class="quiet">The original may have changed since.</p>
+<p class="quiet">${offline(url) ? `The original is no longer online (checked ${escape(offlineList.checked)}); this copy is the evidence.` : 'The original may have changed since.'}</p>
 ${rules ? `<h2>Cited by ${rules} rule${rules > 1 ? 's' : ''}</h2><ul class="quotes">${cites}</ul>` : ''}
 </section>`;
 }
@@ -360,7 +370,7 @@ export default {
 			const target = url.searchParams.get('u') ?? '';
 			const record = data.urls[target];
 			response = record
-				? page(target, `<div class="list url"><h1><a href="${escape(target)}" rel="noopener">${escape(target)}</a></h1><p class="quiet">${record.captures.length} capture${record.captures.length > 1 ? 's' : ''}, oldest first</p><ul>${record.captures
+				? page(target, `<div class="list url"><h1>${original(target)}</h1><p class="quiet">${record.captures.length} capture${record.captures.length > 1 ? 's' : ''}, oldest first${offline(target) ? `; the original is no longer online (checked ${escape(offlineList.checked)})` : ''}</p><ul>${record.captures
 						.map((c) => `<li><a href="/sha256/${c.sha256}">${escape(c.at.replace('T', ' ').slice(0, 16))} UTC</a><span class="mono quiet">${c.sha256.slice(0, 12)}</span>${c.via ? ' <span class="quiet">· through the Internet Archive</span>' : ''}</li>`)
 						.join('')}</ul></div>`)
 				: notArchived(data, target);

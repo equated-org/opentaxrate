@@ -65,6 +65,11 @@ check it chains to a trusted root (`openssl verify`), and add it to
 `src/taxability/rules/intermediates.pem` with a line saying which site needs it.
 Never turn certificate checks off.
 
+A cited page that is gone for good (404, no DNS) keeps its archived copy as
+the evidence. Run the link check ([data maintenance](../data.md#links)) with
+`--write-offline` so the site says the original is no longer online, and
+look for the page's new address before the next rule edit.
+
 A watched CSV or page whose text changes every day without news (a "days
 since" column) gets `ignoreColumns` in `watch.json`, as Manitoba's
 bulletins list has.

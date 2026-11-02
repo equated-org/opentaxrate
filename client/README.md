@@ -19,7 +19,11 @@ build time, so the client must be built from a full checkout: the taxability
 rule files (`../src/taxability/rules/{us,ca}-*.json`), which `/sources`
 reduces to the pages they cite; the code list (`../src/taxability/codes.ts`)
 for `/docs/taxability`; and the `TaxCode` type, which `src/lib/codes.ts`
-checks its names against.
+checks its names against. `src/lib/offline-originals.json` lists the cited
+pages that are no longer online (written by `scripts/check-links.mts
+--write-offline`, see [data maintenance](../docs/data.md#links)): a lookup's
+citations and `/sources` name those originals without linking them, beside
+the archived copy.
 
 ## Develop
 

@@ -3,7 +3,17 @@
  * evidence/worker.js): every page a rule or rate was read from, kept by its
  * SHA-256 as fetched.
  */
+import offlineList from './offline-originals.json';
+
 export const EVIDENCE = 'https://evidence.opentaxrate.com';
+
+/** Cited pages that were gone when last checked (404/410, no DNS, or a
+ *  certificate no browser accepts), written by `scripts/check-links.mts
+ *  --write-offline`. Their archived copy is the evidence; the original is
+ *  named but not linked. */
+export const offlineChecked: string = offlineList.checked;
+const offlineUrls = new Set(Object.keys(offlineList.urls));
+export const offline = (url: string) => offlineUrls.has(url);
 
 /** Every archived capture of one URL. */
 export const captures = (url: string) => `${EVIDENCE}/url?u=${encodeURIComponent(url)}`;
