@@ -5,6 +5,7 @@
 	import Taxability from './Taxability.svelte';
 	import { howPlaced, MATCH_SHORT, partRows, pct, regionEditions, regionRows } from './format';
 	import { isProvince } from '$lib/states';
+	import { codeName } from '$lib/codes';
 
 	interface Props {
 		rate: AddressRate;
@@ -28,6 +29,37 @@
 	// The date the rate is for: the source names it ("... on 2026-10-21"),
 	// else it's today's, the API's default.
 	const date = $derived(rate.source.match(/\bon (\d{4}-\d{2}-\d{2})/)?.[1] ?? today);
+	// The sale the lookup named (one code, as the picker sends): the
+	// headline answers for it, and each part says whether it taxes it.
+	const sale = $derived.by(() => {
+		const entries = Object.entries(rate.taxability ?? {});
+		if (entries.length !== 1) return null;
+		const [code, t] = entries[0];
+		const byPart = new Map<string, { treatment: string; rate: number | null; first: boolean }>();
+		for (const g of t.taxes) g.parts.forEach((p, i) => byPart.set(p, { treatment: g.treatment, rate: g.rate, first: i === 0 }));
+		const rates = [...new Set((t.outcomes ?? []).map((o) => o.rate))].sort((a, b) => b - a);
+		return { code, name: codeName(code), t, byPart, rates };
+	});
+	/** What one part does to the named sale, in a few words. */
+	function applies(partCode: string): { label: string; on: boolean } | null {
+		const g = sale?.byPart.get(partCode);
+		if (!g) return null;
+		switch (g.treatment) {
+			case 'taxable':
+				return { label: 'applies', on: true };
+			case 'special_rate':
+				return { label: g.first && g.rate !== null ? `${pct(g.rate)} on this sale` : 'in the rate above', on: true };
+			case 'exempt':
+			case 'not_a_sale':
+				return { label: `exempt for ${sale!.name.toLowerCase()}`, on: false };
+			case 'zero_rated':
+				return { label: 'zero-rated', on: false };
+			case 'conditional':
+				return { label: 'depends', on: true };
+			default:
+				return { label: 'not researched', on: true };
+		}
+	}
 	const otherRates = $derived.by(() => {
 		const b = rate.byType;
 		if (!b) return [];
@@ -40,23 +72,57 @@
 </script>
 
 <section aria-labelledby={preview ? undefined : 'rate-heading'} class="flex flex-col gap-6">
-	<div>
-		<h2 id={preview ? undefined : 'rate-heading'} class="text-sm text-[var(--text-muted)]">Combined sales tax rate</h2>
-		<p class="rate-big font-num mt-1 text-[52px] leading-none font-semibold tracking-[-0.04em] text-[var(--text)]">{pct(rate.rate)}</p>
-		<p class="mt-2 text-sm text-[var(--text-muted)]">on {date} · {rate.match === 'statewide' && isProvince(rate.state) ? 'one rate across the province' : (MATCH_SHORT[rate.match] ?? rate.match)}</p>
-	</div>
+	{#if sale}
+		{@const t = sale.t}
+		<div>
+			<h2 id={preview ? undefined : 'rate-heading'} class="text-sm text-[var(--text-muted)]">{sale.name} here</h2>
+			<p class="rate-big mt-1 flex flex-wrap items-baseline gap-x-3 leading-none font-semibold tracking-[-0.04em] text-[var(--text)]">
+				{#if t.treatment === 'not_taxed'}
+					<span class="text-[40px]">Not taxed</span><span class="font-num text-[40px] text-[var(--text-muted)]">0%</span>
+				{:else if t.treatment === 'conditional'}
+					<span class="text-[40px]">Depends</span>
+					{#if sale.rates.length}<span class="font-num text-[40px] text-[var(--text-muted)]">{sale.rates.map((r) => pct(r)).join(' or ')}</span>{/if}
+				{:else if t.treatment === 'not_researched'}
+					<span class="text-[40px]">Not researched</span>
+				{:else}
+					<span class="font-num text-[52px]">{pct(t.rate!)}</span>
+					{#if t.treatment === 'partial'}<span class="text-[22px] tracking-normal text-[var(--text-muted)]">partly taxed</span>{/if}
+				{/if}
+			</p>
+			{#if t.treatment === 'not_researched'}
+				<p class="mt-2 text-sm text-[var(--text-2)]">No rule for this sale here yet. Don't charge the general rate below for it.</p>
+			{:else if t.treatment === 'conditional'}
+				<p class="mt-2 text-sm text-[var(--text-2)]">It turns on a fact about the sale; each case is below.</p>
+			{/if}
+			<p class="mt-2 text-sm text-[var(--text-muted)]">
+				Most other sales here: <span class="font-num font-medium text-[var(--text)]">{pct(rate.rate)}</span> · on {date} · {rate.match ===
+					'statewide' && isProvince(rate.state)
+					? 'one rate across the province'
+					: (MATCH_SHORT[rate.match] ?? rate.match)}
+			</p>
+		</div>
+	{:else}
+		<div>
+			<h2 id={preview ? undefined : 'rate-heading'} class="text-sm text-[var(--text-muted)]">Combined sales tax rate</h2>
+			<p class="rate-big font-num mt-1 text-[52px] leading-none font-semibold tracking-[-0.04em] text-[var(--text)]">{pct(rate.rate)}</p>
+			<p class="mt-2 text-sm text-[var(--text-muted)]">on {date} · {rate.match === 'statewide' && isProvince(rate.state) ? 'one rate across the province' : (MATCH_SHORT[rate.match] ?? rate.match)}</p>
+		</div>
+	{/if}
 
 	<RateBar
-		segments={rows.filter((r) => !r.dim).map((r) => ({ rate: r.rate, color: r.color, label: `${r.name} ${pct(r.rate)}` }))}
+		segments={rows
+			.filter((r, i) => !r.dim && (!sale || applies(rate.parts[i]?.code ?? '')?.on !== false))
+			.map((r) => ({ rate: r.rate, color: r.color, label: `${r.name} ${pct(r.rate)}` }))}
 	/>
 
 	{#if rate.taxability && Object.keys(rate.taxability).length}
-		<Taxability taxability={rate.taxability} {date} parts={rate.parts} {preview} {onpick} />
+		<Taxability taxability={rate.taxability} {date} parts={rate.parts} {preview} {onpick} headline={!sale} />
 	{/if}
 
 	<ul class="-mt-2 divide-y divide-[var(--border)] border-y border-[var(--border)]">
 		{#each rows as row, i (i)}
-			<li class="flex items-baseline gap-3 py-2.5 text-[15px] {row.dim ? 'text-[var(--text-muted)]' : ''}">
+			{@const effect = sale ? applies(rate.parts[i]?.code ?? '') : null}
+			<li class="flex items-baseline gap-3 py-2.5 text-[15px] {row.dim || effect?.on === false ? 'text-[var(--text-muted)]' : ''}">
 				<span class="pixelated mt-0.5 inline-block h-2.5 w-2.5 shrink-0 self-center" style="background: {row.color}"></span>
 				<span class="min-w-0 flex-1">
 					{row.name}
@@ -67,7 +133,8 @@
 						</span>
 					{/if}
 				</span>
-				<span class="font-num text-[14.5px] font-medium">{pct(row.rate)}</span>
+				{#if effect}<span class="text-[12px] {effect.on ? 'text-[var(--text-2)]' : 'text-[var(--text-muted)]'}">{effect.label}</span>{/if}
+				<span class="font-num text-[14.5px] font-medium {effect?.on === false ? 'line-through decoration-1' : ''}">{pct(row.rate)}</span>
 			</li>
 		{/each}
 	</ul>

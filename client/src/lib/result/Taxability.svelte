@@ -18,8 +18,11 @@
 		preview?: boolean;
 		/** Ask again with a narrower code (an outcome's), where the page can. */
 		onpick?: (code: string) => void;
+		/** Show each code's verdict here; off when the page's headline already
+		 *  gives it (one code), leaving the cases, the rules and the sources. */
+		headline?: boolean;
 	}
-	let { taxability, date, parts, preview = false, onpick }: Props = $props();
+	let { taxability, date, parts, preview = false, onpick, headline = true }: Props = $props();
 
 	const HEADLINE: Record<Taxability['treatment'], string> = {
 		taxable: 'Taxed',
@@ -48,19 +51,21 @@
 	{#each Object.entries(taxability) as [code, t] (code)}
 		<div class="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
 			<p class="text-sm text-[var(--text-muted)]">
-				{codeName(code)}
+				{headline ? codeName(code) : 'Why'}
 				<a class="font-num ml-1 text-[12px] underline-offset-2 hover:underline" href={docsHref(code)} title="What this code covers">{code}</a>
 			</p>
-			<p class="mt-1 flex items-baseline gap-3">
-				<span class="text-[22px] font-semibold tracking-[-0.02em] text-[var(--text)]">{HEADLINE[t.treatment]}</span>
-				{#if t.rate !== null}<span class="font-num text-[22px] font-semibold text-[var(--text)]">{pct(t.rate)}</span>{/if}
-			</p>
-			{#if t.treatment === 'not_researched'}
+			{#if headline}
+				<p class="mt-1 flex items-baseline gap-3">
+					<span class="text-[22px] font-semibold tracking-[-0.02em] text-[var(--text)]">{HEADLINE[t.treatment]}</span>
+					{#if t.rate !== null}<span class="font-num text-[22px] font-semibold text-[var(--text)]">{pct(t.rate)}</span>{/if}
+				</p>
+			{/if}
+			{#if t.treatment === 'not_researched' && headline}
 				<p class="mt-1 text-sm text-[var(--text-2)]">
 					No rule for this here on {date} yet. The combined rate above is for a general sale; don't use it for this one.
 				</p>
 			{:else if t.treatment === 'conditional'}
-				<p class="mt-1 text-sm text-[var(--text-2)]">The answer turns on facts this code doesn't carry; each is listed below.</p>
+				{#if headline}<p class="mt-1 text-sm text-[var(--text-2)]">The answer turns on facts this code doesn't carry; each is listed below.</p>{/if}
 				{#if t.outcomes?.length}
 					<ul class="mt-3 flex flex-col gap-1.5 text-sm">
 						{#each t.outcomes as o, j (j)}
@@ -87,7 +92,7 @@
 						</p>
 						{#if g.rule}
 							<p class="mt-1 leading-relaxed text-[var(--text)]">{g.rule.summary}</p>
-							{#if g.rule.conditions.length}
+							{#if g.rule.conditions.length && !(t.outcomes?.length && g.treatment === 'conditional')}
 								<ul class="mt-2 flex flex-col gap-1 text-[13px] text-[var(--text-2)]">
 									{#each g.rule.conditions as c, j (j)}
 										<li class="flex gap-2">
