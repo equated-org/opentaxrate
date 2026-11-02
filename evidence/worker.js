@@ -577,7 +577,7 @@ function webTextPage(hash, url, head, text, full, toggle) {
 	const what = text.kind === 'html' ? 'The page' : 'The file';
 	const note = `${what}'s text as the quote checks read it (${escape(text.extractedWith)}), one block a line; each quote the rules cite on it is highlighted. The archived bytes are the evidence: <a href="/sha256/${hash}/raw">raw bytes</a>.`;
 	const cropNote = crop
-		? `<p class="crop-note">Site navigation trimmed by ${escape((text.crop.answers ?? [{ model: text.crop.model }]).map((a) => modelName(a.model)).join(' and '))} (lines ${text.crop.firstLine}–${text.crop.lastLine} of the page's ${crop.lines}: from the earlier first line to the later last line they picked); nothing reworded — the full text: <a href="/sha256/${hash}?view=text&amp;full=1">?view=text&amp;full=1</a>.</p>`
+		? `<p class="crop-note" title="${escape(`Lines ${text.crop.firstLine}–${text.crop.lastLine} of ${crop.lines}, picked by ${(text.crop.answers ?? [{ model: text.crop.model }]).map((a) => modelName(a.model)).join(' and ')}`)}">Main content only · <a href="/sha256/${hash}?view=text&amp;full=1">full page text</a></p>`
 		: full && cropOf(text)
 			? `<p class="crop-note">The page's whole text, its site's navigation included; <a href="/sha256/${hash}?view=text">its main content only</a>.</p>`
 			: '';
