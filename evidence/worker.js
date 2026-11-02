@@ -97,6 +97,13 @@ h1, h2, h3 { font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
 .about li { margin: 3px 0; }
 .about ul.quotes { list-style: none; padding: 0; }
 .about ul.quotes > li { margin: 10px 0; }
+.about .facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 20px; margin: 14px 0 0; }
+.about .facts dt { color: var(--text-3); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; padding-top: 2px; }
+.about .facts dd { margin: 0; min-width: 0; }
+@media (max-width: 560px) { .about .facts { grid-template-columns: 1fr; gap: 0; } .about .facts dd { margin-bottom: 8px; } }
+.about h2 { padding-top: 16px; border-top: 1px solid var(--line); margin-top: 22px !important; }
+.about ul.quotes > li > a.cite { display: block; padding-left: 12px; border-left: 2px solid var(--quote-line); }
+.about ul.quotes .badges { padding-left: 14px; margin-top: 6px; }
 p.bad-capture { background: var(--warn-bg); border-left: 3px solid var(--warn-line); padding: 6px 10px; }
 .badges { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 4px; }
 .badge { font: 12px/1.7 "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text-2); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; white-space: nowrap; }
@@ -263,15 +270,21 @@ function card(hash, places, shown, asked, marks = []) {
 		.sort(([a], [b]) => (a === '') - (b === ''))
 		.map(([quote, rs]) => `<li>${quote ? quoteLink(quote) : '<span class="quiet">Cited without a quote</span>'}<div class="badges">${rs.map(badge).join('')}</div></li>`)
 		.join('');
+	const row = (label, value) => `<dt>${label}</dt><dd>${value}</dd>`;
+	const facts = [
+		row('Captured', `${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC${capture.via ? ` · from the <a href="${escape(capture.via)}" rel="noopener">Internet Archive's capture</a> <span class="quiet">(the site blocks downloads, or this edition is no longer online)</span>` : ''}`),
+		row('File', `${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a>`),
+		row('SHA-256', `<span class="mono">${hash}</span>`),
+		others.length ? row('Other captures', others.map((c) => `<a href="/sha256/${c.sha256}">${day(c.at)}</a>${c.bad ? ` <span class="bad-capture">(${escape(badNote(c))})</span>` : ''}`).join(', ')) : '',
+		alsoAt.length ? row('Same bytes at', alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join('<br>')) : '',
+		row('Original', offline(url) ? `No longer online (checked ${escape(offlineList.checked)}); this copy is the evidence.` : 'May have changed since this capture.'),
+	].join('');
 	return `<section class="about">
 <h1>${original(url)}</h1>
-${capture.via ? `<p>Copied from the <a href="${escape(capture.via)}" rel="noopener">Internet Archive's capture</a> of ${escape(day(capture.at))}: the site blocks downloads, or this edition is no longer online.</p>` : ''}
+<p class="quiet">Archived copy, kept byte for byte as fetched.</p>
 ${capture.bad ? `<p class="bad-capture"><strong>${escape(badNote(capture))}</strong>: this capture is kept as fetched, but it isn't evidence of the page. ${others.some((c) => !c.bad) ? 'See the other captures below.' : 'The archive has no other capture that is the page.'}</p>` : ''}
-<p>Archived copy, as fetched · captured ${escape(capture.at.replace('T', ' ').slice(0, 16))} UTC · <span class="hash">SHA-256 <span class="mono">${hash}</span></span> · ${escape(capture.type.split(';')[0])}, ${size(capture.bytes)} · <a href="/sha256/${hash}/raw">raw bytes</a></p>
-${others.length ? `<p>Other captures: ${others.map((c) => `<a href="/sha256/${c.sha256}">${day(c.at)}</a>${c.bad ? ` <span class="bad-capture">(${escape(badNote(c))})</span>` : ''}`).join(', ')}</p>` : ''}
-${alsoAt.length ? `<p>Same bytes at ${alsoAt.map((p) => `<a href="/url?u=${encodeURIComponent(p.url)}">${escape(p.url)}</a>`).join(', ')}</p>` : ''}
-${asked ? `<p>Asked for ${escape(asked)}: no copy of the page is from that day or before, so this is the earliest the archive has.</p>` : ''}
-<p class="quiet">${offline(url) ? `The original is no longer online (checked ${escape(offlineList.checked)}); this copy is the evidence.` : 'The original may have changed since.'}</p>
+${asked ? `<p class="bad-capture">Asked for ${escape(asked)}: no copy of the page is from that day or before, so this is the earliest the archive has.</p>` : ''}
+<dl class="facts">${facts}</dl>
 ${rules ? `<h2>Cited by ${rules} rule${rules > 1 ? 's' : ''}</h2><ul class="quotes">${cites}</ul>` : ''}
 </section>`;
 }
