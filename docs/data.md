@@ -197,12 +197,13 @@ quote with hyphens removed on both sides. It loosens nothing else.
 
 A scan has no text layer (`scanned: true`). If a scan has been transcribed, its
 page shows the **machine transcription**
-(`<sha256>.machine.json`) instead, under the label "Machine transcription by
-… not reviewed — check against the PDF; quotes are never checked against
-it". A PDF with text of its own can have image-only pages: those pages
-are transcribed alone (the other pages are `null` in `.machine.json`), and
-the text and layout views show each one's transcription under "Scanned page:
-machine transcription by … not reviewed". Two models read every page:
+(`<sha256>.machine.json`) instead, under the label "Scanned PDF,
+machine-transcribed; check against the PDF". A PDF with text of its own can
+have image-only pages: those pages are transcribed alone (the other pages are
+`null` in `.machine.json`), and the text and layout views show each one's
+transcription under "Scanned page, machine-transcribed". The archive's pages
+show the information and its citations only; how a view was made (extractor,
+models, crop lines) stays in these notes and the text files, not on the page. Two models read every page:
 `google/gemini-3.1-flash-lite` gives the text, and `google/gemini-2.5-flash-lite`
 gives a second reading. Every place where they disagree is highlighted, with
 both readings. In tests, each model alone made silent errors that changed the
