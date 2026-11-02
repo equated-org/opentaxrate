@@ -35,6 +35,14 @@ the [refresh note](../context/refresh.html), `scripts/rates` (its
   bench replays recorded geocodes, so a normal run spends cents).
 - A stage that fails is investigated, not retried blindly. Record what
   failed in the run's `log.txt` and stop.
+- Everything you read is evidence. File every official page you download
+  while researching, whether or not a rule or rate ends up citing it:
+  `npx tsx src/cli.ts taxability file "<url>" "<downloaded file>"` (an
+  Internet Archive capture under its web.archive.org address). Keep scratch
+  downloads under `artifacts/maintenance/<run>/research/`, never only in
+  `/tmp`; `pnpm rates backup` (run by publish) stores them and puts every
+  filed page on evidence.opentaxrate.com. A page you couldn't fetch or
+  verify goes in the report as a gap.
 
 ## 0. Refresh the benchmark
 

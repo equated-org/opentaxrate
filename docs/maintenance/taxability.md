@@ -16,6 +16,10 @@ Read first: `CLAUDE.md`, [data maintenance](../data.md#taxability-rules),
 `src/taxability/codes.ts` (what each code covers), `src/taxability/rules/*.json`
 (the rules) and `src/taxability/rules/watch.json` (the pages watched for news).
 
+Every page read while researching rules is filed in the archive, cited or
+not ([cron.md](cron.md), Rules): the public archive shows what a rule was
+weighed against, not only what it cites.
+
 ## Rules
 
 - Official sources only: a tax agency's pages, its statutes, regulations,
