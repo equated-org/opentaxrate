@@ -3,6 +3,7 @@
  *   GET /v1/rate?street=&city=&state=&zip=&date=  the rate at an address
  *       or ?address=1410 E Pine St, Seattle, WA   ...given as one line
  *       &code=food.catering                       ...and how that sale is taxed
+ *       &describe=hot rotisserie chicken          ...or the sale in plain words (taxability/describe.ts)
  *       &include=trace                            ...and how it was placed
  *   GET /v1/coverage                              each state's method and files
  *   GET /v1/openapi.json                          the two above, as OpenAPI 3.1 (api-schema.ts)
@@ -112,6 +113,7 @@ const rateRoute = createRoute({
     400: refusal("A parameter failed validation, or address couldn't be read; the message says what's missing (BAD_REQUEST)."),
     401: refusal("The key isn't one we issued (INVALID_API_KEY)."),
     402: refusal("The key's credit doesn't cover the lookup (NO_CREDITS)."),
+    403: refusal("describe= was sent without an API key (KEY_REQUIRED)."),
     422: refusal("The data can't place the address in one rate (ADDRESS_NEEDS_CONFIRMATION), or the state isn't covered (UNSUPPORTED_STATE)."),
     429: refusal("Too many lookups; wait the Retry-After seconds (RATE_LIMITED, KEY_LIMITED)."),
     502: refusal("A state's data isn't loaded, or its service is down (UPSTREAM_UNAVAILABLE)."),
@@ -126,9 +128,13 @@ app.get(rateRoute.path, async (c) => {
   const badRequest = (error: string) => c.json({ error, code: "BAD_REQUEST" }, 400);
   const parsed = query.safeParse(c.req.query());
   if (!parsed.success) return badRequest(usage);
-  const { include: includeParam, address, code, ...fields } = parsed.data;
+  const { include: includeParam, address, code, describe, ...fields } = parsed.data;
   const codes = code ? parseCodes(code) : { codes: [] };
   if ("unknown" in codes) return badRequest(`code "${codes.unknown}" isn't one of: ${Object.keys(TAX_CODES).join(", ")}.`);
+  if (describe && codes.codes.length > 1) return badRequest("describe= names one item: send it alone, or beside one code.");
+  // Reading text costs a model call: keyed callers only.
+  if (describe && c.var.access.tier !== "keyed")
+    return c.json({ error: "describe= needs an API key. Without one, send code= (the codes are listed in the docs).", code: "KEY_REQUIRED" }, 403);
   const line = address ? parseAddress(address) : undefined;
   if (line && !line.ok) return badRequest(PARSE_HINT[line.reason]);
   const from = line?.ok ? line.address : undefined;
@@ -137,6 +143,7 @@ app.get(rateRoute.path, async (c) => {
   const q = {
     ...fields,
     ...(codes.codes.length ? { codes: codes.codes } : {}),
+    ...(describe ? { describe } : {}),
     state,
     street: fields.street || from?.street || "",
     city: fields.city || from?.city || "",
@@ -164,7 +171,7 @@ app.get(rateRoute.path, async (c) => {
   }
 });
 
-type Query = Omit<z.infer<typeof query>, "address" | "state" | "code"> & { state: string; date: string; codes?: TaxCode[] };
+type Query = Omit<z.infer<typeof query>, "address" | "state" | "code" | "describe"> & { state: string; date: string; codes?: TaxCode[]; describe?: string };
 
 /** A lookup with a key: charged, answered from the caller's own recent
  *  answers when it can, and logged. */
@@ -212,6 +219,10 @@ async function keyedLookup(
   try {
     const rate = await lookUpRate(q, { trace, regions: include.includes("regions"), policy: policyFor(a), budget });
     const answer = trace ? { ...rate, trace } : rate;
+    // An answer the model couldn't read the text for is logged, but never
+    // replayed from history: the next ask tries the model again.
+    const degraded = Object.values(rate.taxability ?? {}).some((t) => "interpreted" in t && t.interpreted?.unavailable);
+    if (degraded) logged.answerKey = `${key}|unavailable`;
     await done(200, rate, price);
     return c.json(fits(answer));
   } catch (error) {

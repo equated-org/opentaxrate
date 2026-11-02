@@ -15,8 +15,10 @@ import { jevChoice, type StreetPicker } from "./rates/streets/jev.js";
 import { regionsAt, type Regions } from "./regions.js";
 import type { LocatedPoint, Locate } from "./geocoding/types.js";
 import { loadRules, taxabilityByCode, type Taxability, type TaxCode } from "./taxability/index.js";
+import { describedTaxability, type Described } from "./taxability/describe.js";
+import { cachedPicker, jevPicker, memoryStore, paidPicker as paidDescribe, type Picker } from "./taxability/picker.js";
 
-export type LookupResult = AddressRate & { taxability?: Record<string, Taxability>; regions?: Regions };
+export type LookupResult = AddressRate & { taxability?: Record<string, Taxability | Described>; regions?: Regions };
 
 export interface RateQuery {
   state: string;
@@ -28,6 +30,9 @@ export interface RateQuery {
   /** What was sold, one or more codes; adds how each is taxed there
    *  (taxability/). */
   codes?: TaxCode[];
+  /** What was sold, in plain words, alone or beside one code
+   *  (taxability/describe.ts). */
+  describe?: string;
 }
 
 /** How far around the point a traced outline is drawn: at least 3 km, and
@@ -73,13 +78,31 @@ export async function lookUpRate(q: RateQuery, options: LookupOptions = {}): Pro
   );
   try {
     const general = await found;
-    const rate: LookupResult = q.codes?.length ? { ...general, taxability: taxabilityByCode(general, q.codes, date, await loadRules()) } : general;
+    const rate: LookupResult = q.describe
+      ? { ...general, taxability: await describedEntry(general, q.describe, q.codes?.[0], date, policy, budget) }
+      : q.codes?.length
+        ? { ...general, taxability: taxabilityByCode(general, q.codes, date, await loadRules()) }
+        : general;
     if (!options.regions) return rate;
     const regions = await regionsAt(state, date, () => lastPoint ? Promise.resolve(lastPoint) : locate());
     return { ...rate, regions };
   } finally {
     if (trace) await drawOutlines(state, trace, date);
   }
+}
+
+/** What descriptions were read as, by question and text: a repeat from
+ *  any address costs no call. */
+const describeCache = memoryStore();
+
+/** The one taxability entry describe= adds: keyed by the code sent, or by
+ *  the text as sent. Jev reads it where the policy allows Jev and, with a
+ *  budget, only when the budget pays for each call. */
+async function describedEntry(general: AddressRate, text: string, code: TaxCode | undefined, date: string, policy: ProviderPolicy, budget?: AccountBudget) {
+  const jev = policy.allows("jev") ? jevPicker() : null;
+  const paid: Picker | null = jev && budget ? paidDescribe(jev, () => budget.spend("jev", toMicros(JEV_PRICE))) : jev;
+  const picker = paid && cachedPicker(paid, describeCache);
+  return { [code ?? text]: await describedTaxability(general, { code, text }, date, await loadRules(), picker) };
 }
 
 /** Jev, asked only when the budget pays for the pick. */

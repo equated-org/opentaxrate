@@ -128,6 +128,42 @@ export interface Params {
    *  ahead of the next (rates/streets/correct.ts). */
   spellingMinSimilarity: number;
   spellingMinLead: number;
+  /** describe= (taxability/describe.ts): the picker's probability a code,
+   *  with its narrower kinds, needs before the text's code is used... */
+  describeCodeAccept: number;
+  /** ...and the probability a tax's cases that the rules treat alike need
+   *  together before the text settles that tax as one of them. */
+  describeConditionAccept: number;
+  /** With no code accepted, the codes at or above this are candidates. */
+  describeCandidateFloor: number;
+  /** Whether a case that turns on a money amount ("totalling $4.00 or
+   *  less", "a contract over $10,000") may be settled by a price the text
+   *  states. Off: a price in a description isn't a transaction value (a
+   *  line's price isn't the sale's total), so such cases stay open. */
+  describeReadsAmounts: boolean;
+  /** The same for a case that turns on how many units are sold ("in
+   *  quantities of fewer than six", "four or more servings"): off, a count
+   *  in the text never settles it. On held-out (2026-11-02) the picker read
+   *  "one tart, two muffins, one cookie and two doughnuts" as fewer than
+   *  six. */
+  describeReadsCounts: boolean;
+  /** For a question the first pick leaves open, ask each option as its own
+   *  yes-or-no question: one established at describeBinaryAccept settles
+   *  it, unless an option with another effect reaches describeBinaryVeto. */
+  describeBinaryFallback: boolean;
+  /** Tuned on dev half A (2026-11-02, frozen rules a4baa142): 0.9/0.9 was
+   *  best there (+6 code, +3 text) but made fl-02 wrong on half B (a binary
+   *  yes at 0.93), so it failed confirmation; 0.95/0.9, A's runner-up and
+   *  the reviewers' prior, is kept, clean on both halves. A 0.95 veto made
+   *  d2-mb-20 wrong on A. */
+  describeBinaryAccept: number;
+  describeBinaryVeto: number;
+  /** With no one code, the codes whose answers here agree tax by tax are
+   *  pooled; their probability together must reach describeCodePoolAccept. */
+  /** Chosen on half A: 0.95 gave +9 text; 0.9 made d2-nt-04 wrong (a
+   *  frozen shrimp ring pooled as groceries). Clean on half B. */
+  describeCodePooling: boolean;
+  describeCodePoolAccept: number;
 }
 
 const DEFAULTS: Params = {
@@ -156,6 +192,16 @@ const DEFAULTS: Params = {
   breakdownMarginMetres: 60,
   spellingMinSimilarity: 0.45,
   spellingMinLead: 0.08,
+  describeCodeAccept: 0.9,
+  describeConditionAccept: 0.9,
+  describeCandidateFloor: 0.05,
+  describeReadsAmounts: false,
+  describeReadsCounts: false,
+  describeBinaryFallback: true,
+  describeBinaryAccept: 0.95,
+  describeBinaryVeto: 0.9,
+  describeCodePooling: true,
+  describeCodePoolAccept: 0.95,
 };
 
 /** The value OTR_PARAMS gives `key`, or an error saying why it can't be. */

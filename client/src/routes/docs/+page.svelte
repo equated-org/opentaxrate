@@ -179,6 +179,15 @@ else sendElsewhere();                                   // not_researched: never
 			</td>
 		</tr>
 		<tr>
+			<td><code>describe</code></td>
+			<td>
+				What was sold in plain words, one item, up to 200 characters: <code>hot rotisserie chicken</code>. Alone, it adds one
+				<code>taxability</code> entry keyed by the text; beside one <code>code</code>, the code answers and the text settles the
+				rules' cases. A model only picks among the codes and the rules' own cases; the rules decide, and a case that turns on an amount or a count of units stays open. See
+				<a class="link" href="/docs/taxability#describe">Describing the sale</a>. Beside two or more codes it is a 400. Needs an API key: without one it is a 403 (<code>KEY_REQUIRED</code>).
+			</td>
+		</tr>
+		<tr>
 			<td><code>include</code></td>
 			<td>
 				<code>trace</code> adds placement evidence; <code>regions</code> adds
@@ -226,7 +235,7 @@ else sendElsewhere();                                   // not_researched: never
 		<tr><td><code>zip4</code></td><td>The address's ZIP+4 where a Streamlined state's files give it; else <code>null</code>.</td></tr>
 		<tr><td><code>source</code></td><td>The files or service the rate came from, and the date. See <a class="link" href="#old-files">why some source files are old</a>.</td></tr>
 		<tr><td><code>reporting</code></td><td>The agency, return, and any local filing. See <a class="link" href="/docs/codes#reporting">Reporting</a>.</td></tr>
-		<tr><td><code>taxability</code></td><td>With <code>code</code>: how each code asked is taxed here, keyed by the code. See <a class="link" href="#taxability">Taxability</a>.</td></tr>
+		<tr><td><code>taxability</code></td><td>With <code>code</code>: how each code asked is taxed here, keyed by the code. With <code>describe</code> and no code: one entry keyed by the text as sent. See <a class="link" href="#taxability">Taxability</a>.</td></tr>
 		<tr><td><code>regions</code></td><td>With <code>include=regions</code>. See <a class="link" href="/docs/regions">Regional data</a>.</td></tr>
 	</tbody>
 </table>
@@ -309,6 +318,17 @@ else sendElsewhere();                                   // not_researched: never
 				independently; combine one case per tax. Each outcome is then one tax's case, named in its <code>tax</code>, at that case's
 				rate for its tax plus the settled taxes'. The sale's rate is the settled taxes' plus each chosen case's own share. See
 				<a class="link" href="/docs/taxability#outcomes">Outcomes</a>.
+			</td>
+		</tr>
+		<tr>
+			<td><code>interpreted</code></td>
+			<td>
+				Only with <code>describe</code>: how the text was read. <code>code</code> is the code it points to (with the model's
+				<code>confidence</code>), <code>null</code> with <code>candidates</code> when it could be several;
+				<code>conditions</code> lists the rules' cases the text settled, one per tax; <code>mismatch</code> is <code>true</code>
+				when the text points away from the code sent (the code still answers); <code>unavailable</code> is <code>true</code> when
+				the text couldn't be read, and the entry answers as without it. See
+				<a class="link" href="/docs/taxability#describe">Describing the sale</a>.
 			</td>
 		</tr>
 		<tr><td><code>rule.citations</code></td><td>The official pages the rule was read from: <code>title</code>, <code>url</code> (the page as published), the <code>quote</code> the rule rests on, and <code>archived</code>: OpenTaxRate's copy of the page that shows the quote, opening at the sentence, pinned to its <code>sha256</code>. Link to <code>archived</code>; it names the original too.</td></tr>

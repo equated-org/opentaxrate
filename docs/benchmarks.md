@@ -80,6 +80,7 @@ answers mean an incomplete run. Run one trial at a time.
 | `pnpm bench split batch-dev-typos NAME` | typo set, separate from `all` |
 | `pnpm bench eval NAME` | private held-out sets; once after tuning, when available |
 | `pnpm bench taxability [--list]` | the taxability rules against the taxability cases; no database or geocoder |
+| `pnpm bench taxability --describe [--cases DIR] [--out FILE]` | the same cases with each one's `facts` sent as `describe=`, with and without its code |
 | `pnpm bench cost` | recorded geocoder spend |
 
 `SETTINGS` is a JSON override, e.g. `'{"breakdownMarginMetres":30}'`.
@@ -147,4 +148,38 @@ the deciding fact; *not researched* when no rule covers the place, code and
 date. Keep a rule change only if *wrong* doesn't rise. Add a case by copying
 an agency example into the place's file; a new case that scores *wrong* is
 settled by reading the page, not by editing the case.
+
+`pnpm bench taxability --describe` sends each case's `facts` sentence as
+`describe=` (`src/taxability/describe-bench.ts`) and scores the answer the
+same way, twice: *code*, with the case's code, and *text*, with none, so the
+picker chooses the code as well. A text answer with no one code (candidates)
+counts as declined. The text run also counts the code step: the case's code,
+broader, narrower, listed among the candidates, none, or another code. Jev's
+answers are kept in `artifacts/taxability/describe-picks.json` by
+(model, instructions, options, text), so a rerun asks nothing new and gives
+the same numbers; without `TYPESAFE_API_KEY` the file is replayed alone.
+Each mode is reported over all cases and over the API-valid slice
+(descriptions of at most 200 characters, as `describe=` takes them), with
+the right answers whose rate the scorer can't tell from another positive
+rate (`rate-unchecked`: add `expected.rate` where the case's source states
+it), and the `needs` the declines name. `--half A` or `--half B` scores a
+deterministic half (by a hash of place and id): choose settings on A,
+confirm on B, then report all of dev.
+Tune `describeCodeAccept` and `describeConditionAccept` (`src/params.ts`,
+`SETTINGS` as above via `OTR_PARAMS`) on the dev cases, keeping both runs at
+zero *wrong*; score `--cases artifacts/taxability/evals-holdout` once, with
+the prompts and thresholds frozen. The `facts` sentences restate an agency's
+example and often name the deciding fact, so they flatter the text step
+compared with a merchant's receipt line.
+
+**Held-out contamination, 2026-11-02.** The describe run on
+`evals-holdout` was scored once with everything frozen (code mode 275 right,
+3 wrong; text mode 245 right, 2 wrong), and three changes were then made
+because of those wrong cases: the count guard (`describeReadsCounts`, after
+ho-qc-05: six bakery items read as fewer than six), the CT
+`construction.real_property.improvement` new-construction and remodel wording
+(after ho-ct-03, Ruling 96-2) and the MA `food.prepared.cold` salad wording
+(after ho-ma-01, Letter Ruling 12-2). Each rule's `notes` says so. Held-out
+describe scores from then on are no longer a clean check of those three
+changes; a fresh held-out sample is needed for one.
 

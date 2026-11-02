@@ -41,6 +41,10 @@
       {
         "when": "Delivery by common carrier or U.S. Postal Service, billed as a separate, identifiable item (not lumped into 'shipping and handling')",
         "treatment": "exempt"
+      },
+      {
+        "when": "Delivery by common carrier or U.S. Postal Service, with the transportation charge combined with other charges into one 'shipping and handling' or 'postage and handling' charge",
+        "treatment": "taxable"
       }
     ],
     "citations": [
@@ -58,9 +62,14 @@
         "title": "ALDOR FAQ: Are freight charges taxable?",
         "url": "https://www.revenue.alabama.gov/faqs/are-freight-charges-taxable/",
         "quote": "If delivery is made by common carrier or the U.S. Postal Service, the transportation charges shall not be subject to sales or use tax if billed as a separate item and paid directly or indirectly by the purchaser."
+      },
+      {
+        "title": "Ala. Admin. Code r. 810-6-1-.178(2), Transportation Charges (ALDOR copy)",
+        "url": "https://www.revenue.alabama.gov/wp-content/uploads/2021/12/810-6-1-.178.pdf",
+        "quote": "Transportation charges are not separate and identifiable if included with other charges and billed as \"shipping and handling\" or \"postage and handling\"."
       }
     ],
-    "notes": "Rule 810-6-1-.178 last amended 1987 per its history. The Alabama Tax Tribunal has read the separately-stated exclusion more broadly in some cases; not modeled. delivery.exempt_goods is not written: no official statement found on delivery of exempt goods."
+    "notes": "Rule 810-6-1-.178 last amended 1987 per its history. The Alabama Tax Tribunal has read the separately-stated exclusion more broadly in some cases; not modeled. delivery.exempt_goods is not written: no official statement found on delivery of exempt goods. 2026-11-02: added the combined 'postage and handling' case (Rule 810-6-1-.178(2), last amended 1987) after the describe benchmark case d2-al-05 found no option for it."
   },
   {
     "tax": "AL",

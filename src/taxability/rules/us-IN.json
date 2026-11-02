@@ -303,8 +303,12 @@
         "treatment": "exempt"
       },
       {
-        "when": "Utensils physically given to the customer, or sold by a restaurant (75% or more prepared-food sales) that makes utensils available, unless four or more servings packaged as one item",
+        "when": "Utensils physically given to the customer with the item, or sold by the piece by a restaurant (75% or more prepared-food sales) that makes utensils available",
         "treatment": "taxable"
+      },
+      {
+        "when": "Four or more servings packaged together and sold as one item for one price (a box of a dozen donuts) by a restaurant that makes utensils available but doesn't hand them to the customer",
+        "treatment": "exempt"
       }
     ],
     "citations": [
@@ -322,9 +326,19 @@
         "title": "Indiana Code 2026, Title 6",
         "url": "https://iga.in.gov/ic/2026/Title_6.pdf",
         "quote": "Bakery items, including bread, rolls, buns, biscuits, bagels, croissants, pastries, donuts, danish, cakes, tortes, pies, tarts, muffins, bars, cookies, and tortillas."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025), bulk servings",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "Additionally, items that contain four or more servings packaged as one item and sold for a single price (a “bulk serving”) do not become prepared food because the restaurant has utensils available."
+      },
+      {
+        "title": "Indiana DOR Sales Tax Information Bulletin #29, Sales of Food (September 2025), Example #1",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The sale of a box of a dozen donuts is not subject to sales tax, regardless of whether the donuts were prepackaged for sale or individually chosen by a customer and packaged together, because it is a package of four or more servings sold as one item for a single price."
       }
     ],
-    "notes": "SIB #29 dated September 2025, 'Effective Date: Upon Publication'; the exact day in September isn't given, so from is the 1st. Warm bakery items don't count toward the 75% restaurant test, so most bakeries are not restaurants. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes'). Made conditional 2026-11-01: the utensil exception is an ordinary fact of the sale (d2-in-04). 2026-11-01: SIB 29 is effective on publication, September 2025, day not given."
+    "notes": "SIB #29 dated September 2025, 'Effective Date: Upon Publication'; the exact day in September isn't given, so from is the 1st. Warm bakery items don't count toward the 75% restaurant test, so most bakeries are not restaurants. Counties and cities may impose separate local food and beverage (FAB) taxes, generally 1% (IC 6-9), on food and beverages sold for consumption at a location or on equipment provided by the merchant; these are not sales tax and aren't modeled here (SIB #29: 'if a transaction is exempt from sales tax, then the transaction is also exempt from any FAB taxes'). Made conditional 2026-11-01: the utensil exception is an ordinary fact of the sale (d2-in-04). 2026-11-01: SIB 29 is effective on publication, September 2025, day not given. 2026-11-02: the four-or-more-servings exception, until now an 'unless' inside the taxable case, is a case of its own after the describe benchmark case d2-in-03 found no option for it."
   },
   {
     "tax": "IN",

@@ -48,12 +48,22 @@
     "fromIs": "earliest_verified",
     "treatment": "taxable",
     "summary": "Supplying and installing floor covering (carpet, vinyl, hardwood, laminate) is subject to sales tax, unlike other construction services.",
-    "conditions": [],
+    "conditions": [
+      {
+        "when": "The floor installed is ceramic tile, marble, concrete, mosaic work, epoxy, terrazzo or fresco: contractor's excise tax applies instead of sales tax",
+        "treatment": "exempt"
+      }
+    ],
     "citations": [
       {
         "title": "Flooring (SD DOR Tax Fact, July 2023)",
         "url": "https://dor.sd.gov/media/3fopa03j/flooring.pdf",
         "quote": "Installers owe the state and applicable city sales tax on their total receipts."
+      },
+      {
+        "title": "Flooring (SD DOR Tax Fact, July 2023)",
+        "url": "https://dor.sd.gov/media/3fopa03j/flooring.pdf",
+        "quote": "Contractor’s excise tax applies to installation of the following floor material: • Ceramic tile • Marble • Concrete • Mosaic work • Epoxy • Terrazzo • Fresco"
       }
     ],
     "notes": "SDCL 10-45-12.1's carve-out from the contractor's excise tax. Added 2026-10-30 for an exception a development benchmark case exposed; cites the agency page that case quotes."

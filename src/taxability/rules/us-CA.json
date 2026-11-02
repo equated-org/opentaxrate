@@ -1049,11 +1049,15 @@
         "treatment": "taxable"
       },
       {
-        "when": "Delivery in the seller's own vehicles, separately stated, where the sale occurs before transport begins (e.g. explicit prior title transfer), up to a reasonable charge",
+        "when": "Delivery in the seller's own vehicles, separately stated, where the sale occurs before transport begins (e.g. explicit prior title transfer), up to a reasonable charge, of goods other than hot prepared food",
         "treatment": "exempt"
       },
       {
         "when": "Charge for freight-in to the seller's place of business",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The seller delivers hot prepared food itself (its own staff or vehicle) and charges a delivery fee",
         "treatment": "taxable"
       }
     ],
@@ -1082,9 +1086,14 @@
         "title": "CDTFA Publication 100 (Rev. December 2017)",
         "url": "https://cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm",
         "quote": "You deliver merchandise with your own vehicles. Exception: May not be taxable if title to merchandise transfers to buyer before delivery."
+      },
+      {
+        "title": "CDTFA Tax Guide for Restaurant Owners: Industry Topics, Food Deliveries",
+        "url": "https://www.cdtfa.ca.gov/industry/restaurant-owners/industry-topics.htm",
+        "quote": "Hot prepared food is taxable including any delivery fees you may charge."
       }
     ],
-    "notes": "1995-07-19 is the effective date of Reg 1628's last amendment, which added the 'postage/shipping and handling' and 'handling' sentences. The carrier-delivery exclusion is much older (Reg 1628 adopted 1962), but its earlier wording is unverified. When a seller delivers in its own vehicles, title passes on delivery unless a written agreement says otherwise (Reg 1628(b)(3)(D)), so own-vehicle delivery charges are usually taxable. Mixed taxable and exempt shipments need apportionment, which was not researched (unverified). Who carries the goods and the seller's cost are facts no code carries. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html to https://cdtfa.ca.gov/lawguides/vol1/sutr/1628.html. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6012.html to https://cdtfa.ca.gov/lawguides/vol1/sutl/6012.html. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm to https://cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm."
+    "notes": "1995-07-19 is the effective date of Reg 1628's last amendment, which added the 'postage/shipping and handling' and 'handling' sentences. The carrier-delivery exclusion is much older (Reg 1628 adopted 1962), but its earlier wording is unverified. When a seller delivers in its own vehicles, title passes on delivery unless a written agreement says otherwise (Reg 1628(b)(3)(D)), so own-vehicle delivery charges are usually taxable. Mixed taxable and exempt shipments need apportionment, which was not researched (unverified). Who carries the goods and the seller's cost are facts no code carries. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1628.html to https://cdtfa.ca.gov/lawguides/vol1/sutr/1628.html. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6012.html to https://cdtfa.ca.gov/lawguides/vol1/sutl/6012.html. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm to https://cdtfa.ca.gov/formspubs/pub100/applying-sales-tax.htm. 2026-11-02: added the hot-food delivery case (CDTFA restaurant guide) after the held-out describe benchmark case ho-ca-10 found no option for a restaurant's delivery fee on hot food. The held-out set already isn't clean (docs/benchmarks.md), and this case no longer counts as held out. The guide is read as currently published; that it said the same from 1995-07-19 isn't verified here. Hot food delivered by an independent carrier or platform isn't settled by this case."
   },
   {
     "tax": "CA",

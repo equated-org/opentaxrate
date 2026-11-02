@@ -177,11 +177,11 @@
     "summary": "Bakery items sold for home consumption (whole loaves and cakes) are exempt from the state tax even from a café or deli-bakery; single servings sold with drinks for eating there are taxable.",
     "conditions": [
       {
-        "when": "Sold for home consumption (a loaf of bread or whole cake), not for a party at the store or delivered to a non-residential location",
+        "when": "Sold for home consumption by the loaf or whole cake or tray (picked up, or delivered to a private residence), not for a party or gathering held at or near the seller, whether the seller is a store or sells ready-to-eat food (a coffee shop's whole sheet cake)",
         "treatment": "exempt"
       },
       {
-        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
+        "when": "Sold as individual items (a slice of cake, a single muffin) by a business or location that holds itself out as selling ready-to-eat food for immediate consumption; for a party or gathering held at or near the seller; delivered to a location other than a private residence; or through a vending machine",
         "treatment": "taxable"
       }
     ],
@@ -200,9 +200,24 @@
         "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
         "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
         "quote": "The sale at retail of the sheet cake is exempt from the state sales and use tax"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "However, sales at retail of these same food products by the loaf or tray are subject exempt from the state sales and use tax under SC Code §12-36-2120(75) unless such loaf or tray is sold for a party or gathering held at or near the coffee shop or is delivered to a location other than a private residence."
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "Sales at retail by a coffee shop of packaged cold sandwiches, salads, and containers of cut fruit, cookies, muffins, donuts, slices of nut bread, cupcakes, brownies, whole fruit, or similar food products sold individually are subject to the tax at the full state rate."
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "food sold through vending machines"
       }
     ],
-    "notes": "SC Regulation 117-337.2(B) examples: a deli-bakery's loaf of bread and a coffee shop's whole sheet cake are exempt; slices sold to eat with coffee are not. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+    "notes": "SC Regulation 117-337.2(B) examples: a deli-bakery's loaf of bread and a coffee shop's whole sheet cake are exempt; slices sold to eat with coffee are not. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf. 2026-11-02: the cases now say, as Regulation 117-337's coffee-shop examples do, that a whole cake, loaf or tray sold for home consumption is exempt whoever sells it, and individual items from a seller of ready-to-eat food are taxed; found on dev half A of the describe benchmark (d2-sc-04)."
   },
   {
     "tax": "SC",
@@ -327,14 +342,14 @@
     "from": "2007-11-01",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "A cold platter is exempt from the state tax when sold for home consumption; taxable when sold for a party at the store, delivered to a non-residential location, or from a location selling for immediate consumption.",
+    "summary": "A cold platter or tray is exempt from the state tax when sold for home consumption, even by a seller of ready-to-eat food such as a coffee shop; taxable when sold for a party or gathering at or near the seller, delivered to a location other than a private residence, or through a vending machine.",
     "conditions": [
       {
-        "when": "Sold for home consumption (picked up, or delivered to a private residence) by a store not holding that location out as selling ready-to-eat food",
+        "when": "Sold for home consumption: picked up, or delivered to a private residence, and not for a party or gathering held at or near the seller, whether the seller is a store or sells ready-to-eat food (a coffee shop's tray)",
         "treatment": "exempt"
       },
       {
-        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
+        "when": "Sold for a party or gathering held at or near the seller, delivered to a location other than a private residence, or through a vending machine",
         "treatment": "taxable"
       }
     ],
@@ -358,9 +373,19 @@
         "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
         "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
         "quote": "Meals or food shipped or delivered to businesses or institutions"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "However, sales at retail of these same food products by the loaf or tray are subject exempt from the state sales and use tax under SC Code §12-36-2120(75) unless such loaf or tray is sold for a party or gathering held at or near the coffee shop or is delivered to a location other than a private residence."
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "food sold through vending machines"
       }
     ],
-    "notes": "SC Regulation 117-337 has no platter rule of its own; the home-consumption test and the party/delivery limits decide it. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+    "notes": "SC Regulation 117-337 has no platter rule of its own; the home-consumption test and the party/delivery limits decide it. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf. 2026-11-02: the cases now turn on home consumption, not on whether the seller holds itself out as selling ready-to-eat food: Regulation 117-337's coffee-shop example exempts a tray sold for home consumption by such a seller. Found through the describe benchmark case d2-sc-06. Local taxes keep their own rule (SC:local), which this exemption doesn't reach."
   },
   {
     "tax": "SC",
@@ -736,19 +761,19 @@
     "summary": "Local taxes: taxable when sold for immediate consumption; when sold for home consumption, as the place's local unprepared-food treatment says.",
     "conditions": [
       {
-        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
+        "when": "Sold as individual items (a slice of cake, a single muffin) by a business or location that holds itself out as selling ready-to-eat food for immediate consumption; for a party or gathering held at or near the seller; delivered to a location other than a private residence; or through a vending machine",
         "treatment": "taxable"
       },
       {
-        "when": "Sold for home consumption (a loaf of bread or whole cake), not for a party at the store or delivered to a non-residential location, and every local sales tax at the place exempts unprepared food",
+        "when": "Sold for home consumption by the loaf or whole cake or tray, not for a party or gathering held at or near the seller or delivered to a non-residential location, whether the seller is a store or sells ready-to-eat food, and every local sales tax at the place exempts unprepared food",
         "treatment": "exempt"
       },
       {
-        "when": "Sold for home consumption (a loaf of bread or whole cake), not for a party at the store or delivered to a non-residential location, and no local sales tax at the place exempts unprepared food",
+        "when": "Sold for home consumption by the loaf or whole cake or tray, not for a party or gathering held at or near the seller or delivered to a non-residential location, whether the seller is a store or sells ready-to-eat food, and no local sales tax at the place exempts unprepared food",
         "treatment": "taxable"
       },
       {
-        "when": "Sold for home consumption (a loaf of bread or whole cake), not for a party at the store or delivered to a non-residential location, and some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
+        "when": "Sold for home consumption by the loaf or whole cake or tray, not for a party or gathering held at or near the seller or delivered to a non-residential location, whether the seller is a store or sells ready-to-eat food, and some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
         "treatment": "special_rate"
       }
     ],
@@ -772,9 +797,24 @@
         "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
         "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
         "quote": "The sale at retail of the sheet cake is exempt from the state sales and use tax"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "However, sales at retail of these same food products by the loaf or tray are subject exempt from the state sales and use tax under SC Code §12-36-2120(75) unless such loaf or tray is sold for a party or gathering held at or near the coffee shop or is delivered to a location other than a private residence."
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "food sold through vending machines"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "Sales at retail by a coffee shop of packaged cold sandwiches, salads, and containers of cut fruit, cookies, muffins, donuts, slices of nut bread, cupcakes, brownies, whole fruit, or similar food products sold individually are subject to the tax at the full state rate."
       }
     ],
-    "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+    "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf. 2026-11-02: the home-consumption cases now cover every seller, as the state rule's do (Regulation 117-337's coffee-shop example); whether a local tax exempts such food still turns on the place (ST-575)."
   },
   {
     "tax": "SC:local",
@@ -834,19 +874,19 @@
     "summary": "Local taxes: taxable when sold for immediate consumption; when sold for home consumption, as the place's local unprepared-food treatment says.",
     "conditions": [
       {
-        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
+        "when": "Sold for a party or gathering held at or near the seller, delivered to a location other than a private residence, or through a vending machine",
         "treatment": "taxable"
       },
       {
-        "when": "Sold for home consumption (picked up, or delivered to a private residence) by a store not holding that location out as selling ready-to-eat food, and every local sales tax at the place exempts unprepared food",
+        "when": "Sold for home consumption (picked up, or delivered to a private residence), not for a party or gathering held at or near the seller, whether the seller is a store or sells ready-to-eat food (a coffee shop's tray), and every local sales tax at the place exempts unprepared food",
         "treatment": "exempt"
       },
       {
-        "when": "Sold for home consumption (picked up, or delivered to a private residence) by a store not holding that location out as selling ready-to-eat food, and no local sales tax at the place exempts unprepared food",
+        "when": "Sold for home consumption (picked up, or delivered to a private residence), not for a party or gathering held at or near the seller, whether the seller is a store or sells ready-to-eat food (a coffee shop's tray), and no local sales tax at the place exempts unprepared food",
         "treatment": "taxable"
       },
       {
-        "when": "Sold for home consumption (picked up, or delivered to a private residence) by a store not holding that location out as selling ready-to-eat food, and some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
+        "when": "Sold for home consumption (picked up, or delivered to a private residence), not for a party or gathering held at or near the seller, whether the seller is a store or sells ready-to-eat food (a coffee shop's tray), and some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
         "treatment": "special_rate"
       }
     ],
@@ -875,9 +915,19 @@
         "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
         "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
         "quote": "Meals or food shipped or delivered to businesses or institutions"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "However, sales at retail of these same food products by the loaf or tray are subject exempt from the state sales and use tax under SC Code §12-36-2120(75) unless such loaf or tray is sold for a party or gathering held at or near the coffee shop or is delivered to a location other than a private residence."
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "food sold through vending machines"
       }
     ],
-    "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+    "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf. 2026-11-02: the home-consumption cases now cover every seller, as the state rule's do (Regulation 117-337's coffee-shop example); whether a local tax exempts such food still turns on the place (ST-575)."
   },
   {
     "tax": "SC:local",
@@ -937,15 +987,19 @@
     "summary": "Local sales taxes apply unless the local tax law exempts unprepared food; it depends on the place.",
     "conditions": [
       {
-        "when": "every local sales tax at the place exempts unprepared food",
-        "treatment": "exempt"
-      },
-      {
-        "when": "no local sales tax at the place exempts unprepared food",
+        "when": "Sold from a business or identifiable location that holds itself out as selling ready-to-eat food for immediate consumption (hot food, seating, utensils), or through a vending machine",
         "treatment": "taxable"
       },
       {
-        "when": "some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
+        "when": "Sold for home consumption, and every local sales tax at the place exempts unprepared food",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sold for home consumption, and no local sales tax at the place exempts unprepared food",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold for home consumption, and some of the place's local sales taxes exempt unprepared food and others don't (the place's unprepared-food rate in ST-575)",
         "treatment": "special_rate"
       }
     ],
@@ -964,9 +1018,14 @@
         "title": "SC DOR ST-575, South Carolina Sales Tax Rate by Municipality (Rev. 2/5/26)",
         "url": "https://www.dor.sc.gov/sites/dor/files/forms/ST575.pdf",
         "quote": "This form provides a list of Sales Tax rates, Accommodations Tax rates, unprepared foods tax rates, and local taxes"
+      },
+      {
+        "title": "SC DOR Sales and Use Tax Manual, Chapter 21: Unprepared Food Exemption (with SC Regulation 117-337)",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf",
+        "quote": "In other words, a food must be of a type eligible to be purchased with USDA food stamps and must also be sold for home consumption (based on the type of food and the type of location selling the food) to qualify for the exemption from the state sales and use tax under SC Code §12-36-2120(75)."
       }
     ],
-    "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2007-11-01 is the state exemption's start; the local exceptions have their own dates. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+    "notes": "The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2007-11-01 is the state exemption's start; the local exceptions have their own dates. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf. 2026-11-02: added the immediate-consumption case, in the state rule's words, after the describe benchmark case d2-sc-02 found only unprepared-food options for a festival concession stand. That a local exemption for unprepared food doesn't reach food sold for immediate consumption is read from Regulation 117-337's meaning of unprepared food (home consumption), not from a statement about local taxes."
   },
   {
     "tax": "SC:local",

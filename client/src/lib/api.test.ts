@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { saleRates, type Taxability } from './api';
+import { rateUrl, saleRates, type Taxability } from './api';
 
 const group = (tax: string, rate: number | null) => ({ tax, parts: [tax], treatment: rate === null ? ('conditional' as const) : ('taxable' as const), rate, rule: null });
 
@@ -23,5 +23,15 @@ describe('saleRates', () => {
 			],
 		};
 		expect(saleRates(t)).toEqual([0.13, 0.12, 0.06, 0.05]);
+	});
+});
+
+describe('rateUrl', () => {
+	it('sends describe= as typed, beside the code, and leaves it out when empty', () => {
+		const q = { state: 'NY', street: '350 5th Ave', city: 'New York', zip: '10118' };
+		const params = (u: string) => new URL(u, 'http://x').searchParams;
+		expect(params(rateUrl({ ...q, code: 'food.prepared', describe: 'hot rotisserie chicken' }, false)).get('describe')).toBe('hot rotisserie chicken');
+		expect(params(rateUrl({ ...q, code: 'food.prepared', describe: 'hot rotisserie chicken' }, false)).get('code')).toBe('food.prepared');
+		expect(params(rateUrl(q, false)).has('describe')).toBe(false);
 	});
 });

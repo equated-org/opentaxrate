@@ -643,6 +643,14 @@
         "treatment": "taxable"
       },
       {
+        "when": "Fees or commissions of a registered real estate agent or broker on a completed sale or lease of land or a building in Saskatchewan, other than the sale of a new home",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Fees or commissions of a real estate agent or broker on the sale of a new home (a new single family dwelling or condominium)",
+        "treatment": "exempt"
+      },
+      {
         "when": "General consulting and advisory services (management consulting, marketing strategy, business plans) not included in a sale of taxable goods or services",
         "treatment": "exempt"
       },
@@ -676,9 +684,19 @@
         "title": "Information Bulletin PST-65, Engineering, Geoscience and Architecture Services (revised September 2020)",
         "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/c4328b71-7fce-4607-920d-fde26923e5c8/PST.065+Engineers+GeoscientistsArchitectural.pdf?MOD=AJPERES",
         "quote": "Site-specific refers to services intended to have a material effect on land or tangible personal"
+      },
+      {
+        "title": "Information Bulletin PST-24, Realtors (issued March 2000, revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/1e45708d-5e98-487b-85d5-a58be939c84f/PST.024+Realtors.pdf?MOD=AJPERES",
+        "quote": "Fees or commissions paid to a person registered to trade in real estate under The Real Estate Act are taxable for all land and building properties located in Saskatchewan, including residential, commercial, recreational and farm properties."
+      },
+      {
+        "title": "Information Bulletin PST-24, Realtors (issued March 2000, revised July 2024), new homes",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/1e45708d-5e98-487b-85d5-a58be939c84f/PST.024+Realtors.pdf?MOD=AJPERES",
+        "quote": "Tax does not apply to fees or commissions on new home sales."
       }
     ],
-    "notes": "Citations of finance.gov.sk.ca bulletins, no longer online there, are archived from Internet Archive captures. The 2009 PST-46 (archived January 2013) lists accounting, architectural, computer, engineering and legal services as taxable, matching the current list, so one rule covers the whole period. 'Relating to Saskatchewan' has detailed sourcing tests in PST-62 and PST-64. Each item is quoted from its bulletin's list or heading, so short list quotes are verbatim list entries. Healthcare services are non-taxable (PST-46). 2026-11-02: http://finance.gov.sk.ca/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf is no longer online; the edition now at https://sets.saskatchewan.ca/rptp/wcm/connect/e7535a1a-5e1e-4b4c-aef1-3376d5248d06/PST.046+Service+Enterprises.pdf?MOD=AJPERES is cited beside it, and this citation keeps the dated archived copy."
+    "notes": "Citations of finance.gov.sk.ca bulletins, no longer online there, are archived from Internet Archive captures. The 2009 PST-46 (archived January 2013) lists accounting, architectural, computer, engineering and legal services as taxable, matching the current list, so one rule covers the whole period. 'Relating to Saskatchewan' has detailed sourcing tests in PST-62 and PST-64. Each item is quoted from its bulletin's list or heading, so short list quotes are verbatim list entries. Healthcare services are non-taxable (PST-46). 2026-11-02: http://finance.gov.sk.ca/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf is no longer online; the edition now at https://sets.saskatchewan.ca/rptp/wcm/connect/e7535a1a-5e1e-4b4c-aef1-3376d5248d06/PST.046+Service+Enterprises.pdf?MOD=AJPERES is cited beside it, and this citation keeps the dated archived copy. 2026-11-02: added the real estate fee cases (PST-24) after the describe benchmark case d2-sk-17 found no option for a realtor's commission. PST-24 was issued March 2000; only the July 2024 revision was read (the Internet Archive was offline), so that earlier editions said the same from 2013-04-01 isn't verified here. PST-24's other exemptions (a federal-government seller, reserve land sold by a Status Indian or band) aren't modeled, and a forfeited deposit isn't taxed because no sale completed."
   },
   {
     "tax": "SK:PST",
@@ -820,6 +838,10 @@
       {
         "when": "the services are not site-specific to Saskatchewan (e.g. for a project outside the province, or not tied to a site)",
         "treatment": "exempt"
+      },
+      {
+        "when": "the services are in the nature of feasibility studies, environmental studies, or general consulting or advisory services, wherever the project is",
+        "treatment": "exempt"
       }
     ],
     "citations": [
@@ -827,6 +849,11 @@
         "title": "Information Bulletin PST-65, Engineering, Geoscience and Architecture Services (revised September 2020)",
         "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/c4328b71-7fce-4607-920d-fde26923e5c8/PST.065+Engineers+GeoscientistsArchitectural.pdf?MOD=AJPERES",
         "quote": "Site-specific refers to services intended to have a material effect on land or tangible personal"
+      },
+      {
+        "title": "Information Bulletin PST-65, Engineering, Geoscience and Architecture Services (revised September 2020)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/c4328b71-7fce-4607-920d-fde26923e5c8/PST.065+Engineers+GeoscientistsArchitectural.pdf?MOD=AJPERES",
+        "quote": "Engineering, geoscience and architecture services that are in the nature of feasibility studies, environmental studies, general consulting or advisory services."
       },
       {
         "title": "Information Bulletin PST-46, Service Enterprises (revised February 2025), list of taxable services",

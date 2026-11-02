@@ -263,7 +263,7 @@
     "summary": "Bakery items are zero-rated except single-serving sweet goods in quantities under six or heated items, which carry the 13% HST with the 8% provincial part rebated when the qualifying items total $4.00 or less.",
     "conditions": [
       {
-        "when": "single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants) not prepackaged and sold in quantities under six, or a bakery item heated for consumption, with qualifying items totalling $4.00 or less before HST",
+        "when": "single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants) not prepackaged and sold in quantities under six single servings (bagels, rolls and other bread products bought with them count toward the six), or a bakery item heated for consumption, with qualifying items totalling $4.00 or less before HST",
         "treatment": "special_rate",
         "rate": 0.05
       },
@@ -272,7 +272,7 @@
         "treatment": "taxable"
       },
       {
-        "when": "bread products without sweet filling or coating, whole cakes and pies, or single-serving sweet goods in quantities of six or more (zero-rated federally)",
+        "when": "bread products without sweet filling or coating, whole cakes and pies, or six or more single servings bought together and not prepackaged in packs of fewer than six, counting bagels, rolls and other bread products bought with them (zero-rated federally)",
         "treatment": "zero_rated"
       }
     ],
@@ -286,9 +286,19 @@
         "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
         "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
         "quote": "where they are not prepackaged for sale to consumers and are sold as single servings in quantities of less than six;"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (mixed multiple servings)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "A mixed supply of six or more single servings of these goods is zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (example)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "For example, a supply of two bagels, two muffins and two doughnuts, purchased from a doughnut shop (when they are not individually packaged), is considered to be six single servings for the purposes of paragraph 1(m) of Part III of Schedule VI, and therefore zero-rated."
       }
     ],
-    "notes": "Turns on quantity, packaging and the sale's total, which the code doesn't carry. Prepackaged single servings in quantities under six qualify only when sold with a qualifying item for a single consideration (GI-064). The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated during the temporary GST/HST break) applies."
+    "notes": "Turns on quantity, packaging and the sale's total, which the code doesn't carry. Prepackaged single servings in quantities under six qualify only when sold with a qualifying item for a single consideration (GI-064). The rebate began with Ontario's HST on July 1, 2010; 2013-04-01 is OpenTaxRate's floor. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated during the temporary GST/HST break) applies. 2026-11-02: the cases now count bagels and other bread products bought with sweet goods toward the six, as the federal rule does (Memorandum 4.3 para. 97, dated January 2007); the describe benchmark case on-05 found no option for a mixed purchase."
   },
   {
     "tax": "ON/CA:HST",
@@ -299,7 +309,7 @@
     "summary": "Bakery items are zero-rated except single-serving sweet goods in quantities under six or heated items, which carry the 13% HST with the 8% provincial part rebated when the qualifying items total $4.00 or less.",
     "conditions": [
       {
-        "when": "single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants) not prepackaged and sold in quantities under six, or a bakery item heated for consumption, with qualifying items totalling $4.00 or less before HST",
+        "when": "single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants) not prepackaged and sold in quantities under six single servings (bagels, rolls and other bread products bought with them count toward the six), or a bakery item heated for consumption, with qualifying items totalling $4.00 or less before HST",
         "treatment": "special_rate",
         "rate": 0.05
       },
@@ -308,7 +318,7 @@
         "treatment": "taxable"
       },
       {
-        "when": "bread products without sweet filling or coating, whole cakes and pies, or single-serving sweet goods in quantities of six or more (zero-rated federally)",
+        "when": "bread products without sweet filling or coating, whole cakes and pies, or six or more single servings bought together and not prepackaged in packs of fewer than six, counting bagels, rolls and other bread products bought with them (zero-rated federally)",
         "treatment": "zero_rated"
       }
     ],
@@ -322,9 +332,19 @@
         "title": "GST/HST Info Sheet GI-064 (qualifying goods)",
         "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-064/harmonized-sales-tax-ontario-point-sale-rebate-on-prepared-food-beverages.html",
         "quote": "where they are not prepackaged for sale to consumers and are sold as single servings in quantities of less than six;"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (mixed multiple servings)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "A mixed supply of six or more single servings of these goods is zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (example)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "For example, a supply of two bagels, two muffins and two doughnuts, purchased from a doughnut shop (when they are not individually packaged), is considered to be six single servings for the purposes of paragraph 1(m) of Part III of Schedule VI, and therefore zero-rated."
       }
     ],
-    "notes": "Turns on quantity, packaging and the sale's total, which the code doesn't carry. Prepackaged single servings in quantities under six qualify only when sold with a qualifying item for a single consideration (GI-064). Starts the day after the temporary GST/HST break ended."
+    "notes": "Turns on quantity, packaging and the sale's total, which the code doesn't carry. Prepackaged single servings in quantities under six qualify only when sold with a qualifying item for a single consideration (GI-064). Starts the day after the temporary GST/HST break ended. 2026-11-02: the cases now count bagels and other bread products bought with sweet goods toward the six, as the federal rule does (Memorandum 4.3 para. 97, dated January 2007); the describe benchmark case on-05 found no option for a mixed purchase."
   },
   {
     "tax": "ON/CA:HST",

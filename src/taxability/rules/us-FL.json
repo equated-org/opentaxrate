@@ -275,8 +275,12 @@
     "summary": "Bakery items are exempt from a bakery or store without eating facilities, or sold to go; taxable when sold for eating at a bakery's tables or by a restaurant.",
     "conditions": [
       {
-        "when": "Sold by a bakery, pastry shop or grocery for consumption off the premises",
+        "when": "Sold by a bakery, pastry shop or grocery for consumption off the premises, not as a hot prepared food product",
         "treatment": "exempt"
+      },
+      {
+        "when": "Sold by a bakery, pastry shop or like establishment as a hot prepared food product: heated or toasted by the seller, or kept warm by a heat source (not merely still warm from the initial baking), with or without eating facilities",
+        "treatment": "taxable"
       },
       {
         "when": "Sold for consumption on the premises of a bakery with eating facilities",
@@ -307,9 +311,24 @@
         "title": "Fla. Stat. § 212.08 (current), specified exemptions",
         "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
         "quote": "Bakery products sold by bakeries, pastry shops, or like establishments having eating facilities, except when sold for consumption off the seller’s premises."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.011, Sales of Food Products for Human Consumption by Grocery Stores, Convenience Stores, and Supermarkets; Sales of Bakery Products",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=9975691&type=1&file=12A-1.011.doc",
+        "quote": "Bakery products sold by bakeries, pastry shops, or like establishments as hot prepared food products are taxable."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.011, Sales of Food Products for Human Consumption by Grocery Stores, Convenience Stores, and Supermarkets; Sales of Bakery Products",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=9975691&type=1&file=12A-1.011.doc",
+        "quote": "Bakery products that are kept warm by a heat source used to maintain them in a heated state, or to reheat them, are hot prepared food products."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.011, Sales of Food Products for Human Consumption by Grocery Stores, Convenience Stores, and Supermarkets; Sales of Bakery Products",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=9975691&type=1&file=12A-1.011.doc",
+        "quote": "Bakery products that are sold while still warm from the initial baking are not hot prepared food products."
       }
     ],
-    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts. 2026-11-02: cited page moved from http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html to https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html."
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). 2026-11-02: the hot-prepared-food case is Rule 12A-1.011(3)(a) as archived; the archived rule's history ends “Amended … 1-12-11, 6-6-11”, so its text has been in force since 2011-06-06 at the latest, before this rule's 2018-01-01 start. Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts. 2026-11-02: cited page moved from http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html to https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html."
   },
   {
     "tax": "FL",
@@ -321,6 +340,10 @@
     "conditions": [
       {
         "when": "Prepared by the seller and sold for immediate consumption (single servings, salad bar, with utensils)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seafood the store cooked or smoked itself (steamed shrimp, smoked fish), sold ready to eat",
         "treatment": "taxable"
       },
       {
@@ -342,9 +365,14 @@
         "title": "Fla. Stat. § 212.08 (current), specified exemptions",
         "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html",
         "quote": "Food that is prepared, whether on or off the premises, and sold for immediate consumption. This does not apply to food prepared off the premises and sold in the original sealed container, or the slicing of products into smaller portions."
+      },
+      {
+        "title": "Fla. Admin. Code R. 12A-1.011(4)(b)2.d., Sales of Food Products for Human Consumption by Grocery Stores, Convenience Stores, and Supermarkets",
+        "url": "https://www.flrules.org/gateway/readFile.asp?sid=0&tid=9975691&type=1&file=12A-1.011.doc",
+        "quote": "A supermarket prepares seafood products, such as smoked fish or steamed shrimp, for sale. The sale of the smoked fish or steamed shrimp is subject to tax."
       }
     ],
-    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Rule 12A-1.0011's schedules for grocery delis weren't read (published only as .doc); whether bulk deli salads sold by the pound are 'for immediate consumption' is decided there. Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts. 2026-11-02: cited page moved from http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html to https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html."
+    "notes": "The text is in the 2018 Florida Statutes and unchanged in the current statutes; 2018-01-01 is the earliest date read here (the provisions are older). Rule 12A-1.0011's schedules for grocery delis weren't read (published only as .doc); whether bulk deli salads sold by the pound are 'for immediate consumption' is decided there. Florida's discretionary sales surtax applies to the transactions the state tax reaches (§ 212.054(2)(a)), so this one rule covers state and county parts. 2026-11-02: cited page moved from http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html to https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0200-0299/0212/Sections/0212.08.html. 2026-11-02: added the store-prepared seafood case (Rule 12A-1.011(4)(b)2.d.) after the describe benchmark case d2-fl-05 found no option for shrimp a supermarket steamed and sold chilled. The rule as archived was last amended 6-6-11 per its history, so it covers this rule's whole range."
   },
   {
     "tax": "FL",

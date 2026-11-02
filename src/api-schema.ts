@@ -190,6 +190,35 @@ export const TaxabilitySchema = z
       )
       .optional()
       .openapi({ description: "Only when conditional: each case the rules list with the combined rate it gives. Absent when a case's rate can't be computed or there are too many cases (over 24)." }),
+    interpreted: z
+      .object({
+        from: z.enum(["text", "code"]).openapi({ description: "text: the code answered came from describe; code: the caller's code answered." }),
+        code: z.string().nullable().openapi({ description: "The code the text points to; null when no one code fits (see candidates), or the text couldn't be read.", example: "food.prepared.hot" }),
+        confidence: z.number().optional().openapi({ description: "The model's probability for that code, with its narrower kinds, to two places. A model signal, not proof: thresholds decide what's used.", example: 0.97 }),
+        candidates: z.array(z.string()).optional().openapi({ description: "With no one code: the codes the text could be, likeliest first. Send one as code= to settle it." }),
+        mismatch: z.literal(true).optional().openapi({ description: "With code=: the text points to a code that is neither the one sent nor broader or narrower than it. The code still answers." }),
+        conditions: z
+          .array(
+            z.object({
+              tax: z.string().openapi({ description: "The tax (taxes[].tax) the text settled.", example: "NY" }),
+              when: z.array(z.string()).openapi({ description: "The case the text was read as, in the rule's words; several where the rules treat them alike and the text established one of them, likeliest first." }),
+              confidence: z.number().openapi({ description: "The model's probability for these cases together, at most 1.", example: 0.95 }),
+            }),
+          )
+          .optional()
+          .openapi({ description: "The rules' cases the text settled, one per tax. A tax whose case the text doesn't establish stays conditional." }),
+        unavailable: z.literal(true).optional().openapi({ description: "The model wasn't asked or failed: the entry answers as if no text was sent." }),
+      })
+      .optional()
+      .openapi({ description: "Only with describe=: how the text was read. The model only picks among offered options; the rules decide." }),
+    needs: z
+      .array(z.enum(["code", "seller_kind", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
+      .optional()
+      .openapi({
+        description:
+          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies; payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+        example: ["locality"],
+      }),
     independent: z.literal(true).optional().openapi({
       description:
         "Set when several taxes are undecided and their cases don't pair up: the taxes turn on their facts independently; combine one case per tax. Each outcome is then one tax's case; the sale's rate is the settled taxes' rate plus each chosen case's share (its rate less the settled taxes').",
@@ -256,7 +285,7 @@ export const AddressRateSchema = z
     source: z.string().openapi({ description: "The files or service the rate came from, and the date." }),
     reporting: ReportingSchema.nullable(),
     taxability: z.record(z.string(), TaxabilitySchema).optional().openapi({
-      description: `With code=: one entry per code asked, keyed by the code (${Object.keys(TAX_CODES).join(", ")}).`,
+      description: `With code=: one entry per code asked, keyed by the code (${Object.keys(TAX_CODES).join(", ")}). With describe= and no code: one entry keyed by the text as sent.`,
     }),
     regions: RegionsSchema.optional(),
     trace: TraceSchema.optional(),
@@ -295,6 +324,11 @@ export const RateQuerySchema = z.object({
   code: z.string().max(300).optional().openapi({
     description: `What was sold, one or more codes separated by commas, from: ${Object.keys(TAX_CODES).join(", ")}. Adds taxability to the answer, one entry per code; an unknown code is a 400.`,
     example: "food.catering,nontaxable",
+  }),
+  describe: z.string().trim().min(1).max(200).optional().openapi({
+    description:
+      "What was sold, in plain words: one item, up to 200 characters. Needs an API key (without one, a 403 KEY_REQUIRED). A model (TypeSafe's Jev) only picks among offered options: the code whose definition the words establish, and which of the rules' listed cases they establish; the rules decide the tax. A fact the words don't state stays open, and the answer stays conditional. Alone, it adds taxability keyed by the text as sent; beside one code, the code answers and the text settles its cases and is checked against it. Beside two or more codes it is a 400. Prices in the words never settle a case that turns on an amount.",
+    example: "a hot rotisserie chicken from the deli warmer",
   }),
   include: z.string().max(100).optional().openapi({ description: "Comma-separated: trace, regions. Others are ignored.", example: "regions" }),
 });

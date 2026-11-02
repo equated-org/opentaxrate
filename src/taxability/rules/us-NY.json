@@ -1151,11 +1151,15 @@
     "summary": "In New York installing floor covering is a capital improvement only when it is the initial finished floor covering in new construction, a new addition or a total reconstruction; replacing floor covering is taxable.",
     "conditions": [
       {
-        "when": "The initial finished floor covering in new construction, a new addition, or a total reconstruction",
+        "when": "Carpet, linoleum, vinyl or similar floor covering installed as the initial finished floor covering in new construction, a new addition, or a total reconstruction",
         "treatment": "exempt"
       },
       {
-        "when": "Any other installation, such as replacing carpet in a renovation",
+        "when": "A whole floor of wood, floating wood laminate, ceramic tile, terrazzo, marble, concrete or similar flooring is installed or completely replaced",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other installation, such as replacing carpet in a renovation, or repairing or partly replacing a wood, tile or similar floor",
         "treatment": "taxable"
       }
     ],
@@ -1164,9 +1168,19 @@
         "title": "TSB-A-06(19)S, Advisory Opinion (June 26, 2006)",
         "url": "https://www.tax.ny.gov/pdf/advisory_opinions/sales/a06_19s.pdf",
         "quote": "However, the charge by the contractor for the new carpet and its installation is subject to sales tax because the renovation is not new construction, an addition or a total reconstruction."
+      },
+      {
+        "title": "NY DTF Publication 862 (4/01), Floors and floorings, capital improvement",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub862.pdf",
+        "quote": "Installation or complete replacement of floorings such as wood floor, floating wood laminate floors, ceramic tile floor, terrazzo, marble, concrete and other similar floors"
+      },
+      {
+        "title": "NY DTF Publication 862 (4/01), Floor coverings",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub862.pdf",
+        "quote": "The installation of floor covering under any other circumstance is not a capital improvement."
       }
     ],
-    "notes": "Added 2026-10-30 after held-out case ho-ny-08 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-ny-08 no longer counts as held out. The opinion quotes 20 NYCRR 527.7(a)(3)(iii)(A) and 541.? (b)(1); it is dated from the opinion. 2026-11-02: cited page moved from https://tax.ny.gov/pdf/advisory_opinions/sales/a06_19s.pdf to https://www.tax.ny.gov/pdf/advisory_opinions/sales/a06_19s.pdf."
+    "notes": "Added 2026-10-30 after held-out case ho-ny-08 showed the inherited construction.real_property.improvement rule was wrong for this code; the cited page is that case's source, so ho-ny-08 no longer counts as held out. The opinion quotes 20 NYCRR 527.7(a)(3)(iii)(A) and 541.? (b)(1); it is dated from the opinion. 2026-11-02: cited page moved from https://tax.ny.gov/pdf/advisory_opinions/sales/a06_19s.pdf to https://www.tax.ny.gov/pdf/advisory_opinions/sales/a06_19s.pdf. 2026-11-02: added the whole-floor case (Publication 862's 'Floors and floorings' row, dated 4/01, so in force for this rule's whole range) after the describe benchmark case d2-ny-12 found that the rule covered only carpet-type floor coverings."
   },
   {
     "tax": "NY",

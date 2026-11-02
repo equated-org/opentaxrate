@@ -3,9 +3,12 @@
 	 *  or why there isn't one; each tax's rule with its dates and the pages
 	 *  it was read from, linked to the original and to OpenTaxRate's archived
 	 *  copy, scrolled to the quoted sentence. An original that's gone
-	 *  (offline-originals.json) is named, not linked: the copy is the evidence. */
+	 *  (offline-originals.json) is named, not linked: the copy is the evidence.
+	 *  With describe=, what the words were read as: the code, the cases they
+	 *  settled, or the codes they could be; a model only picked among offered
+	 *  options, and the rules decided. */
 	import type { Taxability } from '$lib/api';
-	import { codeName } from '$lib/codes';
+	import { codeName, isCode } from '$lib/codes';
 	import { archivedOn, offline, offlineChecked } from '$lib/evidence';
 	import { pct } from './format';
 
@@ -45,20 +48,67 @@
 	const archived = (url: string, quote?: string) => archivedOn(url, date, quote);
 	const partName = (code: string) => parts.find((p) => p.code === code)?.name ?? code;
 	const docsHref = (code: string) => `/docs/taxability#${encodeURIComponent(code)}`;
+	const sure = (p: number) => `${Math.round(p * 100)}%`;
+	/** The facts a description can't settle (needs), in words. */
+	const NEED: Record<string, string> = {
+		code: 'which code it is',
+		seller_kind: "the seller's share of prepared-food sales",
+		locality: 'which local taxes the place levies',
+		payment_date: 'when it was paid for',
+		title_transfer: 'when title passed',
+		qualifying_total: 'the qualifying total',
+		contract_total: 'the contract total',
+		quantity_by_kind: 'how many of each kind'
+	};
 </script>
 
 <section class="flex flex-col gap-5" aria-label="How this sale is taxed">
 	{#each Object.entries(taxability) as [code, t] (code)}
+		{@const read = t.interpreted}
+		{@const shownCode = isCode(code) ? code : (read?.code ?? null)}
 		<div class="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
 			<p class="text-sm text-[var(--text-muted)]">
-				{headline ? codeName(code) : 'Why'}
-				<a class="font-num ml-1 text-[12px] underline-offset-2 hover:underline" href={docsHref(code)} title="What this code covers">{code}</a>
+				{#if !isCode(code)}<span class="text-[var(--text-2)]">“{code}”</span>{#if headline && shownCode}<span> · {codeName(shownCode)}</span>{/if}{:else}{headline ? codeName(code) : 'Why'}{/if}
+				{#if shownCode}<a class="font-num ml-1 text-[12px] underline-offset-2 hover:underline" href={docsHref(shownCode)} title="What this code covers">{shownCode}</a>{/if}
 			</p>
 			{#if headline}
 				<p class="mt-1 flex items-baseline gap-3">
 					<span class="text-[22px] font-semibold tracking-[-0.02em] text-[var(--text)]">{HEADLINE[t.treatment]}</span>
 					{#if t.rate !== null}<span class="font-num text-[22px] font-semibold text-[var(--text)]">{pct(t.rate)}</span>{/if}
 				</p>
+			{/if}
+			{#if read}
+				<div class="mt-2 rounded-lg bg-[var(--bg-muted)] px-3 py-2 text-[13px] text-[var(--text-2)]" aria-label="How the description was read">
+					{#if read.unavailable}
+						<p>The description couldn't be read just now; this answers as if it wasn't sent.</p>
+					{:else}
+						{#if read.from === 'text' && read.code}
+							<p>Read as <span class="font-medium text-[var(--text)]">{codeName(read.code)}</span> <span class="font-num">({read.code}, {sure(read.confidence ?? 0)})</span>.</p>
+						{:else if read.from === 'code' && read.code && read.mismatch}
+							<p class="text-[var(--warn)]">
+								The description reads as {codeName(read.code)} <span class="font-num">({read.code})</span>, not the code sent; this answers for the code.
+								{#if onpick}<button type="button" class="link ml-1" onclick={() => onpick(read.code!)}>use {codeName(read.code)}</button>{/if}
+							</p>
+						{:else if read.from === 'code' && read.mismatch}
+							<p class="text-[var(--warn)]">The description doesn't read as anything the codes cover; this answers for the code sent.</p>
+						{:else if !read.code && read.candidates?.length}
+							<p>
+								Not one code: it could be
+								{#each read.candidates as c, k (c)}{k ? ', ' : ' '}{#if onpick}<button type="button" class="link" onclick={() => onpick(c)}>{codeName(c)}</button>{:else}{codeName(c)}{/if}{/each}.
+								Pick the one that fits.
+							</p>
+						{:else if read.from === 'text' && !read.code}
+							<p>No code here covers what the description says was sold.</p>
+						{/if}
+						{#each read.conditions ?? [] as c, k (k)}
+							<p class="mt-1">Settled from the description: <span class="text-[var(--text)]">{c.when.join(' or ')}</span> <span class="font-num text-[var(--text-muted)]">({c.tax}, {sure(c.confidence)})</span></p>
+						{/each}
+						{#if t.needs?.length}
+							<p class="mt-1">A description can't settle: {t.needs.map((n) => NEED[n] ?? n).join('; ')}.</p>
+						{/if}
+						<p class="mt-1 text-[12px] text-[var(--text-muted)]">A model only picked among the codes' and rules' own words; the rules decided the tax. Facts the description doesn't state stay open.</p>
+					{/if}
+				</div>
 			{/if}
 			{#if t.treatment === 'not_researched' && headline}
 				<p class="mt-1 text-sm text-[var(--text-2)]">

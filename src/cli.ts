@@ -10,10 +10,12 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *                                 index supplemental polygons
  *   ingest --kind taxability [--dir D] [--no-fetch]
  *                                 load the taxability rules (src/taxability/rules) and archive their cited pages
- *   rate STATE "street" "city" [zip] [date] [--include regions] [--code CODES]
+ *   rate STATE "street" "city" [zip] [date] [--include regions] [--code CODES] [--describe TEXT]
  *                                 look one address up, and how each CODES sale is taxed there
- *   taxability score [--cases DIR] [--list | --gate]
- *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals)
+ *   taxability score [--cases DIR] [--list | --gate] [--describe [--out FILE]]
+ *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals);
+ *                                 --describe sends each case's facts as describe=, with and without its code
+ *                                 (--half A|B: one deterministic half of the cases)
  *   taxability fetch [--out DIR]  download every cited and watched page again; report what changed (sources.txt, sources.json)
  *   taxability file URL PATH      file a page downloaded by hand in the archive, under its URL
  *   taxability file-answer URL PATH [--method M] [--body-file F] [--from P]
@@ -91,7 +93,10 @@ async function main() {
       const include = (flag("--include") ?? "").split(",");
       const codes = parseCodes(flag("--code") ?? "");
       if ("unknown" in codes) throw new Error(`--code "${codes.unknown}" isn't one of: ${Object.keys(TAX_CODES).join(", ")}`);
-      console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date, codes: codes.codes }, { regions: include.includes("regions") }), null, 2));
+      const describe = flag("--describe");
+      if (describe && codes.codes.length > 1) throw new Error("--describe names one item: give it alone, or beside one code.");
+      if (describe !== undefined && (!describe.trim() || describe.trim().length > 200)) throw new Error("--describe takes 1 to 200 characters, as the API does.");
+      console.log(JSON.stringify(await lookUpRate({ state, street, city, zip, date, codes: codes.codes, ...(describe ? { describe } : {}) }, { regions: include.includes("regions") }), null, 2));
       return;
     }
     case "taxability": {
@@ -154,6 +159,15 @@ async function main() {
       const { loadRules } = await import("./taxability/index.js");
       const rules = await loadRules();
       if (!rules.size) throw new Error("taxability_rules is empty: run `pnpm ingest --kind taxability` first.");
+      if (args.includes("--describe")) {
+        const { scoreDescribed, printDescribed } = await import("./taxability/describe-bench.js");
+        const half = flag("--half");
+        if (half && half !== "A" && half !== "B") throw new Error("--half is A or B");
+        const { scored, asked } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
+        printDescribed(scored, { list: args.includes("--list"), out: flag("--out") });
+        console.log(`picker answers added to the cache: ${asked}`);
+        return;
+      }
       const scored = scoreTaxability(rules, flag("--cases"));
       // --gate: one line for the monthly gate, the case set's fingerprint
       // and every wrong case's id (scripts/rates taxability-check).

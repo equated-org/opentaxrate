@@ -5,7 +5,7 @@
 	import Taxability from './Taxability.svelte';
 	import { howPlaced, MATCH_SHORT, partRows, pct, regionEditions, regionRows } from './format';
 	import { isProvince } from '$lib/states';
-	import { codeName } from '$lib/codes';
+	import { codeName, isCode } from '$lib/codes';
 
 	interface Props {
 		rate: AddressRate;
@@ -38,7 +38,9 @@
 		const byPart = new Map<string, { treatment: string; rate: number | null; first: boolean }>();
 		for (const g of t.taxes) g.parts.forEach((p, i) => byPart.set(p, { treatment: g.treatment, rate: g.rate, first: i === 0 }));
 		const rates = saleRates(t);
-		return { code, name: codeName(code), t, byPart, rates };
+		// An entry keyed by describe='s text: named by the code it was read as.
+		const named = isCode(code) ? code : t.interpreted?.code;
+		return { code, name: named ? codeName(named) : `“${code}”`, t, byPart, rates };
 	});
 	/** What one part does to the named sale, in a few words. */
 	function applies(partCode: string): { label: string; on: boolean } | null {

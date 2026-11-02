@@ -18,9 +18,32 @@
       {
         "when": "Time-and-materials contract: the separately stated labor",
         "treatment": "exempt"
+      },
+      {
+        "when": "Not a building contract: an over-the-counter sale of a complete unit not made to order (an appliance, stock carpet, ready-made cabinets, storm doors and similar items) with an agreement to install it, the installation not segregated on the bid or invoice",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Not a building contract: an over-the-counter sale of a complete unit not made to order with an agreement to install it: the installation charge, segregated on the bid or invoice",
+        "treatment": "exempt"
       }
     ],
     "citations": [
+      {
+        "title": "1 CCR 201-5, Colorado Sales and Use Tax Special Rules, Special Rule 10. Contractors",
+        "url": "https://www.coloradosos.gov/CCR/GenerateRulePdf.do?ruleVersionId=12196&fileName=1%20CCR%20201-5",
+        "quote": "An over-the-counter sale of a complete unit not made to order, with an agreement for installation of the unit, is not a building contract."
+      },
+      {
+        "title": "1 CCR 201-5, Colorado Sales and Use Tax Special Rules, Special Rule 10. Contractors",
+        "url": "https://www.coloradosos.gov/CCR/GenerateRulePdf.do?ruleVersionId=12196&fileName=1%20CCR%20201-5",
+        "quote": "This rule includes sales of stoves, refrigerators, furnaces, air conditioners, washing machines, dryers, carpets, electrical fixtures, ready-made cabinets, storm doors, garage doors, storm windows, screens, sod and similar items."
+      },
+      {
+        "title": "1 CCR 201-5, Colorado Sales and Use Tax Special Rules, Special Rule 10. Contractors",
+        "url": "https://www.coloradosos.gov/CCR/GenerateRulePdf.do?ruleVersionId=12196&fileName=1%20CCR%20201-5",
+        "quote": "On such sales the sales tax must be collected from the purchaser by the retailer-contractor. If the installation charges are segregated in the bid proposal or sales invoices, these charges are not taxable."
+      },
       {
         "title": "FYI Sales 6, Contractors and Retailer-Contractors (03/20)",
         "url": "https://tax.colorado.gov/sites/tax/files/03.2020_Sales6.pdf",
@@ -57,7 +80,7 @@
         "quote": "All supplies and materials are taxable on the contractor's cost, either through sales tax paid to the vendor or use tax paid by the contractor on the Consumer Use Tax Return (DR 0252)."
       }
     ],
-    "notes": "Covers both subcodes; Colorado draws no line between improvement and repair. 2012-01-01 is the date of the earlier FYI Sales 6 edition (01/12, archived 2016), which states the same split. Non-building materials (items that stay personal property) sold and installed by a contractor are retail sales. Local use taxes on building materials are often collected through building permits (C.R.S. 29-2-105(2)); home-rule cities administer their own contractor rules."
+    "notes": "Covers both subcodes; Colorado draws no line between improvement and repair. 2012-01-01 is the date of the earlier FYI Sales 6 edition (01/12, archived 2016), which states the same split. Non-building materials (items that stay personal property) sold and installed by a contractor are retail sales. Local use taxes on building materials are often collected through building permits (C.R.S. 29-2-105(2)); home-rule cities administer their own contractor rules. 2026-11-02: the over-the-counter complete-unit cases are Special Rule 10 as archived (current: its notes record SR-5's repeal effective 10/30/2025); the editor's notes list every amendment from 03/01/2010 on and none to Special Rule 10, so its text has been in force since before this rule's 2012-01-01 start."
   },
   {
     "tax": "CO",

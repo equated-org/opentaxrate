@@ -221,16 +221,16 @@
     "summary": "Cold prepared food from a store is exempt unless sold as a meal (a combination plate, a salad-bar salad, a single-portion entree where the store provides a microwave); taxable meals are 7% where the town levies the local meals excise.",
     "conditions": [
       {
-        "when": "Unheated deli food sold by a store not as a meal: salads by the container, cold fried chicken or ribs, whole cooked chicken, sliced meats",
+        "when": "Unheated deli food sold by a store not as a meal: salads by the container (not a salad-bar salad, and not a salad sold as a meal, such as an individual salad with fixings), cold fried chicken or ribs, whole cooked chicken, sliced meats",
         "treatment": "exempt"
       },
       {
-        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "when": "Taxable as a meal (a combination plate, a salad-bar salad, or a salad sold as a meal, such as an individual salad with fixings), in a city or town that adopted the 0.75% local option meals excise",
         "treatment": "special_rate",
         "rate": 0.07
       },
       {
-        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "when": "Taxable as a meal (a combination plate, a salad-bar salad, or a salad sold as a meal, such as an individual salad with fixings), in a city or town that has not adopted it",
         "treatment": "taxable"
       }
     ],
@@ -264,9 +264,14 @@
         "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
         "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
         "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      },
+      {
+        "title": "MA DOR Letter Ruling 12-2, Prepackaged Individual Salads Sold by a Supermarket",
+        "url": "https://www.mass.gov/letter-ruling/letter-ruling-12-2-prepackaged-individual-salads-sold-by-a-supermarket",
+        "quote": "we conclude that such salads are properly treated as combination plates reasonably and commonly considered a taxable meal"
       }
     ],
-    "notes": "Store sales are taxable when presented as a meal (combination plate, salad-bar salad, single-portion entree or quick meal with a heating unit provided); the presentation is not carried by the code. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation."
+    "notes": "Store sales are taxable when presented as a meal (combination plate, salad-bar salad, single-portion entree or quick meal with a heating unit provided); the presentation is not carried by the code. Massachusetts' only local sales tax is the 0.75% local option meals excise (M.G.L. c. 64L), adopted by some cities and towns and not carried in the rate data, so a taxable meal is conditional on the town: 7% (6.25% + 0.75%, modelled as a rate of its own, HIGHER than the general 6.25%) where adopted, 6.25% elsewhere. The 7% condition's rate is the whole rate on the sale. Earliest date: 2009-10-01, the first quarter a town could levy the excise (TIR 09-13; St. 2009, c. 27); 830 CMR 64H.6.5 lists no amendment since its 1989 promulgation. 2026-11-02: “salads by the container” read as covering any packaged salad; the cases now say a salad sold as a meal is not exempt (830 CMR 64H.6.5 excludes salads “sold in a manner reasonably and commonly considered a meal”; Letter Ruling 12-2 treats an individual salad with fixings as such a meal). Found through a held-out benchmark case (ho-ma-01), so that set is no longer clean for this rule."
   },
   {
     "tax": "MA",

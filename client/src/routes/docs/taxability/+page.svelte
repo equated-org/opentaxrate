@@ -20,6 +20,36 @@
 		['nontaxable', '—', 'txcd_00000000', '(none)', 'ON030000']
 	];
 
+	const DESCRIBE_LINE = `GET /v1/rate?address=210+Capitol+Ave,+Hartford,+CT+06106&date=2026-11-02
+  &describe=monthly subscription to an online photo-editing app for a family's personal use`;
+
+	const DESCRIBE_RESPONSE = `"monthly subscription to an online photo-editing app for a family's personal use": {
+  "treatment": "taxable",
+  "rate": 0.0635,
+  "taxes": [
+    {
+      "tax": "CT",
+      "parts": ["CT"],
+      "treatment": "taxable",
+      "rate": 0.0635,
+      "rule": {
+        "treatment": "conditional",
+        "summary": "Remotely accessed software is taxed at 1% when a business buys it for business use, and at 6.35% otherwise.",
+        "conditions": [ ... ],
+        "citations": [ ... ]
+      }
+    }
+  ],
+  "interpreted": {
+    "from": "text",
+    "code": "software.saas",
+    "confidence": 1,
+    "conditions": [
+      { "tax": "CT", "when": ["Bought for personal, non-business use"], "confidence": 1 }
+    ]
+  }
+}`;
+
 	const CONDITIONAL = `"food.prepared": {
   "treatment": "conditional",
   "rate": null,
@@ -178,6 +208,54 @@
 	its <code>when</code> (<code>"BC:PST: ..."</code>), with that case's rate for its tax plus the settled taxes'. The sale's rate is
 	the settled taxes' rate plus, for each undecided tax, its chosen case's rate less the settled taxes'. Where no tax is settled,
 	add the chosen cases' rates.
+</p>
+
+<h2 id="describe">Describing the sale in plain words</h2>
+<p>
+	With an API key, send <code>describe</code> with what was sold, as you'd write it on a receipt line: one item, up to 200 characters. A model
+	(TypeSafe's Jev) reads it, but only to pick among options it's offered, in their own words: which code's definition the
+	words establish, and which of a rule's own <code>conditions</code> they describe, or that they don't say. It never sees a
+	rate, a treatment, the address or the date, and the rules decide the tax exactly as they do for <code>code</code>.
+</p>
+<pre><code>{DESCRIBE_LINE}</code></pre>
+<pre><code>{DESCRIBE_RESPONSE}</code></pre>
+<ul>
+	<li>
+		<strong>Alone</strong>, the entry is keyed by the text. A confident code answers; where the words fit a broad code but not
+		which kind, the broader code answers (<code>food.prepared</code>, not a guess at hot or cold). Where they could be several
+		codes, the answer is <code>conditional</code>, <code>interpreted.code</code> is <code>null</code> and
+		<code>candidates</code> lists them: send one as <code>code</code>. Where no code covers it (a haircut), it's
+		<code>not_researched</code>.
+	</li>
+	<li>
+		<strong>Beside one code</strong>, the code answers as sent, keyed by the code; the text only settles that code's cases. If
+		the words point to a different code, <code>interpreted.mismatch</code> is <code>true</code> and none of the code's cases is
+		settled from them: check the code.
+	</li>
+	<li>
+		<strong>The cases.</strong> Where a rule is conditional, a case the words establish settles that tax, at the rate the
+		matching outcome gives, and <code>interpreted.conditions</code> names it. A case the words don't settle stays open: the
+		answer stays <code>conditional</code> with its outcomes. Where a settled rule lists exceptions (a napkin in the box makes a
+		Michigan bakery item taxable), an exception the words establish applies, and one they make likely without establishing
+		makes the answer conditional instead.
+	</li>
+	<li>
+		<strong>Facts a description can't carry.</strong> A price or a count in the words is never taken as the sale's, and a
+		case that turns on the seller's share of prepared-food sales, the place's own local taxes, payment in a dated tax period or
+		when title passed is never settled from words either. Such a case stays open, and <code>needs</code> names the facts:
+		<code>seller_kind</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
+		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, or <code>code</code> when no one
+		code fits.
+	</li>
+	<li>
+		<strong>Failures.</strong> If the model can't be asked or fails, the entry answers as if no text was sent, with
+		<code>interpreted.unavailable: true</code>; the general rate always answers.
+	</li>
+</ul>
+<p>
+	A confidence is a model signal, not proof: thresholds tuned on the agencies' worked examples decide what is used, set so
+	that none of them comes out wrong. Name the facts that matter (hot or cold, who sold it, for personal or business use) and
+	more answers settle.
 </p>
 
 <h3 id="base">A share of the charge</h3>

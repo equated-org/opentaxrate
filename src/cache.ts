@@ -56,6 +56,8 @@ export function answerKey(q: RateQuery & { date: string }, include: string[]): s
     [...include].sort().join("+"),
     // Only with codes, so keys without any are unchanged.
     ...(q.codes?.length ? [[...q.codes].sort().join(",")] : []),
+    // Only with a description, as it was sent: the entry is keyed by it.
+    ...(q.describe ? [`describe:${q.describe}`] : []),
   ].join("|");
 }
 

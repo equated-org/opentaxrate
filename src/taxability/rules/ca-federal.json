@@ -242,8 +242,12 @@
     "summary": "During the temporary break, catering for providing, preparing and serving food and non-alcoholic or eligible alcoholic beverages was zero-rated, but admission, facility, entertainer and similar charges stayed taxable.",
     "conditions": [
       {
-        "when": "the provision, preparation and serving of food, non-alcoholic beverages or eligible alcoholic beverages, with service and payment both in the period",
+        "when": "the provision, preparation and serving of food, non-alcoholic beverages or eligible alcoholic beverages, with service and payment both in the period (a deposit paid earlier and applied to the price during the period counts as paid in the period)",
         "treatment": "zero_rated"
+      },
+      {
+        "when": "The customer paid part of the catering price before December 14, 2024 as a part payment rather than a deposit, or paid any of it or received any of the service after February 15, 2025",
+        "treatment": "taxable"
       },
       {
         "when": "event admission charges, facility hosting fees, fees for entertainers, or chef services where the chef did not provide the ingredients",
@@ -260,9 +264,24 @@
         "title": "Canada.ca, GST/HST break - Closed",
         "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
         "quote": "A catering service generally qualified for GST/HST relief during the eligible period."
+      },
+      {
+        "title": "GST/HST Notice 340, Questions and answers about the GST/HST tax break, Q19E (when the zero-rating applies)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
+        "quote": "all of the consideration for the supply is paid during the eligible period; and"
+      },
+      {
+        "title": "GST/HST Notice 340, Questions and answers about the GST/HST tax break, Q19E example (deposit)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
+        "quote": "The conditions have been satisfied to treat the catering services as supply as zero-rated in accordance with section 13."
+      },
+      {
+        "title": "GST/HST Notice 340, Questions and answers about the GST/HST tax break, Q19E example (part payment)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/notice340/questions-answers-about-gst-hst-tax-break-for-all-canadians.html",
+        "quote": "However, if instead of a deposit, the caterer required part payment of the consideration on December 10, 2024, the catering service would not be zero-rated as part of the consideration is paid in a period that is not the eligible period."
       }
     ],
-    "notes": "Equipment and tableware rentals are not named on the CRA page; whether they were zero-rated as part of the catering service is unverified. 'Facilities hosting fees' were listed as not qualifying."
+    "notes": "Equipment and tableware rentals are not named on the CRA page; whether they were zero-rated as part of the catering service is unverified. 'Facilities hosting fees' were listed as not qualifying. 2026-11-02: added the part-payment case (Notice 340, Q19E) after the describe benchmark case yt-06 found no option for a part payment made before the break."
   },
   {
     "tax": "CA:GST/HST",
@@ -446,11 +465,11 @@
     "summary": "Bakery items are zero-rated except single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants and the like, under 230 g) sold in quantities of fewer than six, and anything heated for consumption, which are taxable.",
     "conditions": [
       {
-        "when": "single-serving cakes, muffins, pies, pastries, tarts, cookies, doughnuts, brownies or sweetened croissants sold in quantities of fewer than six, or any bakery item heated for consumption, or sold at a restaurant-type establishment in a form suitable for immediate consumption",
+        "when": "single-serving cakes, muffins, pies, pastries, tarts, cookies, doughnuts, brownies or sweetened croissants sold in quantities of fewer than six single servings (bagels, rolls and other bread products bought with them count toward the six), or prepackaged singly or in packs of fewer than six, or any bakery item heated for consumption, or sold at a restaurant-type establishment in a form suitable for immediate consumption",
         "treatment": "taxable"
       },
       {
-        "when": "bread products without sweet filling or coating (bread, bagels, rolls, plain croissants), whole cakes and pies larger than a single serving, or single-serving sweet goods in quantities of six or more not for consumption at the seller's establishment",
+        "when": "bread products without sweet filling or coating (bread, bagels, rolls, plain croissants), whole cakes and pies larger than a single serving, or six or more single servings bought together and not prepackaged in packs of fewer than six, counting bagels, rolls and other bread products bought with them, not for consumption at the seller's establishment",
         "treatment": "zero_rated"
       }
     ],
@@ -469,9 +488,24 @@
         "title": "Excise Tax Act, Schedule VI, Part III, s. 1(q)",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
         "quote": "food or beverages when sold at an establishment at which all or substantially all of the sales of food or beverages are"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (mixed multiple servings)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "A mixed supply of six or more single servings of these goods is zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (example)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "For example, a supply of two bagels, two muffins and two doughnuts, purchased from a doughnut shop (when they are not individually packaged), is considered to be six single servings for the purposes of paragraph 1(m) of Part III of Schedule VI, and therefore zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (prepackaged)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "If, however, the goods are pre-packaged for sale to consumers individually or in any quantity less than six, the supply is taxable."
       }
     ],
-    "notes": "Turns on quantity and item size, which the code doesn't carry. The 230 g single-serving line is from GI-064's definition (Ontario rebate); Memorandum 4.3 paras. 87-100 discuss single servings and were not quoted. The code's 'even if warmed' items are taxable under 1(o) when heated for consumption. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated under the temporary GST/HST break) applies: this subcode has no rule of its own for those dates."
+    "notes": "Turns on quantity and item size, which the code doesn't carry. The 230 g single-serving line is from GI-064's definition (Ontario rebate); Memorandum 4.3 paras. 87-100 discuss single servings and were not quoted. The code's 'even if warmed' items are taxable under 1(o) when heated for consumption. From 2024-12-14 to 2025-02-15 the parent food.prepared rule (zero-rated under the temporary GST/HST break) applies: this subcode has no rule of its own for those dates. 2026-11-02: the cases now count bagels and other bread products bought with sweet goods toward the six (Memorandum 4.3 para. 97); the describe benchmark cases nt-03 and on-05 found no option for a mixed purchase. Memorandum 4.3 is dated January 2007, so its reading covers this rule's whole range."
   },
   {
     "tax": "CA:GST/HST",
@@ -482,11 +516,11 @@
     "summary": "Bakery items are zero-rated except single-serving sweet goods (cakes, muffins, pastries, cookies, doughnuts, sweetened croissants and the like, under 230 g) sold in quantities of fewer than six, and anything heated for consumption, which are taxable.",
     "conditions": [
       {
-        "when": "single-serving cakes, muffins, pies, pastries, tarts, cookies, doughnuts, brownies or sweetened croissants sold in quantities of fewer than six, or any bakery item heated for consumption, or sold at a restaurant-type establishment in a form suitable for immediate consumption",
+        "when": "single-serving cakes, muffins, pies, pastries, tarts, cookies, doughnuts, brownies or sweetened croissants sold in quantities of fewer than six single servings (bagels, rolls and other bread products bought with them count toward the six), or prepackaged singly or in packs of fewer than six, or any bakery item heated for consumption, or sold at a restaurant-type establishment in a form suitable for immediate consumption",
         "treatment": "taxable"
       },
       {
-        "when": "bread products without sweet filling or coating (bread, bagels, rolls, plain croissants), whole cakes and pies larger than a single serving, or single-serving sweet goods in quantities of six or more not for consumption at the seller's establishment",
+        "when": "bread products without sweet filling or coating (bread, bagels, rolls, plain croissants), whole cakes and pies larger than a single serving, or six or more single servings bought together and not prepackaged in packs of fewer than six, counting bagels, rolls and other bread products bought with them, not for consumption at the seller's establishment",
         "treatment": "zero_rated"
       }
     ],
@@ -505,9 +539,24 @@
         "title": "Excise Tax Act, Schedule VI, Part III, s. 1(q)",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
         "quote": "food or beverages when sold at an establishment at which all or substantially all of the sales of food or beverages are"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (mixed multiple servings)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "A mixed supply of six or more single servings of these goods is zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (example)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "For example, a supply of two bagels, two muffins and two doughnuts, purchased from a doughnut shop (when they are not individually packaged), is considered to be six single servings for the purposes of paragraph 1(m) of Part III of Schedule VI, and therefore zero-rated."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 97 (prepackaged)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "If, however, the goods are pre-packaged for sale to consumers individually or in any quantity less than six, the supply is taxable."
       }
     ],
-    "notes": "Turns on quantity and item size, which the code doesn't carry. The 230 g single-serving line is from GI-064's definition (Ontario rebate); Memorandum 4.3 paras. 87-100 discuss single servings and were not quoted. The code's 'even if warmed' items are taxable under 1(o) when heated for consumption. Starts the day after the temporary GST/HST break ended (Part XI eligible period December 14, 2024 to February 15, 2025)."
+    "notes": "Turns on quantity and item size, which the code doesn't carry. The 230 g single-serving line is from GI-064's definition (Ontario rebate); Memorandum 4.3 paras. 87-100 discuss single servings and were not quoted. The code's 'even if warmed' items are taxable under 1(o) when heated for consumption. Starts the day after the temporary GST/HST break ended (Part XI eligible period December 14, 2024 to February 15, 2025). 2026-11-02: the cases now count bagels and other bread products bought with sweet goods toward the six (Memorandum 4.3 para. 97); the describe benchmark cases nt-03 and on-05 found no option for a mixed purchase. Memorandum 4.3 is dated January 2007, so its reading covers this rule's whole range."
   },
   {
     "tax": "CA:GST/HST",
@@ -825,11 +874,11 @@
     "summary": "Carbonated soft drinks, and non-carbonated fruit-flavoured drinks with under 25% juice, are taxable; other sweetened non-carbonated drinks (iced tea, non-carbonated energy drinks) are taxable in single servings but zero-rated in multipacks or containers larger than a single serving.",
     "conditions": [
       {
-        "when": "a carbonated beverage (soda, carbonated energy drink), a non-carbonated fruit-flavoured beverage with less than 25% natural juice, a beverage dispensed where sold, or any other sweetened beverage sold in a single-serving container",
+        "when": "a carbonated drink, in any size of container (soda such as cola, root beer or ginger ale; sparkling or soda water; a carbonated energy drink); or a drink that isn't carbonated and is fruit-flavoured with less than 25% natural juice; or a drink dispensed where sold; or any other sweetened drink sold in a single-serving container",
         "treatment": "taxable"
       },
       {
-        "when": "a non-carbonated, non-fruit-flavoured sweetened beverage (e.g. iced tea) sold in a multipack of single servings packaged by the manufacturer, or in a container holding more than a single serving",
+        "when": "a sweetened drink that is neither carbonated nor fruit-flavoured (e.g. iced tea), sold in a manufacturer's multipack of single servings or in a container holding more than a single serving",
         "treatment": "zero_rated"
       }
     ],
@@ -848,9 +897,14 @@
         "title": "Excise Tax Act, Schedule VI, Part III, s. 1(n)",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
         "quote": "when the cans, bottles or other primary containers in which the beverages or products are sold contain a quantity exceeding a single serving;"
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 17",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "Words such as sparkling, soda water or effervescent refer to carbonation"
       }
     ],
-    "notes": "Turns on carbonation, flavour and container size, which the code doesn't carry. Most soda is carbonated and so taxable in any size. Paragraphs 1(c), (d) and (n) predate 2013 (Memorandum 4.3, January 2007)."
+    "notes": "Turns on carbonation, flavour and container size, which the code doesn't carry. Most soda is carbonated and so taxable in any size. Paragraphs 1(c), (d) and (n) predate 2013 (Memorandum 4.3, January 2007). 2026-11-02: case wording made plainer for describe= (same meaning, same sources), on dev half A of the describe benchmark."
   },
   {
     "tax": "CA:GST/HST",
@@ -907,11 +961,11 @@
     "summary": "After the temporary break ended, carbonated and low-juice fruit-flavoured drinks are taxable again, and other sweetened non-carbonated drinks are taxable in single servings only.",
     "conditions": [
       {
-        "when": "a carbonated beverage (soda, carbonated energy drink), a non-carbonated fruit-flavoured beverage with less than 25% natural juice, a beverage dispensed where sold, or any other sweetened beverage sold in a single-serving container",
+        "when": "a carbonated drink, in any size of container (soda such as cola, root beer or ginger ale; sparkling or soda water; a carbonated energy drink); or a drink that isn't carbonated and is fruit-flavoured with less than 25% natural juice; or a drink dispensed where sold; or any other sweetened drink sold in a single-serving container",
         "treatment": "taxable"
       },
       {
-        "when": "a non-carbonated, non-fruit-flavoured sweetened beverage (e.g. iced tea) sold in a multipack of single servings packaged by the manufacturer, or in a container holding more than a single serving",
+        "when": "a sweetened drink that is neither carbonated nor fruit-flavoured (e.g. iced tea), sold in a manufacturer's multipack of single servings or in a container holding more than a single serving",
         "treatment": "zero_rated"
       }
     ],
@@ -930,9 +984,14 @@
         "title": "Excise Tax Act, Schedule VI, Part XI",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
         "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      },
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries, para. 17",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "Words such as sparkling, soda water or effervescent refer to carbonation"
       }
     ],
-    "notes": "Turns on carbonation, flavour and container size, which the code doesn't carry."
+    "notes": "Turns on carbonation, flavour and container size, which the code doesn't carry. 2026-11-02: case wording made plainer for describe= (same meaning, same sources), on dev half A of the describe benchmark."
   },
   {
     "tax": "CA:GST/HST",

@@ -10,6 +10,7 @@
 #   scripts/bench boundary [NAME] [PARAMS]     points near lines, no geocoding (MARGIN=15)
 #   scripts/bench all [NAME] [PARAMS]          dev, history and boundary, one line each
 #   scripts/bench taxability [--list]          the taxability rules against the agencies' own examples (artifacts/taxability/evals)
+#   scripts/bench taxability --describe        the same with each case's facts as describe=, with and without its code
 #   scripts/bench compare NAME BASE [SET]      what changed between two runs (SET: dev, eval, history, boundary, or a split)
 #   scripts/bench cost                         geocoder dollars recorded so far
 #   scripts/bench competitors ARGS...          other services on the same addresses (scripts/bench.ts)
@@ -72,7 +73,11 @@ case "$command" in
     trial "$split" "$name" "${3:-}" ;;
   boundary)
     boundary "$(name_or_default "${1:-}")" "${2:-}" ;;
-  taxability) npx tsx src/cli.ts taxability score "$@" ;;
+  taxability)
+    # --describe asks Jev for cases its cache (artifacts/taxability/describe-picks.json) lacks.
+    TYPESAFE_API_KEY=${TYPESAFE_API_KEY:-$(grep -s '^TYPESAFE_API_KEY=' .env | cut -d= -f2-)}
+    export TYPESAFE_API_KEY
+    npx tsx src/cli.ts taxability score "$@" ;;
   all)
     name=$(name_or_default "${1:-}")
     echo "dev:      $(trial "$DEV" "$name-dev" "${2:-}")"

@@ -131,13 +131,17 @@ function ruleForCode(rules: RuleSet, tax: string, code: TaxCode, date: string): 
  *  one of `taxes` that treats it differently (Kentucky's lobbying, taxed
  *  under exempt professional services; a local tax's own rule for one
  *  kind): then conditional on which kind it is. */
-function withNarrower(rules: RuleSet, taxes: string[], tax: string, code: TaxCode, date: string, rule: Rule): Rule | null {
-  const narrower = (Object.keys(TAX_CODES) as TaxCode[])
+function withNarrower(rules: RuleSet, taxes: string[], tax: string, code: TaxCode, date: string, broad: Rule): Rule | null {
+  const owns = (Object.keys(TAX_CODES) as TaxCode[])
     .filter((c) => c.startsWith(`${code}.`))
     .flatMap((c) => taxes.flatMap((t) => {
       const own = ruleOn(rules, t, c, date);
-      return own && differs(own, rule) ? [{ code: c, rule: own }] : [];
+      return own ? [{ code: c, rule: own }] : [];
     }));
+  // A kind treated as the broad code is still has its own exceptions:
+  // they stay in the answer, as a settled rule's do.
+  const rule = withKindExceptions(broad, owns.filter((n) => !differs(n.rule, broad)));
+  const narrower = owns.filter((n) => differs(n.rule, broad));
   if (!narrower.length) return rule;
   const rest = settle(rules, rule, code, date);
   const kinds = narrower.map((n) => [kind(n.code), settle(rules, n.rule, n.code, date), n.code] as const);
@@ -145,6 +149,15 @@ function withNarrower(rules: RuleSet, taxes: string[], tax: string, code: TaxCod
   const otherCode = `${code}.other`;
   const other: Kind = isTaxCode(otherCode) ? [`${otherCode}: any other kind of ${code}`, rest, otherCode] : [`Any other kind of ${code}`, rest];
   return dependsOn(tax, code, [...(kinds as unknown as Kind[]), other], [rest, ...kinds.map(([, r]) => r!)]);
+}
+
+/** `rule` with the exceptions of `kinds`, narrower codes it settles alike,
+ *  each named by its kind and code. */
+function withKindExceptions(rule: Rule, kinds: Array<{ code: TaxCode; rule: Rule }>): Rule {
+  const more = kinds.flatMap((k) => (k.rule.treatment === "conditional" ? [] : conditionsOf(kind(k.code), k.rule, k.code).slice(1)));
+  if (!more.length) return rule;
+  const all = [rule, ...kinds.map((k) => k.rule)];
+  return { ...rule, ...windowOf(all), conditions: [...rule.conditions, ...more], citations: citationsOf(all) };
 }
 
 /** Two rules don't settle a code the same way. */
@@ -186,12 +199,35 @@ function windowOf(rules: Rule[]): Pick<Rule, "from" | "to" | "fromIs"> {
  *  settled treatment, then any exception it lists. */
 function conditionsOf(label: string, r: Rule, code?: TaxCode): Rule["conditions"] {
   const send = code ? { code } : {};
-  if (r.treatment === "conditional") return r.conditions.map((c) => ({ ...c, when: `${label}: ${c.when}`, ...send }));
+  // The residual kind withNarrower makes ("<code>.other: any other kind
+  // of <code>", "Any other kind of <code>"): what the listed kinds aren't.
+  const residual = /any other kind of ([a-z_.]+)$/i.exec(label)?.[1];
+  const residualOf = residual && isTaxCode(residual) ? residual : undefined;
+  const words = (k: Condition, inner?: Condition, exception?: true) => {
+    caseWords.set(k, { kind: label, ...(code ? { code } : {}), ...(residualOf ? { residualOf } : {}), ...(inner ? { inner } : {}), ...(exception ? { exception } : {}) });
+    return k;
+  };
+  if (r.treatment === "conditional") return r.conditions.map((c) => words({ ...c, when: `${label}: ${c.when}`, ...send }, c));
   return [
-    { when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send },
-    ...r.conditions.filter((c) => differs(c, r)).map((c) => ({ ...c, when: `${label}, except ${c.when.charAt(0).toLowerCase()}${c.when.slice(1)}`, ...send })),
+    words({ when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send }),
+    ...r.conditions.filter((c) => differs(c, r)).map((c) => words({ ...c, when: `${label}, except ${c.when.charAt(0).toLowerCase()}${c.when.slice(1)}`, ...send }, c, true)),
   ];
 }
+
+/** How a broad code's case was put together from a narrower kind's rule:
+ *  the kind's label and code, and the kind's own case (`inner`), or the
+ *  exception to its settled treatment. Kept beside the case, never in the
+ *  answer, for reading the case as words (describe.ts). */
+export interface CaseWords {
+  kind: string;
+  code?: TaxCode;
+  /** The residual kind of this broad code: none of the kinds listed. */
+  residualOf?: TaxCode;
+  inner?: Condition;
+  exception?: true;
+}
+const caseWords = new WeakMap<Condition, CaseWords>();
+export const caseWordsOf = (k: Condition): CaseWords | undefined => caseWords.get(k);
 
 function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string): Rule | null {
   const subs = subcodesOf(code);
@@ -205,11 +241,30 @@ function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string):
     if (!settled) return null;
     found.push(settled);
   }
+  return fromKinds(tax, code, subs, found);
+}
+
+/** A broad code's rule from one rule per subcode: settled where every kind
+ *  is treated alike, else conditional on which kind it is. */
+function fromKinds(tax: string, code: TaxCode, subs: TaxCode[], found: Rule[]): Rule {
   const first = found[0];
   if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.base === first.base))
-    return { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) };
+    return withKindExceptions(
+      { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) },
+      found.map((r, i) => ({ code: subs[i], rule: r })),
+    );
   return dependsOn(tax, code, found.map((r, i): Kind => [kind(subs[i]), r, subs[i]]));
 }
+
+/** `key` has a rule of its own for `code` or a broader code on `date`. */
+function hasOwn(rules: RuleSet, key: string, code: TaxCode, date: string): boolean {
+  for (let c: TaxCode | null = code; c; c = parentOf(c)) if (ruleOn(rules, key, c, date)) return true;
+  return false;
+}
+
+/** Some code narrower than `code` has a rule of its own under one of `keys`. */
+const narrowerUnder = (rules: RuleSet, keys: string[], code: TaxCode, date: string) =>
+  (Object.keys(TAX_CODES) as TaxCode[]).some((c) => c.startsWith(`${code}.`) && keys.some((k) => ruleOn(rules, k, c, date)));
 
 /** A "follows" rule as the rule it follows, with its citations added (null
  *  when that's missing); any other rule as it is. */
@@ -226,6 +281,17 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
   for (const [i, key] of keys.entries()) {
     const found = ruleForCode(rules, key, code, date);
     if (!found) continue;
+    // A broad code this key answers only from its subcodes' rules, while a
+    // more specific key has a rule for one of them (a local platter rule):
+    // each kind answers from its own most specific rule, and the result is
+    // the more specific key's, so this part isn't grouped with the parts
+    // the broader key decides alone.
+    if (i && !hasOwn(rules, key, code, date) && subcodesOf(code).length && narrowerUnder(rules, keys.slice(0, i), code, date)) {
+      const subs = subcodesOf(code);
+      const each = subs.map((sub) => ruleFor(rules, state, part, sub, date));
+      if (each.some((r) => !r)) return null;
+      return fromKinds(keys[0], code, subs, each as Rule[]);
+    }
     const settled = settle(rules, found, code, date);
     return settled && i ? withNarrower(rules, keys.slice(0, i), key, code, date, settled) : settled;
   }
@@ -277,10 +343,15 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
       groups.set(key, { tax, parts: [part.code], treatment: decided, rate: partRate(decided, part, rule), rule: { ...rest, treatment: decided } });
     }
   }
-  const taxes = [...groups.values()];
+  return answerOf([...groups.values()], answer.parts);
+}
+
+/** The sale's answer from its groups: its treatment, its rate when every
+ *  group is settled, and a conditional answer's cases. */
+function answerOf(taxes: TaxGroup[], parts: RatePart[]): Taxability {
   const settled = taxes.every((t) => t.rate !== null);
   const rate = settled ? round(taxes.reduce((sum, t) => sum + t.rate!, 0)) : null;
-  const general = round(answer.parts.reduce((sum, p) => sum + p.rate, 0));
+  const general = round(parts.reduce((sum, p) => sum + p.rate, 0));
   const treatment = taxes.some((t) => t.treatment === "not_researched")
     ? "not_researched"
     : !settled
@@ -290,7 +361,7 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
         : rate === general
           ? "taxable"
           : "partial";
-  const cases = treatment === "conditional" ? outcomesOf(taxes, answer.parts) : undefined;
+  const cases = treatment === "conditional" ? outcomesOf(taxes, parts) : undefined;
   return { treatment, rate, taxes, ...(cases?.outcomes.length ? { outcomes: cases.outcomes, ...(cases.independent ? { independent: true as const } : {}) } : {}) };
 }
 
@@ -306,12 +377,18 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
  *  every undecided tax pairs that way, each outcome is one such case.
  *  Otherwise the taxes turn on their facts independently, and each
  *  condition is its own outcome, for its tax, with the settled taxes. */
+/** What one undecided tax adds to the sale's rate in case `k`: its parts'
+ *  full rate when taxable, the case's own rate (once) when special, else
+ *  nothing; times the case's base. NaN for a special case with no rate. */
+function shareOf(t: TaxGroup, k: Condition, parts: RatePart[]): number {
+  const full = t.parts.reduce((sum, code) => sum + (parts.find((p) => p.code === code)?.rate ?? 0), 0);
+  return (k.treatment === "taxable" ? full : k.treatment === "special_rate" ? (k.rate ?? NaN) : 0) * (k.base ?? 1);
+}
+
 function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): { outcomes: Outcome[]; independent?: true } {
   const none = { outcomes: [] };
   const fixed = taxes.reduce((sum, t) => sum + (t.rate ?? 0), 0);
-  const full = (t: TaxGroup) => t.parts.reduce((sum, code) => sum + (parts.find((p) => p.code === code)?.rate ?? 0), 0);
-  const share = (t: TaxGroup, k: Condition) =>
-    (k.treatment === "taxable" ? full(t) : k.treatment === "special_rate" ? (k.rate ?? NaN) : 0) * (k.base ?? 1);
+  const share = (t: TaxGroup, k: Condition) => shareOf(t, k, parts);
   const open = taxes.filter((t) => t.treatment === "conditional").map((t) => ({ tax: t, conditions: t.rule?.conditions ?? [] }));
   if (open.some((o) => !o.conditions.length)) return none;
   const done = (outcomes: Outcome[], independent?: true) =>
@@ -381,6 +458,65 @@ function whenOf(picked: Condition[], taxNames: string[]): string {
   const longest = [...picked].sort((a, b) => b.when.length - a.when.length)[0];
   if (picked.every((k) => k === longest || normal(k.when) === normal(longest.when) || refines(longest.when, k.when))) return longest.when;
   return picked.map((k, i) => `${taxNames[i]}: ${k.when}`).join("; and ");
+}
+
+/** A conditional answer's undecided taxes (by index in `taxes`) and the
+ *  cases a description can settle them by, as outcomesOf combines them:
+ *  "paired", one list of cases for all of them together, each case one
+ *  condition per tax; or "independent", each tax's conditions on their
+ *  own. Null when nothing is undecided, or a tax lists no conditions. */
+export type OpenCases =
+  | { kind: "paired"; taxes: number[]; cases: Condition[][] }
+  | { kind: "independent"; taxes: number[]; cases: Condition[][] };
+
+export function openCasesOf(t: Taxability): OpenCases | null {
+  const taxes = t.taxes.flatMap((g, i) => (g.treatment === "conditional" ? [i] : []));
+  const lists = taxes.map((i) => t.taxes[i].rule?.conditions ?? []);
+  if (!taxes.length || lists.some((l) => !l.length)) return null;
+  const paired = pairedCases(lists);
+  return paired ? { kind: "paired", taxes, cases: paired } : { kind: "independent", taxes, cases: lists };
+}
+
+/** What settling tax group `t` by case `k` adds to the sale's rate: the
+ *  same share its outcome counts. Null where it can't be computed. */
+export function caseRate(t: TaxGroup, k: Condition, parts: RatePart[]): number | null {
+  const share = shareOf(t, k, parts);
+  return Number.isNaN(share) ? null : round(share);
+}
+
+/** `t` with some taxes settled, each by one of its own rule's cases
+ *  (index in `t.taxes` → condition): an undecided tax's case, or the
+ *  exception a settled rule lists. That tax's treatment and rate become
+ *  the case's, its rule stays as cited, and the sale's treatment, rate and
+ *  outcomes are recomputed from the groups, exactly as an outcome counts
+ *  them. A case whose rate can't be computed leaves its tax as it was. */
+export function settleCases(t: Taxability, parts: RatePart[], picks: Map<number, Condition>): Taxability {
+  const taxes = t.taxes.map((g, i) => {
+    const k = picks.get(i);
+    const rate = k && g.rule && g.treatment !== "not_a_sale" && g.treatment !== "not_researched" ? caseRate(g, k, parts) : null;
+    return k && rate !== null ? { ...g, treatment: k.treatment, rate } : g;
+  });
+  return answerOf(taxes, parts);
+}
+
+/** `t` with some settled taxes made conditional on their rule's usual
+ *  case (`usual`, at the rule's own treatment) or one of the exceptions it
+ *  lists: where a description makes an exception likely without settling
+ *  it. The sale's treatment, rate and outcomes are recomputed. */
+export function reopenCases(t: Taxability, parts: RatePart[], reopen: Set<number>, usual: string): Taxability {
+  const taxes = t.taxes.map((g, i) => {
+    const rule = g.rule;
+    if (!reopen.has(i) || !rule || !["taxable", "special_rate", "exempt", "zero_rated"].includes(rule.treatment)) return g;
+    const main: Condition = {
+      when: usual,
+      treatment: rule.treatment as Condition["treatment"],
+      ...(rule.rate !== undefined ? { rate: rule.rate } : {}),
+      ...(rule.base !== undefined ? { base: rule.base } : {}),
+    };
+    const exceptions = rule.conditions.filter((k) => differs(k, rule as Rule));
+    return { ...g, treatment: "conditional" as const, rate: null, rule: { ...rule, treatment: "conditional" as const, conditions: [main, ...exceptions] } };
+  });
+  return answerOf(taxes, parts);
 }
 
 /** One entry per code asked. */

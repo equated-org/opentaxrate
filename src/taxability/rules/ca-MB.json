@@ -8,7 +8,7 @@
     "summary": "Construction, repair and improvement of real property is not taxed to the owner (the contractor pays RST on materials), but installing or repairing mechanical and electrical systems is taxable on the total contract price.",
     "conditions": [
       {
-        "when": "Construction, installation, maintenance or repair of real property (land, buildings, permanent improvements), labour and materials billed together",
+        "when": "Construction, installation, maintenance or repair of real property (land, buildings, permanent improvements) other than its mechanical and electrical systems or machinery and equipment, labour and materials billed together",
         "treatment": "exempt"
       },
       {
@@ -33,7 +33,7 @@
         "quote": "The RST on M&E work applies to the total selling price on all contracts or service/maintenance work."
       }
     ],
-    "notes": "Both rules predate 2013 (Bulletin 005 issued 1996, 031 issued 2002); the July 2013 versions were not compared line by line. Mixed real-property/M&E contracts and earthwork apportionment are in Bulletins 005 and 008. 'exempt' here means no RST is charged to the owner; RST is embedded in the contractor's materials cost."
+    "notes": "Both rules predate 2013 (Bulletin 005 issued 1996, 031 issued 2002); the July 2013 versions were not compared line by line. Mixed real-property/M&E contracts and earthwork apportionment are in Bulletins 005 and 008. 'exempt' here means no RST is charged to the owner; RST is embedded in the contractor's materials cost. 2026-11-02: case wording made plainer for describe= (same meaning, same sources), on dev half A of the describe benchmark."
   },
   {
     "tax": "MB:RST",

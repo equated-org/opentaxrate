@@ -19,7 +19,7 @@ import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isProvince, provinceParts } from "../rates/canada.js";
-import { STATEWIDE_STATES } from "../rates/statewide.js";
+import { STATEWIDE_STATES, statewideRate } from "../rates/statewide.js";
 import type { RatePart } from "../rates/types.js";
 import { isTaxCode, taxabilityOf, type RuleSet, type Taxability } from "./index.js";
 
@@ -57,11 +57,13 @@ const STATE_RATE_ONLY = ["IN", "KY", "MI", "NJ", "RI"];
 
 /** The parts a case is scored on, as a real answer there has them: a
  *  province's taxes; a state part alone where the state has one rate
- *  everywhere (no local sales taxes); else a state and a local part, so a
- *  case can expect them apart. The rates are nominal. */
-function partsAt(place: string, date: string): RatePart[] {
+ *  everywhere (no local sales taxes), at that rate where it's known, so a
+ *  case can expect the rate its source states; else a state and a local
+ *  part, so a case can expect them apart, at nominal rates. */
+export function partsAt(place: string, date: string): RatePart[] {
   if (isProvince(place)) return provinceParts(place, date);
-  const state: RatePart = { kind: "state", name: place, code: `${place}:state`, rate: 0.04 };
+  const one = statewideRate(place, date);
+  const state: RatePart = { kind: "state", name: place, code: `${place}:state`, rate: one && "rate" in one && one.rate > 0 ? one.rate : 0.04 };
   if (STATEWIDE_STATES.includes(place) || STATE_RATE_ONLY.includes(place)) return [state];
   return [state, { kind: "city", name: `${place} local`, code: `${place}:local`, rate: 0.02 }];
 }
@@ -83,7 +85,11 @@ const WORST: Outcome[] = ["wrong", "kind", "not_researched", "declined", "right"
 export function scoreCase(c: TaxabilityCase, rules: RuleSet): Scored {
   if (!isTaxCode(c.code)) throw new Error(`${c.id}: unknown code ${c.code}`);
   const parts = partsAt(c.place, c.date);
-  const t = taxabilityOf({ state: c.place, parts }, c.code, c.date, rules);
+  return scoreAnswer(c, parts, taxabilityOf({ state: c.place, parts }, c.code, c.date, rules));
+}
+
+/** One answer for case `c`, on the parts it was asked at, scored. */
+export function scoreAnswer(c: TaxabilityCase, parts: RatePart[], t: Taxability): Scored {
   const outcomes: Outcome[] = [];
   const got: string[] = [];
   const expect = (label: string, treatment: string, expected: Expected | undefined) => {

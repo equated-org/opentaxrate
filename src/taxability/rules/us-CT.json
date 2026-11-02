@@ -8,11 +8,11 @@
     "summary": "Construction work is taxable on existing commercial, industrial or income-producing property, and not on new construction or owner-occupied homes of one to three units.",
     "conditions": [
       {
-        "when": "New construction: a new building, an addition that expands the building's cubic footage, a full gut, or initial finish-out of new space",
+        "when": "New construction: a new building, an addition that expands the building's cubic footage, the replacement of a building's entire internal structure (everything inside between the ground floor and the roof rafters removed, wall studs and floor and ceiling joists included), or initial finish-out of new space",
         "treatment": "exempt"
       },
       {
-        "when": "Remodel or improvement of existing commercial, industrial or income-producing property (including rental housing)",
+        "when": "Remodel or improvement of existing commercial, industrial or income-producing property (including rental housing), including a conversion that strips the building but leaves its wall studs and floor and ceiling joists in place",
         "treatment": "taxable"
       },
       {
@@ -35,9 +35,19 @@
         "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
         "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
         "quote": "The construction of a new addition that expands the cubic footage of an existing building"
+      },
+      {
+        "title": "CT DRS IP 2018(2), Building Contractors' Guide to Sales and Use Taxes (issued 12/19/2018)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2018/ip-2018(2).pdf",
+        "quote": "Everything in the interior of a building between the floor that touches the ground and the rafters of the roof must be removed"
+      },
+      {
+        "title": "CT DRS Ruling 96-2, Services to Industrial, Commercial, or Income-Producing Real Property / Renovation",
+        "url": "https://portal.ct.gov/DRS/Publications/Rulings/1996/Ruling-96-2",
+        "quote": "The services rendered in the conversion of a building, where the interior wall studs and floor and ceiling joists are left in place, are not considered to be rendered in the construction of new real property"
       }
     ],
-    "notes": "The contractor pays tax on materials it uses. Some services (landscaping, maintenance, janitorial, exterminating) are taxable on every kind of property. Property type is not carried by the code. Earliest dated text read: IP 2018(2), issued 2018-12-19. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+    "notes": "The contractor pays tax on materials it uses. Some services (landscaping, maintenance, janitorial, exterminating) are taxable on every kind of property. Property type is not carried by the code. Earliest dated text read: IP 2018(2), issued 2018-12-19. Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer. 2026-11-02: the new-construction case said “a full gut”, which read as any gutting; it now states IP 2018(2)'s test (the entire internal structure replaced), and the remodel case names Ruling 96-2's conversion that keeps the studs and joists. Found through a held-out benchmark case (ho-ct-03), so that set is no longer clean for this rule."
   },
   {
     "tax": "CT",
@@ -898,7 +908,7 @@
     "summary": "Carbonated soft drinks are taxable at 6.35%, or 7.35% when sold as a meal by an eating establishment; non-carbonated sweetened drinks are taxable only as meals.",
     "conditions": [
       {
-        "when": "A carbonated beverage sold by a store that is not an eating establishment (e.g. a 12-pack at a supermarket)",
+        "when": "A carbonated drink (soda, carbonated water), in any size or pack, sold by a store that is not an eating establishment (a 2-liter bottle or a 12-pack at a supermarket)",
         "treatment": "taxable"
       },
       {
@@ -943,7 +953,7 @@
         "quote": "At grocery stores this only includes meals sold in eating areas, prepared sandwiches and hot or iced coffee or tea."
       }
     ],
-    "notes": "From 2019-10-01 the 1% addition (§12-408(1)(I)) covers meals and 'soft drinks, sodas or beverages such as are ordinarily dispensed at bars and soda fountains'. DRS limits it at grocery stores to meals in eating areas, sandwiches and coffee or tea (PS 2019(5) revocation note), so packaged soda sold by a store is read here at 6.35%; that reading for convenience stores is not confirmed by a DRS example.  Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer."
+    "notes": "From 2019-10-01 the 1% addition (§12-408(1)(I)) covers meals and 'soft drinks, sodas or beverages such as are ordinarily dispensed at bars and soda fountains'. DRS limits it at grocery stores to meals in eating areas, sandwiches and coffee or tea (PS 2019(5) revocation note), so packaged soda sold by a store is read here at 6.35%; that reading for convenience stores is not confirmed by a DRS example.  Connecticut has no local sales taxes (DRS: 'There are no additional sales taxes imposed by local jurisdictions in Connecticut'), so this rule covers the whole answer. 2026-11-02: case wording made plainer for describe= (same meaning, same sources), on dev half A of the describe benchmark."
   },
   {
     "tax": "CT",

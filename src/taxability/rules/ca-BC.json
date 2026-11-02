@@ -162,12 +162,16 @@
     "summary": "A seller's delivery charge for taxable goods, even separately stated, is part of the goods' taxable purchase price when incurred at or before title transfers, which is the usual case.",
     "conditions": [
       {
-        "when": "the delivery charge is incurred at or before title to the goods transfers (the usual case)",
+        "when": "The goods are delivered from within B.C. and the delivery charge is incurred at or before title to the goods transfers (the usual case)",
         "treatment": "taxable"
       },
       {
-        "when": "the delivery charge is incurred after title has passed to the buyer",
+        "when": "The goods are delivered from within B.C. and the delivery charge is incurred after title has passed to the buyer",
         "treatment": "exempt"
+      },
+      {
+        "when": "The goods are delivered from outside B.C. to the buyer in B.C.",
+        "treatment": "taxable"
       }
     ],
     "citations": [
@@ -175,9 +179,19 @@
         "title": "Bulletin PST 302, Delivery Charges",
         "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-302-delivery-charges.pdf",
         "quote": "In most cases, delivery charges are incurred at or before the time title to the goods transfers. As a result, you generally charge PST on delivery charges as they form part of the taxable purchase price of the goods."
+      },
+      {
+        "title": "Bulletin PST 302, Delivery Charges, Taxable Delivery Charges",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-302-delivery-charges.pdf",
+        "quote": "The goods are delivered from outside B.C. to a purchaser in B.C."
+      },
+      {
+        "title": "Bulletin PST 302, Delivery Charges, Example 4",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-302-delivery-charges.pdf",
+        "quote": "In this situation, for the purposes of the PST, it does not matter when title to the blender transfers."
       }
     ],
-    "notes": "Bulletin PST 302 issued April 2013, revised April 2026. Made conditional 2026-10-31: the code doesn't say when title passed, and PST 302's example (bc-03) is the exempt branch."
+    "notes": "Bulletin PST 302 issued April 2013, revised April 2026. Made conditional 2026-10-31: the code doesn't say when title passed, and PST 302's example (bc-03) is the exempt branch. 2026-11-02: split by where the goods come from after the describe benchmark case d2-bc-15 found no option for goods delivered into B.C. from outside (PST 302, Example 4). The into-B.C. statement is read in the April 2026 revision; earlier editions weren't read, so that it held from 2013-04-01 isn't verified here."
   },
   {
     "tax": "BC:PST",

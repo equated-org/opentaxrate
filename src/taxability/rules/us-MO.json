@@ -107,7 +107,63 @@
         "quote": "Handling charges included with the sale of tangible personal property (separately stated) Taxable"
       }
     ],
-    "notes": "The 2022-2025 industry matrices list separately stated shipping as exempt without mentioning the optional test in 12 CSR 10-103.600; the rule's test is kept as the condition."
+    "notes": "The 2022-2025 industry matrices list separately stated shipping as exempt without mentioning the optional test in 12 CSR 10-103.600; the rule's test is kept as the condition. 2026-11-02: ends 2017-08-27; from 2017-08-28 RSMo 144.010.1(4) (S.B. 16) excludes usual and customary separately stated delivery charges from gross receipts, optional or not (the next rule). The 2016 version of 144.010 (effective 10/14/2016) has no such exclusion.",
+    "to": "2017-08-27"
+  },
+  {
+    "tax": "MO",
+    "code": "delivery.taxable_goods",
+    "from": "2017-08-28",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From August 28, 2017, a usual and customary delivery charge stated separately from the price isn't taxed in Missouri, whether or not the buyer could decline delivery; handling charges, and freight the seller paid to receive the goods and passes on, are taxable.",
+    "conditions": [
+      {
+        "when": "A usual and customary charge for delivering the goods to the buyer, or to a place the buyer picks, stated separately from the price, whether or not the buyer could decline delivery",
+        "treatment": "exempt"
+      },
+      {
+        "when": "A charge passing on freight the seller paid to receive the goods from its own supplier (inbound freight)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A separately stated handling charge",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RSMo 144.010.1(4), gross receipts (as effective August 28, 2022)",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.010",
+        "quote": "usual and customary delivery charges that are stated separately from the sale price"
+      },
+      {
+        "title": "RSMo 144.010.1(4), gross receipts (version effective August 28, 2017)",
+        "url": "https://revisor.mo.gov/main/PageSelect.aspx?section=144.010&bid=34633",
+        "quote": "usual and customary delivery charges that are stated separately from the sale price"
+      },
+      {
+        "title": "Missouri DOR Industry and Association Guidance: Implement Dealers (September 2024)",
+        "url": "https://dor.mo.gov/taxation/business/audit/documents/Implement-Dealers.pdf",
+        "quote": "Separately stated usual and customary outbound freight / delivery charges are now exempt from sales tax, regardless of whether the charges are optional or mandatory."
+      },
+      {
+        "title": "Missouri DOR Industry and Association Guidance: Implement Dealers (September 2024), Example 1",
+        "url": "https://dor.mo.gov/taxation/business/audit/documents/Implement-Dealers.pdf",
+        "quote": "The $50 inbound freight charge is taxable as a cost of the dealer acquiring the part."
+      },
+      {
+        "title": "Missouri DOR, Interior Design Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Interior-Design-Services.pdf",
+        "quote": "Shipping charges included with the sale of tangible personal property (separately stated) Exempt"
+      },
+      {
+        "title": "Missouri DOR, Interior Design Services tax matrix",
+        "url": "https://dor.mo.gov/taxation/business/documents/Interior-Design-Services.pdf",
+        "quote": "Handling charges included with the sale of tangible personal property (separately stated) Taxable"
+      }
+    ],
+    "notes": "Split from the 2001 rule on 2026-11-02 after the held-out describe benchmark case ho-mo-04 found the optional/mandatory test no longer decides outbound delivery. The held-out set already isn't clean (docs/benchmarks.md), and this case no longer counts as held out. The exclusion first appears in the version of RSMo 144.010 effective 8/28/2017 (A.L. 2017 S.B. 16); the version effective 10/14/2016 lacks it (both filed from revisor.mo.gov). 12 CSR 10-103.600 still states the optional test and wasn't amended to match. A charge combining shipping and handling isn't settled by the sources read; it fits no case here."
   },
   {
     "tax": "MO",

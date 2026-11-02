@@ -98,17 +98,17 @@ describe("the evidence Worker's marks", () => {
   it("shows a web page's text cut to the lines the models picked, only when every mark is inside, and all of it on request", async () => {
     web_ = webRecord({ firstLine: 5, lastLine: 7 });
     let html = await go(`/sha256/${web}?view=text`);
-    expect(html).toContain("Site navigation trimmed by m-one and m-two (lines 5–7 of the page's 8");
+    expect(html).toContain(`<p class="crop-note">Main content · <a href="/sha256/${web}?view=text&amp;full=1">full page</a></p>`);
     expect(html).toContain(`?view=text&amp;full=1`);
     expect(visible(html)).not.toContain("NYS Open Legislation");
     expect(html).toContain('<p>SECTION 1210</p><p>Such taxes <mark class="q" id="q-statute">shall<br>be identical, except as to rate</mark> and otherwise.</p></div>');
     html = await go(`/sha256/${web}?view=text&full=1`);
     expect(visible(html)).toContain("NYS Open Legislation");
-    expect(html).toContain("its main content only");
+    expect(html).toContain(`<p class="crop-note"><a href="/sha256/${web}?view=text">Main content</a> · full page</p>`);
     // A crop that leaves a mark out isn't shown.
     web_ = webRecord({ firstLine: 1, lastLine: 5 });
     html = await go(`/sha256/${web}?view=text&x=2`);
-    expect(html).not.toContain("Site navigation trimmed");
+    expect(html).not.toContain('class="crop-note"');
     expect(html).toContain('id="q-statute"');
     // The readable view is a link away, and stays the default.
     expect(html).toContain(`<a href="/sha256/${web}">Page</a> · <span aria-current="page">Text</span>`);
@@ -118,10 +118,10 @@ describe("the evidence Worker's marks", () => {
     for (const view of ["text", "layout"]) {
       const html = await go(`/sha256/${partly}?view=${view}`);
       const two = html.slice(html.indexOf('id="page-2"'), html.indexOf('id="page-3"'));
-      expect(two).toContain("Scanned page: machine transcription by m-one and m-two, not reviewed");
+      expect(two).toContain('<p class="machine-label">Scanned page, machine-transcribed; check against the PDF.</p>');
       expect(two).toContain('<mark class="disagree">page</mark><span class="alt">[m-two reads “paqe”]</span>');
       expect(two).toContain(`/sha256/${partly}/raw#page=2`);
-      expect(html.slice(html.indexOf('id="page-1"'), html.indexOf('id="page-2"'))).not.toContain("machine transcription");
+      expect(html.slice(html.indexOf('id="page-1"'), html.indexOf('id="page-2"'))).not.toContain("machine-transcribed");
     }
   });
 });

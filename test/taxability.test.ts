@@ -250,6 +250,24 @@ describe("taxability", () => {
     expect(TaxabilitySchema.parse(apart)).toBeTruthy();
   });
 
+  it("a broad code answers a local part from the local tax's own rules for its kinds, not from the state's alone", () => {
+    const base = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", citations: [{ title: "t", url: "https://example.gov/t" }] };
+    // The state has a rule per kind; the local tax only for platters.
+    const set = ruleSet([
+      ...(["hot", "dine_in", "sandwich", "cold", "cold_restaurant", "bakery"] as const).map((k) => ({ ...base, tax: "ZZ", code: `food.prepared.${k}`, treatment: "taxable", conditions: [] })),
+      { ...base, tax: "ZZ", code: "food.prepared.platter", treatment: "exempt", conditions: [] },
+      { ...base, tax: "ZZ:local", code: "food.prepared.platter", treatment: "taxable", conditions: [] },
+    ] as Rule[]);
+    const zz: RatePart[] = [{ kind: "state", name: "Z", code: "ZZ", rate: 0.06, ids: {} }, { kind: "city", name: "Zc", code: "ZZ1", rate: 0.02, ids: {} }];
+    const t = taxabilityOf({ state: "ZZ", parts: zz }, "food.prepared", "2026-01-01", set);
+    expect(t.taxes.map((g) => g.tax)).toEqual(["ZZ", "ZZ:local"]);
+    // Locally every kind is taxable, the platter by the local rule: settled.
+    expect(t.taxes.find((g) => g.tax === "ZZ:local")).toMatchObject({ treatment: "taxable", rate: 0.02 });
+    expect(t.taxes.find((g) => g.tax === "ZZ")!.rule!.conditions.find((k) => k.code === "food.prepared.platter")!.treatment).toBe("exempt");
+    // The platter outcome is the state's exemption plus the local tax.
+    expect(t.outcomes?.find((o) => o.code === "food.prepared.platter")?.rate).toBe(0.02);
+  });
+
   it("pairs Montpelier's take-and-bake pizza with its own local case: 4 outcomes, not 9", () => {
     const vt: RatePart[] = [{ kind: "state", name: "Vermont", code: "VT-S", rate: 0.06, ids: {} }, { kind: "city", name: "Montpelier", code: "VT-C", rate: 0.01, ids: {} }];
     const t = taxabilityOf({ state: "VT", parts: vt }, "food.uncooked", "2026-11-02", RULES);
@@ -491,5 +509,24 @@ describe("taxability", () => {
         }
       }
     expect(answers).toBeGreaterThan(20_000);
+  });
+});
+
+describe("a broad code whose kinds are treated alike", () => {
+  const BASE = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", citations: [{ title: "t", url: "https://example.gov/t" }] };
+  const ZZ = [{ kind: "state" as const, name: "Z", code: "ZZ", rate: 0.06, ids: {} }];
+  const exception = { when: "The floor is ceramic tile", treatment: "exempt" as const };
+  it("keeps each kind's exceptions, from the kinds alone or beside the broad code's own rule", () => {
+    const kinds = [
+      { ...BASE, tax: "ZZ", code: "construction.real_property.improvement.flooring", treatment: "taxable", conditions: [exception] },
+      { ...BASE, tax: "ZZ", code: "construction.real_property.improvement.other", treatment: "taxable", conditions: [] },
+    ];
+    for (const rules of [kinds, [...kinds, { ...BASE, tax: "ZZ", code: "construction.real_property.improvement", treatment: "taxable", conditions: [] }]]) {
+      const t = taxabilityOf({ state: "ZZ", parts: ZZ }, "construction.real_property.improvement", "2026-11-02", ruleSet(rules as Rule[]));
+      expect(t).toMatchObject({ treatment: "taxable", rate: 0.06 });
+      expect(t.taxes[0].rule?.conditions).toEqual([
+        { when: "construction.real_property.improvement.flooring: " + TAX_CODES["construction.real_property.improvement.flooring"].replace(/\.$/, "") + ", except the floor is ceramic tile", treatment: "exempt", code: "construction.real_property.improvement.flooring" },
+      ]);
+    }
   });
 });

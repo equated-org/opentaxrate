@@ -10,6 +10,10 @@
       {
         "when": "A mixed transaction contract that also includes repair, maintenance or installation services unrelated to the capital improvement",
         "treatment": "taxable"
+      },
+      {
+        "when": "Only one fixture or one set of like fixtures is replaced or installed (a prefabricated shower enclosure with its fixtures, cabinets, windows), not several connected services that together update a room, and not a whole roof, siding, plumbing, electrical or heating and air-conditioning system",
+        "treatment": "taxable"
       }
     ],
     "citations": [
@@ -22,9 +26,24 @@
         "title": "NCDOR Important Notice, Sales and Use Tax Changes Effective January 1, 2017 (contractors)",
         "url": "https://www.ncdor.gov/documents/important-notices/sales-and-use-tax-changes-effective-january-1-2017-contractors/open",
         "quote": "A real property contract is for construction, reconstruction, or remodeling with respect to a capital improvement to real property."
+      },
+      {
+        "title": "N.C. Gen. Stat. § 105-164.3(219), Remodeling",
+        "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-164.3.html",
+        "quote": "The term does not include a single service that is included in repair, maintenance, and installation services."
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 2026), SUTB 72-4A.2, Services to Multiple Like-Kind Items",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "For purposes of remodeling, the repair or replacement of more than one like-kind item is considered a single service."
+      },
+      {
+        "title": "NCDOR Sales and Use Tax Bulletins (January 2026), SUTB 72-4A.4, Remodeling examples",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The bathroom update does not meet the definition of “remodeling” and is taxable as repair, maintenance, and installation services because the true purpose is the service of replacing the prefabricate fiberglass shower enclosure."
       }
     ],
-    "notes": "The contractor must substantiate a capital improvement (Form E-589CI); otherwise services to real property are presumed taxable repair, maintenance and installation. Mixed transaction contracts are taxed under § 105-164.4H(d)."
+    "notes": "The contractor must substantiate a capital improvement (Form E-589CI); otherwise services to real property are presumed taxable repair, maintenance and installation. Mixed transaction contracts are taxed under § 105-164.4H(d). 2026-11-02: added the single-service case after the describe benchmark case nc-09 found no option for replacing one prefabricated shower enclosure. The statute's definition of remodeling is cited as currently published and the bulletin is the January 2026 edition; that both read the same on 2017-01-01 isn't verified here. The roof, siding, plumbing, electrical and heating systems are excluded from the case because § 105-164.3 lists their replacement as a capital improvement."
   },
   {
     "tax": "NC",

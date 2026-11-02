@@ -251,7 +251,7 @@
         "treatment": "exempt"
       },
       {
-        "when": "Only cut, repackaged or pasteurized by the seller (cut fruit, sliced meat), without utensils",
+        "when": "Only cut, repackaged or pasteurized by the seller, with nothing mixed or combined into it (cut fruit, sliced meat; not lettuce tossed with dressing), without utensils",
         "treatment": "exempt"
       },
       {
@@ -275,6 +275,11 @@
         "quote": "(a) Only cut, repackaged, or pasteurized by the seller."
       },
       {
+        "title": "Iowa Code 423.3(57)(f)(2)",
+        "url": "https://www.legis.iowa.gov/docs/code/423.3.pdf",
+        "quote": "(2) Two or more food ingredients mixed or combined by the seller for sale as a single item."
+      },
+      {
         "title": "Iowa DOR, Iowa Sales Tax on Food",
         "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
         "quote": "Cole slaw, baked beans, and potato salad sold in various size containers are exempt from sales tax because they are not sold with eating utensils and are priced by weight or volume."
@@ -290,7 +295,7 @@
         "quote": "candy, or dietary supplements; food sold through vending machines; or sales of prepared food, soft drinks, or tobacco."
       }
     ],
-    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+    "notes": "Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled. The 'only cut' case says nothing may be mixed or combined in, as 423.3(57)(f)(2) makes such food prepared food; found through held-out case ho-ia-02 (the held-out set already isn't clean, docs/benchmarks.md)."
   },
   {
     "tax": "IA",

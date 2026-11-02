@@ -54,7 +54,8 @@ export interface AddressRate {
 	source: string;
 	/** Who the return goes to; absent from an API older than reporting. */
 	reporting?: Reporting | null;
-	/** With code=: how each code asked is taxed here, keyed by the code. */
+	/** With code=: how each code asked is taxed here, keyed by the code; with
+	 *  describe= and no code, one entry keyed by the text as sent. */
 	taxability?: Record<string, Taxability>;
 	/** Supplemental regional evidence, requested with include=regions. */
 	regions?: Regions;
@@ -110,6 +111,30 @@ export interface Taxability {
 	/** The undecided taxes turn on their facts independently: combine one
 	 *  outcome per tax. */
 	independent?: true;
+	/** Only with describe=: how the text was read. A model picked among
+	 *  offered options; the rules decided. */
+	interpreted?: Interpreted;
+	/** Only with describe=, on a conditional answer: the facts it turns on that
+	 *  a description can't settle, for the caller to send. */
+	needs?: string[];
+}
+
+/** How describe= was read (src/taxability/describe.ts). */
+export interface Interpreted {
+	/** text: the code answered came from the description; code: the caller's. */
+	from: 'text' | 'code';
+	/** The code the text points to; null when no one code fits. */
+	code: string | null;
+	confidence?: number;
+	/** No one code: the codes it could be, likeliest first. */
+	candidates?: string[];
+	/** The text points to a code other than the one sent. */
+	mismatch?: true;
+	/** The rules' cases the text settled, one entry per tax: the case, or the
+	 *  cases the rules treat alike that the text established one of. */
+	conditions?: Array<{ tax: string; when: string[]; confidence: number }>;
+	/** The model wasn't asked or failed: answered as without the text. */
+	unavailable?: true;
 }
 
 /** The rates a conditional sale can come to: each outcome's, or on an
@@ -197,6 +222,8 @@ export interface RateQuery {
 	zip: string;
 	/** What was sold (code=, a taxability code); the answer adds how it's taxed. */
 	code?: string;
+	/** What was sold in plain words (describe=), alone or beside a code. */
+	describe?: string;
 }
 
 interface Common {
@@ -226,6 +253,7 @@ export function rateUrl(q: RateQuery, trace: boolean): string {
 	const params = new URLSearchParams({ state: q.state, street: q.street, city: q.city });
 	if (q.zip) params.set('zip', q.zip);
 	if (q.code) params.set('code', q.code);
+	if (q.describe) params.set('describe', q.describe);
 	params.set('include', trace ? 'trace,regions' : 'regions');
 	const path = `${apiBase()}/v1/rate?${params}`;
 	return path.startsWith('/') && typeof location !== 'undefined' ? location.origin + path : path;
