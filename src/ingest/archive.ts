@@ -288,13 +288,20 @@ export function copiesByUrl(): Map<string, Copy[]> {
   }
   const add = (url: string, copy: Copy) => {
     const list = found.get(url) ?? [];
-    if (list.at(-1)?.sha256 !== copy.sha256 || list.at(-1)?.via !== copy.via) list.push(copy);
+    // The same bytes filed again: keep the newer path (an older one may
+    // since hold another URL's file that shared its name).
+    const same = list.findIndex((k) => k.sha256 === copy.sha256 && k.via === copy.via);
+    if (same >= 0) list[same] = { ...copy, at: list[same].at };
+    else list.push(copy);
     found.set(url, list);
   };
   for (const line of text.split("\n")) {
     if (!line.trim()) continue;
     const entry = JSON.parse(line) as { at: string; url: string; file: string; sha256: string; bytes: number };
-    if (!fs.existsSync(path.join(root, entry.file))) continue;
+    // A path that no longer holds these bytes (another URL's file with the
+    // same name replaced it; these moved to previous/) isn't this copy.
+    const stat = fs.statSync(path.join(root, entry.file), { throwIfNoEntry: false });
+    if (!stat || stat.size !== entry.bytes) continue;
     const copy = { file: entry.file, sha256: entry.sha256, bytes: entry.bytes, at: entry.at };
     add(entry.url, copy);
     const capture = waybackCapture(entry.url);
@@ -319,7 +326,9 @@ export function archivedByUrl(): Map<string, { file: string; sha256: string; byt
   for (const line of text.split("\n")) {
     if (!line.trim()) continue;
     const entry = JSON.parse(line) as { at: string; url: string; file: string; sha256: string; bytes: number };
-    if (!fs.existsSync(path.join(root, entry.file))) continue;
+    // As in copiesByUrl: a path another URL's same-named file has since taken isn't this copy.
+    const stat = fs.statSync(path.join(root, entry.file), { throwIfNoEntry: false });
+    if (!stat || stat.size !== entry.bytes) continue;
     const prior = found.get(entry.url);
     if (!prior || prior.at <= entry.at) found.set(entry.url, { file: entry.file, sha256: entry.sha256, bytes: entry.bytes, at: entry.at });
   }

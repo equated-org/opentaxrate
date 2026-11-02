@@ -122,6 +122,9 @@ publishes without asking only when all of these hold; otherwise it stops
 here, as an attended run does, and leaves the report for a human:
 
 - `check` passed: no failed invariant;
+- `npx tsx scripts/check-evidence.mts` passes: every citation, watched page and
+  case source has an archived copy with its quote on it, and the manifest and the
+  files agree.
 - `bench` shows no `REGRESSION` against the accepted run, and its geocoder
   spend is under budget;
 - every changed rate in force today traces to a new official publication

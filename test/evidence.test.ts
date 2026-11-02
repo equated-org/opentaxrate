@@ -60,3 +60,60 @@ describe("the evidence catalog", () => {
     expect(catalog.urls[page].captures).toEqual([expect.objectContaining({ sha256: sha, bad: "request rejected", type: "text/html; charset=utf-8" })]);
   });
 });
+
+describe("the archive's paths and copies", () => {
+  it("files a page whose path another URL needs as a folder, in either order", async () => {
+    const sources = await setup();
+    const { keepLocalCopy, copiesByUrl } = await import("../src/ingest/archive.js");
+    const page = path.join(root!, "page.html"), edition = path.join(root!, "edition.html");
+    await writeFile(page, "<p>section, current</p>");
+    await writeFile(edition, "<p>section, as of 2018</p>");
+    // The page first, then an edition under it; and the reverse for another section.
+    expect(await keepLocalCopy("https://codes.example/section-1", page)).toBe(true);
+    expect(await keepLocalCopy("https://codes.example/section-1/2018", edition)).toBe(true);
+    expect(await keepLocalCopy("https://codes.example/section-2/2018", edition)).toBe(true);
+    expect(await keepLocalCopy("https://codes.example/section-2", page)).toBe(true);
+    const copies = copiesByUrl();
+    for (const u of ["https://codes.example/section-1", "https://codes.example/section-1/2018", "https://codes.example/section-2", "https://codes.example/section-2/2018"]) {
+      const [copy] = copies.get(u) ?? [];
+      expect(copy, u).toBeDefined();
+      expect(await readFile(path.join(sources, copy.file), "utf8")).toContain(u.endsWith("2018") ? "as of 2018" : "current");
+    }
+  });
+
+  it("counts an Internet Archive capture as a dated copy of the page it captured", async () => {
+    await setup();
+    const { keepLocalCopy, copiesByUrl, waybackCapture } = await import("../src/ingest/archive.js");
+    expect(waybackCapture("https://web.archive.org/web/20161024044355/http://rules.example.gov:80/gac/560-12-2")).toEqual({
+      original: "http://rules.example.gov/gac/560-12-2",
+      at: "2016-10-24T04:43:55Z",
+    });
+    expect(waybackCapture("https://web.archive.org/web/20261011230308id_/https://law.example.gov/TAX/1105")?.original).toBe("https://law.example.gov/TAX/1105");
+    expect(waybackCapture("https://law.example.gov/TAX/1105")).toBeNull();
+    const file = path.join(root!, "statute.html");
+    await writeFile(file, "<p>Receipts from every retail sale</p>");
+    const capture = "https://web.archive.org/web/20251010001329id_/https://law.example.gov/TAX/1210";
+    await keepLocalCopy(capture, file);
+    const [copy] = copiesByUrl().get("https://law.example.gov/TAX/1210") ?? [];
+    expect(copy).toMatchObject({ at: "2025-10-10T00:13:29Z", via: capture });
+  });
+});
+
+describe("copies whose file was later replaced", () => {
+  it("doesn't read another URL's file that took the same name as a copy", async () => {
+    const sources = await setup();
+    const { keepLocalCopy, copiesByUrl, archivedByUrl } = await import("../src/ingest/archive.js");
+    const act171 = path.join(root!, "a.pdf"), act515 = path.join(root!, "b.pdf");
+    await writeFile(act171, "Act No. 171, Public Acts of 2015");
+    await writeFile(act515, "Act No. 515, Public Acts of 2016 (a longer document)");
+    // Both saved under one name in one folder, as a research filing did.
+    await keepLocalCopy("https://laws.example/pdf/2015-PA-0171.pdf", act171, "doc.pdf");
+    await keepLocalCopy("https://laws.example/pdf/2016-PA-0515.pdf", act515, "doc.pdf");
+    expect(copiesByUrl().get("https://laws.example/pdf/2015-PA-0171.pdf")).toBeUndefined();
+    expect(archivedByUrl().has("https://laws.example/pdf/2015-PA-0171.pdf")).toBe(false);
+    // Filed again under its own name, it's found, with its own bytes.
+    await keepLocalCopy("https://laws.example/pdf/2015-PA-0171.pdf", act171);
+    const [copy] = copiesByUrl().get("https://laws.example/pdf/2015-PA-0171.pdf") ?? [];
+    expect(await readFile(path.join(sources, copy.file), "utf8")).toContain("Act No. 171");
+  });
+});

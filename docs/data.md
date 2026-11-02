@@ -83,6 +83,14 @@ backup cannot land in another repository.
 
 ### Evidence
 
+`npx tsx scripts/check-evidence.mts` checks the archive is complete, one line
+per promise: every taxability citation has a copy and its quote is on one of
+them, every watched page and benchmark case source has a copy, no cited page
+rests only on a known-bad capture, every manifest entry's bytes are on disk,
+every file on disk is in the manifest, and every POSTed answer can be keyed by
+its full request. `--public` also checks each copy is on
+evidence.opentaxrate.com. It exits 1 on any failure (the monthly gates run it).
+
 `npx tsx src/cli.ts evidence` mirrors every file in `artifacts/sources/` (older
 versions included) to the public R2 bucket `opentaxrate-evidence`, unchanged,
 as `sha256/<hash>`, plus `catalog.json`: each URL's captures and the
