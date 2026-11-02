@@ -11,10 +11,28 @@
 // User-Agent and redirects followed, one request a second to a host.
 //
 // Writes DIR/results.json and DIR/report.md (default /tmp/otr-links).
-// --write-offline also rewrites client/src/lib/offline-originals.json: the
-// cited originals that are gone (404/410, no DNS, a certificate no browser
-// accepts), which the site labels "no longer online" beside the archived
-// copy. A blocked, timed-out or 5xx page is never listed: it may be up.
+// --write-offline also updates client/src/lib/offline-originals.json: the
+// cited originals that are gone, which the site labels "no longer online"
+// beside the archived copy. The update is a merge, never a rewrite:
+//
+//   - Gone means a 404/410, a redirect to a home, error or search page, no
+//     such host (ENOTFOUND), or a certificate for another name or expired.
+//     A gone answer seen for the first time goes to `pending` with its date;
+//     the URL is listed in `urls` only when a later run, at least
+//     CONFIRM_AFTER_DAYS later, sees it gone again.
+//   - A temporary failure (EAI_AGAIN and other resolver hiccups, a refused
+//     or reset connection, a TLS handshake error, a timeout: class
+//     "unreachable" or "timeout"), a block or a 5xx proves nothing: it never
+//     adds a mark or a pending entry, and never removes one.
+//   - A mark (or a pending entry) is removed only when this run fetched the
+//     URL and it answered (2xx, or a redirect to a real page). A `by hand:`
+//     mark is removed the same way.
+//   - A URL this run did not check (--only, --internal-only, or no longer
+//     collected) keeps its mark and pending entry untouched, and a filtered
+//     run leaves `checked` (the date the site shows) as it was.
+//
+//   npx tsx scripts/check-links.mts --self-test   tests the merge and the
+//   error classes offline (no build, no network) and exits.
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -36,8 +54,108 @@ const opt = (name: string) => (args.includes(name) ? args[args.indexOf(name) + 1
 const OUT = opt("--out") ?? "/tmp/otr-links";
 const DB = opt("--db");
 
-type Class = "ok" | "redirect" | "broken" | "blocked" | "timeout" | "skipped";
+type Class = "ok" | "redirect" | "broken" | "blocked" | "timeout" | "unreachable" | "skipped";
 interface Result { url: string; class: Class; status?: number; final?: string; note?: string; where: string[]; cited?: boolean }
+
+// ---------- the offline list (pure: --self-test runs these) ----------
+/** Days between a first gone answer and the one that confirms it. */
+const CONFIRM_AFTER_DAYS = 3;
+interface OfflineFile { checked: string; note: string; urls: Record<string, string>; pending?: Record<string, { since: string; why: string }> }
+
+/** A fetch error's class: a missing host or a wrong certificate is broken
+ *  (and may be gone); a resolver hiccup, a refused or reset connection or a
+ *  handshake failure is unreachable (it may be up a minute later). */
+function errorResult(url: string, code: string, message?: string): Omit<Result, "where"> {
+  const note = `${code}${message && message !== code ? `: ${message}` : ""}`.slice(0, 200);
+  if (/Timeout|ETIMEDOUT|UND_ERR_CONNECT_TIMEOUT|UND_ERR_HEADERS_TIMEOUT|UND_ERR_BODY_TIMEOUT|AbortError/.test(code)) return { url, class: "timeout", note };
+  if (code === "ENOTFOUND") return { url, class: "broken", note: `DNS ${note}` };
+  if (/EAI_AGAIN|EAI_FAIL|ESERVFAIL|ECONNREFUSED|ECONNRESET|EHOSTUNREACH|ENETUNREACH|EPIPE|UND_ERR_SOCKET|UND_ERR_CLOSED/.test(code)) return { url, class: "unreachable", note };
+  if (/CERT|UNABLE_TO|SELF_SIGNED|DEPTH_ZERO/.test(code)) return { url, class: "broken", note: `TLS ${note}` };
+  if (/ERR_TLS|ERR_SSL|SSL|EPROTO/.test(code)) return { url, class: "unreachable", note: `TLS ${note}` };
+  return { url, class: "broken", note };
+}
+
+/** Why a result says the page is gone, or undefined. */
+function goneReason(r: Pick<Result, "class" | "status" | "final" | "note">): string | undefined {
+  if (r.class === "redirect") return r.note ? `redirects to ${r.final}` : undefined;
+  if (r.class !== "broken") return undefined;
+  if (r.status === 404 || r.status === 410) return String(r.status);
+  if (/^(DNS ENOTFOUND|TLS ERR_TLS_CERT_ALTNAME|TLS CERT_HAS_EXPIRED)/.test(r.note ?? "")) return r.note!.split(":")[0];
+  return undefined;
+}
+
+/** The page answered: a 2xx, or a redirect to a real page. */
+const answered = (r: Pick<Result, "class" | "note">) => r.class === "ok" || (r.class === "redirect" && !r.note);
+const daysBetween = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000);
+
+/** The offline list after a run: before, plus this run's evidence for the
+ *  URLs it checked. Unchecked URLs keep what they had. */
+function mergeOffline(before: OfflineFile | undefined, results: Pick<Result, "url" | "class" | "status" | "final" | "note" | "cited">[], today: string, complete: boolean): OfflineFile {
+  const urls = { ...(before?.urls ?? {}) };
+  const pending = { ...(before?.pending ?? {}) };
+  for (const r of results) {
+    const why = goneReason(r);
+    if (answered(r)) {
+      delete urls[r.url];
+      delete pending[r.url];
+    } else if (why && !urls[r.url] && r.cited) {
+      const first = pending[r.url];
+      if (!first) pending[r.url] = { since: today, why };
+      else if (daysBetween(first.since, today) >= CONFIRM_AFTER_DAYS) {
+        urls[r.url] = why;
+        delete pending[r.url];
+      }
+    }
+  }
+  const sort = <T,>(o: Record<string, T>) => Object.fromEntries(Object.entries(o).sort(([a], [b]) => a.localeCompare(b)));
+  return {
+    checked: complete || !before?.checked ? today : before.checked,
+    note: `Cited pages no longer online, from scripts/check-links.mts --write-offline. The archived copy is the evidence. \`pending\`: seen gone once, listed when a run ${CONFIRM_AFTER_DAYS}+ days later sees it gone again.`,
+    urls: sort(urls),
+    ...(Object.keys(pending).length ? { pending: sort(pending) } : {}),
+  };
+}
+
+if (args.includes("--self-test")) {
+  const { deepStrictEqual } = await import("node:assert/strict");
+  const eq = (actual: unknown, expected: unknown) => deepStrictEqual(actual, expected);
+  const before: OfflineFile = { checked: "2026-10-01", note: "", urls: { "https://a.gov/gone": "404", "https://a.gov/hand": "by hand: 502 everywhere", "https://b.gov/x": "DNS ENOTFOUND" }, pending: { "https://c.gov/new": { since: "2026-10-30", why: "404" } } };
+  const r = (url: string, rest: Partial<Result>) => ({ url, cited: true, class: "broken" as Class, ...rest });
+  // A filtered run (no results for these URLs) changes nothing and keeps the date.
+  eq(mergeOffline(before, [], "2026-11-02", false).urls, before.urls);
+  eq(mergeOffline(before, [], "2026-11-02", false).checked, "2026-10-01");
+  eq(mergeOffline(before, [], "2026-11-02", false).pending, before.pending);
+  eq(mergeOffline(before, [], "2026-11-02", true).checked, "2026-11-02");
+  // A resolver hiccup, a refused connection, a handshake error, a timeout: unreachable, not gone.
+  for (const code of ["EAI_AGAIN", "ECONNREFUSED", "ECONNRESET", "ERR_SSL_WRONG_VERSION_NUMBER", "EPROTO"]) eq(errorResult("https://d.gov/", code).class, "unreachable");
+  eq(errorResult("https://d.gov/", "UND_ERR_CONNECT_TIMEOUT").class, "timeout");
+  eq(goneReason(errorResult("https://d.gov/", "EAI_AGAIN")), undefined);
+  eq(goneReason(errorResult("https://d.gov/", "ENOTFOUND", "getaddrinfo ENOTFOUND d.gov")), "DNS ENOTFOUND");
+  eq(goneReason(errorResult("https://d.gov/", "ERR_TLS_CERT_ALTNAME_INVALID")), "TLS ERR_TLS_CERT_ALTNAME_INVALID");
+  const transient = mergeOffline(before, [{ ...errorResult("https://d.gov/", "EAI_AGAIN"), cited: true }], "2026-11-02", true);
+  eq(transient.urls, before.urls);
+  eq(transient.pending, before.pending);
+  // ... and a transient failure of a listed URL does not unlist it.
+  eq(mergeOffline(before, [{ ...errorResult("https://a.gov/gone", "EAI_AGAIN"), cited: true }, r("https://b.gov/x", { class: "timeout" })], "2026-11-02", true).urls, before.urls);
+  // A first 404 is pending; the same answer days later lists it; the same day does not.
+  const first = mergeOffline(before, [r("https://e.gov/p", { status: 404 })], "2026-11-02", true);
+  eq(first.urls["https://e.gov/p"], undefined);
+  eq(first.pending!["https://e.gov/p"], { since: "2026-11-02", why: "404" });
+  eq(mergeOffline(first, [r("https://e.gov/p", { status: 404 })], "2026-11-03", true).urls["https://e.gov/p"], undefined);
+  const confirmed = mergeOffline(first, [r("https://e.gov/p", { status: 410 })], "2026-11-06", true);
+  eq(confirmed.urls["https://e.gov/p"], "410");
+  eq(confirmed.pending?.["https://e.gov/p"], undefined);
+  eq(mergeOffline(before, [r("https://c.gov/new", { class: "redirect", final: "https://c.gov/", note: "redirects to a home or error page" })], "2026-11-02", true).urls["https://c.gov/new"], "redirects to https://c.gov/");
+  // A page that answers is unlisted (by hand too) and leaves pending; an uncited one is never added.
+  const back = mergeOffline(before, [r("https://a.gov/gone", { class: "ok", status: 200 }), r("https://a.gov/hand", { class: "redirect", final: "https://a.gov/hand2" }), r("https://c.gov/new", { class: "ok" })], "2026-11-02", true);
+  eq(back.urls, { "https://b.gov/x": "DNS ENOTFOUND" });
+  eq(back.pending, undefined);
+  eq(mergeOffline(before, [{ url: "https://f.gov/", class: "broken", status: 404 }], "2026-11-02", true).pending, before.pending);
+  // A 5xx or a block neither adds nor removes.
+  eq(mergeOffline(before, [r("https://a.gov/hand", { status: 502 }), r("https://a.gov/gone", { class: "blocked", status: 403 }), r("https://g.gov/", { status: 503 })], "2026-11-02", true).urls, before.urls);
+  console.log("check-links self-test: ok");
+  process.exit(0);
+}
 
 // ---------- collecting ----------
 const links = new Map<string, Set<string>>();
@@ -164,7 +282,6 @@ if (args.includes("--list")) {
 // ---------- checking ----------
 trustListedIntermediates();
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const TLS = /CERT|UNABLE_TO|SELF_SIGNED|DEPTH_ZERO|ERR_TLS|ERR_SSL|SSL|EPROTO/;
 const challenge = (status: number, headers: Headers, body: string) =>
   headers.get("cf-mitigated") === "challenge" ||
   /just a moment\.\.\.|cf-chl|challenge-platform|enable javascript and cookies|access denied|request rejected|incapsula|captcha|are you a robot|_Incapsula_Resource|akamai/i.test(body.slice(0, 20000)) ||
@@ -222,12 +339,7 @@ async function check(url: string): Promise<Omit<Result, "where">> {
   }
   if (err || !r) {
     const cause = (err as { cause?: { code?: string; message?: string } }).cause;
-    const code = String(cause?.code ?? (err as Error).name);
-    const note = `${code}${cause?.message && cause.message !== code ? `: ${cause.message}` : ""}`.slice(0, 200);
-    if (/Timeout|ETIMEDOUT|UND_ERR_CONNECT_TIMEOUT|AbortError/.test(code)) return { url, class: "timeout", note };
-    if (/ENOTFOUND|EAI_AGAIN/.test(code)) return { url, class: "broken", note: `DNS ${note}` };
-    if (TLS.test(code)) return { url, class: "broken", note: `TLS ${note}` };
-    return { url, class: "broken", note };
+    return errorResult(url, String(cause?.code ?? (err as Error).name), cause?.message);
   }
   const redirected = r.final.replace(/\/$/, "") !== url.replace(/#.*$/, "").replace(/\/$/, "");
   if (challenge(r.status, r.headers, r.body)) return { url, class: "blocked", status: r.status, note: "bot challenge or access-denied page", ...(redirected ? { final: r.final } : {}) };
@@ -295,7 +407,7 @@ mkdirSync(OUT, { recursive: true });
 results.sort((a, b) => a.url.localeCompare(b.url));
 writeFileSync(path.join(OUT, "results.json"), JSON.stringify(results, null, 1));
 const count = (c: Class) => results.filter((r) => r.class === c).length;
-const classes: Class[] = ["ok", "redirect", "broken", "blocked", "timeout", "skipped"];
+const classes: Class[] = ["ok", "redirect", "broken", "blocked", "timeout", "unreachable", "skipped"];
 const line = (r: Result) => `- ${r.url}${r.status ? ` — ${r.status}` : ""}${r.final ? ` → ${r.final}` : ""}${r.note ? ` (${r.note})` : ""}\n  - in: ${r.where.slice(0, 6).join("; ")}${r.where.length > 6 ? `; +${r.where.length - 6} more` : ""}`;
 const md = [
   `# Link check, ${new Date().toISOString().slice(0, 10)}`,
@@ -305,7 +417,7 @@ const md = [
   "| class | links |", "|---|---|",
   ...classes.map((c) => `| ${c} | ${count(c)} |`),
   "",
-  ...(["broken", "timeout", "blocked"] as Class[]).flatMap((c) => [`## ${c}`, "", ...results.filter((r) => r.class === c).map(line), ""]),
+  ...(["broken", "timeout", "unreachable", "blocked"] as Class[]).flatMap((c) => [`## ${c}`, "", ...results.filter((r) => r.class === c).map(line), ""]),
   "## redirect (suspicious: lands on a home or error page)", "", ...results.filter((r) => r.class === "redirect" && r.note).map(line), "",
   "## redirect", "", ...results.filter((r) => r.class === "redirect" && !r.note).map(line), "",
 ].join("\n");
@@ -313,18 +425,9 @@ writeFileSync(path.join(OUT, "report.md"), md);
 console.log(classes.map((c) => `${c} ${count(c)}`).join(", "));
 
 if (args.includes("--write-offline")) {
-  // Gone: 404/410, no DNS, a certificate for another name, or a redirect to
-  // an error or search page. An entry written by hand ("by hand: ...", say a
-  // retired portal answering 502 for every page) stays until the page answers.
-  const gone = (r: Result) =>
-    r.class === "broken" ? /^(DNS|TLS ERR_TLS_CERT_ALTNAME|TLS CERT_HAS_EXPIRED)/.test(r.note ?? "") || r.status === 404 || r.status === 410 : r.class === "redirect" && !!r.note;
-  const before = existsSync(OFFLINE_FILE) ? (JSON.parse(readFileSync(OFFLINE_FILE, "utf8")).urls as Record<string, string>) : {};
-  const now = new Map(results.map((r) => [r.url, r]));
-  const urls: Record<string, string> = {};
-  for (const [url, why] of Object.entries(before))
-    if (why.startsWith("by hand:") && !["ok", "redirect"].includes(now.get(url)?.class ?? "") ) urls[url] = why;
-  for (const r of results.filter((r) => r.cited && gone(r))) urls[r.url] = r.class === "redirect" ? `redirects to ${r.final}` : r.status ? String(r.status) : r.note!.split(":")[0];
-  const sorted = Object.fromEntries(Object.entries(urls).sort(([a], [b]) => a.localeCompare(b)));
-  writeFileSync(OFFLINE_FILE, JSON.stringify({ checked: new Date().toISOString().slice(0, 10), note: "Cited pages no longer online, from scripts/check-links.mts --write-offline. The archived copy is the evidence.", urls: sorted }, null, "\t") + "\n");
-  console.log(`${Object.keys(sorted).length} cited originals offline -> ${rel(OFFLINE_FILE)}`);
+  const before = existsSync(OFFLINE_FILE) ? (JSON.parse(readFileSync(OFFLINE_FILE, "utf8")) as OfflineFile) : undefined;
+  const complete = !opt("--only") && !args.includes("--internal-only");
+  const after = mergeOffline(before, results, new Date().toISOString().slice(0, 10), complete);
+  writeFileSync(OFFLINE_FILE, JSON.stringify(after, null, "\t") + "\n");
+  console.log(`${Object.keys(after.urls).length} cited originals offline, ${Object.keys(after.pending ?? {}).length} pending a second look -> ${rel(OFFLINE_FILE)}`);
 }

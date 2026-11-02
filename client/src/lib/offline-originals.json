@@ -1,6 +1,6 @@
 {
 	"checked": "2026-11-02",
-	"note": "Cited pages no longer online, from scripts/check-links.mts --write-offline. The archived copy is the evidence.",
+	"note": "Cited pages no longer online, from scripts/check-links.mts --write-offline. The archived copy is the evidence. `pending`: seen gone once, listed when a run 3+ days later sees it gone again.",
 	"urls": {
 		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-33%20Restaurants.pdf": "DNS ENOTFOUND",
 		"http://finance.gov.sk.ca/revenue/pst/bulletins/PST-46%20Service%20Enterprises.pdf": "DNS ENOTFOUND",
