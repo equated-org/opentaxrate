@@ -821,7 +821,7 @@
       },
       {
         "title": "DOR: Services newly subject to retail sales tax",
-        "url": "https://dor.wa.gov/NewRetailServices",
+        "url": "https://dor.wa.gov/taxes-rates/retail-sales-tax/services-newly-subject-retail-sales-tax",
         "quote": "The table below lists a summary of the services newly subject to retail sales tax effective Oct. 1, 2025."
       },
       {
@@ -840,7 +840,7 @@
         "quote": "Sections 1001 and 1002 of this act take effect January 1, 2029."
       }
     ],
-    "notes": "The code is too broad for one answer; the caller must say which kind of service. 2026 c 250 (applied retroactively to 2025-10-01) revised the enumerated services: live-presentation exclusions were rewritten (one-on-one tutoring, consulting and music lessons; accredited school classes; youth camps), temporary staffing excludes hospital staffing and paymaster services, and affiliated-group exclusions moved to RCW 82.04.050(17). DOR describes some live-presentation and hospital-staffing changes as effective 2026-07-01, while the RCW note says 2026 c 250 applies retroactively to 2025-10-01; the exact date for those sub-changes is unverified. ESSB 5814 also removed the DAS 'primarily human effort' exclusion; DOR's FAQ says lawyers and accountants are generally still not DAS, so the DAS condition is narrow. DOR reports ongoing litigation over ESSB 5814; outcome unverified. Ends 2028-12-31: from 2029-01-01, 2026 c 238 removes IT services, website development, investigation/security and temporary staffing from retail sales (advertising stays taxable), contingent on its income tax surviving in court; no rule is written from 2029. The subcodes now have their own rules from 2025-10-01.",
+    "notes": "The code is too broad for one answer; the caller must say which kind of service. 2026 c 250 (applied retroactively to 2025-10-01) revised the enumerated services: live-presentation exclusions were rewritten (one-on-one tutoring, consulting and music lessons; accredited school classes; youth camps), temporary staffing excludes hospital staffing and paymaster services, and affiliated-group exclusions moved to RCW 82.04.050(17). DOR describes some live-presentation and hospital-staffing changes as effective 2026-07-01, while the RCW note says 2026 c 250 applies retroactively to 2025-10-01; the exact date for those sub-changes is unverified. ESSB 5814 also removed the DAS 'primarily human effort' exclusion; DOR's FAQ says lawyers and accountants are generally still not DAS, so the DAS condition is narrow. DOR reports ongoing litigation over ESSB 5814; outcome unverified. Ends 2028-12-31: from 2029-01-01, 2026 c 238 removes IT services, website development, investigation/security and temporary staffing from retail sales (advertising stays taxable), contingent on its income tax surviving in court; no rule is written from 2029. The subcodes now have their own rules from 2025-10-01. 2026-11-02: cited page moved from https://dor.wa.gov/NewRetailServices to https://dor.wa.gov/taxes-rates/retail-sales-tax/services-newly-subject-retail-sales-tax.",
     "to": "2028-12-31"
   },
   {
@@ -903,16 +903,16 @@
       },
       {
         "title": "DOR: Services newly subject to retail sales tax (IT services row)",
-        "url": "https://dor.wa.gov/NewRetailServices",
+        "url": "https://dor.wa.gov/taxes-rates/retail-sales-tax/services-newly-subject-retail-sales-tax",
         "quote": "Help desk services, network support, training, IT consulting, data processing, and data entry."
       },
       {
         "title": "DOR: Services newly subject to retail sales tax",
-        "url": "https://dor.wa.gov/NewRetailServices",
+        "url": "https://dor.wa.gov/taxes-rates/retail-sales-tax/services-newly-subject-retail-sales-tax",
         "quote": "The table below lists a summary of the services newly subject to retail sales tax effective Oct. 1, 2025."
       }
     ],
-    "notes": "No DOR page fetched names management consulting as untaxed; this rests on RCW 82.04.050(3) taxing only the services it enumerates, the DOR list naming only IT consulting, and WAC 458-20-224 classing professional services under the service B&O classification. Consulting on IT or advertising is taxable under those codes. Live group seminars or workshops are taxable live presentations; one-on-one consulting is excluded (RCW 82.04.050(3)(l))."
+    "notes": "No DOR page fetched names management consulting as untaxed; this rests on RCW 82.04.050(3) taxing only the services it enumerates, the DOR list naming only IT consulting, and WAC 458-20-224 classing professional services under the service B&O classification. Consulting on IT or advertising is taxable under those codes. Live group seminars or workshops are taxable live presentations; one-on-one consulting is excluded (RCW 82.04.050(3)(l)). 2026-11-02: cited page moved from https://dor.wa.gov/NewRetailServices to https://dor.wa.gov/taxes-rates/retail-sales-tax/services-newly-subject-retail-sales-tax."
   },
   {
     "tax": "WA",

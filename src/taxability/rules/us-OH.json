@@ -33,16 +33,16 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Construction Contracts",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Contractors and home remodelers do not collect sales tax on their work."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Building Maintenance & Janitorial Service",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Keep in mind that building repairs are not considered “building maintenance and janitorial services.”"
       }
     ],
-    "notes": "Applies to both subcodes (improvement and repair). Repair or painting of real property is not an enumerated service, and materials incorporated into real property are taxed to the contractor (Ohio Adm.Code 5703-9-14(D)). The current text of Ohio Adm.Code 5703-9-14 is effective October 1, 2026; earlier versions were not read."
+    "notes": "Applies to both subcodes (improvement and repair). Repair or painting of real property is not an enumerated service, and materials incorporated into real property are taxed to the contractor (Ohio Adm.Code 5703-9-14(D)). The current text of Ohio Adm.Code 5703-9-14 is effective October 1, 2026; earlier versions were not read. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -64,16 +64,16 @@
     "citations": [
       {
         "title": "Ohio Information Release ST 1994-01, Sale/Installation of Carpet and Other Floor/Wall Coverings (June 1994)",
-        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st199401",
+        "url": "https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st199401",
         "quote": "Under Ohio sales tax law, the sale and installation of carpet (on floors and/or walls in a home, building or structure) is never considered a construction contract. Therefore, the sale and installation of carpet is considered a retail sale that is subject to the sales or use tax."
       },
       {
         "title": "Ohio Information Release ST 1994-01, Sale/Installation of Carpet and Other Floor/Wall Coverings (June 1994)",
-        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st199401",
+        "url": "https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st199401",
         "quote": "Unlike carpet, the installation of other types of floor and/or wall coverings (linoleum, tile, wood, wallpaper, etc.) is considered a construction contract when incorporated into real property."
       }
     ],
-    "notes": "Added 2026-10-30 after held-out case ho-oh-01 showed the inherited construction.real_property rule was wrong for this code; the cited page is that case's source, so ho-oh-01 no longer counts as held out."
+    "notes": "Added 2026-10-30 after held-out case ho-oh-01 showed the inherited construction.real_property rule was wrong for this code; the cited page is that case's source, so ho-oh-01 no longer counts as held out. 2026-11-02: cited page moved from https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st199401 to https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st199401."
   },
   {
     "tax": "OH",
@@ -85,7 +85,7 @@
     "citations": [
       {
         "title": "Information Release ST 2003-07, Changes to the Definition of Price",
-        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200307",
+        "url": "https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200307",
         "quote": "If the sale is taxable, tax must be collected from the consumer on the delivery charge."
       },
       {
@@ -94,7 +94,7 @@
         "quote": "means the total amount of consideration, including cash, credit, property, and services, for which tangible personal property or services are sold"
       }
     ],
-    "notes": "No Department page states the exempt-goods case in so many words; it follows from delivery charges being part of the 'price' of the sale (ST 2003-07 ties tax on the charge to the sale being taxable). A shipment mixing taxable and exempt goods is not addressed here.",
+    "notes": "No Department page states the exempt-goods case in so many words; it follows from delivery charges being part of the 'price' of the sale (ST 2003-07 ties tax on the charge to the sale being taxable). A shipment mixing taxable and exempt goods is not addressed here. 2026-11-02: cited page moved from https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200307 to https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200307.",
     "conditions": []
   },
   {
@@ -107,7 +107,7 @@
     "citations": [
       {
         "title": "Information Release ST 2003-07, Changes to the Definition of Price",
-        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200307",
+        "url": "https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200307",
         "quote": "for sales made after August 1, 2003, where the vendor makes a taxable sale to a consumer and charges the consumer a delivery charge, as defined in R.C. 5739.01(H)(1)(a)(iv), that charge is part of the taxable price of the sale."
       },
       {
@@ -117,11 +117,11 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Transportation Services",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Delivery Fees: Taxable, including shipping and handling."
       }
     ],
-    "notes": "Before August 1, 2003, separately stated delivery charges were not part of 'price' (ST 2003-07). ST 2003-07 says 'after August 1, 2003' in one place and the statute it quotes says 'On and after August 1, 2003'; 2003-08-01 is used.",
+    "notes": "Before August 1, 2003, separately stated delivery charges were not part of 'price' (ST 2003-07). ST 2003-07 says 'after August 1, 2003' in one place and the statute it quotes says 'On and after August 1, 2003'; 2003-08-01 is used. 2026-11-02: cited page moved from https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200307 to https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200307. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability.",
     "conditions": []
   },
   {
@@ -180,12 +180,12 @@
     "citations": [
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Catering Services",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "On-Premises Catering: Taxable, including food, beverages, and rentals."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Catering Services",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Off-Premises Catering: Taxable for beverages and rentals. Food is exempt."
       },
       {
@@ -199,7 +199,7 @@
         "quote": "Sales of food for human consumption off the premises where sold"
       }
     ],
-    "notes": "The FAQ (dated October 14, 2025) is the only Department statement on caterers found; 2018-03-23 rests on the unchanged statute (R.C. 5739.01(B)(5), 5739.02(B)(2)). Whether separately stated staff/service charges at an off-premises event are taxable is not stated in any Department page read; a mixed invoice that does not separate nontaxable items is taxable in full (FAQ)."
+    "notes": "The FAQ (dated October 14, 2025) is the only Department statement on caterers found; 2018-03-23 rests on the unchanged statute (R.C. 5739.01(B)(5), 5739.02(B)(2)). Whether separately stated staff/service charges at an off-premises event are taxable is not stated in any Department page read; a mixed invoice that does not separate nontaxable items is taxable in full (FAQ). 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -631,11 +631,11 @@
     "citations": [
       {
         "title": "Ohio Dept. of Taxation FAQ, Sales and Use: Applying the Tax",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       }
     ],
-    "notes": "Covers service.professional.other (and any subcode without its own rule). The list is R.C. 5739.01(B)(3); listed services a caller might call professional include computer, data processing and electronic information services for business use (IT has its own rule), employment and employment placement services, security and investigation services, and building maintenance. A .other service that is one of those is taxable. Start date follows Ohio's other professional-service rules (the authenticated R.C. 5739.01 of 2018-03-23); the FAQ is current. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling)."
+    "notes": "Covers service.professional.other (and any subcode without its own rule). The list is R.C. 5739.01(B)(3); listed services a caller might call professional include computer, data processing and electronic information services for business use (IT has its own rule), employment and employment placement services, security and investigation services, and building maintenance. A .other service that is one of those is taxable. Start date follows Ohio's other professional-service rules (the authenticated R.C. 5739.01 of 2018-03-23); the FAQ is current. Made conditional 2026-11-01: a professional service of a kind no subcode names may be one the law enumerates as taxable (dev case ia-11, Iowa investment counseling). 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -663,16 +663,16 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. The Ohio Supreme Court (2022-Ohio-725) applied the true-object test to account-processing services; that line between accounting and ADP is the exception noted here."
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. The Ohio Supreme Court (2022-Ohio-725) applied the true-object test to account-processing services; that line between accounting and ADP is the exception noted here. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -700,7 +700,7 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
@@ -709,7 +709,7 @@
         "quote": "All transactions by which printed, imprinted, overprinted, lithographic, multilithic, blueprinted, photostatic, or other productions or reproductions of written or graphic matter are or are to be furnished or transferred"
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. Digital advertising services are listed among 'personal and professional services', so they are not taxable ADP or electronic information services."
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. Digital advertising services are listed among 'personal and professional services', so they are not taxable ADP or electronic information services. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -731,16 +731,16 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Business Consulting (e.g., training, analysis)"
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025.",
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability.",
     "conditions": []
   },
   {
@@ -764,16 +764,16 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. No Department page naming interior design specifically was found; the exemption follows from its absence from the enumerated list."
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. No Department page naming interior design specifically was found; the exemption follows from its absence from the enumerated list. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -790,16 +790,16 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. No Department page naming engineering or architecture specifically was found; the exemption follows from their absence from the enumerated list. Blueprints and other reproductions sold as such are taxable under R.C. 5739.01(B)(4) unless incidental to the service.",
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. No Department page naming engineering or architecture specifically was found; the exemption follows from their absence from the enumerated list. Blueprints and other reproductions sold as such are taxable under R.C. 5739.01(B)(4) unless incidental to the service. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability.",
     "conditions": []
   },
   {
@@ -841,7 +841,7 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Computer Service",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Generally speaking, “computer consulting” is not a taxable computer service."
       },
       {
@@ -850,7 +850,7 @@
         "quote": "automatic data processing services, computer services, or electronic information services in this state for a consideration for use in business by the consumer is a sale that is subject to the sales tax."
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. Repair or installation of computer hardware (tangible property) is separately taxable under R.C. 5739.01(B)(3)(a)-(b)."
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. Repair or installation of computer hardware (tangible property) is separately taxable under R.C. 5739.01(B)(3)(a)-(b). 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -872,16 +872,16 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ (October 14, 2025)",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Services Not Taxable",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Not taxable when any tangible item transferred is incidental and not separately charged."
       }
     ],
-    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025.",
+    "notes": "Ohio taxes only the services enumerated in R.C. 5739.01(B)(3) (repair and installation of tangible property, ADP/computer/electronic information services for business use, landscaping, janitorial, security, personal care, etc.); professional services are not on the list. 2018-03-23 is the earliest version of R.C. 5739.01 read; the list and the (Y)(2) carve-out read the same in that version and today. The FAQ is dated October 14, 2025. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability.",
     "conditions": []
   },
   {
@@ -895,7 +895,7 @@
     "citations": [
       {
         "title": "Ohio Dept. of Taxation FAQ, Sales and Use: Applying the Tax",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Only certain services are taxable, and those are clearly listed under Ohio law. If a service isn't on that list, it's generally not taxed."
       },
       {
@@ -904,7 +904,7 @@
         "quote": "\"Sale\" and \"selling\" include all of the following transactions for a consideration in any manner"
       }
     ],
-    "notes": "R.C. 5739.01(B)(3) (2018 authenticated text, read for 'lobby') does not list lobbying."
+    "notes": "R.C. 5739.01(B)(3) (2018 authenticated text, read for 'lobby') does not list lobbying. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   },
   {
     "tax": "OH",
@@ -973,11 +973,11 @@
       },
       {
         "title": "Information Release ST 2003-06",
-        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200306",
+        "url": "https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200306",
         "quote": "Under new R.C. 5739.01(DDD), a reasonable separately stated charge for modifications to prewritten computer software is not part of the prewritten computer software and would be excluded from the tax base."
       }
     ],
-    "notes": "Before July 1, 2003, Ohio Adm.Code 5703-9-46 treated a customized canned-software sale as taxable tangible property if modifications were no more than half the price (ST 2003-06); not modeled."
+    "notes": "Before July 1, 2003, Ohio Adm.Code 5703-9-46 treated a customized canned-software sale as taxable tangible property if modifications were no more than half the price (ST 2003-06); not modeled. 2026-11-02: cited page moved from https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200306 to https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200306."
   },
   {
     "tax": "OH",
@@ -989,7 +989,7 @@
     "citations": [
       {
         "title": "Information Release ST 2003-06, Definition of Tangible Personal Property including Prewritten Computer Software",
-        "url": "https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200306",
+        "url": "https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200306",
         "quote": "Effective July 1, 2003, a new R.C. 5739.01(YY) was added to the sales tax chapter."
       },
       {
@@ -1004,11 +1004,11 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Taxable Items",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Prewritten Software (whether purchased online or on physical media)"
       }
     ],
-    "notes": "Canned software was already taxable as tangible personal property under Ohio Adm.Code 5703-9-46 before 2003 (ST 2003-06); 2003-07-01 is when the statutory definition took effect.",
+    "notes": "Canned software was already taxable as tangible personal property under Ohio Adm.Code 5703-9-46 before 2003 (ST 2003-06); 2003-07-01 is when the statutory definition took effect. 2026-11-02: cited page moved from https://tax.ohio.gov/wps/portal/gov/tax/business/ohio-business-taxes/sales-and-use/information-releases/st200306 to https://tax.ohio.gov/business/ohio-business-taxes/sales-and-use/information-releases/st200306. 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability.",
     "conditions": []
   },
   {
@@ -1051,10 +1051,10 @@
       },
       {
         "title": "Ohio Department of Taxation, Sales and Use Taxability FAQ, Digital Services",
-        "url": "https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax",
+        "url": "https://tax.ohio.gov/business/sales-and-use-tax/taxability",
         "quote": "Business Data Processing & Electronic Info Services: Taxable"
       }
     ],
-    "notes": "No Department page read says in so many words that SaaS is automatic data processing/electronic information service rather than a license to use prewritten software (which R.C. 5739.01(B)(1) would tax regardless of use); the business/personal split follows the statute's 'for use in business' wording. Reviewers: confirm the personal-use exemption against a Department ruling or BTA decision. Business use by members of an affiliated group is not a sale (R.C. 5739.01(B)(3)(e))."
+    "notes": "No Department page read says in so many words that SaaS is automatic data processing/electronic information service rather than a license to use prewritten software (which R.C. 5739.01(B)(1) would tax regardless of use); the business/personal split follows the statute's 'for use in business' wording. Reviewers: confirm the personal-use exemption against a Department ruling or BTA decision. Business use by members of an affiliated group is not a sale (R.C. 5739.01(B)(3)(e)). 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
   }
 ]
