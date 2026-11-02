@@ -34,7 +34,7 @@ import { latestTigerFiles } from "../downloads.js";
 import { readTigerZip, type Shape } from "../tiger.js";
 import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, ringsOf } from "./sources.js";
-import { archiveResponse } from "../archive.js";
+import { archiveResponse, downloadedBytes } from "../archive.js";
 
 const LOOKUP = "https://remotesellersfiling.louisiana.gov/lookup/lookup.aspx";
 /** The site serves its certificate without GoDaddy's intermediate, so the
@@ -616,10 +616,10 @@ async function page(previous?: Form, fields: Record<string, string> = {}): Promi
 }
 
 let intermediatePem: Promise<string> | null = null;
-function intermediate() {
-  intermediatePem ??= fetch(INTERMEDIATE).then((r) => {
-    if (!r.ok) throw new Error(`${INTERMEDIATE} answered ${r.status}`);
-    return r.text();
-  });
+/** The intermediate certificate the lookup's TLS chain lacks, fetched once
+ *  and filed in the archive like any other download (a network input to the
+ *  load, so a rebuild can audit it). */
+export function intermediate() {
+  intermediatePem ??= fetch(INTERMEDIATE).then(async (r) => Buffer.from(await downloadedBytes(INTERMEDIATE, r)).toString("utf8"));
   return intermediatePem;
 }

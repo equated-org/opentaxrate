@@ -86,10 +86,14 @@ backup cannot land in another repository.
 
 `npx tsx scripts/check-evidence.mts` checks the archive is complete, one line
 per promise: every taxability citation has a copy and its quote is on one of
-them, every watched page and benchmark case source has a copy, no cited page
-rests only on a known-bad capture, every manifest entry's bytes are on disk,
-every file on disk is in the manifest, and every POSTed answer can be keyed by
-its full request. `--public` also checks each copy is on
+them, every watched page and benchmark case source has a copy (the cases are
+read from `taxability/evals*` beside the sources, and a missing corpus fails)
+and each case's quote is on one of its source's copies, no cited page rests
+only on a known-bad capture, every manifest entry's bytes are on disk with
+their hash and size, every file on disk is in the manifest, and every POSTed
+answer is keyed by its whole request; every PDF has its text extracted and each quote cited on a
+PDF is on one of its pages; and no quote rests on a scan a person hasn't read
+(see [below](#pdfs-the-evidence-and-the-views-beside-it)). `--public` also checks each copy is on
 evidence.opentaxrate.com. It exits 1 on any failure (the monthly gates run it).
 
 `npx tsx src/cli.ts evidence` mirrors every file in `artifacts/sources/` (older
@@ -103,6 +107,75 @@ out; made on request, never stored), the raw bytes, every capture of a URL
 (`/url?u=`), and the capture in force on a day (`/<YYYYMMDD>/<url>`). Deploy
 it from `evidence/` with `wrangler deploy`.
 
+#### PDFs: the evidence, and the views beside it
+
+The PDF's bytes are the evidence. A quote is checked against the PDF's own
+text layer as `pdftotext` reads it in reading order (no `-layout`), and every
+citation links to that text. Browsers can't scroll a PDF to a quoted sentence,
+so the archive shows PDF text beside the PDF. Each page links to the PDF at the
+same page. A PDF page can show up to three views (`?view=`), all with the same
+`#page-N` anchors:
+
+| View | What it is | Made by | Evidence? |
+| --- | --- | --- | --- |
+| Text (default) | The text layer in reading order, page by page | `pdftotext`, kept in `artifacts/evidence-text/<sha256>.json` (`pages`) | It's what quotes are checked against; citations link here |
+| Layout (columns and tables as printed) | The same text laid out as printed, in monospace and scrolling sideways: tables keep their columns and line-end hyphens stay | `pdftotext -layout`, the same file's `layout` field | No. A two-column page splits each sentence across its columns, so quotes are never checked against it |
+| Formatted (machine, unverified) | Table-heavy pages as Markdown tables, only on pages that have one | A model (`scripts/format-tables.mts`), `<sha256>.formatted.json` | No. Machine-made and not reviewed; citations never link to it |
+
+`pdftotext` drops the hyphen where a word or number breaks at a line end
+(`39-26-` / `717` reads `39-26717`, `short-` / `term` reads `shortterm`). The
+quote check (`quoteOnPage`) therefore falls back to comparing the page and the
+quote with hyphens removed on both sides. It loosens nothing else.
+
+A scan has no text layer (`scanned: true`). If a scan has been transcribed, its
+page shows the **machine transcription**
+(`<sha256>.machine.json`) instead, under the label "Machine transcription by
+… not reviewed — check against the PDF; quotes are never checked against
+it". Two models read every page:
+`google/gemini-3.1-flash-lite` gives the text, and `google/gemini-2.5-flash-lite`
+gives a second reading. Every place where they disagree is highlighted, with
+both readings. In tests, each model alone made silent errors that changed the
+meaning. Comparing two models caught nearly all of them, but not all, so the
+transcription is never evidence. A quote on a page whose copies are only scans
+must be read off the scan by a person and listed in
+`src/taxability/rules/read-off-scans.json` (`[{ "url", "quote", "by", "on" }]`).
+Otherwise `check-evidence` fails (check 11). No quote rests on a scan today.
+
+The machine files are derived and cached by the PDF's hash. Each says
+`reviewed: false`, the model(s), when it was made and what it cost. `npx tsx
+src/cli.ts evidence` uploads them beside the text as `text/<sha256>.json`,
+`.machine.json` and `.formatted.json`. It sends a text again when its bytes
+have changed, which happened when the layout view was added. To make them
+(the key is read from the environment, never from a file):
+
+```bash
+export OPENROUTER_API_KEY=…                                    # e.g. from your secret manager
+npx tsx scripts/transcribe-scans.mts --budget 2                # every scan not yet transcribed
+npx tsx scripts/format-tables.mts --budget 8 [--limit N]       # table pages not yet tried, cited PDFs first
+```
+
+Both scripts accept `--dry-run`, which counts what's left without spending
+anything. They stop starting pages once their spend, plus the most the calls
+still running could cost, would pass `--budget` (US dollars). Each model
+reads a page as a one-page PDF (`pdfseparate`) at temperature 0, with its
+output capped.
+
+- **Table pages.** `format-tables` treats a page as tabular if its `-layout`
+  text has at least 8 lines with two or more gaps of 3+ spaces, meaning three
+  or more columns. Prose, even in two columns, has at most one gap a line. It
+  keeps a page's Markdown only if all of these hold:
+  - it has at least 99% of the text layer's words for that page (counted with
+    repeats; case, punctuation and Markdown marks don't count);
+  - the model didn't stop at its token cap;
+  - it has no more than 3× the page's words.
+
+  Every page tried is recorded with its recall, kept or not, so it is asked
+  about only once.
+- **Cost.** In November 2026, transcribing the 53 scans (403 pages) with both
+  models cost $0.52. Formatting the 1,145 table pages in 193 PDFs cost $2.24;
+  889 pages were kept, 227 fell under 99% recall and 29 hit the token cap.
+  A new scan or table page costs a fraction of a cent.
+
 ### Links
 
 `npx tsx --env-file-if-exists=.env scripts/check-links.mts --db <release database>`
@@ -112,28 +185,60 @@ citation and the `archived` link the API returns for it, and the evidence
 archive's pages. It sends a HEAD (a GET when that fails) with a browser
 User-Agent, one request a second to a host, and writes
 `/tmp/otr-links/report.md`: ok, redirect (with where it lands), broken
-(4xx/5xx, DNS, TLS), blocked (a bot challenge or 403: not the same as gone)
-and timeout. A server that leaves out its intermediate certificate is
-retried with the one its certificate names, as browsers do.
+(4xx/5xx, no such host, a bad certificate), blocked (a bot challenge or 403:
+not the same as gone), timeout and unreachable (a resolver hiccup such as
+`EAI_AGAIN`, a refused or reset connection, a failed TLS handshake). A server
+that leaves out its intermediate certificate is retried with the one its
+certificate names, as browsers do. `--self-test` checks the classes and the
+offline merge below without a build or the network.
 
-`--write-offline` also rewrites `client/src/lib/offline-originals.json`: the
-cited originals that are gone (404/410, no DNS, a certificate for another
-name, or a redirect to an error or search page). The site and the evidence
-archive name those originals without linking them and say they are no
-longer online; the archived copy is the evidence. A blocked, timed-out or
-5xx page is never listed automatically. An entry whose reason starts with
-`by hand:` (a retired portal that answers 502 everywhere, a host that takes
-no connections) is kept until the page answers again. The list is read at
-build time, so a change reaches the site with its next build and the archive
-with its next `wrangler deploy`.
+`--write-offline` also updates `client/src/lib/offline-originals.json`: the
+cited originals that are gone (404/410, no such host, a certificate for
+another name or expired, or a redirect to a home, error or search page). The
+site and the evidence archive name those originals without linking them and
+say they are no longer online; the archived copy is the evidence. The update
+merges: a gone answer seen once goes to `pending` with its date, and the URL
+is listed only when a run at least three days later sees it gone again. A
+blocked, timed-out, unreachable or 5xx answer never adds or removes a mark.
+A mark, `by hand:` ones included (a retired portal that answers 502
+everywhere, a host that takes no connections), is removed only when the run
+fetched the page and it answered. URLs a run did not check (`--only`,
+`--internal-only`) keep their marks, and such a filtered run leaves the
+`checked` date as it was. The list is read at build time, so a change
+reaches the site with its next build and the archive with its next
+`wrangler deploy`.
 
 Each POSTed query is its own entry, `<url> (POST <first 12 of the body's
-SHA-256>)`, hashed over the whole body (read back from the query's `url.txt`
-where the manifest line predates `bodySha256`), so requests alike for their
-first 2,000 characters, such as Colorado's rate queries for different dates,
-are never taken for versions of one. A capture listed in `KNOWN-BAD.md`
-carries `bad` in the catalog (`"request rejected"`, `"error answer"`, …)
-and is typed by its bytes, not its name.
+SHA-256>)`, hashed over the whole body (an empty body too; a bodyless POST is
+`<url> (POST)`), so requests alike for their first 2,000 characters, such as
+Colorado's rate queries for different dates, are never taken for versions of
+one. Where a manifest line predates `bodySha256`, the body is read back from
+the query's `url.txt` only when that file is this request's (same method and
+URL, starting with the line's prefix, hashing to the query folder's id);
+otherwise the answer is filed under `<url> (POST, whole body not kept: answer
+<hash>)`, never merged with another request, and check 8 fails. A capture
+listed in `KNOWN-BAD.md` carries `bad` in the catalog (`"request rejected"`,
+`"error answer"`, …) and is typed by its bytes, not its name; the Worker says
+so on the capture, in other captures' lists and in `/url`, and a dated
+address (`/<YYYYMMDD>/<url>`) goes to the last good capture on or before the
+day.
+
+Each capture's file is found by its hash, never trusted from the manifest's
+path: a path filed again holds its newest bytes, and older ones are in
+`previous/`. The catalog and `copiesByUrl` order a URL's captures by capture
+time and keep a run of identical bytes once, at its earliest time, so an
+answer filed later but downloaded earlier dates its run, and a page that
+changed and changed back is three captures. The archive's hashes are kept in
+`artifacts/cache/source-hashes.json` (derived; a file is hashed again when
+its size, times or inode change).
+
+Pages are read as text (`pageText`) in their own encoding: a byte-order mark's,
+UTF-16 without one (a Word page saved as HTML), else UTF-8, with any byte that
+isn't valid UTF-8 read in the page's declared single-byte encoding or
+windows-1252, so no U+FFFD stands in for a curly quote. A Word 97–2003 `.doc`
+is read with `antiword` or `catdoc` where installed, else straight from the
+file (every run of windows-1252 and UTF-16LE text, as `strings` would; the
+file's style and font names come along as lines of their own).
 
 **Live lookups are not archived per request.** Some answers are read from a
 state's service when the request is made, not from loaded data: California

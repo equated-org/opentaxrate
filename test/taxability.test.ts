@@ -210,6 +210,51 @@ describe("taxability", () => {
     expect(quoteOnPage(abbr, "Sales (excluding GST) of not more than $4.")).toBe(false);
   });
 
+  it("reads a page in its own encoding: windows-1252, UTF-16 and Word .doc copies have no U+FFFD runs", () => {
+    const bytes = (...parts: Array<string | number[]>) => new Uint8Array(parts.flatMap((p) => (typeof p === "string" ? [...Buffer.from(p, "latin1")] : p)));
+    // Pennsylvania's code: windows-1252 curly quotes, no charset said.
+    const pa = pageText(bytes("<html><body><p>Used in the person", [0x92], "s business by ", [0x91, 0x91], "D", [0x92, 0x92], " ", [0x95], " is subject to tax.</p></body></html>"))!;
+    expect(pa).not.toContain("\ufffd");
+    expect(quoteOnPage(pa, "Used in the person’s business by ‘‘D’’ • is subject to tax.")).toBe(true);
+    // Nevada's: a declared windows-1252 page with a non-breaking space run.
+    const nv = pageText(bytes('<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head><body><p>seller:', [0xa0, 0xa0, 0xa0], "(1) Two</p></body></html>"))!;
+    expect(nv).not.toContain("\ufffd");
+    expect(quoteOnPage(nv, "seller: (1) Two")).toBe(true);
+    // Valid UTF-8 stays UTF-8 whatever the page declares; a stray windows-1252 byte in it is read as one.
+    const mixed = pageText(new Uint8Array([...new TextEncoder().encode('<html><head><meta charset="iso-8859-1"></head><body><p>Caf\u00e9 food \u2014 the buyer'), 0x92, ...new TextEncoder().encode("s tax</p></body></html>")]))!;
+    expect(mixed).toBe("Café food — the buyer’s tax");
+    expect(pageText(new TextEncoder().encode('<html><head><meta charset="windows-1252"></head><body><p>Caf\u00e9 \u2014 ok</p></body></html>'))).toBe("Café — ok");
+    // A UTF-8 byte-order mark, and HTML's &#146; (a windows-1252 quote by number).
+    expect(pageText(new Uint8Array([0xef, 0xbb, 0xbf, ...new TextEncoder().encode("<html><body><p>the buyer&#146;s</p></body></html>")]))).toBe("the buyer’s");
+    // South Dakota's rule: a Word page saved as UTF-16LE HTML, no mark.
+    const sd = pageText(new Uint8Array(Buffer.from("<html><body><p>The following are taxable: (2) Designing of computer systems;</p></body></html>", "utf16le")))!;
+    expect(sd).toBe("The following are taxable: (2) Designing of computer systems;");
+    expect(pageText(new Uint8Array([0xff, 0xfe, ...Buffer.from("plain text, marked", "utf16le")]))).toBe("plain text, marked");
+    // Florida's rule: an OLE2 Word .doc, its text in windows-1252, paragraphs ending in CR.
+    const doc = bytes([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1], new Array(64).fill(0), new Array(40).fill(0xff), [0, 0], "12A-1.032 Computer Software.\rHowever, where the vendor, at the customer", [0x92], "s request, modifies a program, it is not subject to tax.\r", [0, 0, 0], "Times New Roman", [0, 1, 2], ...[Buffer.from("Title", "utf16le")].map((b) => [...b]));
+    const fl = pageText(doc)!;
+    expect(fl).not.toContain("\ufffd");
+    expect(fl).not.toMatch(/\xff/);
+    expect(quoteOnPage(fl, "However, where the vendor, at the customer’s request, modifies a program, it is not subject to tax.")).toBe(true);
+    expect(fl).toContain("12A-1.032 Computer Software.\n");
+  });
+
+  it("finds a quote whose line-end hyphen pdftotext dropped, and loosens nothing else", () => {
+    // pdftotext joins "39-26-" and "717(2)(n)" at a line break without the hyphen.
+    const statute = "Exempt under section 39-26717(2)(n), C.R.S., are sales of shortterm rentals of\nfarm equipment.";
+    expect(quoteOnPage(statute, "Exempt under § 39-26-717(2)(n)")).toBe(false); // the § isn't on the page
+    expect(quoteOnPage(statute, "section 39-26-717(2)(n), C.R.S.")).toBe(true);
+    expect(quoteOnPage("Under § 39-26717(2)(n) of the statute", "§ 39-26-717(2)(n)")).toBe(true);
+    expect(quoteOnPage(statute, "sales of short-term rentals of farm equipment.")).toBe(true);
+    // Either side may have the hyphen.
+    expect(quoteOnPage("sales of short-term rentals", "sales of shortterm rentals")).toBe(true);
+    // Unrelated text, and other numbers, still don't match.
+    expect(quoteOnPage(statute, "section 39-26-718(2)(n)")).toBe(false);
+    expect(quoteOnPage(statute, "sales of long-term rentals of farm equipment.")).toBe(false);
+    expect(quoteOnPage(statute, "short term rentals")).toBe(false);
+    expect(quoteOnPage("No dashes on this page.", "-")).toBe(false);
+  });
+
   it("a subcode answers from its parent's rule; a parent with only subcode rules is settled from them", () => {
     const base = { fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
     const set = ruleSet([

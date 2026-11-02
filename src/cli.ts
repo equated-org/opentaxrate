@@ -126,15 +126,9 @@ async function main() {
         // one page; dated by the file's download time.
         const [, url, file] = positional;
         if (!url || !file) throw new Error("taxability file-answer URL PATH [--method POST] [--body-file F] [--from PATH]");
-        const { archiveResponse } = await import("./ingest/archive.js");
-        const { readFileSync, statSync } = await import("node:fs");
-        const path = await import("node:path");
-        const bodyFile = flag("--body-file");
-        const body = bodyFile === undefined ? undefined : readFileSync(bodyFile, "utf8");
-        const method = flag("--method") ?? (body === undefined ? undefined : "POST");
-        const saved = { at: statSync(file).mtime.toISOString(), from: flag("--from") ?? path.resolve(file) };
-        if (!(await archiveResponse({ url, method, body }, readFileSync(file), path.basename(file), saved))) throw new Error(`${file} wasn't filed.`);
-        console.log(`Filed ${file} as ${method ?? "GET"} ${url}`);
+        const { fileAnswer } = await import("./ingest/archive.js");
+        const { method } = await fileAnswer(url, file, { method: flag("--method"), bodyFile: flag("--body-file"), from: flag("--from") });
+        console.log(`Filed ${file} as ${method} ${url}`);
         return;
       }
       if (positional[0] === "verify") {

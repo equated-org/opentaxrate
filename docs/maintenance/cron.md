@@ -169,6 +169,23 @@ the release: `scripts/deploy-site.sh` (it stops if the client check fails).
 Keep the run's database until production serves the release, then
 `pnpm rates maintain drop` it.
 
+Optional, after the backup: give new PDFs the evidence archive's
+machine-made views ([data maintenance](../data.md#pdfs-the-evidence-and-the-views-beside-it)).
+The steps are cached by the PDF's hash, so only scans and table pages filed
+since the last run are read, usually for cents. They need
+`OPENROUTER_API_KEY` in the environment. If it's missing, skip this step and
+say so in the report.
+
+```bash
+npx tsx scripts/transcribe-scans.mts --budget 2    # new scans: two-model transcription, unreviewed
+npx tsx scripts/format-tables.mts --budget 2       # new table pages: Markdown, kept only at >= 99% word recall
+npx tsx src/cli.ts evidence                        # upload them (or let next month's backup do it)
+```
+
+Report the spend and counts both scripts print. Their output is never
+evidence. Never use it to write or check a quote: a quote on a scan is read
+off the PDF by a person and listed in `src/taxability/rules/read-off-scans.json`.
+
 Production pulls the release (`pnpm rates pull data-<run> --prod`) only when
 the human says so. If this release's migrations are newer than production's
 (`pnpm rates status` compares them), the code must be deployed first

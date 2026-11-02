@@ -108,8 +108,153 @@ const decodeEntities = (text: string) =>
   text.replace(/&(#x[0-9a-f]+|#\d+|[a-z][a-z0-9]*);/gi, (whole, ref: string) => {
     if (ref[0] !== "#") return NAMED[ref] ?? whole;
     const code = ref[1] === "x" || ref[1] === "X" ? parseInt(ref.slice(2), 16) : parseInt(ref.slice(1), 10);
+    if (code >= 0x80 && code <= 0x9f) return WINDOWS_1252.decode(new Uint8Array([code])); // as browsers read &#146; (HTML's rule)
     return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : whole;
   });
+
+const UTF8 = new TextDecoder("utf-8", { fatal: true });
+const WINDOWS_1252 = new TextDecoder("windows-1252");
+
+/** The length of the UTF-8 sequence starting at `i`, or 0 when the bytes
+ *  there aren't one. */
+function utf8Sequence(bytes: Uint8Array, i: number): number {
+  const b = bytes[i];
+  if (b < 0x80) return 1;
+  const next = (k: number, lo = 0x80, hi = 0xbf) => i + k < bytes.length && bytes[i + k] >= lo && bytes[i + k] <= hi;
+  if (b >= 0xc2 && b <= 0xdf) return next(1) ? 2 : 0;
+  if (b >= 0xe0 && b <= 0xef) return next(1, b === 0xe0 ? 0xa0 : 0x80, b === 0xed ? 0x9f : 0xbf) && next(2) ? 3 : 0;
+  if (b >= 0xf0 && b <= 0xf4) return next(1, b === 0xf0 ? 0x90 : 0x80, b === 0xf4 ? 0x8f : 0xbf) && next(2) && next(3) ? 4 : 0;
+  return 0;
+}
+
+/** The single-byte encoding a page declares (<meta charset>, its
+ *  http-equiv content, an XML declaration), when the decoder knows it and it
+ *  isn't UTF-8. */
+function declaredSingleByte(bytes: Uint8Array): TextDecoder | undefined {
+  const head = Buffer.from(bytes.subarray(0, 4096)).toString("latin1");
+  const label = /<meta[^>]+charset\s*=\s*["']?([\w.:-]+)/i.exec(head)?.[1] ?? /<\?xml[^>]+encoding\s*=\s*["']([\w.:-]+)/i.exec(head)?.[1];
+  if (!label || /^utf-?(8|16)/i.test(label)) return undefined;
+  try {
+    const decoder = new TextDecoder(label);
+    return /^(windows-125\d|iso-8859-\d+|koi8|macintosh|ibm866)/.test(decoder.encoding) ? decoder : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Whether the bytes look like UTF-16 with no byte-order mark (a Word page
+ *  saved as HTML): most of the first bytes' odd (LE) or even (BE) positions
+ *  are NUL. */
+function utf16WithoutMark(bytes: Uint8Array): "utf-16le" | "utf-16be" | undefined {
+  const n = Math.min(bytes.length, 4096) & ~1;
+  if (n < 16) return undefined;
+  let odd = 0, even = 0;
+  for (let i = 0; i < n; i += 2) {
+    if (bytes[i] === 0) even++;
+    if (bytes[i + 1] === 0) odd++;
+  }
+  const half = n / 2;
+  if (odd > half * 0.6 && even < half * 0.05) return "utf-16le";
+  if (even > half * 0.6 && odd < half * 0.05) return "utf-16be";
+  return undefined;
+}
+
+/** A page's bytes as text, in the encoding they're in: a byte-order mark's
+ *  (UTF-8, UTF-16), UTF-16 without one, else UTF-8; a byte that isn't part
+ *  of valid UTF-8 (a windows-1252 page's curly quote or bullet) is read in
+ *  the page's declared single-byte encoding, else windows-1252, so no
+ *  U+FFFD stands in for it. Valid UTF-8 is always read as UTF-8. */
+export function decodeText(bytes: Uint8Array): string {
+  if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) bytes = bytes.subarray(3);
+  else if (bytes[0] === 0xff && bytes[1] === 0xfe) return new TextDecoder("utf-16le").decode(bytes.subarray(2));
+  else if (bytes[0] === 0xfe && bytes[1] === 0xff) return new TextDecoder("utf-16be").decode(bytes.subarray(2));
+  else {
+    const wide = utf16WithoutMark(bytes);
+    if (wide) return new TextDecoder(wide).decode(bytes);
+  }
+  try {
+    return UTF8.decode(bytes);
+  } catch {
+    // Not all UTF-8: read what is, and each byte that isn't, one at a time.
+  }
+  const single = declaredSingleByte(bytes) ?? WINDOWS_1252;
+  const valid = new TextDecoder("utf-8");
+  let out = "", start = 0;
+  for (let i = 0; i < bytes.length; ) {
+    const length = utf8Sequence(bytes, i);
+    if (length) {
+      i += length;
+      continue;
+    }
+    out += valid.decode(bytes.subarray(start, i)) + single.decode(bytes.subarray(i, i + 1));
+    start = ++i;
+  }
+  return out + valid.decode(bytes.subarray(start));
+}
+
+/** An OLE2 compound file (a Word 97–2003 .doc, an old .xls): D0 CF 11 E0. */
+const isCompoundFile = (bytes: Uint8Array) => bytes[0] === 0xd0 && bytes[1] === 0xcf && bytes[2] === 0x11 && bytes[3] === 0xe0;
+
+const installed = new Map<string, boolean>();
+/** Whether a command is on the PATH (`which`), asked once. */
+function has(command: string) {
+  if (!installed.has(command)) {
+    try {
+      execFileSync("which", [command], { stdio: "ignore" });
+      installed.set(command, true);
+    } catch {
+      installed.set(command, false);
+    }
+  }
+  return installed.get(command)!;
+}
+
+/** The text of a Word .doc: antiword's, else catdoc's, where installed;
+ *  else read straight from the file, as `strings` would but in Word's own
+ *  encodings: every run of four or more windows-1252 text bytes (Word keeps
+ *  most text so, paragraphs ending in a carriage return) and of UTF-16LE
+ *  text, in file order. The fallback carries some of the file's own names
+ *  (styles, fonts) as lines of their own; a quote is still found whole. */
+export function wordText(bytes: Uint8Array): string {
+  for (const [command, args] of [["antiword", ["-w", "0"]], ["catdoc", ["-w"]]] as const) {
+    if (!has(command)) continue;
+    const dir = mkdtempSync(path.join(tmpdir(), "otr-doc-"));
+    try {
+      writeFileSync(path.join(dir, "doc.doc"), bytes);
+      const out = execFileSync(command, [...args, path.join(dir, "doc.doc")], { maxBuffer: 64 << 20, stdio: ["ignore", "pipe", "ignore"] }).toString("utf8");
+      if (out.trim()) return out;
+    } catch {
+      // Not a Word file this tool reads: try the next, then the fallback.
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  }
+  const runs: string[] = [];
+  // windows-1252 text: printable bytes, the five it leaves undefined aside;
+  // Word's paragraph, line and cell marks (CR, VT, BEL) end a line.
+  const text8 = (b: number) => (b >= 0x20 && b !== 0x7f && b !== 0x81 && b !== 0x8d && b !== 0x8f && b !== 0x90 && b !== 0x9d) || b === 0x09 || b === 0x0a || b === 0x0d || b === 0x0b || b === 0x07;
+  for (let i = 0; i < bytes.length; ) {
+    let j = i;
+    while (j < bytes.length && text8(bytes[j])) j++;
+    // Four bytes or more, with a word in them (not the file's 0xFF filler).
+    const run = j - i >= 4 ? WINDOWS_1252.decode(bytes.subarray(i, j)) : "";
+    if (/[A-Za-z0-9]{3}/.test(run)) runs.push(run.replace(/[\r\v\x07]/g, "\n"));
+    i = j + 1;
+  }
+  // UTF-16LE text: Latin letters and Word's curly quotes and dashes, two
+  // bytes each (8-bit text read two bytes at a time is neither).
+  const text16 = (i: number) => {
+    const unit = bytes[i] | (bytes[i + 1] << 8);
+    return (unit >= 0x20 && unit < 0x250 && unit !== 0x7f && !(unit >= 0x80 && unit < 0xa0)) || (unit >= 0x2010 && unit <= 0x2027) || unit === 0x0d || unit === 0x0a || unit === 0x09;
+  };
+  for (let i = 0; i + 1 < bytes.length; ) {
+    let j = i;
+    while (j + 1 < bytes.length && text16(j)) j += 2;
+    if (j - i >= 8) runs.push(new TextDecoder("utf-16le").decode(bytes.subarray(i, j)).replace(/\r/g, "\n"));
+    i = j > i ? j : i + 1;
+  }
+  return runs.join("\n");
+}
 
 /** One CSV line's fields, quotes honoured. */
 function csvFields(line: string): string[] {
@@ -129,8 +274,9 @@ function csvFields(line: string): string[] {
 }
 
 /** A page's readable text, for telling a real change from a new timestamp:
- *  a PDF through pdftotext, HTML without scripts, styles and tags, one
- *  line per block; null when it can't be read. */
+ *  a PDF through pdftotext, a Word .doc through wordText, HTML without
+ *  scripts, styles and tags, one line per block, any text in its own
+ *  encoding (decodeText); null when it can't be read. */
 export function pageText(bytes: Uint8Array, options: { ignoreColumns?: string[] } = {}): string | null {
   const head = Buffer.from(bytes.slice(0, 5)).toString("latin1");
   if (head === "%PDF-") {
@@ -146,7 +292,9 @@ export function pageText(bytes: Uint8Array, options: { ignoreColumns?: string[] 
       rmSync(dir, { recursive: true, force: true });
     }
   }
-  const text = Buffer.from(bytes).toString("utf8");
+  // A Word .doc (Florida's rules): its text, never its binary.
+  if (isCompoundFile(bytes)) return wordText(bytes);
+  const text = decodeText(bytes);
   if (options.ignoreColumns?.length) {
     const [header, ...rows] = text.split(/\r?\n/);
     const names = csvFields(header);
@@ -180,8 +328,20 @@ const loose = (s: string) =>
     .replace(/([(\[]) /g, "$1")
     .trim();
 
-/** Whether `quote` is on a page whose text is `text`, as pageText reads it. */
-export const quoteOnPage = (text: string, quote: string) => loose(text).includes(loose(quote));
+/** Hyphens left out: pdftotext drops the hyphen a word or number broke at
+ *  the end of a line ("39-26-\n717" reads "39-26717", "short-\nterm"
+ *  "shortterm"), so the page and the quote are compared without any. */
+const unhyphenated = (looseText: string) => looseText.replace(/-/g, "").replace(/ {2,}/g, " ");
+
+/** Whether `quote` is on a page whose text is `text`, as pageText reads it;
+ *  failing that, whether it is once hyphens are left out on both sides (a
+ *  line-end hyphen extraction dropped). Nothing else is loosened. */
+export const quoteOnPage = (text: string, quote: string) => {
+  const page = loose(text), wanted = loose(quote);
+  if (page.includes(wanted)) return true;
+  const bare = unhyphenated(wanted).trim();
+  return bare.length > 0 && unhyphenated(page).includes(bare);
+};
 
 /** A host that answered with a challenge, not the page. */
 export const challenged = (text: string) => /just a moment\.\.\.|cf-chl|enable javascript and cookies to continue|access denied/i.test(text.slice(0, 4000));

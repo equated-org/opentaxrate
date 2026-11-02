@@ -6,12 +6,19 @@
  * evidence/worker.js serves it at evidence.opentaxrate.com.
  *
  *   sha256/<hash>    the original bytes, named by their hash; never rewritten
+ *   text/<hash>.json a PDF's text, page by page (src/pdf-text.ts), in reading
+ *                    order and as laid out; a scan's machine transcription
+ *                    (.machine.json) and table pages as Markdown
+ *                    (.formatted.json) beside it where made: derived, never
+ *                    evidence
  *   catalog.json     { urls: { <url>: { captures: [{ at, sha256, bytes, type, bad? }], citedBy: [{ rule, quote }] } } }
  *
  * A POSTed query's answer is filed under "<url> (POST <first 12 of the
- * body's sha256>)", hashed over the whole body: the manifest's own copy is
- * cut at 2,000 characters, so a long body is read back from the query
- * folder's url.txt (or taken from the line's bodySha256). A capture listed
+ * body's sha256>)", hashed over the whole body (an empty body too; a
+ * bodyless POST is "<url> (POST)"): the manifest's own copy is cut at 2,000
+ * characters, so a long body is taken from the line's bodySha256, or read
+ * back from the query folder's url.txt when it is that request's
+ * (catalogKey). A capture listed
  * in artifacts/sources/KNOWN-BAD.md (an error page, a rejected download, a
  * fragment) carries `bad`, saying what it is instead.
  *
@@ -26,12 +33,12 @@
  * opentaxrate-evidence).
  */
 import { createHash } from "node:crypto";
-import { closeSync, createReadStream, openSync, readdirSync, readFileSync, readSync, statSync } from "node:fs";
+import { closeSync, existsSync, openSync, readFileSync, readSync, statSync } from "node:fs";
 import path from "node:path";
 import { AwsClient } from "aws4fetch";
-import { sourcesRoot, waybackCapture } from "./ingest/archive.js";
+import { captureRuns, holding, manifestEntries, sourceHashes, sourcesRoot, waybackCapture, type ManifestEntry } from "./ingest/archive.js";
 import { readRuleFiles } from "./taxability/rules/index.js";
-import { pdfText } from "./pdf-text.js";
+import { pdfText, textDir } from "./pdf-text.js";
 
 export interface Capture {
   at: string;
@@ -76,58 +83,68 @@ function typeOf(file: string, head: Buffer): string {
   return "application/octet-stream";
 }
 
-/** Every file under the archive, keyed by its SHA-256. */
-async function hashArchive(root: string): Promise<Map<string, string>> {
-  const files: string[] = [];
-  const walk = (dir: string) => {
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(full);
-      else if (entry.name !== "manifest.jsonl" && !entry.name.endsWith(".partial")) files.push(full);
-    }
-  };
-  walk(root);
-  const byHash = new Map<string, string>();
-  for (const file of files) {
-    const hash = createHash("sha256");
-    for await (const chunk of createReadStream(file)) hash.update(chunk as Buffer);
-    byHash.set(hash.digest("hex"), file);
+/** What a manifest line says of its request's body: none (a GET, or a
+ *  bodyless POST), its whole body's SHA-256, or cut short with no way to
+ *  know the rest (a line from before bodySha256 whose url.txt is missing or
+ *  isn't this request's). */
+export type RequestBody = { kind: "none" } | { kind: "whole"; sha256: string; from: "line" | "body" | "url.txt" } | { kind: "cut"; why: string };
+
+/** A request's body, from its manifest line: the line's bodySha256; else a
+ *  body under 2,000 characters, which is whole (an empty body too, told
+ *  from no body); else the body url.txt kept beside the answer
+ *  ("<METHOD> <url>\n<body>\n"), taken only when it is this request's: the
+ *  same method and URL, starting with the line's prefix, and hashing to the
+ *  query folder's id (sourcePath's: the folder is named by the whole
+ *  request). */
+export function requestBody(entry: ManifestEntry, root: string): RequestBody {
+  if (entry.body === undefined) return { kind: "none" };
+  if (entry.bodySha256) return { kind: "whole", sha256: entry.bodySha256, from: "line" };
+  if (entry.body.length < 2000) return { kind: "whole", sha256: createHash("sha256").update(entry.body).digest("hex"), from: "body" };
+  const method = entry.method ?? "POST";
+  const full = sidecarBody(entry, root);
+  if (full === null) return { kind: "cut", why: "no url.txt beside it" };
+  if (full === undefined) return { kind: "cut", why: `url.txt isn't ${method} ${entry.url}` };
+  if (!full.startsWith(entry.body)) return { kind: "cut", why: "url.txt's body doesn't start with the line's" };
+  const folder = path.basename(path.dirname(entry.file));
+  if (/^[0-9a-f]{16}$/.test(folder)) {
+    const id = createHash("sha256").update(`${new URL(entry.url).search}\n${method}\n${full}`).digest("hex").slice(0, 16);
+    if (id !== folder) return { kind: "cut", why: `url.txt's body isn't the one its folder (${folder}) was named for` };
   }
-  return byHash;
+  return { kind: "whole", sha256: createHash("sha256").update(full).digest("hex"), from: "url.txt" };
 }
 
-interface ManifestEntry {
-  at: string;
-  url: string;
-  method?: string;
-  /** The body as recorded: its first 2,000 characters. */
-  body?: string;
-  /** The whole body's SHA-256, on lines written since it was recorded. */
-  bodySha256?: string;
-  sha256: string;
-  bytes: number;
-  file: string;
+/** The body in the url.txt beside an entry's file: null when there's none,
+ *  undefined when it names another request. */
+export function sidecarBody(entry: ManifestEntry, root: string): string | null | undefined {
+  let text: string;
+  try {
+    text = readFileSync(path.join(root, path.dirname(entry.file), "url.txt"), "utf8");
+  } catch {
+    return null;
+  }
+  const newline = text.indexOf("\n");
+  if (text.slice(0, newline) !== `${entry.method ?? "POST"} ${entry.url}`) return undefined;
+  return text.slice(newline + 1).replace(/\n$/, "");
 }
 
-/** The SHA-256 of a POST's whole body: the line's bodySha256, else the body
- *  url.txt kept beside the answer where the line's copy may be cut short
- *  (url.txt is "<METHOD> <url>\n<body>\n"), else the line's body. */
+/** The SHA-256 of a POST's whole body (requestBody), or undefined. */
 export function requestBodySha256(entry: ManifestEntry, root: string): string | undefined {
-  if (!entry.body) return undefined; // an empty body was always keyed by the URL alone
-  if (entry.bodySha256) return entry.bodySha256;
-  let body = entry.body;
-  if (body.length >= 2000) {
-    try {
-      const text = readFileSync(path.join(root, path.dirname(entry.file), "url.txt"), "utf8");
-      const newline = text.indexOf("\n");
-      const asked = text.slice(0, newline);
-      const full = text.slice(newline + 1).replace(/\n$/, "");
-      if (asked === `${entry.method ?? "POST"} ${entry.url}` && full.startsWith(body)) body = full;
-    } catch {
-      // No url.txt: the recorded prefix is all there is.
-    }
-  }
-  return createHash("sha256").update(body).digest("hex");
+  const body = requestBody(entry, root);
+  return body.kind === "whole" ? body.sha256 : undefined;
+}
+
+/** The catalog entry a manifest line's answer is filed under: the URL for
+ *  a GET; "<url> (<METHOD>)" for a request with no body that isn't a GET;
+ *  "<url> (<METHOD> <first 12 of the whole body's sha256>)" for one with a
+ *  body, an empty body included; and for a body cut short with no whole
+ *  copy, never another request's: "<url> (<METHOD>, whole body not kept:
+ *  answer <first 12 of the answer's sha256>)". */
+export function catalogKey(entry: ManifestEntry, root: string): string {
+  const method = entry.method ?? (entry.body === undefined ? "GET" : "POST");
+  const body = requestBody(entry, root);
+  if (body.kind === "none") return method === "GET" ? entry.url : `${entry.url} (${method})`;
+  if (body.kind === "whole") return `${entry.url} (${method} ${body.sha256.slice(0, 12)})`;
+  return `${entry.url} (${method}, whole body not kept: answer ${entry.sha256.slice(0, 12)})`;
 }
 
 /** Captures that aren't evidence of their page, from KNOWN-BAD.md's table:
@@ -145,42 +162,44 @@ export function knownBad(root: string): Map<string, string> {
 }
 
 /** The catalog: each URL's captures (from the manifest, those whose bytes
- *  are still here) and the rules that cite it. */
+ *  are still here, found by hash wherever they are) and the rules that cite
+ *  it; a URL's captures ordered and deduplicated as copiesByUrl's
+ *  (captureRuns), each with its file's real size. */
 export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<string, string> }> {
   const root = sourcesRoot();
-  const files = await hashArchive(root);
+  const hashes = sourceHashes(root);
+  const files = new Map<string, string>();
   const bad = knownBad(root);
-  const urls: Catalog["urls"] = {};
-  for (const line of readFileSync(path.join(root, "manifest.jsonl"), "utf8").split("\n")) {
-    if (!line.trim()) continue;
-    const entry = JSON.parse(line) as ManifestEntry;
-    const file = files.get(entry.sha256);
-    if (!file) continue;
+  const observed = new Map<string, Capture[]>();
+  const observe = (key: string, capture: Capture) => {
+    const list = observed.get(key);
+    if (list) list.push(capture);
+    else observed.set(key, [capture]);
+  };
+  for (const entry of manifestEntries(root)) {
+    const held = holding(entry, hashes);
+    if (!held) continue;
+    const file = path.join(root, held);
+    if (!files.has(entry.sha256)) files.set(entry.sha256, file);
     const head = Buffer.alloc(512);
     const fd = openSync(file, "r");
     readSync(fd, head, 0, 512, 0);
     closeSync(fd);
     // An API's answer to one posted query isn't a version of a page: each
-    // query is its own entry, keyed by the request's hash.
-    const bodySha256 = requestBodySha256(entry, root);
-    const key = bodySha256 ? `${entry.url} (${entry.method ?? "POST"} ${bodySha256.slice(0, 12)})` : entry.url;
-    const record = (urls[key] ??= { captures: [], citedBy: [] });
+    // query is its own entry, keyed by the request (catalogKey).
+    const key = catalogKey(entry, root);
     const marked = bad.get(entry.sha256);
     // A file named .zip or .pdf that is an HTML error page is typed by its bytes.
     const type = marked ? typeOf("", head) : typeOf(entry.file, head);
-    const capture: Capture = { at: entry.at, sha256: entry.sha256, bytes: entry.bytes, type, ...(marked ? { bad: marked } : {}) };
-    // A refetch of the same bytes isn't a new capture; a page that changed
-    // and changed back (A, B, A) is three.
-    if (record.captures.at(-1)?.sha256 !== entry.sha256) record.captures.push(capture);
+    const capture: Capture = { at: entry.at, sha256: entry.sha256, bytes: hashes.sizeOf.get(held)!, type, ...(marked ? { bad: marked } : {}) };
+    observe(key, capture);
     // An Internet Archive capture is also a copy of the page it captured,
     // on the day it was captured: citations name the original page.
     const archived = waybackCapture(entry.url);
-    if (archived) {
-      const original = (urls[archived.original] ??= { captures: [], citedBy: [] });
-      if (!original.captures.some((c) => c.sha256 === entry.sha256)) original.captures.push({ ...capture, at: archived.at, via: entry.url });
-    }
+    if (archived) observe(archived.original, { ...capture, at: archived.at, via: entry.url });
   }
-  for (const record of Object.values(urls)) record.captures.sort((a, b) => a.at.localeCompare(b.at));
+  const urls: Catalog["urls"] = {};
+  for (const [key, captures] of observed) urls[key] = { captures: captureRuns(captures), citedBy: [] };
   for (const r of readRuleFiles().rules)
     for (const c of r.citations) {
       const record = urls[c.url];
@@ -188,6 +207,26 @@ export async function buildCatalog(): Promise<{ catalog: Catalog; files: Map<str
     }
   return { catalog: { generatedAt: new Date().toISOString(), urls }, files };
 }
+
+/** The hashes an S3 listing names under sha256/ or text/ ("sha256/<hash>",
+ *  "text/<hash>.json"). */
+export function listedHashes(xml: string): string[] {
+  return [...xml.matchAll(/<Key>[a-z0-9]+\/([0-9a-f]{64})(?:\.json)?<\/Key>/g)].map((m) => m[1]);
+}
+
+/** An S3 listing's keys, each with its ETag (an object's MD5, unquoted). */
+export function listedKeys(xml: string): Map<string, string> {
+  const keys = new Map<string, string>();
+  for (const m of xml.matchAll(/<Contents>([\s\S]*?)<\/Contents>/g)) {
+    const key = m[1].match(/<Key>([^<]+)<\/Key>/)?.[1];
+    const etag = m[1].match(/<ETag>(?:&quot;|")?([0-9a-f]+)(?:&quot;|")?<\/ETag>/)?.[1];
+    if (key) keys.set(key, etag ?? "");
+  }
+  return keys;
+}
+
+/** The token for an S3 listing's next page, when it was cut short. */
+const nextToken = (xml: string) => (/<IsTruncated>true<\/IsTruncated>/.test(xml) ? xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/)?.[1] : undefined);
 
 /** Uploads every copy the bucket lacks, then the catalog. */
 export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Promise<{ uploaded: number; kept: number; bytes: number; texts: number }> {
@@ -199,22 +238,25 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
   const base = `https://${account}.r2.cloudflarestorage.com/${bucket}`;
   const r2 = new AwsClient({ accessKeyId, secretAccessKey, service: "s3", region: "auto" });
 
-  // What the bucket already holds, by hash, under a prefix.
-  const listed = async (prefix: string) => {
-    const found = new Set<string>();
+  // Every page of the bucket's listing under a prefix.
+  const listing = async function* (prefix: string) {
     let token: string | undefined;
     do {
       const query = new URLSearchParams({ "list-type": "2", prefix, "max-keys": "1000", ...(token ? { "continuation-token": token } : {}) });
       const response = await r2.fetch(`${base}?${query}`);
       if (!response.ok) throw new Error(`Listing ${bucket} answered ${response.status}: ${(await response.text()).slice(0, 200)}`);
       const xml = await response.text();
-      for (const m of xml.matchAll(/<Key>[a-z]+\/([0-9a-f]{64})(?:\.json)?<\/Key>/g)) found.add(m[1]);
-      token = /<IsTruncated>true<\/IsTruncated>/.test(xml) ? xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/)?.[1] : undefined;
+      yield xml;
+      token = nextToken(xml);
     } while (token);
-    return found;
   };
-  const have = await listed("sha256/");
-  const haveText = await listed("text/");
+  // What the bucket already holds, by hash.
+  const have = new Set<string>();
+  for await (const xml of listing("sha256/")) for (const h of listedHashes(xml)) have.add(h);
+  // The texts the bucket holds, by key, with each one's ETag (the MD5 of its
+  // bytes): a text made again (the layout view added) is sent again.
+  const haveText = new Map<string, string>();
+  for await (const xml of listing("text/")) for (const [key, etag] of listedKeys(xml)) haveText.set(key, etag);
 
   const { catalog, files } = await buildCatalog();
   const wanted = new Map<string, { file: string; type: string; url: string }>();
@@ -243,21 +285,29 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
   };
   await Promise.all(Array.from({ length: 8 }, worker));
 
-  // Every PDF's text, page by page, for the archive's readable view.
-  const pdfs = [...new Map(Object.values(catalog.urls).flatMap((r) => r.captures).filter((c) => c.type.startsWith("application/pdf") && !haveText.has(c.sha256)).map((c) => [c.sha256, c])).keys()];
+  // Every PDF's text, page by page, for the archive's readable view, and
+  // beside it the machine-made readings (a scan's transcription, table pages
+  // as Markdown) where they've been made: never evidence, and labelled so.
+  const pdfs = [...new Set(Object.values(catalog.urls).flatMap((r) => r.captures).filter((c) => c.type.startsWith("application/pdf")).map((c) => c.sha256))];
   let texts = 0;
   const textQueue = [...pdfs];
   const textWorker = async () => {
     for (let sha = textQueue.shift(); sha; sha = textQueue.shift()) {
-      const text = pdfText(sha, files.get(sha)!);
-      if (!text) continue;
-      for (let attempt = 0; ; attempt++) {
-        const response = await r2.fetch(`${base}/text/${sha}.json`, { method: "PUT", body: JSON.stringify(text), headers: { "content-type": "application/json", "cache-control": "public, max-age=31536000, immutable" } });
-        if (response.ok) break;
-        if (attempt === 2) throw new Error(`Uploading the text of ${sha} answered ${response.status}`);
-        await new Promise((resolve) => setTimeout(resolve, 2_000 * (attempt + 1)));
+      if (!pdfText(sha, files.get(sha)!)) continue;
+      for (const name of [`${sha}.json`, `${sha}.machine.json`, `${sha}.formatted.json`]) {
+        const local = path.join(textDir(), name);
+        if (!existsSync(local)) continue;
+        const body = readFileSync(local);
+        if (haveText.get(`text/${name}`) === createHash("md5").update(body).digest("hex")) continue;
+        for (let attempt = 0; ; attempt++) {
+          // Not immutable: a text is made again when a view is added.
+          const response = await r2.fetch(`${base}/text/${name}`, { method: "PUT", body, headers: { "content-type": "application/json", "cache-control": "public, max-age=3600" } });
+          if (response.ok) break;
+          if (attempt === 2) throw new Error(`Uploading text/${name} answered ${response.status}`);
+          await new Promise((resolve) => setTimeout(resolve, 2_000 * (attempt + 1)));
+        }
+        texts++;
       }
-      texts++;
     }
   };
   await Promise.all(Array.from({ length: 4 }, textWorker));

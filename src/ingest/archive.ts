@@ -30,6 +30,9 @@ interface Request {
   body?: string;
 }
 
+/** The request's method: as given, else POST with a body and GET without. */
+const requestMethod = (request: Request) => (request.method ? request.method.toUpperCase() : request.body === undefined ? "GET" : "POST");
+
 /** artifacts/sources, or sources/ under OPENTAXRATE_DOWNLOAD_DIR. */
 export const sourcesRoot = () =>
   path.join(process.env.OPENTAXRATE_DOWNLOAD_DIR || path.join(process.cwd(), "artifacts"), "sources");
@@ -47,10 +50,13 @@ function sourcePath(request: Request, name?: string) {
   const parts = decodeURIComponent(url.pathname).split("/").filter(Boolean).map(safe);
   const last = url.pathname.endsWith("/") ? undefined : parts.pop();
   let directory = path.join(sourcesRoot(), safe(url.host), ...parts);
-  const asked = url.search || request.body !== undefined;
+  const method = requestMethod(request);
+  const asked = url.search || request.body !== undefined || method !== "GET";
   if (asked) {
+    // A request with no body at all (a bodyless POST) is told from one with
+    // an empty body; every other request keeps the id it always had.
     const id = createHash("sha256")
-      .update(`${url.search}\n${request.method ?? (request.body === undefined ? "GET" : "POST")}\n${request.body ?? ""}`)
+      .update(`${url.search}\n${method}\n${request.body ?? ""}${request.body === undefined && method !== "GET" ? "\n(no body)" : ""}`)
       .digest("hex")
       .slice(0, 16);
     directory = path.join(directory, ...(last ? [last] : []), id);
@@ -143,49 +149,90 @@ async function sha256Of(file: string) {
   return hash.digest("hex");
 }
 
+/** The lock a commit holds on its destination ("<destination>.commit-lock"),
+ *  so two writers (two downloads in one process, or two filing processes)
+ *  never both take an empty place and overwrite each other's copy. */
+export const COMMIT_LOCK = ".commit-lock";
+
+/** Runs `fn` holding `destination`'s lock: made with open("wx"), so only one
+ *  process at a time has it; a lock older than ten minutes was left by a
+ *  process that died, and is taken over. */
+async function locked<T>(destination: string, fn: () => Promise<T>): Promise<T> {
+  const lock = `${destination}${COMMIT_LOCK}`;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const handle = await open(lock, "wx");
+      await handle.writeFile(`${process.pid}\n`);
+      await handle.close();
+      break;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+      const held = await stat(lock).catch(() => null);
+      if (held && Date.now() - held.mtimeMs > 600_000) {
+        await rm(lock, { force: true });
+        continue;
+      }
+      await new Promise((resolve) => setTimeout(resolve, Math.min(5 + attempt * 5, 100)));
+    }
+  }
+  try {
+    return await fn();
+  } finally {
+    await rm(lock, { force: true });
+  }
+}
+
 /**
  * Puts a complete new copy (at `temporary`) in place of `destination`. Older
  * contents that differ are kept as previous/<their date>-<id>-<name>; the
- * fetch is recorded in the manifest either way.
+ * fetch is recorded in the manifest either way. One commit at a time per
+ * destination (`locked`): the check of what's there and the replacement are
+ * one step, so no copy reported archived is ever overwritten.
  */
 async function commit(request: Request, place: ReturnType<typeof sourcePath>, temporary: string, sha256: string, from?: string, at?: string) {
   const { directory, destination } = place;
-  let previous: string | undefined;
-  const old = await stat(destination).catch(() => null);
-  if (old && (await sha256Of(destination)) !== sha256) {
-    const day = old.mtime.toISOString().slice(0, 10);
-    await mkdir(path.join(directory, "previous"), { recursive: true });
-    previous = path.join(directory, "previous", `${day}-${randomUUID().slice(0, 8)}-${path.basename(destination)}`);
-    await rename(destination, previous);
-  }
-  await rename(temporary, destination);
-  const bytes = (await stat(destination)).size;
-  if (place.asked)
-    await writeFile(
-      path.join(directory, "url.txt"),
-      request.body === undefined ? `${request.url}\n` : `${request.method ?? "POST"} ${request.url}\n${request.body}\n`,
+  const method = requestMethod(request);
+  await locked(destination, async () => {
+    let previous: string | undefined;
+    const old = await stat(destination).catch(() => null);
+    if (old && (await sha256Of(destination)) !== sha256) {
+      const day = old.mtime.toISOString().slice(0, 10);
+      await mkdir(path.join(directory, "previous"), { recursive: true });
+      previous = path.join(directory, "previous", `${day}-${randomUUID().slice(0, 8)}-${path.basename(destination)}`);
+      await rename(destination, previous);
+    }
+    await rename(temporary, destination);
+    const bytes = (await stat(destination)).size;
+    if (place.asked)
+      await writeFile(
+        path.join(directory, "url.txt"),
+        request.body === undefined ? (method === "GET" ? `${request.url}\n` : `${method} ${request.url}\n`) : `${method} ${request.url}\n${request.body}\n`,
+      );
+    const root = sourcesRoot();
+    await appendFile(
+      path.join(root, "manifest.jsonl"),
+      JSON.stringify({
+        at: at ?? new Date().toISOString(),
+        url: request.url,
+        // A long body is cut to its first 2,000 characters here (url.txt keeps
+        // it whole); bodySha256 is the whole body's, so two requests that
+        // share a prefix are never taken for one. A request with no body
+        // that isn't a GET (a bodyless POST) keeps its method and no body.
+        ...(request.body === undefined
+          ? method === "GET"
+            ? {}
+            : { method }
+          : { method, body: request.body.slice(0, 2000), bodySha256: createHash("sha256").update(request.body).digest("hex") }),
+        ...(from ? { from } : {}),
+        file: path.relative(root, destination),
+        sha256,
+        bytes,
+        ...(previous ? { previous: path.relative(root, previous) } : {}),
+        // A copy saved earlier: `at` is its download, filedAt when it came in.
+        ...(at ? { filedAt: new Date().toISOString() } : {}),
+      }) + "\n",
     );
-  const root = sourcesRoot();
-  await appendFile(
-    path.join(root, "manifest.jsonl"),
-    JSON.stringify({
-      at: at ?? new Date().toISOString(),
-      url: request.url,
-      // A long body is cut to its first 2,000 characters here (url.txt keeps
-      // it whole); bodySha256 is the whole body's, so two requests that
-      // share a prefix are never taken for one.
-      ...(request.body === undefined
-        ? {}
-        : { method: request.method ?? "POST", body: request.body.slice(0, 2000), bodySha256: createHash("sha256").update(request.body).digest("hex") }),
-      ...(from ? { from } : {}),
-      file: path.relative(root, destination),
-      sha256,
-      bytes,
-      ...(previous ? { previous: path.relative(root, previous) } : {}),
-      // A copy saved earlier: `at` is its download, filedAt when it came in.
-      ...(at ? { filedAt: new Date().toISOString() } : {}),
-    }) + "\n",
-  );
+  });
 }
 
 /** Stream to the loader and disk together, committing only complete downloads. */
@@ -267,6 +314,20 @@ export async function archiveResponse(
   }
 }
 
+/** Files a lookup service's answer saved earlier (`file`), under its
+ *  request so different answers don't stack as versions of one page, dated
+ *  by the file's time (`taxability file-answer`). The request is `method`
+ *  (else POST with a body, GET without) and the body in `bodyFile`: an
+ *  empty body file is an empty body, no file no body, and each is its own
+ *  request, never a GET's. */
+export async function fileAnswer(url: string, file: string, options: { method?: string; bodyFile?: string; from?: string } = {}): Promise<{ method: string }> {
+  const body = options.bodyFile === undefined ? undefined : fs.readFileSync(options.bodyFile, "utf8");
+  const request: Request = { url, method: options.method?.toUpperCase(), body };
+  const saved = { at: fs.statSync(file).mtime.toISOString(), from: options.from ?? path.resolve(file) };
+  if (!(await archiveResponse(request, fs.readFileSync(file), path.basename(file), saved))) throw new Error(`${file} wasn't filed.`);
+  return { method: requestMethod(request) };
+}
+
 /** The page an Internet Archive capture is of, and when it was captured:
  *  "https://web.archive.org/web/20161024044355/http://rules.sos.ga.gov:80/gac/560-12-2"
  *  is rules.sos.ga.gov/gac/560-12-2 on 2016-10-24. Null for any other URL. */
@@ -277,7 +338,153 @@ export function waybackCapture(url: string): { original: string; at: string } | 
   return { original, at: `${m[1]}-${m[2]}-${m[3]}T${m[4] ?? "00"}:${m[5] ?? "00"}:${m[6] ?? "00"}Z` };
 }
 
+/** A file in artifacts/sources that is a copy, not bookkeeping: the
+ *  manifest, a download still being written, a commit's lock. */
+const isCopyFile = (name: string) => name !== "manifest.jsonl" && !name.endsWith(".partial") && !name.endsWith(COMMIT_LOCK);
+
+/** The SHA-256 and size of every file under artifacts/sources (relative
+ *  paths), and the files holding each hash: what each path really holds
+ *  now, whatever the manifest says was put there. */
+export interface SourceHashes {
+  hashOf: Map<string, string>;
+  sizeOf: Map<string, number>;
+  filesOf: Map<string, string[]>;
+}
+
+/** Each file's hash as last read, by absolute path, with the size, mtime,
+ *  ctime and inode it had then: a file is hashed again only when one of
+ *  them changed. Kept on disk beside the sources (cache/source-hashes.json,
+ *  derived and safe to delete) so a rerun hashes only what's new. */
+const hashMemo = new Map<string, { stamp: string; sha256: string }>();
+const loadedHashCaches = new Set<string>();
+const hashCacheFile = (root: string) => path.join(path.dirname(root), "cache", "source-hashes.json");
+
+function sha256OfFileSync(file: string) {
+  const hash = createHash("sha256");
+  const fd = fs.openSync(file, "r");
+  const buffer = Buffer.allocUnsafe(1 << 20);
+  try {
+    for (let n; (n = fs.readSync(fd, buffer, 0, buffer.length, null)) > 0; ) hash.update(buffer.subarray(0, n));
+  } finally {
+    fs.closeSync(fd);
+  }
+  return hash.digest("hex");
+}
+
+/** Every file under the sources by what it holds (see SourceHashes). */
+export function sourceHashes(root = sourcesRoot()): SourceHashes {
+  const cache = hashCacheFile(root);
+  if (!loadedHashCaches.has(root)) {
+    loadedHashCaches.add(root);
+    try {
+      const kept = JSON.parse(fs.readFileSync(cache, "utf8")) as { version: number; files: Record<string, [string, string]> };
+      if (kept.version === 1) for (const [rel, [stamp, sha256]] of Object.entries(kept.files)) hashMemo.set(path.join(root, rel), { stamp, sha256 });
+    } catch {
+      // No cache yet, or an unreadable one: every file is hashed.
+    }
+  }
+  const found: SourceHashes = { hashOf: new Map(), sizeOf: new Map(), filesOf: new Map() };
+  let hashed = 0;
+  const walk = (dir: string) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.isFile() && isCopyFile(entry.name)) {
+        const st = fs.statSync(full, { bigint: true, throwIfNoEntry: false });
+        if (!st) continue; // gone since the listing (moved to previous/, which the walk reaches)
+        const stamp = `${st.size}:${st.mtimeNs}:${st.ctimeNs}:${st.ino}`;
+        let known = hashMemo.get(full);
+        if (!known || known.stamp !== stamp) {
+          known = { stamp, sha256: sha256OfFileSync(full) };
+          hashMemo.set(full, known);
+          hashed++;
+        }
+        const rel = path.relative(root, full);
+        found.hashOf.set(rel, known.sha256);
+        found.sizeOf.set(rel, Number(st.size));
+        const list = found.filesOf.get(known.sha256);
+        if (list) list.push(rel);
+        else found.filesOf.set(known.sha256, [rel]);
+      }
+    }
+  };
+  if (fs.existsSync(root)) walk(root);
+  if (hashed) {
+    try {
+      const files: Record<string, [string, string]> = {};
+      for (const rel of found.hashOf.keys()) {
+        const known = hashMemo.get(path.join(root, rel))!;
+        files[rel] = [known.stamp, known.sha256];
+      }
+      fs.mkdirSync(path.dirname(cache), { recursive: true });
+      const temporary = `${cache}.${randomUUID()}.partial`;
+      fs.writeFileSync(temporary, JSON.stringify({ version: 1, files }));
+      fs.renameSync(temporary, cache);
+    } catch {
+      // A cache that can't be written only costs time on the next run.
+    }
+  }
+  return found;
+}
+
+/** One manifest line. */
+export interface ManifestEntry {
+  at: string;
+  url: string;
+  method?: string;
+  /** The body as recorded: its first 2,000 characters. */
+  body?: string;
+  /** The whole body's SHA-256, on lines written since it was recorded. */
+  bodySha256?: string;
+  sha256: string;
+  bytes: number;
+  file: string;
+  previous?: string;
+}
+
+/** The manifest's lines, in the order they were written. */
+export function manifestEntries(root = sourcesRoot()): ManifestEntry[] {
+  let text = "";
+  try {
+    text = fs.readFileSync(path.join(root, "manifest.jsonl"), "utf8");
+  } catch {
+    return [];
+  }
+  return text
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => JSON.parse(line) as ManifestEntry);
+}
+
+/** A file that holds this entry's bytes now: the one it was filed as, if it
+ *  still holds them, else wherever they are (moved to previous/ when the
+ *  URL's file, or another URL's file of the same name, replaced them; the
+ *  copy beside it first). Undefined when the bytes are nowhere. */
+export function holding(entry: { file: string; sha256: string }, hashes: SourceHashes): string | undefined {
+  if (hashes.hashOf.get(entry.file) === entry.sha256) return entry.file;
+  const elsewhere = (hashes.filesOf.get(entry.sha256) ?? []).filter((f) => path.basename(f) !== "url.txt");
+  const beside = path.join(path.dirname(entry.file), "previous");
+  return elsewhere.find((f) => path.dirname(f) === beside) ?? elsewhere[0];
+}
+
+/** A URL's observations, oldest first (by capture time, then by when they
+ *  were filed), with a run of the same bytes (through the same Internet
+ *  Archive capture, if any) kept once, at its earliest time: an answer filed
+ *  later but downloaded earlier dates its run, and a page that changed and
+ *  changed back (A, B, A) is three. */
+export function captureRuns<T extends { at: string; sha256: string; via?: string }>(observations: T[]): T[] {
+  const ordered = observations.map((o, i) => [o, i] as const).sort(([a, i], [b, j]) => a.at.localeCompare(b.at) || i - j);
+  const runs: T[] = [];
+  for (const [o] of ordered) {
+    const last = runs.at(-1);
+    if (last && last.sha256 === o.sha256 && last.via === o.via) continue;
+    runs.push(o);
+  }
+  return runs;
+}
+
 export interface Copy {
+  /** A file holding exactly these bytes (sha256), wherever they are now. */
   file: string;
   sha256: string;
   bytes: number;
@@ -288,62 +495,44 @@ export interface Copy {
   via?: string;
 }
 
-/** Every copy the archive holds of each URL, oldest first: its own fetches,
- *  and Internet Archive captures of it filed under the capture's address. */
+/** Every copy the archive holds of each URL, oldest first (captureRuns): its
+ *  own fetches, and Internet Archive captures of it filed under the
+ *  capture's address. Each copy's file holds its hash's bytes (checked by
+ *  hash, not trusted from the manifest); a fetch whose bytes are nowhere is
+ *  left out. */
 export function copiesByUrl(): Map<string, Copy[]> {
   const root = sourcesRoot();
+  const entries = manifestEntries(root);
   const found = new Map<string, Copy[]>();
-  let text = "";
-  try {
-    text = fs.readFileSync(path.join(root, "manifest.jsonl"), "utf8");
-  } catch {
-    return found;
-  }
+  if (!entries.length) return found;
+  const hashes = sourceHashes(root);
   const add = (url: string, copy: Copy) => {
-    const list = found.get(url) ?? [];
-    // The same bytes filed again: keep the newer path (an older one may
-    // since hold another URL's file that shared its name).
-    const same = list.findIndex((k) => k.sha256 === copy.sha256 && k.via === copy.via);
-    if (same >= 0) list[same] = { ...copy, at: list[same].at };
-    else list.push(copy);
-    found.set(url, list);
+    const list = found.get(url);
+    if (list) list.push(copy);
+    else found.set(url, [copy]);
   };
-  for (const line of text.split("\n")) {
-    if (!line.trim()) continue;
-    const entry = JSON.parse(line) as { at: string; url: string; file: string; sha256: string; bytes: number };
-    // A path that no longer holds these bytes (another URL's file with the
-    // same name replaced it; these moved to previous/) isn't this copy.
-    const stat = fs.statSync(path.join(root, entry.file), { throwIfNoEntry: false });
-    if (!stat || stat.size !== entry.bytes) continue;
-    const copy = { file: entry.file, sha256: entry.sha256, bytes: entry.bytes, at: entry.at };
+  for (const entry of entries) {
+    const file = holding(entry, hashes);
+    if (!file) continue;
+    const copy: Copy = { file, sha256: entry.sha256, bytes: hashes.sizeOf.get(file)!, at: entry.at };
     add(entry.url, copy);
     const capture = waybackCapture(entry.url);
     if (capture) add(capture.original, { ...copy, at: capture.at, via: entry.url });
   }
-  for (const list of found.values()) list.sort((a, b) => a.at.localeCompare(b.at));
+  for (const [url, list] of found) found.set(url, captureRuns(list));
   return found;
 }
 
-/** The newest file the manifest records for each URL (by fetch time: a
- *  recovered older copy may be appended later), whatever name it was filed
- *  under; a copy since deleted is left out. */
+/** The newest copy each URL's own fetches hold (the last of copiesByUrl's
+ *  runs, ordered by fetch time: a recovered older copy may be appended
+ *  later), wherever its bytes are now; a fetch whose bytes are nowhere is
+ *  left out. */
 export function archivedByUrl(): Map<string, { file: string; sha256: string; bytes: number; at: string }> {
-  const root = sourcesRoot();
   const found = new Map<string, { file: string; sha256: string; bytes: number; at: string }>();
-  let text = "";
-  try {
-    text = fs.readFileSync(path.join(root, "manifest.jsonl"), "utf8");
-  } catch {
-    return found;
-  }
-  for (const line of text.split("\n")) {
-    if (!line.trim()) continue;
-    const entry = JSON.parse(line) as { at: string; url: string; file: string; sha256: string; bytes: number };
-    // As in copiesByUrl: a path another URL's same-named file has since taken isn't this copy.
-    const stat = fs.statSync(path.join(root, entry.file), { throwIfNoEntry: false });
-    if (!stat || stat.size !== entry.bytes) continue;
-    const prior = found.get(entry.url);
-    if (!prior || prior.at <= entry.at) found.set(entry.url, { file: entry.file, sha256: entry.sha256, bytes: entry.bytes, at: entry.at });
+  for (const [url, list] of copiesByUrl()) {
+    const own = list.filter((c) => !c.via);
+    const newest = own.at(-1);
+    if (newest) found.set(url, { file: newest.file, sha256: newest.sha256, bytes: newest.bytes, at: newest.at });
   }
   return found;
 }

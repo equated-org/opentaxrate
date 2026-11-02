@@ -7,18 +7,29 @@
  *
  * Kept by the PDF's SHA-256 in artifacts/evidence-text/<sha256>.json
  * (derived, and made again from the PDF at will) and in the evidence
- * bucket as text/<sha256>.json.
+ * bucket as text/<sha256>.json. Beside it, machine-made readings that are
+ * never evidence and never checked against (docs/data.md#evidence):
+ * <sha256>.machine.json, a scan's transcription by two models
+ * (scripts/transcribe-scans.mts), and <sha256>.formatted.json, table
+ * pages as Markdown (scripts/format-tables.mts).
  */
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { closeSync, existsSync, mkdirSync, mkdtempSync, openSync, readdirSync, readFileSync, readSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { sourcesRoot } from "./ingest/archive.js";
 
 export interface PdfText {
   sha256: string;
-  /** Each page's text, form feeds removed; empty strings for pages with no text layer. */
+  /** Each page's text, form feeds removed; empty strings for pages with no text layer.
+   *  Reading order (pdftotext without -layout): what quotes are checked against. */
   pages: string[];
+  /** The same pages as printed (pdftotext -layout): columns side by side and
+   *  tables in their columns, line-end hyphens kept. Only for reading: a
+   *  two-column page's sentences are split across its columns, so quotes are
+   *  never checked against it. As many pages as `pages`. */
+  layout: string[];
   /** No page has text: a scan, which would need OCR (never used as evidence unreviewed). */
   scanned: boolean;
   extractedWith: string;
@@ -44,13 +55,14 @@ const pdftotextVersion = () => {
 };
 
 /** The pages of a PDF's text layer, or null when the bytes aren't a PDF
- *  pdftotext can read. */
-export function pdfPages(bytes: Uint8Array): string[] | null {
+ *  pdftotext can read; with `layout`, as printed (pdftotext -layout). */
+export function pdfPages(bytes: Uint8Array, options: { layout?: boolean } = {}): string[] | null {
   if (!isPdf(bytes)) return null;
   const dir = mkdtempSync(path.join(tmpdir(), "otr-pdf-"));
   try {
     writeFileSync(path.join(dir, "doc.pdf"), bytes);
-    const out = execFileSync("pdftotext", ["-enc", "UTF-8", path.join(dir, "doc.pdf"), "-"], { maxBuffer: 256 << 20, stdio: ["ignore", "pipe", "ignore"] }).toString("utf8");
+    const args = ["-enc", "UTF-8", ...(options.layout ? ["-layout"] : []), path.join(dir, "doc.pdf"), "-"];
+    const out = execFileSync("pdftotext", args, { maxBuffer: 256 << 20, stdio: ["ignore", "pipe", "ignore"] }).toString("utf8");
     const pages = out.split("\f");
     if (pages.length > 1 && !pages.at(-1)!.trim()) pages.pop();
     return pages.map((p) => p.replace(/\s+$/, ""));
@@ -61,17 +73,54 @@ export function pdfPages(bytes: Uint8Array): string[] | null {
   }
 }
 
+/** The layout view's pages, as many as the reading-order text has (a page
+ *  pdftotext -layout leaves out is empty; never more pages than the text). */
+function layoutPages(bytes: Uint8Array, count: number): string[] {
+  const pages = pdfPages(bytes, { layout: true }) ?? [];
+  return Array.from({ length: count }, (_, i) => pages[i] ?? "");
+}
+
 /** The extracted text of the PDF with this hash (its bytes in `file`),
- *  made once and kept; null when it isn't a readable PDF. */
+ *  made once and kept; null when it isn't a readable PDF. A kept text made
+ *  before the layout view existed gets it added, from the same bytes. */
 export function pdfText(sha256: string, file: string): PdfText | null {
   const kept = path.join(textDir(), `${sha256}.json`);
-  if (existsSync(kept)) return JSON.parse(readFileSync(kept, "utf8")) as PdfText;
-  const pages = pdfPages(new Uint8Array(readFileSync(file)));
+  if (existsSync(kept)) {
+    const text = JSON.parse(readFileSync(kept, "utf8")) as PdfText;
+    if (Array.isArray(text.layout)) return text;
+    text.layout = layoutPages(new Uint8Array(readFileSync(file)), text.pages.length);
+    writeFileSync(kept, JSON.stringify(text));
+    return text;
+  }
+  const bytes = new Uint8Array(readFileSync(file));
+  const pages = pdfPages(bytes);
   if (pages === null) return null;
-  const text: PdfText = { sha256, pages, scanned: !pages.some((p) => p.trim()), extractedWith: pdftotextVersion(), extractedAt: new Date().toISOString() };
+  const text: PdfText = { sha256, pages, layout: layoutPages(bytes, pages.length), scanned: !pages.some((p) => p.trim()), extractedWith: pdftotextVersion(), extractedAt: new Date().toISOString() };
   mkdirSync(textDir(), { recursive: true });
   writeFileSync(kept, JSON.stringify(text));
   return text;
+}
+
+/** Every PDF in artifacts/sources, older copies in previous/ included, by
+ *  its SHA-256: for the scripts that read a kept text's PDF again. */
+export function pdfFilesByHash(root = sourcesRoot()): Map<string, string> {
+  const found = new Map<string, string>();
+  const head = Buffer.alloc(1024);
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.isFile() && !entry.name.endsWith(".partial")) {
+        const fd = openSync(full, "r");
+        const n = readSync(fd, head, 0, 1024, 0);
+        closeSync(fd);
+        if (!isPdf(head.subarray(0, n))) continue;
+        found.set(createHash("sha256").update(readFileSync(full)).digest("hex"), full);
+      }
+    }
+  };
+  walk(root);
+  return found;
 }
 
 /** The page (1-based) a quote starts on, a quote that runs over a page
