@@ -416,14 +416,38 @@
     "from": "2024-02-13",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Bakery items sold without utensils are exempt in Michigan, but a seller with over 75% prepared-food sales that makes utensils available is treated as providing them.",
+    "summary": "Bakery items sold without eating utensils are exempt in Michigan. A utensil (a napkin counts) packaged with the item or handed over makes it taxable; a seller with over 75% prepared-food sales also provides utensils by making them available, except on an item of 4 or more servings sold for one price, where they must be handed over; a seller at 75% or less, by a practice of handing them over or by making available utensils needed to receive the food.",
     "conditions": [
       {
-        "when": "Seller's prepared-food sales percentage over 75% and it makes eating utensils available to purchasers",
+        "when": "Any seller: the seller places an eating utensil in the package with the item, or a packager other than a food manufacturer (NAICS subsector 311) does",
         "treatment": "taxable"
       },
       {
-        "when": "Seller's prepared-food sales percentage 75% or less, and it does not package utensils with the item or have a practice of handing them over",
+        "when": "Seller's prepared-food sales percentage over 75%: it gives or hands an eating utensil (a napkin counts) to the purchaser with the item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage over 75%: it makes eating utensils available to purchasers (a napkin dispenser counts), and the item is not 4 or more servings packaged as 1 item sold for a single price",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage over 75%: the item is 4 or more servings packaged as 1 item sold for a single price (servings by its label, else the seller's reasonable count), and utensils are only made available, not given, handed or packaged with it",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage over 75%: it makes no eating utensils available, and none is given, handed or packaged with the item",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage 75% or less: its business practice is to give or hand eating utensils (a napkin counts) to purchasers, even where it didn't on this sale",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage 75% or less: it makes available eating utensils necessary to receive the item, such as plates, bowls or cups",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Seller's prepared-food sales percentage 75% or less: its business practice is not to give or hand utensils, none is packaged with the item, and any it makes available (a napkin dispenser, forks) aren't needed to receive the item",
         "treatment": "exempt"
       }
     ],
@@ -452,9 +476,74 @@
         "title": "RAB 2026-2, section 3.4",
         "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
         "quote": "The exclusion applies only when bakery items are “sold without eating utensils.”"
+      },
+      {
+        "title": "MCL 205.54g(3)(e)(i) (current), 4 or more servings",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "If a food item has 4 or more servings packaged as 1 food item sold for a single price, the seller must give or hand the eating utensil to the purchaser."
+      },
+      {
+        "title": "MCL 205.54g(3)(e)(i) (current), serving sizes",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Serving sizes must be determined based on a label on an item sold, or if no label is available, then a seller shall determine the reasonable number of servings in an item."
+      },
+      {
+        "title": "MCL 205.54g(3)(e)(ii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "For a seller with a prepared food sales percentage of 75% or less, the seller's business practice is to give or hand eating utensils to purchasers."
+      },
+      {
+        "title": "MCL 205.54g(3)(e)(ii) (current), utensils needed to receive the food",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Eating utensils necessary for the purchaser to receive the food, such as bowls and cups, need only be made available to purchasers."
+      },
+      {
+        "title": "MCL 205.54g(3)(e)(iii) (current)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "If the packager has any other NAICS classification code, the seller is considered to have provided the eating utensil."
+      },
+      {
+        "title": "MCL 205.54g(3)(f)(iii) (current), napkins are utensils",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-54g",
+        "quote": "Food sold with eating utensils provided by the seller, including, but not limited to, knives, forks, spoons, glasses, cups, napkins, straws, or plates, but not including a container or packaging used to transport the food."
+      },
+      {
+        "title": "RAB 2026-2, section 2.3.3.1",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "when a seller packages a utensil with a food item, the utensil has been “provided by the seller.”"
+      },
+      {
+        "title": "RAB 2026-2, section 2.3.3.2",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "A practical effect of a standard based on a “seller’s business practice” is that food items can become prepared food even if the seller does not, in fact, give or hand a utensil to a purchaser"
+      },
+      {
+        "title": "RAB 2026-2, Example 29 (75% or less, napkin dispenser)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The store has a napkin dispenser at the point of sale. The napkins are “eating utensils,” but they are not “provided by the seller.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 35 (over 75%, napkin dispenser)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "At one end of the bar is a table bearing a napkin dispenser. The napkins are “made available to purchasers” and thus “provided by the seller.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 42 (over 75%, 4 servings, napkins only available)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The napkins are “eating utensils,” but for the purposes of sales of 4-serving bags of potato chips, the napkins are not “provided by the seller”; therefore, the 4-serving bags of potato chips are not subject to tax as “prepared food.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 43 (over 75%, 4 servings, napkins handed over)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "The stand’s employees give or hand napkins to purchasers of 4-serving bags of potato chips. The napkins are “provided by the seller”; therefore, the 4-serving bags of potato chips are subject to tax as “prepared food.”"
+      },
+      {
+        "title": "RAB 2026-2, Example 58",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2026-revenue-administrative-bulletins/revenue-administrative-bulletin-2026-2",
+        "quote": "A grocery store sells doughnuts without eating utensils. The doughnuts are “bakery items.” The doughnuts are not subject to tax as “prepared food.”"
       }
     ],
-    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. A box of 4 or more servings sold for one price needs the utensil handed over even by an over-75% seller (MCL 205.54g(3)(e)(i))."
+    "notes": "Michigan taxes 'prepared food intended for immediate consumption' (= prepared food: heated, mixed or combined by the seller, or sold with eating utensils the seller provides) and exempts other food. When utensils count as 'provided' changed twice: Treasury Rule 86 (R 205.136) deemed utensils provided by a seller with over 75% prepared-food sales that merely made them available; Emagine (334 Mich App 658, Nov. 19, 2020 per RAB 2026-2) struck that test; 2023 PA 141/142, effective 2024-02-13, put a 'makes available' standard for over-75% sellers into the statute. 2014-03-14 is the effective date of the definitions as amended by 2013 PA 211/2015 PA 171 (retroactive); earlier history not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer. 2026-11-02: the conditions list every case MCL 205.54g(3)(e) and RAB 2026-2 sections 2.3.3 and 3.4 state, after user reviewers found the four-or-more-servings exception and the over-75% seller that makes no utensils available missing: a utensil packaged with the item (by the seller, or a packager that is not a NAICS 311 manufacturer); over 75%, a utensil handed over, utensils made available (not for an item of 4 or more servings sold for one price, which needs one handed over), or none available; 75% or less, a practice of handing utensils over, utensils needed to receive the food made available, or neither. Napkins are utensils (§ 205.54g(3)(f)(iii); RAB Examples 29, 35, 42, 43). The bottled water, candy and soft drink carve-out of (3)(e)(i) doesn't reach bakery items."
   },
   {
     "tax": "MI",

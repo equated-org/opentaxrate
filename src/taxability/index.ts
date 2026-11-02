@@ -29,7 +29,7 @@
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
-import { ruleOn, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
+import { ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
 export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
 export { loadRules, ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
@@ -61,15 +61,23 @@ export interface Taxability {
   rate: number | null;
   taxes: TaxGroup[];
   /** On a conditional answer, each case the rules list with the sale's
-   *  combined rate in it (every combination, where more than one tax turns
-   *  on a fact), and the narrower code that is that case, where one is. */
+   *  combined rate in it, and the narrower code that is that case, where
+   *  one is. Where several taxes turn on facts, their cases are combined
+   *  only where they describe the same case (outcomesOf); else each case
+   *  is listed for its own tax, and `independent` is set. */
   outcomes?: Outcome[];
+  /** The undecided taxes turn on their facts independently: each outcome
+   *  is one tax's case (its `tax`), at that case's rate for its tax plus
+   *  the settled taxes; combine one case per tax. */
+  independent?: true;
 }
 
 export interface Outcome {
   when: string;
   rate: number;
   code?: string;
+  /** On an independent answer: the tax this case is for. */
+  tax?: string;
 }
 
 /** At most this many combinations are listed; past it, none are. */
@@ -140,8 +148,8 @@ function withNarrower(rules: RuleSet, taxes: string[], tax: string, code: TaxCod
 }
 
 /** Two rules don't settle a code the same way. */
-const differs = (a: Pick<Rule, "treatment" | "rate" | "follows">, b: Pick<Rule, "treatment" | "rate" | "follows">) =>
-  a.treatment !== b.treatment || a.rate !== b.rate || a.follows !== b.follows || a.treatment === "conditional";
+const differs = (a: Pick<Rule, "treatment" | "rate" | "base" | "follows">, b: Pick<Rule, "treatment" | "rate" | "base" | "follows">) =>
+  a.treatment !== b.treatment || a.rate !== b.rate || a.base !== b.base || a.follows !== b.follows || a.treatment === "conditional";
 
 const kind = (c: TaxCode) => `${c}: ${TAX_CODES[c].replace(/\.$/, "")}`;
 
@@ -180,7 +188,7 @@ function conditionsOf(label: string, r: Rule, code?: TaxCode): Rule["conditions"
   const send = code ? { code } : {};
   if (r.treatment === "conditional") return r.conditions.map((c) => ({ ...c, when: `${label}: ${c.when}`, ...send }));
   return [
-    { when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...send },
+    { when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send },
     ...r.conditions.filter((c) => differs(c, r)).map((c) => ({ ...c, when: `${label}, except ${c.when.charAt(0).toLowerCase()}${c.when.slice(1)}`, ...send })),
   ];
 }
@@ -198,8 +206,8 @@ function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string):
     found.push(settled);
   }
   const first = found[0];
-  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate))
-    return { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) };
+  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.base === first.base))
+    return { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) };
   return dependsOn(tax, code, found.map((r, i): Kind => [kind(subs[i]), r, subs[i]]));
 }
 
@@ -224,11 +232,17 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
   return null;
 }
 
-/** What one part adds to the sale's rate under `treatment`. A special-rate
- *  rule's rate is the rate of every part it decides together (Utah's 1.25%
- *  for all its local taxes on food), so only the first of them adds it. */
-const partRate = (treatment: PartTreatment, part: RatePart, rule: Rule | null, first = true): number | null =>
-  treatment === "taxable" ? part.rate : treatment === "special_rate" ? (first ? (rule?.rate ?? null) : 0) : treatment === "conditional" ? null : 0;
+/** What one part adds to the sale's rate under `treatment`, on the whole
+ *  charge: where the rule taxes only a share of it (`base`), the rate times
+ *  that share. A special-rate rule's rate is the rate of every part it
+ *  decides together (Utah's 1.25% for all its local taxes on food), so only
+ *  the first of them adds it. */
+const partRate = (treatment: PartTreatment, part: RatePart, rule: Rule | null, first = true): number | null => {
+  const base = rule?.base ?? 1;
+  if (treatment === "taxable") return part.rate * base;
+  if (treatment === "special_rate") return first ? (rule?.rate !== undefined ? rule.rate * base : null) : 0;
+  return treatment === "conditional" ? null : 0;
+};
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -276,34 +290,97 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
         : rate === general
           ? "taxable"
           : "partial";
-  const outcomes = treatment === "conditional" ? outcomesOf(taxes, answer.parts) : undefined;
-  return { treatment, rate, taxes, ...(outcomes?.length ? { outcomes } : {}) };
+  const cases = treatment === "conditional" ? outcomesOf(taxes, answer.parts) : undefined;
+  return { treatment, rate, taxes, ...(cases?.outcomes.length ? { outcomes: cases.outcomes, ...(cases.independent ? { independent: true as const } : {}) } : {}) };
 }
 
 /** A conditional answer's cases, each with the sale's combined rate: the
  *  settled taxes' rates plus, for each undecided tax, one of its
  *  conditions at that tax's parts' rate (a condition's own rate when it
- *  sets one, counted once; nothing when exempt or zero-rated). */
-function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): Outcome[] {
-  const fixed = round(taxes.reduce((sum, t) => sum + (t.rate ?? 0), 0));
+ *  sets one, counted once; nothing when exempt or zero-rated; times its
+ *  base where only a share of the charge is taxed).
+ *
+ *  Where several taxes are undecided, their conditions are combined only
+ *  where they describe the same case (sameCase): never a state's "whole
+ *  uncooked pizza" with a local "taxable meal". When every condition of
+ *  every undecided tax pairs that way, each outcome is one such case.
+ *  Otherwise the taxes turn on their facts independently, and each
+ *  condition is its own outcome, for its tax, with the settled taxes. */
+function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): { outcomes: Outcome[]; independent?: true } {
+  const none = { outcomes: [] };
+  const fixed = taxes.reduce((sum, t) => sum + (t.rate ?? 0), 0);
   const full = (t: TaxGroup) => t.parts.reduce((sum, code) => sum + (parts.find((p) => p.code === code)?.rate ?? 0), 0);
-  const open = taxes.filter((t) => t.treatment === "conditional");
-  let cases: Array<{ when: string[]; rate: number; codes: Set<string | undefined> }> = [{ when: [], rate: fixed, codes: new Set() }];
-  for (const t of open) {
-    const conditions = t.rule?.conditions ?? [];
-    if (!conditions.length || cases.length * conditions.length > MOST_OUTCOMES) return [];
-    cases = cases.flatMap((c) =>
-      conditions.map((k) => {
-        const add = k.treatment === "taxable" ? full(t) : k.treatment === "special_rate" ? (k.rate ?? NaN) : 0;
-        return { when: [...c.when, open.length > 1 ? `${t.tax}: ${k.when}` : k.when], rate: c.rate + add, codes: new Set([...c.codes, k.code]) };
-      }),
-    );
+  const share = (t: TaxGroup, k: Condition) =>
+    (k.treatment === "taxable" ? full(t) : k.treatment === "special_rate" ? (k.rate ?? NaN) : 0) * (k.base ?? 1);
+  const open = taxes.filter((t) => t.treatment === "conditional").map((t) => ({ tax: t, conditions: t.rule?.conditions ?? [] }));
+  if (open.some((o) => !o.conditions.length)) return none;
+  const done = (outcomes: Outcome[], independent?: true) =>
+    outcomes.length > MOST_OUTCOMES || outcomes.some((o) => Number.isNaN(o.rate)) ? none : { outcomes: outcomes.map((o) => ({ ...o, rate: round(o.rate) })), ...(independent ? { independent } : {}) };
+  const paired = pairedCases(open.map((o) => o.conditions));
+  if (paired)
+    return done(paired.map((picked) => {
+      const codes = new Set(picked.map((k) => k.code));
+      const [only] = codes;
+      return {
+        when: whenOf(picked, open.map((o) => o.tax.tax)),
+        rate: fixed + picked.reduce((sum, k, i) => sum + share(open[i].tax, k), 0),
+        ...(codes.size === 1 && only ? { code: only } : {}),
+      };
+    }));
+  return done(
+    open.flatMap(({ tax, conditions }) =>
+      conditions.map((k) => ({ when: `${tax.tax}: ${k.when}`, rate: fixed + share(tax, k), ...(k.code ? { code: k.code } : {}), tax: tax.tax })),
+    ),
+    true,
+  );
+}
+
+const normal = (when: string) => when.toLowerCase().replace(/[^a-z0-9%]+/g, " ").trim();
+
+/** `narrow` is `broad` with a further fact after a semicolon: "A taxable
+ *  meal ...; in a town that levies the 1% local option meals tax" is a
+ *  case of "A taxable meal ...". */
+const refines = (narrow: string, broad: string) => {
+  const pieces = narrow.split(";");
+  return pieces.slice(1).some((_, i) => normal(pieces.slice(0, i + 1).join(";")) === normal(broad));
+};
+
+/** Two taxes' conditions say the same case in the same words (normalized),
+ *  or one says it with a further fact. */
+const sameWords = (a: Condition, b: Condition) => normal(a.when) === normal(b.when) || refines(a.when, b.when) || refines(b.when, a.when);
+
+/** Each tax's conditions combined case by case, where every condition of
+ *  each tax pairs with the cases built so far: in the same words, else (no
+ *  condition of that tax in the same words) the same narrower code. Null
+ *  where some condition pairs with none, or some case with no condition of
+ *  a tax: then the taxes are independent. */
+function pairedCases(lists: Condition[][]): Condition[][] | null {
+  let cases: Condition[][] = lists[0].map((k) => [k]);
+  for (const list of lists.slice(1)) {
+    const next: Condition[][] = [];
+    const used = new Set<Condition>();
+    for (const c of cases) {
+      let found = list.filter((k) => c.every((p) => sameWords(p, k) && (!p.code || !k.code || p.code === k.code)));
+      if (!found.length) found = list.filter((k) => k.code && c.every((p) => p.code === k.code));
+      if (!found.length) return null;
+      for (const k of found) {
+        used.add(k);
+        next.push([...c, k]);
+      }
+    }
+    if (used.size < list.length) return null;
+    cases = next;
   }
-  if (cases.some((c) => Number.isNaN(c.rate))) return [];
-  return cases.map((c) => {
-    const [only] = c.codes;
-    return { when: c.when.join("; and "), rate: round(c.rate), ...(c.codes.size === 1 && only ? { code: only } : {}) };
-  });
+  return cases;
+}
+
+/** A paired case's words: its one wording, or the most specific where one
+ *  refines the others; else each tax's, joined. */
+function whenOf(picked: Condition[], taxNames: string[]): string {
+  if (picked.length === 1) return picked[0].when;
+  const longest = [...picked].sort((a, b) => b.when.length - a.when.length)[0];
+  if (picked.every((k) => k === longest || normal(k.when) === normal(longest.when) || refines(longest.when, k.when))) return longest.when;
+  return picked.map((k, i) => `${taxNames[i]}: ${k.when}`).join("; and ");
 }
 
 /** One entry per code asked. */

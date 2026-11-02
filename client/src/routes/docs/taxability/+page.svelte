@@ -125,7 +125,7 @@
 	<thead><tr><th>Treatment</th><th>Meaning</th><th><code>rate</code></th></tr></thead>
 	<tbody>
 		<tr><td><code>taxable</code></td><td>Every part at its rate.</td><td>The combined rate</td></tr>
-		<tr><td><code>partial</code></td><td>Some parts, or a reduced rate: a restaurant meal in British Columbia pays GST but not PST.</td><td>The sum of the taxing parts</td></tr>
+		<tr><td><code>partial</code></td><td>Some parts, a reduced rate, or a share of the charge: a restaurant meal in British Columbia pays GST but not PST; Texas taxes 80% of a SaaS charge.</td><td>The sum of the taxing parts</td></tr>
 		<tr><td><code>not_taxed</code></td><td>No part taxes it.</td><td><code>0</code></td></tr>
 		<tr><td><code>conditional</code></td><td>The outcome turns on facts the code doesn't fix, listed in the rules' <code>conditions</code>.</td><td><code>null</code></td></tr>
 		<tr><td><code>not_researched</code></td><td>A part has no researched rule for this code on this date.</td><td><code>null</code></td></tr>
@@ -141,15 +141,52 @@
 
 <h2 id="reading">Reading a conditional answer</h2>
 <p>
-	When <code>rate</code> is a number, charge it. When it's <code>null</code> and the treatment is <code>conditional</code>, show the
-	rules' <code>conditions</code> and let a person pick the one that applies; each names its own <code>treatment</code> and, where a
-	part's rate is reduced, its <code>rate</code>. When it's <code>null</code> and <code>not_researched</code>, send the sale to
-	another engine or a person. Never use the general rate in its place.
+	When <code>rate</code> is a number, charge it, unless the rule's <code>conditions</code> list an exception that fits your sale
+	(Kentucky taxes SaaS and interior design at 6%, except under a grandfathered lump-sum or fixed-price contract executed on or
+	before February 25, 2022). A settled rule's conditions are its exceptions; read them once for each kind of sale you make. When <code>rate</code>
+	is <code>null</code> and the treatment is <code>conditional</code>, pick the case in <code>outcomes</code> that fits the sale and
+	charge its <code>rate</code>, or show the rules' <code>conditions</code> and let a person pick; each names its own
+	<code>treatment</code> and, where a part's rate is reduced, its <code>rate</code>. When it's <code>null</code> and
+	<code>not_researched</code>, send the sale to another engine or a person. Never use the general rate in its place.
+</p>
+<p>
+	A narrower code settles only the facts the codes carry (hot or cold, legal or IT). Facts about the seller or the sale, such
+	as whether a Michigan seller hands over napkins or how many servings are in the box, stay conditional whatever code you send.
 </p>
 <pre><code>{CONDITIONAL}</code></pre>
 <p>
 	A sandwich to go in Los Angeles is conditional: hot, it's taxed; cold, it isn't, unless the seller falls under California's 80-80
 	rule. The code can't say which, so the answer lists each case (shortened above; the API returns each condition in full).
+</p>
+
+<h3 id="outcomes">Outcomes</h3>
+<p>
+	A conditional answer carries <code>outcomes</code>: each case with the sale's combined <code>rate</code> in it, and the narrower
+	<code>code</code> where a case is one (send it instead to get the answer settled). Where only one tax is undecided, each
+	outcome is one of its conditions plus the taxes that are settled.
+</p>
+<p>
+	Where several taxes are undecided (a state and its local tax, or GST and PST), their cases are combined only where they describe
+	the same sale: the two rules state the case in the same words (one may add a further fact, after a semicolon), or the cases are
+	the same narrower code. Take-and-bake pizza in Montpelier, Vermont has four outcomes: a whole uncooked pizza (0%), other
+	prepackaged food to cook (0%), and a taxable meal in a town with or without the local meals tax (10% or 9%). A whole pizza is
+	never paired with a taxable meal.
+</p>
+<p>
+	Where the taxes' cases don't pair up, the answer has <code>independent: true</code>: the taxes turn on their facts
+	independently, so combine one case per tax. Each outcome is then one tax's case, named in its <code>tax</code> and prefixed to
+	its <code>when</code> (<code>"BC:PST: ..."</code>), with that case's rate for its tax plus the settled taxes'. The sale's rate is
+	the settled taxes' rate plus, for each undecided tax, its chosen case's rate less the settled taxes'. Where no tax is settled,
+	add the chosen cases' rates.
+</p>
+
+<h3 id="base">A share of the charge</h3>
+<p>
+	Some laws tax only part of a charge. Texas taxes 80% of a data processing or information service charge, SaaS included, so
+	at 8.25% the tax is 6.6% of the full price. Such a rule, or one of its conditions, carries <code>base</code>: the share taxed
+	(<code>0.8</code>). The answer's <code>rate</code>, the parts' <code>rate</code> and every outcome already apply it, on the
+	whole charge: charge <code>rate</code> on the full price and don't reduce the amount as well. An answer taxed on a share is
+	<code>partial</code>.
 </p>
 
 <style>

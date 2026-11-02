@@ -379,6 +379,102 @@ export const quoteOnPage = (text: string, quote: string) => {
   return bare.length > 0 && unhyphenated(page).includes(bare);
 };
 
+/** A text as `loose` makes it, with, for each of its characters, where in
+ *  the original it came from ([from, to) in UTF-16 units). */
+interface Mapped {
+  text: string;
+  from: Int32Array;
+  to: Int32Array;
+}
+
+const SPACE = /\s/;
+const isSpace = (c: string) => (c <= " " ? c === " " || (c >= "\t" && c <= "\r") : c > "~" && SPACE.test(c));
+
+/** `loose`, step by step, keeping each character's place: lower case
+ *  (character by character), curly quotes and dashes straightened,
+ *  whitespace runs one space, the space before closing punctuation and after
+ *  an opening bracket dropped (one match at a time, as a global replace
+ *  goes), and trimmed. looseMapped(s).text === loose(s) (tested). */
+function looseMapped(s: string): Mapped {
+  let chars: string[] = [], from: number[] = [], to: number[] = [];
+  for (let i = 0; i < s.length; ) {
+    const c = s[i];
+    if (isSpace(c)) {
+      let j = i + 1;
+      while (j < s.length && isSpace(s[j])) j++;
+      chars.push(" "), from.push(i), to.push(j);
+      i = j;
+      continue;
+    }
+    const cp = s.codePointAt(i)!;
+    const width = cp > 0xffff ? 2 : 1;
+    const low = c >= "a" && c <= "z" ? c : String.fromCodePoint(cp).toLowerCase();
+    // One entry per UTF-16 unit, so an entry's index is its place in `text`.
+    for (let k = 0; k < low.length; k++) {
+      const l = low[k];
+      chars.push(l === "‘" || l === "’" ? "'" : l === "“" || l === "”" ? '"' : l === "–" || l === "—" ? "-" : l);
+      from.push(i), to.push(i + width);
+    }
+    i += width;
+  }
+  // drop(i) says whether character i goes; a character dropped or kept as
+  // part of a match isn't looked at again.
+  const pass = (match: (i: number) => "first" | "second" | null) => {
+    const c2: string[] = [], f2: number[] = [], t2: number[] = [];
+    for (let i = 0; i < chars.length; i++) {
+      const m = match(i);
+      if (m === "first") i++;
+      if (m === null || m === "first") c2.push(chars[i]), f2.push(from[i]), t2.push(to[i]);
+      else c2.push(chars[i]), f2.push(from[i]), t2.push(to[i]), i++;
+    }
+    chars = c2, from = f2, to = t2;
+  };
+  pass((i) => (chars[i] === " " && i + 1 < chars.length && ",.;:)]".includes(chars[i + 1]) ? "first" : null));
+  pass((i) => ((chars[i] === "(" || chars[i] === "[") && chars[i + 1] === " " ? "second" : null));
+  let a = 0, b = chars.length;
+  while (a < b && chars[a] === " ") a++;
+  while (b > a && chars[b - 1] === " ") b--;
+  return { text: chars.slice(a, b).join(""), from: Int32Array.from(from.slice(a, b)), to: Int32Array.from(to.slice(a, b)) };
+}
+
+/** `unhyphenated`, keeping each character's place. */
+function unhyphenatedMapped(m: Mapped): Mapped {
+  const chars: string[] = [], from: number[] = [], to: number[] = [];
+  for (let i = 0; i < m.text.length; i++) {
+    const c = m.text[i];
+    if (c === "-" || (c === " " && chars.at(-1) === " ")) continue;
+    chars.push(c), from.push(m.from[i]), to.push(m.to[i]);
+  }
+  return { text: chars.join(""), from: Int32Array.from(from), to: Int32Array.from(to) };
+}
+
+/** Finds quotes in one text, as quoteSpan does, reading the text once. */
+export function quoteFinder(text: string): (quote: string) => [number, number] | null {
+  const page = looseMapped(text);
+  let hyphenless: Mapped | undefined;
+  return (quote) => {
+    const wanted = loose(quote);
+    if (!wanted) return null;
+    const at = page.text.indexOf(wanted);
+    if (at >= 0) return [page.from[at], page.to[at + wanted.length - 1]];
+    const bare = unhyphenated(wanted).trim();
+    if (!bare) return null;
+    hyphenless ??= unhyphenatedMapped(page);
+    const there = hyphenless.text.indexOf(bare);
+    return there >= 0 ? [hyphenless.from[there], hyphenless.to[there + bare.length - 1]] : null;
+  };
+}
+
+/** Where `quote` is in `text`: [start, end) in the original text, for the
+ *  same match quoteOnPage accepts (its first place; the hyphenless one only
+ *  when the quote isn't there with its hyphens), or null when quoteOnPage
+ *  wouldn't find it. The span runs from the quote's first character to its
+ *  last, so text.slice(start, end) is the sentence as the page prints it. */
+export const quoteSpan = (text: string, quote: string) => quoteFinder(text)(quote);
+
+/** loose(), exposed for the test that it and looseMapped agree. */
+export const looseForTest = (s: string) => ({ loose: loose(s), mapped: looseMapped(s).text });
+
 /** A host that answered with a challenge, not the page. */
 export const challenged = (text: string) => /just a moment\.\.\.|cf-chl|enable javascript and cookies to continue|access denied/i.test(text.slice(0, 4000));
 

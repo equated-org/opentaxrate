@@ -92,8 +92,10 @@ and each case's quote is on one of its source's copies, no cited page rests
 only on a known-bad capture, every manifest entry's bytes are on disk with
 their hash and size, every file on disk is in the manifest, and every POSTed
 answer is keyed by its whole request; every PDF has its text extracted and each quote cited on a
-PDF is on one of its pages; and no quote rests on a scan a person hasn't read
-(see [below](#pdfs-the-evidence-and-the-views-beside-it)). `--public` also checks each copy is on
+PDF is on one of its pages; no quote rests on a scan a person hasn't read
+(see [below](#pdfs-the-evidence-and-the-views-beside-it)); and every citation's quote has a mark on
+the copy its link opens, covering text that has the quote (check 14, see
+[below](#text-views-and-marks-where-each-link-opens)). `--public` also checks each copy is on
 evidence.opentaxrate.com. It exits 1 on any failure (the monthly gates run it).
 
 `npx tsx src/cli.ts evidence` mirrors every file in `artifacts/sources/` (older
@@ -107,6 +109,72 @@ out; made on request, never stored), the raw bytes, every capture of a URL
 (`/url?u=`), and the capture in force on a day (`/<YYYYMMDD>/<url>`). Deploy
 it from `evidence/` with `wrangler deploy`.
 
+#### Text views and marks: where each link opens
+
+Every citation link opens the archived copy at its quote, highlighted:
+`https://evidence.opentaxrate.com/sha256/<hash>?view=text#q-<id>`, where
+`<id>` is the first 10 hex characters of the SHA-256 of the quote as the
+rule cites it. The place is found when the archive is uploaded, not by the
+browser: a browser text fragment (`#:~:text=`) fails when a quote crosses
+an element or paragraph boundary or its punctuation differs from the page's,
+and then it lands on whatever else matches.
+
+- **Text views.** Every HTML, PDF and Word copy has a text view: the text the
+  quote checks read (`pageText` for a web page, the text layer for a PDF, the
+  Word reader for a `.doc`), never rewritten. A text file or an API's JSON
+  answer gets one too when a rule quotes it. Each text is kept in
+  `artifacts/evidence-text/<sha256>.json`: a PDF's as described below, a web
+  page's as `kind: "html"` with one page (`kind: "text"` for a text file).
+  A web page's text is made again from its bytes on every run, so a change to
+  the reader never leaves a stale text. A PDF's and a Word document's text
+  view is their default; a web page keeps its readable view as the default,
+  with **Text** beside it.
+- **Marks.** Each text record has `marks: [{ id, quote, page, start, end }]`,
+  one for every quote cited on any URL this copy is a capture of. `quoteSpan`
+  (`src/taxability/fetch.ts`) finds the same match `quoteOnPage` accepts, with
+  the same normalization and hyphen fallback, and maps it back to offsets in
+  the original text. A quote that runs over a PDF page break ends past its
+  page (`end` counts on into the next page). Marks are cached by the set of
+  quotes (`marksFor`) and made again when it changes. The Worker draws each
+  as one `<mark id="q-…">`; a paragraph break inside one becomes a line break
+  inside it, so the anchor and highlight are never split. Overlapping quotes
+  are drawn as one highlight, with the later quote's anchor inside it.
+- **Links.** `ingest --kind taxability` pins each citation to the newest copy
+  whose text has the quote (`pinnedCopy`) and sets `archived` to that copy's
+  mark. A text fragment is kept only as a fallback, for a copy with no text
+  view that holds the quote. The capture's own "Cited by" header links each
+  quote to the same anchors, and draws the quote with CSS (`::before`, the
+  link named by `aria-label`), so neither a text search nor a text fragment
+  can land on the header. The archive's fonts load with `display=optional`,
+  so a late font never moves the page after the browser has scrolled to a
+  mark.
+- **Crops (web pages).** A web page's text view shows only its main content
+  when two models agree where it is: `google/gemini-3.1-flash-lite` and
+  `google/gemini-2.5-flash-lite` each see the page's text with numbered lines
+  and answer only `{"first": n, "last": m}`. The view keeps the lines from the
+  earlier first to the later last, so a model that cuts a page short is
+  outvoted. No word comes from a model. The crop is stored in the text record
+  as `crop: { firstLine, lastLine, model, cost, at, answers }`. The Worker
+  shows it only when every mark lies inside, and labels it "Site navigation
+  trimmed by … nothing reworded"; `?view=text&full=1` shows the whole text.
+  Answers that don't overlap crop nothing, and pages over 3,000 lines aren't
+  asked about. Cached by the page's hash. In November 2026, 607 cited pages
+  were asked about for $1.19 in all, and 594 show a crop. The models picked
+  site chrome at the top reliably, but a single cheap model sometimes cut a
+  long page or table short, which is why there are two.
+
+`npx tsx src/cli.ts evidence` brings texts and marks up to date
+(`updateEvidenceTexts`, `src/evidence-text.ts`) and uploads every text whose
+bytes changed. With `OPENROUTER_API_KEY` set it also crops new cited pages,
+up to `OPENTAXRATE_CROP_BUDGET` dollars (default 1); without the key it
+skips cropping silently. To crop on its own (the key is read from the
+environment, never from a file):
+
+```bash
+npx tsx scripts/crop-pages.mts --dry-run       # what's left and its worst-case cost
+npx tsx scripts/crop-pages.mts --budget 3      # ask about every cited page not yet answered
+```
+
 #### PDFs: the evidence, and the views beside it
 
 The PDF's bytes are the evidence. A quote is checked against the PDF's own
@@ -118,7 +186,7 @@ same page. A PDF page can show up to three views (`?view=`), all with the same
 
 | View | What it is | Made by | Evidence? |
 | --- | --- | --- | --- |
-| Text (default) | The text layer in reading order, page by page | `pdftotext`, kept in `artifacts/evidence-text/<sha256>.json` (`pages`) | It's what quotes are checked against; citations link here |
+| Text (default) | The text layer in reading order, page by page, every cited quote marked | `pdftotext`, kept in `artifacts/evidence-text/<sha256>.json` (`pages`, `marks`) | It's what quotes are checked against; citations link to their marks here |
 | Layout (columns and tables as printed) | The same text laid out as printed, in monospace and scrolling sideways: tables keep their columns and line-end hyphens stay | `pdftotext -layout`, the same file's `layout` field | No. A two-column page splits each sentence across its columns, so quotes are never checked against it |
 | Formatted (machine, unverified) | Table-heavy pages as Markdown tables, only on pages that have one | A model (`scripts/format-tables.mts`), `<sha256>.formatted.json` | No. Machine-made and not reviewed; citations never link to it |
 
@@ -131,7 +199,10 @@ A scan has no text layer (`scanned: true`). If a scan has been transcribed, its
 page shows the **machine transcription**
 (`<sha256>.machine.json`) instead, under the label "Machine transcription by
 … not reviewed — check against the PDF; quotes are never checked against
-it". Two models read every page:
+it". A PDF with text of its own can have image-only pages: those pages
+are transcribed alone (the other pages are `null` in `.machine.json`), and
+the text and layout views show each one's transcription under "Scanned page:
+machine transcription by … not reviewed". Two models read every page:
 `google/gemini-3.1-flash-lite` gives the text, and `google/gemini-2.5-flash-lite`
 gives a second reading. Every place where they disagree is highlighted, with
 both readings. In tests, each model alone made silent errors that changed the
@@ -141,16 +212,24 @@ must be read off the scan by a person and listed in
 `src/taxability/rules/read-off-scans.json` (`[{ "url", "quote", "by", "on" }]`).
 Otherwise `check-evidence` fails (check 11). No quote rests on a scan today.
 
+A typed PDF can have scanned pages too: a page with no text but an image (a
+signed letter, a form). Those pages are transcribed the same way. In their
+`.machine.json`, a page that has its own text layer is `null`, and the text
+view shows the transcription, labelled the same way, only on the scanned
+pages. The PDF is always kept, and every view links to it.
+
 The machine files are derived and cached by the PDF's hash. Each says
 `reviewed: false`, the model(s), when it was made and what it cost. `npx tsx
 src/cli.ts evidence` uploads them beside the text as `text/<sha256>.json`,
 `.machine.json` and `.formatted.json`. It sends a text again when its bytes
-have changed, which happened when the layout view was added. To make them
+have changed, which happened when the layout view was added. The monthly
+backup (`pnpm rates backup`, run by `publish`) makes them for new PDFs
+whenever the key is in its environment. To make them by hand
 (the key is read from the environment, never from a file):
 
 ```bash
 export OPENROUTER_API_KEY=…                                    # e.g. from your secret manager
-npx tsx scripts/transcribe-scans.mts --budget 2                # every scan not yet transcribed
+npx tsx scripts/transcribe-scans.mts --budget 2                # every scanned page not yet transcribed
 npx tsx scripts/format-tables.mts --budget 8 [--limit N]       # table pages not yet tried, cited PDFs first
 ```
 

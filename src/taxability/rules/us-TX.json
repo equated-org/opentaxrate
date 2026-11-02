@@ -683,7 +683,8 @@
     "conditions": [
       {
         "when": "Payroll processing, accounts payable/receivable processing or other entering and manipulating of the client's data (data processing; 80% of the charge taxed)",
-        "treatment": "taxable"
+        "treatment": "taxable",
+        "base": 0.8
       }
     ],
     "citations": [
@@ -716,9 +717,14 @@
         "title": "Pub. 96-259, Taxable Services (01/2026)",
         "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
         "quote": "Similarly, a bookkeeper or accountant is not performing taxable data processing services when applying knowledge of accounting principles to produce financial reports such as income statements, balance sheets, or profit or loss statements, or to prepare federal income tax, state franchise or sales tax returns, even if such work is performed on a computer."
+      },
+      {
+        "title": "Tex. Tax Code §151.351",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "There is exempted from the taxes imposed by this chapter 20 percent of the value of information services and data processing services."
       }
     ],
-    "notes": "Pub. 94-127 lists accounts payable, accounts receivable billing and payroll preparation (W-2s, payroll checks) among taxable data processing services (taxed on 80% of the charge, §151.351). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+    "notes": "Pub. 94-127 lists accounts payable, accounts receivable billing and payroll preparation (W-2s, payroll checks) among taxable data processing services (taxed on 80% of the charge, §151.351). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike. 2026-11-02: the data processing case carries base 0.8, so its rate is on the whole charge (6.6% where the general rate is 8.25%)."
   },
   {
     "tax": "TX",
@@ -873,7 +879,8 @@
     "conditions": [
       {
         "when": "Data processing: hosting, data storage or backup, website creation or maintenance, entering, retrieving or manipulating the client's data (taxed on 80% of the charge)",
-        "treatment": "taxable"
+        "treatment": "taxable",
+        "base": 0.8
       },
       {
         "when": "Repair, maintenance or restoration of computer hardware",
@@ -911,7 +918,7 @@
         "quote": "(5) the repair, remodeling, maintenance, and restoration of tangible personal property, except:"
       }
     ],
-    "notes": "Help-desk or network support that reviews computer data to investigate criminal or civil matters is a taxable security service (Pub. 96-259). IT training is not among the listed taxable services; no page addressing it directly was read. For data processing the engine applies the full rate unless the caller sends 80% of the charge. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+    "notes": "Help-desk or network support that reviews computer data to investigate criminal or civil matters is a taxable security service (Pub. 96-259). IT training is not among the listed taxable services; no page addressing it directly was read. The data processing case carries base 0.8: its rate is on the whole charge, 80% of the general rate (§151.351). Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
   },
   {
     "tax": "TX",
@@ -1041,6 +1048,7 @@
     "from": "2018-01-01",
     "fromIs": "earliest_verified",
     "treatment": "taxable",
+    "base": 0.8,
     "summary": "Software as a service is a taxable data processing service in Texas, but only 80% of the charge is taxed: 20% of the value of data processing services is exempt.",
     "conditions": [],
     "citations": [
@@ -1070,6 +1078,6 @@
         "quote": "Collect state sales tax, plus any city, county, transit tax or special purpose district tax on only 80 percent of the amount you bill for your information service."
       }
     ],
-    "notes": "The engine applies the full rate to the whole charge unless the caller reduces the base: send 80% of the SaaS price as the amount to get the Texas tax right. The 20% exemption (§151.351, since 1999-10-01) applies to state and local tax alike (Pub. 94-109 says so for information services, which share §151.351). 2018-01-01 is only where this file starts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+    "notes": "base 0.8: the answer's rate is on the whole charge, 80% of the general rate (6.6% where it is 8.25%); charge it on the full SaaS price. The 20% exemption (§151.351, since 1999-10-01) applies to state and local tax alike (Pub. 94-109 says so for information services, which share §151.351). 2018-01-01 is only where this file starts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
   }
 ]

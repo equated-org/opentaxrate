@@ -168,8 +168,10 @@ async function main() {
     case "evidence": {
       // The public evidence archive (src/evidence.ts): every source copy to R2, and its catalog.
       const { uploadEvidence } = await import("./evidence.js");
-      const { uploaded, kept, bytes, texts } = await uploadEvidence();
-      console.log(`Evidence: ${uploaded} copies uploaded (${(bytes / 1e6).toFixed(1)} MB), ${kept} already there; ${texts} PDF texts extracted; catalog updated.`);
+      const { uploaded, kept, bytes, texts, marks, crops } = await uploadEvidence();
+      console.log(`Evidence: ${uploaded} copies uploaded (${(bytes / 1e6).toFixed(1)} MB), ${kept} already there; ${texts} texts sent (${marks} quotes marked); catalog updated.`);
+      if (crops) console.log(`Crops: ${crops.cropped} pages' content picked out by a model, ${crops.unusable} unusable answers, ${crops.failed} failed, ${crops.waiting} left${crops.stopped ? " at the budget" : ""}; spent $${crops.spent.toFixed(4)}.`);
+      else console.log("Crops: skipped (no OPENROUTER_API_KEY).");
       return;
     }
     case "check":

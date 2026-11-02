@@ -324,10 +324,13 @@ export const taxabilityRules = pgTable(
     treatment: text("treatment").notNull(),
     /** For treatment "special_rate": the rate this tax charges on the code. */
     rate: doublePrecision("rate"),
+    /** The share of the charge taxed, where the law taxes only part of it
+     *  (Texas's 80% of a data processing charge); null for the whole. */
+    base: doublePrecision("base"),
     /** For treatment "follows": the tax whose rule for the code applies. */
     follows: text("follows"),
     summary: text("summary").notNull(),
-    conditions: jsonb("conditions").$type<Array<{ when: string; treatment: string; rate?: number }>>().notNull().default([]),
+    conditions: jsonb("conditions").$type<Array<{ when: string; treatment: string; rate?: number; base?: number }>>().notNull().default([]),
     citations: jsonb("citations").$type<Array<{ title: string; url: string; quote?: string }>>().notNull(),
     /** What couldn't be verified, for a reviewer; never shown in answers. */
     notes: text("notes"),
@@ -340,6 +343,7 @@ export const taxabilityRules = pgTable(
     check("ck_taxability_rules_from_is", sql`${t.fromIs} in ('effective', 'earliest_verified')`),
     check("ck_taxability_rules_treatment", sql`${t.treatment} in ('taxable', 'special_rate', 'exempt', 'zero_rated', 'conditional', 'follows')`),
     check("ck_taxability_rules_special_rate", sql`(${t.treatment} = 'special_rate') = (${t.rate} is not null)`),
+    check("ck_taxability_rules_base", sql`${t.base} is null or (${t.base} > 0 and ${t.base} < 1 and ${t.treatment} in ('taxable', 'special_rate'))`),
     check("ck_taxability_rules_follows", sql`(${t.treatment} = 'follows') = (${t.follows} is not null)`),
     check("ck_taxability_rules_conditional", sql`${t.treatment} <> 'conditional' or jsonb_array_length(${t.conditions}) > 0`),
     check("ck_taxability_rules_cited", sql`jsonb_typeof(${t.citations}) = 'array' and jsonb_array_length(${t.citations}) > 0`),

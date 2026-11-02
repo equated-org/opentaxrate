@@ -224,9 +224,20 @@ backup() {
   if [ $# -gt 0 ]; then
     BACKUP_TAG=bench scripts/backup-sources.sh "$@" >&2 || die "Backing up $* failed."
   fi
+  # The machine-made views of new PDFs (docs/data.md#evidence): scanned
+  # pages transcribed, table pages formatted. Cached by the PDF's hash, so
+  # only what was filed since the last run is read, usually for cents.
+  # Never evidence; a failure is reported and the backup goes on.
+  if [ -n "${OPENROUTER_API_KEY:-}" ]; then
+    npx tsx scripts/transcribe-scans.mts --budget 2 >&2 || echo "Transcribing new scans failed; next month's run tries again." >&2
+    npx tsx scripts/format-tables.mts --budget 2 >&2 || echo "Formatting new table pages failed; next month's run tries again." >&2
+  else
+    echo "Scans and table pages: skipped (no OPENROUTER_API_KEY); next month's run reads them." >&2
+  fi
   # The public mirror of the same sources (evidence.opentaxrate.com): only
-  # copies it lacks are sent, then the catalog, so a rule's newly cited
-  # page has its archived copy when the release that cites it goes out.
+  # copies it lacks are sent, with each text's quote marks (and, with the
+  # key, web pages' content crops), then the catalog, so a rule's newly
+  # cited page has its archived copy when the release that cites it goes out.
   npx tsx src/cli.ts evidence >&2 || die "Uploading the evidence archive failed."
 }
 

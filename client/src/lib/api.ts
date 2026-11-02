@@ -76,8 +76,12 @@ export interface TaxabilityRule {
 	 *  one, exceptions worth knowing. */
 	/** For special_rate: the rate charged on the code instead. */
 	rate?: number;
-	/** code: in an answer for a broad code, the narrower code this case is. */
-	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; code?: string }>;
+	/** The share of the charge taxed, where the law taxes only part of it
+	 *  (Texas's 0.8 on data processing); the answer's rates already apply it. */
+	base?: number;
+	/** code: in an answer for a broad code, the narrower code this case is;
+	 *  base: the share of the charge taxed in this case. */
+	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; base?: number; code?: string }>;
 	/** archived: OpenTaxRate's copy that shows the quote, opening at it (sha256 is that copy's hash); url: the page as published. */
 	citations: Array<{ title: string; url: string; quote?: string; archived?: string; sha256?: string; page?: number }>;
 }
@@ -100,8 +104,27 @@ export interface Taxability {
 		rule: TaxabilityRule | null;
 	}>;
 	/** Only when conditional: each case with the sale's combined rate, and the
-	 *  narrower code that is that case, where one is. */
-	outcomes?: Array<{ when: string; rate: number; code?: string }>;
+	 *  narrower code that is that case, where one is. On an independent
+	 *  answer, one tax's case (tax), at its rate plus the settled taxes'. */
+	outcomes?: Array<{ when: string; rate: number; code?: string; tax?: string }>;
+	/** The undecided taxes turn on their facts independently: combine one
+	 *  outcome per tax. */
+	independent?: true;
+}
+
+/** The rates a conditional sale can come to: each outcome's, or on an
+ *  independent answer each combination of one case per tax (the settled
+ *  taxes counted once). */
+export function saleRates(t: Taxability): number[] {
+	const outcomes = t.outcomes ?? [];
+	let rates = outcomes.map((o) => o.rate);
+	if (t.independent) {
+		const fixed = t.taxes.reduce((sum, g) => sum + (g.rate ?? 0), 0);
+		rates = [fixed];
+		for (const tax of new Set(outcomes.map((o) => o.tax)))
+			rates = rates.flatMap((r) => outcomes.filter((o) => o.tax === tax).map((o) => r + o.rate - fixed));
+	}
+	return [...new Set(rates.map((r) => Math.round(r * 1e6) / 1e6))].sort((a, b) => b - a);
 }
 
 export interface RegionSource {

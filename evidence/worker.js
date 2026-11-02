@@ -9,6 +9,12 @@
  *                              left out), a PDF in the browser's viewer, any
  *                              other file described; with the original URL, the
  *                              capture's date and hash, and the rules citing it
+ *   /sha256/<hash>?view=text   a document's text as the quote checks read it
+ *                              (a PDF's and a Word document's by default; a
+ *                              web page's beside its readable view), each
+ *                              cited quote highlighted under its anchor #q-…;
+ *                              with &full=1, a web page's whole text, its
+ *                              site's navigation included
  *   /sha256/<hash>?view=       a PDF's other views: layout (as printed) and
  *                              formatted (machine-made Markdown of table pages)
  *   /sha256/<hash>/raw         the bytes exactly as fetched (HTML sandboxed)
@@ -17,8 +23,12 @@
  *
  * The bytes are the evidence; the readable view is made on each request and
  * cached at the edge, so restyling never touches what was archived. A cited
- * quote is linked as a text fragment (#:~:text=), which the browser finds
- * and highlights.
+ * quote is linked to its mark in the text view (?view=text#q-…): the place
+ * was found when the archive was uploaded, by the matcher the quote checks
+ * use (src/evidence-text.ts), so the link opens at it whatever the page's
+ * markup or punctuation. A quote a copy has no mark for is linked as a text
+ * fragment (#:~:text=). The quotes printed in a capture's own header are
+ * drawn by CSS, so a browser's text search never lands on them.
  *
  * A cited original that's gone (the site's offline-originals.json, written by
  * scripts/check-links.mts) is named but not linked, and said to be gone.
@@ -63,8 +73,8 @@ function fragment(quote) {
 }
 
 const STYLE = `
-:root { --bg:#fff; --ink:#111; --text-2:#454545; --text-3:#6b6b6b; --line:#e4e4e4; --accent:#2563eb; --mark:#fde68a; --warn-bg:#fff7e6; --warn-line:#d97706; color-scheme: light; }
-@media (prefers-color-scheme: dark) { :root { --bg:#141414; --ink:#f2f2f2; --text-2:#cfcfcf; --text-3:#a3a3a3; --line:#2c2c2c; --accent:#6ea8fe; --mark:#6b4f12; --warn-bg:#2a2012; --warn-line:#b7791f; color-scheme: dark; } }
+:root { --bg:#fff; --ink:#111; --text-2:#454545; --text-3:#6b6b6b; --line:#e4e4e4; --accent:#2563eb; --mark:#fde68a; --quote:#fde68a; --quote-line:#b45309; --warn-bg:#fff7e6; --warn-line:#d97706; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root { --bg:#141414; --ink:#f2f2f2; --text-2:#cfcfcf; --text-3:#a3a3a3; --line:#2c2c2c; --accent:#6ea8fe; --mark:#6b4f12; --quote:#5c4a12; --quote-line:#f0b429; --warn-bg:#2a2012; --warn-line:#b7791f; color-scheme: dark; } }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.65 Inter, ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
@@ -119,6 +129,12 @@ mark.disagree { background: var(--mark); color: var(--ink); border-bottom: 2px s
 .doc blockquote { margin: 1em 0; padding-left: 16px; border-left: 2px solid var(--line); color: var(--text-2); }
 .doc pre { white-space: pre-wrap; font-size: 13.5px; line-height: 1.55; }
 ::target-text { background: var(--mark); color: var(--ink); }
+mark.q { background: var(--quote); color: var(--ink); border-radius: 2px; box-shadow: 0 0 0 2px var(--quote); scroll-margin-top: 30vh; }
+mark.q:target, mark.q:has(:target) { outline: 2px solid var(--quote-line); outline-offset: 2px; }
+.q-at { scroll-margin-top: 30vh; }
+.about a.cite span[data-q]::before { content: attr(data-q); }
+.text-lines p { margin: 0 0 .45em; }
+.crop-note { font-size: 14px; color: var(--text-3); margin: 0 0 14px; }
 .pdf { display: block; width: 100%; height: 88vh; border: 0; margin: 24px 0 64px; }
 .list { margin: 40px 0 96px; }
 .list h1 { font-size: 2rem; margin: 0 0 12px; }
@@ -141,12 +157,14 @@ mark.disagree { background: var(--mark); color: var(--ink); border-bottom: 2px s
 body > main > p { margin: 40px 0; }
 `;
 
+// Fonts are display=optional: a font that arrives late is never swapped in,
+// so the page doesn't reflow after the browser has scrolled to a #q- mark.
 function page(title, body, status = 200) {
 	return new Response(
 		`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escape(title)} · OpenTaxRate evidence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=IBM+Plex+Mono&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=IBM+Plex+Mono&display=optional">
 <style>${STYLE}</style></head><body>
 <nav class="top"><a class="brand" href="/">OpenTaxRate evidence archive</a><a href="https://opentaxrate.com/docs/taxability">Taxability docs</a></nav>
 <main>${body}</main></body></html>`,
@@ -207,7 +225,7 @@ function captureOn(captures, on) {
 
 /** The header above every capture: where it came from, when, its hash, and
  *  the rules that cite it, each linked to its quote on the page. */
-function card(hash, places, shown, asked) {
+function card(hash, places, shown, asked, marks = []) {
 	const { url, capture, record } = shown;
 	const others = record.captures.filter((c) => c.sha256 !== hash);
 	const alsoAt = places.filter((p) => p.url !== url);
@@ -226,13 +244,24 @@ function card(hash, places, shown, asked) {
 	const opening = (quote) => {
 		const words = quote.replace(/\s+/g, ' ').trim().split(' ');
 		const shown = words.slice(0, Math.min(12, words.length));
-		return escape(shown.join(' ')) + (shown.length < words.length ? ' …' : '');
+		return shown.join(' ') + (shown.length < words.length ? ' …' : '');
 	};
 	const badge = (r) =>
 		`<span class="badge" title="${escape(`${r.tax} ${r.code}, from ${r.from}${r.to ? ` to ${r.to}` : ''}`)}"><b>${escape(r.tax)}</b> ${escape(r.code)}</span>`;
+	// Each quote links to its mark in this copy's text view; one this copy has
+	// no mark for, to a text fragment. The quote is drawn by CSS (an empty
+	// span's ::before; the link is named by aria-label), so no text search,
+	// the browser's or a text fragment's, finds it here instead of in the
+	// document.
+	const markOf = new Map(marks.map((m) => [m.quote, m.id]));
+	const quoteLink = (quote) => {
+		const id = markOf.get(quote);
+		const label = escape(`“${opening(quote)}”`);
+		return `<a class="cite" href="/sha256/${hash}${id ? `?view=text#${id}` : fragment(quote)}" aria-label="${label}"><span data-q="${label}"></span></a>`;
+	};
 	const cites = [...byQuote.entries()]
 		.sort(([a], [b]) => (a === '') - (b === ''))
-		.map(([quote, rs]) => `<li>${quote ? `<a href="/sha256/${hash}${fragment(quote)}">“${opening(quote)}”</a>` : '<span class="quiet">Cited without a quote</span>'}<div class="badges">${rs.map(badge).join('')}</div></li>`)
+		.map(([quote, rs]) => `<li>${quote ? quoteLink(quote) : '<span class="quiet">Cited without a quote</span>'}<div class="badges">${rs.map(badge).join('')}</div></li>`)
 		.join('');
 	return `<section class="about">
 <h1>${original(url)}</h1>
@@ -308,24 +337,35 @@ async function readable(object, base) {
 /** Text files are shown up to this many bytes, read as a range. */
 const TEXT_SHOWN = 200_000;
 
-async function capturePage(env, hash, places, asked, view) {
+/** The views a capture offers, the one shown named, the others linked. */
+const viewToggle = (offered, view, href) =>
+	offered.length > 1 ? `<p class="views">${offered.map((v) => (v === view ? `<span aria-current="page">${VIEWS[v]}</span>` : `<a href="${href(v)}">${VIEWS[v]}</a>`)).join(' · ')}</p>` : '';
+
+async function capturePage(env, hash, places, asked, view, full) {
 	// The URL shown for a copy at several is one a rule cites, if any does.
 	const shown = places.find((p) => p.record.citedBy.length) ?? places[0];
 	const { url, capture } = shown;
 	const type = capture.type.split(';')[0];
 	const isText = type.startsWith('text/') && type !== 'text/html';
-	if (type === 'application/pdf' || type === 'application/msword') return pdfPage(env, hash, url, card(hash, places, shown, asked), view);
+	if (type === 'application/pdf' || type === 'application/msword') return pdfPage(env, hash, url, (marks) => card(hash, places, shown, asked, marks), view);
+	// A web page's text (a text file's, or an API's JSON answer's, where a
+	// rule quotes it), with its marks: the text view, and the header's links.
+	const textObject = /^(text\/|application\/(json|xml))/.test(type) ? await env.EVIDENCE.get(`text/${hash}.json`) : null;
+	const text = textObject ? await textObject.json() : null;
+	const hasText = Array.isArray(text?.pages);
+	const head = card(hash, places, shown, asked, text?.marks ?? []);
+	const toggle = hasText ? viewToggle(['page', 'text'], view === 'text' ? 'text' : 'page', (v) => `/sha256/${hash}${v === 'text' ? '?view=text' : ''}`) : '';
+	if (view === 'text' && hasText) return webTextPage(hash, url, head, text, full, toggle);
 	const object = await env.EVIDENCE.get(`sha256/${hash}`, isText || type === 'application/json' ? { range: { offset: 0, length: TEXT_SHOWN } } : undefined);
 	if (!object) return page('Not found', '<p>That copy isn\'t in the archive.</p>', 404);
-	const head = card(hash, places, shown, asked);
 	if (type === 'text/html') {
 		const { html, title } = await readable(object, url);
-		return page(title || url, `<div class="capture"><article class="doc">${html}</article>${head}</div>`);
+		return page(title || url, `<div class="capture"><article class="doc">${toggle}${html}</article>${head}</div>`);
 	}
 	if (type.startsWith('text/') || type === 'application/json') {
-		const text = await object.text();
+		const body = await object.text();
 		const cut = capture.bytes > TEXT_SHOWN;
-		return page(url, `<div class="capture"><article class="doc"><pre>${escape(text)}${cut ? `\n\n… the first ${size(TEXT_SHOWN)} of ${size(capture.bytes)}; <a href="/sha256/${hash}/raw">the whole file</a>` : ''}</pre></article>${head}</div>`);
+		return page(url, `<div class="capture"><article class="doc">${toggle}<pre>${escape(body)}${cut ? `\n\n… the first ${size(TEXT_SHOWN)} of ${size(capture.bytes)}; <a href="/sha256/${hash}/raw">the whole file</a>` : ''}</pre></article>${head}</div>`);
 	}
 	return page(url, `${head}<p>This file isn't shown here (${escape(type)}); <a href="/sha256/${hash}/raw">download it</a>.</p>`);
 }
@@ -403,7 +443,134 @@ function transcribed(page, other) {
 	return html + escape(text.slice(at));
 }
 
-const VIEWS = { text: 'Text', layout: 'Layout (columns and tables as printed)', formatted: 'Formatted (machine, unverified)' };
+const VIEWS = { page: 'Page', text: 'Text', layout: 'Layout (columns and tables as printed)', formatted: 'Formatted (machine, unverified)' };
+
+/** Pieces of the marks on one page of a text: [start, end) in the page's
+ *  text, with the mark's id on the piece it starts in (a quote running over
+ *  a page break goes on, without its id, at the next page's start). */
+function marksOnPage(marks, pages, i) {
+	const out = [];
+	for (const m of marks ?? []) {
+		const length = pages[m.page - 1]?.length ?? 0;
+		if (m.page === i + 1) out.push({ start: m.start, end: Math.min(m.end, length), id: m.id });
+		else if (m.page === i && m.end > length + 1) out.push({ start: 0, end: m.end - length - 1, id: null });
+	}
+	return out;
+}
+
+/**
+ * A text as HTML, every character escaped, with each mark's span as one
+ * <mark class="q" id="q-…">. `mode` "paras" (a PDF's or a Word document's
+ * text) joins lines into paragraphs and keeps blank lines as breaks;
+ * "lines" (a web page's text, one block a line) makes each line a
+ * paragraph. A mark never breaks: a paragraph or line break inside one is
+ * drawn inside it as a line break (<br>). Marks that overlap are drawn as one,
+ * each later one's anchor an empty span where it starts.
+ */
+function renderText(text, marks, mode) {
+	// Marks merged where they overlap, in order.
+	const sorted = [...marks].filter((m) => m.end > m.start).sort((a, b) => a.start - b.start || b.end - a.end);
+	const groups = [];
+	for (const m of sorted) {
+		const last = groups.at(-1);
+		if (last && m.start < last.end) {
+			last.end = Math.max(last.end, m.end);
+			if (m.id) last.anchors.push(m);
+		} else groups.push({ start: m.start, end: m.end, id: m.id, anchors: [] });
+	}
+	// Breaks: each run of whitespace with a line break in it.
+	const breaks = [];
+	for (const b of text.matchAll(/\s*\n\s*/g)) {
+		const newlines = b[0].split('\n').length - 1;
+		breaks.push({ start: b.index, end: b.index + b[0].length, kind: mode === 'lines' ? 'line' : newlines >= 2 ? 'para' : 'join' });
+	}
+	// A mark's ends are on text, never inside a break.
+	for (const g of groups)
+		for (const b of breaks) {
+			if (g.start >= b.start && g.start < b.end) g.start = b.end;
+			if (g.end > b.start && g.end <= b.end) g.end = b.start;
+		}
+	const events = [];
+	for (const g of groups) {
+		if (g.end <= g.start) continue;
+		events.push({ at: g.start, order: 1, html: `<mark class="q"${g.id ? ` id="${escape(g.id)}"` : ''}>` });
+		for (const a of g.anchors) events.push({ at: Math.max(a.start, g.start), order: 2, html: `<span class="q-at" id="${escape(a.id)}"></span>` });
+		events.push({ at: g.end, order: 0, html: '</mark>' });
+	}
+	events.sort((a, b) => a.at - b.at || a.order - b.order);
+	const paras = [];
+	let current = '';
+	let inMark = false;
+	let e = 0;
+	// The text from `from` to `to`, with the marks that open or close in it.
+	const run = (from, to) => {
+		let at = from;
+		// A mark that closes where the text breaks closes before the break.
+		while (e < events.length && (events[e].at < to || (events[e].at === to && (events[e].order === 0 || to === text.length)))) {
+			const ev = events[e++];
+			current += escape(text.slice(at, Math.max(at, ev.at))) + ev.html;
+			at = Math.max(at, ev.at);
+			if (ev.order === 1) inMark = true;
+			else if (ev.order === 0) inMark = false;
+		}
+		current += escape(text.slice(at, to));
+	};
+	let pos = 0;
+	for (const b of breaks) {
+		run(pos, b.start);
+		if (b.kind === 'join') current += ' ';
+		// Inside a mark a break is a line break (a blank line there would
+		// draw an empty highlighted box).
+		else if (inMark) current += '<br>';
+		else {
+			if (current.trim()) paras.push(current);
+			current = '';
+		}
+		pos = b.end;
+	}
+	run(pos, text.length);
+	if (inMark) current += '</mark>';
+	if (current.trim()) paras.push(current);
+	return paras;
+}
+
+/** One page of a text as paragraphs, its marks drawn. */
+const textHtml = (text, marks, mode) => {
+	const paras = renderText(text, marks, mode);
+	return paras.length ? `<div class="pdf-paras${mode === 'lines' ? ' text-lines' : ''}">${paras.map((x) => `<p>${x}</p>`).join('')}</div>` : '<p class="quiet">(no text on this page)</p>';
+};
+
+/** Where a web page's crop (the lines a model picked as its main content)
+ *  runs in its text, when it holds every mark: only then is it shown. */
+function cropOf(text) {
+	if (!text?.crop || text.kind !== 'html') return null;
+	const page = text.pages[0] ?? '';
+	const starts = [0];
+	for (let i = page.indexOf('\n'); i >= 0; i = page.indexOf('\n', i + 1)) starts.push(i + 1);
+	const { firstLine, lastLine } = text.crop;
+	if (!(firstLine >= 1 && firstLine <= lastLine && lastLine <= starts.length)) return null;
+	const start = starts[firstLine - 1];
+	const end = lastLine < starts.length ? starts[lastLine] - 1 : page.length;
+	return (text.marks ?? []).every((m) => m.start >= start && m.end <= end) ? { start, end, lines: starts.length } : null;
+}
+
+/** A web page's (or a text file's) text view: its text as the quote checks
+ *  read it, one block a line, every cited quote marked; for a page a model
+ *  cropped, only its main content's lines, saying so (&full=1 for all). */
+function webTextPage(hash, url, head, text, full, toggle) {
+	const whole = text.pages[0] ?? '';
+	const crop = full ? null : cropOf(text);
+	const shown = crop ? whole.slice(crop.start, crop.end) : whole;
+	const marks = (text.marks ?? []).map((m) => (crop ? { ...m, start: m.start - crop.start, end: m.end - crop.start } : m));
+	const what = text.kind === 'html' ? 'The page' : 'The file';
+	const note = `${what}'s text as the quote checks read it (${escape(text.extractedWith)}), one block a line; each quote the rules cite on it is highlighted. The archived bytes are the evidence: <a href="/sha256/${hash}/raw">raw bytes</a>.`;
+	const cropNote = crop
+		? `<p class="crop-note">Site navigation trimmed by ${escape((text.crop.answers ?? [{ model: text.crop.model }]).map((a) => modelName(a.model)).join(' and '))} (lines ${text.crop.firstLine}–${text.crop.lastLine} of the page's ${crop.lines}: from the earlier first line to the later last line they picked); nothing reworded — the full text: <a href="/sha256/${hash}?view=text&amp;full=1">?view=text&amp;full=1</a>.</p>`
+		: full && cropOf(text)
+			? `<p class="crop-note">The page's whole text, its site's navigation included; <a href="/sha256/${hash}?view=text">its main content only</a>.</p>`
+			: '';
+	return page(url, `<div class="capture"><article class="doc pdf-text">${toggle}<p class="pdf-note">${note}</p>${cropNote}${textHtml(shown, marks, 'lines')}</article>${head}</div>`);
+}
 
 /** A PDF as its text, page by page, so a link can open at a quoted
  *  sentence (browsers don't scroll a PDF to one); the PDF itself, the
@@ -414,23 +581,26 @@ const VIEWS = { text: 'Text', layout: 'Layout (columns and tables as printed)', 
  *  (pdftotext -layout), and `formatted`, table pages as Markdown by a model,
  *  only where one was made and kept. A scan, which has no text, shows its
  *  machine transcription, if made, labelled as unreviewed. */
-async function pdfPage(env, hash, url, head, wanted) {
+async function pdfPage(env, hash, url, headOf, wanted) {
 	const json = async (key) => {
 		const object = await env.EVIDENCE.get(key);
 		return object ? object.json() : null;
 	};
 	const [text, machine, formatted] = await Promise.all([json(`text/${hash}.json`), json(`text/${hash}.machine.json`), json(`text/${hash}.formatted.json`)]);
+	const head = headOf(text?.marks ?? []);
 	const pdf = `/sha256/${hash}/raw`;
 	const pageLink = (i) => `<p class="page-no"><a href="${pdf}#page=${i + 1}">Page ${i + 1}</a></p>`;
-	if (text?.scanned && machine?.pages?.length) {
-		const [primary, ...rest] = (machine.models ?? []).map(modelName);
-		const other = rest[0] ?? 'the other model';
-		const count = machine.pages.reduce((n, p) => n + (p.disagreements?.length ?? 0), 0);
+	// A scan's machine transcription (src/pdf-machine.ts): every page of a
+	// whole scan, or, in a PDF with text of its own, only its image-only
+	// pages (null for a page with its own text layer).
+	const [primary, ...rest] = (machine?.models ?? []).map(modelName);
+	const other = rest[0] ?? 'the other model';
+	const cutOffNote = (p) => (p.cutOff?.length ? `<p class="quiet">${escape(p.cutOff.map(modelName).join(' and '))} stopped at its length limit on this page: its reading may be incomplete.</p>` : '');
+	const machinePage = (p) => `${cutOffNote(p)}<pre>${transcribed(p, other) || '<span class="quiet">(no text read on this page)</span>'}</pre>`;
+	if (text?.scanned && machine?.pages?.some(Boolean)) {
+		const count = machine.pages.reduce((n, p) => n + (p?.disagreements?.length ?? 0), 0);
 		const pages = machine.pages
-			.map(
-				(p, i) =>
-					`<section class="pdf-page" id="page-${i + 1}">${pageLink(i)}${p.cutOff?.length ? `<p class="quiet">${escape(p.cutOff.map(modelName).join(' and '))} stopped at its length limit on this page: its reading may be incomplete.</p>` : ''}<pre>${transcribed(p, other) || '<span class="quiet">(no text read on this page)</span>'}</pre></section>`,
-			)
+			.map((p, i) => `<section class="pdf-page" id="page-${i + 1}">${pageLink(i)}${p ? machinePage(p) : '<p class="quiet">(not transcribed)</p>'}</section>`)
 			.join('');
 		return page(
 			url,
@@ -439,10 +609,9 @@ async function pdfPage(env, hash, url, head, wanted) {
 	}
 	if (text?.kind === 'word') {
 		// A Word document: its text as the quote checks read it, one page.
-		const paras = (text.pages[0] ?? '').split(/\n\s*\n/).map((x) => x.split('\n').map((l) => l.trim()).filter(Boolean).join(' ')).filter(Boolean);
 		return page(
 			url,
-			`<div class="capture"><article class="doc pdf-text"><p class="pdf-note">The Word document's own text, as read by ${escape(text.extractedWith)}; the document is the evidence: <a href="${pdf}">download it</a>.</p><div class="pdf-paras">${paras.map((x) => `<p>${escape(x)}</p>`).join('') || '<p class="quiet">(no text read)</p>'}</div></article>${head}</div>`,
+			`<div class="capture"><article class="doc pdf-text"><p class="pdf-note">The Word document's own text, as read by ${escape(text.extractedWith)}; each quote the rules cite on it is highlighted. The document is the evidence: <a href="${pdf}">download it</a>.</p>${textHtml(text.pages[0] ?? '', marksOnPage(text.marks, text.pages, 0), 'paras')}</article>${head}</div>`,
 		);
 	}
 	if (!text || text.scanned) {
@@ -454,19 +623,23 @@ async function pdfPage(env, hash, url, head, wanted) {
 	const offered = ['text', ...(hasLayout ? ['layout'] : []), ...(formattedPages ? ['formatted'] : [])];
 	const view = offered.includes(wanted) ? wanted : 'text';
 	const href = (v) => `/sha256/${hash}${v === 'text' ? '' : `?view=${v}`}`;
-	const toggle =
-		offered.length > 1
-			? `<p class="views">${offered.map((v) => (v === view ? `<span aria-current="page">${VIEWS[v]}</span>` : `<a href="${href(v)}">${VIEWS[v]}</a>`)).join(' · ')}</p>`
-			: '';
-	// The text as paragraphs: a PDF's line breaks fall mid-sentence, and a
-	// browser won't match a quoted sentence (a #:~:text= link) across a hard
-	// line break, so lines are joined with spaces; blank lines stay breaks.
-	// The layout view keeps the lines as printed.
-	const plain = (p) => {
-		const paras = p.split(/\n\s*\n/).map((para) => para.split('\n').map((l) => l.trim()).filter(Boolean).join(' ')).filter(Boolean);
-		return paras.length ? `<div class="pdf-paras">${paras.map((x) => `<p>${escape(x)}</p>`).join('')}</div>` : '<p class="quiet">(no text on this page)</p>';
+	const toggle = viewToggle(offered, view, href);
+	// The text as paragraphs: a PDF's line breaks fall mid-sentence, so lines
+	// are joined with spaces; blank lines stay breaks. Each cited quote is
+	// marked where the upload found it (a mark that runs over a break keeps
+	// it inside). The layout view keeps the lines as printed.
+	const plain = (p, i) => textHtml(p, i === undefined ? [] : marksOnPage(text.marks, text.pages, i), 'paras');
+	// An image-only page of a PDF with text of its own: its machine
+	// transcription, labelled, where one was made.
+	const scannedPage = (p, i) => {
+		const m = !p.trim() && view !== 'formatted' ? machine?.pages?.[i] : null;
+		return m
+			? `<p class="machine-label">Scanned page: machine transcription by ${escape([primary, ...rest].join(' and '))}, not reviewed — check against the PDF; quotes are never checked against it.${m.disagreements?.length ? ' Where the two read it differently is highlighted, with both readings.' : ''}</p>${machinePage(m)}`
+			: null;
 	};
 	const body = (p, i) => {
+		const scanned = scannedPage(p, i);
+		if (scanned) return scanned;
 		if (view === 'layout') return `<pre class="layout">${escape(text.layout[i]) || '<span class="quiet">(no text on this page)</span>'}</pre>`;
 		if (view === 'formatted') {
 			const md = formattedPages[String(i + 1)];
@@ -474,10 +647,10 @@ async function pdfPage(env, hash, url, head, wanted) {
 			const recall = formatted.recall?.[String(i + 1)];
 			return `<p class="machine-label">Formatted by ${escape(modelName(formatted.model))}, machine-made, not verified${typeof recall === 'number' ? `; it has ${(recall * 100).toFixed(1)}% of the page's words` : ''}. Check against the PDF.</p><div class="formatted">${markdown(md)}</div>`;
 		}
-		return plain(p);
+		return plain(p, i);
 	};
 	const notes = {
-		text: `The PDF's own text, page by page, as extracted by ${escape(text.extractedWith)}; the PDF is the evidence: <a href="${pdf}">open the PDF</a>, or a page's number to open it there.`,
+		text: `The PDF's own text, page by page, as extracted by ${escape(text.extractedWith)}; each quote the rules cite on it is highlighted. The PDF is the evidence: <a href="${pdf}">open the PDF</a>, or a page's number to open it there.`,
 		layout: `The PDF's own text laid out as printed (${escape(text.extractedWith)} -layout): columns side by side and tables in their columns. Quotes are checked against the text view; the PDF is the evidence: <a href="${pdf}">open the PDF</a>.`,
 		formatted: `Table pages as Markdown, made by a model (${escape(modelName(formatted?.model ?? ''))}) from each page and kept only where it has the page's words; machine-made and not reviewed. Quotes are never checked against it, and citations never link to it; the PDF is the evidence: <a href="${pdf}">open the PDF</a>.`,
 	};
@@ -561,7 +734,7 @@ export default {
 			const found = byHash.get(m[1]);
 			const asked = /^\d{4}-\d{2}-\d{2}$/.test(url.searchParams.get('asked') ?? '') ? url.searchParams.get('asked') : null;
 			if (!found) response = page('Not found', '<p>That hash isn\'t in the archive.</p>', 404);
-			else response = m[2] ? await raw(env, m[1], found[0].capture) : await capturePage(env, m[1], found, asked, url.searchParams.get('view'));
+			else response = m[2] ? await raw(env, m[1], found[0].capture) : await capturePage(env, m[1], found, asked, url.searchParams.get('view'), url.searchParams.get('full') === '1');
 		} else if (url.pathname === '/url') {
 			const target = url.searchParams.get('u') ?? '';
 			const record = data.urls[target];

@@ -32,12 +32,18 @@
  *      (<sha256>.machine.json) never counts
  *  12. every benchmark case's source quote is on one of that source's copies
  *  13. (--public) every copy is on the public archive
+ *  14. every citation's quote has a mark on the copy its link opens (the
+ *      newest copy whose text has it, as src/taxability/ingest.ts pins it),
+ *      and the text the mark covers has the quote (quoteOnPage): the link
+ *      opens at it, highlighted (src/evidence-text.ts brings the marks up
+ *      to date first)
  */
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { copiesByUrl, holding, manifestEntries, sourceHashes, sourcesRoot } from "../src/ingest/archive.js";
-import { catalogKey, requestBody, sidecarBody } from "../src/evidence.js";
+import { buildCatalog, catalogKey, requestBody, sidecarBody } from "../src/evidence.js";
+import { markedText, pinnedCopy, quoteId, updateEvidenceTexts } from "../src/evidence-text.js";
 import { pageText, quoteOnPage } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
 import { pageOf, pdfText, textDir } from "../src/pdf-text.js";
@@ -83,13 +89,20 @@ const isScan = (sha256: string) => {
   }
 };
 const texts = new Map<string, string | null>();
+// Each copy's text as the quote checks and citation links read it
+// (pageText), for picking the copy a citation is pinned to.
+const plainTexts = new Map<string, string | null>();
+const plainTextOf = (file: string) => {
+  if (!plainTexts.has(file)) plainTexts.set(file, pageText(new Uint8Array(readFileSync(path.join(root, file)))));
+  return plainTexts.get(file)!;
+};
 // A PDF's text as both pdftotext readings: reading order, and its -layout
 // pages (a two-column page interleaves in the first, not the second).
 // Both are the PDF's own text layer; a quote found in either is on the page.
 const textOf = (file: string) => {
   if (!texts.has(file)) {
     const bytes = readFileSync(path.join(root, file));
-    let text = pageText(new Uint8Array(bytes));
+    let text = plainTextOf(file);
     if (text !== null && bytes.subarray(0, 1024).toString("latin1").includes("%PDF-")) {
       const layout = pdfText(createHash("sha256").update(bytes).digest("hex"), path.join(root, file))?.layout;
       if (layout?.length) text = `${text}\n${layout.join("\n")}`;
@@ -248,6 +261,32 @@ for (const r of rules)
     if (!inText && !readOffScans.has(`${c.url}\n${c.quote}`))
       onScan.failures.push(`needs a person to read it off the scan (read-off-scans.json): ${r.file} ${r.tax} ${r.code} ${r.from}: "${c.quote.slice(0, 50)}" on ${c.url}`);
   }
+
+// 14: the marks citation links open at.
+const marked = check("14. every citation's quote has a mark on its pinned copy (the copy its link opens), and the marked text has the quote");
+{
+  const { catalog, files } = await buildCatalog();
+  const { texts: records } = updateEvidenceTexts(catalog, files);
+  for (const r of rules)
+    for (const c of r.citations) {
+      const held = copies.get(c.url) ?? [];
+      if (!c.quote || !held.length) continue;
+      marked.checked++;
+      const where = `${r.file} ${r.tax} ${r.code} ${r.from}: "${c.quote.slice(0, 50)}" on ${c.url}`;
+      const copy = pinnedCopy(held, c.quote, plainTextOf);
+      if (!copy) {
+        // Check 2 or 11 says why when no copy has it at all.
+        const why = held.some((k) => { const t = textOf(k.file); return t !== null && quoteOnPage(t, c.quote!); }) ? "only in a PDF's layout view" : readOffScans.has(`${c.url}\n${c.quote}`) ? "read off a scan" : "on no copy";
+        marked.failures.push(`${where}: no copy to pin (${why})`);
+        continue;
+      }
+      const record = records.get(copy.sha256);
+      const mark = record?.marks?.find((m) => m.id === quoteId(c.quote!));
+      if (!record) marked.failures.push(`${where}: its copy ${copy.sha256.slice(0, 12)} has no text view`);
+      else if (!mark) marked.failures.push(`${where}: no mark on its copy ${copy.sha256.slice(0, 12)}`);
+      else if (mark.quote !== c.quote || !quoteOnPage(markedText(record.pages, mark), c.quote)) marked.failures.push(`${where}: the marked text on ${copy.sha256.slice(0, 12)} isn't the quote`);
+    }
+}
 
 // 13: the public archive.
 if (publicCheck) {

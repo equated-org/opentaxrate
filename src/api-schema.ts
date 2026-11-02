@@ -20,7 +20,8 @@ export const RatesByTypeSchema = z
     foodDrugInterstate: z.number().nullable().openapi({ description: "Food and drugs from out of state." }),
   })
   .openapi("RatesByType", {
-    description: "A rate for each kind of sale the state's files rate apart; null where the publisher gives none.",
+    description:
+      "The address's rate tables by type of sale, as the state's files publish them (a state's food-and-drug rate); null where the publisher gives none. Not this sale's taxability: foodDrug is the published table's rate, even where groceries are exempt. For what a sale is taxed, send code= and read taxability[code].rate.",
   });
 
 const ids = (description: string) => z.record(z.string(), z.string()).openapi({ description, example: { "Locality Code": "9454" } });
@@ -131,15 +132,17 @@ export const TaxabilityRuleSchema = z
     }),
     treatment: z.enum(TREATMENTS),
     rate: z.number().optional().openapi({ description: "For special_rate: the rate this tax charges on the code instead of its general rate (lower, like a grocery rate, or higher, like a meals tax).", example: 0.04 }),
+    base: z.number().optional().openapi({ description: "The share of the charge taxed, where the law taxes only part of it (0 < base < 1): Texas taxes 80% of a data processing charge. The answer's rates already apply it, on the whole charge (6.6% where the general rate is 8.25%); don't reduce the amount as well. Absent: the whole charge.", example: 0.8 }),
     summary: z.string().openapi({ example: "Catering is taxable, including staff, rentals and service charges on the bill." }),
     conditions: z.array(
       z.object({
         when: z.string(),
         treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]),
         rate: z.number().optional().openapi({ description: "The part's rate in this case, where it isn't the part's full rate." }),
+        base: z.number().optional().openapi({ description: "In this case, the share of the charge taxed, where the law taxes only part of it (0 < base < 1), as on the rule; the outcomes apply it.", example: 0.8 }),
         code: z.string().optional().openapi({ description: "In an answer for a broad code: the narrower code this case is; send it to settle the answer.", example: "service.professional.design" }),
       }),
-    ).openapi({ description: "For a conditional rule, each fact the outcome turns on; for a settled one, exceptions worth knowing." }),
+    ).openapi({ description: "For a conditional rule, each fact the outcome turns on; for a settled one, exceptions worth knowing: a numeric rate holds unless one of them fits the sale (Kentucky's grandfathered fixed-price contracts)." }),
     citations: z
       .array(
         z.object({
@@ -162,7 +165,7 @@ export const TaxabilitySchema = z
   .object({
     treatment: z.enum(["taxable", "partial", "not_taxed", "conditional", "not_researched"]).openapi({
       description:
-        "taxable: every part at its rate. partial: some parts, or a special rate. not_taxed: no part. conditional: the outcome turns on facts the code doesn't fix, listed in the rules' conditions. not_researched: a part has no researched rule for this code on this date; never use the general rate instead.",
+        "taxable: every part at its rate. partial: some parts, a special rate, or a share of the charge (base). not_taxed: no part. conditional: the outcome turns on facts the code doesn't fix, listed in the rules' conditions. not_researched: a part has no researched rule for this code on this date; never use the general rate instead.",
     }),
     rate: z.number().nullable().openapi({ description: "The combined rate on this sale; null exactly when conditional or not researched.", example: 0.08875 }),
     taxes: z.array(
@@ -179,13 +182,18 @@ export const TaxabilitySchema = z
     outcomes: z
       .array(
         z.object({
-          when: z.string().openapi({ description: "The case, as the rules state it; cases of different taxes joined by \"; and\"." }),
-          rate: z.number().openapi({ description: "The sale's combined rate in this case.", example: 0.12 }),
+          when: z.string().openapi({ description: "The case, as the rules state it. Where several taxes are undecided, only cases that describe the same sale are combined: one wording where the taxes' rules say it alike, else each tax's case joined by \"; and\". On an independent answer, prefixed by its tax." }),
+          rate: z.number().openapi({ description: "The sale's combined rate in this case. On an independent answer: this case's rate for its tax plus the settled taxes'.", example: 0.12 }),
           code: z.string().optional().openapi({ description: "The narrower code this case is, where it is one: send it instead to get this answer settled." }),
+          tax: z.string().optional().openapi({ description: "Only on an independent answer: the tax (taxes[].tax) this case is for.", example: "VT:local" }),
         }),
       )
       .optional()
-      .openapi({ description: "Only when conditional: each case the rules list with the combined rate it gives. Absent when a case's rate can't be computed or there are too many combinations." }),
+      .openapi({ description: "Only when conditional: each case the rules list with the combined rate it gives. Absent when a case's rate can't be computed or there are too many cases (over 24)." }),
+    independent: z.literal(true).optional().openapi({
+      description:
+        "Set when several taxes are undecided and their cases don't pair up: the taxes turn on their facts independently; combine one case per tax. Each outcome is then one tax's case; the sale's rate is the settled taxes' rate plus each chosen case's share (its rate less the settled taxes').",
+    }),
   })
   .openapi("Taxability", {
     description: "How one kind of sale is taxed at the address on the date: the parts grouped by the rule that decided them, with the rules and their official sources.",
@@ -226,7 +234,7 @@ export const TraceSchema = z
 export const AddressRateSchema = z
   .object({
     state: z.string().openapi({ example: "WA" }),
-    rate: rate("The combined rate on a general sale, as a decimal: 0.1055 is 10.55%. With code=, the sale's own rate is taxability.rate."),
+    rate: rate("The general rate: the combined rate on a general sale of goods, as a decimal (0.1055 is 10.55%). Not the rate on any particular kind of sale: with code=, the sale's own rate is taxability[code].rate."),
     stateRate: rate("The state's part.", 0.065),
     localRate: rate("Everything else.", 0.0405),
     byType: RatesByTypeSchema,

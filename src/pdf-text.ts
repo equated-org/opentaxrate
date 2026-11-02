@@ -35,8 +35,50 @@ export interface PdfText {
   scanned: boolean;
   extractedWith: string;
   extractedAt: string;
-  /** "word" for a Word .doc shown as its text; absent for a PDF. */
-  kind?: "word";
+  /** "word" for a Word .doc shown as its text, "html" for a web page's text,
+   *  "text" for a text file's or an API answer's (src/evidence-text.ts);
+   *  absent for a PDF. */
+  kind?: "word" | "html" | "text";
+  /** Where each quote the rules cite on this copy is in `pages`
+   *  (src/evidence-text.ts): the evidence archive highlights it, and a
+   *  citation's link opens at it (#q-…). */
+  marks?: TextMark[];
+  /** The quotes `marks` were made for (the first 16 of the SHA-256 of them,
+   *  sorted): marks are made again only when it changes. */
+  marksFor?: string;
+  /** An HTML page's main content, as two models saw it: the first and last
+   *  lines (1-based, of pages[0]) to show in the text view. Only lines are
+   *  picked, nothing is rewritten; the Worker shows it only when every mark
+   *  lies inside (src/evidence-crop.ts). */
+  crop?: TextCrop;
+}
+
+/** A quote's place in a text: on page `page` (1-based), [start, end) in
+ *  UTF-16 units. A quote that runs over a page break ends past its page's
+ *  end: `end` counts on into the next page, after one character for the
+ *  break (pages[page - 1] + "\n" + pages[page]). */
+export interface TextMark {
+  /** "q-" and the first 10 hex of the SHA-256 of the quote as cited. */
+  id: string;
+  quote: string;
+  page: number;
+  start: number;
+  end: number;
+}
+
+/** The lines a web page's main content runs between, as two models picked
+ *  them (src/evidence-crop.ts): from the earlier first line to the later
+ *  last; no lines when the answers don't overlap or one is unusable. */
+export interface TextCrop {
+  firstLine?: number;
+  lastLine?: number;
+  /** The models, "<a> and <b>". */
+  model: string;
+  /** US dollars, as OpenRouter reported it, both answers. */
+  cost: number;
+  at: string;
+  /** Each model's own answer: its lines, or what it said instead. */
+  answers: Array<{ model: string; firstLine?: number; lastLine?: number; unusable?: string }>;
 }
 
 /** Where extracted texts are kept: beside artifacts/sources. */

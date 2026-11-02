@@ -1,0 +1,2 @@
+ALTER TABLE "taxability_rules" ADD COLUMN "base" double precision;--> statement-breakpoint
+ALTER TABLE "taxability_rules" ADD CONSTRAINT "ck_taxability_rules_base" CHECK ("taxability_rules"."base" is null or ("taxability_rules"."base" > 0 and "taxability_rules"."base" < 1 and "taxability_rules"."treatment" in ('taxable', 'special_rate')));

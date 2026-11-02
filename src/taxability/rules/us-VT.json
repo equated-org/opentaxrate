@@ -928,16 +928,20 @@
     "summary": "Vermont's local option taxes follow the state: no local tax on a whole uncooked pizza or other assembled-to-cook food that is exempt food; on such food that is a taxable meal, the 1% local option meals tax where the town levies it.",
     "conditions": [
       {
-        "when": "Not a taxable meal: a whole uncooked pizza for take-out, or other assembled-to-cook food sold prepackaged by a non-restaurant or by weight from a deli (exempt from state sales and meals tax)",
+        "when": "A whole uncooked pizza furnished for take-out, by any seller",
         "treatment": "exempt"
       },
       {
-        "when": "A taxable meal (sold by a restaurant, or nonprepackaged by another seller, other than a whole uncooked pizza), in a town that levies the 1% local option meals tax",
+        "when": "Other assembled-to-cook food sold by a non-restaurant prepackaged, or by weight or measure from a delicatessen",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other assembled-to-cook food (kebabs, marinated or stuffed raw meat, a meal kit) sold by a restaurant, or sold nonprepackaged by another seller; in a town that levies the 1% local option meals tax",
         "treatment": "special_rate",
         "rate": 0.01
       },
       {
-        "when": "A taxable meal, in a town that levies only the local option sales tax, not the meals tax",
+        "when": "Other assembled-to-cook food (kebabs, marinated or stuffed raw meat, a meal kit) sold by a restaurant, or sold nonprepackaged by another seller; in a town that levies only the local option sales tax, not the meals tax",
         "treatment": "exempt"
       }
     ],
@@ -978,6 +982,6 @@
         "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
       }
     ],
-    "notes": "A whole uncooked pizza is neither a taxable meal nor subject to sales tax (exempt food), so no local option tax applies to it. The meal cases follow the VT:local food.prepared.hot rule. Known gap, as there: a town that levies only the local option meals tax has no local part in the rate data. Burlington and Rutland city meals taxes (charter) are outside this calculation. Earliest date as for the VT rule."
+    "notes": "A whole uncooked pizza is neither a taxable meal nor subject to sales tax (exempt food), so no local option tax applies to it. The meal cases follow the VT:local food.prepared.hot rule. Known gap, as there: a town that levies only the local option meals tax has no local part in the rate data. Burlington and Rutland city meals taxes (charter) are outside this calculation. Earliest date as for the VT rule. 2026-11-02: the conditions are worded as the VT rule's, each case in its words, the taxable-meal case split by whether the town levies the local option meals tax, so an answer pairs each state case with its own local one (a whole uncooked pizza is never paired with a taxable meal)."
   }
 ]

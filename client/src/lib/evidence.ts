@@ -19,7 +19,11 @@ export const offline = (url: string) => offlineUrls.has(url);
 export const captures = (url: string) => `${EVIDENCE}/url?u=${encodeURIComponent(url)}`;
 
 /** The archived copy of `url` in force on `date` (YYYY-MM-DD), scrolled to
- *  `quote` when given: its words, or a long one's first and last four. */
+ *  `quote` when given: its words, or a long one's first and last four.
+ *  Only a fallback: a citation the API pinned to a copy comes with
+ *  `archived`, which opens that copy's text view at the quote's mark
+ *  (?view=text#q-…). One without it has no copy whose text has the quote,
+ *  so no mark exists to link to, and a text fragment is all there is. */
 export function archivedOn(url: string, date: string, quote?: string): string {
 	const day = date.replaceAll('-', '');
 	const words = (quote ?? '').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);

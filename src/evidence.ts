@@ -6,11 +6,14 @@
  * evidence/worker.js serves it at evidence.opentaxrate.com.
  *
  *   sha256/<hash>    the original bytes, named by their hash; never rewritten
- *   text/<hash>.json a PDF's text, page by page (src/pdf-text.ts), in reading
- *                    order and as laid out; a scan's machine transcription
- *                    (.machine.json) and table pages as Markdown
- *                    (.formatted.json) beside it where made: derived, never
- *                    evidence
+ *   text/<hash>.json a document's text: a PDF's page by page (src/pdf-text.ts),
+ *                    in reading order and as laid out, a Word document's or a
+ *                    web page's as the quote checks read it, with marks where
+ *                    each cited quote is (src/evidence-text.ts) and a cited
+ *                    web page's main content lines (src/evidence-crop.ts); a
+ *                    scan's machine transcription (.machine.json) and table
+ *                    pages as Markdown (.formatted.json) beside it where
+ *                    made: derived, never evidence
  *   catalog.json     { urls: { <url>: { captures: [{ at, sha256, bytes, type, bad? }], citedBy: [{ rule, quote }] } } }
  *
  * A POSTed query's answer is filed under "<url> (POST <first 12 of the
@@ -38,7 +41,9 @@ import path from "node:path";
 import { AwsClient } from "aws4fetch";
 import { captureRuns, holding, manifestEntries, sourceHashes, sourcesRoot, waybackCapture, type ManifestEntry } from "./ingest/archive.js";
 import { readRuleFiles } from "./taxability/rules/index.js";
-import { pdfText, textDir } from "./pdf-text.js";
+import { textDir } from "./pdf-text.js";
+import { updateEvidenceTexts } from "./evidence-text.js";
+import { cropPages } from "./evidence-crop.js";
 
 export interface Capture {
   at: string;
@@ -73,12 +78,15 @@ const TYPES: Array<[RegExp, string]> = [
   [/\.gz$/i, "application/gzip"],
 ];
 
-/** A file's type from its name, else from its first bytes. */
-function typeOf(file: string, head: Buffer): string {
-  for (const [pattern, type] of TYPES) if (pattern.test(file)) return type;
+/** A file's type from its name, else from its first bytes; a PDF by its
+ *  bytes whatever its name, and a Word file named like a page
+ *  (".../readfile.aspx?Format=WORD") by its bytes too. */
+export function typeOf(file: string, head: Buffer): string {
   const start = head.toString("latin1", 0, 512).trimStart().toLowerCase();
+  const compound = head[0] === 0xd0 && head[1] === 0xcf && head[2] === 0x11 && head[3] === 0xe0;
   if (start.startsWith("%pdf-")) return "application/pdf";
-  if (head[0] === 0xd0 && head[1] === 0xcf && head[2] === 0x11 && head[3] === 0xe0) return "application/msword";
+  for (const [pattern, type] of TYPES) if (pattern.test(file)) return compound && type.startsWith("text/html") ? "application/msword" : type;
+  if (compound) return "application/msword";
   if (start.startsWith("<!doctype html") || start.startsWith("<html") || start.includes("<head")) return "text/html; charset=utf-8";
   if (start.startsWith("{") || start.startsWith("[")) return "application/json";
   return "application/octet-stream";
@@ -230,7 +238,7 @@ export function listedKeys(xml: string): Map<string, string> {
 const nextToken = (xml: string) => (/<IsTruncated>true<\/IsTruncated>/.test(xml) ? xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/)?.[1] : undefined);
 
 /** Uploads every copy the bucket lacks, then the catalog. */
-export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Promise<{ uploaded: number; kept: number; bytes: number; texts: number }> {
+export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Promise<{ uploaded: number; kept: number; bytes: number; texts: number; marks: number; crops?: Awaited<ReturnType<typeof cropPages>> }> {
   const account = env.R2_ACCOUNT_ID;
   const accessKeyId = env.OPENTAXRATE_R2_ACCESS_KEY_ID ?? env.R2_ACCESS_KEY_ID;
   const secretAccessKey = env.OPENTAXRATE_R2_SECRET_ACCESS_KEY ?? env.R2_SECRET_ACCESS_KEY;
@@ -286,22 +294,30 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
   };
   await Promise.all(Array.from({ length: 8 }, worker));
 
-  // Every PDF's text, page by page, for the archive's readable view, and
-  // beside it the machine-made readings (a scan's transcription, table pages
-  // as Markdown) where they've been made: never evidence, and labelled so.
-  const pdfs = [...new Set(Object.values(catalog.urls).flatMap((r) => r.captures).filter((c) => c.type.startsWith("application/pdf") || c.type.startsWith("application/msword")).map((c) => c.sha256))];
+  // Every document's text (a web page's, a PDF's, a Word document's), with
+  // the marks that say where each cited quote is in it, for the archive's
+  // text views (src/evidence-text.ts); a cited web page's main content
+  // picked out by a model, when there's a key (src/evidence-crop.ts); and
+  // beside them the machine-made readings (a scan's transcription, table
+  // pages as Markdown) where they've been made: never evidence, and
+  // labelled so.
+  const { texts: records, marks } = updateEvidenceTexts(catalog, files);
+  let crops: Awaited<ReturnType<typeof cropPages>> | undefined;
+  if (env.OPENROUTER_API_KEY) {
+    const cited = [...records.values()].filter((r) => r.kind === "html" && r.marks?.length);
+    crops = await cropPages(cited, { key: env.OPENROUTER_API_KEY, budget: Number(env.OPENTAXRATE_CROP_BUDGET ?? 1) });
+  }
   let texts = 0;
-  const textQueue = [...pdfs];
+  const textQueue = [...records.keys()];
   const textWorker = async () => {
     for (let sha = textQueue.shift(); sha; sha = textQueue.shift()) {
-      if (!pdfText(sha, files.get(sha)!)) continue;
       for (const name of [`${sha}.json`, `${sha}.machine.json`, `${sha}.formatted.json`]) {
         const local = path.join(textDir(), name);
         if (!existsSync(local)) continue;
         const body = readFileSync(local);
         if (haveText.get(`text/${name}`) === createHash("md5").update(body).digest("hex")) continue;
         for (let attempt = 0; ; attempt++) {
-          // Not immutable: a text is made again when a view is added.
+          // Not immutable: a text is made again when a view, mark or crop is added.
           const response = await r2.fetch(`${base}/text/${name}`, { method: "PUT", body, headers: { "content-type": "application/json", "cache-control": "public, max-age=3600" } });
           if (response.ok) break;
           if (attempt === 2) throw new Error(`Uploading text/${name} answered ${response.status}`);
@@ -319,5 +335,5 @@ export async function uploadEvidence(env: NodeJS.ProcessEnv = process.env): Prom
     headers: { "content-type": "application/json", "cache-control": "max-age=300" },
   });
   if (!put.ok) throw new Error(`Uploading the catalog answered ${put.status}`);
-  return { uploaded, kept: have.size, bytes, texts };
+  return { uploaded, kept: have.size, bytes, texts, marks, ...(crops ? { crops } : {}) };
 }

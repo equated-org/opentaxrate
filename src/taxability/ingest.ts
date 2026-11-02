@@ -17,7 +17,9 @@ import { taxabilityRules } from "../db/schema.js";
 import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
 import { challenged, evidenceLink, pdfParagraphs, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
 import { readRuleFiles, type Citation } from "./rules/index.js";
-import { pageOf, pdfText } from "../pdf-text.js";
+import { pageOf } from "../pdf-text.js";
+import { documentText, findMark, hasTextView, markLink, pinnedCopy } from "../evidence-text.js";
+import { typeOf } from "../evidence.js";
 
 /** Files every cited page in the archive, fetching one only when the
  *  archive has none. Returns the URLs that couldn't be filed. */
@@ -61,21 +63,28 @@ export async function archiveEvidence(urls: string[], options: { fetch?: boolean
 
 /** Each citation with the archived copy that shows its quote: the newest
  *  copy of the page whose text has the sentence (an older edition for an
- *  older rule), else the newest copy; none when the page isn't archived. */
+ *  older rule), else the newest copy; none when the page isn't archived.
+ *  Its link opens the copy's text view at the quote's mark (#q-…, made from
+ *  the same text by src/evidence-text.ts); a text fragment only when the
+ *  copy has no text view that holds the quote. */
 function pinned(citations: Citation[], copies: ReturnType<typeof copiesByUrl>, textOf: (file: string) => string | null): Citation[] {
   return citations.map((c) => {
-    const held = copies.get(c.url) ?? [];
-    const copy = c.quote ? [...held].reverse().find((k) => { const t = textOf(k.file); return t !== null && quoteOnPage(t, c.quote!); }) : held.at(-1);
+    const copy = pinnedCopy(copies.get(c.url) ?? [], c.quote, textOf);
     if (!copy) return c;
+    const file = path.join(sourcesRoot(), copy.file);
+    // The copy's text as the archive shows it, typed as the catalog types it:
+    // an HTML page's, a PDF's or a Word document's (nothing else has a text view).
+    const type = typeOf(copy.file, readFileSync(file).subarray(0, 512));
+    const text = hasTextView(type) ? documentText(copy.sha256, file, type) : null;
+    const mark = text && c.quote && !text.scanned ? findMark(text.pages, c.quote) : null;
     // A PDF's page with the quote, for linking into the PDF itself.
-    const pdf = copy.file.toLowerCase().endsWith(".pdf") || /%PDF-/.test(readFileSync(path.join(sourcesRoot(), copy.file)).subarray(0, 1024).toString("latin1"))
-      ? pdfText(copy.sha256, path.join(sourcesRoot(), copy.file))
-      : null;
-    const page = pdf && c.quote ? pageOf(pdf.pages, c.quote, quoteOnPage) : 0;
-    // On a PDF, a quote that isn't inside one of the archive's paragraphs
-    // links to its opening words only (a browser won't match across them).
-    const inOneParagraph = !pdf || !c.quote || pdf.pages.some((pg) => pdfParagraphs(pg).some((para) => quoteOnPage(para, c.quote!)));
-    return { ...c, archived: evidenceLink(copy.sha256, c.quote, { startOnly: !inOneParagraph }), sha256: copy.sha256, ...(page > 0 ? { page } : {}) };
+    const page = text && text.kind === undefined && mark ? mark.page : 0;
+    if (mark) return { ...c, archived: markLink(copy.sha256, c.quote!), sha256: copy.sha256, ...(page > 0 ? { page } : {}) };
+    // No mark: a text fragment, a quote outside one of a PDF's paragraphs
+    // linking to its opening words only (a browser won't match across them).
+    const inOneParagraph = !text || text.kind === "html" || text.kind === "text" || !c.quote || text.pages.some((pg) => pdfParagraphs(pg).some((para) => quoteOnPage(para, c.quote!)));
+    const pdfPage = text && text.kind === undefined && c.quote ? pageOf(text.pages, c.quote, quoteOnPage) : 0;
+    return { ...c, archived: evidenceLink(copy.sha256, c.quote, { startOnly: !inOneParagraph }), sha256: copy.sha256, ...(pdfPage > 0 ? { page: pdfPage } : {}) };
   });
 }
 
@@ -102,6 +111,7 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
           fromIs: r.fromIs,
           treatment: r.treatment,
           rate: r.rate ?? null,
+          base: r.base ?? null,
           follows: r.follows ?? null,
           summary: r.summary,
           conditions: r.conditions,

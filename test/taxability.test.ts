@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { parentOf, parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
-import { pageText, quoteOnPage } from "../src/taxability/fetch.js";
+import { looseForTest, pageText, quoteOnPage, quoteSpan } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
 import { answerKey } from "../src/cache.js";
 import { AddressRateSchema, TaxabilitySchema } from "../src/api-schema.js";
@@ -23,6 +23,30 @@ const CODES = Object.keys(TAX_CODES) as TaxCode[];
 // The reviewed files, read and checked as ingest reads them.
 const { rules: rows } = readRuleFiles();
 const RULES = ruleSet(rows as Rule[]);
+
+/** No outcome pairs conditions of different cases. Where several taxes are
+ *  undecided, a combined outcome is one wording every undecided tax's rule
+ *  states (one may add a further fact after "; "), or each tax's case
+ *  joined, all of one narrower code. An independent answer lists each
+ *  tax's cases on their own, each naming its tax. */
+function expectSameCases(t: ReturnType<typeof taxabilityOf>, where: string) {
+  const open = t.taxes.filter((g) => g.treatment === "conditional");
+  if (t.independent) {
+    expect(open.length, where).toBeGreaterThan(1);
+    expect(t.outcomes!.every((o) => o.tax && o.when.startsWith(`${o.tax}: `)), where).toBe(true);
+    expect(t.outcomes!.length, where).toBe(open.reduce((n, g) => n + g.rule!.conditions.length, 0));
+    return;
+  }
+  for (const o of t.outcomes ?? []) {
+    expect(o.tax, where).toBeUndefined();
+    if (open.length < 2) continue;
+    const normal = (when: string) => when.toLowerCase().replace(/[^a-z0-9%]+/g, " ").trim();
+    const heads = o.when.split(";").map((_, i, all) => normal(all.slice(0, i + 1).join(";")));
+    const worded = open.every((g) => g.rule!.conditions.some((k) => heads.includes(normal(k.when))));
+    const coded = o.code !== undefined && open.every((g) => g.rule!.conditions.some((k) => k.code === o.code && o.when.includes(`${g.tax}: ${k.when}`)));
+    expect(worded || coded, `${where}: ${o.when}`).toBe(true);
+  }
+}
 
 describe("taxability", () => {
   it("never falls back: a state with no rules is not researched, with the general rate untouched", () => {
@@ -136,6 +160,13 @@ describe("taxability", () => {
     expect(problems([special, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2022-01-01", treatment: "exempt" }])).toContain("ZZ:local");
     // Only a province's HST follows another rule.
     expect(problems([{ ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "exempt" }, { ...base, tax: "ZZ:local", code: "food.grocery", from: "2021-01-01", treatment: "follows", follows: "ZZ" }])).toContain("HST");
+    // A taxed share of the charge is a fraction, and only of a taxed case.
+    const taxed = { ...base, tax: "ZZ", code: "food.grocery", from: "2021-01-01", treatment: "taxable" };
+    expect(problems([{ ...taxed, base: 0.8 }])).toBe("");
+    expect(problems([{ ...taxed, base: 1 }])).not.toBe("");
+    expect(problems([{ ...taxed, treatment: "exempt", base: 0.8 }])).toContain("base");
+    expect(problems([{ ...taxed, treatment: "conditional", conditions: [{ when: "Data processing", treatment: "taxable", base: 0.8 }] }])).toBe("");
+    expect(problems([{ ...taxed, treatment: "conditional", conditions: [{ when: "Consulting", treatment: "exempt", base: 0.8 }] }])).toContain("base");
   });
 
   it("before a rule's earliest verified day, a code isn't researched rather than inheriting a broader rule", () => {
@@ -184,6 +215,78 @@ describe("taxability", () => {
     expect(mb.outcomes?.map((o) => o.rate).sort()).toEqual([0.05, 0.12]);
     // A settled answer has none.
     expect(taxabilityOf({ state: "KY", parts: ky }, "service.professional.other", "2026-10-30", RULES).outcomes).toBeUndefined();
+  });
+
+  it("combines two undecided taxes' conditions only where they describe the same case, else lists each tax's on its own", () => {
+    const base = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const pizza = "A whole uncooked pizza for take-out";
+    const kit = "Other food to cook, prepackaged";
+    const meal = "Other food to cook, sold by a restaurant";
+    const state = { ...base, tax: "ZZ", code: "food.uncooked", treatment: "conditional", conditions: [
+      { when: pizza, treatment: "exempt" }, { when: kit, treatment: "exempt" }, { when: meal, treatment: "special_rate", rate: 0.09 },
+    ] };
+    // The local rule says the state's cases in its words, the meal split by a fact of the town's.
+    const mirrored = { ...base, tax: "ZZ:local", code: "food.uncooked", treatment: "conditional", conditions: [
+      { when: `${pizza}.`, treatment: "exempt" }, { when: kit.toUpperCase(), treatment: "exempt" },
+      { when: `${meal}; in a town with the meals tax`, treatment: "special_rate", rate: 0.01 }, { when: `${meal}; in a town without it`, treatment: "exempt" },
+    ] };
+    const zz: RatePart[] = [{ kind: "state", name: "Z", code: "ZZ", rate: 0.06, ids: {} }, { kind: "city", name: "Zc", code: "ZZ1", rate: 0.01, ids: {} }];
+    const paired = taxabilityOf({ state: "ZZ", parts: zz }, "food.uncooked", "2026-01-01", ruleSet([state, mirrored] as Rule[]));
+    expect(paired.independent).toBeUndefined();
+    expect(paired.outcomes?.map((o) => [o.when, o.rate])).toEqual([
+      [`${pizza}.`, 0], [kit, 0], [`${meal}; in a town with the meals tax`, 0.1], [`${meal}; in a town without it`, 0.09],
+    ]);
+    expectSameCases(paired, "mirrored");
+    // Worded otherwise, the cases can't be paired: never a pizza with a taxable meal.
+    const other = { ...mirrored, conditions: [
+      { when: "Not a taxable meal (a whole uncooked pizza, or other food to cook prepackaged)", treatment: "exempt" },
+      { when: "A taxable meal other than a whole uncooked pizza, in a town with the meals tax", treatment: "special_rate", rate: 0.01 },
+    ] };
+    const apart = taxabilityOf({ state: "ZZ", parts: zz }, "food.uncooked", "2026-01-01", ruleSet([state, other] as Rule[]));
+    expect(apart).toMatchObject({ treatment: "conditional", rate: null, independent: true });
+    expect(apart.outcomes?.map((o) => [o.tax, o.rate])).toEqual([["ZZ", 0], ["ZZ", 0], ["ZZ", 0.09], ["ZZ:local", 0], ["ZZ:local", 0.01]]);
+    expect(apart.outcomes?.[3].when).toBe(`ZZ:local: ${other.conditions[0].when}`);
+    expectSameCases(apart, "apart");
+    expect(TaxabilitySchema.parse(apart)).toBeTruthy();
+  });
+
+  it("pairs Montpelier's take-and-bake pizza with its own local case: 4 outcomes, not 9", () => {
+    const vt: RatePart[] = [{ kind: "state", name: "Vermont", code: "VT-S", rate: 0.06, ids: {} }, { kind: "city", name: "Montpelier", code: "VT-C", rate: 0.01, ids: {} }];
+    const t = taxabilityOf({ state: "VT", parts: vt }, "food.uncooked", "2026-11-02", RULES);
+    expect(t.independent).toBeUndefined();
+    expect(t.outcomes?.map((o) => o.rate)).toEqual([0, 0, 0.1, 0.09]);
+    expect(t.outcomes?.[0].when).toMatch(/^A whole uncooked pizza/);
+    expectSameCases(t, "VT food.uncooked");
+  });
+
+  it("taxes a share of the charge where the law does (base), on the whole charge", () => {
+    const base = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const zz: RatePart[] = [{ kind: "state", name: "Z", code: "ZZ", rate: 0.0625, ids: {} }, { kind: "city", name: "Zc", code: "ZZ1", rate: 0.02, ids: {} }];
+    const set = ruleSet([
+      { ...base, tax: "ZZ", code: "software.saas", treatment: "taxable", base: 0.8, conditions: [] },
+      { ...base, tax: "ZZ", code: "service.professional.it", treatment: "conditional", conditions: [{ when: "Data processing", treatment: "taxable", base: 0.8 }, { when: "Consulting", treatment: "exempt" }] },
+    ] as Rule[]);
+    const saas = taxabilityOf({ state: "ZZ", parts: zz }, "software.saas", "2026-01-01", set);
+    expect(saas).toMatchObject({ treatment: "partial", rate: 0.066 });
+    expect(saas.taxes[0]).toMatchObject({ treatment: "taxable", rate: 0.066, rule: { base: 0.8 } });
+    expect(taxabilityOf({ state: "ZZ", parts: zz }, "service.professional.it", "2026-01-01", set).outcomes?.map((o) => o.rate)).toEqual([0.066, 0]);
+    // Texas's SaaS and data processing, on 8.25%.
+    const tx: RatePart[] = [{ kind: "state", name: "Texas", code: "TX-S", rate: 0.0625, ids: {} }, { kind: "city", name: "Austin", code: "TX-C", rate: 0.02, ids: {} }];
+    expect(taxabilityOf({ state: "TX", parts: tx }, "software.saas", "2026-11-02", RULES)).toMatchObject({ treatment: "partial", rate: 0.066 });
+    expect(taxabilityOf({ state: "TX", parts: tx }, "service.professional.it", "2026-11-02", RULES).outcomes?.map((o) => o.rate)).toEqual([0.066, 0.0825, 0]);
+    expect(TaxabilitySchema.parse(saas)).toBeTruthy();
+  });
+
+  it("lists every utensil case Michigan's statute states for a bakery item", () => {
+    const mi: RatePart[] = [{ kind: "state", name: "Michigan", code: "MI-S", rate: 0.06, ids: {} }];
+    const t = taxabilityOf({ state: "MI", parts: mi }, "food.prepared.bakery", "2026-11-02", RULES);
+    const cases = t.outcomes!.map((o) => [o.when, o.rate] as const);
+    const has = (pattern: RegExp, rate: number) => expect(cases.some(([when, r]) => pattern.test(when) && r === rate), `${pattern}`).toBe(true);
+    has(/over 75%: the item is 4 or more servings packaged as 1 item sold for a single price/, 0);
+    has(/over 75%: it makes no eating utensils available/, 0);
+    has(/over 75%: it gives or hands an eating utensil \(a napkin counts\)/, 0.06);
+    has(/75% or less: its business practice is to give or hand/, 0.06);
+    has(/places an eating utensil in the package/, 0.06);
   });
 
   it("fits the API schema with and without a code", () => {
@@ -255,6 +358,47 @@ describe("taxability", () => {
     expect(quoteOnPage("No dashes on this page.", "-")).toBe(false);
   });
 
+  it("says where a quote is in the original text: the same match quoteOnPage accepts, as the page prints it", () => {
+    const at = (text: string, quote: string) => {
+      const span = quoteSpan(text, quote);
+      return span && text.slice(...span);
+    };
+    // Case, spacing, line breaks, curly quotes and dashes don't count; the span is the page's own words.
+    const page = "Title\n\n  The SALE of “prepared food”\n  —  heated —  is   taxable.\nNext.";
+    expect(at(page, 'the sale of "prepared food" - heated - is taxable.')).toBe("The SALE of “prepared food”\n  —  heated —  is   taxable.");
+    // The first place it is, as quoteOnPage's includes.
+    expect(quoteSpan("ab food. food.", "food.")).toEqual([3, 8]);
+    // A space a tag left before punctuation, or after a bracket.
+    const abbr = "Sales (excluding HST ) of not more than $4 .";
+    expect(at(abbr, "Sales (excluding HST) of not more than $4.")).toBe(abbr);
+    expect(at("see ( a ) here", "(a)")).toBe("( a )");
+    // The hyphenless fallback only when the quote isn't there with its hyphens.
+    const statute = "Exempt under section 39-26717(2)(n), C.R.S., are sales of shortterm rentals of\nfarm equipment.";
+    expect(at(statute, "section 39-26-717(2)(n), C.R.S.")).toBe("section 39-26717(2)(n), C.R.S.");
+    expect(at(statute, "sales of short-term rentals of farm equipment.")).toBe("sales of shortterm rentals of\nfarm equipment.");
+    expect(at("a short-term rental, a shortterm one", "short-term")).toBe("short-term");
+    // Characters lower case makes longer, and ones outside the BMP, keep their places.
+    expect(at("İstanbul 𝐀 tax is due.", "tax is due.")).toBe("tax is due.");
+    expect(at("x İSTANBUL y", "i̇stanbul")).toBe("İSTANBUL");
+    // Not on the page, or nothing to find: no span, exactly where quoteOnPage says no.
+    for (const [text, quote] of [[statute, "section 39-26-718(2)(n)"], [statute, "short term rentals"], ["No dashes on this page.", "-"], ["text", "   "]] as const) {
+      expect(quoteSpan(text, quote)).toBeNull();
+      if (quote.trim()) expect(quoteOnPage(text, quote)).toBe(false);
+    }
+  });
+
+  it("finds spans with the very normalization quoteOnPage uses", () => {
+    const samples = ["A  b\t\nC", " ( x ) , y ; z ] ", "‘single’ “double” – en — em", "ΑΒΓ İ ß ﬁ", "-a - b -- c-", "\u00a0nbsp\u2028line\ufeff", "𝐀𝐁 ( [ ] )"];
+    for (const s of samples) expect(looseForTest(s).mapped).toBe(looseForTest(s).loose);
+    for (const s of samples) for (let i = 0; i < s.length; i++) for (let j = i + 1; j <= s.length; j++) {
+      const quote = s.slice(i, j);
+      if (!quote.trim()) continue;
+      const span = quoteSpan(s, quote);
+      expect(Boolean(span)).toBe(quoteOnPage(s, quote));
+      if (span) expect(quoteOnPage(s.slice(...span), quote)).toBe(true);
+    }
+  });
+
   it("a subcode answers from its parent's rule; a parent with only subcode rules is settled from them", () => {
     const base = { fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
     const set = ruleSet([
@@ -323,11 +467,20 @@ describe("taxability", () => {
           // An outcome that names a code is what sending that code gives,
           // wherever that answer is settled.
           if (t.treatment !== "conditional") expect(t.outcomes, where).toBeUndefined();
+          // On an independent answer an outcome is one tax's case: what
+          // sending its code gives that tax, plus the settled taxes.
+          const fixed = t.taxes.reduce((sum, g) => sum + (g.rate ?? 0), 0);
           for (const o of t.outcomes ?? []) {
-            if (!o.code) continue;
+            if (!o.code || t.outcomes!.some((p) => p !== o && p.code === o.code && p.tax === o.tax)) continue;
             const sent = taxabilityOf({ state: place, parts }, o.code as TaxCode, date, RULES);
-            if (sent.rate !== null && !t.outcomes!.some((p) => p !== o && p.code === o.code)) expect(sent.rate, `${where} → ${o.code}`).toBe(o.rate);
+            if (!t.independent) {
+              if (sent.rate !== null) expect(sent.rate, `${where} → ${o.code}`).toBe(o.rate);
+              continue;
+            }
+            const own = sent.taxes.find((g) => g.tax === o.tax);
+            if (own?.rate != null) expect(fixed + own.rate, `${where} → ${o.tax} ${o.code}`).toBeCloseTo(o.rate, 9);
           }
+          expectSameCases(t, where);
           if (t.rate !== null) {
             const special = t.taxes.some((g) => g.treatment === "special_rate");
             if (!special) expect(t.rate, where).toBeLessThanOrEqual(general + 1e-9);

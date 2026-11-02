@@ -127,8 +127,8 @@ here, as an attended run does, and leaves the report for a human:
 
 - `check` passed: no failed invariant;
 - `npx tsx scripts/check-evidence.mts` passes: every citation, watched page and
-  case source has an archived copy with its quote on it, and the manifest and the
-  files agree.
+  case source has an archived copy with its quote on it, every citation's quote
+  has a mark on the copy its link opens, and the manifest and the files agree.
 - `bench` shows no `REGRESSION` against the accepted run, and its geocoder
   spend is under budget;
 - every changed rate in force today traces to a new official publication
@@ -169,22 +169,49 @@ the release: `scripts/deploy-site.sh` (it stops if the client check fails).
 Keep the run's database until production serves the release, then
 `pnpm rates maintain drop` it.
 
-Optional, after the backup: give new PDFs the evidence archive's
-machine-made views ([data maintenance](../data.md#pdfs-the-evidence-and-the-views-beside-it)).
-The steps are cached by the PDF's hash, so only scans and table pages filed
-since the last run are read, usually for cents. They need
-`OPENROUTER_API_KEY` in the environment. If it's missing, skip this step and
-say so in the report.
+### The evidence: references, PDF text and scans
+
+Every month the evidence archive has to keep up with what the rules cite,
+so that every citation still opens on its quote. Three things go with each
+release, and `publish` does all three in its backup; check them in the
+report:
+
+1. **References.** A citation's `archived` link, `sha256`, `page` and quote
+   anchor (`#q-…`) are made at ingest from the newest archived copy with the
+   quote on it, never by hand: a re-fetched page with new bytes gets a new
+   link. The backup's `npx tsx src/cli.ts evidence` uploads every new copy
+   and text with its quote marks (and, with the key, each new web page's
+   content crop: line numbers only, `scripts/crop-pages.mts`).
+   `check-evidence` (a gate, step 3) fails if a citation's copy, quote or
+   mark is missing.
+2. **PDF text.** Each new PDF's text is extracted by `pdftotext`, as read
+   and as laid out, with no model involved. Then its table pages are
+   formatted as Markdown by `scripts/format-tables.mts`, kept only at 99% or
+   more of the page's words.
+3. **Scans.** Every scanned page is transcribed by two models through
+   `scripts/transcribe-scans.mts`, and every word they read differently is
+   highlighted. That covers a scanned PDF and an image-only page in a typed
+   one alike. The PDF itself is always kept and linked: it is the evidence.
+
+Steps 2 and 3 need `OPENROUTER_API_KEY`, which the backup gets the same way
+as its R2 settings (`OPENTAXRATE_SECRETS_RUN`). They are cached by the PDF's
+hash, so only what was filed since the last run is read, usually for cents.
+Without the key they're skipped, and that goes in the report; the next run
+reads them. Report the spend and counts each script prints. To run them by
+hand (after a backup failed, say):
 
 ```bash
-npx tsx scripts/transcribe-scans.mts --budget 2    # new scans: two-model transcription, unreviewed
+npx tsx scripts/transcribe-scans.mts --budget 2    # new scanned pages: two-model transcription, unreviewed
 npx tsx scripts/format-tables.mts --budget 2       # new table pages: Markdown, kept only at >= 99% word recall
-npx tsx src/cli.ts evidence                        # upload them (or let next month's backup do it)
+npx tsx scripts/crop-pages.mts --budget 3          # new web pages: where their content starts and ends
+npx tsx src/cli.ts evidence                        # upload texts, marks and views
+npx tsx scripts/check-evidence.mts                 # every citation opens at its quote
 ```
 
-Report the spend and counts both scripts print. Their output is never
-evidence. Never use it to write or check a quote: a quote on a scan is read
-off the PDF by a person and listed in `src/taxability/rules/read-off-scans.json`.
+Machine output is never evidence. Never use it to write or check a quote.
+A quote on a scan is read off the PDF by a person and listed in
+`src/taxability/rules/read-off-scans.json`; check the transcription's
+highlighted words against the PDF before relying on one.
 
 Production pulls the release (`pnpm rates pull data-<run> --prod`) only when
 the human says so. If this release's migrations are newer than production's

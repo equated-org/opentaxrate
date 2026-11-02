@@ -370,3 +370,68 @@ describe("a citation's archive link", () => {
     expect(evidenceLink(h, "“Interior decorating and design services;”")).toContain(encodeURIComponent("Interior decorating and design services;"));
   });
 });
+
+describe("marks: where each cited quote is in a copy's text", () => {
+  it("finds a quote on its page, or running over a page break, with the span the quote checks match", async () => {
+    const { findMark, markedText, quoteId, markLink } = await import("../src/evidence-text.js");
+    const { quoteOnPage } = await import("../src/taxability/fetch.js");
+    const pages = ["Title page", "Food sold in a  heated\nstate is taxable.", "\"Retail food store\" means an establishment that", "sells food for home consumption."];
+    const whole = findMark(pages, "food sold in a heated state is taxable.")!;
+    expect(whole).toEqual({ page: 2, start: 0, end: pages[1].length });
+    const across = findMark(pages, "“Retail food store” means an establishment that sells food for home consumption.")!;
+    expect(across.page).toBe(3);
+    expect(across.end).toBeGreaterThan(pages[2].length);
+    expect(quoteOnPage(markedText(pages, across), "\"Retail food store\" means an establishment that sells food for home consumption.")).toBe(true);
+    expect(findMark(pages, "Not in this document at all.")).toBeNull();
+    expect(quoteId("a quote")).toMatch(/^q-[0-9a-f]{10}$/);
+    expect(markLink("a".repeat(64), "a quote")).toBe(`https://evidence.opentaxrate.com/sha256/${"a".repeat(64)}?view=text#${quoteId("a quote")}`);
+  });
+
+  it("keeps a web page's text as the checks read it, and marks it again only when its quotes change", async () => {
+    const sources = await setup();
+    await downloadedBytes("https://law.example.gov/tax/1210.html", new Response("<html><body><div>Search</div><p>Such taxes shall\nbe identical, except as to rate.</p></body></html>"));
+    const { documentText, markQuotes, updateEvidenceTexts } = await import("../src/evidence-text.js");
+    const { catalog, files } = await buildCatalog();
+    const [sha] = [...files.keys()];
+    const record = documentText(sha, files.get(sha)!, "text/html")!;
+    expect(record).toMatchObject({ kind: "html", pages: ["Search\nSuch taxes shall\nbe identical, except as to rate."] });
+    expect(markQuotes(record, ["shall be identical, except as to rate."])).toBe(true);
+    expect(record.marks).toEqual([expect.objectContaining({ page: 1, start: record.pages[0].indexOf("shall"), end: record.pages[0].length })]);
+    expect(markQuotes(record, ["shall be identical, except as to rate."])).toBe(false);
+    expect(markQuotes(record, ["Not on the page."])).toBe(true);
+    expect(record.marks).toEqual([]);
+    // The catalog's citations decide the quotes; a text file nobody quotes gets no text.
+    catalog.urls["https://law.example.gov/tax/1210.html"].citedBy.push({ rule: "NY x from 2020-01-01", tax: "NY", code: "x", from: "2020-01-01", quote: "Such taxes shall be identical" });
+    const { texts, marks } = updateEvidenceTexts(catalog, files);
+    expect(marks).toBe(1);
+    expect(JSON.parse(await readFile(path.join(path.dirname(sources), "evidence-text", `${sha}.json`), "utf8")).marks[0].quote).toBe("Such taxes shall be identical");
+    expect(texts.size).toBe(1);
+  });
+
+  it("types a PDF by its bytes, even under a page's name", async () => {
+    const { typeOf } = await import("../src/evidence.js");
+    expect(typeOf("legis.la.gov/legis/ViewDocument.aspx", Buffer.from("%PDF-1.7\n"))).toBe("application/pdf");
+    expect(typeOf("apps.sos.wv.gov/readfile.aspx", Buffer.from([0xd0, 0xcf, 0x11, 0xe0, 0, 0]))).toBe("application/msword");
+    expect(typeOf("rates.xls", Buffer.from([0xd0, 0xcf, 0x11, 0xe0, 0, 0]))).toBe("application/vnd.ms-excel");
+    expect(typeOf("page.html", Buffer.from("<html>"))).toBe("text/html; charset=utf-8");
+  });
+});
+
+describe("a web page's crop", () => {
+  it("reads only two line numbers from each model, and keeps both models' lines between them", async () => {
+    const { parseCrop, unionOf, cropSpan } = await import("../src/evidence-crop.js");
+    expect(parseCrop('```json\n{"first": 3, "last": 9}\n```', 10)).toEqual({ firstLine: 3, lastLine: 9 });
+    expect(parseCrop('{"first": 6, "last": 639}', 100)).toBeNull();
+    expect(parseCrop('{"first": 9, "last": 3}', 10)).toBeNull();
+    expect(parseCrop("lines 3 to 9", 10)).toBeNull();
+    expect(unionOf([{ model: "a", firstLine: 29, lastLine: 1028 }, { model: "b", firstLine: 24, lastLine: 900 }])).toEqual({ firstLine: 24, lastLine: 1028 });
+    expect(unionOf([{ model: "a", firstLine: 1, lastLine: 5 }, { model: "b", firstLine: 6, lastLine: 9 }])).toBeNull();
+    expect(unionOf([{ model: "a", firstLine: 1, lastLine: 5 }, { model: "b", unusable: "?" }])).toBeNull();
+    const text = "Menu\nSearch\nThe statute.\nIts notes.\nFooter";
+    const record = { sha256: "x", pages: [text], layout: [], scanned: false, extractedWith: "", extractedAt: "", kind: "html" as const, marks: [{ id: "q-1", quote: "The statute.", page: 1, start: 12, end: 24 }], crop: { firstLine: 3, lastLine: 4, model: "a and b", cost: 0, at: "", answers: [] } };
+    expect(cropSpan(record)).toEqual({ start: 12, end: 35, holdsMarks: true });
+    expect(text.slice(12, 35)).toBe("The statute.\nIts notes.");
+    record.marks.push({ id: "q-2", quote: "Footer", page: 1, start: 36, end: 42 });
+    expect(cropSpan(record)?.holdsMarks).toBe(false);
+  });
+});

@@ -88,8 +88,8 @@
 }`;
 
 	const READ = `const t = answer.taxability[code];
-if (t.rate !== null) charge(amount * t.rate);          // taxable, partial, not_taxed
-else if (t.treatment === 'conditional') ask(t.outcomes); // each case with its rate; send o.code where there is one
+if (t.rate !== null) charge(amount * t.rate);          // taxable, partial, not_taxed: unless a rule's conditions list an exception that fits
+else if (t.treatment === 'conditional') ask(t.outcomes); // each case with its rate (one per tax when t.independent); send o.code where there is one
 else sendElsewhere();                                   // not_researched: never use the general rate`;
 
 	const ERROR = `{ "error": "This address is within 12 m of a city line ...", "code": "ADDRESS_NEEDS_CONFIRMATION" }`;
@@ -193,9 +193,18 @@ else sendElsewhere();                                   // not_researched: never
 <table>
 	<thead><tr><th>Field</th><th>Description</th></tr></thead>
 	<tbody>
-		<tr><td><code>rate</code></td><td>The combined rate on a general sale. With <code>code</code>, each sale's own rate is in <code>taxability</code>.</td></tr>
+		<tr><td><code>rate</code></td><td>The general rate: the combined rate on a general sale of goods. It isn't the rate on any particular kind of sale; with <code>code</code>, each sale's own rate is <code>taxability[code].rate</code>.</td></tr>
 		<tr><td><code>stateRate</code>, <code>localRate</code></td><td>The state's part, and everything else.</td></tr>
-		<tr><td><code>byType</code></td><td>Rates on interstate and food-and-drug sales; <code>null</code> where the state publishes none.</td></tr>
+		<tr>
+			<td><code>byType</code></td>
+			<td>
+				The address's rate tables by type of sale, as the state's files publish them: <code>general</code>,
+				<code>generalInterstate</code>, <code>foodDrug</code> (a state's food rate) and <code>foodDrugInterstate</code>;
+				<code>null</code> where the state publishes none. They are not this sale's taxability: Seattle's <code>foodDrug</code> is
+				10.55% though groceries are exempt there. For what a sale is taxed, send <code>code</code> and read
+				<code>taxability[code].rate</code>.
+			</td>
+		</tr>
 		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, and <code>ids</code>.</td></tr>
 		<tr>
 			<td><code>match</code></td>
@@ -215,12 +224,20 @@ else sendElsewhere();                                   // not_researched: never
 		</tr>
 		<tr><td><code>locationIds</code>, <code>parts[].ids</code></td><td>The state's own codes, as published. See <a class="link" href="/docs/codes">State codes and filing</a>.</td></tr>
 		<tr><td><code>zip4</code></td><td>The address's ZIP+4 where a Streamlined state's files give it; else <code>null</code>.</td></tr>
-		<tr><td><code>source</code></td><td>The files or service the rate came from, and the date.</td></tr>
+		<tr><td><code>source</code></td><td>The files or service the rate came from, and the date. See <a class="link" href="#old-files">why some source files are old</a>.</td></tr>
 		<tr><td><code>reporting</code></td><td>The agency, return, and any local filing. See <a class="link" href="/docs/codes#reporting">Reporting</a>.</td></tr>
 		<tr><td><code>taxability</code></td><td>With <code>code</code>: how each code asked is taxed here, keyed by the code. See <a class="link" href="#taxability">Taxability</a>.</td></tr>
 		<tr><td><code>regions</code></td><td>With <code>include=regions</code>. See <a class="link" href="/docs/regions">Regional data</a>.</td></tr>
 	</tbody>
 </table>
+
+<h3 id="old-files">Why some source files are old</h3>
+<p>
+	A state publishes a new rate file only when a rate or a boundary changes. A state with one rate everywhere and no local sales
+	taxes may go years without one: Kentucky's 6% is the same at every address, so its Streamlined files from 2012 and 2013
+	(<code>KYR2012Q4Aug13</code>, <code>KYB2013Q2MAR13</code>) are still the current ones. The date in a file's name is when the
+	state published it, not when OpenTaxRate last checked for a newer one.
+</p>
 
 <h3 id="taxability">Taxability</h3>
 <p>
@@ -245,7 +262,7 @@ else sendElsewhere();                                   // not_researched: never
 				<code>not_researched</code> (a part has no researched rule for this code on this date).
 			</td>
 		</tr>
-		<tr><td><code>rate</code></td><td>The combined rate to charge on this sale; <code>null</code> exactly when <code>conditional</code> or <code>not_researched</code>.</td></tr>
+		<tr><td><code>rate</code></td><td>The combined rate to charge on this sale, unless the rules' <code>conditions</code> list an exception that fits it (e.g. Kentucky's grandfathered fixed-price contracts); <code>null</code> exactly when <code>conditional</code> or <code>not_researched</code>.</td></tr>
 		<tr><td><code>taxes[].tax</code></td><td>What the rule covers: a state (every part there), <code>CA:GST/HST</code>, a province's HST change (<code>ON/CA:HST</code>), a provincial tax (<code>BC:PST</code>), or <code>*</code> for a <code>nontaxable</code> line.</td></tr>
 		<tr><td><code>taxes[].parts</code></td><td>The <code>code</code>s of the answer's parts this rule decides; together the entries cover every part once.</td></tr>
 		<tr>
@@ -267,8 +284,33 @@ else sendElsewhere();                                   // not_researched: never
 			</td>
 		</tr>
 		<tr><td><code>rule.summary</code>, <code>rule.treatment</code></td><td>The rule in one sentence, and what it decides.</td></tr>
-		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, code? }'}</code>; <code>code</code> is the narrower code that case is. For a settled one, exceptions worth knowing.</td></tr>
-		<tr><td><code>outcomes</code></td><td>Only when <code>conditional</code>: each case with the sale's combined rate, <code>{'{ when, rate, code? }'}</code>. Where <code>code</code> is set, sending that code instead settles the answer at that rate.</td></tr>
+		<tr>
+			<td><code>rule.base</code></td>
+			<td>
+				Where the law taxes only a share of the charge, that share (<code>0 &lt; base &lt; 1</code>): Texas taxes 80% of a SaaS or
+				data processing charge, <code>0.8</code>. Every rate in the answer already applies it, on the whole charge (6.6% of the
+				price where the general rate is 8.25%), so don't reduce the amount as well. Absent: the whole charge is taxed.
+			</td>
+		</tr>
+		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, base?, code? }'}</code>; <code>base</code> is the share taxed in that case, <code>code</code> the narrower code that case is. For a settled one, its exceptions: the rule's <code>rate</code> holds unless one of them fits the sale.</td></tr>
+		<tr>
+			<td><code>outcomes</code></td>
+			<td>
+				Only when <code>conditional</code>: each case with the sale's combined rate, <code>{'{ when, rate, code?, tax? }'}</code>.
+				Where <code>code</code> is set, sending that code instead settles the answer at that rate. Where several taxes are
+				undecided, their cases are combined only where they describe the same sale (stated in the same words, or the same
+				narrower code), never a case of one with a contradicting case of the other.
+			</td>
+		</tr>
+		<tr>
+			<td><code>independent</code></td>
+			<td>
+				<code>true</code> where several taxes are undecided and their cases don't pair up: the taxes turn on their facts
+				independently; combine one case per tax. Each outcome is then one tax's case, named in its <code>tax</code>, at that case's
+				rate for its tax plus the settled taxes'. The sale's rate is the settled taxes' plus each chosen case's own share. See
+				<a class="link" href="/docs/taxability#outcomes">Outcomes</a>.
+			</td>
+		</tr>
 		<tr><td><code>rule.citations</code></td><td>The official pages the rule was read from: <code>title</code>, <code>url</code> (the page as published), the <code>quote</code> the rule rests on, and <code>archived</code>: OpenTaxRate's copy of the page that shows the quote, opening at the sentence, pinned to its <code>sha256</code>. Link to <code>archived</code>; it names the original too.</td></tr>
 	</tbody>
 </table>

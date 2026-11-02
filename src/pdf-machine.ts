@@ -35,10 +35,20 @@ export interface MachineTranscription {
   reviewed: false;
   /** The primary model first: its reading is each page's `text`. */
   models: string[];
-  pages: Array<{ text: string; alternate: string; disagreements: Disagreement[]; /** A model that stopped at its token cap. */ cutOff?: string[] }>;
+  /** Every page of the PDF; null for a page with its own text layer (a PDF
+   *  only partly scanned has its image-only pages read, nothing else). */
+  pages: Array<MachinePage | null>;
   /** US dollars, as OpenRouter reported it. */
   cost: number;
   at: string;
+}
+
+export interface MachinePage {
+  text: string;
+  alternate: string;
+  disagreements: Disagreement[];
+  /** A model that stopped at its token cap. */
+  cutOff?: string[];
 }
 
 export interface MachineFormatted {
@@ -125,6 +135,33 @@ export async function readPage(options: { key: string; model: string; prompt: st
     await new Promise((resolve) => setTimeout(resolve, 5_000 * (attempt + 1)));
   }
   throw new Error(`${options.model} on page ${options.page}: ${last}`);
+}
+
+/** A text prompt answered by one model through OpenRouter, at temperature
+ *  0 with its output capped; retried twice on a dropped connection or an
+ *  error. For questions whose answer is never text shown as evidence (the
+ *  lines a page's content runs between: src/evidence-crop.ts). */
+export async function askModel(options: { key: string; model: string; prompt: string; maxTokens: number; /** OpenRouter's reasoning setting, e.g. { enabled: false }. */ reasoning?: Record<string, unknown> }): Promise<Answer> {
+  const body = { model: options.model, temperature: 0, max_tokens: options.maxTokens, usage: { include: true }, ...(options.reasoning ? { reasoning: options.reasoning } : {}), messages: [{ role: "user", content: options.prompt }] };
+  let last = "";
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${options.key}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(180_000),
+      });
+      const answer = (await response.json()) as { model?: string; choices?: Array<{ message?: { content?: string }; finish_reason?: string }>; usage?: { cost?: number }; error?: { message?: string } };
+      if (response.ok && answer.choices?.length)
+        return { text: answer.choices[0].message?.content ?? "", model: answer.model ?? options.model, cost: answer.usage?.cost ?? 0, finish: answer.choices[0].finish_reason ?? "" };
+      last = `${response.status} ${answer.error?.message ?? ""}`.slice(0, 200);
+    } catch (error) {
+      last = (error as Error).message;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 5_000 * (attempt + 1)));
+  }
+  throw new Error(`${options.model}: ${last}`);
 }
 
 /** A word as two readings are compared: Markdown marks (a table's rule

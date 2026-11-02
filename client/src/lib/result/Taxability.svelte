@@ -66,6 +66,11 @@
 				</p>
 			{:else if t.treatment === 'conditional'}
 				{#if headline}<p class="mt-1 text-sm text-[var(--text-2)]">The answer turns on facts this code doesn't carry; each is listed below.</p>{/if}
+				{#if t.outcomes?.length && t.independent}
+					<p class="mt-2 text-[13px] text-[var(--text-2)]">
+						These taxes turn on their facts independently: pick one case for each tax. Each rate is that case plus the settled taxes.
+					</p>
+				{/if}
 				{#if t.outcomes?.length}
 					<ul class="mt-3 flex flex-col gap-1.5 text-sm">
 						{#each t.outcomes as o, j (j)}

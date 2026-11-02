@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AddressRate, Trace } from '$lib/api';
+	import { saleRates, type AddressRate, type Trace } from '$lib/api';
 	import RateBar from '$lib/pixel/RateBar.svelte';
 	import Actions from './Actions.svelte';
 	import Taxability from './Taxability.svelte';
@@ -37,7 +37,7 @@
 		const [code, t] = entries[0];
 		const byPart = new Map<string, { treatment: string; rate: number | null; first: boolean }>();
 		for (const g of t.taxes) g.parts.forEach((p, i) => byPart.set(p, { treatment: g.treatment, rate: g.rate, first: i === 0 }));
-		const rates = [...new Set((t.outcomes ?? []).map((o) => o.rate))].sort((a, b) => b - a);
+		const rates = saleRates(t);
 		return { code, name: codeName(code), t, byPart, rates };
 	});
 	/** What one part does to the named sale, in a few words. */

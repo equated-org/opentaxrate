@@ -54,6 +54,11 @@ export interface Condition {
   treatment: "taxable" | "special_rate" | "exempt" | "zero_rated";
   /** The part's rate in this case, where it isn't the part's full rate. */
   rate?: number;
+  /** The share of the charge taxed in this case, where the law taxes only
+   *  part of it (0 < base < 1; Texas taxes 80% of a data processing
+   *  charge): the rate applies to that share, so the rate on the whole
+   *  charge is the rate times base. */
+  base?: number;
   /** In an answer for a broad code: the narrower code this case is, which
    *  the caller can send instead. Never in rule files. */
   code?: string;
@@ -75,6 +80,9 @@ export interface Rule {
    *  parts the rule decides together (a state part; or every local part of
    *  an "XX:local" rule, Utah's 1.25% across its local taxes on food). */
   rate?: number;
+  /** For "taxable" or "special_rate": the share of the charge taxed, where
+   *  the law taxes only part of it (0 < base < 1), as on a condition. */
+  base?: number;
   follows?: string;
   summary: string;
   /** The facts the outcome turns on, for a conditional rule; exceptions
@@ -117,6 +125,7 @@ export function loadRules(): Promise<RuleSet> {
           fromIs: r.fromIs as Rule["fromIs"],
           treatment: r.treatment as Rule["treatment"],
           ...(r.rate !== null ? { rate: r.rate } : {}),
+          ...(r.base !== null ? { base: r.base } : {}),
           ...(r.follows ? { follows: r.follows } : {}),
           summary: r.summary,
           conditions: r.conditions as Condition[],
@@ -140,6 +149,8 @@ const day = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/)
   .refine((d) => new Date(`${d}T00:00:00Z`).toISOString().slice(0, 10) === d, "not a calendar date");
+// The share of a charge taxed, where the law taxes only part of it.
+const share = z.number().gt(0).lt(1);
 const RuleFile = z.array(
   z
     .object({
@@ -150,10 +161,14 @@ const RuleFile = z.array(
       fromIs: z.enum(["effective", "earliest_verified"]),
       treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated", "conditional", "follows"]),
       rate: z.number().gt(0).max(0.3).optional(),
+      base: share.optional(),
       follows: z.string().optional(),
       summary: z.string().min(10),
       conditions: z.array(
-        z.object({ when: z.string().min(3), treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]), rate: z.number().min(0).max(1).optional() }).strict(),
+        z
+          .object({ when: z.string().min(3), treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]), rate: z.number().min(0).max(1).optional(), base: share.optional() })
+          .strict()
+          .refine((c) => c.base === undefined || c.treatment === "taxable" || c.treatment === "special_rate", "base is a share of the charge taxed: only on a taxable or special_rate case"),
       ),
       citations: z.array(z.object({ title: z.string().min(2), url: z.string().url(), quote: z.string().optional() }).strict()).min(1),
       notes: z.string().optional(),
@@ -165,7 +180,8 @@ const RuleFile = z.array(
     // followed its state's would join the state's parts and lose its rate.
     .refine((r) => r.treatment !== "follows" || r.tax.includes("/"), "only a province's HST rule (\"XX/CA:HST\") may follow another")
     .refine((r) => (r.treatment === "special_rate") === (r.rate !== undefined), "rate is set exactly when treatment is reduced")
-    .refine((r) => r.treatment !== "conditional" || r.conditions.length > 0, "a conditional rule lists its conditions"),
+    .refine((r) => r.treatment !== "conditional" || r.conditions.length > 0, "a conditional rule lists its conditions")
+    .refine((r) => r.base === undefined || r.treatment === "taxable" || r.treatment === "special_rate", "base is a share of the charge taxed: only on a taxable or special_rate rule"),
 );
 
 export type RuleRow = z.infer<typeof RuleFile>[number] & { file: string };
