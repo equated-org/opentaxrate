@@ -225,7 +225,9 @@
 		which kind, the broader code answers (<code>food.prepared</code>, not a guess at hot or cold). A code whose definition turns
 		on a fact answers only where the words establish it, by saying so or naming something that has it by definition: ginger
 		ale is a soft drink, but an iced tea isn't known to be sweetened. Otherwise a broader code whose fact they do establish
-		answers, or the candidates do, and <code>interpreted.unestablished</code> names the code. Where they could be several
+		answers, or the candidates do, and <code>interpreted.unestablished</code> names the code. Send one item per line: where
+		the words name several different items, a code answers only if every item is of it (milk, eggs and bread are groceries);
+		otherwise the answer is <code>conditional</code> with <code>needs: ["one_item"]</code>. Where they could be several
 		codes, the answer is <code>conditional</code>, <code>interpreted.code</code> is <code>null</code> and
 		<code>candidates</code> lists them: send one as <code>code</code>. Where no code covers it (a haircut), it's
 		<code>not_researched</code>.
@@ -248,8 +250,8 @@
 		case that turns on the seller's share of prepared-food sales, the place's own local taxes, payment in a dated tax period or
 		when title passed is never settled from words either. Such a case stays open, and <code>needs</code> names the facts:
 		<code>seller_kind</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
-		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, or <code>code</code> when no one
-		code fits. A count only blocks the cases it decides: a loaf of bread is settled by its case's "bread products" alternative,
+		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, <code>code</code> when no one
+		code fits, or <code>one_item</code> when the words name several items that aren't all of one code. A count only blocks the cases it decides: a loaf of bread is settled by its case's "bread products" alternative,
 		not held open by the same case's "six or more single servings". Which local taxes the address's place levies is never
 		asked of you: where our rules don't have that place's local law yet, <code>unresearched: ["locality"]</code> says so.
 	</li>

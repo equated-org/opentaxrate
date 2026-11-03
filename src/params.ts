@@ -257,6 +257,19 @@ export interface Params {
    *  what the answer turns on (r03: a sandwich's answer named the bakery
    *  cases' quantity_by_kind). */
   describeNeedsFloor: number;
+  /** Whether the code question asks too if the line names several
+   *  different items (ITEMS_QUESTION), and the probability of SEVERAL at
+   *  which a code must have its fact established of every item named, or
+   *  the entry asks for one item per request (needs one_item). Added
+   *  2026-11-03 for baskets on one line (round 1: b3-01 groceries and a
+   *  rotisserie chicken). Checking each item split out of the text cost 67
+   *  dev text answers (a split loses the line's context); the every-item
+   *  question costs 1 (803 → 802: la-08, one delivery fee on an invoice of
+   *  mixed goods), round 1 two (b3-08 sparkling water and cola, by design;
+   *  b3-35 a café's cold brew and sandwich, mean yes 0.45), 0 wrong
+   *  anywhere; 0.95 scored the same. */
+  describeItemsCheck: boolean;
+  describeItemsAccept: number;
 }
 
 const DEFAULTS: Params = {
@@ -310,6 +323,8 @@ const DEFAULTS: Params = {
   describeSoleFloor: 0.8,
   describeSoleNone: 0.05,
   describeNeedsFloor: 0.05,
+  describeItemsCheck: true,
+  describeItemsAccept: 0.9,
 };
 
 /** The value OTR_PARAMS gives `key`, or an error saying why it can't be. */

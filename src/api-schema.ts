@@ -215,16 +215,17 @@ export const TaxabilitySchema = z
               "The codes the model leaned to whose defining fact the text doesn't establish (a tea not said to be sweetened isn't a soft drink), narrowest first. The entry then answers by a broader code whose fact it does establish, or is conditional on the candidates.",
             example: ["food.soft_drink"],
           }),
+        items: z.literal(true).optional().openapi({ description: "The text names several different items. A code answers only where the text establishes that every item is of it; else the entry is conditional with needs one_item: send one item per request." }),
         unavailable: z.literal(true).optional().openapi({ description: "The model wasn't asked or failed: the entry answers as if no text was sent." }),
       })
       .optional()
       .openapi({ description: "Only with describe=: how the text was read. The model only picks among offered options; the rules decide." }),
     needs: z
-      .array(z.enum(["code", "seller_kind", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
+      .array(z.enum(["code", "one_item", "seller_kind", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
       .optional()
       .openapi({
         description:
-          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies, only where the answer's parts don't name the place (else unresearched); payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; one_item: the line names several different items not all of one code, send one per request; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies, only where the answer's parts don't name the place (else unresearched); payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
         example: ["locality"],
       }),
     unresearched: z

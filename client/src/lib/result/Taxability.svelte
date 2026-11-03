@@ -52,6 +52,7 @@
 	/** The facts a description can't settle (needs), in words. */
 	const NEED: Record<string, string> = {
 		code: 'which code it is',
+		one_item: 'one item per request (the description names several)',
 		seller_kind: "the seller's share of prepared-food sales",
 		locality: 'which local taxes the place levies',
 		payment_date: 'when it was paid for',

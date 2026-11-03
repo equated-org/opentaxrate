@@ -140,6 +140,8 @@ export interface Interpreted {
 	/** The codes the model leaned to whose defining fact the text doesn't
 	 *  establish (a tea not said to be sweetened isn't a soft drink). */
 	unestablished?: string[];
+	/** The description names several different items. */
+	items?: true;
 	unavailable?: true;
 }
 

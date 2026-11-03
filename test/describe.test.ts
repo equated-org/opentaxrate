@@ -492,4 +492,18 @@ describe("reading fixes (2026-11-03 random sample)", () => {
     expect((await ask(0.85)).treatment).toBe("conditional");
     expect(await ask(0.05)).toMatchObject({ treatment: "taxable" });
   });
+
+  it("answers a line of several items by a code only where every item is of it, else asks for one item per request", async () => {
+    const set = ruleSet([rule("food.grocery", "exempt"), rule("food.prepared.hot", "taxable")] as Rule[]);
+    const ask = (every: number) =>
+      describedTaxability({ state: "ZZ", parts: ZZ }, { text: "milk, eggs and bread" }, DAY, set, stub([[/^It charges for two or more/, 0.97]], codePick("food.grocery", 0.95), [[/^Every item the description names is this: It is food/, every]]));
+    expect(await ask(0.9)).toMatchObject({ treatment: "not_taxed", interpreted: { code: "food.grocery", items: true } });
+    const mixed = await ask(0.1);
+    expect(mixed).toMatchObject({ treatment: "conditional", needs: ["one_item"], interpreted: { code: null, items: true } });
+    expect(TaxabilitySchema.parse(mixed)).toEqual(mixed);
+    // One item: no every-item question.
+    const one = stub([[/^It charges for one thing/, 0.97]], codePick("food.grocery", 0.95), [[/It is food/, 0.9]]);
+    expect(await describedTaxability({ state: "ZZ", parts: ZZ }, { text: "a gallon of milk" }, DAY, set, one)).toMatchObject({ treatment: "not_taxed" });
+    expect(JSON.stringify(one.asked)).not.toMatch(/Every item/);
+  });
 });
