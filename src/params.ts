@@ -171,49 +171,64 @@ export interface Params {
    *  frozen shrimp ring pooled as groceries). Clean on half B. */
   describeCodePooling: boolean;
   describeCodePoolAccept: number;
+  /** Whether a code whose settled rule lists exceptions may be pooled. Off
+   *  (the first calibration) lost round 1's HVAC tune-up (repair and other
+   *  professional service, both not taxed) and 4 dev text answers, and
+   *  made nothing right; on, 0 wrong on every set. */
+  describePoolExceptions: boolean;
   /** The reading fixes of 2026-11-03 (a blind sample of 50 receipt-style
-   *  descriptions, graded against official sources: 3 wrong, r21 r30 r17).
-   *  Tuned on dev half A and those 50, frozen rules 4d44010, Jev 1.14.0;
-   *  half B was then run and failed (ny-24, d2-sk-18 wrong, both through a
-   *  sole candidate), so B shaped describeSoleNone and the chain fix and is
-   *  no longer a clean check of them. Full dev, both modes, 0 wrong.
+   *  descriptions, graded against official sources: 3 wrong, r21 r30 r17),
+   *  recalibrated the same day on fresh data: round 1 (120 blind
+   *  descriptions, two graders) and a batch of 60 written to establish one
+   *  rule case each. The first calibration (absolute 0.8 bars on Jev's
+   *  yes-or-no answers, the silence wording on) lost 8 of round 1's answers
+   *  both graders marked right and 10 of the batch's 48, every one a fact
+   *  the text states ("a 12-pack of cola", "no plates or forks"). Measured
+   *  on all of full dev (both modes), the 50, round 1 and the batch, every
+   *  variant at 0 wrong but one noted below; frozen rules 4d44010, Jev
+   *  1.14.0. Chosen: dev 943/803 right (main 935/795), the 50 at 0 wrong
+   *  (main 3), round 1 62 right as main with none lost, the batch 48 with
+   *  code and 35 without (main 48, 34).
    *
    *  A code read from the text whose definition turns on a fact (DEFINING
-   *  in describe.ts: a soft drink is sweetened) is used only where a
-   *  yes-or-no question finds the text establishes that fact at this;
-   *  else the nearest broader code that passes, else the candidates. Jev's
-   *  yes-or-no probabilities run low: plain yeses (a bakery's loaf, a hot
-   *  burrito) came at 0.82-0.88, unestablished facts (iced tea sweetened
-   *  0.03, a deli tub's salad made by the seller 0.36, coffee hot 0.49)
-   *  well below. 0.7 gave +4 text on full dev and +1 on A, 0 wrong; 0.8
-   *  is kept, the higher bar the fix asked for. On full dev the check costs
-   *  9 text answers (790 → 781), each a decline where the text doesn't
-   *  establish the fact (a "candy bar" may have a wafer; "deli ham by the
-   *  pound" isn't said to be the seller's). */
+   *  in describe.ts: a soft drink is sweetened) is used only where the text
+   *  establishes that fact: the mean yes over two wordings of the question
+   *  (describeDefiningAsk "both": yes or unknown, and yes, not stated or
+   *  contradicted) at this, yes at least as likely as not. Either wording
+   *  alone mislabels something: the binary one gave the café's "cold brew
+   *  and a breakfast sandwich" 0.48 and the deli tub's pasta salad (r17)
+   *  0.36; the three-way one gave them 0.80 and 0.50. Their mean: 0.64 and
+   *  0.43. At 0.4 r17 goes wrong; 0.6 loses one of the batch. */
   describeDefiningAccept: number;
   describeDefiningCheck: boolean;
+  /** The defining question: "binary" (YES or UNKNOWN), "three" (YES,
+   *  NOT_STATED or CONTRADICTED) or "both", their mean. "three" alone made
+   *  r17 wrong (0.50); "binary" alone lost round 1's café order. */
+  describeDefiningAsk: "binary" | "three" | "both";
   /** The open-case question tells the picker that a fact stated by its
-   *  absence fits only where the text says so (SILENCE_INSTRUCTIONS). A
-   *  stronger wording (no fact of any kind from silence: who made it, where
-   *  it was sold) cost 13 code and 11 text answers on A, all plainly stated
-   *  ("a diner sells a bottled soda" no longer read as sold by a
-   *  restaurant), and was dropped; this one costs 7 code, 4 text on full
-   *  dev (935/785 → 928/781), wrong unchanged, and the first pick no longer
-   *  takes r21's case stated as an absence (0.93 → 0.59). */
+   *  absence fits only where the text says so (SILENCE_INSTRUCTIONS). Off:
+   *  it lowered the first pick on plainly stated cases (round 1's font
+   *  download as used in the buyer's business 0.90 → 0.67, a furniture
+   *  store's delivery as of taxable goods 0.91 → 0.85), and the absence
+   *  question below keeps r21 open without it. On, every set lost answers
+   *  (dev 943/803 → 933/790 at the chosen bars), wrong unchanged. */
   describeSilenceRule: boolean;
-  /** Which accepted cases need confirming by their own yes-or-no question:
-   *  "all", "negative" (a case whose words state a fact by its absence,
-   *  "without utensils", NEGATIVE in describe.ts), or "none". On full dev,
-   *  "all" cost 31 code and 37 text more than "negative" (897/744), wrong
-   *  unchanged: Jev's yes to a long compound case runs 0.4-0.8 even where
-   *  the text states it (a caterer that plates and serves dinner: 0.39).
-   *  "negative" costs 10 code, 11 text (938/792 → 928/781); asking each
-   *  absence part alone (negativeParts) won 1 of them back on A. */
+  /** Which accepted cases need confirming: "all", "negative" (a case whose
+   *  words state a fact by its absence or a limit, "without utensils",
+   *  "only cut": NEGATIVE in describe.ts), or "none". A negative case is
+   *  confirmed by its yes-or-no question or by ABSENCE_INSTRUCTIONS's
+   *  choice of three (the text states the absence in any words, is silent,
+   *  or contradicts it), which reads "no plates or forks" as stated (0.79)
+   *  where the yes-or-no question gave 0.48. "none" makes r21 wrong (a meal
+   *  kit taken as sold without utensils); "all" cost 31 code and 37 text on
+   *  dev under the first calibration. An unconfirmed negative case loses its
+   *  weight to NONE, so the cases the rules treat alike with it still stand
+   *  if they reach describeConditionAccept without it (round 1's zoning
+   *  board retainer: legal, lobbying and a residual case, all not taxed). */
   describeConfirm: "all" | "negative" | "none";
-  /** A confirmation's yes, for the whole case or each absence part: 0.7
-   *  and 0.8 scored within 1 on A; 0.9 cost 6 code, 6 text on full dev and
-   *  lost plain cases (r15's loaf as "bread products without sweet
-   *  filling": 0.82). */
+  /** A confirmation's yes: as likely as not. 0.4 scored the same; 0.6 lost
+   *  2 dev and 1 of the batch; 0.8 (the first calibration) lost the
+   *  stated absences. */
   describeConfirmAccept: number;
   /** Where the pick's top code is narrower than the code accepted and has
    *  a defining fact, the text establishing that fact at
@@ -281,11 +296,13 @@ const DEFAULTS: Params = {
   describeFallbackAgree: true,
   describeCodePooling: true,
   describeCodePoolAccept: 0.95,
-  describeDefiningAccept: 0.8,
+  describePoolExceptions: true,
+  describeDefiningAccept: 0.5,
   describeDefiningCheck: true,
-  describeSilenceRule: true,
+  describeDefiningAsk: "both",
+  describeSilenceRule: false,
   describeConfirm: "negative",
-  describeConfirmAccept: 0.8,
+  describeConfirmAccept: 0.5,
   describeNarrowByDefining: true,
   describeNarrowAccept: 0.9,
   describeSoleCandidate: true,
