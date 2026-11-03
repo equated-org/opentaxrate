@@ -59,6 +59,16 @@ population):
   Springs, Thornton, Greeley, Pueblo, Centennial, Broomfield; bakery items
   in most cities; Longmont and Loveland groceries (no official page found;
   Loveland's regulation answers 403); Castle Rock (crgov.com answers 403).
+- **Colorado software**: home-rule cities that tax SaaS and downloaded
+  software have one-part rules (Denver, Aurora, Boulder, Colorado Springs,
+  Fort Collins, Arvada, Westminster, Broomfield; Pueblo and Lakewood in
+  part). Not settled: Thornton, Centennial and Greeley (Greeley's page
+  names downloaded software as taxable, but only in script-loaded text the
+  extractor doesn't read), Lakewood's SaaS and prewritten software,
+  Pueblo's SaaS, Aurora's modifications. The state's own change (HB
+  26-1223: software, SaaS included, taxable from 2027-01-01) isn't modeled
+  yet: read `tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf`
+  and the act, then end the CO software rules on 2026-12-31.
 - **Arizona**: city TPT rates differ by business class. ADOR's rate table
   (`TPT_RATETABLE_ALL_<date>.csv`) has restaurant and bar rates (classes
   011 and 111) and food-for-home-consumption rates (062) per city, but the
