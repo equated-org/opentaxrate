@@ -127,7 +127,7 @@ export const codeQuestion = (): Question => ({ instructions: CODE_INSTRUCTIONS, 
  *  is defined by the kind of thing it is, which the pick itself reads. */
 export const DEFINING: Partial<Record<TaxCode, string>> = {
   "food.grocery":
-    "It is food or a food ingredient sold as it came, for eating at home, not a meal, dish, tray or platter ready to serve, and by its nature not candy, a sweetened drink, alcohol, a dietary supplement or tobacco: produce, meat, fish, dairy, eggs, bread, cereal, frozen vegetables, packaged staples.",
+    "It is food or a food ingredient sold as it came, for eating at home: not a meal or dish, and not an assortment arranged on a tray, ring or platter to serve as it is (thawed or not); and by its nature not candy, a sweetened drink, alcohol, a dietary supplement or tobacco: produce, meat, fish, dairy, eggs, bread, cereal, frozen vegetables, packaged staples.",
   "food.candy": "It is candy or confectionery: sweets, chocolates, gum or a candy bar; not a baked good, a wafer or cookie, or anything else made with flour.",
   "food.soft_drink":
     "It is a non-alcoholic drink that contains natural or artificial sweeteners, as soda, other sweetened carbonated drinks, energy drinks and drinks the description calls sweetened do by definition; not milk, not more than half fruit or vegetable juice, not plain water.",
@@ -142,6 +142,8 @@ export const DEFINING: Partial<Record<TaxCode, string>> = {
   "food.prepared.bakery": "It is bread, a pastry, muffin, doughnut, cookie, cake, pie or other baked good, sold by a bakery, doughnut shop, café, in-store bakery or other seller of its own baked goods.",
   "food.prepared.platter": "The seller arranged prepared food on a platter or tray, sold to go: a party tray of sandwiches, cheese, cold cuts, fruit or vegetables.",
   "food.catering": "The seller caters the food for the customer's event or group: it prepares the food and serves it or sets it out for the guests (a catered buffet, a plated dinner), billed as catering.",
+  "alcohol.off_premises": "The drink is sold in its closed container to take away or have delivered, not served for drinking at the seller's place.",
+  "alcohol.on_premises": "The drink is served for drinking at the seller's bar, restaurant, taproom or club.",
   "delivery.taxable_goods.mail": "The charge is postage for sending the goods by the postal service, at the postage's cost.",
   "delivery.taxable_goods.carrier": "The goods are shipped by a common or contract carrier (not the seller's own vehicle), and the buyer owns them once shipped (F.O.B. origin).",
 };
@@ -220,7 +222,10 @@ export function acceptCode(pick: Picked, threshold = PARAMS.describeCodeAccept, 
   if (topIsCode)
     for (let c: TaxCode | null = top; c; c = parentOf(c)) {
       const m = mass(c);
-      if (m >= threshold - EPSILON) return { code: c, confidence: Math.min(1, round2(m)) };
+      // A broader code its kinds reach together, none of them alone: its
+      // definition must be established as a sole candidate's is
+      // (describeCheckBroadened).
+      if (m >= threshold - EPSILON) return { code: c, confidence: Math.min(1, round2(m)), ...(c !== top && PARAMS.describeCheckBroadened && (p[top] ?? 0) < threshold - EPSILON ? { sole: true as const } : {}) };
     }
   if ((p[NONE] ?? 0) >= threshold - EPSILON) return { none: true };
   const all = codes.reduce((sum, k) => sum + p[k], 0);
@@ -344,7 +349,19 @@ export function needsOf(when: string): Need[] {
   return out;
 }
 
-const needsOfCase = (ks: Array<Condition | "keep">) => ks.flatMap((k) => (k === "keep" ? [] : blockingOf(k)));
+/** A broad code's cases that are a kind whose defining fact the text was
+ *  found not to establish (the code was tried and failed): never settled
+ *  from the text, as if they turned on a fact it can't carry. The cases
+ *  are each request's own objects. */
+const unestablishedCases = new WeakSet<Condition>();
+
+/** The kind a broad code's case is, innermost first. */
+const kindsOf = (k: Condition): TaxCode[] => {
+  const w = caseWordsOf(k);
+  return w ? [...(w.code ? [w.code] : []), ...(w.inner ? kindsOf(w.inner) : [])] : [];
+};
+
+const needsOfCase = (ks: Array<Condition | "keep">): Need[] => ks.flatMap((k) => (k === "keep" ? [] : unestablishedCases.has(k) ? ["code" as const] : blockingOf(k)));
 
 /** The questions that can settle `t`'s undecided taxes, or change a
  *  settled tax to one of its rule's exceptions. A question none of whose
@@ -814,9 +831,13 @@ export async function describedTaxability(
   for (let c: TaxCode | null = proposal.code; c; c = parentOf(c)) chain.push(c);
   const checks = PARAMS.describeDefiningCheck || proposal.sole || several ? definingQuestions(chain, proposal.sole ? proposal.code : null, several) : {};
   const unestablished: TaxCode[] = [];
+  const failed: TaxCode[] = [];
   let first: Record<string, Picked> | null = null;
   for (const [i, code] of chain.entries()) {
     const { asked, base } = questionsFor(answer, code, date, rules);
+    // A narrower code that failed its defining fact isn't settled again as
+    // one of this broader code's cases.
+    for (const q of asked) for (const ks of q.cases) for (const k of ks) if (k !== "keep" && kindsOf(k).some((c) => failed.includes(c))) unestablishedCases.add(k);
     const ask = { ...(i === 0 ? checks : {}), ...asQuestions(asked, code) };
     const picks = Object.keys(ask).length ? await picker.pick(text, ask) : {};
     // A failure here is a failure: as before the code was read.
@@ -825,6 +846,10 @@ export async function describedTaxability(
     const bar = code === narrower ? PARAMS.describeNarrowAccept : PARAMS.describeDefiningAccept;
     // Codes narrower than the one accepted are tried, not unestablished.
     if (definingAsked(checks, code) && !(definingYes(first!, checks, code) >= bar - EPSILON)) {
+      // A narrower code tried at the higher bar blocks its cases only where
+      // its fact falls under the usual one too.
+      // (Not a line of several items: "every item" is a stricter question.)
+      if (!several && definingYes(first!, checks, code) < PARAMS.describeDefiningAccept - EPSILON) failed.push(code);
       if (code !== narrower) unestablished.push(code);
       continue;
     }

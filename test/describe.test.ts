@@ -63,9 +63,11 @@ describe("reading the code", () => {
   it("takes the top code at the threshold, else the nearest broader code its kinds reach, else candidates or none", () => {
     expect(acceptCode(codePick("food.prepared.hot", 0.95))).toEqual({ code: "food.prepared.hot", confidence: 0.95 });
     // Hot or dine-in, not which: the broader code they share.
+    // ...its definition then checked as a sole candidate's (describeCheckBroadened).
     expect(acceptCode({ choice: "food.prepared.hot", confidence: 0.5, probabilities: { "food.prepared.hot": 0.5, "food.prepared.dine_in": 0.45, NONE: 0.05 } })).toEqual({
       code: "food.prepared",
       confidence: 0.95,
+      sole: true,
     });
     expect(acceptCode({ choice: "food.candy", confidence: 0.6, probabilities: { "food.candy": 0.6, "food.grocery": 0.35, NONE: 0.05 } })).toEqual({ candidates: ["food.candy", "food.grocery"] });
     expect(acceptCode({ choice: "NONE", confidence: 0.95, probabilities: { NONE: 0.95, "goods.general": 0.05 } })).toEqual({ none: true });
@@ -535,5 +537,15 @@ describe("reading fixes (2026-11-03 random sample)", () => {
     } finally {
       PARAMS.describeSecond = [];
     }
+  });
+
+  it("never settles a broad code's case as a kind whose defining fact the text was found not to establish (r42)", async () => {
+    const kinds = ["food.prepared.hot", "food.prepared.dine_in", "food.prepared.sandwich", "food.prepared.cold", "food.prepared.bakery", "food.prepared.platter"].map((c) => rule(c, "taxable"));
+    const set = ruleSet([...kinds, rule("food.prepared.cold_restaurant", "conditional", [{ when: "A single drink", treatment: "taxable" }, { when: "Bulk", treatment: "exempt" }])] as Rule[]);
+    const ask = (restaurant: number) =>
+      describedTaxability({ state: "ZZ", parts: ZZ }, { text: "strawberry smoothie, made to order" }, DAY, set, stub([[/single drink/, 0.95], [/^It charges for one thing/, 0.99]], { choice: "food.prepared.cold_restaurant", confidence: 0.5, probabilities: { "food.prepared.cold_restaurant": 0.5, "food.prepared": 0.45, NONE: 0.05 } }, [[/restaurant, café or other food-service business/, restaurant], [/ready to eat/, 0.95], [/single drink/, 0.95]]));
+    // Not said to be a restaurant's: the kind's case isn't taken.
+    expect((await ask(0.2)).treatment).toBe("conditional");
+    expect(await ask(0.95)).toMatchObject({ treatment: "taxable" });
   });
 });

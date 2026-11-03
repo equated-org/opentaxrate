@@ -314,6 +314,22 @@ export interface Params {
    *    graders; h2-31, h2-41, two of three). Chosen. 6.7% of the rounds'
    *    requests reach the band, each one code question to each model:
    *    about 0.13 calls and $0.0003 per request, $0.27 per 1,000. */
+  /** A broader code accepted because its kinds reach describeCodeAccept
+   *  together, none alone, has its definition checked as a sole
+   *  candidate's is. Added 2026-11-03 on the integrated codes (clothing,
+   *  alcohol, rental, service.goods), whose options moved Jev's mass: round
+   *  1's b3-56 "association dues that included lobbying" reached
+   *  service.professional at 0.91 through its kinds and was settled at 0%
+   *  where both graders hold it undeterminable (definition yes 0.25 and
+   *  0.38). Costs: integrated dev text 2 (ct-15 a roofer "for its owner",
+   *  0.48), round 1 one (b2-22), round 2 one (h1-28). The same day the
+   *  grocery fact was reworded (no assortment on a tray, ring or platter
+   *  to serve as it is, thawed or not): d2-nt-04, a frozen shrimp ring, read
+   *  as groceries at 0.94 with the old fact passing at 0.92/0.97, now
+   *  0.19/0.38; and a broad code's case whose kind failed its fact under
+   *  describeDefiningAccept is never settled (r42: a smoothie as a
+   *  restaurant's cold drink, cold_restaurant 0.37/0.20). */
+  describeCheckBroadened: boolean;
   describeSecond: string[];
   describeSecondFloor: number;
   /** Whether a code under the bar may be settled so; the floor for a case
@@ -377,6 +393,7 @@ const DEFAULTS: Params = {
   describeNeedsFloor: 0.05,
   describeItemsCheck: true,
   describeItemsAccept: 0.9,
+  describeCheckBroadened: true,
   describeSecond: [],
   describeSecondFloor: 0.6,
   describeSecondCodes: true,
