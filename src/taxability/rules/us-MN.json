@@ -1007,5 +1007,89 @@
       }
     ],
     "notes": "The guide page is undated; the treatment rests on the requirement of a transfer of software (subd. 3(f)), and specified/other digital products (subd. 54-55) do not include software. Earliest date of the guide's statement not verified; 2018-01-01 is the start of the period modeled. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN:local:01:17000",
+    "code": "food.prepared.dine_in",
+    "from": "2026-11-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food and drink served at a Duluth bar or restaurant also carries Duluth's 2.25% food and beverage tax when the seller has $100,000 or more in yearly taxable sales.",
+    "conditions": [
+      {
+        "when": "Sold by a bar or restaurant (food and beverage establishment) with $100,000 or more in yearly taxable sales: Duluth's 1.5% sales tax plus its 2.25% food and beverage tax",
+        "treatment": "special_rate",
+        "rate": 0.0375
+      },
+      {
+        "when": "Sold by a bar or restaurant with less than $100,000 in yearly taxable sales",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "All Food and Beverage establishments with $100,000 or more in annual sales are required to collect and file Tourism Taxes with the City of Duluth."
+      },
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "The laws of the State of Minnesota and the ordinances of the City of Duluth authorize the following taxes on bar and restaurant sales as described above:"
+      },
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "A 2.25% excise tax on all taxable sales for businesses having yearly taxable sales of more than $100,000."
+      },
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "Food and Beverage establishments must collect 2.25% for the Food and Beverage Tax."
+      }
+    ],
+    "notes": "Duluth's 2.25% food and beverage tax is collected by the city, not the Department of Revenue, so it isn't a part of the rate data; this rule is on Duluth's city sales tax part (01:17000, 1.5%), whose rate it raises to 3.75% for a large enough seller. The other parts keep the MN rules. Read from the city's page as filed on 2026-11-03; the tax's start date wasn't read. Hot food, catering and food from stores other than bars and restaurants weren't settled by the page."
+  },
+  {
+    "tax": "MN:local:01:17000",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2026-11-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cold food and drink a Duluth bar or restaurant sells to go also carries Duluth's 2.25% food and beverage tax when the seller has $100,000 or more in yearly taxable sales.",
+    "conditions": [
+      {
+        "when": "Sold by a bar or restaurant (food and beverage establishment) with $100,000 or more in yearly taxable sales: Duluth's 1.5% sales tax plus its 2.25% food and beverage tax",
+        "treatment": "special_rate",
+        "rate": 0.0375
+      },
+      {
+        "when": "Sold by a bar or restaurant with less than $100,000 in yearly taxable sales",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "All Food and Beverage establishments with $100,000 or more in annual sales are required to collect and file Tourism Taxes with the City of Duluth."
+      },
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "The laws of the State of Minnesota and the ordinances of the City of Duluth authorize the following taxes on bar and restaurant sales as described above:"
+      },
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "A 2.25% excise tax on all taxable sales for businesses having yearly taxable sales of more than $100,000."
+      },
+      {
+        "title": "City of Duluth, Tourism Taxes: Food and Beverage",
+        "url": "https://duluthmn.gov/finance/taxes/tourism-taxes/",
+        "quote": "Food and Beverage establishments must collect 2.25% for the Food and Beverage Tax."
+      }
+    ],
+    "notes": "Duluth's 2.25% food and beverage tax is collected by the city, not the Department of Revenue, so it isn't a part of the rate data; this rule is on Duluth's city sales tax part (01:17000, 1.5%), whose rate it raises to 3.75% for a large enough seller. The other parts keep the MN rules. Read from the city's page as filed on 2026-11-03; the tax's start date wasn't read. Hot food, catering and food from stores other than bars and restaurants weren't settled by the page."
   }
 ]

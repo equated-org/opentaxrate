@@ -107,7 +107,7 @@
         "quote": "Sales of services are generally not subject to Colorado sales tax."
       }
     ],
-    "notes": "This rule is the state part; local parts are in the CO:local rule (groceries may be taxable locally). Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "This rule is the state part; local parts are in the CO:local rule (groceries may be taxable locally). Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -158,7 +158,7 @@
         "quote": "Delivery charges, whether charged by the dining establishment or a third-party meal delivery service, are not taxable if both of the following conditions are met:"
       }
     ],
-    "notes": "The regulation (unchanged in this respect since at least 01/01/2018) includes delivery charges 'not separately stated'; the separability requirement is stated in the 2020 and 2025 DOR publications. Colorado's retail delivery fee (C.R.S. 43-4-218, from 2022-07-01) is a separate fee excluded from the purchase price, not sales tax. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "The regulation (unchanged in this respect since at least 01/01/2018) includes delivery charges 'not separately stated'; the separability requirement is stated in the 2020 and 2025 DOR publications. Colorado's retail delivery fee (C.R.S. 43-4-218, from 2022-07-01) is a separate fee excluded from the purchase price, not sales tax. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -190,7 +190,7 @@
         "quote": "taxes are due on any food item sold within RTD/CD boundaries and that is subject to the state sales tax"
       }
     ],
-    "notes": "Before 2010-05-01 candy was exempt food (HB 10-1191); not modeled. Colorado's candy definition excludes preparations with flour and items requiring refrigeration. Local: per FYI Sales 4, localities that exempt food must use the state's criteria and RTD/CD tax food items subject to state tax, so candy is treated as taxable locally too; the local-option statute (C.R.S. 29-2-105(1)(d)(I)(C)) refers only to the 39-26-707(1)(e) food exemption, so a reviewer may want a newer DOR statement confirming local treatment of candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Before 2010-05-01 candy was exempt food (HB 10-1191); not modeled. Colorado's candy definition excludes preparations with flour and items requiring refrigeration. Local: per FYI Sales 4, localities that exempt food must use the state's criteria and RTD/CD tax food items subject to state tax, so candy is treated as taxable locally too; the local-option statute (C.R.S. 29-2-105(1)(d)(I)(C)) refers only to the 39-26-707(1)(e) food exemption, so a reviewer may want a newer DOR statement confirming local treatment of candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -227,7 +227,7 @@
         "quote": "Tips and gratuities are not subject to sales tax if the total amount of the tip or gratuity is distributed to the person(s) who actually provided the service, such as a server or bartender."
       }
     ],
-    "notes": "Separately stated charges for services or entertainment that are not food (e.g. a cover charge for entertainment only) may be excluded; the sources do not address equipment rental or setup charges on a catering bill specifically, so those are treated as part of the taxable catering charge. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Separately stated charges for services or entertainment that are not food (e.g. a cover charge for entertainment only) may be excluded; the sources do not address equipment rental or setup charges on a catering bill specifically, so those are treated as part of the taxable catering charge. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -308,7 +308,7 @@
         "quote": "grocery stores, convenience stores, bakeries, butcher shops, fruit and vegetable stores, and department stores."
       }
     ],
-    "notes": "This rule is the state part; local parts are in the CO:local rule. The code allows items 'even if warmed': under Rule 39-26-102(4.5)(2)(b) food hot at sale is taxable regardless of seller. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "This rule is the state part; local parts are in the CO:local rule. The code allows items 'even if warmed': under Rule 39-26-102(4.5)(2)(b) food hot at sale is taxable regardless of seller. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -358,7 +358,7 @@
         "quote": "grocery stores, convenience stores, bakeries, butcher shops, fruit and vegetable stores, and department stores."
       }
     ],
-    "notes": "This rule is the state part; local parts are in the CO:local rule (the exempt branch depends on the local food option). Whether a given cut-fruit product counts as a 'fruit salad' is not settled by the sources. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "This rule is the state part; local parts are in the CO:local rule (the exempt branch depends on the local food option). Whether a given cut-fruit product counts as a 'fruit salad' is not settled by the sources. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -390,7 +390,7 @@
         "quote": "All sales of food or drink served or furnished in or by dining establishments in Colorado are subject to Colorado sales tax."
       }
     ],
-    "notes": "Where a restaurant also runs a separate pastry, ice cream or grocery-type operation, sales from that operation follow the rules for those businesses (Rule 39-26-102(4.5)(3)(d)). 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Where a restaurant also runs a separate pastry, ice cream or grocery-type operation, sales from that operation follow the rules for those businesses (Rule 39-26-102(4.5)(3)(d)). 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -417,7 +417,7 @@
         "quote": "Upon the amount paid for food or drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, carryout shops, and other like places of business at which prepared food or drink is regularly sold"
       }
     ],
-    "notes": "2018-01-01 is the earliest dated regulation version read. Meals provided free or at reduced charge to a restaurant's own employees are exempt (C.R.S. 39-26-104(1)(e)). Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "2018-01-01 is the earliest dated regulation version read. Meals provided free or at reduced charge to a restaurant's own employees are exempt (C.R.S. 39-26-104(1)(e)). Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -444,7 +444,7 @@
         "quote": "Food to be eaten in the store, hot foods ready to eat and food marketed to be heated in the store."
       }
     ],
-    "notes": "2018-01-01 is the earliest dated regulation version read; the rule is older (FYI Sales 4 of 01/12 says the same). Local: hot food is not 'food for home consumption', so the local food option does not reach it; state-administered local taxes apply. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "2018-01-01 is the earliest dated regulation version read; the rule is older (FYI Sales 4 of 01/12 says the same). Local: hot food is not 'food for home consumption', so the local food option does not reach it; state-administered local taxes apply. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -471,7 +471,7 @@
         "quote": "Deli trays (e.g., meats, fish, cheeses, fruits or vegetables, etc., sold on trays prepared by or for the retailer);"
       }
     ],
-    "notes": "Because deli trays are not 'food', the local food exemption does not reach them. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Because deli trays are not 'food', the local food exemption does not reach them. 2018-01-01 is the earliest dated regulation version read. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -498,7 +498,7 @@
         "quote": "Cold sandwiches other than frozen sandwiches;"
       }
     ],
-    "notes": "Frozen sandwiches are food for home consumption and exempt (state). Sandwiches bought with SNAP/WIC benefits are exempt. Because cold sandwiches are not 'food', the local food exemption does not reach them. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Frozen sandwiches are food for home consumption and exempt (state). Sandwiches bought with SNAP/WIC benefits are exempt. Because cold sandwiches are not 'food', the local food exemption does not reach them. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -530,7 +530,7 @@
         "quote": "taxes are due on any food item sold within RTD/CD boundaries and that is subject to the state sales tax"
       }
     ],
-    "notes": "Before 2010-05-01 soft drinks were exempt food (HB 10-1191); not modeled. Beverages with milk, milk substitutes or more than 50% juice are not soft drinks. Local treatment: see the note on food.candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Before 2010-05-01 soft drinks were exempt food (HB 10-1191); not modeled. Beverages with milk, milk substitutes or more than 50% juice are not soft drinks. Local treatment: see the note on food.candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -562,7 +562,7 @@
         "quote": "is the same as the sale of tangible personal property and services taxable pursuant to section 39-26-104, except as otherwise provided in this subsection (1)(d)."
       }
     ],
-    "notes": "The tax on retail sales of tangible goods long predates 2018; 2018-01-01 is the earliest dated regulation version read here (1 CCR 201-4 as in force from 01/01/2018). State-administered local taxes share the state base (C.R.S. 29-2-105(1)(d)); the local-option exemptions listed there (machinery, farm equipment, residential energy, etc.) do not cover general goods. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "The tax on retail sales of tangible goods long predates 2018; 2018-01-01 is the earliest dated regulation version read here (1 CCR 201-4 as in force from 01/01/2018). State-administered local taxes share the state base (C.R.S. 29-2-105(1)(d)); the local-option exemptions listed there (machinery, farm equipment, residential energy, etc.) do not cover general goods. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",
@@ -589,7 +589,7 @@
         "quote": "In general, the tax does not apply to sales of services, except for those services specifically taxed by law."
       }
     ],
-    "notes": "Covers all seven subcodes. Tangible goods sold along with a service (e.g. furnishings an interior designer sells, printed advertising materials, software on physical media) can be taxable, and a bundled sale of goods and service may be taxable in full unless the service is separately stated and separable (Sales Tax Guide, Part 3). Mainframe computer access is taxable as a sale of tangible personal property, but does not include ASP-hosted software. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+    "notes": "Covers all seven subcodes. Tangible goods sold along with a service (e.g. furnishings an interior designer sells, printed advertising materials, software on physical media) can be taxable, and a bundled sale of goods and service may be taxable in full unless the service is separately stated and separable (Sales Tax Guide, Part 3). Mainframe computer access is taxable as a sale of tangible personal property, but does not include ASP-hosted software. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
     "tax": "CO",

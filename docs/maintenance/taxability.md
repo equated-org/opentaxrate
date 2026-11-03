@@ -37,6 +37,54 @@ weighed against, not only what it cites.
 - Work in the run's database and `artifacts/maintenance/<run>/`. Rule
   changes reach `main` only past `maintain taxability-check` (step 4).
 
+## One jurisdiction's own rules
+
+Rules are keyed by the tax they cover (`src/taxability/rules/index.ts`):
+`"CO"` every part of a Colorado answer, `"CO:local"` its local parts, and
+`"CO:local:<part code>"` one local part, where a city or county sets its
+own taxability or rate (a Colorado home-rule city). The part code is the
+part's `code` in a rate answer (`pnpm rate CO "200 E Colfax Ave" Denver
+80203` shows Denver's city part as `01:ttr17`), never its name. Each part
+answers to its most specific key with a rule; the others are unchanged. A
+one-part `special_rate` is that part's rate alone (Denver's 4.00% on food
+and drink replaces its 5.15%). Say in the rule's summary which place it
+is, and in its notes that the other parts keep the broader rules. Ingest
+warns when a rule names a part code the database's rates don't have.
+
+Known local treatments not yet written as rules (research these next, by
+population):
+
+- **Colorado home-rule cities**: Lakewood's grocery treatment (its code is
+  on Municode, which refuses scripts); candy and soft drinks in Colorado
+  Springs, Thornton, Greeley, Pueblo, Centennial, Broomfield; bakery items
+  in most cities; Longmont and Loveland groceries (no official page found;
+  Loveland's regulation answers 403); Castle Rock (crgov.com answers 403).
+- **Arizona**: city TPT rates differ by business class. ADOR's rate table
+  (`TPT_RATETABLE_ALL_<date>.csv`) has restaurant and bar rates (classes
+  011 and 111) and food-for-home-consumption rates (062) per city, but the
+  rate data carries only retail (017), so prepared food in Glendale,
+  Chandler, Peoria, Goodyear, Surprise, Flagstaff, Yuma and others is
+  answered at the retail rate. Load the classes as rates rather than write
+  a rule per city.
+- **Alabama**: ALDOR's `taxrates.csv` has a grocery (`GROC`) rate per
+  locality, lower than the general rate in about 36 places (Mountain Brook,
+  Tuscaloosa County, Pelham, Helena and others); not loaded.
+- **Illinois**: IDOR's grocery rate file (`grocerymache-current.txt`) gives
+  each location's grocery rate after the state's 1% grocery tax ended
+  (2026-01-01); not loaded. Chicago's 3% soft drink tax, 0.5% restaurant
+  tax and the 1% MPEA food and beverage tax aren't in the rate data.
+- **Minnesota**: Minneapolis's 3% Downtown restaurant tax (an area smaller
+  than the city, not a part) isn't in the rate data, nor are St. Cloud's
+  (no city part in the answer), Mankato's and other cities' food and
+  beverage taxes (DOR fact sheet 164S). Duluth's 2.25% food and beverage
+  tax has rules on Duluth's city part for food served or sold by bars and
+  restaurants (conditional on the seller's $100,000 in yearly sales); its
+  hot food and catering aren't settled.
+- **Utah**: restaurant food carries a further 1% everywhere (the Tax
+  Commission's rate chart); not in the rate data.
+- **Virginia**: local meals taxes, run by each locality, aren't in the rate
+  data.
+
 ## 1. Fetch
 
 ```bash
