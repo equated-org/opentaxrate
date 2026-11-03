@@ -24,6 +24,13 @@
  * whose outcome turns on facts the code doesn't fix is "conditional", and
  * lists them; the rate is null until the caller settles them.
  *
+ * A special-rate rule may name a class of sale (rateClass: "restaurant",
+ * "grocery") instead of a rate: each part it decides is then taxed at that
+ * part's own rate for the class, from the state's rate table
+ * (RatePart.classRates), so one Arizona rule gives every city its own
+ * restaurant rate. A part with no rate for the class on the date is not
+ * researched, as a part with no rule is; it never takes its general rate.
+ *
  * The rest of the module, behind this file:
  *   codes.ts        the codes, and what each covers
  *   rules/          the reviewed rule files (one per place), the watch list
@@ -34,6 +41,7 @@
  *   evaluate.ts     the benchmark: the rules against the agencies' examples
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
+import type { RateClass } from "../rates/types.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
 import { selfCollected } from "./self-collected.js";
 import { ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
@@ -172,8 +180,8 @@ function withKindExceptions(rule: Rule, kinds: Array<{ code: TaxCode; rule: Rule
 }
 
 /** Two rules don't settle a code the same way. */
-const differs = (a: Pick<Rule, "treatment" | "rate" | "base" | "follows">, b: Pick<Rule, "treatment" | "rate" | "base" | "follows">) =>
-  a.treatment !== b.treatment || a.rate !== b.rate || a.base !== b.base || a.follows !== b.follows || a.treatment === "conditional";
+const differs = (a: Pick<Rule, "treatment" | "rate" | "rateClass" | "base" | "follows">, b: Pick<Rule, "treatment" | "rate" | "rateClass" | "base" | "follows">) =>
+  a.treatment !== b.treatment || a.rate !== b.rate || a.rateClass !== b.rateClass || a.base !== b.base || a.follows !== b.follows || a.treatment === "conditional";
 
 const kind = (c: TaxCode) => `${c}: ${TAX_CODES[c].replace(/\.$/, "")}`;
 
@@ -220,7 +228,7 @@ function conditionsOf(label: string, r: Rule, code?: TaxCode): Rule["conditions"
   };
   if (r.treatment === "conditional") return r.conditions.map((c) => words({ ...c, when: `${label}: ${c.when}`, ...send }, c));
   return [
-    words({ when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send }),
+    words({ when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.rateClass ? { rateClass: r.rateClass } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send }),
     ...r.conditions.filter((c) => differs(c, r)).map((c) => words({ ...c, when: `${label}, except ${c.when.charAt(0).toLowerCase()}${c.when.slice(1)}`, ...send }, c, true)),
   ];
 }
@@ -259,9 +267,9 @@ function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string):
  *  is treated alike, else conditional on which kind it is. */
 function fromKinds(tax: string, code: TaxCode, subs: TaxCode[], found: Rule[]): Rule {
   const first = found[0];
-  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.base === first.base))
+  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.rateClass === first.rateClass && r.base === first.base))
     return withKindExceptions(
-      { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) },
+      { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.rateClass ? { rateClass: first.rateClass } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) },
       found.map((r, i) => ({ code: subs[i], rule: r })),
     );
   return dependsOn(tax, code, found.map((r, i): Kind => [kind(subs[i]), r, subs[i]]));
@@ -314,13 +322,22 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
  *  charge: where the rule taxes only a share of it (`base`), the rate times
  *  that share. A special-rate rule's rate is the rate of every part it
  *  decides together (Utah's 1.25% for all its local taxes on food), so only
- *  the first of them adds it. */
+ *  the first of them adds it; a rule naming a class adds each part's own
+ *  rate for it. */
 const partRate = (treatment: PartTreatment, part: RatePart, rule: Rule | null, first = true): number | null => {
   const base = rule?.base ?? 1;
   if (treatment === "taxable") return part.rate * base;
+  if (treatment === "special_rate" && rule?.rateClass) return classRate(part, rule.rateClass) * base;
   if (treatment === "special_rate") return first ? (rule?.rate !== undefined ? rule.rate * base : null) : 0;
   return treatment === "conditional" ? null : 0;
 };
+
+/** A part's rate for a class of sale; NaN where none is loaded. */
+const classRate = (part: RatePart, rateClass: RateClass) => part.classRates?.[rateClass] ?? NaN;
+
+/** `rule` can answer for `part`: a rule naming a class needs the part's
+ *  rate for it, which a part without one lacks (then not researched). */
+const answers = (rule: Rule, part: RatePart) => !(rule.treatment === "special_rate" && rule.rateClass && part.classRates?.[rule.rateClass] === undefined);
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -334,7 +351,8 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
   // come; a part with no rule is its own group.
   const groups = new Map<string, TaxGroup>();
   for (const part of answer.parts) {
-    const rule = ruleFor(rules, state, part, code, date);
+    const found = ruleFor(rules, state, part, code, date);
+    const rule = found && answers(found, part) ? found : null;
     // Unresearched parts group by the broadest key they'd answer to: a
     // state's parts together, each Canadian tax on its own.
     const broadest = keysFor(state, part).at(-1)!;
@@ -393,8 +411,11 @@ function answerOf(taxes: TaxGroup[], parts: RatePart[]): Taxability {
  *  full rate when taxable, the case's own rate (once) when special, else
  *  nothing; times the case's base. NaN for a special case with no rate. */
 function shareOf(t: TaxGroup, k: Condition, parts: RatePart[]): number {
-  const full = t.parts.reduce((sum, code) => sum + (parts.find((p) => p.code === code)?.rate ?? 0), 0);
-  return (k.treatment === "taxable" ? full : k.treatment === "special_rate" ? (k.rate ?? NaN) : 0) * (k.base ?? 1);
+  const these = t.parts.flatMap((code) => parts.find((p) => p.code === code) ?? []);
+  const full = these.reduce((sum, p) => sum + p.rate, 0);
+  // A case naming a class: each part's own rate for it, NaN where one lacks it.
+  const special = k.rateClass ? these.reduce((sum, p) => sum + classRate(p, k.rateClass!), 0) : (k.rate ?? NaN);
+  return (k.treatment === "taxable" ? full : k.treatment === "special_rate" ? special : 0) * (k.base ?? 1);
 }
 
 function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): { outcomes: Outcome[]; independent?: true } {
@@ -523,6 +544,7 @@ export function reopenCases(t: Taxability, parts: RatePart[], reopen: Set<number
       when: usual,
       treatment: rule.treatment as Condition["treatment"],
       ...(rule.rate !== undefined ? { rate: rule.rate } : {}),
+      ...(rule.rateClass ? { rateClass: rule.rateClass } : {}),
       ...(rule.base !== undefined ? { base: rule.base } : {}),
     };
     const exceptions = rule.conditions.filter((k) => differs(k, rule as Rule));

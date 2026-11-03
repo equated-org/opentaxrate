@@ -2543,18 +2543,10 @@
     "code": "food.candy",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to candy at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to candy at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2575,27 +2567,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.grocery",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to groceries at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to groceries at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2616,27 +2605,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.prepared.bakery",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to bakery items at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to bakery items at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2657,27 +2643,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.prepared.cold",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to cold prepared deli food at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to cold prepared deli food at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2698,27 +2681,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.prepared.cold_restaurant",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to cold food sold to go by restaurants at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to cold food sold to go by restaurants at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2739,27 +2719,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.prepared.platter",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to cold party platters at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to cold party platters at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2780,27 +2757,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.prepared.sandwich",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to cold sandwiches sold to go at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to cold sandwiches sold to go at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2821,27 +2795,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.soft_drink",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to soft drinks at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to soft drinks at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2862,27 +2833,24 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL:local",
     "code": "food.uncooked",
     "from": "2023-09-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "City and county tax applies to food assembled for the buyer to cook at the locality's food rate: its general rate as of June 15, 2023, unless it has lowered the food rate.",
-    "conditions": [
-      {
-        "when": "The city or county has not lowered its rate on food and has not changed its general rate since June 15, 2023",
-        "treatment": "taxable"
-      },
-      {
-        "when": "The city or county has lowered its rate on food by resolution or ordinance (25 percent steps), or has raised or lowered its general rate after June 15, 2023 (food stays at the June 15, 2023 rate)",
-        "treatment": "special_rate"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "City and county tax applies to food assembled for the buyer to cook at each county's and city's own rate on food, as ALDOR's local rate file lists it: its general rate as of June 15, 2023, unless it has lowered its food rate since (in 25 percent steps).",
+    "conditions": [],
     "citations": [
       {
         "title": "ALDOR Notice: State Sales and Use Tax Rate Reduced on Food Beginning September 1, 2023",
@@ -2903,9 +2871,14 @@
         "title": "ALDOR Notice: Temporary Suspension of State Sales and Use Tax on Food",
         "url": "https://www.revenue.alabama.gov/notice-temporary-suspension-of-state-sales-and-use-tax-on-food/",
         "quote": "The city and county sales and use tax rates on food are not affected by this act."
+      },
+      {
+        "title": "Alabama Department of Revenue, Tax Rates",
+        "url": "https://www.revenue.alabama.gov/tax-rates/",
+        "quote": "Local Sales, Use, Rental & Lodgings Tax Rates Text File"
       }
     ],
-    "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+    "notes": "Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps. Each part's food rate is ALDOR's local rate file (taxrates.csv, the ST rows of Rate Type GROC), read through the same county rules as its general rate and loaded as its classRates.grocery (src/ingest/states/alabama.ts): Birmingham's 4% and Jefferson County's 2% equal their general rates, while Mountain Brook's stays at 3% beside its 4% general rate from April 2026. A town with no GROC row and a general rate of 0 taxes food at 0; a part with no food rate loaded (Elmore County's rate inside its cities, where its GROC codes don't follow the county rules) is not researched. The 2025 state rate cut and the 2026 suspension did not change local food rates."
   },
   {
     "tax": "AL",

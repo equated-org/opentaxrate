@@ -583,6 +583,50 @@ describe("taxability", () => {
     expect(taxabilityOf({ state: "CO", parts: parts("01:ttr238") }, "goods.general", "2026-11-03", RULES).treatment).toBe("taxable");
   });
 
+  it("taxes each part at its own rate for a class a rule names, and never at its general rate when it has none", () => {
+    const base = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const set = ruleSet([
+      { ...base, tax: "ZZ", code: "food.prepared", treatment: "taxable" },
+      { ...base, tax: "ZZ:local", code: "food.prepared.dine_in", treatment: "special_rate", rateClass: "restaurant" },
+      { ...base, tax: "ZZ:local", code: "food.prepared.hot", treatment: "conditional", conditions: [
+        { when: "Sold by a restaurant", treatment: "special_rate", rateClass: "restaurant" },
+        { when: "Sold by a store", treatment: "taxable" },
+      ] },
+    ] as Rule[]);
+    const parts: RatePart[] = [
+      { kind: "state", code: "45:1", rate: 0.056 },
+      { kind: "county", code: "00:3", rate: 0.007, classRates: { restaurant: 0.007 } },
+      { kind: "city", code: "01:7", rate: 0.029, classRates: { restaurant: 0.039, grocery: 0.025 } },
+    ];
+    const dineIn = taxabilityOf({ state: "ZZ", parts }, "food.prepared.dine_in", "2026-01-01", set);
+    expect(dineIn).toMatchObject({ treatment: "partial", rate: 0.102 });
+    expect(dineIn.taxes.map((g) => [g.tax, g.parts, g.treatment, g.rate])).toEqual([["ZZ", ["45:1"], "taxable", 0.056], ["ZZ:local", ["00:3", "01:7"], "special_rate", 0.046]]);
+    expect(dineIn.taxes[1].rule).toMatchObject({ rateClass: "restaurant" });
+    // A case naming a class counts each part's rate for it.
+    const hot = taxabilityOf({ state: "ZZ", parts }, "food.prepared.hot", "2026-01-01", set);
+    expect(hot.outcomes).toEqual([{ when: "Sold by a restaurant", rate: 0.102 }, { when: "Sold by a store", rate: 0.092 }]);
+    // A part with no restaurant rate isn't taxed at its general rate: it's not researched.
+    const missing = parts.map((p) => (p.code === "01:7" ? { ...p, classRates: { grocery: 0.025 } } : p));
+    const unknown = taxabilityOf({ state: "ZZ", parts: missing }, "food.prepared.dine_in", "2026-01-01", set);
+    expect(unknown).toMatchObject({ treatment: "not_researched", rate: null });
+    expect(unknown.taxes.find((g) => g.parts.includes("01:7"))).toMatchObject({ treatment: "not_researched", rule: null });
+    expect(taxabilityOf({ state: "ZZ", parts: missing }, "food.prepared.hot", "2026-01-01", set).outcomes).toBeUndefined();
+    // The general rate is untouched.
+    expect(taxabilityOf({ state: "ZZ", parts }, "food.prepared.sandwich", "2026-01-01", set)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+  });
+
+  it("taxes dine-in food in Glendale, Arizona at its city's restaurant rate: 10.2%, against 9.2% retail", () => {
+    // 5850 W Glendale Ave, Glendale, AZ 85301, as the rate lookup answers it.
+    const glendale: RatePart[] = [
+      { kind: "state", name: "Arizona", code: "45:04", rate: 0.056 },
+      { kind: "county", name: "MARICOPA", code: "00:MAR", rate: 0.007, classRates: { restaurant: 0.007 } },
+      { kind: "city", name: "GLENDALE", code: "01:GE", rate: 0.029, classRates: { restaurant: 0.039, grocery: 0.025 } },
+    ];
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "food.prepared.dine_in", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.102 });
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "food.catering", "2026-11-03", RULES)).toMatchObject({ rate: 0.102 });
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "goods.general", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+  });
+
   it("keeps its promises for every place, every code and dates from 2013 to 2027, on the real rules", () => {
     const provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
     // Every US state with rules ("CA" here is California; Canada's federal

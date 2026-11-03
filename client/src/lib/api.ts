@@ -24,6 +24,10 @@ export interface RatePart {
 	/** A decimal: 0.01 is 1%. */
 	rate: number;
 	byType?: RatesByType;
+	/** This part's rate on a class of sale its state rates apart (Arizona's
+	 *  city restaurant rate), on the answer's date; absent where none is
+	 *  published, never the general rate in its place. */
+	classRates?: { restaurant?: number; grocery?: number };
 	/** The state's own ids for this jurisdiction, keyed by its data's column
 	 *  names ({"Locality Code": "9454"}); {} where it publishes none. Absent
 	 *  from an API older than ids. */
@@ -77,12 +81,15 @@ export interface TaxabilityRule {
 	 *  one, exceptions worth knowing. */
 	/** For special_rate: the rate charged on the code instead. */
 	rate?: number;
+	/** For special_rate, in place of rate: each part at its own rate for
+	 *  this class (its classRates entry). */
+	rateClass?: 'restaurant' | 'grocery';
 	/** The share of the charge taxed, where the law taxes only part of it
 	 *  (Texas's 0.8 on data processing); the answer's rates already apply it. */
 	base?: number;
 	/** code: in an answer for a broad code, the narrower code this case is;
 	 *  base: the share of the charge taxed in this case. */
-	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; base?: number; code?: string }>;
+	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; rateClass?: 'restaurant' | 'grocery'; base?: number; code?: string }>;
 	/** archived: OpenTaxRate's copy that shows the quote, opening at it (sha256 is that copy's hash); url: the page as published. */
 	citations: Array<{ title: string; url: string; quote?: string; archived?: string; sha256?: string; page?: number }>;
 }

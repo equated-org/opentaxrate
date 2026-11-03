@@ -174,6 +174,29 @@
     "notes": "Equipment rentals on the caterer's bill are themselves taxable leases of tangible personal property (59-12-103(1)(k)). Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
   },
   {
+    "tax": "UT:local",
+    "code": "food.catering",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rateClass": "restaurant",
+    "summary": "Caterers charge the county restaurant tax (1% in every Utah county) on top of the local sales taxes, on all their sales of food and beverages.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "In addition to sales and use tax, county governments may impose a tourism tax of up to 1 percent on food and alcoholic beverage sales by restaurants."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants and caterers in counties that impose the restaurant tax must charge the additional 1 percent tax on all sales, even if prepared foods are delivered to locations that do not impose the restaurant tax."
+      }
+    ],
+    "notes": "Each part's restaurant rate is read from the Tax Commission's quarterly rate chart (<yy>q<n>simple.xlsx, sheet Simplified), whose Prepared Food (Restaurant) column is 1% above the combined rate at every location in all 29 counties in 2026 Q4: the county's part carries the county's restaurant tax on top of its rate, and every other part its general rate, since the chart says the restaurant tax is in addition to the combined rate (src/ingest/states/utah.ts). Only the 2026 Q4 chart is archived, so restaurant rates are loaded from 2026-10-01; before that, and after the quarter until the next chart is loaded, the local parts are not researched for this code. The state part stays under the UT rule. 2025-04-01 is Publication 55's revision (04/25); the tax is older."
+  },
+  {
     "tax": "UT",
     "code": "food.grocery",
     "from": "2008-01-01",
@@ -343,6 +366,34 @@
     "notes": "The reduced-rate exception's local part is 1.25%, as for groceries; no UT:local rule is written for this code because the main case is full rate. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
   },
   {
+    "tax": "UT:local",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rateClass": "restaurant",
+    "summary": "Cold food sold to go by a restaurant, café or other food-service business bears the county restaurant tax (1% in every Utah county) on top of the local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "In addition to sales and use tax, county governments may impose a tourism tax of up to 1 percent on food and alcoholic beverage sales by restaurants."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants and caterers in counties that impose the restaurant tax must charge the additional 1 percent tax on all sales, even if prepared foods are delivered to locations that do not impose the restaurant tax."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "A restaurant is any retail establishment whose primary business is selling prepared food for immediate consumption."
+      }
+    ],
+    "notes": "Each part's restaurant rate is read from the Tax Commission's quarterly rate chart (<yy>q<n>simple.xlsx, sheet Simplified), whose Prepared Food (Restaurant) column is 1% above the combined rate at every location in all 29 counties in 2026 Q4: the county's part carries the county's restaurant tax on top of its rate, and every other part its general rate, since the chart says the restaurant tax is in addition to the combined rate (src/ingest/states/utah.ts). Only the 2026 Q4 chart is archived, so restaurant rates are loaded from 2026-10-01; before that, and after the quarter until the next chart is loaded, the local parts are not researched for this code. The state part stays under the UT rule. 2025-04-01 is Publication 55's revision (04/25); the tax is older."
+  },
+  {
     "tax": "UT",
     "code": "food.prepared.dine_in",
     "from": "2017-07-01",
@@ -373,6 +424,53 @@
       }
     ],
     "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.prepared.dine_in",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Food served for eating at the seller's premises bears the county restaurant tax (1% in every Utah county) on top of the local sales taxes when the seller is a restaurant, or a store prepared it at the customer's request; not when a grocery or convenience store's deli sold it ready-made.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant (a retail establishment whose primary business is prepared food for immediate consumption), or prepared or heated at the customer's request by a grocery store, convenience store or gas station (customized food): the local parts at their restaurant rates, the county's restaurant tax included",
+        "treatment": "special_rate",
+        "rateClass": "restaurant"
+      },
+      {
+        "when": "Sold by a grocery store, convenience store or gas station whose primary business is fuel or food for off-premises consumption, and not prepared or heated at the customer's request: no restaurant tax, the local parts at their general rates",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "In addition to sales and use tax, county governments may impose a tourism tax of up to 1 percent on food and alcoholic beverage sales by restaurants."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "A restaurant is any retail establishment whose primary business is selling prepared food for immediate consumption."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants do not include: retail establishments whose primary business is selling fuel or food items for off-premise, but not immediate, consumption; or theaters that sell food."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 25, Sales and Use Tax General Information",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Restaurant and Customized Food County Up to 1.0% Food, food ingredients and prepared food sold by a restaurant, or customized food sold by a convenience store, gas station or grocery store"
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 25, Sales and Use Tax General Information",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Customized Food Food that is prepared or heated by a seller for on-site or immediate consumption at the request of a customer."
+      }
+    ],
+    "notes": "Each part's restaurant rate is read from the Tax Commission's quarterly rate chart (<yy>q<n>simple.xlsx, sheet Simplified), whose Prepared Food (Restaurant) column is 1% above the combined rate at every location in all 29 counties in 2026 Q4: the county's part carries the county's restaurant tax on top of its rate, and every other part its general rate, since the chart says the restaurant tax is in addition to the combined rate (src/ingest/states/utah.ts). Only the 2026 Q4 chart is archived, so restaurant rates are loaded from 2026-10-01; before that, and after the quarter until the next chart is loaded, the local parts are not researched for this code. The state part stays under the UT rule. 2025-04-01 is Publication 55's revision (04/25); the tax is older."
   },
   {
     "tax": "UT",
@@ -410,6 +508,53 @@
       }
     ],
     "notes": "Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.prepared.hot",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Hot prepared food bears the county restaurant tax (1% in every Utah county) on top of the local sales taxes when the seller is a restaurant, or a store heated it at the customer's request; not when a grocery or convenience store sold it ready-made.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant (a retail establishment whose primary business is prepared food for immediate consumption), or prepared or heated at the customer's request by a grocery store, convenience store or gas station (customized food): the local parts at their restaurant rates, the county's restaurant tax included",
+        "treatment": "special_rate",
+        "rateClass": "restaurant"
+      },
+      {
+        "when": "Sold by a grocery store, convenience store or gas station whose primary business is fuel or food for off-premises consumption, and not prepared or heated at the customer's request: no restaurant tax, the local parts at their general rates",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "In addition to sales and use tax, county governments may impose a tourism tax of up to 1 percent on food and alcoholic beverage sales by restaurants."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "A restaurant is any retail establishment whose primary business is selling prepared food for immediate consumption."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants do not include: retail establishments whose primary business is selling fuel or food items for off-premise, but not immediate, consumption; or theaters that sell food."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 25, Sales and Use Tax General Information",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Restaurant and Customized Food County Up to 1.0% Food, food ingredients and prepared food sold by a restaurant, or customized food sold by a convenience store, gas station or grocery store"
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 25, Sales and Use Tax General Information",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Customized Food Food that is prepared or heated by a seller for on-site or immediate consumption at the request of a customer."
+      }
+    ],
+    "notes": "Each part's restaurant rate is read from the Tax Commission's quarterly rate chart (<yy>q<n>simple.xlsx, sheet Simplified), whose Prepared Food (Restaurant) column is 1% above the combined rate at every location in all 29 counties in 2026 Q4: the county's part carries the county's restaurant tax on top of its rate, and every other part its general rate, since the chart says the restaurant tax is in addition to the combined rate (src/ingest/states/utah.ts). Only the 2026 Q4 chart is archived, so restaurant rates are loaded from 2026-10-01; before that, and after the quarter until the next chart is loaded, the local parts are not researched for this code. The state part stays under the UT rule. 2025-04-01 is Publication 55's revision (04/25); the tax is older."
   },
   {
     "tax": "UT",
@@ -484,6 +629,53 @@
       }
     ],
     "notes": "Unverified edge: the statute's exclusion for unheated food sold by weight or volume as a single item without utensils could in principle reach a sandwich sold by weight; the Tax Commission's examples treat sandwiches as prepared food. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is filed on its own return and is not part of these rules. 2026-11-02: http://tax.utah.gov/sales/food-rate now redirects to https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/, which is cited beside it; this citation keeps the old address for its dated archived copy."
+  },
+  {
+    "tax": "UT:local",
+    "code": "food.prepared.sandwich",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "A cold sandwich sold to go bears the county restaurant tax (1% in every Utah county) on top of the local sales taxes when the seller is a restaurant, or a store made it at the customer's request; not when a grocery or convenience store sold it premade.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant (a retail establishment whose primary business is prepared food for immediate consumption), or prepared or heated at the customer's request by a grocery store, convenience store or gas station (customized food): the local parts at their restaurant rates, the county's restaurant tax included",
+        "treatment": "special_rate",
+        "rateClass": "restaurant"
+      },
+      {
+        "when": "Sold by a grocery store, convenience store or gas station whose primary business is fuel or food for off-premises consumption, and not prepared or heated at the customer's request: no restaurant tax, the local parts at their general rates",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "In addition to sales and use tax, county governments may impose a tourism tax of up to 1 percent on food and alcoholic beverage sales by restaurants."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "A restaurant is any retail establishment whose primary business is selling prepared food for immediate consumption."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants do not include: retail establishments whose primary business is selling fuel or food items for off-premise, but not immediate, consumption; or theaters that sell food."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 25, Sales and Use Tax General Information",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Restaurant and Customized Food County Up to 1.0% Food, food ingredients and prepared food sold by a restaurant, or customized food sold by a convenience store, gas station or grocery store"
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 25, Sales and Use Tax General Information",
+        "url": "https://tax.utah.gov/forms-pubs/pub-25/",
+        "quote": "Customized Food Food that is prepared or heated by a seller for on-site or immediate consumption at the request of a customer."
+      }
+    ],
+    "notes": "Each part's restaurant rate is read from the Tax Commission's quarterly rate chart (<yy>q<n>simple.xlsx, sheet Simplified), whose Prepared Food (Restaurant) column is 1% above the combined rate at every location in all 29 counties in 2026 Q4: the county's part carries the county's restaurant tax on top of its rate, and every other part its general rate, since the chart says the restaurant tax is in addition to the combined rate (src/ingest/states/utah.ts). Only the 2026 Q4 chart is archived, so restaurant rates are loaded from 2026-10-01; before that, and after the quarter until the next chart is loaded, the local parts are not researched for this code. The state part stays under the UT rule. 2025-04-01 is Publication 55's revision (04/25); the tax is older."
   },
   {
     "tax": "UT",

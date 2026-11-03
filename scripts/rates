@@ -43,7 +43,7 @@ cd "$(dirname "$0")/.."
 
 # Every table must be in one list; snapshot stops at one that isn't, so
 # nothing new reaches a public dump by default.
-TAX_TABLES="sales_tax_areas sales_tax_data_releases sales_tax_jurisdiction_rates
+TAX_TABLES="sales_tax_areas sales_tax_class_rates sales_tax_data_releases sales_tax_jurisdiction_rates
   sales_tax_jurisdictions sales_tax_shapes sales_tax_street_ranges sales_tax_zip_ranges zip_areas zip_street_names
   tax_source_snapshots tax_source_features taxability_rules"
 EMPTY_TABLES="geocode_results geocoder_usage user session account verification

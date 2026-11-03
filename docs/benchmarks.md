@@ -149,6 +149,10 @@ date. Keep a rule change only if *wrong* doesn't rise. Add a case by copying
 an agency example into the place's file; a new case that scores *wrong* is
 settled by reading the page, not by editing the case.
 
+A rule that taxes each part at its own class rate (`rateClass`) scores as
+*declined*: the cases name a state, not a location, and the rate it charges
+is the location's loaded one, which may be zero.
+
 `pnpm bench taxability --describe` sends each case's `facts` sentence as
 `describe=` (`src/taxability/describe-bench.ts`) and scores the answer the
 same way, twice: *code*, with the case's code, and *text*, with none, so the

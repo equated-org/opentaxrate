@@ -65,6 +65,36 @@ rule of their own (1,836 part and code pairs on 2026-11-03: goods, prepared food
 services, construction and delivery), though its notes say home-rule cities
 weren't researched.
 
+### Class rates
+
+Where a state's own rate table rates a class of sale apart for every
+jurisdiction (a city's restaurant rate, a county's food rate), the rates are
+loaded as data, not written as a rule per city: `sales_tax_class_rates`,
+read from the same files as the general rates (`src/ingest/class-rates.ts`;
+`pnpm ingest --kind class-rates`, and every refresh), and shown on each part
+as `classRates`. One rule per state then names the class: `"treatment":
+"special_rate", "rateClass": "restaurant"` (or `"grocery"`), with no
+`rate`; each part it decides is taxed at its own class rate, and a part with
+none loaded is not researched. A condition may name a class the same way.
+Cite the page that says the class applies to the code (Arizona's MCTC §
+455 for restaurants and bars, Utah's Publication 55, Alabama's food-rate
+notices, IDOR's grocery file guide), and say in the notes where the rates
+come from. Loaded today:
+
+- **Arizona**: restaurants and bars (011, plus a city's additional 111) for
+  every county and city, on `AZ:local` dine-in, catering and a restaurant's
+  cold food; food for home consumption (062) for the 70 cities that list it.
+- **Alabama**: each county's and city's food rate (`GROC`), on `AL:local`
+  for every SNAP-food code since 2023-09-01.
+- **Illinois**: each location's local grocery rate from 2026-01-01 (IDOR's
+  `grocerymache` files), on `IL:local` for low-rate food.
+- **Utah**: the county restaurant tax (1% in every county), from the 2026 Q4
+  rate chart, on `UT:local` for restaurant food (cold to go and catering
+  settled; dine-in, hot food and sandwiches conditional on a restaurant or
+  customized food). Each quarter's chart (`files.tax.utah.gov/tax/salestax/rate/<yy>q<n>simple.xlsx`)
+  must be filed for its quarter's restaurant rates; without it the local
+  parts are not researched for those codes.
+
 Known local treatments not yet written as rules (research these next, by
 population):
 
@@ -84,20 +114,17 @@ population):
   negotiated license) is modeled for the state and state-administered
   local taxes (the CO rules); a self-collected home-rule city's part isn't
   answered by them (CO:administered).
-- **Arizona**: city TPT rates differ by business class. ADOR's rate table
-  (`TPT_RATETABLE_ALL_<date>.csv`) has restaurant and bar rates (classes
-  011 and 111) and food-for-home-consumption rates (062) per city, but the
-  rate data carries only retail (017), so prepared food in Glendale,
-  Chandler, Peoria, Goodyear, Surprise, Flagstaff, Yuma and others is
-  answered at the retail rate. Load the classes as rates rather than write
-  a rule per city.
-- **Alabama**: ALDOR's `taxrates.csv` has a grocery (`GROC`) rate per
-  locality, lower than the general rate in about 36 places (Mountain Brook,
-  Tuscaloosa County, Pelham, Helena and others); not loaded.
-- **Illinois**: IDOR's grocery rate file (`grocerymache-current.txt`) gives
-  each location's grocery rate after the state's 1% grocery tax ended
-  (2026-01-01); not loaded. Chicago's 3% soft drink tax, 0.5% restaurant
-  tax and the 1% MPEA food and beverage tax aren't in the rate data.
+- **Arizona**: hot food and sandwiches stay at the retail rate (which
+  classification a grocery's hot food falls under at the city level wasn't
+  settled), and food for home consumption stays conditional: counties and
+  the cities with no 062 row have no food rate in the table to settle it.
+- **Alabama**: Elmore County's rate inside its cities has no food rate (its
+  GROC codes don't follow its county rule), so groceries there are not
+  researched.
+- **Illinois**: a business district's address has no grocery rate in
+  IDOR's files (they list locations), so groceries there are not
+  researched. Chicago's 3% soft drink tax, 0.5% restaurant tax and the 1%
+  MPEA food and beverage tax aren't in the rate data.
 - **Minnesota**: Minneapolis's 3% Downtown restaurant tax (an area smaller
   than the city, not a part) isn't in the rate data, nor are St. Cloud's
   (no city part in the answer), Mankato's and other cities' food and
@@ -105,8 +132,9 @@ population):
   tax has rules on Duluth's city part for food served or sold by bars and
   restaurants (conditional on the seller's $100,000 in yearly sales); its
   hot food and catering aren't settled.
-- **Utah**: restaurant food carries a further 1% everywhere (the Tax
-  Commission's rate chart); not in the rate data.
+- **Utah**: the restaurant tax before 2026-10-01 (only the 2026 Q4 chart
+  is archived), and on the other prepared-food codes (cold deli food,
+  platters, bakery items sold by a restaurant).
 - **Virginia**: local meals taxes, run by each locality, aren't in the rate
   data.
 

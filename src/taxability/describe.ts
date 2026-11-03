@@ -365,7 +365,7 @@ export function caseQuestions(t: Taxability): Asked[] {
 function exceptionsOf(g: Taxability["taxes"][number]): Condition[] {
   if (!g.rule || !["taxable", "special_rate", "exempt", "zero_rated"].includes(g.treatment)) return [];
   const rule = g.rule;
-  return rule.conditions.filter((k) => k.treatment !== rule.treatment || k.rate !== rule.rate || k.base !== rule.base);
+  return rule.conditions.filter((k) => k.treatment !== rule.treatment || k.rate !== rule.rate || k.rateClass !== rule.rateClass || k.base !== rule.base);
 }
 
 const keepText = (code: TaxCode) => `${TAX_CODES[code].replace(/\.$/, "")}; and none of the other options' facts applies`;

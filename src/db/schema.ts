@@ -250,6 +250,39 @@ export const salesTaxJurisdictionRates = pgTable(
   ],
 );
 
+/** One jurisdiction's rate for one class of sale over a span of dates,
+ *  where its publisher rates that class apart from the general sale (the
+ *  RATE_CLASSES of src/rates/types.ts): Arizona's city restaurant and bar
+ *  rate (business code 011, plus 111's additional tax), Alabama's grocery
+ *  (GROC) rate, Illinois's grocery rate file, Utah's restaurant tax on its
+ *  county. Keyed like the rate rows (a part's "type:code"), loaded beside
+ *  them from the same published files (src/ingest/class-rates.ts), and read
+ *  only as a part's `classRates`, which a taxability rule may name
+ *  (rateClass); the general rate and its stacking never read it. A part,
+ *  class and date with no row has no class rate: never its general rate. */
+export const salesTaxClassRates = pgTable(
+  "sales_tax_class_rates",
+  {
+    state: text("state").notNull(),
+    type: text("type").notNull(),
+    code: text("code").notNull(),
+    /** "restaurant" or "grocery" (RATE_CLASSES). */
+    class: text("class").notNull(),
+    /** This part's rate on a sale of the class, as a decimal. */
+    rate: numeric("rate", { precision: 8, scale: 6 }).notNull(),
+    startsOn: date("starts_on").notNull(),
+    endsOn: date("ends_on").notNull(),
+    /** What it was read from: the file and the publisher's own key for the
+     *  class ("TPT_RATETABLE_ALL_11012026.csv business codes 011+111"). */
+    source: text("source").notNull(),
+  },
+  (t) => [
+    index("idx_sales_tax_class_rates_code").on(t.state, t.type, t.code),
+    check("ck_sales_tax_class_rates_dates", sql`${t.endsOn} >= ${t.startsOn}`),
+    check("ck_sales_tax_class_rates_class", sql`${t.class} in ('restaurant', 'grocery')`),
+  ],
+);
+
 /** One jurisdiction a rate row names, as its publisher describes it: the
  *  name and every identifying column its source gives, keyed by the
  *  publisher's own column name and kept verbatim ({"Locality Code": "9454",
@@ -324,13 +357,18 @@ export const taxabilityRules = pgTable(
     treatment: text("treatment").notNull(),
     /** For treatment "special_rate": the rate this tax charges on the code. */
     rate: doublePrecision("rate"),
+    /** For treatment "special_rate" instead of `rate`: each part it decides
+     *  is taxed at its own rate for this class (sales_tax_class_rates),
+     *  "restaurant" or "grocery"; a part with none on the date is not
+     *  researched. */
+    rateClass: text("rate_class"),
     /** The share of the charge taxed, where the law taxes only part of it
      *  (Texas's 80% of a data processing charge); null for the whole. */
     base: doublePrecision("base"),
     /** For treatment "follows": the tax whose rule for the code applies. */
     follows: text("follows"),
     summary: text("summary").notNull(),
-    conditions: jsonb("conditions").$type<Array<{ when: string; treatment: string; rate?: number; base?: number }>>().notNull().default([]),
+    conditions: jsonb("conditions").$type<Array<{ when: string; treatment: string; rate?: number; rateClass?: string; base?: number }>>().notNull().default([]),
     citations: jsonb("citations").$type<Array<{ title: string; url: string; quote?: string }>>().notNull(),
     /** What couldn't be verified, for a reviewer; never shown in answers. */
     notes: text("notes"),
@@ -342,7 +380,8 @@ export const taxabilityRules = pgTable(
     check("ck_taxability_rules_dates", sql`${t.endsOn} >= ${t.startsOn}`),
     check("ck_taxability_rules_from_is", sql`${t.fromIs} in ('effective', 'earliest_verified')`),
     check("ck_taxability_rules_treatment", sql`${t.treatment} in ('taxable', 'special_rate', 'exempt', 'zero_rated', 'conditional', 'follows')`),
-    check("ck_taxability_rules_special_rate", sql`(${t.treatment} = 'special_rate') = (${t.rate} is not null)`),
+    check("ck_taxability_rules_special_rate", sql`(${t.treatment} = 'special_rate') = (${t.rate} is not null or ${t.rateClass} is not null)`),
+    check("ck_taxability_rules_rate_class", sql`${t.rateClass} is null or (${t.rate} is null and ${t.rateClass} in ('restaurant', 'grocery'))`),
     check("ck_taxability_rules_base", sql`${t.base} is null or (${t.base} > 0 and ${t.base} < 1 and ${t.treatment} in ('taxable', 'special_rate'))`),
     check("ck_taxability_rules_follows", sql`(${t.treatment} = 'follows') = (${t.follows} is not null)`),
     check("ck_taxability_rules_conditional", sql`${t.treatment} <> 'conditional' or jsonb_array_length(${t.conditions}) > 0`),

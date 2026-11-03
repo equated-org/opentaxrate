@@ -14,11 +14,31 @@ export interface RatePart {
   rate: number;
   /** This part's rate for each kind of sale, where its file rates them apart. */
   byType?: RatesByType;
+  /** This part's rate on a class of sale its publisher rates apart from the
+   *  general sale (RATE_CLASSES), on the answer's date, where one is loaded
+   *  (sales_tax_class_rates): Glendale, Arizona's city restaurant rate
+   *  3.9% beside its 2.9% retail rate. Absent for a class with none loaded;
+   *  never filled in from the general rate. Read by taxability rules that
+   *  name a class (rateClass), never by the general rate. */
+  classRates?: ClassRates;
   /** The state's own ids for this jurisdiction, keyed by its data's column
    *  names and unchanged ({"Locality Code": "9454", "Administered": "SELF"});
    *  {} where its data publishes none. Set on every answered part. */
   ids?: Record<string, string>;
 }
+
+/** The classes of sale a publisher rates apart from the general sale, as
+ *  parts carry them (RatePart.classRates):
+ *    restaurant  food and drink sold by a restaurant or bar: Arizona's
+ *                restaurants and bars class (business code 011, plus a
+ *                city's additional tax, 111), Utah's county restaurant tax
+ *                on top of the combined rate;
+ *    grocery     food for home consumption: Arizona's city rate on it
+ *                (062), Alabama's local food rates (GROC), Illinois's local
+ *                grocery rates from 2026. */
+export const RATE_CLASSES = ["restaurant", "grocery"] as const;
+export type RateClass = (typeof RATE_CLASSES)[number];
+export type ClassRates = Partial<Record<RateClass, number>>;
 
 /** One combination of jurisdictions an address could be in, and its parts. */
 export interface Breakdown {
