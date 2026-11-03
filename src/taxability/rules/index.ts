@@ -165,6 +165,25 @@ export function loadRules(): Promise<RuleSet> {
   return loaded;
 }
 
+/** What a rule's `tax` key covers (see the top of this file), or null for
+ *  a key no rule may have. One reader for the rule files' check, ingest's
+ *  part warnings and the resolver's scopes. */
+export type TaxKey =
+  | { scope: "all" | "state" | "local" | "administered"; state: string }
+  | { scope: "part"; state: string; part: string }
+  | { scope: "federal" | "hst" | "provincial"; state?: string };
+
+export function parseTaxKey(tax: string): TaxKey | null {
+  let m: RegExpExecArray | null;
+  if (tax === "CA:GST/HST") return { scope: "federal" };
+  if ((m = /^([A-Z]{2})\/CA:(GST|HST)$/.exec(tax))) return { scope: "hst", state: m[1] };
+  if ((m = /^([A-Z]{2}):(PST|QST|RST)$/.exec(tax))) return { scope: "provincial", state: m[1] };
+  // A part code is its type and code ("01:ttr17").
+  if ((m = /^([A-Z]{2}):local:([A-Za-z0-9._-]+:[A-Za-z0-9._-]+)$/.exec(tax))) return { scope: "part", state: m[1], part: m[2] };
+  if ((m = /^([A-Z]{2})(?::(local|state|administered))?$/.exec(tax))) return { scope: (m[2] as "local" | "state" | "administered" | undefined) ?? "all", state: m[1] };
+  return null;
+}
+
 /** A place's rule file: us-NY.json, ca-BC.json, ca-federal.json. */
 export const RULE_FILE = /^(us|ca)-[A-Za-z]+\.json$/;
 
@@ -179,7 +198,7 @@ const rateClass = z.enum(RATE_CLASSES);
 const RuleFile = z.array(
   z
     .object({
-      tax: z.string().regex(/^([A-Z]{2}(:local|:state|:administered)?|[A-Z]{2}:local:[A-Za-z0-9._-]+:[A-Za-z0-9._-]+|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
+      tax: z.string().refine((t) => parseTaxKey(t) !== null, "not a tax key: XX, XX:state, XX:local, XX:administered, XX:local:<part code>, CA:GST/HST, XX/CA:HST or XX:PST"),
       code: z.enum(Object.keys(TAX_CODES) as [keyof typeof TAX_CODES]).refine((c) => c !== "nontaxable", "nontaxable is never a rule"),
       from: day,
       to: day.optional(),

@@ -17,7 +17,7 @@ import { salesTaxJurisdictionRates, taxabilityRules } from "../db/schema.js";
 import { eq, sql } from "drizzle-orm";
 import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
 import { challenged, evidenceLink, pdfParagraphs, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
-import { readRuleFiles, type Citation } from "./rules/index.js";
+import { parseTaxKey, readRuleFiles, type Citation } from "./rules/index.js";
 import { SELF_COLLECTED } from "./self-collected.js";
 import { pageOf } from "../pdf-text.js";
 import { documentText, findMark, hasTextView, markLink, pinnedCopy } from "../evidence-text.js";
@@ -142,9 +142,11 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
 async function unknownParts(taxes: string[]): Promise<string[]> {
   const unknown: string[] = [];
   for (const tax of new Set(taxes)) {
-    const m = /^([A-Z]{2}):local:([^:]+):(.+)$/.exec(tax);
-    if (!m) continue;
-    const [, state, type, code] = m;
+    const key = parseTaxKey(tax);
+    if (key?.scope !== "part") continue;
+    const { state } = key;
+    const at = key.part.indexOf(":");
+    const [type, code] = [key.part.slice(0, at), key.part.slice(at + 1)];
     const [row] = await db
       .select({ any: sql<number>`count(*)::int`, part: sql<number>`count(*) filter (where ${salesTaxJurisdictionRates.type} = ${type} and ${salesTaxJurisdictionRates.code} = ${code})::int` })
       .from(salesTaxJurisdictionRates)

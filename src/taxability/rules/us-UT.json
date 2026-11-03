@@ -1319,6 +1319,49 @@
     "notes": "July 1, 2017 is the effective date of the earliest statute version read, marked earliest_verified because taxability predates it. The undated Publication 55 is read alongside that statute using the existing Utah file’s date convention. Alcohol is excluded from reduced-rate groceries. Publication 55 describes an additional county restaurant tax up to 1%, separately returned on TC-62F; not modeled as a general sales-tax rate. Agency direct downloads were blocked; the official files.tax.utah.gov host supplied the PDF."
   },
   {
+    "tax": "UT:local",
+    "code": "alcohol.on_premises",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rateClass": "restaurant",
+    "summary": "Drinks served at a bar, restaurant, tavern or club bear the county restaurant tax (1% in every Utah county) on top of the local sales taxes.",
+    "conditions": [
+      {
+        "when": "Served at a theater that isn't a dinner theater: not a restaurant, so no restaurant tax; the local parts at their general rates",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "In addition to sales and use tax, county governments may impose a tourism tax of up to 1 percent on food and alcoholic beverage sales by restaurants."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "A restaurant is any retail establishment whose primary business is selling prepared food for immediate consumption."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Examples of restaurants include: full-service dining fast food coffee shops cafeterias luncheonettes soda fountains catering facilities clubs and taverns sidewalk vendors food concessions in malls"
+      },
+      {
+        "title": "Utah Tax Commission, Publication 55, Alcoholic Beverages",
+        "url": "https://files.tax.utah.gov/tax/forms/pubs/pub-55.pdf",
+        "quote": "Alcoholic beverage sales are subject to sales tax when sold in restaurants, taverns and clubs."
+      },
+      {
+        "title": "Utah State Tax Commission, Publication 55, Sales Tax Information for Restaurants",
+        "url": "https://tax.utah.gov/forms-pubs/pub-55/",
+        "quote": "Restaurants do not include: retail establishments whose primary business is selling fuel or food items for off-premise, but not immediate, consumption; or theaters that sell food."
+      }
+    ],
+    "notes": "Each part's restaurant rate is read from the Tax Commission's quarterly rate chart (<yy>q<n>simple.xlsx, sheet Simplified), whose Prepared Food (Restaurant) column is 1% above the combined rate at every location in all 29 counties in 2026 Q4: the county's part carries the county's restaurant tax on top of its rate, and every other part its general rate, since the chart says the restaurant tax is in addition to the combined rate (src/ingest/states/utah.ts). Only the 2026 Q4 chart is archived, so restaurant rates are loaded from 2026-10-01; before that, and after the quarter until the next chart is loaded, the local parts are not researched for this code. The state part stays under the UT rule. 2025-04-01 is Publication 55's revision (04/25); the tax is older."
+  },
+  {
     "tax": "UT",
     "code": "rental",
     "from": "2017-07-01",

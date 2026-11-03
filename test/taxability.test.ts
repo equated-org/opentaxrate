@@ -2,7 +2,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { parentOf, parseCodes, ruleSet, subcodesOf, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
+import { parentOf, parseCodes, ruleSet, settleCases, subcodesOf, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type Taxability, type TaxCode } from "../src/taxability/index.js";
 import { looseForTest, pageText, quoteOnPage, quoteSpan } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
 import { SELF_COLLECTED } from "../src/taxability/self-collected.js";
@@ -613,6 +613,69 @@ describe("taxability", () => {
     expect(taxabilityOf({ state: "ZZ", parts: missing }, "food.prepared.hot", "2026-01-01", set).outcomes).toBeUndefined();
     // The general rate is untouched.
     expect(taxabilityOf({ state: "ZZ", parts }, "food.prepared.sandwich", "2026-01-01", set)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+  });
+
+  it("taxes a drink served in Glendale, Arizona at the restaurants and bars rate, and a bottle to go at retail (ADOR's table, A.R.S. 42-5074)", () => {
+    const glendale: RatePart[] = [
+      { kind: "state", name: "Arizona", code: "45:04", rate: 0.056 },
+      { kind: "county", name: "MARICOPA", code: "00:MAR", rate: 0.007, classRates: { restaurant: 0.007 } },
+      { kind: "city", name: "GLENDALE", code: "01:GE", rate: 0.029, classRates: { restaurant: 0.039, grocery: 0.025 } },
+    ];
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "alcohol.on_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.102 });
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "alcohol.off_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+    const any = taxabilityOf({ state: "AZ", parts: glendale }, "alcohol", "2026-11-03", RULES);
+    expect(any).toMatchObject({ treatment: "conditional", rate: null });
+    expect(any.outcomes?.map((o) => o.rate)).toEqual([0.102, 0.092]);
+    // Utah: the county restaurant tax on a drink at a bar, as on a meal.
+    const slc: RatePart[] = [
+      { kind: "state", code: "45:49", rate: 0.0485, classRates: { restaurant: 0.0485 } },
+      { kind: "county", code: "00:035", rate: 0.026, classRates: { restaurant: 0.036 } },
+      { kind: "city", code: "01:67000", rate: 0.01, classRates: { restaurant: 0.01 } },
+    ];
+    expect(taxabilityOf({ state: "UT", parts: slc }, "alcohol.on_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.0945 });
+    expect(taxabilityOf({ state: "UT", parts: slc }, "alcohol.off_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.0845 });
+  });
+
+  it("answers a Metro East grocery conditional on the retailer's liability for the district's tax, never one rate chosen (IDOR's file guide)", () => {
+    // Madison County, unincorporated (060-5000-2): the file's high and low rates.
+    const madison: RatePart[] = [
+      { kind: "state", code: "45:17", rate: 0.0625 },
+      { kind: "district", code: "x:0605000", rate: 0.0225, classCases: { grocery: [
+        { when: "The retailer is liable for the Metro East Mass Transit District's tax (IDOR's high rate for the location)", rate: 0.0025 },
+        { when: "The retailer isn't liable for the Metro East Mass Transit District's tax (IDOR's low rate for the location)", rate: 0 },
+      ] } },
+    ];
+    const t = taxabilityOf({ state: "IL", parts: madison }, "food.grocery", "2026-11-03", RULES);
+    expect(t).toMatchObject({ treatment: "conditional", rate: null });
+    expect(t.outcomes?.map((o) => [o.when.slice(0, 26), o.rate])).toEqual([["The retailer is liable for", 0.0025], ["The retailer isn't liable ", 0]]);
+    // A location the flag doesn't touch has its one rate.
+    const chicago: RatePart[] = [{ kind: "state", code: "45:17", rate: 0.0625 }, { kind: "district", code: "x:0160001", rate: 0.0425, classRates: { grocery: 0.015 } }];
+    expect(taxabilityOf({ state: "IL", parts: chicago }, "food.grocery", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.015 });
+  });
+
+  it("doesn't fill a city's unverified earlier period from the state's rules: Boulder before 2026-06-01, Denver before 2019", () => {
+    const boulder: RatePart[] = [
+      { kind: "state", code: "45:1", rate: 0.029 },
+      { kind: "city", code: "01:ttr209", rate: 0.0386 },
+      { kind: "county", code: "00:ttr16", rate: 0.01335 },
+      { kind: "district", code: "d:ttr528", rate: 0.01 },
+      { kind: "district", code: "d:ttr555", rate: 0.001 },
+    ];
+    const before = taxabilityOf({ state: "CO", parts: boulder }, "food.prepared.dine_in", "2026-05-31", RULES);
+    expect(before).toMatchObject({ treatment: "not_researched", rate: null });
+    expect(before.taxes.find((g) => g.parts.includes("01:ttr209"))).toMatchObject({ treatment: "not_researched" });
+    expect(before.taxes.find((g) => g.parts.includes("45:1"))).toMatchObject({ treatment: "taxable" });
+    expect(taxabilityOf({ state: "CO", parts: boulder }, "food.prepared.dine_in", "2026-06-01", RULES)).toMatchObject({ rate: 0.09345 });
+    // A code Boulder has no rule of its own for still answers by Colorado's.
+    expect(taxabilityOf({ state: "CO", parts: boulder }, "goods.general", "2026-05-31", RULES)).toMatchObject({ treatment: "taxable", rate: 0.09195 });
+    const denver: RatePart[] = [{ kind: "state", code: "45:1", rate: 0.029 }, { kind: "city", code: "01:ttr17", rate: 0.0515 }, { kind: "district", code: "d:ttr528", rate: 0.01 }];
+    expect(taxabilityOf({ state: "CO", parts: denver }, "food.prepared.hot", "2018-06-01", RULES)).toMatchObject({ treatment: "not_researched" });
+  });
+
+  it("lists no outcomes, rather than failing, when nothing undecided is left to list", () => {
+    const rule = { from: "2020-01-01", fromIs: "effective" as const, treatment: "special_rate" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const odd: Taxability = { treatment: "partial", rate: null, taxes: [{ tax: "ZZ", parts: ["01:1"], treatment: "special_rate", rate: null, rule }] };
+    expect(settleCases(odd, [{ kind: "city", code: "01:1", rate: 0.02 }], new Map())).toMatchObject({ treatment: "conditional", rate: null });
   });
 
   it("taxes dine-in food in Glendale, Arizona at its city's restaurant rate: 10.2%, against 9.2% retail", () => {

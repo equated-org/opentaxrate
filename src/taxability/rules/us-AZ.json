@@ -1101,6 +1101,34 @@
     "notes": "Undated current official pages use the existing goods.general baseline 1994-01-03; this does not establish the historical enactment of alcohol taxation. Retailers and restaurants use different TPT classifications, but both have general taxable treatment. State, county and city rates vary; no different local alcohol sales-tax base was established. Luxury tax is a separate excise, generally imposed at the wholesale tier, and is not modeled."
   },
   {
+    "tax": "AZ:local",
+    "code": "alcohol.on_premises",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rateClass": "restaurant",
+    "summary": "Arizona's counties and cities tax drinks served at a bar, restaurant or club under the restaurants and bars classification, at each one's own rate for it, which in some cities is above the retail rate (Glendale's 3.9% against its 2.9%).",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR, Model City Tax Code § 455, Restaurants and Bars",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/restaurants-and-bars",
+        "quote": "The tax rate shall be at an amount equal to _______ percent (___%) of the gross income from the business activity upon every person engaging or continuing in the business of preparing or serving food or beverage in a bar, cocktail lounge, restaurant, or similar establishment where articles of food or drink are prepared or served for consumption on or off the premises, including also the activity of catering."
+      },
+      {
+        "title": "A.R.S. 42-5074(A), Restaurant classification",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      },
+      {
+        "title": "ADOR, Transaction Privilege and Other Tax Rate Tables, effective October 1, 2026",
+        "url": "https://azdor.gov/sites/default/files/document/TPT_RATETABLE_10012026.pdf",
+        "quote": "“Additional Tax” means in addition to Restaurant Tax."
+      }
+    ],
+    "notes": "Each county's and city's rate for the class is ADOR's TPT rate table, business code 011 (Restaurants and Bars), plus 111 (Restaurants and Bars (Additional Tax)) where a city levies it, loaded as each part's classRates.restaurant; a county's 011 rate equals its retail rate in every table read. The state part stays under the AZ rule (5.6% for both classes). Alcohol sold to take away stays under the AZ rule at the retail rate. The liquor luxury tax is a separate excise, not modelled. The date is the AZ alcohol rule's."
+  },
+  {
     "tax": "AZ",
     "code": "rental",
     "from": "2017-01-01",

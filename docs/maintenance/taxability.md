@@ -39,61 +39,46 @@ weighed against, not only what it cites.
 
 ## One jurisdiction's own rules
 
-Rules are keyed by the tax they cover (`src/taxability/rules/index.ts`):
-`"CO"` every part of a Colorado answer, `"CO:local"` its local parts, and
-`"CO:local:<part code>"` one local part, where a city or county sets its
-own taxability or rate (a Colorado home-rule city). The part code is the
-part's `code` in a rate answer (`pnpm rate CO "200 E Colfax Ave" Denver
-80203` shows Denver's city part as `01:ttr17`), never its name. Each part
-answers to its most specific key with a rule; the others are unchanged. A
-one-part `special_rate` is that part's rate alone (Denver's 4.00% on food
-and drink replaces its 5.15%). Say in the rule's summary which place it
-is, and in its notes that the other parts keep the broader rules. Ingest
-warns when a rule names a part code the database's rates don't have.
+How a part picks its rule (the keys, most specific first) and how a class
+rate is charged are in the [API note](../context/api.html#code); where class
+rates come from is in the [refresh note](../context/refresh.html#class-rates).
+Here, what to do:
 
-`"CO:administered"` decides the state part and the local taxes the state
-administers, never a self-collected home-rule city's part: those are listed
-by part code in `src/taxability/self-collected.ts`, built from DR 1002's
-table of home-rule cities the state doesn't collect for (66 in the 12/26/24
-edition; the publication is now a Looker Studio report, so check the list
-against it each January and July). Key a state rule `XX:administered` where
-its source covers only the taxes the state administers (Colorado's software
-rules, and candy and soft drinks); a self-collected part with no rule of its
-own is then not researched rather than given the state's answer. Every other
-Colorado state rule still answers for self-collected parts that have no
-rule of their own (1,836 part and code pairs on 2026-11-03: goods, prepared food,
-services, construction and delivery), though its notes say home-rule cities
-weren't researched.
-
-### Class rates
-
-Where a state's own rate table rates a class of sale apart for every
-jurisdiction (a city's restaurant rate, a county's food rate), the rates are
-loaded as data, not written as a rule per city: `sales_tax_class_rates`,
-read from the same files as the general rates (`src/ingest/class-rates.ts`;
-`pnpm ingest --kind class-rates`, and every refresh), and shown on each part
-as `classRates`. One rule per state then names the class: `"treatment":
-"special_rate", "rateClass": "restaurant"` (or `"grocery"`), with no
-`rate`; each part it decides is taxed at its own class rate, and a part with
-none loaded is not researched. A condition may name a class the same way.
-Cite the page that says the class applies to the code (Arizona's MCTC §
-455 for restaurants and bars, Utah's Publication 55, Alabama's food-rate
-notices, IDOR's grocery file guide), and say in the notes where the rates
-come from. Loaded today:
-
-- **Arizona**: restaurants and bars (011, plus a city's additional 111) for
-  every county and city, on `AZ:local` dine-in, catering and a restaurant's
-  cold food; food for home consumption (062) for the 70 cities that list it.
-- **Alabama**: each county's and city's food rate (`GROC`), on `AL:local`
-  for every SNAP-food code since 2023-09-01.
-- **Illinois**: each location's local grocery rate from 2026-01-01 (IDOR's
-  `grocerymache` files), on `IL:local` for low-rate food.
-- **Utah**: the county restaurant tax (1% in every county), from the 2026 Q4
-  rate chart, on `UT:local` for restaurant food (cold to go and catering
-  settled; dine-in, hot food and sandwiches conditional on a restaurant or
-  customized food). Each quarter's chart (`files.tax.utah.gov/tax/salestax/rate/<yy>q<n>simple.xlsx`)
-  must be filed for its quarter's restaurant rates; without it the local
-  parts are not researched for those codes.
+- **One city's or county's own rule**: key it `"XX:local:<part code>"`,
+  the part's `code` in a rate answer (`pnpm rate CO "200 E Colfax Ave"
+  Denver 80203` shows Denver's city part as `01:ttr17`), never its name.
+  Say in the summary which place it is, and in the notes that the other
+  parts keep the broader rules; ingest warns on a part code the
+  database's rates don't have. Date it from the day the source verifies:
+  before an `earliest_verified` one-part rule, that part is not researched
+  for the code, not answered by the state's rule.
+- **A state rule that covers only state-administered taxes**: key it
+  `"XX:administered"` (Colorado's software rules, candy and soft drinks).
+  The self-collected parts it skips are listed by part code in
+  `src/taxability/self-collected.ts`, from DR 1002's table of home-rule
+  cities the state doesn't collect for (66 in the 12/26/24 edition; the
+  publication is now a Looker Studio report): check the list against it
+  each January and July. Every other Colorado state rule still answers for
+  self-collected parts with no rule of their own (1,836 part and code pairs
+  on 2026-11-03), though its notes say home-rule cities weren't researched.
+- **A class of sale a state's table rates per jurisdiction** (a city's
+  restaurant rate, a county's food rate): load the rates (a reader in
+  `src/ingest/class-rates.ts`) rather than write a rule per city, and write
+  one rule per state with `"rateClass"` in place of `"rate"`. Cite the page
+  saying the class applies to the code, and say in the notes where the
+  rates come from. Loaded today: Arizona's restaurants and bars class
+  (dine-in, catering, a restaurant's cold food, drinks served) and its
+  cities' food rates; Alabama's food rates; Illinois's grocery rates from
+  2026 (conditional in the Metro East district, where IDOR gives a rate
+  for a retailer liable for its tax and one for a retailer who isn't);
+  Utah's county restaurant tax (restaurant food and drinks served).
+- **Utah's rate chart, every quarter**: the restaurant tax comes from the
+  Tax Commission's chart for the quarter
+  (`files.tax.utah.gov/tax/salestax/rate/<yy>q<n>simple.xlsx`). Refresh
+  files the loaded quarter's chart and keeps every archived quarter's
+  rates; a quarter with no chart filed has its local parts not researched
+  for those codes, so check it is in the archive when the quarter's
+  Streamlined files arrive ([sources](sources.md)).
 
 Known local treatments not yet written as rules (research these next, by
 population):
@@ -118,12 +103,18 @@ population):
   classification a grocery's hot food falls under at the city level wasn't
   settled), and food for home consumption stays conditional: counties and
   the cities with no 062 row have no food rate in the table to settle it.
+  Rentals are answered at the retail rate, though four cities' rental
+  class (214) differs from it (Benson, Colorado City, Casa Grande, St.
+  Johns): the monthly CSV gives no county rental rows, so a rental class
+  would leave every county part unresearched (the PDF's Table 1 has them).
 - **Alabama**: Elmore County's rate inside its cities has no food rate (its
   GROC codes don't follow its county rule), so groceries there are not
   researched.
 - **Illinois**: a business district's address has no grocery rate in
   IDOR's files (they list locations), so groceries there are not
-  researched. Chicago's 3% soft drink tax, 0.5% restaurant tax and the 1%
+  researched. In the Metro East district, a rule whose case is "the
+  location's grocery rate" (cold deli food, premade sandwiches) lists no
+  outcomes, as that rate is itself two cases. Chicago's 3% soft drink tax, 0.5% restaurant tax and the 1%
   MPEA food and beverage tax aren't in the rate data.
 - **Minnesota**: Minneapolis's 3% Downtown restaurant tax (an area smaller
   than the city, not a part) isn't in the rate data, nor are St. Cloud's

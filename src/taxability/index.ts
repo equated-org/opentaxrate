@@ -43,7 +43,7 @@
 import type { AddressRate, RatePart } from "../rates/index.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
 import { selfCollected } from "./self-collected.js";
-import { ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
+import { parseTaxKey, ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
 export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
 export { loadRules, ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
@@ -129,6 +129,16 @@ const unknownBefore = (rules: RuleSet, tax: string, code: TaxCode, date: string)
   const first = rules.get(`${tax}|${code}`)?.[0];
   return first !== undefined && date < first.from && first.fromIs === "earliest_verified";
 };
+
+/** The keys whose rules are one jurisdiction's or one set of taxes' own,
+ *  so that an unverified earlier period isn't filled from a broader key:
+ *  "XX:local:<part code>" and "XX:administered". */
+const ownScope = (key: string) => ["part", "administered"].includes(parseTaxKey(key)?.scope ?? "");
+
+/** `key`'s rule for `code`, a broader code or a narrower one is researched
+ *  only from a later day (unknownBefore). */
+const unknownFor = (rules: RuleSet, key: string, code: TaxCode, date: string) =>
+  (Object.keys(TAX_CODES) as TaxCode[]).some((c) => (c === code || code.startsWith(`${c}.`) || c.startsWith(`${code}.`)) && unknownBefore(rules, key, c, date));
 
 /** The rule for `code` under one tax: the code's own, else its nearest
  *  parent's (a parent's rule covers every kind under it), else, for a
@@ -298,6 +308,11 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
   const keys = keysFor(state, part);
   for (const [i, key] of keys.entries()) {
     const found = ruleForCode(rules, key, code, date);
+    // Before a one-jurisdiction rule's earliest verified day, that
+    // jurisdiction's treatment isn't known: the part isn't researched,
+    // rather than answered by a broader key (Boulder's food rules, verified
+    // from 2026-06-01, don't fall back to Colorado's before it).
+    if (!found && ownScope(key) && unknownFor(rules, key, code, date)) return null;
     if (!found) continue;
     // A broad code this key answers only from its subcodes' rules, while a
     // more specific key has a rule for one of them (a local platter rule):
@@ -359,14 +374,17 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
   const members = new Map<string, { rule: Rule | null; parts: RatePart[] }>();
   for (const part of answer.parts) {
     const found = ruleFor(rules, state, part, code, date);
-    // A rule naming a class answers only for a part with that class's rate.
-    const rule = found && (found.treatment !== "special_rate" || rateOf(found, [part]) !== null) ? found : null;
+    // A rule naming a class answers only for a part with that class's rate,
+    // or conditionally on the cases its rate turns on (classCases).
+    const cases = found?.treatment === "special_rate" && found.rateClass && rateOf(found, [part]) === null ? part.classCases?.[found.rateClass] : undefined;
+    const rule = cases?.length ? onCases(found!, cases) : found && (found.treatment !== "special_rate" || rateOf(found, [part]) !== null) ? found : null;
     // Unresearched parts group by the broadest key they'd answer to: a
     // state's parts together, each Canadian tax on its own.
     const broadest = keysFor(state, part).at(-1)!;
     // One rule decides each group; a rule made for this part (conditional
     // on a narrower code's local rule) shares its tax and day, not its answer.
-    const key = rule ? `${rule.tax}/${rule.from}/${rule.treatment}` : `?${broadest}`;
+    // A part conditional on its own class cases is a group of its own.
+    const key = rule ? `${rule.tax}/${rule.from}/${rule.treatment}${cases?.length ? `/${part.code}` : ""}` : `?${broadest}`;
     const group = groups.get(key);
     if (group) {
       group.parts.push(part.code);
@@ -417,6 +435,13 @@ function answerOf(taxes: TaxGroup[], parts: RatePart[]): Taxability {
  *  every undecided tax pairs that way, each outcome is one such case.
  *  Otherwise the taxes turn on their facts independently, and each
  *  condition is its own outcome, for its tax, with the settled taxes. */
+/** A rule naming a class, for a part whose rate for it turns on the cases
+ *  its publisher states: conditional on them, each at its own rate. */
+const onCases = (rule: Rule, cases: Array<{ when: string; rate: number }>): Rule => {
+  const { rateClass: _, ...rest } = rule;
+  return { ...rest, treatment: "conditional", conditions: cases.map((c) => ({ when: c.when, treatment: "special_rate", rate: c.rate, ...(rule.base !== undefined ? { base: rule.base } : {}) })) };
+};
+
 /** What one undecided tax adds to the sale's rate in case `k` (rateOf on
  *  its parts); null where it can't be computed. */
 const shareOf = (t: TaxGroup, k: Condition, parts: RatePart[]) => rateOf(k, t.parts.flatMap((code) => parts.find((p) => p.code === code) ?? []));
@@ -426,7 +451,7 @@ function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): { outcomes: Outcome[]
   const fixed = taxes.reduce((sum, t) => sum + (t.rate ?? 0), 0);
   const share = (t: TaxGroup, k: Condition) => shareOf(t, k, parts) ?? NaN;
   const open = taxes.filter((t) => t.treatment === "conditional").map((t) => ({ tax: t, conditions: t.rule?.conditions ?? [] }));
-  if (open.some((o) => !o.conditions.length)) return none;
+  if (!open.length || open.some((o) => !o.conditions.length)) return none;
   const done = (outcomes: Outcome[], independent?: true) =>
     outcomes.length > MOST_OUTCOMES || outcomes.some((o) => Number.isNaN(o.rate)) ? none : { outcomes: outcomes.map((o) => ({ ...o, rate: round(o.rate) })), ...(independent ? { independent } : {}) };
   const paired = pairedCases(open.map((o) => o.conditions));
