@@ -15,7 +15,7 @@ import { PARAMS } from "../src/params.js";
 import { acceptCode, caseQuestions, asQuestions, countFree, describedTaxability, namesCount, needsOf, ABSENCE_INSTRUCTIONS, DEFINING_INSTRUCTIONS, DEFINING3_INSTRUCTIONS, type Described } from "../src/taxability/describe.js";
 import { partsAt } from "../src/taxability/evaluate.js";
 import { halfOf } from "../src/taxability/describe-bench.js";
-import { cachedPicker, jevPicker, memoryStore, paidPicker, type Picked, type Picker, type Question } from "../src/taxability/picker.js";
+import { cachedPicker, jevPicker, memoryStore, paidPicker, secondModelsWarning, type Picked, type Picker, type Question } from "../src/taxability/picker.js";
 import { answerKey } from "../src/cache.js";
 import { TaxabilitySchema } from "../src/api-schema.js";
 import type { RatePart } from "../src/rates/types.js";
@@ -480,7 +480,8 @@ describe("reading fixes (2026-11-03 random sample)", () => {
 
   it("pools a code a settled rule's exception may change only with describePoolExceptions", async () => {
     const set = ruleSet([rule("food.candy", "taxable"), rule("food.grocery", "taxable", [{ when: "Sold as a party tray", treatment: "exempt" }])] as Rule[]);
-    const ask = () => describedTaxability({ state: "ZZ", parts: ZZ }, { text: "x" }, DAY, set, stub([], { choice: "food.candy", confidence: 0.6, probabilities: { "food.candy": 0.6, "food.grocery": 0.4 } }));
+    // The text establishes the usual case against the exception.
+    const ask = () => describedTaxability({ state: "ZZ", parts: ZZ }, { text: "x" }, DAY, set, stub([[/none of the other options/, 0.97]], { choice: "food.candy", confidence: 0.6, probabilities: { "food.candy": 0.6, "food.grocery": 0.4 } }));
     expect((await ask()).treatment).toBe("taxable");
     PARAMS.describePoolExceptions = false;
     try {
@@ -550,4 +551,48 @@ describe("reading fixes (2026-11-03 random sample)", () => {
     expect((await ask(0.2)).treatment).toBe("conditional");
     expect(await ask(0.95)).toMatchObject({ treatment: "taxable" });
   });
+
+describe("PR #9 review fixes", () => {
+  const rule = (code: string, treatment: string, conditions: unknown[] = [], tax = "ZZ") => ({ ...BASE, tax, code, treatment, conditions });
+
+  it("never pools a candidate whose exception the text may make apply: a bagel with a packaged knife (Codex #3)", async () => {
+    const set = ruleSet([rule("food.prepared.bakery", "exempt", [{ when: "The seller packages an eating utensil with the item", treatment: "taxable" }]), rule("food.grocery", "exempt")] as Rule[]);
+    const pick: Picked = { choice: "food.prepared.bakery", confidence: 0.5, probabilities: { "food.prepared.bakery": 0.5, "food.grocery": 0.5 } };
+    const ask = (knife: number, usual: number) =>
+      describedTaxability({ state: "ZZ", parts: ZZ }, { text: "A bakery bagel with a plastic knife packaged in the bag" }, DAY, set, stub([[/packages an eating utensil/, knife], [/none of the other options/, usual], [/^It charges for one thing/, 0.99]], pick));
+    const knife = await ask(0.95, 0.02);
+    expect(knife).toMatchObject({ treatment: "conditional", rate: null, needs: ["code"] });
+    // The text establishes no utensil: the candidates agree, as before.
+    expect(await ask(0.01, 0.97)).toMatchObject({ treatment: "not_taxed", rate: 0, interpreted: { code: null, candidates: ["food.prepared.bakery", "food.grocery"] } });
+  });
+
+  it("never shows a case's counting alternatives in an accepting question: five muffins aren't settled on the count (Codex #5)", async () => {
+    expect(namesCount("prepackaged singly or in packs of fewer than six")).toBe(true);
+    const taxed = "single-serving muffins sold in quantities of fewer than six single servings, or prepackaged singly or in packs of fewer than six, or any bakery item heated for consumption";
+    const set = ruleSet([rule("food.prepared.bakery", "conditional", [{ when: taxed, treatment: "taxable" }, { when: "bread products, or six or more single servings bought together", treatment: "zero_rated" }])] as Rule[]);
+    const picker = stub([[/fewer than six/, 0.99]], codePick("food.prepared.bakery"));
+    const t = await describedTaxability({ state: "ZZ", parts: ZZ }, { code: "food.prepared.bakery", text: "Five freshly baked muffins, cold to go" }, DAY, set, picker);
+    expect(t.treatment).toBe("conditional");
+    const words = Object.values(picker.asked[0].case?.options ?? picker.asked[0].tax0?.options ?? {});
+    expect(words).toContain("any bakery item heated for consumption");
+    expect(words.some((w) => /fewer than six/.test(w))).toBe(false);
+  });
+
+  it("never reads a legal standing from a description: a licensed healthcare provider, an exemption certificate (Codex #6)", () => {
+    for (const w of [
+      "Used by an insured financial institution or a licensed healthcare provider for the purposes listed",
+      "Qualifying adult-sized garments for a child under 15, with completed FIN 425 exemption certificate",
+      "A capital improvement with a completed Form ST-8 given to the contractor",
+      "Goods delivered are exempt (or sold for resale / to an exempt buyer)",
+    ])
+      expect(needsOf(w), w).toEqual(["seller_license"]);
+    expect(needsOf("Licensed under a written agreement signed by licensor and licensee")).toEqual([]);
+  });
+
+  it("says, once, when second models are configured without a key (Cursor P3)", () => {
+    expect(secondModelsWarning(["a/b"], undefined)).toMatch(/OPENROUTER_API_KEY is unset/);
+    expect(secondModelsWarning(["a/b"], "k")).toBeNull();
+    expect(secondModelsWarning([], undefined)).toBeNull();
+  });
+});
 });

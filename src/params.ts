@@ -128,213 +128,94 @@ export interface Params {
    *  ahead of the next (rates/streets/correct.ts). */
   spellingMinSimilarity: number;
   spellingMinLead: number;
-  /** describe= (taxability/describe.ts): the picker's probability a code,
-   *  with its narrower kinds, needs before the text's code is used... */
+  /** describe= (taxability/describe.ts). Measured with
+   *  `pnpm bench taxability --describe` on the dev cases (both modes) and
+   *  the blind and rule-targeted batches, 0 wrong required; the full
+   *  calibration record is kept outside the repository.
+   *
+   *  The picker's probability a code, with its narrower kinds, needs before
+   *  the text's code is used (0.9)... */
   describeCodeAccept: number;
-  /** ...and the probability a tax's cases that the rules treat alike need
-   *  together before the text settles that tax as one of them. */
+  /** ...and that a tax's cases the rules treat alike need together before
+   *  the text settles the tax (0.9). */
   describeConditionAccept: number;
   /** With no code accepted, the codes at or above this are candidates. */
   describeCandidateFloor: number;
-  /** Whether a case that turns on a money amount ("totalling $4.00 or
-   *  less", "a contract over $10,000") may be settled by a price the text
-   *  states. Off: a price in a description isn't a transaction value (a
-   *  line's price isn't the sale's total), so such cases stay open. */
+  /** Whether a price or a count in the text may settle a case that turns
+   *  on an amount or a count of units (off: a line's price isn't the sale's
+   *  total; "one tart, two muffins..." was read as fewer than six). */
   describeReadsAmounts: boolean;
-  /** The same for a case that turns on how many units are sold ("in
-   *  quantities of fewer than six", "four or more servings"): off, a count
-   *  in the text never settles it. On held-out (2026-11-02) the picker read
-   *  "one tart, two muffins, one cookie and two doughnuts" as fewer than
-   *  six. */
   describeReadsCounts: boolean;
-  /** For a question the first pick leaves open, ask each option as its own
-   *  yes-or-no question: one established at describeBinaryAccept settles
-   *  it, unless an option with another effect reaches describeBinaryVeto. */
+  /** A case question the first pick leaves open is asked as one yes-or-no
+   *  question per option: one at describeBinaryAccept settles it, unless an
+   *  option with another effect reaches describeBinaryVeto (0.95/0.9: 0.9/0.9
+   *  made fl-02 wrong). */
   describeBinaryFallback: boolean;
-  /** Tuned on dev half A (2026-11-02, frozen rules a4baa142): 0.9/0.9 was
-   *  best there (+6 code, +3 text) but made fl-02 wrong on half B (a binary
-   *  yes at 0.93), so it failed confirmation; 0.95/0.9, A's runner-up and
-   *  the reviewers' prior, is kept, clean on both halves. A 0.95 veto made
-   *  d2-mb-20 wrong on A. */
   describeBinaryAccept: number;
   describeBinaryVeto: number;
   /** The fallback's case stands only where the first pick leans no further
-   *  to another effect. Added 2026-11-03 after d2-sk-13 (half A, under a
-   *  stronger silence wording): the first pick put 0.85 on "feasibility
-   *  studies" (exempt) and a yes of 0.96 on the residual "site-specific
-   *  engineering" (taxable) settled it wrong. No dev answer changes with it
-   *  now; kept as a guard. */
+   *  to another effect (guards d2-sk-13). */
   describeFallbackAgree: boolean;
-  /** With no one code, the codes whose answers here agree tax by tax are
-   *  pooled; their probability together must reach describeCodePoolAccept. */
-  /** Chosen on half A: 0.95 gave +9 text; 0.9 made d2-nt-04 wrong (a
-   *  frozen shrimp ring pooled as groceries). Clean on half B. */
+  /** With no one code, codes whose answers agree tax by tax are pooled at
+   *  describeCodePoolAccept (0.95: 0.9 made d2-nt-04 wrong). */
   describeCodePooling: boolean;
   describeCodePoolAccept: number;
-  /** Whether a code whose settled rule lists exceptions may be pooled. Off
-   *  (the first calibration) lost round 1's HVAC tune-up (repair and other
-   *  professional service, both not taxed) and 4 dev text answers, and
-   *  made nothing right; on, 0 wrong on every set. */
+  /** Whether a code whose settled rule lists exceptions may be pooled, once
+   *  the text establishes its usual case against them (off cost 4 dev
+   *  answers; pooling them unchecked made a packaged-knife bagel 0%). */
   describePoolExceptions: boolean;
-  /** The reading fixes of 2026-11-03 (a blind sample of 50 receipt-style
-   *  descriptions, graded against official sources: 3 wrong, r21 r30 r17),
-   *  recalibrated the same day on fresh data: round 1 (120 blind
-   *  descriptions, two graders) and a batch of 60 written to establish one
-   *  rule case each. The first calibration (absolute 0.8 bars on Jev's
-   *  yes-or-no answers, the silence wording on) lost 8 of round 1's answers
-   *  both graders marked right and 10 of the batch's 48, every one a fact
-   *  the text states ("a 12-pack of cola", "no plates or forks"). Measured
-   *  on all of full dev (both modes), the 50, round 1 and the batch, every
-   *  variant at 0 wrong but one noted below; frozen rules 4d44010, Jev
-   *  1.14.0. Chosen: dev 943/803 right (main 935/795), the 50 at 0 wrong
-   *  (main 3), round 1 62 right as main with none lost, the batch 48 with
-   *  code and 35 without (main 48, 34).
-   *
-   *  A code read from the text whose definition turns on a fact (DEFINING
-   *  in describe.ts: a soft drink is sweetened) is used only where the text
-   *  establishes that fact: the mean yes over two wordings of the question
-   *  (describeDefiningAsk "both": yes or unknown, and yes, not stated or
-   *  contradicted) at this, yes at least as likely as not. Either wording
-   *  alone mislabels something: the binary one gave the café's "cold brew
-   *  and a breakfast sandwich" 0.48 and the deli tub's pasta salad (r17)
-   *  0.36; the three-way one gave them 0.80 and 0.50. Their mean: 0.64 and
-   *  0.43. At 0.4 r17 goes wrong; 0.6 loses one of the batch. */
+  /** A code read from the text whose definition turns on a fact (DEFINING)
+   *  is used only where the mean yes of its defining questions reaches this
+   *  (0.5; 0.4 made r17 wrong, 0.6 lost a targeted item). */
   describeDefiningAccept: number;
-  /** Round 2 also tried: dropping food.prepared's fact (6 rule-targeted
-   *  h3 items come back, but r17 goes wrong: the check is its only
-   *  guard); a SaaS fact (used remotely, nothing downloaded) for h1-39,
-   *  which lost h1-02, b2-46 (a VPN plan) and b3-45 (app cloud storage),
-   *  all graded right; facts for custom development and modification
-   *  (h1-07 settles; 1 dev and 1 round-1 answer lost). None kept. */
   describeDefiningCheck: boolean;
-  /** The defining question: "binary" (YES or UNKNOWN), "three" (YES,
-   *  NOT_STATED or CONTRADICTED) or "both", their mean. "three" alone made
-   *  r17 wrong (0.50); "binary" alone lost round 1's café order. */
+  /** How the defining fact is asked: "binary", "three" (yes / not stated /
+   *  contradicted) or "both", their mean ("three" alone made r17 wrong). */
   describeDefiningAsk: "binary" | "three" | "both";
-  /** The open-case question tells the picker that a fact stated by its
-   *  absence fits only where the text says so (SILENCE_INSTRUCTIONS). Off:
-   *  it lowered the first pick on plainly stated cases (round 1's font
-   *  download as used in the buyer's business 0.90 → 0.67, a furniture
-   *  store's delivery as of taxable goods 0.91 → 0.85), and the absence
-   *  question below keeps r21 open without it. On, every set lost answers
-   *  (dev 943/803 → 933/790 at the chosen bars), wrong unchanged. */
+  /** The open-case question says a fact stated by its absence fits only
+   *  where the text says so (off: it lowered plainly stated picks; the
+   *  confirmation below keeps r21 open). */
   describeSilenceRule: boolean;
-  /** Which accepted cases need confirming: "all", "negative" (a case whose
-   *  words state a fact by its absence or a limit, "without utensils",
-   *  "only cut": NEGATIVE in describe.ts), or "none". A negative case is
-   *  confirmed by its yes-or-no question or by ABSENCE_INSTRUCTIONS's
-   *  choice of three (the text states the absence in any words, is silent,
-   *  or contradicts it), which reads "no plates or forks" as stated (0.79)
-   *  where the yes-or-no question gave 0.48. "none" makes r21 wrong (a meal
-   *  kit taken as sold without utensils); "all" cost 31 code and 37 text on
-   *  dev under the first calibration. An unconfirmed negative case loses its
-   *  weight to NONE, so the cases the rules treat alike with it still stand
-   *  if they reach describeConditionAccept without it (round 1's zoning
-   *  board retainer: legal, lobbying and a residual case, all not taxed). */
-  /** Round 2 tried "all" with a three-way question per case (stated in
-   *  any words, qualifiers included / silent / contradicted) at 0.5, to
-   *  stop a case settling on a qualifier the text never names. It didn't
-   *  (r17's "mixed by the seller" came out stated at 0.87, h2-45's
-   *  "nonmechanical" repair too), and it cost dev 14 code and 22 text
-   *  answers and round 1 six. */
+  /** Which accepted cases are confirmed by their own questions: "all",
+   *  "negative" (stated by an absence or a limit) or "none" ("none" makes
+   *  r21 wrong; "all" cost dev 31 code and 37 text answers). */
   describeConfirm: "all" | "negative" | "none";
-  /** A confirmation's yes: as likely as not. 0.4 scored the same; 0.6 lost
-   *  2 dev and 1 of the batch; 0.8 (the first calibration) lost the
-   *  stated absences. */
+  /** A confirmation's yes, of the yes-or-no or the three-way question
+   *  (0.5; 0.6 lost 2 dev answers). */
   describeConfirmAccept: number;
-  /** Where the pick's top code is narrower than the code accepted and has
-   *  a defining fact, the text establishing that fact at
-   *  describeNarrowAccept establishes the narrower code (r27: a catered
-   *  sandwich platter, platter at 0.75 of the pick, its fact at 0.95).
-   *  +13 text on full dev, wrong unchanged. */
+  /** The pick's top code, narrower than the code accepted and with a
+   *  defining fact, is tried first, its fact at describeNarrowAccept (+13
+   *  dev text answers). */
   describeNarrowByDefining: boolean;
   describeNarrowAccept: number;
-  /** With no code at describeCodeAccept, the sole candidate: one code (with
-   *  its kinds) holding describeSoleShare of all the codes' probability and
-   *  at least describeSoleFloor, used if the text establishes its
-   *  definition (its DEFINING fact, else its definition's own words)...
-   *  It made no answer right on A or B at any setting tried, and made
-   *  d2-nt-04 (A, share 0.9: a frozen shrimp ring as groceries), ny-24 (B,
-   *  delivery at 0.82 with UNCLEAR 0.14) and d2-sk-18 (B, a tip read as the
-   *  meal, NONE 0.3) wrong; it is kept at share 0.95, floor 0.8 and
-   *  NONE + UNCLEAR at most 0.05, where it changes nothing on dev, for
-   *  the receipt line the blind sample showed (r49: coffee beans, grocery
-   *  the only candidate under 0.9). */
-  /** Round 2 (2026-11-03) tried relaxing it to accept a code that leads:
-   *  NONE at most 0.1, UNCLEAR at most 0.3, share 0.85 or 0.9, floor 0.6.
-   *  Both made ny-24 and d2-nt-04 wrong again, and r42 (a made-to-order
-   *  smoothie) wrong on the blind 50; the round-2 items it was meant for
-   *  (whole-bean coffee at share 0.88, NONE 0.09; catering at UNCLEAR
-   *  0.17; lobbying at UNCLEAR 0.28) can't be told from those by these
-   *  caps, so it stays as it was. */
+  /** With no code at the bar, a sole candidate: one code with its kinds at
+   *  describeSoleFloor or more, holding describeSoleShare of the codes'
+   *  probability, NONE and UNCLEAR together at most describeSoleNone; used
+   *  only if the text establishes its definition (looser settings made
+   *  d2-nt-04, ny-24 and r42 wrong). */
   describeSoleCandidate: boolean;
   describeSoleShare: number;
   describeSoleFloor: number;
-  /** ...and only where NONE and UNCLEAR together are at most this. */
   describeSoleNone: number;
-  /** A case the first pick puts under this names no need: its facts aren't
-   *  what the answer turns on (r03: a sandwich's answer named the bakery
-   *  cases' quantity_by_kind). */
+  /** A case the first pick puts under this names no need. */
   describeNeedsFloor: number;
-  /** Whether the code question asks too if the line names several
-   *  different items (ITEMS_QUESTION), and the probability of SEVERAL at
-   *  which a code must have its fact established of every item named, or
-   *  the entry asks for one item per request (needs one_item). Added
-   *  2026-11-03 for baskets on one line (round 1: b3-01 groceries and a
-   *  rotisserie chicken). Checking each item split out of the text cost 67
-   *  dev text answers (a split loses the line's context); the every-item
-   *  question costs 1 (803 → 802: la-08, one delivery fee on an invoice of
-   *  mixed goods), round 1 two (b3-08 sparkling water and cola, by design;
-   *  b3-35 a café's cold brew and sandwich, mean yes 0.45), 0 wrong
-   *  anywhere; 0.95 scored the same. */
+  /** The code question also asks whether the line names several different
+   *  items; at describeItemsAccept, a code answers only where every item is
+   *  of it, else needs one_item. */
   describeItemsCheck: boolean;
   describeItemsAccept: number;
-  /** Second models (OpenRouter ids), asked only where Jev's pick of a code
-   *  or case is under its bar and at describeSecondFloor or more: every one
-   *  must pick the same (withSecond, leadingCode in describe.ts). Empty:
-   *  off, the default until a held-out round confirms it.
-   *
-   *  Measured 2026-11-03 on frozen dev (both modes), the blind 50, rounds
-   *  1 and 2 and the b4 and h3 batches, Jev 1.14.0:
-   *  - DeepSeek v4.1 flash alone, floor 0.6, codes and cases: dev text
-   *    802 → 868 but 9 dev wrong (8 text, 1 code) and 3 of the 50.
-   *  - DeepSeek and Gemini 3.8 flash both agreeing: 1 dev wrong (d2-nt-04, a
-   *    shrimp ring as groceries, Jev 0.89), 3 of the 50 (r28 a settled
-   *    rule's usual case lifted; r42 and r45).
-   *  - Cases only, exceptions never lifted, floor 0.7: 0 wrong, but the
-   *    lifted cases graders call unestablished came in (b3-20 "separately
-   *    stated support", h1-16 "separately stated on the invoice", b2-56 a
-   *    pizza "sold heated"); asking Jev three ways that the text states
-   *    each part of a lifted case (CASE_INSTRUCTIONS) stops only b2-56.
-   *  - Codes only (describeSecondCaseFloor 1), the lead holding 0.97 of
-   *    the codes' probability (describeSecondShare: Jev's doubt is whether
-   *    it's a code at all, not which; 0.95 the same), both models: 0 wrong
-   *    everywhere; dev text 802 → 805, the 50 +1 (r23), round 1 +1 (b3-53,
-   *    0%), round 2 +4 (h2-10 catering, h2-39 government affairs, all three
-   *    graders; h2-31, h2-41, two of three). Chosen. 6.7% of the rounds'
-   *    requests reach the band, each one code question to each model:
-   *    about 0.13 calls and $0.0003 per request, $0.27 per 1,000. */
-  /** A broader code accepted because its kinds reach describeCodeAccept
-   *  together, none alone, has its definition checked as a sole
-   *  candidate's is. Added 2026-11-03 on the integrated codes (clothing,
-   *  alcohol, rental, service.goods), whose options moved Jev's mass: round
-   *  1's b3-56 "association dues that included lobbying" reached
-   *  service.professional at 0.91 through its kinds and was settled at 0%
-   *  where both graders hold it undeterminable (definition yes 0.25 and
-   *  0.38). Costs: integrated dev text 2 (ct-15 a roofer "for its owner",
-   *  0.48), round 1 one (b2-22), round 2 one (h1-28). The same day the
-   *  grocery fact was reworded (no assortment on a tray, ring or platter
-   *  to serve as it is, thawed or not): d2-nt-04, a frozen shrimp ring, read
-   *  as groceries at 0.94 with the old fact passing at 0.92/0.97, now
-   *  0.19/0.38; and a broad code's case whose kind failed its fact under
-   *  describeDefiningAccept is never settled (r42: a smoothie as a
-   *  restaurant's cold drink, cold_restaurant 0.37/0.20). */
+  /** A broader code accepted only because its kinds reach the bar together
+   *  has its definition checked as a sole candidate's (b3-56). */
   describeCheckBroadened: boolean;
+  /** Second models (OpenRouter ids; empty: off). Where Jev leans to a code
+   *  under the bar, at describeSecondFloor or more, holding
+   *  describeSecondShare of the codes' probability, every model must pick
+   *  it too; a case may be lifted the same way at describeSecondCaseFloor
+   *  (1: never), where Jev finds every part of it stated. Codes only, 0.97:
+   *  0 wrong everywhere, +8 answers; one model, or cases lifted, made
+   *  answers wrong. */
   describeSecond: string[];
   describeSecondFloor: number;
-  /** Whether a code under the bar may be settled so; the floor for a case
-   *  (describeSecondFloor is the code's; 1 is never); and the share of
-   *  the codes' probability the code must hold. */
   describeSecondCodes: boolean;
   describeSecondCaseFloor: number;
   describeSecondShare: number;

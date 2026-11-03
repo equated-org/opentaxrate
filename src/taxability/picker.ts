@@ -16,6 +16,7 @@
  */
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { PARAMS } from "../params.js";
 
 export interface Question {
   instructions: string;
@@ -174,6 +175,15 @@ export function cachedPicker(picker: Picker, store: PickStore): Picker {
  *  answer when it won't pay. */
 export function paidPicker(picker: Picker, pay: () => Promise<boolean>): Picker {
   return { model: picker.model, pick: async (text, questions) => ((await pay()) ? picker.pick(text, questions) : null) };
+}
+
+/** Second models configured (describeSecond) but no key to ask them with:
+ *  said once, at startup, rather than silently answering without them. */
+export const secondModelsWarning = (models: string[], key: string | undefined): string | null =>
+  models.length && !key ? `describe: describeSecond lists ${models.join(", ")} but OPENROUTER_API_KEY is unset; second models are off.` : null;
+{
+  const warning = secondModelsWarning(PARAMS.describeSecond, process.env.OPENROUTER_API_KEY);
+  if (warning) console.warn(warning);
 }
 
 /** What the second models were asked and cost in this process. */
