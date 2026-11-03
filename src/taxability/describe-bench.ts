@@ -21,7 +21,9 @@ import { describedTaxability, type Described } from "./describe.js";
 import { cachedPicker, DESCRIBE_MODEL, fileStore, jevPicker, type Picker } from "./picker.js";
 import { loadCases, OUTCOMES, partsAt, scoreAnswer, type Outcome, type Scored } from "./evaluate.js";
 
-export const PICKS_FILE = new URL("../../artifacts/taxability/describe-picks.json", import.meta.url).pathname;
+/** OPENTAXRATE_DESCRIBE_PICKS moves it, for a worktree tuning on its own
+ *  copy (merge it back after). */
+export const PICKS_FILE = process.env.OPENTAXRATE_DESCRIBE_PICKS || new URL("../../artifacts/taxability/describe-picks.json", import.meta.url).pathname;
 
 export interface DescribedScore extends Scored {
   mode: "code" | "text";
@@ -57,9 +59,12 @@ async function inBatches<T, R>(items: T[], size: number, work: (item: T) => Prom
   return out;
 }
 
-export async function scoreDescribed(rules: RuleSet, options: { dir?: string; picker?: Picker; picksFile?: string; half?: "A" | "B" } = {}): Promise<{ scored: DescribedScore[]; asked: number }> {
+export async function scoreDescribed(rules: RuleSet, options: { dir?: string; picker?: Picker; picksFile?: string; half?: "A" | "B" } = {}): Promise<{ scored: DescribedScore[]; asked: number; calls: number }> {
   const store = fileStore(options.picksFile ?? PICKS_FILE);
-  const picker = cachedPicker(options.picker ?? jevPicker({ timeoutMs: 20_000 }) ?? replayOnly, store);
+  const inner = options.picker ?? jevPicker({ timeoutMs: 20_000 }) ?? replayOnly;
+  // The calls the cache didn't answer (each one request, however many questions).
+  let calls = 0;
+  const picker = cachedPicker({ model: inner.model, pick: (text, questions) => (calls++, inner.pick(text, questions)) }, store);
   const cases = loadCases(options.dir).filter((c) => !options.half || halfOf(c) === options.half);
   const scored: DescribedScore[] = [];
   try {
@@ -86,7 +91,7 @@ export async function scoreDescribed(rules: RuleSet, options: { dir?: string; pi
   } finally {
     store.save();
   }
-  return { scored, asked: store.added };
+  return { scored, asked: store.added, calls };
 }
 
 /** How the text's code compares with the case's. */

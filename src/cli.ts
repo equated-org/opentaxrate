@@ -163,9 +163,9 @@ async function main() {
         const { scoreDescribed, printDescribed } = await import("./taxability/describe-bench.js");
         const half = flag("--half");
         if (half && half !== "A" && half !== "B") throw new Error("--half is A or B");
-        const { scored, asked } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
+        const { scored, asked, calls } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
         printDescribed(scored, { list: args.includes("--list"), out: flag("--out") });
-        console.log(`picker answers added to the cache: ${asked}`);
+        console.log(`picker answers added to the cache: ${asked} (${calls} calls)`);
         return;
       }
       const scored = scoreTaxability(rules, flag("--cases"));

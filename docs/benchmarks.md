@@ -165,6 +165,9 @@ rate (`rate-unchecked`: add `expected.rate` where the case's source states
 it), and the `needs` the declines name. `--half A` or `--half B` scores a
 deterministic half (by a hash of place and id): choose settings on A,
 confirm on B, then report all of dev.
+`OPENTAXRATE_DESCRIBE_PICKS` points the run at another copy of the picks
+file (a worktree tuning on its own copy; merge it back after), and the last
+line counts the calls the cache didn't answer.
 Tune `describeCodeAccept` and `describeConditionAccept` (`src/params.ts`,
 `SETTINGS` as above via `OTR_PARAMS`) on the dev cases, keeping both runs at
 zero *wrong*; score `--cases artifacts/taxability/evals-holdout` once, with
