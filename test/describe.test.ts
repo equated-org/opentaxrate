@@ -506,4 +506,34 @@ describe("reading fixes (2026-11-03 random sample)", () => {
     expect(await describedTaxability({ state: "ZZ", parts: ZZ }, { text: "a gallon of milk" }, DAY, set, one)).toMatchObject({ treatment: "not_taxed" });
     expect(JSON.stringify(one.asked)).not.toMatch(/Every item/);
   });
+
+  it("asks second models only under Jev's bar, and settles a code only where every one agrees and its definition holds", async () => {
+    const set = ruleSet([rule("food.catering", "taxable")] as Rule[]);
+    const lean = { choice: "food.catering", confidence: 0.8, probabilities: { "food.catering": 0.8, UNCLEAR: 0.2 } };
+    const second = (choice: string) => {
+      const asked: string[] = [];
+      return { asked, picker: { model: "second", pick: async (_t: string, qs: Record<string, Question>) => (asked.push(...Object.keys(qs)), Object.fromEntries(Object.keys(qs).map((id) => [id, { choice, confidence: 1 }]))) } as Picker };
+    };
+    const ask = (code: Picked, others: Picker[], yes = 0.9) => describedTaxability({ state: "ZZ", parts: ZZ }, { text: "catering for 40 sat" }, DAY, set, stub([[/serves it or sets it out/, yes], [/^It charges for one thing/, 0.99]], code), others);
+    PARAMS.describeSecond = ["second"];
+    try {
+      const agree = second("food.catering");
+      expect(await ask(lean, [agree.picker])).toMatchObject({ treatment: "taxable", interpreted: { code: "food.catering" } });
+      expect(agree.asked).toEqual(["code"]);
+      // One disagrees: no code.
+      expect((await ask(lean, [second("food.catering").picker, second("food.prepared").picker])).treatment).toBe("conditional");
+      // Its definition not established: no code.
+      expect((await ask(lean, [second("food.catering").picker], 0.1)).treatment).toBe("conditional");
+      // At the bar: never asked.
+      const atBar = second("food.prepared");
+      expect(await ask(codePick("food.catering", 0.95), [atBar.picker])).toMatchObject({ treatment: "taxable" });
+      expect(atBar.asked).toEqual([]);
+      // Jev leans elsewhere (UNCLEAR ahead): never asked.
+      const against = second("food.catering");
+      await ask({ choice: "UNCLEAR", confidence: 0.6, probabilities: { UNCLEAR: 0.6, "food.catering": 0.4 } }, [against.picker]);
+      expect(against.asked).toEqual([]);
+    } finally {
+      PARAMS.describeSecond = [];
+    }
+  });
 });

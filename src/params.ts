@@ -289,6 +289,39 @@ export interface Params {
    *  anywhere; 0.95 scored the same. */
   describeItemsCheck: boolean;
   describeItemsAccept: number;
+  /** Second models (OpenRouter ids), asked only where Jev's pick of a code
+   *  or case is under its bar and at describeSecondFloor or more: every one
+   *  must pick the same (withSecond, leadingCode in describe.ts). Empty:
+   *  off, the default until a held-out round confirms it.
+   *
+   *  Measured 2026-11-03 on frozen dev (both modes), the blind 50, rounds
+   *  1 and 2 and the b4 and h3 batches, Jev 1.14.0:
+   *  - DeepSeek v4.1 flash alone, floor 0.6, codes and cases: dev text
+   *    802 → 868 but 9 dev wrong (8 text, 1 code) and 3 of the 50.
+   *  - DeepSeek and Gemini 3.8 flash both agreeing: 1 dev wrong (d2-nt-04, a
+   *    shrimp ring as groceries, Jev 0.89), 3 of the 50 (r28 a settled
+   *    rule's usual case lifted; r42 and r45).
+   *  - Cases only, exceptions never lifted, floor 0.7: 0 wrong, but the
+   *    lifted cases graders call unestablished came in (b3-20 "separately
+   *    stated support", h1-16 "separately stated on the invoice", b2-56 a
+   *    pizza "sold heated"); asking Jev three ways that the text states
+   *    each part of a lifted case (CASE_INSTRUCTIONS) stops only b2-56.
+   *  - Codes only (describeSecondCaseFloor 1), the lead holding 0.97 of
+   *    the codes' probability (describeSecondShare: Jev's doubt is whether
+   *    it's a code at all, not which; 0.95 the same), both models: 0 wrong
+   *    everywhere; dev text 802 → 805, the 50 +1 (r23), round 1 +1 (b3-53,
+   *    0%), round 2 +4 (h2-10 catering, h2-39 government affairs, all three
+   *    graders; h2-31, h2-41, two of three). Chosen. 6.7% of the rounds'
+   *    requests reach the band, each one code question to each model:
+   *    about 0.13 calls and $0.0003 per request, $0.27 per 1,000. */
+  describeSecond: string[];
+  describeSecondFloor: number;
+  /** Whether a code under the bar may be settled so; the floor for a case
+   *  (describeSecondFloor is the code's; 1 is never); and the share of
+   *  the codes' probability the code must hold. */
+  describeSecondCodes: boolean;
+  describeSecondCaseFloor: number;
+  describeSecondShare: number;
 }
 
 const DEFAULTS: Params = {
@@ -344,6 +377,11 @@ const DEFAULTS: Params = {
   describeNeedsFloor: 0.05,
   describeItemsCheck: true,
   describeItemsAccept: 0.9,
+  describeSecond: [],
+  describeSecondFloor: 0.6,
+  describeSecondCodes: true,
+  describeSecondCaseFloor: 1,
+  describeSecondShare: 0.97,
 };
 
 /** The value OTR_PARAMS gives `key`, or an error saying why it can't be. */

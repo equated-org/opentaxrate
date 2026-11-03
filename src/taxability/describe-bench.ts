@@ -18,7 +18,8 @@ import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { isTaxCode, taxabilityOf, type RuleSet } from "./index.js";
 import { describedTaxability, type Described } from "./describe.js";
-import { cachedPicker, DESCRIBE_MODEL, fileStore, jevPicker, type Picker } from "./picker.js";
+import { cachedPicker, DESCRIBE_MODEL, fileStore, jevPicker, openRouterPicker, secondSpend, type Picker } from "./picker.js";
+import { PARAMS } from "../params.js";
 import { loadCases, OUTCOMES, partsAt, scoreAnswer, type Outcome, type Scored } from "./evaluate.js";
 
 /** OPENTAXRATE_DESCRIBE_PICKS moves it, for a worktree tuning on its own
@@ -65,6 +66,9 @@ export async function scoreDescribed(rules: RuleSet, options: { dir?: string; pi
   // The calls the cache didn't answer (each one request, however many questions).
   let calls = 0;
   const picker = cachedPicker({ model: inner.model, pick: (text, questions) => (calls++, inner.pick(text, questions)) }, store);
+  // Second models (describeSecond), replayed from the same file; asked only
+  // with OPENROUTER_API_KEY.
+  const second = PARAMS.describeSecond.map((m) => cachedPicker(openRouterPicker(m) ?? { model: m, pick: async () => null }, store));
   const cases = loadCases(options.dir).filter((c) => !options.half || halfOf(c) === options.half);
   const scored: DescribedScore[] = [];
   try {
@@ -72,7 +76,7 @@ export async function scoreDescribed(rules: RuleSet, options: { dir?: string; pi
       const results = await inBatches(cases, 6, async (c) => {
         if (!isTaxCode(c.code)) throw new Error(`${c.id}: unknown code ${c.code}`);
         const parts = partsAt(c.place, c.date);
-        const t = await describedTaxability({ state: c.place, parts }, { ...(mode === "code" ? { code: c.code } : {}), text: c.facts }, c.date, rules, picker);
+        const t = await describedTaxability({ state: c.place, parts }, { ...(mode === "code" ? { code: c.code } : {}), text: c.facts }, c.date, rules, picker, second);
         const { interpreted, needs, ...answer } = t;
         const scored = scoreAnswer(c, parts, answer);
         // No one code (candidates): conditional on which it is, a decline;
@@ -91,6 +95,7 @@ export async function scoreDescribed(rules: RuleSet, options: { dir?: string; pi
   } finally {
     store.save();
   }
+  if (second.length) console.log(`second models: ${secondSpend.calls} calls, $${secondSpend.cost.toFixed(4)}`);
   return { scored, asked: store.added, calls };
 }
 
