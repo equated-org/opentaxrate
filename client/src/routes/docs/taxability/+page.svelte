@@ -15,6 +15,9 @@
 		['food.grocery', 'food and food ingredients', 'txcd_40040000', '40030', 'PF050002'],
 		['food.prepared', 'prepared food', 'txcd_40060003', '41000', 'PA0010000'],
 		['food.catering', 'prepared food (catering)', 'txcd_40060003*', '41000*', 'SF096370'],
+		['rental', 'lease or rental', '(none)', '(none)', 'PR091000'],
+		['service.goods.repair', '(services aren\'t defined)', 'txcd_20080005', '19007', 'SR060200'],
+		['service.goods.cleaning', '(services aren\'t defined)', 'txcd_20090004*', '19006*', '(none)'],
 		['software.saas', 'prewritten computer software, remote access', 'txcd_10103001', '30070', 'SW054003'],
 		['software.custom', 'computer software, not prewritten', 'txcd_10203001', '19005*', 'DC010200'],
 		['service.professional', "(services aren't defined)", 'txcd_20060000', '19005', 'SC160000'],
@@ -125,7 +128,8 @@
 	send <code>clothing.accessories</code> or <code>clothing.equipment</code> for the kinds most clothing exemptions leave taxed.
 	Alcohol is taxed in many places by a separate liquor, drink or gross receipts tax beside or instead of the sales tax: the
 	answer covers the sales tax only, and the rule's summary names the other tax where there is one. The list grows only when a
-	rule needs a split: medicine and digital goods each get a code when their rules are researched.
+	rule needs a split: medicine and digital goods each get a code when their rules are researched. A motor vehicle rental has no
+	code: most places tax it apart from the sales tax.
 </p>
 
 <h2 id="mapping">Other taxonomies</h2>

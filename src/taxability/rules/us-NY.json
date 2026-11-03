@@ -1465,5 +1465,115 @@
       }
     ],
     "notes": "Needed beside the NY:local clothing rule, which is conditional on the locality's election, so the local part of an accessory doesn't answer from it. TB-ST-122 (March 10, 2014)."
+  },
+  {
+    "tax": "NY",
+    "code": "rental",
+    "from": "2015-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rental and lease charges for ordinary tangible goods are taxable at state and applicable local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, Publication 750 A Guide to Sales Tax in New York State (November 2015)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub750.pdf",
+        "quote": "The term sale includes outright sales, rentals, leases, and licenses to use."
+      },
+      {
+        "title": "NY DTF, Publication 750 A Guide to Sales Tax in New York State (November 2015)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub750.pdf",
+        "quote": "machinery and equipment, parts, tools, and supplies;"
+      }
+    ],
+    "notes": "Publication 750 is dated 11/15; first of month used. Ordinary taxable goods, excluding vehicles and real property. No term-based exemption found. Local and MCTD base follows existing NY convention."
+  },
+  {
+    "tax": "NY",
+    "code": "service.goods.repair",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and maintenance work on customer goods is taxable, including automobile repair; tailoring, weaving and shoe repair are exempt.",
+    "conditions": [
+      {
+        "when": "Tailoring or weaving clothing, or repairing shoes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or maintenance of other goods, including motor vehicles",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "maintaining, installing, servicing, and repairing of tangible personal property;"
+      },
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "Laundering, dry cleaning (including carpet, rug, drapery, and upholstery cleaning services), tailoring, weaving, pressing, shoe repairing, and shoe shining"
+      }
+    ],
+    "notes": "TB-ST-740 update date; general repair treatment also appears in Publication 750 (11/15), but the 2019 guide supplies this complete exception list. Separately stating labor does not exempt it. State, local and MCTD base follows existing NY convention."
+  },
+  {
+    "tax": "NY",
+    "code": "service.goods.cleaning",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and dry cleaning, including rugs and upholstery, are exempt; car washing is generally taxable with a coin-operated equipment exception.",
+    "conditions": [
+      {
+        "when": "Laundering, dry cleaning, carpet, rug, drapery or upholstery cleaning, pressing or shoe shining",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Car washing, waxing or vacuuming with staff work or assistance, or payment by credit/debit card or activation code",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Car washing or vacuuming exclusively by coin-, currency- or token-operated equipment, without employee assistance, either self-service or fully automated",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "Laundering, dry cleaning (including carpet, rug, drapery, and upholstery cleaning services), tailoring, weaving, pressing, shoe repairing, and shoe shining"
+      },
+      {
+        "title": "NY DTF, TB-ST-105 Car Wash Services (September 23, 2010)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/car_wash_services.htm",
+        "quote": "Car wash services are taxable when car wash personnel wash, wax, or vacuum the car or assist with these services."
+      },
+      {
+        "title": "NY DTF, TB-ST-105 Car Wash Services (September 23, 2010)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/car_wash_services.htm",
+        "quote": "Car wash services are not taxable if the car or other property is washed, waxed, or vacuumed exclusively with coin-operated equipment; the car is washed without any assistance by the car wash employees; and one of these conditions is met:"
+      }
+    ],
+    "notes": "Complete cleaning split verified using TB-ST-740 (2019) and TB-ST-105 (2010). Other cleaning of tangible goods remains within the taxable maintaining/servicing category. No special NYC-only laundry tax found in these sources."
+  },
+  {
+    "tax": "NY",
+    "code": "service.goods.other",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Processing, fabrication, printing and imprinting performed on customer-furnished goods for personal use are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "processing, fabricating, printing, or imprinting of tangible personal property for a customer who furnishes the tangible personal property and doesn’t plan to resell it;"
+      }
+    ],
+    "notes": "TB-ST-740 update date. State and local sales taxes share this base. Resale services require separate exemption support."
   }
 ]

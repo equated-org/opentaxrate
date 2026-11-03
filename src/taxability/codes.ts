@@ -17,7 +17,7 @@
  * caller who knows the sale is none of them gets a settled rate.
  */
 export const TAX_CODES = {
-  "goods.general": "Tangible goods sold at retail that no narrower code here describes: furniture, tools, electronics, household goods. Not food, clothing or alcohol (each has its own codes), and not medicine or other goods a jurisdiction treats on their own.",
+  "goods.general": "Tangible goods sold at retail that no narrower code here describes: furniture, tools, electronics, household goods. Not food, clothing or alcohol (each has its own codes), not a rental (rental), and not medicine or other goods a jurisdiction treats on their own.",
 
   clothing: "Clothing and footwear for people to wear, and the accessories and gear worn with them (the subcodes): shirts, trousers, dresses, coats, underwear, hats, gloves, shoes, uniforms, costumes, formal wear. Not diapers, fabric or sewing supplies, or a costume mask sold alone.",
   "clothing.accessories": "Things worn or carried with clothing for adornment or convenience: jewelry, watches, handbags and purses, wallets, briefcases, non-prescription sunglasses, umbrellas, hair ornaments. Belts and scarves are clothing, not accessories.",
@@ -49,6 +49,13 @@ export const TAX_CODES = {
   "software.custom": "Software written for one customer to its specifications, or prewritten software customized for it; the development work, not a prewritten copy.",
   "software.custom.development": "Software written from scratch for one customer to its specifications.",
   "software.custom.modification": "Changes made to prewritten software for one customer, charged separately from the prewritten copy.",
+
+  rental: "Renting or leasing tangible goods to the customer for a charge, short term or long: equipment and tools, a tent, a generator, party glassware, linens and furniture. Not a motor vehicle, which most places tax apart; not lodging, storage space or other real property; and not goods sold on installment.",
+
+  "service.goods": "Work done for a charge on tangible goods the customer owns and keeps: repairing, cleaning or customizing them (the subcodes). The charge for the work; parts or materials separately stated are goods.general. Not work on a building or land (construction.real_property).",
+  "service.goods.repair": "Repairing, maintaining, servicing or altering the customer's goods: an appliance or computer repair, auto repair labor, a watch or shoe repair, tailoring and clothing alterations.",
+  "service.goods.cleaning": "Cleaning the customer's goods: laundry, dry cleaning, rug and upholstery cleaning, a car wash.",
+  "service.goods.other": "Other work on the customer's goods: engraving, embroidery, monogramming, printing or painting on them, framing them; none of the kinds listed under service.goods.",
 
   "service.professional": "Professional advice or work sold to the customer: legal, accounting, consulting, engineering and similar, where the product is the professional's work rather than goods or software.",
   "service.professional.legal": "Legal services: advice, representation, drafting by a lawyer or notary.",

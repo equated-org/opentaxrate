@@ -1302,5 +1302,63 @@
       }
     ],
     "notes": "Undated agency text uses 2004-07-01, the existing Washington file’s general-goods baseline for current undated sources; this is not a publication or newly established effective date. Washington’s retail sales tax includes state and local parts; no independent local base exception was identified. Separate spirits taxes on restaurant purchases are not modeled as consumer retail sales tax. Sealed original-container take-home sales belong to alcohol.off_premises."
+  },
+  {
+    "tax": "WA",
+    "code": "rental",
+    "from": "2021-04-24",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods are taxable at general Washington state and local retail sales tax rates as rental payments become due.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Washington Administrative Code, WAC 458-20-211 Leases or rentals of tangible personal property, bailments (amended April 24, 2021)",
+        "url": "https://apps.leg.wa.gov/WAC/default.aspx?cite=458-20-211",
+        "quote": "Persons who rent or lease tangible personal property to consumers are required to collect retail sales tax measured by the selling price of the rentals as of the time the rental payments become due."
+      }
+    ],
+    "notes": "Current WAC amendment April 24, 2021 is earliest verified here; treatment predates it. No ordinary-goods short/long-term exemption is stated. Rental sourcing may differ for initial versus later payments. Separate heavy-equipment rental tax was identified in official search results but not read or modeled."
+  },
+  {
+    "tax": "WA",
+    "code": "service.goods",
+    "from": "2010-03-28",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repairing, cleaning, altering, imprinting and other improvements to customers’ tangible goods are taxable, even when no parts or materials are sold.",
+    "conditions": [
+      {
+        "when": "Use of self-service laundry facilities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Laundry service sold to nonprofit health care facilities",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Washington Administrative Code, WAC 458-20-173 Installing, cleaning, repairing or otherwise altering or improving personal property of consumers (amended March 28, 2010)",
+        "url": "https://apps.leg.wa.gov/WAC/default.aspx?cite=458-20-173",
+        "quote": "Persons engaged in the business of installing, cleaning, decorating, beautifying, repairing or otherwise altering or improving tangible personal property of consumers or for consumers are required to collect the retail sales tax upon the total charge made for the rendition of such services, even though no tangible personal property in the form of materials or supplies is sold or used in connection with such services."
+      },
+      {
+        "title": "Washington RCW 82.04.050(2)(a), Sale at retail / retail sale",
+        "url": "https://apps.leg.wa.gov/rcw/default.aspx?cite=82.04.050",
+        "quote": "but excluding charges made for the use of self-service laundry facilities, and also excluding sales of laundry service to nonprofit health care facilities, and excluding services rendered in respect to live animals, birds and insects;"
+      },
+      {
+        "title": "Washington Administrative Code, WAC 458-20-173 Installing, cleaning, repairing or otherwise altering or improving personal property of consumers (amended March 28, 2010)",
+        "url": "https://apps.leg.wa.gov/WAC/default.aspx?cite=458-20-173",
+        "quote": "Automobile repairing, washing and painting;"
+      },
+      {
+        "title": "Washington Administrative Code, WAC 458-20-173 Installing, cleaning, repairing or otherwise altering or improving personal property of consumers (amended March 28, 2010)",
+        "url": "https://apps.leg.wa.gov/WAC/default.aspx?cite=458-20-173",
+        "quote": "Altering or repairing wearing apparel."
+      }
+    ],
+    "notes": "WAC amendment effective March 28, 2010 used as earliest verified, not introduction of tax. Current RCW confirms laundry exclusions; undated statute uses existing Washington baseline but does not push this combined rule earlier than its dated WAC. One parent rule covers repair, cleaning and customization; separately sold parts are goods and taxable labor remains taxable. No auto labor exemption. Live animals are outside the goods examples. Specialized marine/transportation exemptions not generalized to ordinary goods."
   }
 ]

@@ -49,6 +49,7 @@ const GROUPS = [
 			['food.catering', 'Catering']
 		]
 	},
+	{ group: 'Rental', codes: [['rental', 'Renting goods']] },
 	{
 		group: 'Software',
 		codes: [
@@ -62,6 +63,10 @@ const GROUPS = [
 	{
 		group: 'Services',
 		codes: [
+			['service.goods', 'Work on customer goods'],
+			['service.goods.repair', 'Repair, alteration'],
+			['service.goods.cleaning', 'Cleaning, laundry'],
+			['service.goods.other', 'Engraving, embroidery, other'],
 			['service.professional', 'Professional services'],
 			['service.professional.legal', 'Legal'],
 			['service.professional.accounting', 'Accounting'],

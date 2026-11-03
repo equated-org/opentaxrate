@@ -888,5 +888,107 @@
       }
     ],
     "notes": "Required beside the RI special rate on alcohol.on_premises; as RI:local food.prepared.dine_in."
+  },
+  {
+    "tax": "RI",
+    "code": "rental",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Tangible-goods rental receipts are taxable unless the lessor elects acquisition-basis tax; recurring linen/towel services are treated as services with tax on provider purchases.",
+    "conditions": [
+      {
+        "when": "ordinary rental or lease without a valid acquisition-basis tax election",
+        "treatment": "taxable"
+      },
+      {
+        "when": "lessor elects and pays sales/use tax measured by acquisition cost under section 21.9",
+        "treatment": "exempt"
+      },
+      {
+        "when": "recurring laundering/cleaning supply service such as linen or towel supply under section 21.7(D)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Rhode Island Division of Taxation, 280-RICR-20-70-21 Rentals and Leases (refiled January 4, 2022)",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-21",
+        "quote": "The receipts or proceeds derived from the rental or lease of tangible personal property are subject to sales and use tax."
+      },
+      {
+        "title": "Rhode Island Division of Taxation, 280-RICR-20-70-21 Rentals and Leases (refiled January 4, 2022)",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-21",
+        "quote": "If the lessor elects to pay the tax as measured by the cost of the property upon acquisition, then the lessor, in this instance, is not a retailer and gross receipts paid under the lease are not subject to sales and use tax."
+      },
+      {
+        "title": "Rhode Island Division of Taxation, 280-RICR-20-70-21 Rentals and Leases (refiled January 4, 2022)",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-21",
+        "quote": "No tax is due on the payments received from the customer for this service, however the sales or use tax is payable at the time of purchase of the property used in rendering the service."
+      }
+    ],
+    "notes": "Current refile effective 2022-01-04 is earliest verified; no changes inferred. Each rental period is a separate sale; duration changes sourcing, not general taxability. Conditional exemption concerns payments, not provider inputs."
+  },
+  {
+    "tax": "RI",
+    "code": "service.goods.repair",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Separately stated repair labor is exempt; an unsegregated repair charge including substantial parts is presumed to be the taxable price of the parts.",
+    "conditions": [
+      {
+        "when": "labor or services separately stated from substantial sold parts, including automobile repair labor",
+        "treatment": "exempt"
+      },
+      {
+        "when": "substantial sold parts and labor not segregated on invoices and records",
+        "treatment": "taxable"
+      },
+      {
+        "when": "only small incidental materials, no separate materials charge; repairer is consumer",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Rhode Island Division of Taxation, 280-RICR-20-70-24 Repairers, Reconditioners, and Recappers (refiled January 4, 2022)",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-24",
+        "quote": "In such event that labor or service charges are separately stated, such charges are not subject to the imposition of the sales/use tax."
+      },
+      {
+        "title": "Rhode Island Division of Taxation, 280-RICR-20-70-24 Repairers, Reconditioners, and Recappers (refiled January 4, 2022)",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-24",
+        "quote": "If the labor and other services are not thus shown separately from the selling price of the property furnished, it will be presumed that the entire charge represents the sale price of the property."
+      },
+      {
+        "title": "Rhode Island Division of Taxation, 280-RICR-20-70-24 Repairers, Reconditioners, and Recappers (refiled January 4, 2022)",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-24",
+        "quote": "If, however, the value of the parts and materials used in repair work is small in relation to the charges for the labor or other services performed and where no separate charge is made for such property, the repairman is the consumer of the property."
+      }
+    ],
+    "notes": "Current refile date is earliest verified. Section 24.6 explicitly addresses autos; 24.7 applies to other repairs. Reconditioned exchanges where customer does not receive the same property are outside this code."
+  },
+  {
+    "tax": "RI",
+    "code": "service.goods.other",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Producing, fabricating, processing, printing or imprinting goods using customer-furnished materials is a taxable sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-7, Sales defined",
+        "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-7.HTM",
+        "quote": "The producing, fabricating, processing, printing, or imprinting of tangible personal property for a consideration for consumers who furnish, either directly or indirectly, the materials used in the producing, fabricating, processing, printing, or imprinting."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18, Sales tax imposed",
+        "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.htm",
+        "quote": "A tax is imposed upon sales at retail in this state"
+      }
+    ],
+    "notes": "Undated statute uses existing RI 2022-01-04 baseline. Applies to customization that constitutes processing or fabrication of customer-owned goods. No separate labor deduction follows merely because customer supplied the item."
   }
 ]

@@ -906,5 +906,39 @@
       }
     ],
     "notes": "The rebate covers children's garments and footwear; accessories aren't in its list, and sports-only garments and footwear are excluded. Dated by GI-063 (August 2014) as the clothing rule."
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "rental",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
+  },
+  {
+    "tax": "ON/CA:HST",
+    "code": "service.goods",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Ontario's HST follows the federal GST/HST base here: CRA lists no Ontario point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, children's diapers, children's car seats, qualifying newspapers, and qualifying prepared food and beverages"
+      }
+    ]
   }
 ]

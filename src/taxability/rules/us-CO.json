@@ -978,5 +978,113 @@
       }
     ],
     "notes": "FYI Sales 4 is dated January 2012; January 1 represents its publication month, not a tax change. Cooking wine, wine vinegar and alcohol-filled candy are outside the beverage code and their exemption is not a condition here. State-administered local taxes follow the state base. Independently administered home-rule city treatment is not settled. The excise applies separately to first sales, uses or consumption by licensed manufacturers and distributors."
+  },
+  {
+    "tax": "CO",
+    "code": "rental",
+    "from": "2026-10-28",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Leases are taxable; a lease of 36 months or less is exempt when the lessor paid Colorado sales or use tax on acquisition.",
+    "conditions": [
+      {
+        "when": "lease term 36 months or less and lessor paid Colorado sales or use tax on acquisition",
+        "treatment": "exempt"
+      },
+      {
+        "when": "lease longer than 36 months, or short-term lease under permission to buy tax-free and collect tax on payments",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Colorado DOR, Colorado Sales Tax Guide (Internet Archive, October 28, 2026)",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "In general, leases of tangible personal property are considered retail sales and are subject to Colorado sales tax."
+      },
+      {
+        "title": "Colorado DOR, Colorado Sales Tax Guide (Internet Archive, October 28, 2026)",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "However, a lease for a term of 36 months or less (a “short-term lease”) is tax-exempt if the lessor has paid Colorado sales or use tax on the acquisition of the leased property."
+      }
+    ],
+    "notes": "Date is archive capture of same text. Covers state and state-administered locals under existing CO convention; home-rule city bases not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "service.goods",
+    "from": "2026-10-28",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Work on customers’ goods is generally exempt; inseparable or unseparated services sold with taxable property are included in the taxable price.",
+    "conditions": [
+      {
+        "when": "service only, or service is separable from taxable goods and separately stated on invoice",
+        "treatment": "exempt"
+      },
+      {
+        "when": "taxable property and service are sold for a lump sum without separate, separable service charges",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Colorado DOR, Sales & Use Tax Frequently Asked Questions, question 11 (Internet Archive)",
+        "url": "https://web.archive.org/web/20260210034453/https://tax.colorado.gov/sales-use-tax-FAQ",
+        "quote": "Generally, labor and services are not subject to sales tax."
+      },
+      {
+        "title": "Colorado DOR, Sales & Use Tax Frequently Asked Questions, question 11 (Internet Archive)",
+        "url": "https://web.archive.org/web/20260210034453/https://tax.colorado.gov/sales-use-tax-FAQ",
+        "quote": "If the items of tangible property and the labor and service charges are lumped into one purchase price, the entire transaction is subject to sales tax."
+      },
+      {
+        "title": "Colorado DOR, Colorado Sales Tax Guide (Internet Archive, October 28, 2026)",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Sales of services are generally not subject to Colorado sales tax."
+      }
+    ],
+    "notes": "Guide confirms state and state-administered local scope. Home-rule cities excluded. Photocopying is expressly taxable tangible property; service.goods.other photocopying exception below."
+  },
+  {
+    "tax": "CO",
+    "code": "service.goods.other",
+    "from": "2026-10-28",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Customization services are generally exempt, but photocopying is treated as taxable tangible property and bundled property charges can be taxable.",
+    "conditions": [
+      {
+        "when": "photocopying, or service bundled with taxable property without separable and separately stated charges",
+        "treatment": "taxable"
+      },
+      {
+        "when": "other customization work on customer-owned goods as a service alone, without a taxable sale of property",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Colorado DOR, Colorado Sales Tax Guide (Internet Archive, October 28, 2026)",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Taxable sales of tangible personal property include, but are not limited to, the amount charged for mainframe computer access, photocopying, and packing and crating."
+      },
+      {
+        "title": "Colorado DOR, Sales & Use Tax Frequently Asked Questions, question 11 (Internet Archive)",
+        "url": "https://web.archive.org/web/20260210034453/https://tax.colorado.gov/sales-use-tax-FAQ",
+        "quote": "Generally, labor and services are not subject to sales tax."
+      },
+      {
+        "title": "Colorado DOR, Sales & Use Tax Frequently Asked Questions, question 11 (Internet Archive)",
+        "url": "https://web.archive.org/web/20260210034453/https://tax.colorado.gov/sales-use-tax-FAQ",
+        "quote": "If the items of tangible property and the labor and service charges are lumped into one purchase price, the entire transaction is subject to sales tax."
+      },
+      {
+        "title": "Colorado DOR, Colorado Sales Tax Guide (Internet Archive, October 28, 2026)",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Sales of services are generally not subject to Colorado sales tax."
+      }
+    ],
+    "notes": "State and state-administered local scope only. New manufactured goods sold to customer are goods.general, rather than work-only service."
   }
 ]

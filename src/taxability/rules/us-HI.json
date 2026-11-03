@@ -433,5 +433,49 @@
       }
     ],
     "notes": "Hawaii GET is a tax on business gross receipts, not a conventional sales tax; taxable follows the existing HI rule convention for retail GET. The undated current HRS page uses the existing HI rules’ 2018-01-01 fallback. The May 2025 brochure corroborates the same retail base and explains the current county surcharge; the uniform 0.5% surcharge amount is not backdated by this taxability rule. County surcharge applies to the same 4% transactions. The separate gallonage liquor tax under HRS §244D-4 is not included."
+  },
+  {
+    "tax": "HI",
+    "code": "rental",
+    "from": "2025-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hawaii general excise tax applies to rental and lease income from tangible goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Hawaii Department of Taxation, An Introduction to the General Excise Tax (revised May 2025)",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii Department of Taxation, An Introduction to the General Excise Tax (revised May 2025)",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Each county has adopted a county surcharge of 0.5%, which applies to transactions subject to the state GET or use tax rate of 4%, for a total tax rate of 4.5%."
+      }
+    ],
+    "notes": "Revised May 2025, month normalized to first day. Follows existing HI convention: taxable means business GET, not a legal sales tax on the customer. State and county covered together. Ordinary retail transactions; wholesale resale treatment is outside this rule. The broad retail service provision includes all three service.goods subcodes without a separate-parts or labor exemption; no short/long-term nonvehicle rental distinction is stated."
+  },
+  {
+    "tax": "HI",
+    "code": "service.goods",
+    "from": "2025-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Hawaii general excise tax applies to repair, cleaning and customization service income.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Hawaii Department of Taxation, An Introduction to the General Excise Tax (revised May 2025)",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii Department of Taxation, An Introduction to the General Excise Tax (revised May 2025)",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Each county has adopted a county surcharge of 0.5%, which applies to transactions subject to the state GET or use tax rate of 4%, for a total tax rate of 4.5%."
+      }
+    ],
+    "notes": "Revised May 2025, month normalized to first day. Follows existing HI convention: taxable means business GET, not a legal sales tax on the customer. State and county covered together. Ordinary retail transactions; wholesale resale treatment is outside this rule. The broad retail service provision includes all three service.goods subcodes without a separate-parts or labor exemption; no short/long-term nonvehicle rental distinction is stated."
   }
 ]

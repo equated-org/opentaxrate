@@ -1202,5 +1202,134 @@
       }
     ],
     "notes": "Publication 22 is dated January 2025; January 1 represents the publication month rather than a tax change. Regulation 1602 excludes spirituous, malt and vinous liquors from the food exemption. State, Bradley-Burns local and district taxes share the ordinary tangible-property base as in the existing California rules."
+  },
+  {
+    "tax": "CA",
+    "code": "rental",
+    "from": "2016-07-27",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Leases of goods generally pay use tax on rentals; substantially unchanged goods bought tax-paid may be leased without tax on rental receipts.",
+    "conditions": [
+      {
+        "when": "lessor timely paid tax on purchase price and leases property in substantially the same form as acquired",
+        "treatment": "exempt"
+      },
+      {
+        "when": "ordinary taxable lease without the tax-paid purchase election",
+        "treatment": "taxable"
+      },
+      {
+        "when": "linen supplies rented under a contract whose essential part is recurring laundering or cleaning",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "California CDTFA, Regulation 1660 Leases of Tangible Personal Property (last amended effective July 10, 2007)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1660.html",
+        "quote": "In the case of a lease that is a \"sale\" and \"purchase\" the tax is measured by the rentals payable."
+      },
+      {
+        "title": "California CDTFA, Regulation 1660(c)(2)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1660.html",
+        "quote": "No sales or use tax is due with respect to the rentals charged for tangible personal property leased in substantially the same form as acquired by the lessor, or by his or her transferor, as to which the lessor or transferor has paid sales tax reimbursement or has paid use tax measured by the purchase price."
+      },
+      {
+        "title": "California CDTFA, Regulation 1506(c)(2) Miscellaneous Service Enterprises (last amended effective July 27, 2016)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1506.html",
+        "quote": "Clothes cleaners are the consumers of linen supplies and similar articles, including towels, uniforms, coveralls, shop coats, dust cloths, and similar items, rented to others when an essential part of the rental contract is the furnishing of the recurring service of laundering or cleaning of the articles rented, and tax applies with respect to the sale to them of such articles."
+      }
+    ],
+    "notes": "No general lease-duration distinction. Reg 1660 also excludes linen supplies when recurring laundering is essential; see Reg 1506. Latest amendment date used conservatively, not claimed as enactment date."
+  },
+  {
+    "tax": "CA",
+    "code": "service.goods.repair",
+    "from": "2016-07-27",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor and alterations of used goods are generally exempt; fabrication and alterations of new goods are taxable, subject to the qualifying cleaner exception.",
+    "conditions": [
+      {
+        "when": "itemized labor repairs or restores existing goods, or refits used garments to their original use",
+        "treatment": "exempt"
+      },
+      {
+        "when": "alteration of a new garment or other new item, except by a qualifying clothes cleaner or dyer",
+        "treatment": "taxable"
+      },
+      {
+        "when": "new or used garment altered by a qualifying cleaning/dyeing establishment with at least 75% cleaning/dyeing receipts and no more than 20% alteration receipts in preceding calendar year",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "California CDTFA, Regulation 1546 Installing, Repairing, Reconditioning in General (last amended effective February 18, 1979)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1546.html",
+        "quote": "If the retail value of the parts and materials furnished in connection with repair work is more than 10 percent of the total charge, or if the repairman makes a separate charge for such property, the repairman is the retailer and tax applies to the fair retail selling price of the property.* * Parts furnished for repairing such property as motor vehicles, airplanes, bicycles, machinery, refrigerators, farm implements, musical instruments, radios, television sets, boats and furniture."
+      },
+      {
+        "title": "California CDTFA, Regulation 1524 Manufacturers of Personal Property (last amended effective April 10, 2009)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1524.html",
+        "quote": "Charges for the alteration of used items are not subject to tax."
+      },
+      {
+        "title": "California CDTFA, Regulation 1524(b)(1)(A)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1524.html",
+        "quote": "Charges for the alteration of new items are subject to tax, except as provided in subdivision (c)(4) of Regulation 1506, regardless of whether the charges for the alterations are separately stated or included in the price of the item, or whether the alterations are performed by the seller of the item or by another person."
+      },
+      {
+        "title": "California CDTFA, Publication 108 Labor Charges, Nontaxable Charges",
+        "url": "https://cdtfa.ca.gov/formspubs/pub108/nontaxable-charges.htm",
+        "quote": "Tax generally does not apply to your itemized charges for repair labor."
+      },
+      {
+        "title": "California CDTFA, Regulation 1506(c)(4)(A)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1506.html",
+        "quote": "Seventy-five percent (75%) or more of the establishment's total gross receipts represent charges for garment cleaning or dyeing services, and"
+      }
+    ],
+    "notes": "Taxable parts remain goods. Reg 1546 requires segregation when parts exceed 10% of total; if not segregated CDTFA determines the parts’ retail price, rather than automatically taxing all repair labor. Latest read regulation amendment used conservatively."
+  },
+  {
+    "tax": "CA",
+    "code": "service.goods.cleaning",
+    "from": "2016-07-27",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cleaning customers’ goods is a service; clothes cleaners pay tax on supplies rather than on cleaning charges.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "California CDTFA, Regulation 1506(c)(1) Miscellaneous Service Enterprises (last amended effective July 27, 2016)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1506.html",
+        "quote": "Persons who provide clothes-cleaning services are consumers of the supplies and other materials used in performing their cleaning services, and tax applies to the sale to them of the supplies and other materials and not to their charges for such services."
+      },
+      {
+        "title": "California CDTFA, Regulation 1501 Service Enterprises (last amended effective December 5, 1969)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1501.html",
+        "quote": "If the true object of the contract is the service per se, the transaction is not subject to tax even though some tangible personal property is transferred."
+      }
+    ],
+    "notes": "Reg 1506 expressly settles clothes cleaning; Reg 1501 supplies general service principle for cleaning without creation or sale of goods. Dyeing new fabric is taxable fabrication, outside ordinary cleaning."
+  },
+  {
+    "tax": "CA",
+    "code": "service.goods.other",
+    "from": "1989-01-11",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabricating, processing, printing or imprinting customers’ materials is taxable even though the customer supplies the property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "California CDTFA, Regulation 1526 Producing, Fabricating and Processing Property Furnished by Consumers—General Rules (last amended effective January 11, 1989)",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1526.html",
+        "quote": "Tax applies to charges for producing, fabricating, processing, printing, or imprinting of tangible personal property for a consideration for consumers who furnish either directly or indirectly the materials used in the producing, fabricating, processing, printing or imprinting."
+      }
+    ],
+    "notes": "Covers production/customization such as engraving, embroidery and printing. Mere repair/reconditioning is service.goods.repair. Custom framing materials sold are separately goods; unusual conservation-only work requires review."
   }
 ]

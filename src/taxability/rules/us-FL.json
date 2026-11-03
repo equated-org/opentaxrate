@@ -894,5 +894,150 @@
       }
     ],
     "notes": "Earliest verified alcohol-specific text is the 2018 statutory edition; year normalized to January 1, following the convention of existing FL statutory-edition rules. Section 212.08(4)(b) expressly says this sales tax is separate from and additional to other alcoholic beverage taxes. County surtax applies to state-taxable transactions."
+  },
+  {
+    "tax": "FL",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting or leasing tangible goods is subject to Florida general sales tax and applicable county discretionary surtax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Florida DOR, Florida Sales and Use Tax",
+        "url": "https://floridarevenue.com/taxes/taxesfees/pages/sales_tax.aspx",
+        "quote": "Each sale, admission, storage, or rental in Florida is taxable, unless the transaction is exempt."
+      },
+      {
+        "title": "Florida DOR, Florida Sales and Use Tax",
+        "url": "https://floridarevenue.com/taxes/taxesfees/pages/sales_tax.aspx",
+        "quote": "Renting or leasing personal property (for example, vehicles, machinery, equipment, or other goods)"
+      }
+    ],
+    "notes": "Undated current page: 2018-01-01 fallback matches existing FL goods rules for general sales tax. No nonvehicle short-term/long-term exemption was identified. County discretionary surtax follows the state base, using the existing FL convention; applicable surtax base limits are not a different taxability treatment."
+  },
+  {
+    "tax": "FL",
+    "code": "service.goods.repair",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repairs with any incorporated parts or materials are taxable in full; documented labor-only repairs are exempt, with listed taxable work such as clothing alterations.",
+    "conditions": [
+      {
+        "when": "Repairer supplies any parts or materials incorporated into or attached to the item, even if labor is separately stated",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Documented labor-only repair with no incorporated or attached materials, other than work specifically listed as taxable",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Clothing alterations or repairs; furniture refinishing, restoration or upholstering; mattress renovation, lubrication service or flat-tire repair",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Florida DOR, GT-800010, Sales and Use Tax – Repairs to Tangible Personal Property (April 2025)",
+        "url": "https://web.archive.org/web/20251216150943/https://www.floridarevenue.com/Forms_library/current/brochure/gt800010.pdf",
+        "quote": "Therefore, when a repairer supplies any parts or materials, the total amount the repairer charges its customer for repairing the tangible personal property is taxable unless the transaction is specifically exempt."
+      },
+      {
+        "title": "Florida DOR, GT-800010, Sales and Use Tax – Repairs to Tangible Personal Property (April 2025)",
+        "url": "https://web.archive.org/web/20251216150943/https://www.floridarevenue.com/Forms_library/current/brochure/gt800010.pdf",
+        "quote": "When a repairer provides labor or service only to repair tangible personal property and the repairer can establish by evidence in its records that it did not furnish any parts or materials that were incorporated into or attached to the repaired item, the charge for the repair is exempt."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charge for altering, repairing, or remodeling clothing is taxable."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charge for refinishing, restoring, or upholstering furniture is taxable."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charge for renovating mattresses is taxable."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charge for lubrication service, including grease jobs, oil changes, and the like, is taxable."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charge for repairing flat tires is taxable."
+      }
+    ],
+    "notes": "GT-800010 revised April 2025; month normalized to first day. Rule 12A-1.006 also lists mattress renovation, lubrication service and flat-tire repair as taxable; general exemptions remain applicable. Ordinary consumer repairs only: specialized aircraft and other statutory exemptions not comprehensively modeled. County surtax follows the state base."
+  },
+  {
+    "tax": "FL",
+    "code": "service.goods.cleaning",
+    "from": "2021-08-15",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and dry cleaning are exempt from general sales tax; plain car washes are exempt, but a wash that applies a protective coating is taxable.",
+    "conditions": [
+      {
+        "when": "Laundry or dry cleaning; plain car wash with only detergent or water softener",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Car wash applying wax, silicones or another protective film or coating; cleaning where lubrication occurs",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Florida Administrative Code, Rule 12A-1.042, Dry Cleaners and Laundries (effective June 16, 1972)",
+        "url": "https://flrules.org/gateway/readFile.asp?sid=0&tid=1275955&type=1&file=12A-1.042.doc",
+        "quote": "Persons operating dry cleaning establishments and laundries are not required to collect the tax on the charge they make to the customer for dry cleaning and laundry services."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charge for a plain wash job, in which only detergent or water softener is added to the water, is exempt."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The entire charge for a wash job, in which wax, silicones, or any other substance is added that forms a protective film or coating, is taxable."
+      },
+      {
+        "title": "Florida DOR, Rules 12A-1.006 and 12A-1.007, final text effective August 15, 2021",
+        "url": "https://web.archive.org/web/20260114035141/https://floridarevenue.com/rules/pdf/12A-1_finaltext_eff_08152021.pdf",
+        "quote": "The charges for cleaning or regulating any item of tangible personal property where lubrication occurs are taxable."
+      }
+    ],
+    "notes": "Date is the final-text publication effective August 15, 2021 for the carwash/repair rules; no claim that the treatment first began then. Rule 12A-1.042 is older (1972). Separate dry-cleaning gross receipts tax under GT-800021 is not modeled; it is not general sales tax. Rug and upholstery cleaning not independently settled; see gap. County surtax follows state taxable transactions."
+  },
+  {
+    "tax": "FL",
+    "code": "service.goods.other",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Producing, fabricating, processing, printing or imprinting customer-furnished tangible goods is a taxable sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Florida Statutes 2025, § 212.02, Definitions",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2025/212.02",
+        "quote": "The producing, fabricating, processing, printing, or imprinting of tangible personal property for a consideration for consumers who furnish either directly or indirectly the materials used in the producing, fabricating, processing, printing, or imprinting."
+      },
+      {
+        "title": "Florida DOR, Florida Sales and Use Tax",
+        "url": "https://floridarevenue.com/taxes/taxesfees/pages/sales_tax.aspx",
+        "quote": "Each sale, admission, storage, or rental in Florida is taxable, unless the transaction is exempt."
+      }
+    ],
+    "notes": "2025 statute edition normalized to January 1 for earliest verification, as existing FL statute-based rules normalize their edition year. This is the sale definition in §212.02(16)(c); customization is taxable processing rather than an exempt labor-only repair. County surtax follows the state base."
   }
 ]

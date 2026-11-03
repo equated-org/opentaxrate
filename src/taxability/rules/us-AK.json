@@ -403,5 +403,39 @@
       }
     ],
     "notes": "State part only. About 110 Alaska cities and boroughs levy their own sales taxes (1% to 7%), each deciding its own exemptions ('For information on what is not taxable, contact the municipality directly', DCCED Sales Tax page), so AK:local is left unresearched: no general treatment can be stated. Source is the Department of Commerce, Community and Economic Development (a state agency; its pages block automated fetches, so dated Wayback snapshots are cited); no Department of Revenue page stating this was found. The Alaska Remote Seller Sales Tax Commission's uniform code (an intergovernmental body of member municipalities) was not used. Earliest verified: the State Assessor's page said the same on 2017-01-05."
+  },
+  {
+    "tax": "AK:state",
+    "code": "rental",
+    "from": "2026-09-25",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Alaska imposes no state sales tax on rental charges.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Alaska DCCED, Local Government Resource Desk: Sales Tax (Internet Archive, September 25, 2026)",
+        "url": "https://web.archive.org/web/20260925194011/https://www.commerce.alaska.gov/web/dcra/LocalGovernmentResourceDesk/TaxationAssessment/SalesTax",
+        "quote": "At present, the State of Alaska does not levy a sales tax."
+      }
+    ],
+    "notes": "Earliest verified date here is the archived capture. City and borough taxes are separate; no AK:local rule is inferred."
+  },
+  {
+    "tax": "AK:state",
+    "code": "service.goods",
+    "from": "2026-09-25",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Alaska imposes no state sales tax on work on customers’ goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Alaska DCCED, Local Government Resource Desk: Sales Tax (Internet Archive, September 25, 2026)",
+        "url": "https://web.archive.org/web/20260925194011/https://www.commerce.alaska.gov/web/dcra/LocalGovernmentResourceDesk/TaxationAssessment/SalesTax",
+        "quote": "At present, the State of Alaska does not levy a sales tax."
+      }
+    ],
+    "notes": "Earliest verified date here is the archived capture. City and borough taxes are separate; no AK:local rule is inferred."
   }
 ]

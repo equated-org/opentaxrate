@@ -2965,5 +2965,63 @@
       }
     ],
     "notes": "March 17, 2023 is the revision date printed in the downloaded administrative-code compilation, not a new effective date. Rule 810-6-1-.190 says a bar pays the 56% ABC liquor tax on its wholesale liquor purchases; its later drink sales are taxed at the general sales-tax rate. General retail taxation supports off-premises sales; no separate sales-tax rate verified for ABC consumer purchases."
+  },
+  {
+    "tax": "AL",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "True leases of tangible goods fall under Alabama’s separate rental tax rather than the general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Alabama DOR, Rental Tax",
+        "url": "https://www.revenue.alabama.gov/faqs/rental-tax/",
+        "quote": "Rental tax is a privilege tax levied on the lessor for the leasing or renting of tangible personal property."
+      },
+      {
+        "title": "Alabama DOR, Rental Tax",
+        "url": "https://www.revenue.alabama.gov/faqs/rental-tax/",
+        "quote": "“Conditional sales leases” (those in which the title of the property is transferred to the lessee at the end of the lease agreement or when the lessee has an option to purchase the item at the end of the lease agreement for $1 or a nominal amount with no option to return the leased item without purchasing) are subject to sales tax."
+      }
+    ],
+    "notes": "Separate rental tax is not modeled: the FAQ lists 4% for other property and 2% for linens/garments. Conditional sales leases are sales, outside this code. Undated FAQ uses 2018-01-01, the existing AL convention for undated standing-law pages; no historical capture verified."
+  },
+  {
+    "tax": "AL",
+    "code": "service.goods.repair",
+    "from": "2023-03-17",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor restoring customers’ existing goods is exempt when separated from parts; bundled parts and labor are taxable.",
+    "conditions": [
+      {
+        "when": "repair or alteration restores existing goods to original usefulness; labor is separately billed from any repair parts",
+        "treatment": "exempt"
+      },
+      {
+        "when": "parts and repair labor are combined without separation on the invoice",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Alabama DOR, Sales and Use Tax Rules, Chapter 810-6-1 (revised March 17, 2023)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "Labor or service charges are not taxable when billed for labor or services expended in repairing or altering existing tangible personal property belonging to another in order to restore the property to its original condition or usefulness without producing new parts."
+      },
+      {
+        "title": "Alabama DOR, Sales and Use Tax Rules, Chapter 810-6-1 (revised March 17, 2023)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "When repair work includes the sale of repair parts in conjunction with repairs to existing tangible personal property belonging to another, only the sales price of the repair parts is taxable provided the charges for the repair parts and the charges for the repair labor or repair services are billed separately on the invoice to the customer."
+      },
+      {
+        "title": "Alabama DOR, Sales and Use Tax Rules, Chapter 810-6-1 (revised March 17, 2023)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "The full amount of an invoice will be subject to sales or use tax when it does not separately state the parts from the labor."
+      }
+    ],
+    "notes": "Fabricated repair parts, including fabrication labor, are taxable goods. Rule 810-6-1-.82 and auto-specific .07. Revision date of compilation is earliest verified here."
   }
 ]

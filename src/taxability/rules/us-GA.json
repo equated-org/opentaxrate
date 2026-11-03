@@ -930,5 +930,97 @@
       }
     ],
     "notes": "Publication is dated July 1, 2023 (despite its legacy 2020 download URL). The food-exemption list expressly puts alcoholic beverages among products subject to both state and local taxes. Athens-Clarke County lists a separate 3% mixed-drink excise, not modelled. This is not a local sales-tax-base departure."
+  },
+  {
+    "tax": "GA",
+    "code": "rental",
+    "from": "2025-08-15",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Georgia taxes the gross rental or lease charge for tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, Rule 560-12-1-.21, Leases or Rentals (archived August 15, 2025)",
+        "url": "https://web.archive.org/web/20250815212550/https://rules.sos.ga.gov/gac/560-12-1",
+        "quote": "Any person engaged in the business of leasing or renting tangible personal property is required to register as a dealer and is required to collect and remit the tax on gross lease or rental charges."
+      }
+    ],
+    "notes": "Date is checked archive capture of the undated official rule page. Rule 560-12-1-.21 covers the term of the lease and renewals, with no ordinary short/long-term taxability split. Local taxes follow the state base under the existing GA convention."
+  },
+  {
+    "tax": "GA",
+    "code": "service.goods.repair",
+    "from": "2026-02-23",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Separately stated repair and alteration labor is exempt; a combined charge for parts and labor is taxable.",
+    "conditions": [
+      {
+        "when": "Repair or alteration labor separately stated from parts and materials",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repairer bills parts and labor together without separating the materials and supplies",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Georgia DOR, Subject 560-12-2, Substantive Rules and Regulations (archived February 23, 2026)",
+        "url": "https://web.archive.org/web/20260223075616/https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "If the dealer performing the repair work does not state separately, itemize or segregate at a fixed or retail price the materials and supplies so used or consumed, the tax will apply to the total charge for such materials and labor."
+      },
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "Itemized charges made for repair labor or installation labor are not subject to sales tax."
+      }
+    ],
+    "notes": "Date is checked archive capture of Rule 560-12-2-.78. The rule expressly includes motor vehicles, watches, furniture, electrical appliances and clothing, so no distinct motor-vehicle labor rule is needed. Local taxes follow the state base."
+  },
+  {
+    "tax": "GA",
+    "code": "service.goods.cleaning",
+    "from": "2026-02-23",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Laundry, dry cleaning and ordinary cleaning service labor are not subject to Georgia sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, Subject 560-12-2, Substantive Rules and Regulations (archived February 23, 2026)",
+        "url": "https://web.archive.org/web/20260223075616/https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "The tax applies to all tangible personal property purchased by laundries and dry cleaners to be used in the furnishing of services, including machinery, equipment, repair parts, materials and supplies. Services rendered by such persons are not taxable."
+      },
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "While most services are exempt from tax, Georgia does tax the sale of accommodations, in-state transportation of individuals (e.g., taxis, limos), sales of admissions, and charges for participation in games and amusement activities."
+      }
+    ],
+    "notes": "Date is checked archive capture of Rule 560-12-2-.57. Cleaning customer-owned goods is service labor; cleaners pay tax on their supplies. The specific rule also excludes receipts from coin-operated laundry/dry-cleaning devices. Customer-owned cleaning differs from taxable linen rental. Carwash and rug/upholstery outcomes use the general service rule; specific official examples were not located. Local base follows state."
+  },
+  {
+    "tax": "GA",
+    "code": "service.goods.other",
+    "from": "2026-02-23",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabricating or customizing customer-furnished tangible goods is taxable, including the fabrication labor.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, Subject 560-12-2, Substantive Rules and Regulations (archived February 23, 2026)",
+        "url": "https://web.archive.org/web/20260223075616/https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "The tax applies to the charges for the fabrication of tangible personal property for users or consumers who furnish, either directly or indirectly, the materials used in the fabrication work."
+      },
+      {
+        "title": "Georgia DOR, Subject 560-12-2, Substantive Rules and Regulations (archived February 23, 2026)",
+        "url": "https://web.archive.org/web/20260223075616/https://rules.sos.ga.gov/gac/560-12-2",
+        "quote": "Fabrication labor is a part of the sales price of tangible personal property and subject to the tax, whether or not the charge therefor is separately stated."
+      }
+    ],
+    "notes": "Date is checked archive capture. Rules 560-12-2-.37 and .88; .75 also includes printing/imprinting on customer-furnished printing stock. Engraving and embroidery are applications of fabrication giving an article a new form, quality or property. Local taxes follow the state base."
   }
 ]

@@ -1149,5 +1149,181 @@
       }
     ],
     "notes": "Agency pages are undated; use 2018-01-01, the existing IA goods.general rule’s date convention for undated current guidance, rather than claiming a new effective date. Local option sales tax uses the state base. All clothing subcodes share the general rule. Annual August clothing/footwear sales-tax holiday is noted only and not modeled. Alcohol excise taxes are not included."
+  },
+  {
+    "tax": "IA",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Iowa taxes equipment and tangible personal property rentals at the general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "The following are considered sales of tangible personal property and are taxable:"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Equipment and tangible personal property rental"
+      },
+      {
+        "title": "Iowa Code 423B.5, Local sales and services tax (2026)",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      }
+    ],
+    "notes": "Undated current agency page; 2018-01-01 follows the existing IA convention for undated current guidance, not a claimed effective date. No term split for ordinary nonvehicle goods. Applicable local option sales tax follows the state base."
+  },
+  {
+    "tax": "IA",
+    "code": "service.goods.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Iowa taxes enumerated repair and alteration services, including vehicle, machine, appliance, garment, shoe, jewelry and watch repairs.",
+    "conditions": [
+      {
+        "when": "The work is an enumerated taxable repair or alteration service",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The work is not an enumerated taxable service",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Nontaxable service is combined with taxable materials without separate itemization",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Alteration and garment repair"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Machine repair of all kinds"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Vehicle repair"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Shoe repair and shoeshine"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Jewelry and watch repair"
+      },
+      {
+        "title": "Iowa DOR, Sales & Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "If the materials and nontaxable services are not separately itemized, then tax is due on the entire invoiced amount."
+      },
+      {
+        "title": "Iowa Code 423B.5, Local sales and services tax (2026)",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      }
+    ],
+    "notes": "Undated page; existing IA date convention. Full list on source also includes boat, camera, electrical/electronic, furniture, gun and other repairs. No general rule that all repairs are taxable. Separately stated parts do not exempt taxable labor. The general guide taxes an unitemized combination of parts and nontaxable services; see additional citation."
+  },
+  {
+    "tax": "IA",
+    "code": "service.goods.cleaning",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Iowa taxes laundry, dry cleaning, carpet, rug, upholstery and furniture cleaning, and vehicle washing and waxing.",
+    "conditions": [
+      {
+        "when": "Use of self-pay washers or dryers",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "services are subject to sales/use tax only when specified by Iowa law."
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Dry cleaning, pressing, dyeing, and laundering excluding the use of self-pay washers and dryers"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Carpet, rug, and upholstery cleaning and repair"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Furniture repair and cleaning"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Vehicle wash and wax"
+      },
+      {
+        "title": "Iowa Code 423B.5, Local sales and services tax (2026)",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      }
+    ],
+    "notes": "Undated current agency list; existing IA date convention. Taxable services remain taxable when separately stated from parts or materials. Local option tax follows state base."
+  },
+  {
+    "tax": "IA",
+    "code": "service.goods.other",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Iowa taxes engraving, printing and binding and sewing/stitching work on goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "The following are considered sales of tangible personal property and are taxable:"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Engraving"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Printing and binding"
+      },
+      {
+        "title": "Iowa DOR, Iowa Sales and Use Tax: Taxable Services",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-and-use-tax-taxable-services",
+        "quote": "Sewing and stitching"
+      },
+      {
+        "title": "Iowa Code 423B.5, Local sales and services tax (2026)",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      }
+    ],
+    "notes": "Undated agency list, existing IA date convention. Embroidery/monogramming falls under sewing and stitching when performed that way. Applicable local option tax follows state base; other unlisted work should be checked against the enumerated-services statute."
   }
 ]

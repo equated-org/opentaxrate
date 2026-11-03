@@ -1245,5 +1245,148 @@
       }
     ],
     "notes": "Texas has no general clothing exemption; this rule settles the kind so that the broad clothing code's maternity case doesn't leave it conditional. 2018-01-01 is the existing Texas baseline for undated current statutory text."
+  },
+  {
+    "tax": "TX",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Leasing or renting tangible goods is a taxable sale at the general Texas state and applicable local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code, Chapter 151 Limited Sales, Excise, and Use Tax",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(2) the exchange, barter, lease, or rental of tangible personal property;"
+      },
+      {
+        "title": "Texas Tax Code, Chapter 151 Limited Sales, Excise, and Use Tax",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      }
+    ],
+    "notes": "Undated current statutory text uses the existing Texas baseline 2018-01-01, not an enactment date. Sections 151.005 and 151.051; no duration split for ordinary equipment. Section 151.0515 also imposes a separate emissions-reduction surcharge on qualifying off-road heavy-duty diesel equipment sales, leases and rentals; that surcharge is not modeled. Vehicles outside scope."
+  },
+  {
+    "tax": "TX",
+    "code": "service.goods.repair",
+    "from": "2026-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair, maintenance and restoration of ordinary tangible goods are taxable; motor vehicle repair labor is exempt, while vehicle remodeling is taxable.",
+    "conditions": [
+      {
+        "when": "Motor vehicle repair or maintenance labor, including a lump-sum repair invoice (repairer pays tax on parts)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or restoration of aircraft",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or restoration of ships, boats or other vessels other than taxable boats/motors, sports-fishing boats or other pleasure vessels",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or restoration of other tangible goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Publication 96-259 Taxable Services (January 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Services such as shoe shining or repair, appliance repair, furniture refurbishing or upholstering, jewelry repair or cleaning and dog grooming are taxable."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "There is no sales tax on the labor to repair to a motor vehicle."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "A repairperson that charges a single price for parts and labor should not collect sales tax from the customer, but instead must pay sales tax to the supplier when buying parts."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "The repair labor is not taxable."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "Sales tax is due on all parts and labor charges for remodeling a motor vehicle."
+      },
+      {
+        "title": "Texas Tax Code §151.0101(a)(5), Taxable services",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(5) the repair, remodeling, maintenance, and restoration of tangible personal property, except: (A) aircraft; (B) a ship, boat, or other vessel, other than: (i) a taxable boat or motor as defined by Section 160.001 ; (ii) a sports fishing boat; or (iii) any other vessel used for pleasure;"
+      }
+    ],
+    "notes": "Latest cited publication date April 2026 represented as April 1. For a separated motor-vehicle invoice only parts are taxed. Remodeling is distinct from repair and is taxed; publication separately discusses remodeling. Aircraft and qualifying non-pleasure vessel exceptions are listed as conditions under §151.0101(a)(5)."
+  },
+  {
+    "tax": "TX",
+    "code": "service.goods.cleaning",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry, dry cleaning, rug and upholstery cleaning are taxable; coin-operated washers/dryers and ordinary motor-vehicle washing or detailing are exempt.",
+    "conditions": [
+      {
+        "when": "Motor-vehicle washing, vacuuming or ordinary detailing, excluding separately charged carpet shampoo",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Customer uses coin-operated washers or dryers",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Laundry, dry cleaning, rug or upholstery cleaning, or other cleaning",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Publication 96-259 Taxable Services (January 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Laundry, cleaning and garment services are taxable services."
+      },
+      {
+        "title": "Texas Comptroller, STAR Letter 8506L0642B11 (June 10, 1985)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/8506L0642B11",
+        "quote": "Car washing (by hand) - is this taxable? Not taxable"
+      },
+      {
+        "title": "Texas Comptroller, STAR Letter 8506L0642B11 (June 10, 1985)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/8506L0642B11",
+        "quote": "Vacuuming - is this taxable? Not taxable"
+      },
+      {
+        "title": "Texas Comptroller, STAR Letter 9103L1089F14 (March 21, 1991)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/9103L1089F14",
+        "quote": "Receipts from coin-operated washers and dryers are not taxable."
+      }
+    ],
+    "notes": "Publication revision January 2026 represented as January 1. STAR API supplies the official letter as JSON with escaped newlines, preserved as downloaded. Letter distinguishes taxable carpet shampoo services from ordinary car washing; specialty carpet shampoo charges need separate classification. Coin-operated washer/dryer exemption verified by the March 21, 1991 letter; does not apply to drop-off wash/dry/fold service."
+  },
+  {
+    "tax": "TX",
+    "code": "service.goods.other",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabricating, processing, printing, embroidering and custom sewing of customer-furnished goods are taxable at general sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Publication 96-259 Taxable Services (January 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "For example, tax is due on charges for manufacturing, assembling, fabricating or processing products, even when the customer provides the raw materials, tools or equipment."
+      }
+    ],
+    "notes": "Publication revision January 2026 represented as January 1. The publication lists printing, calligraphy, embroidering and custom sewing as examples; separately billing fabrication labor does not change its character."
   }
 ]

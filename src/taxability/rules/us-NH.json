@@ -547,5 +547,39 @@
       }
     ],
     "notes": "Required beside the state's special rate on alcohol.on_premises; NH has no local tax parts."
+  },
+  {
+    "tax": "NH",
+    "code": "rental",
+    "from": "2009-07-09",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "New Hampshire has no general sales or use tax on ordinary tangible-goods rentals.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "New Hampshire RSA 78-D:1 II, Findings and Purpose (effective July 9, 2009)",
+        "url": "https://gc.nh.gov/rsa/html/V/78-D/78-D-1.htm",
+        "quote": "The state of New Hampshire does not impose a sales tax on customers making purchases of goods and services in New Hampshire, nor on goods and services purchased by its residents out of state for use, storage, or consumption in New Hampshire."
+      }
+    ],
+    "notes": "Date is the statute’s printed effective date, used as earliest verified; this is a finding of an already existing absence of sales tax. General sales tax only; special taxes outside these codes not modeled. No general local sales taxes under existing NH convention."
+  },
+  {
+    "tax": "NH",
+    "code": "service.goods",
+    "from": "2009-07-09",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "New Hampshire has no general sales or use tax on repair, cleaning and customization labor on customer-owned goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "New Hampshire RSA 78-D:1 II, Findings and Purpose (effective July 9, 2009)",
+        "url": "https://gc.nh.gov/rsa/html/V/78-D/78-D-1.htm",
+        "quote": "The state of New Hampshire does not impose a sales tax on customers making purchases of goods and services in New Hampshire, nor on goods and services purchased by its residents out of state for use, storage, or consumption in New Hampshire."
+      }
+    ],
+    "notes": "Date is the statute’s printed effective date, used as earliest verified; this is a finding of an already existing absence of sales tax. General sales tax only; special taxes outside these codes not modeled. No general local sales taxes under existing NH convention."
   }
 ]

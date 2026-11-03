@@ -1483,5 +1483,74 @@
       }
     ],
     "notes": "The start date is the day after the stated end of the Part XI eligible period. During the GST/HST break (Dec 14, 2024 – Feb 15, 2025) this kind answers from the clothing rule for the break, whose children's clothing case names the items that qualified."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "rental",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Short- and long-term rentals of ordinary tangible goods are taxable supplies at the applicable GST/HST rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "Most property and services supplied in or imported into Canada are subject to the GST/HST."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "Supply means the provision of property or a service in any way, including sale, transfer, barter, exchange, licence, rental, lease, gift, or disposition."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "You collect the HST if you rent or lease goods to a customer that has continuous possession or use of the goods for three months or less, and you deliver the goods or make them available to the customer in a participating province."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "When you rent or lease goods for a period of more than three months, the agreement is treated as a series of separate supplies for each lease interval to which a particular payment is attributable."
+      }
+    ],
+    "notes": "RC4022 (2025) is read for the detail; the CRA type-of-supply page is cited for the floor 2013-04-01, as the goods.general rule. RC4022(E) Rev. 25 gives only a revision year; from is represented as 2025-01-01 at year precision, not an effective date. Ordinary domestic commercial supplies by registrants, without a purchaser or goods-specific exemption. Separately stated parts are goods. Work on ordinary goods is covered by the general taxable-supplies rule; the guide specifically lists car repairs. The three-month distinction changes place-of-supply and lease-interval rules, not taxable versus exempt treatment."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "service.goods",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Ordinary repair, cleaning and customization work on customer-owned goods is a taxable supply under GST/HST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "Most property and services supplied in or imported into Canada are subject to the GST/HST."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "car repairs"
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Car repairs Taxable"
+      }
+    ],
+    "notes": "RC4022 (2025) is read for the detail; the CRA type-of-supply page is cited for the floor 2013-04-01, as the goods.general rule. RC4022(E) Rev. 25 gives only a revision year; from is represented as 2025-01-01 at year precision, not an effective date. Ordinary domestic commercial supplies by registrants, without a purchaser or goods-specific exemption. Separately stated parts are goods. Work on ordinary goods is covered by the general taxable-supplies rule; the guide specifically lists car repairs."
   }
 ]

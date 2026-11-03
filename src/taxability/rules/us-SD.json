@@ -718,5 +718,39 @@
       }
     ],
     "notes": "Undated current pages use the 2018-01-01 baseline of existing SD rules. State rate changes are left to rate data. Municipal sales tax applies in addition to state sales tax. The separate municipal gross receipts tax may be up to 1%; excluded as directed by the brief. DOR PDF downloads returned empty bodies; HTML official sources supply the evidence."
+  },
+  {
+    "tax": "SD",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary tangible goods are taxable at general state and applicable municipal rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "South Dakota DOR, Sales & Use Tax",
+        "url": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+        "quote": "Sales tax applies to the gross receipts of all retail sales, including the sale, lease or rental of tangible personal property or any product transferred electronically, and the sale of all services."
+      }
+    ],
+    "notes": "Undated current DOR page uses existing SD 2018-01-01 baseline. Rate changes belong to rate data. Separating parts does not exempt service labor. No short/long-term general rental taxability split found; special agricultural/vehicle categories are outside this ordinary-goods rule."
+  },
+  {
+    "tax": "SD",
+    "code": "service.goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Work on customer-owned tangible goods, including repair labor, cleaning and customization, is taxable at general state and applicable municipal rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "South Dakota DOR, Sales & Use Tax",
+        "url": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+        "quote": "Sales tax applies to the gross receipts of all retail sales, including the sale, lease or rental of tangible personal property or any product transferred electronically, and the sale of all services."
+      }
+    ],
+    "notes": "Undated current DOR page uses existing SD 2018-01-01 baseline. Rate changes belong to rate data. Separating parts does not exempt service labor. No short/long-term general rental taxability split found; special agricultural/vehicle categories are outside this ordinary-goods rule."
   }
 ]

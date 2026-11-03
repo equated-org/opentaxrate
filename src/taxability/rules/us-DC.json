@@ -1002,5 +1002,87 @@
       }
     ],
     "notes": "The District itself combines state and municipal revenue authority. Companion required for the state special-rate representation. September 2025 report month normalized to its first day."
+  },
+  {
+    "tax": "DC",
+    "code": "rental",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "The District taxes rental payments for tangible goods regardless of the length of the lease.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The sale or charges for possession or use of any article of tangible personal property granted under a lease or contract, regardless of the length of time of such lease or contract or whether such lease or contract is oral or written; in such event, for the purposes of this chapter, such lease or contract shall be considered the sale of such article and the tax shall be computed and paid by the vendor upon the rental paid;"
+      }
+    ],
+    "notes": "Undated current statutory text; date fallback matches 2019-10-19 used in existing DC rules for the archived OTR services guidance. General taxability is modeled without fixing the numerical general rate. No subordinate local tax is separately modeled. Section 47-2001(n)(1)(F) expressly covers possession under a lease regardless of its length."
+  },
+  {
+    "tax": "DC",
+    "code": "service.goods.repair",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repairing, altering, mending or fitting customer-owned goods is taxable, including labor without transferred parts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The sale of or charges for the service of repairing, altering, mending, or fitting tangible personal property, or applying or installing tangible personal property as a repair or replacement part of other tangible personal property, whether or not such service is performed by other means of coin-operated equipment or by any other means, and whether or not any tangible personal property is transferred in conjunction with such service;"
+      }
+    ],
+    "notes": "Undated current statutory text; date fallback matches 2019-10-19 used in existing DC rules for the archived OTR services guidance. General taxability is modeled without fixing the numerical general rate. No subordinate local tax is separately modeled. Separately stated labor remains taxable under §47-2001(n)(1)(I)."
+  },
+  {
+    "tax": "DC",
+    "code": "service.goods.cleaning",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry, dry cleaning, pressing and car washing are taxable; self-service coin-operated laundry and car washes are excluded.",
+    "conditions": [
+      {
+        "when": "Laundering, dry cleaning or pressing tangible goods, or car washing, other than the stated self-service exceptions",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Self-service coin-operated laundry/dry cleaning or coin-operated self-service carwash",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The sale of or charges for the service of laundering, dry cleaning, or pressing of any kind of tangible personal property, except when such service is performed by means of self-service, coin-operated equipment, and the rental of textiles to commercial users when the essential part of the rental includes the recurring service of laundering or cleaning thereof;"
+      },
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "The sale of or charge for the service of car washing, including cleaning, washing, waxing, polishing, or detailing an automotive vehicle, except not for coin- operated self-service carwashes;"
+      }
+    ],
+    "notes": "Undated current statutory text; date fallback matches 2019-10-19 used in existing DC rules for the archived OTR services guidance. General taxability is modeled without fixing the numerical general rate. No subordinate local tax is separately modeled. The carwash quote retains the statute’s unusual wording “except not for”; OTR services guidance confirms the coin-operated self-service exception."
+  },
+  {
+    "tax": "DC",
+    "code": "service.goods.other",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Production, fabrication or printing of tangible goods on special order is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code § 47-2001, Definitions",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2001",
+        "quote": "Any production, fabrication, or printing of tangible personal property on special order for a consideration;"
+      }
+    ],
+    "notes": "Undated current statutory text; date fallback matches 2019-10-19 used in existing DC rules for the archived OTR services guidance. General taxability is modeled without fixing the numerical general rate. No subordinate local tax is separately modeled. Engraving, embroidery and similar customization are applications of the fabrication provision, not separately named examples in this source."
   }
 ]

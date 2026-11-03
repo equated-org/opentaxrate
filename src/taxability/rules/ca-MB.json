@@ -1488,5 +1488,115 @@
       }
     ],
     "notes": "July 2026 revision; first day of month used. Separate liquor markups and excise duties are not included. Beverages at 1% or less fall outside the provincial liquor category; no rule for those is asserted."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "rental",
+    "from": "2019-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods, including machinery, equipment and furnishings, are subject to Manitoba RST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Manitoba Finance, Bulletin 048, Rental of Machinery and Equipment (revised July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/048.pdf",
+        "quote": "Any charge whatsoever payable by a lessee in connection with the rental or lease of tangible personal property is subject to tax."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. No short/long-term distinction is stated. Equipment supplied with an operator is a service; taxation then depends on the service. Ordinary taxable rentals only; goods-specific exemptions still apply."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.goods.repair",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Manitoba taxes repair, maintenance and alteration labour, including clothing alterations; footwear repair is exempt.",
+    "conditions": [
+      {
+        "when": "repair of footwear",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repair or alteration of ordinary taxable goods, including vehicles and clothing",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Manitoba Finance, Bulletin 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Repairing, maintaining, inspecting, testing, cleaning, washing, polishing, painting, decorating, refitting, refinishing, reconstituting, remodelling, altering, adjusting, modifying, updating, upholstering, or re-upholstering of TPP;"
+      },
+      {
+        "title": "Manitoba Finance, Bulletin 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Repair of footwear;"
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Taxable labour remains taxable whether or not parts are separately stated. Bulletin 030 also exempts listed services to specified medical/disability, farm, commercial fishing/trapping, commercial aircraft and manufacturing direct-agent goods, services for resale, and services on goods delivered exclusively outside Manitoba. The listed ordinary retail cases assume these special exemptions do not apply."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.goods.cleaning",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Manitoba taxes cleaning, washing and polishing goods; coin-operated self-serve car washes, laundry and dry cleaning are exempt.",
+    "conditions": [
+      {
+        "when": "coin-operated self-serve car wash, laundry or dry-cleaning service",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other cleaning, washing or polishing of ordinary taxable goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Manitoba Finance, Bulletin 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Repairing, maintaining, inspecting, testing, cleaning, washing, polishing, painting, decorating, refitting, refinishing, reconstituting, remodelling, altering, adjusting, modifying, updating, upholstering, or re-upholstering of TPP;"
+      },
+      {
+        "title": "Manitoba Finance, Bulletin 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Self-serve car washes, laundry or dry-cleaning services that are coin operated;"
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Taxable labour remains taxable whether or not parts are separately stated. Bulletin 030 also exempts listed services to specified medical/disability, farm, commercial fishing/trapping, commercial aircraft and manufacturing direct-agent goods, services for resale, and services on goods delivered exclusively outside Manitoba. The listed ordinary retail cases assume these special exemptions do not apply."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.goods.other",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Manitoba taxes work on goods such as engraving, imprinting, painting, decorating and modifying.",
+    "conditions": [
+      {
+        "when": "printing or related functions in respect of tax-exempt books or newspapers and magazines provided to the public free of charge",
+        "treatment": "exempt"
+      },
+      {
+        "when": "engraving, imprinting, painting, decorating, modifying or other listed work on ordinary taxable goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Manitoba Finance, Bulletin 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Repairing, maintaining, inspecting, testing, cleaning, washing, polishing, painting, decorating, refitting, refinishing, reconstituting, remodelling, altering, adjusting, modifying, updating, upholstering, or re-upholstering of TPP;"
+      },
+      {
+        "title": "Manitoba Finance, Bulletin 030, Summary of Taxable and Exempt Goods and Services (revised July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/030.pdf",
+        "quote": "Printing, binding, lithographing, multi-graphing, duplicating, engraving, imprinting, typewriting, folding, addressing, collating and related functions, except were done in respect of tax exempted books or in respect of newspapers and magazines that are provided to the public free of charge;"
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Taxable labour remains taxable whether or not parts are separately stated. Bulletin 030 also exempts listed services to specified medical/disability, farm, commercial fishing/trapping, commercial aircraft and manufacturing direct-agent goods, services for resale, and services on goods delivered exclusively outside Manitoba. The listed ordinary retail cases assume these special exemptions do not apply."
   }
 ]

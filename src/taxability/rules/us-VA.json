@@ -1415,5 +1415,102 @@
       }
     ],
     "notes": "Ruling publication date establishes earliest verification. The ruling expressly covers government liquor-store sales and drinks sold with or without food; its historical numeric tax rate is not carried forward. State and local sales taxes follow the general retail base. Alcohol excise taxes and any separate local meals taxes are not included."
+  },
+  {
+    "tax": "VA",
+    "code": "rental",
+    "from": "1985-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods are taxable on gross rental proceeds at the general Virginia state and local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Virginia Administrative Code, 23VAC10-210-840 Leases or rentals (amended January 1, 1985)",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section840/",
+        "quote": "Any person engaged in the business of leasing or renting tangible personal property to others is required to register as a dealer and collect and pay the tax on gross proceeds."
+      }
+    ],
+    "notes": "Current regulation’s amendment date is January 1, 1985; earliest verified, not a claim that taxation began then. No short/long-term split stated for ordinary goods. Regulation addresses rentals without an operator; vehicles and real property excluded from code."
+  },
+  {
+    "tax": "VA",
+    "code": "service.goods.repair",
+    "from": "1994-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Separately stated repair and clothing-alteration labor is exempt; an unseparated parts-and-labor repair charge is taxable.",
+    "conditions": [
+      {
+        "when": "Repair invoice includes parts/materials not separately stated, itemized or segregated at a fixed or retail price",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair or alteration labor separately stated from parts and materials",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Virginia Tax, Sales Tax Exemptions",
+        "url": "https://www.tax.virginia.gov/sales-tax-exemptions",
+        "quote": "Repair services that are separately charged are not subject to sales tax."
+      },
+      {
+        "title": "Virginia Administrative Code, 23VAC10-210-3050 Repair businesses (amended January 1, 1985)",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section3050/",
+        "quote": "If the dealer performing the repair work does not separately state, itemize or segregate at a fixed or retail price, the parts, materials and supplies sold, the tax will apply to the total charge including repair labor."
+      },
+      {
+        "title": "Virginia Tax, Sales Tax Exemptions",
+        "url": "https://www.tax.virginia.gov/sales-tax-exemptions",
+        "quote": "Separately stated charges for alterations to clothing are not subject to sales tax."
+      },
+      {
+        "title": "Virginia Administrative Code, 23VAC10-210-4040 Services (amended July 1, 1994)",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Charges for services generally are exempt from the retail sales and use tax."
+      }
+    ],
+    "notes": "Dated Services regulation’s July 1, 1994 amendment and repair regulation’s January 1, 1985 amendment verify the distinction; later date used. Current undated agency overview corroborates. Parts separately sold are taxable goods; ordinary auto repair labor follows the same general rule."
+  },
+  {
+    "tax": "VA",
+    "code": "service.goods.cleaning",
+    "from": "1994-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Standalone cleaning of customers’ goods is generally an exempt service in Virginia.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Virginia Administrative Code, 23VAC10-210-4040 Services (amended July 1, 1994)",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section4040/",
+        "quote": "Charges for services generally are exempt from the retail sales and use tax."
+      }
+    ],
+    "notes": "July 1, 1994 amendment of the Services regulation is earliest verified. Regulation applies to service-only transactions; cleaning charges integral to sale/rental of goods follow the taxable transaction. Virginia Tax’s October 31, 2024 presentation independently describes dry cleaning/laundry and motor vehicle repair/detailing as exempt in Virginia. Former laundry regulation 23VAC10-210-810 was repealed September 28, 2024; exemption here rests on the general services rule, not the repealed text."
+  },
+  {
+    "tax": "VA",
+    "code": "service.goods.other",
+    "from": "1985-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Special-order fabrication or customization of customer-furnished tangible property is taxable, including separately stated labor.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Virginia Administrative Code, 23VAC10-210-560 Fabrication (amended January 1, 1985)",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section560/",
+        "quote": "The tax applies to the total charge for the fabrication of tangible personal property on a special order for a consideration, including labor, even if charges for labor are separately stated."
+      },
+      {
+        "title": "Virginia Administrative Code, 23VAC10-210-560 Fabrication (amended January 1, 1985)",
+        "url": "https://law.lis.virginia.gov/admincode/title23/agency10/chapter210/section560/",
+        "quote": "For example, a tailor who makes an article of wearing apparel from materials furnished by the customer must collect and pay the tax on the charge for making the apparel."
+      }
+    ],
+    "notes": "January 1, 1985 regulation amendment is earliest verified. Fabrication changes form or state, distinct from restoring worn property. Making or customizing garments is distinct from separately stated clothing alterations under service.goods.repair. The attempted embroidery ruling download did not supply usable evidence and is not cited."
   }
 ]

@@ -25,7 +25,7 @@ describe("/v1/openapi.json", () => {
     expect(Object.keys(spec.components.securitySchemes)).toEqual(["bearer", "apiKey"]);
     // The code parameter names every code, the newest included.
     const code = rate.parameters.find((p: { name: string }) => p.name === "code");
-    for (const c of ["goods.general", "clothing", "clothing.accessories", "clothing.equipment", "clothing.other", "alcohol", "alcohol.off_premises", "alcohol.on_premises", "nontaxable"])
+    for (const c of ["goods.general", "clothing", "clothing.accessories", "clothing.equipment", "clothing.other", "alcohol", "alcohol.off_premises", "alcohol.on_premises", "rental", "service.goods", "service.goods.repair", "service.goods.cleaning", "service.goods.other", "nontaxable"])
       expect(code.description, c).toContain(c);
   });
 });

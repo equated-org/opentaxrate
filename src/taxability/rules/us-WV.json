@@ -847,5 +847,54 @@
       }
     ],
     "notes": "January 2018 is the revision date of the Tax Laws report, which expressly taxes sales by private clubs to members. Retail wine and liquor are expressly taxable on the current sales-tax page; beer is tangible property excluded from exempt groceries. Municipal sales taxes generally share the state base as explained in the municipal FAQ. The separate Local Wine and Liquor Tax and alcohol excises are outside this answer; they do not replace the general sales tax."
+  },
+  {
+    "tax": "WV",
+    "code": "rental",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting or leasing ordinary tangible goods is taxable at the general state and applicable municipal sales and service tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "West Virginia Tax Division, TSD 100, Business Taxes (Rev. July 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd100.pdf",
+        "quote": "The tax is imposed on the sale, lease or rental of tangible personal property and certain services"
+      },
+      {
+        "title": "W. Va. Code § 8-13C-4, Municipal sales and service taxes",
+        "url": "https://code.wvlegislature.gov/8-13C-4/",
+        "quote": "The base of a municipal sales and service tax imposed pursuant to this section shall be identical to the base of the consumers sales and service tax"
+      }
+    ],
+    "notes": "Date is the July 2026 revision of TSD 100. No short-term/long-term exemption is stated. Scope excludes motor vehicles and real property; no separate rental levy is modeled."
+  },
+  {
+    "tax": "WV",
+    "code": "service.goods",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Work on a customer’s goods, including repair, cleaning and customization, is a taxable service at the general state and municipal rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "W. Va. Code § 11-15-8, Furnishing of services included; exceptions",
+        "url": "https://code.wvlegislature.gov/11-15-8/",
+        "quote": "The provisions of this article apply not only to selling tangible personal property and custom software, but also to the furnishing of all services, except professional and personal services"
+      },
+      {
+        "title": "West Virginia Tax Division, TSD 300, Sales and Use Tax Exemptions (Rev. January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "Personal Services - Sales of services to the “person” of an individual, such as barbering, hairstyling, manicuring and massaging."
+      },
+      {
+        "title": "W. Va. Code § 8-13C-4, Municipal sales and service taxes",
+        "url": "https://code.wvlegislature.gov/8-13C-4/",
+        "quote": "The base of a municipal sales and service tax imposed pursuant to this section shall be identical to the base of the consumers sales and service tax"
+      }
+    ],
+    "notes": "Undated statute uses 2018-01-01 as in existing WV rules; § 11-15-8 lists its last amendment in 2017. TSD 300 (January 2026) confirms that personal services concern the person of an individual, rather than the individual’s goods. General all-services rule applies to the labor charge; separately stated parts are goods. No parts-versus-labor exemption found for these services."
   }
 ]

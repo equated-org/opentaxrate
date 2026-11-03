@@ -933,5 +933,142 @@
       }
     ],
     "notes": "Publication 236 is dated 12/14. Publication 228 also names alcoholic beverages as taxable merchandise. County and city sales taxes share the state base (Publication 201). Separate alcohol beverage excises, the Milwaukee local exposition food and beverage tax (0.5%), and applicable premier resort area taxes are not included. These additional taxes do not replace sales tax."
+  },
+  {
+    "tax": "WI",
+    "code": "rental",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Leases and rentals of ordinary tangible goods are taxable on the rental payments, at the general state and applicable county and city rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The sales price from the lease, license, or rental of taxable products is subject to the sales and use taxes to the same extent that the sales price from the sale of the same product would be subject to the tax."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      }
+    ],
+    "notes": "Dated from Publication 201 (10/26), not an assertion of enactment. One WI rule covers state, county and city taxes because they share the base. Ordinary taxable goods; separately stated parts are goods. No labor exemption based on separately stating parts is stated. No short-term/long-term taxability split for ordinary goods. Motor vehicles and real property are outside this code."
+  },
+  {
+    "tax": "WI",
+    "code": "service.goods.repair",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair, maintenance and alteration of taxable tangible goods are taxable, including the work charge.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The repair, service, alteration, fitting, cleaning, painting, coating, towing, inspection, and maintenance of taxable products."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      }
+    ],
+    "notes": "Dated from Publication 201 (10/26), not an assertion of enactment. One WI rule covers state, county and city taxes because they share the base. Ordinary taxable goods; separately stated parts are goods. No labor exemption based on separately stating parts is stated."
+  },
+  {
+    "tax": "WI",
+    "code": "service.goods.cleaning",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Cleaning taxable goods and laundry and dry cleaning are taxable; specified diaper-service and production-work exceptions apply.",
+    "conditions": [
+      {
+        "when": "laundry, dry cleaning, pressing or dyeing cloth diapers by a diaper service, or raw materials or goods in process destined for sale",
+        "treatment": "exempt"
+      },
+      {
+        "when": "customer performs laundry or dry cleaning using self-service machines",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The repair, service, alteration, fitting, cleaning, painting, coating, towing, inspection, and maintenance of taxable products."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Laundry, dry cleaning, pressing, and dyeing services and the rental of linens, uniforms, and towels."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "This type of service performed on cloth diapers by a diaper service, raw materials or goods in process destined for sale is not taxable."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Laundry, dry cleaning, pressing, and dyeing services are not taxable when the service is performed by the customer using self-service machines."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      }
+    ],
+    "notes": "Dated from Publication 201 (10/26), not an assertion of enactment. One WI rule covers state, county and city taxes because they share the base. Ordinary taxable goods; separately stated parts are goods. No labor exemption based on separately stating parts is stated. Self-service machines are mentioned to delimit the vendor-performed work code."
+  },
+  {
+    "tax": "WI",
+    "code": "service.goods.other",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabricating, processing, printing and imprinting on customer-furnished taxable goods are taxable; specified printed advertising and catalogs are exempt.",
+    "conditions": [
+      {
+        "when": "printing or imprinting qualifying advertising and promotional direct mail, printed advertising transported outside Wisconsin for exclusive use there, or qualifying catalogs and mailing envelopes under the cited exemptions",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The producing, fabricating, processing, printing, or imprinting of taxable products for a consideration for consumers who furnish directly or indirectly the materials used in producing, fabricating, processing, printing, or imprinting."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Exception: Tax does not apply to the service of printing or imprinting of a taxable product that results in:"
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Advertising and promotional direct mail (sec. 77.54(59), Wis. Stats.),"
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Printed advertising materials transported outside Wisconsin by the purchaser for use solely outside Wisconsin (sec. 77.54(25), Wis. Stats.), or"
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "Certain catalogs and their mailing envelopes (sec. 77.54(25m), Wis. Stats.)."
+      },
+      {
+        "title": "Wisconsin DOR, Publication 201, Wisconsin Sales and Use Tax Information (October 2026)",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      }
+    ],
+    "notes": "Dated from Publication 201 (10/26), not an assertion of enactment. One WI rule covers state, county and city taxes because they share the base. Ordinary taxable goods; separately stated parts are goods. No labor exemption based on separately stating parts is stated. Engraving and embroidery are treated as processing/imprinting on the customer’s goods."
   }
 ]

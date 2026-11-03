@@ -1872,5 +1872,111 @@
       }
     ],
     "notes": "Local companion covers the entire special-rate period; undated page fallback matches existing CT rules."
+  },
+  {
+    "tax": "CT",
+    "code": "rental",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting or leasing ordinary tangible goods is subject to Connecticut general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Connecticut General Statutes, Chapter 219, Sales and Use Taxes, imposes the Connecticut sales and use tax on the gross receipts from the sale of tangible personal property at retail, from the rental or leasing of tangible personal property, and on the gross receipts from the rendering of certain services."
+      }
+    ],
+    "notes": "Undated current DRS page: 2019-02-01 fallback matches the existing CT professional-service rules. Ordinary goods only; no rental-duration split is stated for nonvehicle goods. Connecticut has no local sales tax, as recorded in the existing CT rules."
+  },
+  {
+    "tax": "CT",
+    "code": "service.goods.repair",
+    "from": "2022-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and maintenance labor on goods, including motor vehicle repairs, is taxable; shoe and vessel repairs and ordinary tailoring are excluded.",
+    "conditions": [
+      {
+        "when": "Repair or maintenance of tangible goods, including motor vehicle repair labor",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Shoe repair, repair or maintenance of vessels, or tailoring, altering and mending garments and other textiles",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Repair or maintenance services to tangible personal property (other than services to vessels and shoe repair);"
+      },
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Motor vehicle repair services including any type of repair, painting, or replacement related to the body or any of the operating parts of a motor vehicle;"
+      },
+      {
+        "title": "CT DRS, PS 2022(1), Sales and Use Tax on Dry Cleaning Services and Laundry Services, Dry Cleaning Establishment Surcharge, and Business Use Tax Obligations (September 30, 2022)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2022/ps-2022-1.pdf",
+        "quote": "Tailoring, altering and mending services to garments and other textiles."
+      }
+    ],
+    "notes": "Date is PS 2022(1) issuance. Its exclusion list places tailoring, altering and mending outside taxable laundry services; the DRS enumerated-services page excludes shoe and vessel repairs. Separate statement of labor does not remove an enumerated taxable service from tax. Parts separately stated are goods. The garment exception concerns work on customer-owned garments, not fabrication of a new garment."
+  },
+  {
+    "tax": "CT",
+    "code": "service.goods.cleaning",
+    "from": "2022-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry, dry cleaning and car washes are taxable; coin-operated or similar self-service laundry is excluded, while coin-operated car washes are taxable.",
+    "conditions": [
+      {
+        "when": "Laundry or dry cleaning other than coin-operated or similar self-service laundry; car washing including coin-operated car washes",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Coin-operated or similar self-service laundry facilities",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS, PS 2022(1), Sales and Use Tax on Dry Cleaning Services and Laundry Services, Dry Cleaning Establishment Surcharge, and Business Use Tax Obligations (September 30, 2022)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2022/ps-2022-1.pdf",
+        "quote": "Sales of dry cleaning services and laundry services are subject to sales and use taxes at the standard rate of 6.35%."
+      },
+      {
+        "title": "CT DRS, PS 2022(1), Sales and Use Tax on Dry Cleaning Services and Laundry Services, Dry Cleaning Establishment Surcharge, and Business Use Tax Obligations (September 30, 2022)",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsps/2022/ps-2022-1.pdf",
+        "quote": "Coin-operated or similar self-service laundry facilities;"
+      },
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Car wash services, including coin-operated car washes;"
+      }
+    ],
+    "notes": "PS 2022(1) issued September 30, 2022; the coin-operated laundry quote is in the list headed Taxable dry cleaning services and laundry services do not include. The separate 1% dry-cleaning establishment surcharge described in that publication is not modeled. Rug and upholstery cleaning classification is not independently settled; see gap."
+  },
+  {
+    "tax": "CT",
+    "code": "service.goods.other",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Producing, fabricating, processing, printing or imprinting the customer’s tangible goods is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Services Subject to Sales and Use Taxes",
+        "url": "https://portal.ct.gov/drs/sales-tax/services-subject-to-sales-and-use-taxes",
+        "quote": "Producing, fabricating, processing, printing or imprinting tangible personal property for consumers who furnish, either directly or indirectly, the materials used, including, but not limited to, sign construction, photofinishing, duplicating and photocopying;"
+      }
+    ],
+    "notes": "Undated current DRS page: 2019-02-01 fallback matches the existing CT professional-service rules. Ordinary goods only; no rental-duration split is stated for nonvehicle goods. Connecticut has no local sales tax, as recorded in the existing CT rules. Customization such as engraving and embroidery falls within processing or imprinting; those examples are applications of the stated rule."
   }
 ]

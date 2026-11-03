@@ -717,5 +717,64 @@
       }
     ],
     "notes": "The undated alcohol guidance is verified in the August 11, 2025 archive capture. No distinction is made between store and on-premises sales for QST. The specific alcohol tax applies in addition to GST and QST, and the source says GST and QST are calculated on the amount including that tax. Federal temporary GST/HST relief did not replace the QST rules."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "rental",
+    "from": "2026-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary tangible goods supplied in Québec are subject to QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "As a general rule, most property and services supplied in or brought into Québec are subject to GST and QST."
+      },
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "The provision of property or a service in any manner whatsoever, including by way of sale, barter, transfer, exchange, lease or gift."
+      },
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "GST at the rate of 5% and QST at the rate of 9.975% apply to the price of the supply, unless the supply is exempt or zero-rated (taxable at the rate of 0%)."
+      },
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "The first two lease payments are subject to GST and QST."
+      }
+    ],
+    "notes": "Dated from IN-203-V (2026-03). Ordinary domestic commercial supplies of nonexempt goods/services by registrants. Taxable treatment uses the general rate, not a special_rate. Separately stated parts are goods. Live taxable-supplies webpage and archive were blocked; the official publication PDF was successfully downloaded instead. The four-year generator example confirms long-term leases are taxable. Three-month lease rules affect location and payment periods, not exemption."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "service.goods",
+    "from": "2026-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Ordinary repair, cleaning and customization work on customer-owned goods is subject to QST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "As a general rule, most property and services supplied in or brought into Québec are subject to GST and QST."
+      },
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "GST at the rate of 5% and QST at the rate of 9.975% apply to the price of the supply, unless the supply is exempt or zero-rated (taxable at the rate of 0%)."
+      },
+      {
+        "title": "Revenu Québec, IN-203-V, General Information Concerning the QST and the GST/HST (March 2026)",
+        "url": "https://www.revenuquebec.ca/documents/en/publications/in/IN-203-V%282026-03%29.pdf",
+        "quote": "sales of gasoline and automobile repair services;"
+      }
+    ],
+    "notes": "Dated from IN-203-V (2026-03). Ordinary domestic commercial supplies of nonexempt goods/services by registrants. Taxable treatment uses the general rate, not a special_rate. Separately stated parts are goods. Live taxable-supplies webpage and archive were blocked; the official publication PDF was successfully downloaded instead. General taxable-supplies rule covers cleaning/customization; automobile repairs are expressly listed."
   }
 ]

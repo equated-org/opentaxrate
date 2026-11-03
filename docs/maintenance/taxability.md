@@ -78,7 +78,7 @@ bulletins list has.
 
 1. For each changed watch-list page, read its new lines: a new notice,
    bulletin, ruling or law change. Open each that could touch one of the
-   codes (food, catering, software, services, construction, delivery, goods, clothing, alcohol)
+   codes (food, catering, software, services, construction, delivery, goods, clothing, alcohol, rental, work on goods)
    in a researched place.
 2. For each QUOTE GONE, open the page and find what replaced the sentence:
    a reworded page, a moved section, or a changed rule.
@@ -154,7 +154,7 @@ and publish needs one.
 
 ## Adding a code
 
-A new code (clothing and alcohol, November 2026) is researched for every
+A new code (clothing and alcohol; rental and service.goods, November 2026) is researched for every
 place at once, outside the monthly run:
 
 - Define it in `src/taxability/codes.ts` with what it includes and excludes,
@@ -176,5 +176,11 @@ place at once, outside the monthly run:
   except where the place's existing rules already model it as the rate
   (Vermont's, New Hampshire's and Rhode Island's meals taxes, which reach
   drinks served too).
+- A settled rule's conditions are its rare exceptions. Where an exception is
+  a common kind of the code (shoe repair and tailoring under repair, a car
+  wash under cleaning, a lump-sum invoice), the rule is conditional, with
+  the general case its own condition.
+- A draft whose conditions list only one outcome (dry cleaning exempt, the
+  rest unread) isn't a rule: the code stays not researched there.
 - Where no official text settles a place, write no rule and list the gap in
   the commit message.

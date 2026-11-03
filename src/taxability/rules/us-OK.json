@@ -942,5 +942,100 @@
       }
     ],
     "notes": "Undated OTC pages use the existing OK 2018-01-01 baseline. Mixed beverage tax is additional, not a substitute for sales tax. Alcohol excises are outside this rule."
+  },
+  {
+    "tax": "OK",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods are subject to general state and local sales tax; equipment furnished with an operator is a service.",
+    "conditions": [
+      {
+        "when": "equipment furnished with an operator",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "The gross receipts or gross proceeds derived from the rental or lease of tangible personal property are subject to sales tax."
+      },
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "The furnishing for a charge of equipment with an operator shall be considered a service and not subject to sales tax."
+      },
+      {
+        "title": "Oklahoma Tax Commission, Business Help Center",
+        "url": "https://oklahoma.gov/tax/helpcenter/businesses.html",
+        "quote": "Except for the sale of residential utilities and certain food and food ingredients, local taxes apply to the same taxable items and services as the Oklahoma state sales tax rate."
+      }
+    ],
+    "notes": "Undated current guidance uses the existing OK 2018-01-01 baseline; the compilation URL says 2026 but the document has no publication day. No short/long-term taxability split was found. Local base follows the state. Heavy-equipment property-tax recovery fees are excluded from sales tax under 710:65-1-11(d); no separate rental tax is modeled."
+  },
+  {
+    "tax": "OK",
+    "code": "service.goods.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor is generally a service; automotive lump-sum repairs remain untaxed, while certain other repairs combining sold materials and labor are taxable.",
+    "conditions": [
+      {
+        "when": "automotive repair labor separately stated from sold parts",
+        "treatment": "exempt"
+      },
+      {
+        "when": "automotive repair shop charges one lump sum for parts and labor; shop pays tax on its inputs",
+        "treatment": "exempt"
+      },
+      {
+        "when": "shoe repair service without sold goods, or labor in a separately billed separate transaction",
+        "treatment": "exempt"
+      },
+      {
+        "when": "fur used in fur repair or remodeling sold without separating materials from labor",
+        "treatment": "taxable"
+      },
+      {
+        "when": "tailoring or alteration of customer-owned clothing, with only incidental negligible materials",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Separately stated labor/installation charges are not subject to sales tax."
+      },
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Automotive repair shops, service centers and body shops (\"repair shops\") that charge customers a single price for parts and labor should not collect sales tax from their customers, but instead should pay sales tax to suppliers when purchasing parts, materials and other property used to perform repair service."
+      },
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "The gross receipts from a job which does not involve a sale of tangible personal property but merely represents the rendering of service is not subject to sales tax."
+      },
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Failure to separate the sale of material from the charge for labor requires payment of the tax on the entire amount charged to customers."
+      },
+      {
+        "title": "Oklahoma Tax Commission, OAC 710:65, Chapter 65 Sales and Use Tax (2026 compilation)",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "When such a person does not provide the goods worked upon and sells services only, such services are exempt even though they may include incidental and negligible items of material like thread, tape, buttons, etc., but the sale of items such as thread, tape, buttons, etc. to him are taxable."
+      },
+      {
+        "title": "Oklahoma Tax Commission, Business Help Center",
+        "url": "https://oklahoma.gov/tax/helpcenter/businesses.html",
+        "quote": "Except for the sale of residential utilities and certain food and food ingredients, local taxes apply to the same taxable items and services as the Oklahoma state sales tax rate."
+      }
+    ],
+    "notes": "Undated current guidance uses the existing OK 2018-01-01 baseline; the compilation URL says 2026 but the document has no publication day. No short/long-term taxability split was found. Local base follows the state. Conditions cover the specifically verified repair categories; general appliance/computer maintenance was not independently settled. Separately stated sold parts are goods.general."
   }
 ]

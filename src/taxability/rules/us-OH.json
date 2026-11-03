@@ -1095,5 +1095,126 @@
       }
     ],
     "notes": "Current R.C. 5739.02 and 5739.01 effective September 30, 2025, used as earliest verified date, not original enactment. No general exemption for this code found in full exemption list. County and transit taxes share retail-sale base, consistent with existing OH rules. Sales-tax holidays are not modeled. Separate alcohol excises are excluded."
+  },
+  {
+    "tax": "OH",
+    "code": "rental",
+    "from": "2025-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting or leasing ordinary tangible goods is a taxable retail sale, for a fixed or indefinite term.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Ohio Revised Code 5739.02 Levy of sales tax (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"Lease\" or \"rental\" means any transfer of the possession or control of tangible personal property for a fixed or indefinite term, for consideration."
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "All transactions by which title or possession, or both, of tangible personal property, is or is to be transferred, or a license to use or consume tangible personal property is or is to be granted;"
+      }
+    ],
+    "notes": "Current statutory text effective September 30, 2025, used as earliest verified, not original enactment. County/transit sales tax base convention follows existing OH rules. Motor vehicles and real property excluded; no term-based exemption found for ordinary goods."
+  },
+  {
+    "tax": "OH",
+    "code": "service.goods.repair",
+    "from": "2025-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair labor on tangible goods is taxable, except repairs to property whose purchase would be exempt.",
+    "conditions": [
+      {
+        "when": "Property whose purchase would not be subject to tax under section 5739.02",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ohio Revised Code 5739.02 Levy of sales tax (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "An item of tangible personal property is or is to be repaired, except property, the purchase of which would not be subject to the tax imposed by section 5739.02 of the Revised Code;"
+      }
+    ],
+    "notes": "Current statutory text effective September 30, 2025, used as earliest verified, not original enactment. County/transit sales tax base convention follows existing OH rules. Separately stated labor remains a taxable repair service. No motor-vehicle labor exclusion in the provision."
+  },
+  {
+    "tax": "OH",
+    "code": "service.goods.cleaning",
+    "from": "2025-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and dry cleaning services and motor-vehicle washing, cleaning, waxing and polishing are taxable; self-service laundry facilities are excluded.",
+    "conditions": [
+      {
+        "when": "Self-service laundry facilities used by consumers",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Laundry or dry cleaning of customer towels, linens, clothing or other fabric items",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Washing, cleaning, waxing or polishing a motor vehicle",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Ohio Revised Code 5739.02 Levy of sales tax (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "The service of washing, cleaning, waxing, polishing, or painting a motor vehicle is or is to be furnished;"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "Laundry and dry cleaning services are or are to be provided;"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"Laundry and dry cleaning services\" does not include the provision of self-service facilities for use by consumers to remove soil or dirt from towels, linens, articles of clothing, or other fabric items."
+      }
+    ],
+    "notes": "Current statutory text effective September 30, 2025, used as earliest verified, not original enactment. County/transit sales tax base convention follows existing OH rules. Laundry definition includes towels, linens, clothing and other fabric items belonging to others. Broader nonfabric goods cleaning is not settled here; gap recorded."
+  },
+  {
+    "tax": "OH",
+    "code": "service.goods.other",
+    "from": "2025-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Production or fabrication work using customer-furnished materials is a taxable sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Ohio Revised Code 5739.02 Levy of sales tax (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01 Sales tax definitions (effective September 30, 2025)",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "The production or fabrication of tangible personal property for a consideration for consumers who furnish either directly or indirectly the materials used in the production of fabrication work;"
+      }
+    ],
+    "notes": "Current statutory text effective September 30, 2025, used as earliest verified, not original enactment. County/transit sales tax base convention follows existing OH rules. Applies to fabrication/production on customer materials; services outside those categories require separate classification."
   }
 ]

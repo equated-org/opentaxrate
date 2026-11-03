@@ -904,5 +904,108 @@
       }
     ],
     "notes": "Undated restaurant guidance uses the existing PA baseline convention, conservatively advanced to the 02-26 REV-717 edition read here. Separate local drink taxes, the liquor tax and excises are not included. Wine-to-go is outside this code and taxable."
+  },
+  {
+    "tax": "PA",
+    "code": "rental",
+    "from": "2026-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods are taxable at general state and applicable local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Pennsylvania DOR, Sales, Use and Hotel Occupancy Tax",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax",
+        "quote": "The sales and use tax is imposed on the retail sale, consumption, rental or use of tangible personal property including - digital products - in Pennsylvania."
+      },
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "02-26 REV-717 is the earliest dated edition downloaded here. No duration split for nonvehicle rentals found. Vehicle rental and lease taxes discussed in REV-717 are separate and excluded."
+  },
+  {
+    "tax": "PA",
+    "code": "service.goods.repair",
+    "from": "2026-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and alteration work on taxable goods is taxable, including auto repair labor; work on nontaxable clothing and shoes is exempt.",
+    "conditions": [
+      {
+        "when": "repairing or altering nontaxable wearing apparel or shoes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repairing or altering other taxable tangible goods, including motor vehicles, whether or not parts are transferred",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "The services of repairing, altering, mending, pressing, fitting, dyeing, laundering, dry cleaning, or cleaning non-taxable wearing apparel and shoes."
+      },
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Motor vehicle repair services (including labor),"
+      },
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "REV-717 02-26 supplies the verified date and clothing/coin-operated exceptions. Taxable services remain taxable even without parts; separating parts does not exempt taxable labor. Local taxes use the same base."
+  },
+  {
+    "tax": "PA",
+    "code": "service.goods.cleaning",
+    "from": "2026-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cleaning tangible goods is taxable except work on nontaxable clothing/shoes and qualifying coin-operated laundry.",
+    "conditions": [
+      {
+        "when": "cleaning, laundering or dry cleaning nontaxable wearing apparel or shoes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "laundering or dry cleaning wearing apparel or household goods by coin-operated equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning other taxable tangible goods, including motor vehicles; no qualifying coin-operated exception",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "The services of repairing, altering, mending, pressing, fitting, dyeing, laundering, dry cleaning, or cleaning non-taxable wearing apparel and shoes."
+      },
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "The services of laundering or dry cleaning of wearing apparel or household goods when performed by coin operated equipment."
+      },
+      {
+        "title": "Pennsylvania DOR, Taxability of Canned Computer Software, Digital Goods, and Related Services",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/sales-use-and-hotel-occupancy-tax/canned-computer-software-digital-goods",
+        "quote": "Repairing, altering, mending, pressing, fitting, dyeing, laundering, drycleaning or cleaning tangible personal property other than clothing or footwear."
+      },
+      {
+        "title": "Pennsylvania DOR, REV-717 Retailer’s Information (02-26)",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "REV-717 02-26 supplies the verified date and clothing/coin-operated exceptions. Taxable services remain taxable even without parts; separating parts does not exempt taxable labor. Local taxes use the same base."
   }
 ]

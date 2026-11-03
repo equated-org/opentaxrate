@@ -1125,5 +1125,167 @@
       }
     ],
     "notes": "Latest supporting on-premises page updated August 26, 2026; off-premises guide dated August 2, 2022. General sales tax is 6.875%. Additional liquor gross receipts tax depends on license; 3.2% malt-liquor license table omits it. General local taxes follow state base. Special local food/beverage or liquor levies are separate drink taxes, excluded following existing us-MN.json; no single uniform special local rate modeled."
+  },
+  {
+    "tax": "MN",
+    "code": "rental",
+    "from": "2024-06-21",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Ordinary tangible-goods leases and rentals are taxable at the applicable general state and local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota DOR, Taxable Sales (June 21, 2024)",
+        "url": "https://www.revenue.state.mn.us/so/node/9581",
+        "quote": "Sales, leases, and rentals are taxable regardless of quantity or if the item is new or used, unless an exemption applies."
+      }
+    ],
+    "notes": "Page last updated June 21, 2024. General retail-rental definition covers both short and long terms; no duration split for ordinary nonvehicle goods is stated."
+  },
+  {
+    "tax": "MN",
+    "code": "service.goods.repair",
+    "from": "2018-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Separately stated ordinary repair labor is exempt; clothing repairs and alterations are taxable, and bundled repairs with significant parts are taxable.",
+    "conditions": [
+      {
+        "when": "Ordinary repair labor separately stated from materials, including vehicle or appliance repair, or customer provides all materials",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Ordinary repair labor bundled with significant taxable parts or materials",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Ordinary repair bundled with only insignificant materials",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repairing or altering customer clothing, including replacing zippers or shortening garments; excluding shoe repair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Shoe repair",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 152, Labor – Installation, Fabrication, Construction, and Repair (August 2016)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS152.pdf",
+        "quote": "Repair labor is not taxable as long as the labor charges are separately stated from parts or materials on the customer bill or invoice."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 152, Labor – Installation, Fabrication, Construction, and Repair (August 2016)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS152.pdf",
+        "quote": "When repair labor and taxable parts are not listed separately on the customer’s bill or invoice, the total charge may be taxable."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 152, Labor – Installation, Fabrication, Construction, and Repair (August 2016)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS152.pdf",
+        "quote": "The repairer must charge sales tax on the total charge."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 120, Laundry and Cleaning Services (September 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS120.pdf",
+        "quote": "Charges for repairing, altering, and storing clothing are taxable."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 120, Laundry and Cleaning Services (September 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS120.pdf",
+        "quote": "Shoe repair, dyeing, stretching, and shining"
+      }
+    ],
+    "notes": "Latest controlling publication is revised September 2018; day normalized to first of the printed revision month, consistent with month-dated publications. FS152 revised August 2016. The repairer pays tax on insignificant parts used in a nontaxable combined repair. New clothing alterations included in the garment sale are outside work on customer-owned goods."
+  },
+  {
+    "tax": "MN",
+    "code": "service.goods.cleaning",
+    "from": "2023-10-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Goods cleaning, including laundry, dry cleaning, rugs, upholstery and car washes, is taxable; self-service laundry and separately stated diaper services are exempt.",
+    "conditions": [
+      {
+        "when": "Self-service coin-operated laundry or dry cleaning machines",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Separately stated diaper services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 120, Laundry and Cleaning Services (September 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS120.pdf",
+        "quote": "Laundry, dry cleaning, linen service and supply, carpet cleaning, drapery cleaning, upholstery cleaning, and industrial cleaning are taxable."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 120, Laundry and Cleaning Services (September 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS120.pdf",
+        "quote": "Sales made through self-service coin-operated laundry and dry cleaning machines are not taxable."
+      },
+      {
+        "title": "Minnesota DOR, Towing, Cleaning, and Rustproofing Services (October 3, 2023)",
+        "url": "https://www.revenue.state.mn.us/guide/towing-cleaning-and-rustproofing-services-guide",
+        "quote": "The following services provided to a motor vehicle are taxable:"
+      },
+      {
+        "title": "Minnesota DOR, Towing, Cleaning, and Rustproofing Services (October 3, 2023)",
+        "url": "https://www.revenue.state.mn.us/guide/towing-cleaning-and-rustproofing-services-guide",
+        "quote": "Coin-operated car washes and vacuums"
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 120, Laundry and Cleaning Services (September 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS120.pdf",
+        "quote": "Diaper services"
+      }
+    ],
+    "notes": "October 3, 2023 page update is the earliest downloaded evidence expressly addressing car washing as well as the laundry categories documented in September 2018 FS120. Coin-operated car washes remain taxable."
+  },
+  {
+    "tax": "MN",
+    "code": "service.goods.other",
+    "from": "2018-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Fabrication, printing, framing and embroidery on customer clothing are taxable; engraving an item supplied by the customer is exempt.",
+    "conditions": [
+      {
+        "when": "Engraving an item supplied by the customer",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Fabrication altering goods into a new or changed product, including printing, painting tangible items, matting/framing artwork, embroidery or screen printing customer clothing",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 152, Labor – Installation, Fabrication, Construction, and Repair (August 2016)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS152.pdf",
+        "quote": "Fabrication labor is taxable, even if the customer provides the materials for the products that will be created or altered."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 152, Labor – Installation, Fabrication, Construction, and Repair (August 2016)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS152.pdf",
+        "quote": "If the customer provides the item, the engraving is not taxable."
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 120, Laundry and Cleaning Services (September 2018)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS120.pdf",
+        "quote": "Embroidery or screen printing done on clothing provided by the customer"
+      },
+      {
+        "title": "Minnesota DOR, Sales Tax Fact Sheet 152, Labor – Installation, Fabrication, Construction, and Repair (August 2016)",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2023-01/FS152.pdf",
+        "quote": "Matting and framing artwork"
+      }
+    ],
+    "notes": "September 2018 revision month of FS120; normalized to first day of month. FS152 revised August 2016 provides explicit engraving exception and fabrication examples. Engraving sold with a new item is outside the customer-owned-goods code and taxable with that sale."
   }
 ]

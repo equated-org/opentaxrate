@@ -1128,5 +1128,112 @@
       }
     ],
     "notes": "March 2025 PST-2 revision; first day of revision month used. Taxable entries appear in the TAXABLE column. Dollar deductions cannot be represented by a constant base field; condition describes the taxable amount."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "rental",
+    "from": "2023-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Saskatchewan rental and leasing companies collect PST on ordinary taxable goods and equipment rentals.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-72, Rental Businesses (revised May 2023)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/9c5bbbdd-f48e-4d1c-bc86-e729620484be/PST.072%2BRental%2BBusinesses.pdf?CACHE=NONE&CONTENTCACHE=NONE&MOD=AJPERES&attachment=true",
+        "quote": "Rental/leasing companies are required to collect PST on charges for the rental of goods/equipment."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-72, Rental Businesses (revised May 2023)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/9c5bbbdd-f48e-4d1c-bc86-e729620484be/PST.072%2BRental%2BBusinesses.pdf?CACHE=NONE&CONTENTCACHE=NONE&MOD=AJPERES&attachment=true",
+        "quote": "For an equipment rental, the customer is given the right to use the equipment for a specified or an indefinite period of time, by the business renting out the equipment."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. No short/long-term exemption for ordinary goods is stated. Lessor can purchase qualifying rental inventory exempt. Equipment with an operator is generally a service, with separate crane rules."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "service.goods.repair",
+    "from": "2024-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Saskatchewan taxes repair and maintenance labour on tangible goods, including vehicles, appliances and clothing alterations; repairs to exempt equipment are exempt.",
+    "conditions": [
+      {
+        "when": "repairs to exempt equipment, including qualifying farm implements or medical equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repair, maintenance or alteration of ordinary taxable goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Services provided to repair, install, assemble, dismantle, adjust, restore, recondition, examine, refinish or maintain TPP are subject to tax."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Tax must be collected on the total charge to the customer, including parts and labour and service call charges related to these services."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Charges to repair exempt equipment such as exempt farm implements and exempt medical equipment are not subject to tax."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-53, Launderers and Dry Cleaners (revised April 10, 2018)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/46674021-e0be-4181-bdd6-b049295b801e/PST.053%2BLaunderers%2Band%2BDry%2BCleaners.pdf?CACHEID=ROOTWORKSPACE-46674021-e0be-4181-bdd6-b049295b801e-oUVPlji&MOD=AJPERES",
+        "quote": "Businesses that provide these services must collect tax on the total charge to their customers for alteration charges, such as mending, hemming, zipper replacement and sewing."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Taxable labour remains taxable whether or not parts are separately stated."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "service.goods.cleaning",
+    "from": "2024-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Saskatchewan taxes laundry and dry cleaning but exempts coin-operated self-serve laundry and standalone cleaning or vacuuming of equipment, furniture or vehicles.",
+    "conditions": [
+      {
+        "when": "self-serve coin-operated laundry",
+        "treatment": "exempt"
+      },
+      {
+        "when": "laundry or dry cleaning of clothing, bedding, drapes, blinds, rugs or similar items, other than exempt self-serve coin-operated laundry",
+        "treatment": "taxable"
+      },
+      {
+        "when": "standalone cleaning or vacuuming of equipment, furniture or vehicles, separate from and unrelated to repair",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning of taxable goods forming part of a taxable repair",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-53, Launderers and Dry Cleaners (revised April 10, 2018)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/46674021-e0be-4181-bdd6-b049295b801e/PST.053%2BLaunderers%2Band%2BDry%2BCleaners.pdf?CACHEID=ROOTWORKSPACE-46674021-e0be-4181-bdd6-b049295b801e-oUVPlji&MOD=AJPERES",
+        "quote": "Laundry and dry cleaning services are subject to PST."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-53, Launderers and Dry Cleaners (revised April 10, 2018)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/46674021-e0be-4181-bdd6-b049295b801e/PST.053%2BLaunderers%2Band%2BDry%2BCleaners.pdf?CACHEID=ROOTWORKSPACE-46674021-e0be-4181-bdd6-b049295b801e-oUVPlji&MOD=AJPERES",
+        "quote": "Businesses that provide self-serve coin-operated laundry services are not required to collect tax."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Cleaning or vacuuming of TPP such as equipment, furniture, vehicles, etc. when the cleaning service is separate from and not provided in relation to a repair of those items;"
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Specific PST-53 laundry/dry-cleaning treatment takes precedence over general standalone cleaning exemption."
   }
 ]

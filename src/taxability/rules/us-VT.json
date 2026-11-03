@@ -1116,5 +1116,131 @@
       }
     ],
     "notes": "As VT:local food.prepared.dine_in: required beside the state's special rate. Known gap: a town that levies only the local option alcoholic beverage (or meals) tax has no local part in the rate data, so its 1% is missed."
+  },
+  {
+    "tax": "VT",
+    "code": "rental",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Business rentals of tangible goods are subject to Vermont sales tax and applicable local option sales tax; isolated rentals of property not primarily acquired for rental are excepted.",
+    "conditions": [
+      {
+        "when": "Isolated or occasional rental of property not primarily intended for rental, on which purchaser paid sales/use tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, Rental and Cleaning of Linens",
+        "url": "https://tax.vermont.gov/business/industry/linens",
+        "quote": "The business must charge sales tax to its customers on the rental charge."
+      },
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "A purchaser of tangible personal property not primarily intended for lease or rental must pay the sales and use tax at the time of purchase, and should not collect any tax upon the receipts from the isolated or occasional rental or lease to others."
+      },
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "“Lease or rental” means any transfer of possession or control of tangible personal property for a fixed or indeterminate term for consideration."
+      }
+    ],
+    "notes": "Dated final regulation effective January 1, 2019, used as earliest verified. Earlier 2018 legislative working copy was read but not relied on because its effective-date line was incomplete. No short/long-term split for ordinary goods. Rentals included in a meal service fall outside this standalone goods-rental case."
+  },
+  {
+    "tax": "VT",
+    "code": "service.goods.repair",
+    "from": "2023-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Separately stated repair labor restoring existing goods is exempt; unseparated parts-and-labor invoices and work producing a new or different taxable item are taxable.",
+    "conditions": [
+      {
+        "when": "Repair/remodeling produces a new or different taxable item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair parts/materials and labor are not separately stated on the invoice",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair labor restoring existing goods, separately stated from parts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "If labor is expended in repairing or altering existing property belonging to another to restore that item to its original condition or usefulness without producing new parts, the tax does not apply to the labor charge."
+      },
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "Similarly, the cost of repairing, remodeling or reconditioning an item is subject to tax if a new or different item from the original is produced by such services."
+      },
+      {
+        "title": "Vermont Department of Taxes, GB-1161 Vermont Sales and Use Tax Guide for the Automotive Repairs Industry (October 2023)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/GB-1161.pdf",
+        "quote": "Be aware that if labor and materials are not separately stated, the entire amount charged to the customer becomes taxable."
+      }
+    ],
+    "notes": "Final regulations effective January 1, 2019 verify the repair/fabrication distinction. GB-1161 dated October 2023 verifies invoice allocation, including an oil-change example; October 1, 2023 is the earliest date verifying the complete rule here. Parts remain taxable goods."
+  },
+  {
+    "tax": "VT",
+    "code": "service.goods.cleaning",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cleaning the customer’s own goods is a nontaxable service; supplying linens owned by the cleaner is a taxable rental.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, Rental and Cleaning of Linens",
+        "url": "https://tax.vermont.gov/business/industry/linens",
+        "quote": "In this case, the laundry cleaning is not subject to sales and use tax because it is a nontaxable service."
+      },
+      {
+        "title": "Vermont Department of Taxes, Rental and Cleaning of Linens",
+        "url": "https://tax.vermont.gov/business/industry/linens",
+        "quote": "The cleaning service is not subject to tax."
+      }
+    ],
+    "notes": "Undated current agency page uses the existing Vermont convention 2026-10-30. Direct examples concern customer-owned linens and drapes; general cleaning treatment is inferred from the service classification and absence from enumerated taxable services. A laundry service’s rental of its own linens is covered by rental, not this work-on-customer-goods code."
+  },
+  {
+    "tax": "VT",
+    "code": "service.goods.other",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabricating, printing or imprinting customer-furnished property is taxable, including engraving; fabrication of exempt goods such as clothing is exempt.",
+    "conditions": [
+      {
+        "when": "Fabrication of an exempt item, including clothing and printing on exempt clothing",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "If labor is expended in producing a new or different item, the tax applies to the labor charge."
+      },
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "For example, a charge for fabrication of an article of clothing is not taxable."
+      },
+      {
+        "title": "Vermont Department of Taxes, Vermont Sales and Use Tax Regulations (effective January 1, 2019)",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/SU%20Regs%20Effective%201%201%2019.pdf",
+        "quote": "Section 9771(3) imposes the sales tax on the charge for producing, fabricating, printing or imprinting of tangible personal property for consideration for consumers who furnish either directly or indirectly the materials used in the producing, fabricating, printing or imprinting."
+      }
+    ],
+    "notes": "Final regulation effective January 1, 2019, earliest verified. Regulation examples expressly include job printing, engraving, silk-screen printing and custom drapery; clothing exception applies to fabrication as well as sale of clothing."
   }
 ]

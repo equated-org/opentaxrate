@@ -883,5 +883,139 @@
       }
     ],
     "notes": "Date follows existing NJ rules: July 6, 2022 revision of S&U-4 (Rev. 07/22). Specialized Atlantic City luxury tax (3% on drinks) and Cape May tourism sales tax (2% in the Wildwoods on restaurant food/drink) are additional and excluded; local coverage gap recorded separately. The guide marks this entry T (taxable). Separate alcoholic beverage excise taxes are excluded."
+  },
+  {
+    "tax": "NJ",
+    "code": "rental",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals of tangible goods are taxable; the term changes when tax is collected and, for longer leases, the available tax base.",
+    "conditions": [
+      {
+        "when": "Lease or rental for six months or less: tax collected with each periodic payment",
+        "treatment": "taxable"
+      },
+      {
+        "when": "More than six months: full tax due up front, computed on original purchase price or total required periodic payments including interest",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 New Jersey Sales Tax Guide (Rev. July 2022)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "A lessor must collect Sales Tax from the lessee (person who leases or rents property) on a lease or rental transaction."
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 New Jersey Sales Tax Guide (Rev. July 2022)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "For leases or rentals of more than six months, the full amount of tax is due up front in the period in which the lessee takes delivery of the property."
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 New Jersey Sales Tax Guide (Rev. July 2022)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "For transactions with a term of more than six months, the tax must be calculated using either the original purchase price of the property, or the total of the periodic payments required under the agreement, including interest charges directly paid by the lessee."
+      }
+    ],
+    "notes": "July 6, 2022 follows the existing NJ rules for S&U-4 Rev. 07/22; the report dated February 20, 2015 supplies the general service rule and clothing exception. Dates do not assert original enactment. Separate motor-vehicle domestic security fee described in S&U-4 is excluded; motor vehicles and real property are outside rental scope."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.goods.repair",
+    "from": "2015-02-20",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and maintenance labor on tangible goods is taxable, including auto repair labor; clothing tailoring and shoe repair are exempt.",
+    "conditions": [
+      {
+        "when": "Tailoring, mending or altering clothing, or repairing shoes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or maintenance of other goods, including motor vehicles",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, A Report on Tax Expenditures in New Jersey (February 20, 2015)",
+        "url": "https://nj.gov/treasury/taxation/pdf/taxexpenditurereport2015.pdf",
+        "quote": "retail sale of producing, fabricating, processing, installing, maintaining, repairing, and servicing tangible personal property or digital property;"
+      },
+      {
+        "title": "NJ Division of Taxation, A Report on Tax Expenditures in New Jersey (February 20, 2015)",
+        "url": "https://nj.gov/treasury/taxation/pdf/taxexpenditurereport2015.pdf",
+        "quote": "Charges for laundering, dry cleaning, tailoring, weaving, and pressing, limited specifically to clothing, are exempt."
+      },
+      {
+        "title": "NJ Division of Taxation, A Report on Tax Expenditures in New Jersey (February 20, 2015)",
+        "url": "https://nj.gov/treasury/taxation/pdf/taxexpenditurereport2015.pdf",
+        "quote": "Receipts from shoe repairing and shoe shining services are exempt from tax."
+      }
+    ],
+    "notes": "Report dated February 20, 2015 supports taxable repairs, exempt clothing tailoring and exempt shoe repairs. Separately stating labor does not exempt otherwise taxable repair work; parts are goods. State tax key follows existing NJ convention."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.goods.cleaning",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cleaning goods is taxable, including car washing and carpet cleaning; laundering and dry cleaning clothing are exempt. Shoe shining is exempt.",
+    "conditions": [
+      {
+        "when": "Laundering, dry cleaning or pressing clothing",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Shoe shining",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Cleaning other goods, including car washing and carpet cleaning",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, A Report on Tax Expenditures in New Jersey (February 20, 2015)",
+        "url": "https://nj.gov/treasury/taxation/pdf/taxexpenditurereport2015.pdf",
+        "quote": "Charges for laundering, dry cleaning, tailoring, weaving, and pressing, limited specifically to clothing, are exempt."
+      },
+      {
+        "title": "NJ Division of Taxation, Sales and Use Tax Frequently Asked Questions (updated April 24, 2025)",
+        "url": "https://www.nj.gov/treasury/taxation/sales_use_tax_FAQ.shtml",
+        "quote": "The cleaning of household goods such as furniture, decorative items, and personal items is maintaining or servicing tangible personal property and, as such, the charges are subject to tax."
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 New Jersey Sales Tax Guide (Rev. July 2022)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Car Washing .............................................................T"
+      },
+      {
+        "title": "NJ Division of Taxation, A Report on Tax Expenditures in New Jersey (February 20, 2015)",
+        "url": "https://nj.gov/treasury/taxation/pdf/taxexpenditurereport2015.pdf",
+        "quote": "Receipts from shoe repairing and shoe shining services are exempt from tax."
+      }
+    ],
+    "notes": "July 6, 2022 follows the existing NJ rules for S&U-4 Rev. 07/22; the report dated February 20, 2015 supplies the general service rule and clothing exception. Dates do not assert original enactment. Separate motor-vehicle domestic security fee described in S&U-4 is excluded; motor vehicles and real property are outside rental scope. Shoe shining is expressly exempt under the report; shoe cleaning beyond shining not separately classified."
+  },
+  {
+    "tax": "NJ",
+    "code": "service.goods.other",
+    "from": "2015-02-20",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Processing and fabrication work on customer goods is taxable, including printing, engraving, embroidery and monogramming charged as services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, A Report on Tax Expenditures in New Jersey (February 20, 2015)",
+        "url": "https://nj.gov/treasury/taxation/pdf/taxexpenditurereport2015.pdf",
+        "quote": "retail sale of producing, fabricating, processing, installing, maintaining, repairing, and servicing tangible personal property or digital property;"
+      }
+    ],
+    "notes": "Report publication date. S&U-4 also distinguishes exempt clothing sold with embroidery from taxable services-only embroidery: this code covers work on customer-owned goods."
   }
 ]

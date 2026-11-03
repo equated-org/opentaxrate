@@ -1898,5 +1898,59 @@
       }
     ],
     "notes": "KS-1510 Rev. 11/24; first day of revision month used. The separate liquor drink tax is not included. License and sale type determine the treatment."
+  },
+  {
+    "tax": "KS",
+    "code": "rental",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kansas taxes ordinary goods rentals and leases on each payment, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "The sales tax is added to each rental or lease payment made, including “lease with option to buy” contracts and “rent to purchase” contracts."
+      }
+    ],
+    "notes": "Guide identifies printable revision 11/24; first day of month used. No short/long-term exemption for ordinary goods. Lessor inventory purchased for rental is resale. Motor vehicles outside scope."
+  },
+  {
+    "tax": "KS",
+    "code": "service.goods",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kansas taxes repair, maintenance, cleaning, alteration and other work that installs, applies or alters tangible goods, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Kansas sales tax applies to the services of installing, applying, altering, repairing, servicing, or maintaining tangible personal property."
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Services such as furniture refinishing, upholstery work, modifying or updating computer software, sewing, and alteration services change or alter the furniture, software, or clothing, and are taxable."
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Repair, service, and maintenance of tangible personal property includes these types of services:"
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "dry cleaning, pressing, dyeing & laundry services"
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "washing, waxing, or detailing vehicles"
+      }
+    ],
+    "notes": "Guide revision 11/24; first day used. It explicitly lists appliance and car repair, dry cleaning/pressing/dyeing/laundry and washing/waxing/detailing vehicles under repair/service/maintenance. Separately stated labor is still taxable. Dry-cleaning environmental surcharge is a separate levy and is not modeled."
   }
 ]

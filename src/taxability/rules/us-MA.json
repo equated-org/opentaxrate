@@ -919,5 +919,134 @@
       }
     ],
     "notes": "The TIR (December 14, 2010) says bars, restaurants and caterers keep collecting the state and local meals tax on alcoholic beverages served; the local 0.75% meals excise is modelled as on the MA food.prepared.dine_in rule (7% where adopted). Earliest date is the TIR's; the treatment is older. Alcohol excises are not included."
+  },
+  {
+    "tax": "MA",
+    "code": "rental",
+    "from": "2026-05-07",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting tangible goods is subject to the general sales tax; recurring linen-service arrangements are exempt services.",
+    "conditions": [
+      {
+        "when": "Linen service rents articles and must launder or clean them on a recurring basis as an essential part of the contract",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, Sales and Use Tax Guide (May 7, 2026)",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "The Massachusetts sales tax is 6.25% of the sales price or rental charge of tangible personal property (including gas, electricity, and steam) and telecommunications services"
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "A linen service does not collect a sales tax from its customer because an essential part of the contract for rental of the property is that the linen service launder or clean the rented articles on a recurring basis."
+      }
+    ],
+    "notes": "Guide update date May 7, 2026. No general short/long-term distinction for ordinary goods. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "service.goods.repair",
+    "from": "1979-08-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor is exempt when separated from parts; combined charges with consequential parts are taxable, and reupholstering is taxable fabrication.",
+    "conditions": [
+      {
+        "when": "Repair labor with no parts or with parts separately stated, or only inconsequential parts not separately billed",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Consequential parts and labor are not separated on customer invoices and in repairer records",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Reupholstering or making a new slipcover, constituting fabrication rather than a mechanical or structural repair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Shoe repair with materials supplied as part of the repair service",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "If the repair service does not separate on its customer invoices and in its records, the fair retail selling price of the parts or materials from the charge for labor, installation or other services, the Commissioner presumes that the entire charge represents the sales price of the property"
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "If the value of the property used in repair work is inconsequential and the repairer makes no separate charge for such property, the repair service enterprise is the consumer and pays the sales tax when it purchases the property."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "The tax applies to the total amount which the reupholsterer charges the customer, whether or not the reupholsterer states the material charge and labor charge separately in the bill."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "It does not collect a sales tax from its customer when it provides such an item of property as part of its service."
+      }
+    ],
+    "notes": "August 30, 1979 promulgation date; subsequent printed amendments (December 21, 2001 and December 19, 2003) concern sections (4) and (5)(g), rather than the repair, cleaning or fabrication provisions cited. Shoe repair is specifically a consumer service. Parts sold separately are taxable goods. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "service.goods.cleaning",
+    "from": "1979-08-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Laundering and cleaning services on customer goods are exempt; the cleaner pays tax on its supplies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "A barber, beauty shop operator, launderer or cleaner is a consumer of the supplies which such an enterprise uses in rendering its service. It does not collect a tax from its customer."
+      }
+    ],
+    "notes": "August 30, 1979 promulgation date; later printed amendments concern other sections. Separate retail sales of supplies are taxable. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "service.goods.other",
+    "from": "1979-08-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Fabrication substantially changing customer goods is taxable; a pure service without a transfer or substantial alteration is exempt.",
+    "conditions": [
+      {
+        "when": "Work changes the form or substance or substantially alters the shape of the customer’s property, constituting fabrication",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Pure service without a transfer of goods or fabrication",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "A fabrication is a sale and is subject to the sales tax."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "Any change in the form or substance of tangible personal property, or any substantial alteration in the form or shape of an existing article of tangible personal property where either party to the transaction furnishes the material, is a fabrication under this regulation."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "The real object of the transaction is the service itself, and no transfer of tangible personal property occurs; or"
+      }
+    ],
+    "notes": "August 30, 1979 promulgation date; later printed amendments concern other sections. Applying fabrication definition to the requested customization code; no claim that every minor engraving or monogram necessarily satisfies substantial-alteration criterion. Particular customization classifications remain reviewer questions."
   }
 ]

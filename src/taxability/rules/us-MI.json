@@ -1102,5 +1102,104 @@
       }
     ],
     "notes": "Undated current guidance uses existing us-MI.json general-goods baseline 2004-09-01, not a newly proven effective date. LARA points to Treasury and the General Sales Tax Act. No local sales tax per downloaded Treasury sales/use page."
+  },
+  {
+    "tax": "MI",
+    "code": "rental",
+    "from": "2024-11-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Rental receipts are subject to use tax if the lessor elects rental-receipts taxation; otherwise the lessor pays tax at acquisition and receipts are exempt.",
+    "conditions": [
+      {
+        "when": "Lessor elects to pay use tax on rental receipts",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Lessor pays tax on acquisition without electing rental-receipts taxation",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Michigan Treasury, Revenue Administrative Bulletin 2024-18, Sales and Use Taxes – Lessors (November 13, 2024)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2024-revenue-administrative-bulletins/revenue-administrative-bulletin-2024-18",
+        "quote": "If the lessor does not make the election, the property is taxed at acquisition, but rental receipts are exempt from use tax."
+      },
+      {
+        "title": "Michigan Treasury, Revenue Administrative Bulletin 2024-18, Sales and Use Taxes – Lessors (November 13, 2024)",
+        "url": "https://www.michigan.gov/taxes/rep-legal/rab/2024-revenue-administrative-bulletins/revenue-administrative-bulletin-2024-18",
+        "quote": "A lessor may elect to pay use tax on rental receipts."
+      }
+    ],
+    "notes": "RAB approval date. Same meaning for lease and rental, fixed or indefinite terms. Ordinary general use tax on receipts is modeled here, not a separate rental surcharge. The bulletin assigns remittance liability to the lessor; a separately itemized pass-through is permitted."
+  },
+  {
+    "tax": "MI",
+    "code": "service.goods.repair",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Separately itemized repair and maintenance labor is exempt; bundled repair charges with nonincidental parts are taxable, with a 35% goods share for combined shoe repairs.",
+    "conditions": [
+      {
+        "when": "Repair labor separately itemized, or only incidental or negligible materials used in a service",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Nonincidental repair parts and labor not separately itemized, other than the special combined shoe-repair treatment",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Combined shoe repair charge governed by R 205.118",
+        "treatment": "taxable",
+        "base": 0.35
+      }
+    ],
+    "citations": [
+      {
+        "title": "Michigan General Sales Tax Act, MCL 205.51(1)(d)(iii)(B) (undated current text)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-51",
+        "quote": "Labor or service charges involved in maintenance and repair work on tangible personal property of others if separately itemized."
+      },
+      {
+        "title": "Michigan Treasury, General Sales and Use Tax Rules, R 205.117 Repairers and Servicers; R 205.118 Shoe Repairers (1979 AC)",
+        "url": "https://gsaindexed.apps.lara.state.mi.us/ORR/1000_76_AdminCode.pdf",
+        "quote": "Persons regularly and exclusively engaged in the business of repairing, improving, or altering tangible personal property owned by others, in which work the value of the material used is incidental or negligible, render a nontaxable service."
+      },
+      {
+        "title": "Michigan Treasury, General Sales and Use Tax Rules, R 205.117 Repairers and Servicers; R 205.118 Shoe Repairers (1979 AC)",
+        "url": "https://gsaindexed.apps.lara.state.mi.us/ORR/1000_76_AdminCode.pdf",
+        "quote": "When both labor and service charges are involved in repair work for others, the retailer shall separately itemize the amount charged for the tangible personalproperty sold; otherwise, the tax shall apply to the total gross proceeds."
+      },
+      {
+        "title": "Michigan Treasury, General Sales and Use Tax Rules, R 205.117 Repairers and Servicers; R 205.118 Shoe Repairers (1979 AC)",
+        "url": "https://gsaindexed.apps.lara.state.mi.us/ORR/1000_76_AdminCode.pdf",
+        "quote": "It shall be considered that of the amount received by them for repairing shoes, etc., the taxable sale of tangible personal property is 35% and the sale of the nontaxable services 65% of such amount."
+      }
+    ],
+    "notes": "Current undated statute uses September 1, 2004, an existing MI undated-current-source baseline. Rules compilation identifies 1979 AC history, without a day. The 35% rule concerns the combined shoe-repair bill; the code’s separately stated labor is exempt."
+  },
+  {
+    "tax": "MI",
+    "code": "service.goods.cleaning",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cleaning customer goods is a nontaxable service; cleaners pay tax on supplies they consume.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Michigan Treasury, General Sales and Use Tax Rules, R 205.117 Repairers and Servicers; R 205.118 Shoe Repairers (1979 AC)",
+        "url": "https://gsaindexed.apps.lara.state.mi.us/ORR/1000_76_AdminCode.pdf",
+        "quote": "Persons regularly and exclusively engaged in the business of repairing, improving, or altering tangible personal property owned by others, in which work the value of the material used is incidental or negligible, render a nontaxable service."
+      },
+      {
+        "title": "Michigan Treasury, General Sales and Use Tax Rules, R 205.97 Linen and Laundry Suppliers and Laundries (1979 AC)",
+        "url": "https://gsaindexed.apps.lara.state.mi.us/ORR/1000_76_AdminCode.pdf",
+        "quote": "Persons engaged in the business of laundering clothes and other textiles for others and persons operating a linen service or providing the use of clean jackets and other garments, towels and similar articles to hotels, barber shops and other establishments are deemed to be rendering a service."
+      }
+    ],
+    "notes": "Undated current-source baseline September 1, 2004, from existing MI rules. R 205.117 expressly lists cleaners and dyers among service businesses; R 205.97 covers laundering textiles. Work charge only; retail sales of property and true linen rentals have their own treatment."
   }
 ]

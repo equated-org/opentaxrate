@@ -328,5 +328,44 @@
       }
     ],
     "notes": "Delaware has no state or local sales tax. Its gross receipts tax is imposed on the seller or service provider, not charged to the buyer as a sales tax, so it isn't modelled here. 2018-01-02 is the earliest archived copy of the Division's statement read here; Delaware has had no sales tax far longer. 2026-11-02: cited page moved from https://revenue.delaware.gov/services/Business_Tax/Step4.shtml to https://revenue.delaware.gov/business-tax-forms/doing-business-in-delaware/step-4-gross-receipts-taxes/. 2026-11-02: cited page moved from https://revenue.delaware.gov/doing-business-in-delaware/step-4-gross-receipts-taxes to https://revenue.delaware.gov/business-tax-forms/doing-business-in-delaware/step-4-gross-receipts-taxes/."
+  },
+  {
+    "tax": "DE",
+    "code": "rental",
+    "from": "2026-08-29",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delaware imposes no general state or local sales tax on rental charges; a separate use/lease tax may apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Learn About Gross Receipts Taxes (archived August 29, 2026)",
+        "url": "https://web.archive.org/web/20260829021438/https://revenue.delaware.gov/business-tax-forms/doing-business-in-delaware/step-4-gross-receipts-taxes/",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      },
+      {
+        "title": "Delaware Division of Revenue, Tax Tips for Lessors of Tangible Personal Property Conducting Business in Delaware (2018)",
+        "url": "https://web.archive.org/web/20250619045801/https://revenuefiles.delaware.gov/TaxTips/lessors_2018.pdf",
+        "quote": "Leases of tangible personal property are subject to a use/lease tax at the rate of 1.9914% which is imposed on the lessee and collected and remitted by the lessor."
+      }
+    ],
+    "notes": "Date is the checked archive capture of the same no-sales-tax statement. Seller gross receipts tax is outside this general sales-tax model. Delaware’s separate 1.9914% use/lease tax under Title 30 chapter 43 is not modeled, as directed by the brief; the exemption here means no GENERAL sales tax, not no tax on the lease. The lessors publication lists exceptions including household furniture, fixtures and furnishings."
+  },
+  {
+    "tax": "DE",
+    "code": "service.goods",
+    "from": "2026-08-29",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Delaware imposes no general state or local sales tax on work on customers’ goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Delaware Division of Revenue, Step 4: Learn About Gross Receipts Taxes (archived August 29, 2026)",
+        "url": "https://web.archive.org/web/20260829021438/https://revenue.delaware.gov/business-tax-forms/doing-business-in-delaware/step-4-gross-receipts-taxes/",
+        "quote": "Delaware does not impose a state or local sales tax, but does impose a gross receipts tax on the seller of goods (tangible or otherwise) or provider of services in the state."
+      }
+    ],
+    "notes": "Date is the checked archive capture of the same no-sales-tax statement. Seller gross receipts tax is outside this general sales-tax model."
   }
 ]

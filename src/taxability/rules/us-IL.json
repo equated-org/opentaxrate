@@ -3267,5 +3267,92 @@
       }
     ],
     "notes": "PIO-101 states its information is current January 1, 2026; PIO-115 and the clothing FAQ confirm the general-rate classification. All clothing subcodes share this treatment. Sales-tax holidays are not modeled; PIO-115 links the August 2026 back-to-school holiday. Separate liquor gallonage or municipal alcohol excise taxes are not included."
+  },
+  {
+    "tax": "IL",
+    "code": "rental",
+    "from": "2024-12-01",
+    "to": "2024-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2025, Illinois did not impose its general sales tax on ordinary true-lease rental receipts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "While the tax does not apply to receipts received before January 1, 2025, any amounts received on or after January 1, 2025, are subject to the tax, including amounts received on contracts with current customers that were in place before January 1, 2025."
+      }
+    ],
+    "notes": "December 2024 publication; first of month used, not an effective date. Separate local lease taxes are outside the general sales tax. Earlier period not dated from unsupported historical assumptions."
+  },
+  {
+    "tax": "IL",
+    "code": "rental",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2025, Illinois taxes ordinary goods lease receipts, including applicable local sales taxes; qualifying local lease-tax property is exempt.",
+    "conditions": [
+      {
+        "when": "The property is subject to a home-rule local lease transaction tax adopted before January 1, 2023, including Chicago’s qualifying lease tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "Both leases and rentals are taxable retail sales."
+      },
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "Effective January 1, 2025 , if you lease or rent tangible personal property in the ordinary course of your business, you are considered a retailer subject to Illinois’ Sales and Use Tax laws, and you must register with the Illinois Department of Revenue (IDOR) and pay tax on your lease or rental receipts."
+      },
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "Items of tangible personal property that are subject to a local lease transaction tax that was adopted by ordinance by a home rule unit of local government prior to January 1, 2023, such as the City of Chicago’s Personal Property Lease Transaction Tax, are exempt from the State and local Retailers’ Occupation Tax on lease receipts under P.A. 103-592."
+      },
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "While the tax does not apply to receipts received before January 1, 2025, any amounts received on or after January 1, 2025, are subject to the tax, including amounts received on contracts with current customers that were in place before January 1, 2025."
+      }
+    ],
+    "notes": "Effective date expressly stated. Applies to existing contracts as well as new leases; no short/long term exemption. For periodic payments the bulletin applies the change to the billing period beginning on or after January 1, 2025. Chicago’s Personal Property Lease Transaction Tax is a separate tax and is not modeled. Motor vehicles, watercraft, aircraft and registered semitrailers are outside this ordinary-goods rule."
+  },
+  {
+    "tax": "IL",
+    "code": "service.goods",
+    "from": "2026-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Illinois does not tax the service component of work on customer goods; transferred parts or materials remain subject to service occupation/use tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "The service component of a sale of service remains nontaxable."
+      },
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "The only part of a sale of service that is taxable is the transfer of TPP as part of that sale of service."
+      },
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "If no charge is separately stated in the Serviceperson’s billing, the Selling Price is 50% of the entire amount billed to the customer."
+      },
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "In no circumstance can the selling price be less than the cost price."
+      }
+    ],
+    "notes": "Publication marked N-03/26; first of month used. Covers repair, cleaning and other work insofar as it is a sale of service. Where parts are not separately priced, the selling-price SOT method uses 50% of the whole bill, never below cost; the exempt labor amount cannot then simply be deducted in full. De minimis servicepersons have alternative cost-based methods. No blanket taxable condition for every lump sum is asserted because method and cost determine the base."
   }
 ]

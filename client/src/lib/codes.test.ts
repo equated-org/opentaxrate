@@ -10,6 +10,8 @@ describe('code list', () => {
 		expect(depth('clothing')).toBe(0);
 		expect(depth('clothing.accessories')).toBe(1);
 		expect(depth('alcohol.on_premises')).toBe(1);
+		for (const code of ['rental', 'service.goods', 'service.goods.repair', 'service.goods.cleaning', 'service.goods.other']) expect(isCode(code), code).toBe(true);
+		expect(depth('service.goods.cleaning')).toBe(1);
 		const order = CODE_GROUPS.flatMap((g) => g.codes.map(([c]) => c));
 		for (const sub of ['clothing.accessories', 'clothing.equipment', 'clothing.other', 'alcohol.off_premises', 'alcohol.on_premises'])
 			expect(order.indexOf(sub.slice(0, sub.lastIndexOf('.')))).toBeLessThan(order.indexOf(sub));

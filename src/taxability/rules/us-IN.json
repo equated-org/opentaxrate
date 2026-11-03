@@ -941,5 +941,53 @@
       }
     ],
     "notes": "Handbook revised July 2026; first day of publication month used. Bulletin 29 excludes alcohol from exempt food. Separate alcohol excise tax and county/municipal food and beverage taxes are outside this sales-tax answer; the handbook describes FAB as additional to state sales tax."
+  },
+  {
+    "tax": "IN",
+    "code": "rental",
+    "from": "2023-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Indiana generally taxes rentals of tangible goods, including linens, towels and uniforms.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana DOR, Sales Tax Information Bulletin 26, Dry Cleaning and Laundry Establishments Rental and Nonrental Services (April 2023)",
+        "url": "https://www.in.gov/dor/files/sib26.pdf",
+        "quote": "the rental of tangible personal property is generally taxable."
+      }
+    ],
+    "notes": "Bulletin published April 2023; first of month used. Its stated April 2022 effective date is not treated as the original inception of the general rental tax. No term-length split stated for ordinary goods."
+  },
+  {
+    "tax": "IN",
+    "code": "service.goods.repair",
+    "from": "2024-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Indiana exempts separately stated repair labor; a combined repair charge is taxable when parts exceed 10% of the total.",
+    "conditions": [
+      {
+        "when": "Labor and parts are not separately stated and parts exceed 10% of the overall charge",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair labor separately stated, or parts of 10% or less of the charge",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Indiana DOR, Sales Tax Information Bulletin 60, Contractors and Construction Material (March 2024)",
+        "url": "https://www.in.gov/dor/files/sib60.pdf",
+        "quote": "Furthermore, if the delivery/transportation charge, service call, repair labor, and parts are separately stated, the repair labor would still be nontaxable regardless."
+      },
+      {
+        "title": "Indiana DOR, Sales Tax Information Bulletin 60, Contractors and Construction Material (March 2024)",
+        "url": "https://www.in.gov/dor/files/sib60.pdf",
+        "quote": "If they are not separately stated, then the repair labor would be taxable if the parts are more than 10% of the overall charge."
+      }
+    ],
+    "notes": "March 2024 publication, first of month used. The example concerns a customer-owned washing machine that remains tangible personal property. No distinct motor-vehicle rule asserted."
   }
 ]
