@@ -616,7 +616,8 @@
         "quote": "computer software that does not meet the criteria enumerated in section 39-26-102(15)(c), C.R.S."
       }
     ],
-    "notes": "Applies to both subcodes (development and modification). If custom work is bundled with a taxable prepackaged copy on physical media, the copy is taxable. Home-rule cities not researched."
+    "notes": "Applies to both subcodes (development and modification). If custom work is bundled with a taxable prepackaged copy on physical media, the copy is taxable. Home-rule cities not researched. Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day).",
+    "to": "2026-12-31"
   },
   {
     "tax": "CO",
@@ -656,7 +657,8 @@
         "quote": "Colorado sales tax applies to a sale of computer software if all of the following conditions are met: (1) it is prepackaged for repeated sale or license; (2) its use is governed by a tear-open nonnegotiable license agreement; and (3) it is delivered in a physical medium such as a tape, disk, compact disc, or card."
       }
     ],
-    "notes": "See the software.saas note on the 2012 effective date and home-rule cities. A mandatory maintenance agreement sold with taxable software is also taxable (Computer Software publication)."
+    "notes": "See the software.saas note on the 2012 effective date and home-rule cities. A mandatory maintenance agreement sold with taxable software is also taxable (Computer Software publication). Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day).",
+    "to": "2026-12-31"
   },
   {
     "tax": "CO",
@@ -683,7 +685,8 @@
         "quote": "computer software that does not meet the criteria enumerated in section 39-26-102(15)(c), C.R.S."
       }
     ],
-    "notes": "2012-07-01 is when the current software definition took effect (HB 11-1293); earlier treatment is not modeled. The 2021 digital-goods language (C.R.S. 39-26-102(15)(b.5)) did not change the separate software criteria in (15)(c). The DOR publication applies to state and state-administered local taxes but not home-rule cities; some home-rule cities tax SaaS or electronically delivered software, not researched here."
+    "notes": "2012-07-01 is when the current software definition took effect (HB 11-1293); earlier treatment is not modeled. The 2021 digital-goods language (C.R.S. 39-26-102(15)(b.5)) did not change the separate software criteria in (15)(c). The DOR publication applies to state and state-administered local taxes but not home-rule cities; some home-rule cities tax SaaS or electronically delivered software, not researched here. Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day).",
+    "to": "2026-12-31"
   },
   {
     "tax": "CO:local",
@@ -2329,7 +2332,7 @@
         "quote": "Computer software means digital products, software programs, software as a service, internet subscription service, software license fees, software maintenance agreements, and software contained on cards, tapes, discs, coding sheets or other machine-readable or human-readable form"
       }
     ],
-    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
   },
   {
     "tax": "CO:local:01:ttr209",
@@ -2371,7 +2374,7 @@
         "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
       }
     ],
-    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
   },
   {
     "tax": "CO:local:01:ttr209",
@@ -2398,7 +2401,7 @@
         "quote": "Therefore, custom made software is exempt from sales/use tax."
       }
     ],
-    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
   },
   {
     "tax": "CO:local:01:ttr209",
@@ -2439,7 +2442,7 @@
         "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
       }
     ],
-    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
   },
   {
     "tax": "CO:local:01:ttr17",
@@ -2471,7 +2474,7 @@
         "quote": "The delivery method for acquiring or using software does not affect its taxability."
       }
     ],
-    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr17",
@@ -2503,7 +2506,7 @@
         "quote": "The delivery method for acquiring or using software does not affect its taxability."
       }
     ],
-    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr17",
@@ -2544,7 +2547,7 @@
         "quote": "Company B’s charges are not taxable because there is no transfer of title or possession to use the software."
       }
     ],
-    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr17",
@@ -2585,7 +2588,7 @@
         "quote": "This is commonly referred to as “work for hire.”"
       }
     ],
-    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Denver collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr17 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr292",
@@ -2607,7 +2610,7 @@
         "quote": "The license fee for the software and/or fee for maintaining the software/hardware is subject to Aurora tax if the user is located in the city of Aurora"
       }
     ],
-    "notes": "Aurora collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr292 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The guide taxes software if its user is located in Aurora; the answer assumes the address is where it is used."
+    "notes": "Aurora collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr292 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide taxes software if its user is located in Aurora; the answer assumes the address is where it is used."
   },
   {
     "tax": "CO:local:01:ttr292",
@@ -2624,7 +2627,7 @@
         "quote": "Pre-written software is tangible personal property and sales and purchases of it are subject to city sales and use taxes, regardless of how the software is acquired by the purchaser or downloaded to the purchaser’s computer."
       }
     ],
-    "notes": "Aurora collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr292 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The guide taxes software if its user is located in Aurora; the answer assumes the address is where it is used."
+    "notes": "Aurora collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr292 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide taxes software if its user is located in Aurora; the answer assumes the address is where it is used."
   },
   {
     "tax": "CO:local:01:ttr292",
@@ -2641,7 +2644,7 @@
         "quote": "“Custom” software includes data processing programs designed and/or created to meet the needs of a specific user or set of users is not subject to tax."
       }
     ],
-    "notes": "Aurora collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr292 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The guide taxes software if its user is located in Aurora; the answer assumes the address is where it is used. Customizing prewritten software isn't settled by the guide, so software.custom.modification keeps the CO rule."
+    "notes": "Aurora collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr292 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide taxes software if its user is located in Aurora; the answer assumes the address is where it is used. Customizing prewritten software isn't settled by the guide, so software.custom.modification keeps the CO rule."
   },
   {
     "tax": "CO:local:01:ttr128",
@@ -2658,7 +2661,7 @@
         "quote": "Additionally, purchases of software downloaded, accessed, licensed, or consumed by other means, including Software as a Service (SaaS) through online subscriptions, are taxable."
       }
     ],
-    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr128",
@@ -2680,7 +2683,7 @@
         "quote": "Additionally, purchases of software downloaded, accessed, licensed, or consumed by other means, including Software as a Service (SaaS) through online subscriptions, are taxable."
       }
     ],
-    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr128",
@@ -2697,7 +2700,7 @@
         "quote": "The creation of custom software is generally a non-taxable service."
       }
     ],
-    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr128",
@@ -2724,7 +2727,7 @@
         "quote": "Pre-built software that is modified or altered is not custom software."
       }
     ],
-    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Colorado Springs collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr128 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr93",
@@ -2741,7 +2744,7 @@
         "quote": "Sales tax is due on the sale, rental, lease, or subscription of systems programs, application programs, pre-written programs, or software as a service."
       }
     ],
-    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr93",
@@ -2758,7 +2761,7 @@
         "quote": "Sales tax is due on the sale, rental, lease, or subscription of systems programs, application programs, pre-written programs, or software as a service."
       }
     ],
-    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr93",
@@ -2775,7 +2778,7 @@
         "quote": "Custom programs, created specifically for one user are not subject to sales tax"
       }
     ],
-    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr93",
@@ -2792,7 +2795,7 @@
         "quote": "Programming charges to customize the software for that user would not be subject to tax."
       }
     ],
-    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Fort Collins collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr93 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr171248",
@@ -2814,7 +2817,7 @@
         "quote": "A software program is prepared to the special order or specifications of a single customer (custom); or"
       }
     ],
-    "notes": "Lakewood collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr171248 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). Lakewood's treatment of SaaS and prewritten software wasn't found (no software guide; the code is on a site that refuses scripts), so those codes keep the CO rules."
+    "notes": "Lakewood collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr171248 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. Lakewood's treatment of SaaS and prewritten software wasn't found (no software guide; the code is on a site that refuses scripts), so those codes keep the CO rules."
   },
   {
     "tax": "CO:local:01:ttr171248",
@@ -2836,7 +2839,7 @@
         "quote": "A pre-written software is altered or enhanced by someone other than the purchaser to create a program for a particular user (modified)."
       }
     ],
-    "notes": "Lakewood collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr171248 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). Lakewood's treatment of SaaS and prewritten software wasn't found (no software guide; the code is on a site that refuses scripts), so those codes keep the CO rules."
+    "notes": "Lakewood collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr171248 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. Lakewood's treatment of SaaS and prewritten software wasn't found (no software guide; the code is on a site that refuses scripts), so those codes keep the CO rules."
   },
   {
     "tax": "CO:local:01:ttr241",
@@ -2853,7 +2856,7 @@
         "quote": "Charges for software as a service for pre-written software programs that are rented, leased, or subscribed to from a provider and used at the consumer's location, including but not limited to applications, systems, or programs are taxable."
       }
     ],
-    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The page is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The page is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr241",
@@ -2870,7 +2873,7 @@
         "quote": "A software program that is in existence before that software is sold or licensed to the user is taxable on its retail sale."
       }
     ],
-    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The page is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The page is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr241",
@@ -2887,7 +2890,7 @@
         "quote": "Custom software program - This category of software is a non-taxable service."
       }
     ],
-    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The page is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The page is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr241",
@@ -2909,7 +2912,7 @@
         "quote": "If there are significant modifications to prewritten software to customize it to a specific user, charges for the labor which are included in the modification are not taxable if they are separately stated on the invoice."
       }
     ],
-    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The page is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Arvada collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr241 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The page is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr295",
@@ -2926,7 +2929,7 @@
         "quote": "Software used remotely via dial-in access, high speed network access, Internet access, or other similar means is subject to tax even though the local machine may have little or no software installed."
       }
     ],
-    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr295",
@@ -2943,7 +2946,7 @@
         "quote": "Tax also applies regardless of the medium of transmission."
       }
     ],
-    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr295",
@@ -2960,7 +2963,7 @@
         "quote": "Customized computer programs, as defined, are exempt from Westminster City sales/use tax."
       }
     ],
-    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr295",
@@ -2982,7 +2985,7 @@
         "quote": "In addition, labor sold to modify pre-written software programs, if such labor is stated separately on the invoice from the prewritten software program is exempt from Westminster sales/use tax."
       }
     ],
-    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled)."
+    "notes": "Westminster collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr295 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected."
   },
   {
     "tax": "CO:local:01:ttr310",
@@ -2999,7 +3002,7 @@
         "quote": "Charges for software that are downloaded from or licensed over the internet are taxable."
       }
     ],
-    "notes": "Pueblo collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr310 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The guide is dated 03/03 and is still the one the city posts; it predates software as a service, which it doesn't settle, so software.saas keeps the CO rule."
+    "notes": "Pueblo collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr310 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide is dated 03/03 and is still the one the city posts; it predates software as a service, which it doesn't settle, so software.saas keeps the CO rule."
   },
   {
     "tax": "CO:local:01:ttr310",
@@ -3016,7 +3019,7 @@
         "quote": "Custom Software – This category of software is a non taxable service."
       }
     ],
-    "notes": "Pueblo collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr310 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The guide is dated 03/03 and is still the one the city posts; it predates software as a service, which it doesn't settle, so software.saas keeps the CO rule."
+    "notes": "Pueblo collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr310 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide is dated 03/03 and is still the one the city posts; it predates software as a service, which it doesn't settle, so software.saas keeps the CO rule."
   },
   {
     "tax": "CO:local:01:ttr310",
@@ -3038,7 +3041,7 @@
         "quote": "the entire charge is taxable unless the selling price of the pre-written components and the labor necessary to adapt the component are separately stated."
       }
     ],
-    "notes": "Pueblo collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr310 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The guide is dated 03/03 and is still the one the city posts; it predates software as a service, which it doesn't settle, so software.saas keeps the CO rule."
+    "notes": "Pueblo collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr310 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The guide is dated 03/03 and is still the one the city posts; it predates software as a service, which it doesn't settle, so software.saas keeps the CO rule."
   },
   {
     "tax": "CO:local:01:ttr22",
@@ -3060,7 +3063,7 @@
         "quote": "Broomfield is a home rule municipality and has consistently taxed software and computer software."
       }
     ],
-    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The FAQ is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The FAQ is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr22",
@@ -3077,7 +3080,7 @@
         "quote": "Broomfield is a home rule municipality and has consistently taxed software and computer software."
       }
     ],
-    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The FAQ is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The FAQ is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr22",
@@ -3094,7 +3097,7 @@
         "quote": "Custom software is considered a non-taxable service."
       }
     ],
-    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The FAQ is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The FAQ is undated; it is read from the copy filed on 2026-11-03."
   },
   {
     "tax": "CO:local:01:ttr22",
@@ -3120,6 +3123,202 @@
         "quote": "modified software so long as the price of the modifications exceeds 50% of the price of the unmodified software is not taxable."
       }
     ],
-    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software (until HB 26-1223 takes effect on 2027-01-01, not yet modeled). The FAQ is undated; it is read from the copy filed on 2026-11-03."
+    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The FAQ is undated; it is read from the copy filed on 2026-11-03."
+  },
+  {
+    "tax": "CO",
+    "code": "software.saas",
+    "from": "2027-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2027, software accessed remotely over the internet (SaaS) is taxable computer software under Colorado's state and state-administered local sales taxes, unless governed by a negotiated license agreement.",
+    "conditions": [
+      {
+        "when": "Governed by a negotiated license agreement: individually bargained between licensor and licensee and signed by both (not a standard, form or click-through agreement)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Effective January 1, 2027, computer software is generally subject to Colorado and state administered sales and use taxes."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "The taxability of computer software is determined the same regardless of the means of delivery, whether it is delivered by compact disc, download, remote access through the internet, or by any other means."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Computer software is exempt from sales and use taxes only if it is either governed by a negotiable license agreement or developed for use by a particular user."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 2, C.R.S. 39-26-102(15)(c)(II)(B)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "ARE DELIVERED BY ANY MEANS, INCLUDING COMPACT DISC, DOWNLOAD, OR REMOTE ACCESS THROUGH THE INTERNET."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 6, C.R.S. 39-26-713(3)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "IS EXEMPT FROM TAXATION UNDER THE PROVISIONS OF PARTS 1 AND 2 OF THIS ARTICLE 26 IF THAT SALE, STORAGE, USE, OR CONSUMPTION OF COMPUTER SOFTWARE IS EITHER GOVERNED BY A NEGOTIABLE LICENSE AGREEMENT OR DEVELOPED FOR USE BY A PARTICULAR USER."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "a negotiated license agreement is a written agreement or contract that is individually bargained between the licensor and licensee and that is signed in writing by authorized representatives of both the licensor and licensee prior to or contemporaneous with the licensee’s access to or use of the software."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 6, C.R.S. 39-26-713(3)(b)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "SPECIFICALLY EXCLUDES A STANDARD, FORM, OR BOILERPLATE AGREEMENT THAT IS OFFERED BY THE LICENSOR ON A NONNEGOTIABLE OR SUBSTANTIALLY NONNEGOTIABLE BASIS"
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 9",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "Sections 2 and 3 of this act apply to the sale, storage, use, and consumption of tangible personal property on or after January 1, 2027."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
+      }
+    ],
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+  },
+  {
+    "tax": "CO",
+    "code": "software.prewritten",
+    "from": "2027-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2027, prewritten software is taxable in Colorado however it is delivered (disc, download or remote access), unless governed by a negotiated license agreement.",
+    "conditions": [
+      {
+        "when": "Governed by a negotiated license agreement: individually bargained between licensor and licensee and signed by both (not a standard, form or click-through agreement)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Effective January 1, 2027, computer software is generally subject to Colorado and state administered sales and use taxes."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "The taxability of computer software is determined the same regardless of the means of delivery, whether it is delivered by compact disc, download, remote access through the internet, or by any other means."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Computer software is exempt from sales and use taxes only if it is either governed by a negotiable license agreement or developed for use by a particular user."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 2, C.R.S. 39-26-102(15)(c)(II)(B)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "ARE DELIVERED BY ANY MEANS, INCLUDING COMPACT DISC, DOWNLOAD, OR REMOTE ACCESS THROUGH THE INTERNET."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 6, C.R.S. 39-26-713(3)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "IS EXEMPT FROM TAXATION UNDER THE PROVISIONS OF PARTS 1 AND 2 OF THIS ARTICLE 26 IF THAT SALE, STORAGE, USE, OR CONSUMPTION OF COMPUTER SOFTWARE IS EITHER GOVERNED BY A NEGOTIABLE LICENSE AGREEMENT OR DEVELOPED FOR USE BY A PARTICULAR USER."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "a negotiated license agreement is a written agreement or contract that is individually bargained between the licensor and licensee and that is signed in writing by authorized representatives of both the licensor and licensee prior to or contemporaneous with the licensee’s access to or use of the software."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 6, C.R.S. 39-26-713(3)(b)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "SPECIFICALLY EXCLUDES A STANDARD, FORM, OR BOILERPLATE AGREEMENT THAT IS OFFERED BY THE LICENSOR ON A NONNEGOTIABLE OR SUBSTANTIALLY NONNEGOTIABLE BASIS"
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 9",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "Sections 2 and 3 of this act apply to the sale, storage, use, and consumption of tangible personal property on or after January 1, 2027."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
+      }
+    ],
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+  },
+  {
+    "tax": "CO",
+    "code": "software.custom.development",
+    "from": "2027-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "From January 1, 2027, software developed for use by a particular user stays exempt from Colorado's state and state-administered local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Computer software is exempt from sales and use taxes only if it is either governed by a negotiable license agreement or developed for use by a particular user."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 6, C.R.S. 39-26-713(3)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "IS EXEMPT FROM TAXATION UNDER THE PROVISIONS OF PARTS 1 AND 2 OF THIS ARTICLE 26 IF THAT SALE, STORAGE, USE, OR CONSUMPTION OF COMPUTER SOFTWARE IS EITHER GOVERNED BY A NEGOTIABLE LICENSE AGREEMENT OR DEVELOPED FOR USE BY A PARTICULAR USER."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
+      }
+    ],
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+  },
+  {
+    "tax": "CO",
+    "code": "software.custom.modification",
+    "from": "2027-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "From January 1, 2027, Colorado exempts software developed for use by a particular user; whether a separately charged modification of prewritten software is that, or part of taxable prewritten software, the act and the publication don't say.",
+    "conditions": [
+      {
+        "when": "The modification is software developed for use by this particular user",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The modification is part of prewritten software sold under a standard license (not developed for this user)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Governed by a negotiated license agreement: individually bargained between licensor and licensee and signed by both (not a standard, form or click-through agreement)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Computer software is exempt from sales and use taxes only if it is either governed by a negotiable license agreement or developed for use by a particular user."
+      },
+      {
+        "title": "HB 26-1223, final act (signed 2026-06-04), section 6, C.R.S. 39-26-713(3)",
+        "url": "https://leg.colorado.gov/bill_files/116933/download",
+        "quote": "IS EXEMPT FROM TAXATION UNDER THE PROVISIONS OF PARTS 1 AND 2 OF THIS ARTICLE 26 IF THAT SALE, STORAGE, USE, OR CONSUMPTION OF COMPUTER SOFTWARE IS EITHER GOVERNED BY A NEGOTIABLE LICENSE AGREEMENT OR DEVELOPED FOR USE BY A PARTICULAR USER."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "Effective January 1, 2027, computer software is generally subject to Colorado and state administered sales and use taxes."
+      },
+      {
+        "title": "Sales & Use Tax Topics: Computer Software (revised October 2026; Internet Archive copy of 2026-11-03)",
+        "url": "https://web.archive.org/web/20261103074832/https://tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf",
+        "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
+      }
+    ],
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
   }
 ]

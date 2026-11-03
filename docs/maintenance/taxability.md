@@ -65,10 +65,12 @@ population):
   part). Not settled: Thornton, Centennial and Greeley (Greeley's page
   names downloaded software as taxable, but only in script-loaded text the
   extractor doesn't read), Lakewood's SaaS and prewritten software,
-  Pueblo's SaaS, Aurora's modifications. The state's own change (HB
-  26-1223: software, SaaS included, taxable from 2027-01-01) isn't modeled
-  yet: read `tax.colorado.gov/sites/default/files/2026-10/SUTT_Computer_Software_Oct_2026.pdf`
-  and the act, then end the CO software rules on 2026-12-31.
+  Pueblo's SaaS, Aurora's modifications. The state's change (HB 26-1223: software
+  taxable however delivered from 2027-01-01, unless custom or under a
+  negotiated license) is modeled for the state and state-administered
+  local taxes (the CO rules); a self-collected home-rule city with no rule
+  of its own still answers by them, as the rate data doesn't mark which
+  parts are self-collected.
 - **Arizona**: city TPT rates differ by business class. ADOR's rate table
   (`TPT_RATETABLE_ALL_<date>.csv`) has restaurant and bar rates (classes
   011 and 111) and food-for-home-consumption rates (062) per city, but the
