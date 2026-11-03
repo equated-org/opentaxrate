@@ -147,27 +147,48 @@ export const illinois: GeoState = {
  *  are "for periods January 1, 2026 and after" (its file guide). */
 const GROCERY_FROM = "2026-01-01";
 
+/** The two cases IDOR's grocery file guide gives a location whose rate
+ *  doesn't apply throughout it (the override flag): "The high rate would
+ *  only apply if the taxpayer were liable for Metro East District rates." */
+const MED_CASES = {
+  high: "The retailer is liable for the Metro East Mass Transit District's tax (IDOR's high rate for the location)",
+  low: "The retailer isn't liable for the Metro East Mass Transit District's tax (IDOR's low rate for the location)",
+};
+/** The counties of the Metro East district, where the guide sets the flag. */
+const MED_COUNTIES = /^(MADISON|ST\. CLAIR)$/;
+
 /** Each location's local rate on groceries, from IDOR's grocery rate files
  *  (grocerymache, the current edition and two earlier), as class rates on
  *  its location part. Only periods from GROCERY_FROM count: the files'
  *  earlier periods read 0 even in Cook County, where the RTA taxed food
  *  before the repeal. Where a rate doesn't apply to the whole location
  *  (the override flag, set in the Metro East district), the file gives a
- *  high rate, for a retailer liable for the district's tax, and a low one;
- *  the high rate is kept, as the general rate keeps the higher of a
- *  location's two. A business district's address has no grocery rate
- *  here (the files list locations only). */
+ *  high rate, for a retailer liable for the district's tax, and a low one:
+ *  both are kept, each as its case (applies_when), so the answer there is
+ *  conditional on the retailer's liability; neither is chosen. A flag
+ *  outside the district's counties, which the guide doesn't explain,
+ *  leaves the location with no grocery rate. A business district's address
+ *  has no grocery rate here (the files list locations only). */
 export const illinoisClasses: ClassRateSource = {
   state: "IL",
   async fetch(dir) {
-    const periods = new Map<string, Map<string, { rate: number; from: string; to?: string }>>();
-    const add = (code: string, from: string | null, rate: number | null, to?: string | null) => {
-      if (!from || rate === null || (to && to < GROCERY_FROM)) return;
+    type Period = { from: string; to?: string; rates: Array<{ rate: number; when?: string }> };
+    const periods = new Map<string, Map<string, Period>>();
+    const add = (code: string, county: string, from: string | null, high: number | null, low: number | null, flag: string, to?: string | null) => {
+      if (!from || high === null || (to && to < GROCERY_FROM)) return;
       const start = from < GROCERY_FROM ? GROCERY_FROM : from;
-      const list = periods.get(code) ?? new Map();
+      const list = periods.get(code) ?? new Map<string, Period>();
       periods.set(code, list);
       // Editions are read newest first, so the first one seen is kept.
-      if (!list.has(start)) list.set(start, { rate, from: start, ...(to ? { to } : {}) });
+      if (list.has(start)) return;
+      let rates: Period["rates"];
+      if (flag !== "Y" || low === high) rates = [{ rate: high }];
+      else if (low !== null && MED_COUNTIES.test(county)) rates = [{ rate: high, when: MED_CASES.high }, { rate: low, when: MED_CASES.low }];
+      else {
+        console.warn(`IL: grocery location ${code} (${county}) is flagged outside the Metro East district; no grocery rate there from ${start}`);
+        rates = [];
+      }
+      list.set(start, { from: start, ...(to ? { to } : {}), rates });
     };
     const read: string[] = [];
     for (const edition of ["current", "prior-070126", "prior-010126"]) {
@@ -179,23 +200,29 @@ export const illinoisClasses: ClassRateSource = {
         throw error;
       }
       read.push(edition);
+      // Fields by IDOR's file guide: the current rate's day, high rate, low
+      // rate and override flag, then the prior rate's days, rates and flag.
       for (const line of text.split(/\r?\n/)) {
         const code = locationCode(line.slice(0, 10));
         if (!code || line.length < 106) continue;
-        add(code, isoDay(line.slice(60, 68)), percent(line.slice(68, 73)));
-        add(code, isoDay(line.slice(79, 87)), percent(line.slice(95, 100)), isoDay(line.slice(87, 95)));
+        const county = line.slice(35, 60).trim();
+        add(code, county, isoDay(line.slice(60, 68)), percent(line.slice(68, 73)), percent(line.slice(73, 78)), line[78]);
+        add(code, county, isoDay(line.slice(79, 87)), percent(line.slice(95, 100)), percent(line.slice(100, 105)), line[105], isoDay(line.slice(87, 95)));
       }
     }
     const rows: ClassRateRow[] = [];
+    const source = `IL IDOR grocerymache (${read.join(", ")})`;
     for (const [code, list] of periods) {
       const sorted = [...list.values()].sort((a, b) => a.from.localeCompare(b.from));
       sorted.forEach((p, i) => {
         const next = sorted[i + 1]?.from;
         const end = p.to ?? "9999-12-31";
-        rows.push({ type: "x", code, class: "grocery", rate: p.rate, startsOn: p.from, endsOn: next && next <= end ? shiftDay(next, -1) : end, source: `IL IDOR grocerymache (${read.join(", ")}), Receipts Grocery High-Rate` });
+        const endsOn = next && next <= end ? shiftDay(next, -1) : end;
+        for (const r of p.rates)
+          rows.push({ type: "x", code, class: "grocery", rate: r.rate, startsOn: p.from, endsOn, ...(r.when ? { appliesWhen: r.when } : {}), source: `${source}, Receipts Grocery ${r.when === MED_CASES.low ? "Low" : "High"}-Rate` });
       });
     }
-    return { rows, file: `IL IDOR grocerymache (${read.join(", ")})` };
+    return { rows, file: source };
   },
 };
 

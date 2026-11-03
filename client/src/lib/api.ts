@@ -28,6 +28,10 @@ export interface RatePart {
 	 *  city restaurant rate), on the answer's date; absent where none is
 	 *  published, never the general rate in its place. */
 	classRates?: { restaurant?: number; grocery?: number };
+	/** Where a class's rate here turns on a fact the address doesn't settle
+	 *  (an Illinois Metro East grocery rate, for a retailer liable for the
+	 *  district's tax or not), each case and its rate, in place of classRates. */
+	classCases?: { restaurant?: Array<{ when: string; rate: number }>; grocery?: Array<{ when: string; rate: number }> };
 	/** The state's own ids for this jurisdiction, keyed by its data's column
 	 *  names ({"Locality Code": "9454"}); {} where it publishes none. Absent
 	 *  from an API older than ids. */

@@ -174,6 +174,17 @@ describe("describing an answer's parts", () => {
     expect((await describeParts("XJ", parts))[0].classRates).toBeUndefined();
   });
 
+  it("gives a part whose class rate turns on a case its cases, in place of one rate", async () => {
+    const row = { state: "XJ", type: "x", code: "0605000", class: "grocery", startsOn: "2026-01-01", endsOn: "9999-12-31", source: "fixture" };
+    await db.insert(salesTaxClassRates).values([
+      { ...row, rate: "0.002500", appliesWhen: "Liable for the district's tax" },
+      { ...row, rate: "0.000000", appliesWhen: "Not liable for it" },
+    ]);
+    const [part] = await describeParts("XJ", [{ kind: "district", code: "x:0605000", rate: 0.0225 }], "2026-11-03");
+    expect(part.classRates).toBeUndefined();
+    expect(part.classCases).toEqual({ grocery: [{ when: "Liable for the district's tax", rate: 0.0025 }, { when: "Not liable for it", rate: 0 }] });
+  });
+
   it("names a part with no row from its outline, with no ids", async () => {
     const [city, other] = await describeParts("XJ", [
       { kind: "city", code: "01:63000", rate: 0.0405 },

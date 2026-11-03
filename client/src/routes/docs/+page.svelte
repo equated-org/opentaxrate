@@ -214,7 +214,7 @@ else sendElsewhere();                                   // not_researched: never
 				<code>taxability[code].rate</code>.
 			</td>
 		</tr>
-		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, <code>classRates</code> (the part's own rate on restaurant meals or groceries where its state's table rates them apart, as Arizona's cities do; absent otherwise, never the general rate in its place) and <code>ids</code>.</td></tr>
+		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, <code>classRates</code> (the part's own rate on restaurant meals or groceries where its state's table rates them apart, as Arizona's cities do; absent otherwise, never the general rate in its place), <code>classCases</code> (where that rate turns on a fact the address doesn't settle, each case and its rate: an Illinois Metro East location's grocery rate, for a retailer liable for the district's tax or not; a sale taxed at it is then conditional on the cases) and <code>ids</code>.</td></tr>
 		<tr>
 			<td><code>match</code></td>
 			<td>

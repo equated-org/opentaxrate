@@ -17,7 +17,7 @@ import { and, eq, gte, inArray, lte, or } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxClassRates, salesTaxJurisdictions, salesTaxShapes } from "../db/schema.js";
 import { STATES } from "../geocoding/providers/match.js";
-import type { ClassRates, RateClass, RatePart } from "./types.js";
+import type { ClassCases, ClassRates, RateClass, RatePart } from "./types.js";
 
 /** The outline kinds a part's code may name, most specific first. */
 const SHAPE_KINDS: Record<Exclude<RatePart["kind"], "state">, Array<"county" | "place" | "cousub" | "district">> = {
@@ -34,10 +34,10 @@ const keyOf = (p: RatePart) => {
 };
 
 /** Each part's class rates in force on `date`, by its code. */
-async function classRatesOn(state: string, keys: Array<{ type: string; code: string }>, date: string): Promise<Map<string, ClassRates>> {
+async function classRatesOn(state: string, keys: Array<{ type: string; code: string }>, date: string): Promise<Map<string, { rates?: ClassRates; cases?: ClassCases }>> {
   const rows = keys.length
     ? await db
-        .select({ type: salesTaxClassRates.type, code: salesTaxClassRates.code, class: salesTaxClassRates.class, rate: salesTaxClassRates.rate })
+        .select({ type: salesTaxClassRates.type, code: salesTaxClassRates.code, class: salesTaxClassRates.class, rate: salesTaxClassRates.rate, when: salesTaxClassRates.appliesWhen })
         .from(salesTaxClassRates)
         .where(
           and(
@@ -48,14 +48,23 @@ async function classRatesOn(state: string, keys: Array<{ type: string; code: str
           ),
         )
     : [];
-  const found = new Map<string, ClassRates>();
-  for (const r of rows) found.set(`${r.type}:${r.code}`, { ...found.get(`${r.type}:${r.code}`), [r.class as RateClass]: Number(r.rate) });
+  const found = new Map<string, { rates?: ClassRates; cases?: ClassCases }>();
+  for (const r of rows) {
+    const key = `${r.type}:${r.code}`;
+    const part = found.get(key) ?? {};
+    found.set(key, part);
+    const rateClass = r.class as RateClass;
+    // A case row: the class's rate turns on it, beside its other cases.
+    if (r.when) (part.cases ??= {})[rateClass] = [...(part.cases[rateClass] ?? []), { when: r.when, rate: Number(r.rate) }];
+    else (part.rates ??= {})[rateClass] = Number(r.rate);
+  }
+  for (const part of found.values()) for (const list of Object.values(part.cases ?? {})) list.sort((a, b) => a.when.localeCompare(b.when));
   return found;
 }
 
 export async function describeParts(state: string, parts: RatePart[], date?: string): Promise<RatePart[]> {
   const keys = parts.flatMap((p) => keyOf(p) ?? []);
-  const classes = date ? await classRatesOn(state, keys, date) : new Map<string, ClassRates>();
+  const classes = date ? await classRatesOn(state, keys, date) : new Map<string, { rates?: ClassRates; cases?: ClassCases }>();
   const rows = keys.length
     ? await db
         .select({ type: salesTaxJurisdictions.type, code: salesTaxJurisdictions.code, name: salesTaxJurisdictions.name, ids: salesTaxJurisdictions.ids })
@@ -88,8 +97,8 @@ export async function describeParts(state: string, parts: RatePart[], date?: str
   };
   // The name second, after the kind, where a reader looks for it.
   return parts.map((p) => {
-    const { kind, name: _, ids: __, classRates: ___, ...rest } = p;
-    const classRates = classes.get(p.code);
-    return { kind, name: nameOf(p), ...rest, ...(classRates ? { classRates } : {}), ids: described.get(p.code)?.ids ?? {} };
+    const { kind, name: _, ids: __, classRates: ___, classCases: ____, ...rest } = p;
+    const { rates: classRates, cases: classCases } = classes.get(p.code) ?? {};
+    return { kind, name: nameOf(p), ...rest, ...(classRates ? { classRates } : {}), ...(classCases ? { classCases } : {}), ids: described.get(p.code)?.ids ?? {} };
   });
 }

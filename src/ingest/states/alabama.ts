@@ -173,8 +173,10 @@ export const alabama = stateTable("AL", async (dir) => ({
  *  (2023-09-01), its general rate as of June 15, 2023 unless lowered since
  *  (Act 2023-554). Read from the same file as the general rates, through
  *  the same county rules, so each lands on the part its general rate does.
- *  A refusal (a county no rule places, a city's unplaced police
- *  jurisdiction or district) has no class rate. A town the file gives no
+ *  A refusal has no class rate: a county no rule places, a city's
+ *  unplaced district, and a police jurisdiction (pj), which refuses any
+ *  address within its reach (and whose rows, like the general ones, may
+ *  be two for one city and day). A town the file gives no
  *  GROC row levies no sales tax at all (its general rate is 0), so it
  *  taxes food at 0 over the days its general rate is 0, and has no food
  *  rate on any other day. */
@@ -183,7 +185,7 @@ export const alabamaClasses: ClassRateSource = {
   async fetch(dir, loaded) {
     const { rates } = await keyedLocals("AL", localsOf(await fetchText(FILE, dir, "taxrates.csv"), "GROC"), dir, true);
     const rows: ClassRateRow[] = rates
-      .filter((r) => r.type !== "no" && r.type !== "maybe")
+      .filter((r) => r.type !== "no" && r.type !== "maybe" && r.type !== "pj")
       .map((r) => ({ ...r, class: "grocery" as const, source: "AL DOR taxrates.csv, Rate Type GROC" }));
     const groc = new Set(rows.map((r) => `${r.type}:${r.code}`));
     for (const r of loaded.rates)

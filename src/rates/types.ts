@@ -21,6 +21,11 @@ export interface RatePart {
    *  never filled in from the general rate. Read by taxability rules that
    *  name a class (rateClass), never by the general rate. */
   classRates?: ClassRates;
+  /** Where a class's rate turns on a fact the address doesn't settle (an
+   *  Illinois Metro East location's grocery rate, for a retailer liable or
+   *  not for the district's tax), each case and its rate, as the publisher
+   *  states them, in place of a classRates entry. */
+  classCases?: ClassCases;
   /** The state's own ids for this jurisdiction, keyed by its data's column
    *  names and unchanged ({"Locality Code": "9454", "Administered": "SELF"});
    *  {} where its data publishes none. Set on every answered part. */
@@ -39,6 +44,7 @@ export interface RatePart {
 export const RATE_CLASSES = ["restaurant", "grocery"] as const;
 export type RateClass = (typeof RATE_CLASSES)[number];
 export type ClassRates = Partial<Record<RateClass, number>>;
+export type ClassCases = Partial<Record<RateClass, Array<{ when: string; rate: number }>>>;
 
 /** One combination of jurisdictions an address could be in, and its parts. */
 export interface Breakdown {

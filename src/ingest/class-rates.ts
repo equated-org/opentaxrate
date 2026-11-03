@@ -38,6 +38,9 @@ export interface ClassRateRow {
   rate: number;
   startsOn: string;
   endsOn: string;
+  /** Where the rate applies only in one case, beside another case's row,
+   *  that case as the publisher states it (sales_tax_class_rates.applies_when). */
+  appliesWhen?: string;
   /** The file and the publisher's key for the class it was read from. */
   source: string;
 }
@@ -90,7 +93,7 @@ export async function loadClassRates(state: string, rows: ClassRateRow[], loaded
     await tx.delete(salesTaxClassRates).where(eq(salesTaxClassRates.state, state));
     for (let i = 0; i < kept.length; i += 500)
       await tx.insert(salesTaxClassRates).values(
-        kept.slice(i, i + 500).map((r) => ({ state, type: r.type, code: r.code, class: r.class, rate: String(Math.round(r.rate * 1e6) / 1e6), startsOn: r.startsOn, endsOn: r.endsOn, source: r.source })),
+        kept.slice(i, i + 500).map((r) => ({ state, type: r.type, code: r.code, class: r.class, rate: String(Math.round(r.rate * 1e6) / 1e6), startsOn: r.startsOn, endsOn: r.endsOn, appliesWhen: r.appliesWhen ?? "", source: r.source })),
       );
   });
   return kept.length;

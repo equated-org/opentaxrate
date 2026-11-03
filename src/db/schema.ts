@@ -10,6 +10,7 @@ import {
   timestamp,
   index,
   unique,
+  uniqueIndex,
   jsonb,
   primaryKey,
   bigint,
@@ -272,12 +273,19 @@ export const salesTaxClassRates = pgTable(
     rate: numeric("rate", { precision: 8, scale: 6 }).notNull(),
     startsOn: date("starts_on").notNull(),
     endsOn: date("ends_on").notNull(),
+    /** '' where the rate applies throughout the part; else the case it
+     *  applies in, as the publisher states it, beside the other case's row
+     *  (an Illinois Metro East location: a rate for a retailer liable for
+     *  the district's tax and one for a retailer who isn't). A part with
+     *  case rows has no one class rate; its answer is conditional on them. */
+    appliesWhen: text("applies_when").notNull().default(""),
     /** What it was read from: the file and the publisher's own key for the
      *  class ("TPT_RATETABLE_ALL_11012026.csv business codes 011+111"). */
     source: text("source").notNull(),
   },
   (t) => [
     index("idx_sales_tax_class_rates_code").on(t.state, t.type, t.code),
+    uniqueIndex("uq_sales_tax_class_rates").on(t.state, t.type, t.code, t.class, t.startsOn, t.appliesWhen),
     check("ck_sales_tax_class_rates_dates", sql`${t.endsOn} >= ${t.startsOn}`),
     check("ck_sales_tax_class_rates_class", sql`${t.class} in ('restaurant', 'grocery')`),
   ],

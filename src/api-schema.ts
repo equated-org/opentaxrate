@@ -66,6 +66,17 @@ export const RatePartSchema = z
           "This part's rate on a class of sale its state rates apart from the general sale, on the answer's date, from the same published table as the general rate. Absent for a class the state's data gives no rate for: never read the general rate in its place. Taxability rules use them (rateClass); `rate` stays the general rate.",
         example: { restaurant: 0.039, grocery: 0.025 },
       }),
+    classCases: z
+      .object({
+        restaurant: z.array(z.object({ when: z.string(), rate: z.number() })).optional(),
+        grocery: z.array(z.object({ when: z.string(), rate: z.number() })).optional(),
+      })
+      .optional()
+      .openapi({
+        description:
+          "Where a class's rate on this part turns on a fact the address doesn't settle, each case as the state states it, with its rate, in place of a classRates entry: an Illinois Metro East location's grocery rate, for a retailer liable for the district's tax or not. A rule taxing the class then answers conditional on these cases.",
+        example: { grocery: [{ when: "The retailer is liable for the Metro East Mass Transit District's tax (IDOR's high rate for the location)", rate: 0.0125 }, { when: "The retailer isn't liable for the Metro East Mass Transit District's tax (IDOR's low rate for the location)", rate: 0.01 }] },
+      }),
     ids: ids("The state's own ids for this tax, keyed by its data's column names and unchanged; {} where it publishes none.").optional(),
   })
   .openapi("RatePart", { description: "One tax adding up to the rate." });

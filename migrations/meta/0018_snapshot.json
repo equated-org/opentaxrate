@@ -1,5 +1,5 @@
 {
-  "id": "597fe5a9-baf6-40fc-805b-a65b707817de",
+  "id": "689a35ac-ce2e-4827-97ea-ab5d65d68e92",
   "prevId": "5f138ed8-eafa-4396-92c5-dfd9fb73e949",
   "version": "7",
   "dialect": "postgresql",
@@ -493,6 +493,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "applies_when": {
+          "name": "applies_when",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
         "source": {
           "name": "source",
           "type": "text",
@@ -524,6 +531,51 @@
             }
           ],
           "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "uq_sales_tax_class_rates": {
+          "name": "uq_sales_tax_class_rates",
+          "columns": [
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "class",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "starts_on",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "applies_when",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
