@@ -200,6 +200,12 @@ export interface Params {
    *  0.36; the three-way one gave them 0.80 and 0.50. Their mean: 0.64 and
    *  0.43. At 0.4 r17 goes wrong; 0.6 loses one of the batch. */
   describeDefiningAccept: number;
+  /** Round 2 also tried: dropping food.prepared's fact (6 rule-targeted
+   *  h3 items come back, but r17 goes wrong: the check is its only
+   *  guard); a SaaS fact (used remotely, nothing downloaded) for h1-39,
+   *  which lost h1-02, b2-46 (a VPN plan) and b3-45 (app cloud storage),
+   *  all graded right; facts for custom development and modification
+   *  (h1-07 settles; 1 dev and 1 round-1 answer lost). None kept. */
   describeDefiningCheck: boolean;
   /** The defining question: "binary" (YES or UNKNOWN), "three" (YES,
    *  NOT_STATED or CONTRADICTED) or "both", their mean. "three" alone made
@@ -225,6 +231,12 @@ export interface Params {
    *  weight to NONE, so the cases the rules treat alike with it still stand
    *  if they reach describeConditionAccept without it (round 1's zoning
    *  board retainer: legal, lobbying and a residual case, all not taxed). */
+  /** Round 2 tried "all" with a three-way question per case (stated in
+   *  any words, qualifiers included / silent / contradicted) at 0.5, to
+   *  stop a case settling on a qualifier the text never names. It didn't
+   *  (r17's "mixed by the seller" came out stated at 0.87, h2-45's
+   *  "nonmechanical" repair too), and it cost dev 14 code and 22 text
+   *  answers and round 1 six. */
   describeConfirm: "all" | "negative" | "none";
   /** A confirmation's yes: as likely as not. 0.4 scored the same; 0.6 lost
    *  2 dev and 1 of the batch; 0.8 (the first calibration) lost the
@@ -248,6 +260,13 @@ export interface Params {
    *  NONE + UNCLEAR at most 0.05, where it changes nothing on dev, for
    *  the receipt line the blind sample showed (r49: coffee beans, grocery
    *  the only candidate under 0.9). */
+  /** Round 2 (2026-11-03) tried relaxing it to accept a code that leads:
+   *  NONE at most 0.1, UNCLEAR at most 0.3, share 0.85 or 0.9, floor 0.6.
+   *  Both made ny-24 and d2-nt-04 wrong again, and r42 (a made-to-order
+   *  smoothie) wrong on the blind 50; the round-2 items it was meant for
+   *  (whole-bean coffee at share 0.88, NONE 0.09; catering at UNCLEAR
+   *  0.17; lobbying at UNCLEAR 0.28) can't be told from those by these
+   *  caps, so it stays as it was. */
   describeSoleCandidate: boolean;
   describeSoleShare: number;
   describeSoleFloor: number;
