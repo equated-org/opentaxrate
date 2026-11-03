@@ -16,6 +16,12 @@
  *                  `parts` (Denver's city tax): where one jurisdiction
  *                  sets its own base or rate; the other local parts keep
  *                  "CO:local" or "CO";
+ *   "CO:administered"
+ *                  the state part and the local taxes the state
+ *                  administers, never a self-collected home-rule city's
+ *                  part (../self-collected.ts), where the state's
+ *                  guidance says it doesn't reach them (Colorado's
+ *                  software rules);
  *   "AK:state"     only the state part, leaving local parts to an
  *                  "AK:local" rule or unresearched;
  *   "CA:GST/HST"   the federal base, GST or HST;
@@ -161,7 +167,7 @@ const share = z.number().gt(0).lt(1);
 const RuleFile = z.array(
   z
     .object({
-      tax: z.string().regex(/^([A-Z]{2}(:local|:state)?|[A-Z]{2}:local:[A-Za-z0-9._-]+:[A-Za-z0-9._-]+|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
+      tax: z.string().regex(/^([A-Z]{2}(:local|:state|:administered)?|[A-Z]{2}:local:[A-Za-z0-9._-]+:[A-Za-z0-9._-]+|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
       code: z.enum(Object.keys(TAX_CODES) as [keyof typeof TAX_CODES]).refine((c) => c !== "nontaxable", "nontaxable is never a rule"),
       from: day,
       to: day.optional(),

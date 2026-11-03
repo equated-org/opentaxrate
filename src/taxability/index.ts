@@ -7,7 +7,11 @@
  * A US state's rule covers every part of its answer, state and local,
  * unless the state has a separate "XX:local" rule for its local parts, or
  * one local part has its own ("CO:local:01:ttr17", Denver's city tax, by
- * the part's code): the most specific rule decides each part. In
+ * the part's code): the most specific rule decides each part. A state's
+ * "XX:administered" rule decides its state part and the local taxes it
+ * administers, but not a self-collected home-rule city's part
+ * (self-collected.ts), which is then not researched unless it has a rule
+ * of its own. In
  * Canada each tax has its own rules: the GST reads the federal base; an
  * HST province's HST reads its own rule, which is either the province's
  * own treatment (Ontario's prepared-food rebate) or "follows" the federal
@@ -31,6 +35,7 @@
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
+import { selfCollected } from "./self-collected.js";
 import { ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
 export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
@@ -104,7 +109,10 @@ function keysFor(state: string, part: RatePart): string[] {
   // "XX:state" and "XX:local" decide one side only; "XX" both, where
   // they share the base. "XX:local:<part code>" decides one local part,
   // where that jurisdiction sets its own base or rate (a home-rule city).
-  return part.kind === "state" ? [`${state}:state`, state] : [`${state}:local:${part.code}`, `${state}:local`, state];
+  // "XX:administered" decides the state part and the local taxes the state
+  // administers, never a self-collected city's (self-collected.ts).
+  if (part.kind === "state") return [`${state}:state`, `${state}:administered`, state];
+  return [`${state}:local:${part.code}`, `${state}:local`, ...(selfCollected(state, part.code) ? [] : [`${state}:administered`]), state];
 }
 
 /** A rule researched only from a later day (fromIs "earliest_verified"):

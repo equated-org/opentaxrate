@@ -18,6 +18,7 @@ import { eq, sql } from "drizzle-orm";
 import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
 import { challenged, evidenceLink, pdfParagraphs, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
 import { readRuleFiles, type Citation } from "./rules/index.js";
+import { SELF_COLLECTED } from "./self-collected.js";
 import { pageOf } from "../pdf-text.js";
 import { documentText, findMark, hasTextView, markLink, pinnedCopy } from "../evidence-text.js";
 import { typeOf } from "../evidence.js";
@@ -129,10 +130,12 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
     for (const m of missing) console.warn(`  ${m.url}  (${m.reason})`);
   }
   for (const unknown of await unknownParts(rules.map((r) => r.tax))) console.warn(`A rule is keyed to part ${unknown}, which this database's rates don't have: check the part's code.`);
+  const listed = Object.entries(SELF_COLLECTED).flatMap(([state, list]) => Object.keys(list.parts).map((code) => `${state}:local:${code}`));
+  for (const unknown of await unknownParts(listed)) console.warn(`The self-collected list (self-collected.ts) names part ${unknown}, which this database's rates don't have.`);
   return { rules: rules.length, files, missing };
 }
 
-/** The one-part keys ("CO:local:01:ttr17") naming a part code no rate row
+/** The one-part keys ("CO:local:01:ttr17"), or listed parts, naming a part code no rate row
  *  of their state has, where the state has rate rows at all (a test
  *  database may have none). */
 async function unknownParts(taxes: string[]): Promise<string[]> {

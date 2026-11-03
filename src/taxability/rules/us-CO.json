@@ -161,7 +161,7 @@
     "notes": "The regulation (unchanged in this respect since at least 01/01/2018) includes delivery charges 'not separately stated'; the separability requirement is stated in the 2020 and 2025 DOR publications. Colorado's retail delivery fee (C.R.S. 43-4-218, from 2022-07-01) is a separate fee excluded from the purchase price, not sales tax. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "food.candy",
     "from": "2010-05-01",
     "fromIs": "effective",
@@ -190,7 +190,7 @@
         "quote": "taxes are due on any food item sold within RTD/CD boundaries and that is subject to the state sales tax"
       }
     ],
-    "notes": "Before 2010-05-01 candy was exempt food (HB 10-1191); not modeled. Colorado's candy definition excludes preparations with flour and items requiring refrigeration. Local: per FYI Sales 4, localities that exempt food must use the state's criteria and RTD/CD tax food items subject to state tax, so candy is treated as taxable locally too; the local-option statute (C.R.S. 29-2-105(1)(d)(I)(C)) refers only to the 39-26-707(1)(e) food exemption, so a reviewer may want a newer DOR statement confirming local treatment of candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
+    "notes": "Before 2010-05-01 candy was exempt food (HB 10-1191); not modeled. Colorado's candy definition excludes preparations with flour and items requiring refrigeration. Local: per FYI Sales 4, localities that exempt food must use the state's criteria and RTD/CD tax food items subject to state tax, so candy is treated as taxable locally too; the local-option statute (C.R.S. 29-2-105(1)(d)(I)(C)) refers only to the 39-26-707(1)(e) food exemption, so a reviewer may want a newer DOR statement confirming local treatment of candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others). Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched."
   },
   {
     "tax": "CO",
@@ -501,7 +501,7 @@
     "notes": "Frozen sandwiches are food for home consumption and exempt (state). Sandwiches bought with SNAP/WIC benefits are exempt. Because cold sandwiches are not 'food', the local food exemption does not reach them. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "food.soft_drink",
     "from": "2010-05-01",
     "fromIs": "effective",
@@ -530,7 +530,7 @@
         "quote": "taxes are due on any food item sold within RTD/CD boundaries and that is subject to the state sales tax"
       }
     ],
-    "notes": "Before 2010-05-01 soft drinks were exempt food (HB 10-1191); not modeled. Beverages with milk, milk substitutes or more than 50% juice are not soft drinks. Local treatment: see the note on food.candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
+    "notes": "Before 2010-05-01 soft drinks were exempt food (HB 10-1191); not modeled. Beverages with milk, milk substitutes or more than 50% juice are not soft drinks. Local treatment: see the note on food.candy. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others). Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched."
   },
   {
     "tax": "CO",
@@ -592,7 +592,7 @@
     "notes": "Covers all seven subcodes. Tangible goods sold along with a service (e.g. furnishings an interior designer sells, printed advertising materials, software on physical media) can be taxable, and a bundled sale of goods and service may be taxable in full unless the service is separately stated and separable (Sales Tax Guide, Part 3). Mainframe computer access is taxable as a sale of tangible personal property, but does not include ASP-hosted software. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched, except where a city has a rule of its own (\"CO:local:<part code>\": Denver, Fort Collins and others)."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.custom",
     "from": "2012-07-01",
     "fromIs": "effective",
@@ -616,11 +616,11 @@
         "quote": "computer software that does not meet the criteria enumerated in section 39-26-102(15)(c), C.R.S."
       }
     ],
-    "notes": "Applies to both subcodes (development and modification). If custom work is bundled with a taxable prepackaged copy on physical media, the copy is taxable. Home-rule cities not researched. Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day).",
+    "notes": "Applies to both subcodes (development and modification). If custom work is bundled with a taxable prepackaged copy on physical media, the copy is taxable. Home-rule cities not researched. Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day). Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched.",
     "to": "2026-12-31"
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.prewritten",
     "from": "2012-07-01",
     "fromIs": "effective",
@@ -657,11 +657,11 @@
         "quote": "Colorado sales tax applies to a sale of computer software if all of the following conditions are met: (1) it is prepackaged for repeated sale or license; (2) its use is governed by a tear-open nonnegotiable license agreement; and (3) it is delivered in a physical medium such as a tape, disk, compact disc, or card."
       }
     ],
-    "notes": "See the software.saas note on the 2012 effective date and home-rule cities. A mandatory maintenance agreement sold with taxable software is also taxable (Computer Software publication). Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day).",
+    "notes": "See the software.saas note on the 2012 effective date and home-rule cities. A mandatory maintenance agreement sold with taxable software is also taxable (Computer Software publication). Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day). Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched.",
     "to": "2026-12-31"
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.saas",
     "from": "2012-07-01",
     "fromIs": "effective",
@@ -685,7 +685,7 @@
         "quote": "computer software that does not meet the criteria enumerated in section 39-26-102(15)(c), C.R.S."
       }
     ],
-    "notes": "2012-07-01 is when the current software definition took effect (HB 11-1293); earlier treatment is not modeled. The 2021 digital-goods language (C.R.S. 39-26-102(15)(b.5)) did not change the separate software criteria in (15)(c). The DOR publication applies to state and state-administered local taxes but not home-rule cities; some home-rule cities tax SaaS or electronically delivered software, not researched here. Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day).",
+    "notes": "2012-07-01 is when the current software definition took effect (HB 11-1293); earlier treatment is not modeled. The 2021 digital-goods language (C.R.S. 39-26-102(15)(b.5)) did not change the separate software criteria in (15)(c). The DOR publication applies to state and state-administered local taxes but not home-rule cities; some home-rule cities tax SaaS or electronically delivered software, not researched here. Ends 2026-12-31: HB 26-1223 makes computer software taxable however delivered from 2027-01-01 (the rules from that day). Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched.",
     "to": "2026-12-31"
   },
   {
@@ -3126,7 +3126,7 @@
     "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city and sets its own base; this rule is its city part only (part code 01:ttr22 in the Colorado rate service), at its full city rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software before 2027 and do from 2027-01-01 (HB 26-1223); the city's own treatment is unaffected. The FAQ is undated; it is read from the copy filed on 2026-11-03."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.saas",
     "from": "2027-01-01",
     "fromIs": "effective",
@@ -3185,10 +3185,10 @@
         "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
       }
     ],
-    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed. Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.prewritten",
     "from": "2027-01-01",
     "fromIs": "effective",
@@ -3247,10 +3247,10 @@
         "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
       }
     ],
-    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed. Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.custom.development",
     "from": "2027-01-01",
     "fromIs": "effective",
@@ -3274,10 +3274,10 @@
         "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
       }
     ],
-    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed. Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched."
   },
   {
-    "tax": "CO",
+    "tax": "CO:administered",
     "code": "software.custom.modification",
     "from": "2027-01-01",
     "fromIs": "effective",
@@ -3319,6 +3319,208 @@
         "quote": "The information in this publication applies to state and local sales taxes administered by the Department."
       }
     ],
-    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed."
+    "notes": "From HB 26-1223. The CO rule covers the state part and the local taxes the Department administers (state-collected cities, counties and special districts), as the publication says; it doesn't apply to self-collected home-rule cities, which have rules of their own where researched (\"CO:local:<part code>\"). A home-rule city part with no rule of its own still answers by this rule; the rate data doesn't say which parts are self-collected. A negotiated license agreement is individually bargained and signed by both sides; a standard or click-through agreement isn't one, even if signed. Keyed CO:administered: it decides the state part and the local taxes the Department administers, never a self-collected home-rule city's part (src/taxability/self-collected.ts, from DR 1002), which answers by its own rule where researched and is otherwise not researched."
+  },
+  {
+    "tax": "CO:local:01:ttr292",
+    "code": "food.candy",
+    "from": "2024-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Aurora taxes candy at its general sales tax rate unless bought with SNAP or WIC benefits.",
+    "conditions": [
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Aurora Tax Compliance Guide, Food & Related Items (3/2024)",
+        "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202404/20207186/food_and_related_items.pdf",
+        "quote": "The following items, if purchased with food stamps or WIC vouchers/checks are exempt from the 3.75% Aurora sales tax, but are taxable if purchased with cash:"
+      },
+      {
+        "title": "Aurora Tax Compliance Guide, Food & Related Items (3/2024)",
+        "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202404/20207186/food_and_related_items.pdf",
+        "quote": "Candy"
+      }
+    ],
+    "notes": "Aurora collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr292 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr292",
+    "code": "food.soft_drink",
+    "from": "2024-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Aurora taxes soft drinks at its general sales tax rate unless bought with SNAP or WIC benefits.",
+    "conditions": [
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Aurora Tax Compliance Guide, Food & Related Items (3/2024)",
+        "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202404/20207186/food_and_related_items.pdf",
+        "quote": "The following items, if purchased with food stamps or WIC vouchers/checks are exempt from the 3.75% Aurora sales tax, but are taxable if purchased with cash:"
+      },
+      {
+        "title": "Aurora Tax Compliance Guide, Food & Related Items (3/2024)",
+        "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202404/20207186/food_and_related_items.pdf",
+        "quote": "Soft Drinks"
+      }
+    ],
+    "notes": "Aurora collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr292 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr241",
+    "code": "food.candy",
+    "from": "2026-11-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Arvada taxes candy at its general sales tax rate, as it did before the state's 2010 change.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Arvada, Food Industry Tax Guide",
+        "url": "https://co-arvada.civicplus.com/336/Food-Industry-Tax-Guide",
+        "quote": "Candy and soda continue to be subject to Arvada tax as they were prior to changes in state statute."
+      }
+    ],
+    "notes": "Arvada collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr241 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr241",
+    "code": "food.soft_drink",
+    "from": "2026-11-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Arvada taxes soft drinks at its general sales tax rate, as it did before the state's 2010 change.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Arvada, Food Industry Tax Guide",
+        "url": "https://co-arvada.civicplus.com/336/Food-Industry-Tax-Guide",
+        "quote": "Candy and soda continue to be subject to Arvada tax as they were prior to changes in state statute."
+      }
+    ],
+    "notes": "Arvada collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr241 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr295",
+    "code": "food.candy",
+    "from": "2011-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Westminster taxes candy at its general sales tax rate, as it did before the state's 2010 change.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Westminster tax guide, Food (01/2011)",
+        "url": "https://www.westminsterco.gov/DocumentCenter/View/3219/Food---342-PDF",
+        "quote": "Candy and soda continue to be subject to Westminster tax as they were prior to changes in state statute."
+      }
+    ],
+    "notes": "Westminster collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr295 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr295",
+    "code": "food.soft_drink",
+    "from": "2011-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Westminster taxes soft drinks at its general sales tax rate, as it did before the state's 2010 change.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Westminster tax guide, Food (01/2011)",
+        "url": "https://www.westminsterco.gov/DocumentCenter/View/3219/Food---342-PDF",
+        "quote": "Candy and soda continue to be subject to Westminster tax as they were prior to changes in state statute."
+      }
+    ],
+    "notes": "Westminster collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr295 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr171248",
+    "code": "food.candy",
+    "from": "2021-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Lakewood taxes candy at its general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Lakewood, Sales Tax (published 2/2021)",
+        "url": "https://www.lakewood.org/files/assets/public/v/2/finance/pdfs/sales-tax-final-2.2023-ada.pdf",
+        "quote": "Candy, soft drinks and food not defined as “food for domestic home consumption”"
+      }
+    ],
+    "notes": "Lakewood collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr171248 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr171248",
+    "code": "food.soft_drink",
+    "from": "2021-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Lakewood taxes soft drinks at its general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Lakewood, Sales Tax (published 2/2021)",
+        "url": "https://www.lakewood.org/files/assets/public/v/2/finance/pdfs/sales-tax-final-2.2023-ada.pdf",
+        "quote": "Candy, soft drinks and food not defined as “food for domestic home consumption”"
+      }
+    ],
+    "notes": "Lakewood collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr171248 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.candy",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Boulder taxes candy at its 3.86% sales tax rate when sold by a store (the 4.01% food service rate applies at a food service establishment).",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café or other food service establishment",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder tax compliance guides, Public Utilities (example)",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The gas station must collect sales tax on the sale of the candy bar and soft drink"
+      }
+    ],
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.soft_drink",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Boulder taxes soft drinks at its 3.86% sales tax rate when sold by a store (the 4.01% food service rate applies at a food service establishment).",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café or other food service establishment",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder tax compliance guides, Public Utilities (example)",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The gas station must collect sales tax on the sale of the candy bar and soft drink"
+      }
+    ],
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). Before, the state's rule answered for this part; it now covers only the taxes the Department administers."
   }
 ]

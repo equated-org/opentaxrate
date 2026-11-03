@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { parentOf, parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
 import { looseForTest, pageText, quoteOnPage, quoteSpan } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
+import { SELF_COLLECTED } from "../src/taxability/self-collected.js";
 import { answerKey } from "../src/cache.js";
 import { AddressRateSchema, TaxabilitySchema } from "../src/api-schema.js";
 import { provinceParts } from "../src/rates/canada.js";
@@ -498,12 +499,34 @@ describe("taxability", () => {
     expect(taxabilityOf({ state: "CO", parts: elsewhere }, "food.prepared.hot", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.0915 });
   });
 
+  it("a state's administered-only rule never decides a self-collected home-rule city's part", () => {
+    const parts = (city: string): RatePart[] => [
+      { kind: "state", code: "45:1", rate: 0.029 },
+      { kind: "city", code: city, rate: 0.0375 },
+      { kind: "district", code: "d:ttr528", rate: 0.01 },
+    ];
+    // Thornton collects its own tax (DR 1002) and has no software rule: not
+    // researched, before and after HB 26-1223, never the state's answer.
+    for (const date of ["2026-11-03", "2027-01-01"]) {
+      const t = taxabilityOf({ state: "CO", parts: parts("01:ttr238") }, "software.saas", date, RULES);
+      expect(t.treatment, date).toBe("not_researched");
+      expect(t.taxes.find((g) => g.parts.includes("01:ttr238"))?.treatment, date).toBe("not_researched");
+      expect(t.taxes.find((g) => g.parts.includes("45:1"))?.tax, date).toBe("CO:administered");
+    }
+    // A city the state collects for (any part not on the list) follows the state.
+    const t = taxabilityOf({ state: "CO", parts: parts("01:ttr999999") }, "software.saas", "2027-01-01", RULES);
+    expect(t).toMatchObject({ treatment: "taxable", rate: 0.0765 });
+    // Rules the state's guidance doesn't limit still reach every part.
+    expect(taxabilityOf({ state: "CO", parts: parts("01:ttr238") }, "goods.general", "2026-11-03", RULES).treatment).toBe("taxable");
+  });
+
   it("keeps its promises for every place, every code and dates from 2013 to 2027, on the real rules", () => {
     const provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
     // Every US state with rules ("CA" here is California; Canada's federal
     // rules are reached through the provinces).
     const places = [...new Set(rows.map((r) => r.tax.slice(0, 2)))].filter((p) => !provinces.includes(p));
-    const ownParts = (place: string) => [...new Set(rows.flatMap((r) => (r.tax.startsWith(`${place}:local:`) ? [r.tax.slice(`${place}:local:`.length)] : [])))];
+    // Each part a one-part rule names, and a few self-collected parts.
+    const ownParts = (place: string) => [...new Set([...rows.flatMap((r) => (r.tax.startsWith(`${place}:local:`) ? [r.tax.slice(`${place}:local:`.length)] : [])), ...(SELF_COLLECTED[place] ? [...Object.keys(SELF_COLLECTED[place].parts).slice(0, 4), "01:ttr238"] : [])])];
     const dates = ["2013-06-01", "2016-01-01", "2019-07-01", "2021-03-15", "2023-01-01", "2024-12-20", "2025-07-01", "2025-10-15", "2026-06-15", "2026-10-30", "2027-03-01"];
     let answers = 0;
     for (const date of dates)

@@ -51,6 +51,20 @@ and drink replaces its 5.15%). Say in the rule's summary which place it
 is, and in its notes that the other parts keep the broader rules. Ingest
 warns when a rule names a part code the database's rates don't have.
 
+`"CO:administered"` decides the state part and the local taxes the state
+administers, never a self-collected home-rule city's part: those are listed
+by part code in `src/taxability/self-collected.ts`, built from DR 1002's
+table of home-rule cities the state doesn't collect for (66 in the 12/26/24
+edition; the publication is now a Looker Studio report, so check the list
+against it each January and July). Key a state rule `XX:administered` where
+its source covers only the taxes the state administers (Colorado's software
+rules, and candy and soft drinks); a self-collected part with no rule of its
+own is then not researched rather than given the state's answer. Every other
+Colorado state rule still answers for self-collected parts that have no
+rule of their own (1,836 part and code pairs on 2026-11-03: goods, prepared food,
+services, construction and delivery), though its notes say home-rule cities
+weren't researched.
+
 Known local treatments not yet written as rules (research these next, by
 population):
 
@@ -68,9 +82,8 @@ population):
   Pueblo's SaaS, Aurora's modifications. The state's change (HB 26-1223: software
   taxable however delivered from 2027-01-01, unless custom or under a
   negotiated license) is modeled for the state and state-administered
-  local taxes (the CO rules); a self-collected home-rule city with no rule
-  of its own still answers by them, as the rate data doesn't mark which
-  parts are self-collected.
+  local taxes (the CO rules); a self-collected home-rule city's part isn't
+  answered by them (CO:administered).
 - **Arizona**: city TPT rates differ by business class. ADOR's rate table
   (`TPT_RATETABLE_ALL_<date>.csv`) has restaurant and bar rates (classes
   011 and 111) and food-for-home-consumption rates (062) per city, but the
