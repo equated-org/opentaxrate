@@ -41,7 +41,6 @@
  *   evaluate.ts     the benchmark: the rules against the agencies' examples
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
-import type { RateClass } from "../rates/types.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
 import { selfCollected } from "./self-collected.js";
 import { ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
@@ -318,26 +317,33 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
   return null;
 }
 
-/** What one part adds to the sale's rate under `treatment`, on the whole
- *  charge: where the rule taxes only a share of it (`base`), the rate times
- *  that share. A special-rate rule's rate is the rate of every part it
- *  decides together (Utah's 1.25% for all its local taxes on food), so only
- *  the first of them adds it; a rule naming a class adds each part's own
- *  rate for it. */
-const partRate = (treatment: PartTreatment, part: RatePart, rule: Rule | null, first = true): number | null => {
-  const base = rule?.base ?? 1;
-  if (treatment === "taxable") return part.rate * base;
-  if (treatment === "special_rate" && rule?.rateClass) return classRate(part, rule.rateClass) * base;
-  if (treatment === "special_rate") return first ? (rule?.rate !== undefined ? rule.rate * base : null) : 0;
-  return treatment === "conditional" ? null : 0;
-};
-
-/** A part's rate for a class of sale; NaN where none is loaded. */
-const classRate = (part: RatePart, rateClass: RateClass) => part.classRates?.[rateClass] ?? NaN;
-
-/** `rule` can answer for `part`: a rule naming a class needs the part's
- *  rate for it, which a part without one lacks (then not researched). */
-const answers = (rule: Rule, part: RatePart) => !(rule.treatment === "special_rate" && rule.rateClass && part.classRates?.[rule.rateClass] === undefined);
+/** What `parts` add to the sale's rate under a rule or case `k`, on the
+ *  whole charge: each part's rate when taxable; a fixed special rate once
+ *  for all of them (Utah's 1.25% for all its local taxes on food); each
+ *  part's own rate for a class a special rate names; nothing when exempt or
+ *  zero-rated; times `base` where only a share of the charge is taxed.
+ *  Null when conditional, or when a special rate has no rate, or a part
+ *  lacks the class's rate: never the general rate instead. Added part by
+ *  part, rounded at each step after the first. */
+function rateOf(k: Pick<Rule, "rate" | "rateClass" | "base"> & { treatment: string }, parts: RatePart[]): number | null {
+  const base = k.base ?? 1;
+  const shareOf = (part: RatePart, i: number): number | null => {
+    if (k.treatment === "taxable") return part.rate * base;
+    if (k.treatment === "special_rate" && k.rateClass) {
+      const own = part.classRates?.[k.rateClass];
+      return own === undefined ? null : own * base;
+    }
+    if (k.treatment === "special_rate") return k.rate === undefined ? null : i ? 0 : k.rate * base;
+    return k.treatment === "conditional" ? null : 0;
+  };
+  let sum: number | null = null;
+  for (const [i, part] of parts.entries()) {
+    const add = shareOf(part, i);
+    if (add === null) return null;
+    sum = i ? round(sum! + add) : add;
+  }
+  return sum ?? (k.treatment === "special_rate" && k.rate !== undefined ? k.rate * base : 0);
+}
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -350,9 +356,11 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
   // Parts grouped by the rule that decided them, in the order the parts
   // come; a part with no rule is its own group.
   const groups = new Map<string, TaxGroup>();
+  const members = new Map<string, { rule: Rule | null; parts: RatePart[] }>();
   for (const part of answer.parts) {
     const found = ruleFor(rules, state, part, code, date);
-    const rule = found && answers(found, part) ? found : null;
+    // A rule naming a class answers only for a part with that class's rate.
+    const rule = found && (found.treatment !== "special_rate" || rateOf(found, [part]) !== null) ? found : null;
     // Unresearched parts group by the broadest key they'd answer to: a
     // state's parts together, each Canadian tax on its own.
     const broadest = keysFor(state, part).at(-1)!;
@@ -362,17 +370,19 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
     const group = groups.get(key);
     if (group) {
       group.parts.push(part.code);
-      const add = partRate(group.treatment as PartTreatment, part, rule, false);
-      group.rate = group.rate === null || add === null ? null : round(group.rate + add);
+      members.get(key)!.parts.push(part);
       continue;
     }
+    members.set(key, { rule, parts: [part] });
     if (!rule) groups.set(key, { tax: broadest, parts: [part.code], treatment: "not_researched", rate: null, rule: null });
     else {
       const { tax, code: _code, notes: _notes, follows: _follows, treatment, ...rest } = rule;
       const decided = treatment as PartTreatment;
-      groups.set(key, { tax, parts: [part.code], treatment: decided, rate: partRate(decided, part, rule), rule: { ...rest, treatment: decided } });
+      groups.set(key, { tax, parts: [part.code], treatment: decided, rate: null, rule: { ...rest, treatment: decided } });
     }
   }
+  // The first part's rule rates the group, as it is shown.
+  for (const [key, { rule, parts }] of members) if (rule) groups.get(key)!.rate = rateOf(rule, parts);
   return answerOf([...groups.values()], answer.parts);
 }
 
@@ -407,21 +417,14 @@ function answerOf(taxes: TaxGroup[], parts: RatePart[]): Taxability {
  *  every undecided tax pairs that way, each outcome is one such case.
  *  Otherwise the taxes turn on their facts independently, and each
  *  condition is its own outcome, for its tax, with the settled taxes. */
-/** What one undecided tax adds to the sale's rate in case `k`: its parts'
- *  full rate when taxable, the case's own rate (once) when special, else
- *  nothing; times the case's base. NaN for a special case with no rate. */
-function shareOf(t: TaxGroup, k: Condition, parts: RatePart[]): number {
-  const these = t.parts.flatMap((code) => parts.find((p) => p.code === code) ?? []);
-  const full = these.reduce((sum, p) => sum + p.rate, 0);
-  // A case naming a class: each part's own rate for it, NaN where one lacks it.
-  const special = k.rateClass ? these.reduce((sum, p) => sum + classRate(p, k.rateClass!), 0) : (k.rate ?? NaN);
-  return (k.treatment === "taxable" ? full : k.treatment === "special_rate" ? special : 0) * (k.base ?? 1);
-}
+/** What one undecided tax adds to the sale's rate in case `k` (rateOf on
+ *  its parts); null where it can't be computed. */
+const shareOf = (t: TaxGroup, k: Condition, parts: RatePart[]) => rateOf(k, t.parts.flatMap((code) => parts.find((p) => p.code === code) ?? []));
 
 function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): { outcomes: Outcome[]; independent?: true } {
   const none = { outcomes: [] };
   const fixed = taxes.reduce((sum, t) => sum + (t.rate ?? 0), 0);
-  const share = (t: TaxGroup, k: Condition) => shareOf(t, k, parts);
+  const share = (t: TaxGroup, k: Condition) => shareOf(t, k, parts) ?? NaN;
   const open = taxes.filter((t) => t.treatment === "conditional").map((t) => ({ tax: t, conditions: t.rule?.conditions ?? [] }));
   if (open.some((o) => !o.conditions.length)) return none;
   const done = (outcomes: Outcome[], independent?: true) =>
@@ -514,7 +517,7 @@ export function openCasesOf(t: Taxability): OpenCases | null {
  *  same share its outcome counts. Null where it can't be computed. */
 export function caseRate(t: TaxGroup, k: Condition, parts: RatePart[]): number | null {
   const share = shareOf(t, k, parts);
-  return Number.isNaN(share) ? null : round(share);
+  return share === null ? null : round(share);
 }
 
 /** `t` with some taxes settled, each by one of its own rule's cases
