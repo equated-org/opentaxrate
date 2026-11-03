@@ -2293,5 +2293,152 @@
       }
     ],
     "notes": "Colorado Springs collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr128 in the Colorado rate service). The state, county and district parts keep the CO rules. The definition in 2.7.104, which decides candy, soft drinks and prepared food, couldn't be read (amlegal refuses scripts; no archived copy)."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "software.saas",
+    "from": "2026-02-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Boulder taxes software as a service: its code's definition of computer software includes it, and a license to use software is taxable however the software is obtained.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Computer software means digital products, software programs, software as a service, internet subscription service, software license fees, software maintenance agreements, and software contained on cards, tapes, discs, coding sheets or other machine-readable or human-readable form"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "A lease, lease purchase agreement, rental or the grant of a license to use software is subject to sales/use tax."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The full amount paid for the right to use the software is subject to sales/use tax regardless of how the software is obtained."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Computer software means digital products, software programs, software as a service, internet subscription service, software license fees, software maintenance agreements, and software contained on cards, tapes, discs, coding sheets or other machine-readable or human-readable form"
+      }
+    ],
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "software.prewritten",
+    "from": "2026-02-14",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Boulder taxes prewritten software, downloaded or on media, and the license to use it, at its sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Computer software means digital products, software programs, software as a service, internet subscription service, software license fees, software maintenance agreements, and software contained on cards, tapes, discs, coding sheets or other machine-readable or human-readable form"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The full amount paid for the right to use the software is subject to sales/use tax regardless of how the software is obtained."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The business also purchases and downloads anti-virus software updates through a web based retailer. Both of these transactions are subject to sales/use tax."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "A lease, lease purchase agreement, rental or the grant of a license to use software is subject to sales/use tax."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
+      }
+    ],
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "software.custom.development",
+    "from": "2026-02-14",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Boulder exempts software created specifically for the user (custom made software) from its sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Therefore, custom made software is exempt from sales/use tax."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "including software that has been modified so long as the price of the modifications does not exceed twenty-five percent of the price of the unmodified software and excluding software created specifically for the user."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Therefore, custom made software is exempt from sales/use tax."
+      }
+    ],
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "software.custom.modification",
+    "from": "2026-02-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Boulder, modified prewritten software is taxable unless the price of the modifications is more than 25% of the price of the unmodified software.",
+    "conditions": [
+      {
+        "when": "The modifications cost more than 25% of the price of the unmodified software",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The modifications cost 25% or less of the price of the unmodified software",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "including software that has been modified so long as the price of the modifications does not exceed twenty-five percent of the price of the unmodified software and excluding software created specifically for the user."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software (Internet Archive copy of 2026-02-14)",
+        "url": "https://web.archive.org/web/20260214021310/https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The purchase of the software is exempt from sales/use tax because the modifications charge is greater than 25 percent of the standard software package."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Computer Software",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "The retail sale of computer software is subject to the City of Boulder sales/use tax unless the cost of modification of the software is greater than 25 percent of the price of the unmodified software."
+      }
+    ],
+    "notes": "Boulder collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service), at its 3.86% sales tax rate. The state, county and district parts keep the CO rules, which don't tax remotely accessed or downloaded software. The guide quotes the definition of computer software in B.R.C. 3-1-1; it is read from the Internet Archive's copy of 2026-02-14 (the earliest capture found) and the copy filed on 2026-11-03. When Boulder added software as a service to the definition wasn't found, so the rule isn't read before 2026-02-14."
   }
 ]
