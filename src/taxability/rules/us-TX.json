@@ -1079,5 +1079,314 @@
       }
     ],
     "notes": "base 0.8: the answer's rate is on the whole charge, 80% of the general rate (6.6% where it is 8.25%); charge it on the full SaaS price. The 20% exemption (§151.351, since 1999-10-01) applies to state and local tax alike (Pub. 94-109 says so for information services, which share §151.351). 2018-01-01 is only where this file starts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "to": "2023-08-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport equipment are generally taxable in Texas before the September 2023 family-care exemptions.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "2018-01-01 uses the existing Texas file’s baseline for undated current statutory text; it is not a newly established effective date. State and local sales taxes share this base. Annual sales-tax holidays are mentioned only here and are not modeled."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing",
+    "from": "2023-09-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Texas taxes clothing and footwear, except qualifying maternity clothing, exempt from September 1, 2023.",
+    "conditions": [
+      {
+        "when": "Maternity clothing labeled for pregnancy, designed to accommodate pregnancy changes or facilitate breastfeeding, including nursing bras and nursing pads",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other clothing or footwear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Texas Tax Code §151.3133(b), Maternity Clothing",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The sale, storage, use, or other consumption of an article of maternity clothing is exempted from the taxes imposed by this chapter."
+      },
+      {
+        "title": "Texas Tax Code §151.3133(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The term includes a nursing bra or nursing pad."
+      },
+      {
+        "title": "Texas Comptroller, Tax Policy News, February 2024",
+        "url": "https://comptroller.texas.gov/taxes/tax-policy-news/2024-february.php",
+        "quote": "Effective Sept. 1, 2023, wound care and family care items are exempt from sales and use tax."
+      }
+    ],
+    "notes": "Effective date is stated by the Comptroller and the statutory addition of §151.3133. No ordinary clothing price threshold. The exemption applies to state and local sales and use taxes. Annual sales-tax holidays are not modeled. Diapers, exempt from the same date, aren't this code."
+  },
+  {
+    "tax": "TX",
+    "code": "alcohol.off_premises",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for off-premises consumption is subject to Texas general state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Mixed Beverage Taxes FAQ",
+        "url": "https://comptroller.texas.gov/taxes/mixed-beverage/faq.php",
+        "quote": "Sales of alcoholic beverages for off-premises consumption are only subject to limited sales and use tax."
+      }
+    ],
+    "notes": "2018-01-01 uses the existing Texas file’s baseline for undated current statutory text; it is not a newly established effective date. State and local sales taxes share this base. Annual sales-tax holidays are mentioned only here and are not modeled. The FAQ also applies ordinary sales tax to mixed beverage permit holders’ pickup, delivery and to-go sales."
+  },
+  {
+    "tax": "TX",
+    "code": "alcohol.on_premises",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Drinks sold by a mixed beverage permittee are exempt from general sales tax; separate 8.25% mixed beverage sales tax and 6.7% gross receipts tax apply instead and are not included. Other permittees’ beer and wine remain subject to general sales tax.",
+    "conditions": [
+      {
+        "when": "Sales by a mixed beverage permittee subject to Chapter 183 mixed beverage taxes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Beer or wine sold by a wine and malt beverage retailer’s permittee that is not a mixed beverage permittee",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.308(a)(5), Items Taxed by Other Law",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "mixed beverages, ice, or nonalcoholic beverages and the preparation or service of these items if the receipts are taxable by Subchapter B, Chapter 183, or the items are taxable by Subchapter B-1, Chapter 183;"
+      },
+      {
+        "title": "Texas Comptroller, Mixed Beverage Taxes FAQ",
+        "url": "https://comptroller.texas.gov/taxes/mixed-beverage/faq.php",
+        "quote": "However, sales of wine or malt beverages by a wine and malt beverage retailer’s permittee are only subject to sales and use tax as the holder of this permit is not a mixed beverage permittee."
+      },
+      {
+        "title": "Texas Comptroller, Mixed Beverage Taxes FAQ",
+        "url": "https://comptroller.texas.gov/taxes/mixed-beverage/faq.php",
+        "quote": "The mixed beverage gross receipts tax rate is 6.7 percent, and the mixed beverage sales tax rate is 8.25 percent."
+      }
+    ],
+    "notes": "2018-01-01 uses the existing Texas file’s baseline for undated current statutory text; it is not a newly established effective date. State and local sales taxes share this base. Annual sales-tax holidays are mentioned only here and are not modeled. The Chapter 183 taxes are separate replacement taxes, not a special rate of Chapter 151 general sales tax. The general sales-tax exemption covers the state and local base."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing.accessories",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories (jewelry, handbags, watches) are taxable in Texas as tangible personal property; the maternity clothing exemption doesn't reach them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "Texas has no general clothing exemption; this rule settles the kind so that the broad clothing code's maternity case doesn't leave it conditional. 2018-01-01 is the existing Texas baseline for undated current statutory text."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing.equipment",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Protective and sport gear are taxable in Texas as tangible personal property; the maternity clothing exemption doesn't reach them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "Texas has no general clothing exemption; this rule settles the kind so that the broad clothing code's maternity case doesn't leave it conditional. 2018-01-01 is the existing Texas baseline for undated current statutory text."
+  },
+  {
+    "tax": "TX",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Leasing or renting tangible goods is a taxable sale at the general Texas state and applicable local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code, Chapter 151 Limited Sales, Excise, and Use Tax",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(2) the exchange, barter, lease, or rental of tangible personal property;"
+      },
+      {
+        "title": "Texas Tax Code, Chapter 151 Limited Sales, Excise, and Use Tax",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      }
+    ],
+    "notes": "Undated current statutory text uses the existing Texas baseline 2018-01-01, not an enactment date. Sections 151.005 and 151.051; no duration split for ordinary equipment. Section 151.0515 also imposes a separate emissions-reduction surcharge on qualifying off-road heavy-duty diesel equipment sales, leases and rentals; that surcharge is not modeled. Vehicles outside scope."
+  },
+  {
+    "tax": "TX",
+    "code": "service.goods.repair",
+    "from": "2026-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair, maintenance and restoration of ordinary tangible goods are taxable; motor vehicle repair labor is exempt, while vehicle remodeling is taxable.",
+    "conditions": [
+      {
+        "when": "Motor vehicle repair or maintenance labor, including a lump-sum repair invoice (repairer pays tax on parts)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or restoration of aircraft",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or restoration of ships, boats or other vessels other than taxable boats/motors, sports-fishing boats or other pleasure vessels",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair, maintenance or restoration of other tangible goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Publication 96-259 Taxable Services (January 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Services such as shoe shining or repair, appliance repair, furniture refurbishing or upholstering, jewelry repair or cleaning and dog grooming are taxable."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "There is no sales tax on the labor to repair to a motor vehicle."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "A repairperson that charges a single price for parts and labor should not collect sales tax from the customer, but instead must pay sales tax to the supplier when buying parts."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "The repair labor is not taxable."
+      },
+      {
+        "title": "Texas Comptroller, Publication 94-113 Motor Vehicle Repairs, Remodels and Maintenance (April 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/94-113.php",
+        "quote": "Sales tax is due on all parts and labor charges for remodeling a motor vehicle."
+      },
+      {
+        "title": "Texas Tax Code §151.0101(a)(5), Taxable services",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "(5) the repair, remodeling, maintenance, and restoration of tangible personal property, except: (A) aircraft; (B) a ship, boat, or other vessel, other than: (i) a taxable boat or motor as defined by Section 160.001 ; (ii) a sports fishing boat; or (iii) any other vessel used for pleasure;"
+      }
+    ],
+    "notes": "Latest cited publication date April 2026 represented as April 1. For a separated motor-vehicle invoice only parts are taxed. Remodeling is distinct from repair and is taxed; publication separately discusses remodeling. Aircraft and qualifying non-pleasure vessel exceptions are listed as conditions under §151.0101(a)(5)."
+  },
+  {
+    "tax": "TX",
+    "code": "service.goods.cleaning",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry, dry cleaning, rug and upholstery cleaning are taxable; coin-operated washers/dryers and ordinary motor-vehicle washing or detailing are exempt.",
+    "conditions": [
+      {
+        "when": "Motor-vehicle washing, vacuuming or ordinary detailing, excluding separately charged carpet shampoo",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Customer uses coin-operated washers or dryers",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Laundry, dry cleaning, rug or upholstery cleaning, or other cleaning",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Publication 96-259 Taxable Services (January 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "Laundry, cleaning and garment services are taxable services."
+      },
+      {
+        "title": "Texas Comptroller, STAR Letter 8506L0642B11 (June 10, 1985)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/8506L0642B11",
+        "quote": "Car washing (by hand) - is this taxable? Not taxable"
+      },
+      {
+        "title": "Texas Comptroller, STAR Letter 8506L0642B11 (June 10, 1985)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/8506L0642B11",
+        "quote": "Vacuuming - is this taxable? Not taxable"
+      },
+      {
+        "title": "Texas Comptroller, STAR Letter 9103L1089F14 (March 21, 1991)",
+        "url": "https://api.comptroller.texas.gov/star/v1/view/9103L1089F14",
+        "quote": "Receipts from coin-operated washers and dryers are not taxable."
+      }
+    ],
+    "notes": "Publication revision January 2026 represented as January 1. STAR API supplies the official letter as JSON with escaped newlines, preserved as downloaded. Letter distinguishes taxable carpet shampoo services from ordinary car washing; specialty carpet shampoo charges need separate classification. Coin-operated washer/dryer exemption verified by the March 21, 1991 letter; does not apply to drop-off wash/dry/fold service."
+  },
+  {
+    "tax": "TX",
+    "code": "service.goods.other",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabricating, processing, printing, embroidering and custom sewing of customer-furnished goods are taxable at general sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Publication 96-259 Taxable Services (January 2026)",
+        "url": "https://comptroller.texas.gov/taxes/publications/96-259.php",
+        "quote": "For example, tax is due on charges for manufacturing, assembling, fabricating or processing products, even when the customer provides the raw materials, tools or equipment."
+      }
+    ],
+    "notes": "Publication revision January 2026 represented as January 1. The publication lists printing, calligraphy, embroidering and custom sewing as examples; separately billing fabrication labor does not change its character."
   }
 ]

@@ -983,5 +983,124 @@
       }
     ],
     "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  },
+  {
+    "tax": "AZ",
+    "code": "clothing",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport gear are taxable under the retail TPT classification at the applicable state, county and city rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Retail Sales Subject to TPT",
+        "url": "https://azdor.gov/business/transaction-privilege-tax/retail-sales-subject-tpt",
+        "quote": "Examples of tangible personal property include, but are not limited to: digital images, handmade items, vehicles, clothing, handmade jewelry, etc."
+      },
+      {
+        "title": "A.R.S. 42-5061(A), Retail classification",
+        "url": "https://www.azleg.gov/ars/42/05061.htm",
+        "quote": "The retail classification is comprised of the business of selling tangible personal property at retail."
+      }
+    ],
+    "notes": "Undated current official pages: use 1994-01-03, the existing Arizona goods.general rule baseline, as instructed for undated sources; this is not a newly verified historical clothing enactment date. No ordinary clothing threshold or differing subcode treatment was found. City rates vary; no differing local exemption for these codes was found."
+  },
+  {
+    "tax": "AZ",
+    "code": "alcohol",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold to take away or served on premises is taxable under the applicable retail or restaurant TPT classification. Separate liquor luxury taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Liquor Luxury Tax — TPT",
+        "url": "https://azdor.gov/business/liquor-luxury-tax",
+        "quote": "Licensed liquor retailers in Arizona including farm wineries, microbreweries and craft distillers located in the United States are liable for transaction privilege tax (TPT) when selling spirituous, vinous or malt liquor within Arizona."
+      },
+      {
+        "title": "A.R.S. 42-5074(A), Restaurant classification",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      },
+      {
+        "title": "A.R.S. 42-5074(B), Restaurant classification",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The tax base for the restaurant classification is the gross proceeds of sales or gross income derived from the business."
+      }
+    ],
+    "notes": "Undated current official pages use the existing goods.general baseline 1994-01-03; this does not establish the historical enactment of alcohol taxation. Retailers and restaurants use different TPT classifications, but both have general taxable treatment. State, county and city rates vary; no different local alcohol sales-tax base was established. Luxury tax is a separate excise, generally imposed at the wholesale tier, and is not modeled."
+  },
+  {
+    "tax": "AZ",
+    "code": "rental",
+    "from": "2017-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting tangible goods is taxable under Arizona’s personal property rental classification of transaction privilege tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Arizona DOR, Publication 606 Personal Property Rentals (January 2017)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/PUBLICATION_2017_606.pdf",
+        "quote": "Anyone in the business of renting tangible personal property to others is subject to transaction privilege tax under the personal property rental classification."
+      }
+    ],
+    "notes": "No general short/long-term split for ordinary equipment. Publication reports combined state/county rates and city reporting separately. Specialized equipment and exempt-entity exclusions are outside ordinary rental examples. Motor-vehicle surcharges are not modeled."
+  },
+  {
+    "tax": "AZ",
+    "code": "service.goods.repair",
+    "from": "1993-05-10",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor is exempt when stated separately on the invoice and in the seller’s records; unseparated retail charges are taxable.",
+    "conditions": [
+      {
+        "when": "repair labor separately stated on invoice and in books and records",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repair labor included in a retail parts charge without required separation",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Arizona DOR, TPR 93-31, Services Rendered in Addition to Retail Sales (May 10, 1993; citations updated September 9, 2020)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1993_tpr93-31.pdf",
+        "quote": "The sale of the repair parts is subject to tax but the labor involved in making the repair is not taxable if it is separately stated on the invoice and in the company's books and records."
+      },
+      {
+        "title": "Arizona DOR, TPR 93-31 (May 10, 1993; updated September 9, 2020)",
+        "url": "https://azdor.gov/sites/default/files/2023-03/RULINGS_TPT_1993_tpr93-31.pdf",
+        "quote": "If this charge is not shown separately on the invoice and records, the total amount of the charge is subject to the transaction privilege tax."
+      },
+      {
+        "title": "Arizona DOR, Model City Tax Code §465 Retail Sales: Exemptions (October 1, 2019)",
+        "url": "https://azdor.gov/model-city-tax-code/articles-and-sections/retail-sales-exemptions",
+        "quote": "charges for repair services as prescribed by Regulation, when separately charged and separately maintained in the books and records of the taxpayer."
+      }
+    ],
+    "notes": "TPR says no substantive changes in its September 9, 2020 update. Local repair exemption corroborated by MCTC 465(d)."
+  },
+  {
+    "tax": "AZ:state",
+    "code": "service.goods.cleaning",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cleaning customers’ goods as a personal service with only incidental supplies is outside the retail TPT base.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Arizona Revised Statutes §42-5061(A)(1), Retail classification",
+        "url": "https://www.azleg.gov/ars/42/05061.htm",
+        "quote": "Professional or personal service occupations or businesses that involve sales or transfers of tangible personal property only as inconsequential elements."
+      }
+    ],
+    "notes": "State personal-service exclusion applied to work-only cleaning with incidental supplies. Undated current statute uses 1994-01-03, the date existing AZ rules use for undated current pages. No independent city or county exclusion verified."
   }
 ]

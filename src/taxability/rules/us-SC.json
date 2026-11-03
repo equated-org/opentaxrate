@@ -1075,5 +1075,174 @@
       }
     ],
     "notes": "South Carolina's exemption turns on the selling location and sale for home consumption, not on how the food was assembled (SC Regulation 117-337), so food assembled for the buyer to cook is treated as groceries and cold prepared food are (food.grocery, food.prepared.cold). No SC guidance naming take-and-bake pizza or meal kits was found. The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+  },
+  {
+    "tax": "SC",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sporting gear are subject to general state and applicable local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SCDOR Sales Tax",
+        "url": "https://www.dor.sc.gov/sales-use-tax-index/sales-tax",
+        "quote": "Generally, all retail sales are subject to the Sales Tax."
+      }
+    ],
+    "notes": "Undated current DOR pages use the existing SC 2018-01-01 baseline. Local sales taxes follow the state taxable base. Annual Tax Free Weekend is noted only, not modeled."
+  },
+  {
+    "tax": "SC",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold on or off the premises is subject to general state and applicable local sales tax; the separate 5% liquor-by-the-drink excise on on-premises spirits is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SCDOR Sales Tax",
+        "url": "https://www.dor.sc.gov/sales-use-tax-index/sales-tax",
+        "quote": "Generally, all retail sales are subject to the Sales Tax."
+      },
+      {
+        "title": "SCDOR Liquor by the Drink Taxes",
+        "url": "https://www.dor.sc.gov/tax-index/alcohol-taxes/liquor-drink-taxes",
+        "quote": "The Liquor by the Drink tax rate is 5% (in addition to Sales Tax and any applicable local taxes)."
+      }
+    ],
+    "notes": "Undated current DOR pages use the existing SC 2018-01-01 baseline. Local sales taxes follow the state taxable base. Beer and wine are not subject to the additional liquor-by-the-drink excise. Alcohol excises and separate local hospitality taxes are outside this sales-tax rule."
+  },
+  {
+    "tax": "SC",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Nonvehicle tangible-goods rentals and leases are subject to general state and applicable local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "South Carolina DOR, Sales Tax",
+        "url": "https://www.dor.sc.gov/sales-use-tax-index/sales-tax",
+        "quote": "Any rental or lease of tangible personal property or taxable service at retail, is subject Sales Tax."
+      }
+    ],
+    "notes": "Undated current text uses existing SC 2018-01-01 baseline; state and applicable local sales taxes share the base. No short/long-term nonvehicle rental split was found."
+  },
+  {
+    "tax": "SC",
+    "code": "service.goods.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor separately agreed and separated from substantial parts is exempt; bundled repairs with substantial parts are taxable. Laundry-related alterations follow taxable laundry treatment.",
+    "conditions": [
+      {
+        "when": "repair service alone or only inconsequential consumable materials",
+        "treatment": "exempt"
+      },
+      {
+        "when": "separate agreements for parts and repair labor, with separation shown in invoices and records, including automobile repairs",
+        "treatment": "exempt"
+      },
+      {
+        "when": "taxable substantial repair parts and labor bundled without the required separation",
+        "treatment": "taxable"
+      },
+      {
+        "when": "repairing or altering an item as part of taxable laundry/dry-cleaning service",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "When repairs to machines require only service or service with the use of an inconsequential amount of materials, the amount received is not subject to tax."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "When material and service are used in repairing taxable machines with service and materials shown separately, the material only is subject to the tax."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "When material and service are used in repairing machines not exempted and when there is no separation in the billing, both materials and services are to be included in gross proceeds of sales."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "The painting of automobiles is a service by the painter. Receipts from such painting are not taxable."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "He may, however, if making separate agreements to sell the repair parts and to perform the labor and services required, remit tax only upon the price of the parts if his records and his invoices clearly show a separation of the amounts received from sales of parts and from the rendering of services."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "The gross proceeds accruing or proceeding from the business of providing or furnishing ‘‘any laundering, dry cleaning, dyeing or pressing service,’’ is construed to mean all charges made by such businesses including charges for repairing, altering, storing, pick-up, and delivery of the product so laundered, dry cleaned, dyed or pressed."
+      }
+    ],
+    "notes": "Undated current text uses existing SC 2018-01-01 baseline; state and applicable local sales taxes share the base. Separately stated sold parts remain goods.general; the repairer pays tax on consumed supplies."
+  },
+  {
+    "tax": "SC",
+    "code": "service.goods.cleaning",
+    "from": "2025-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry/dry cleaning and plant rug cleaning are taxable; coin-operated laundry and independently separated in-home rug cleaning are exempt.",
+    "conditions": [
+      {
+        "when": "laundering, dry cleaning, dyeing or pressing service, including wash-and-fold",
+        "treatment": "taxable"
+      },
+      {
+        "when": "customer use of coin-operated laundry or dry-cleaning machines",
+        "treatment": "exempt"
+      },
+      {
+        "when": "rug cleaning at cleaner’s plant",
+        "treatment": "taxable"
+      },
+      {
+        "when": "rug/carpet cleaning solely at customer home/business, or separately accounted for from plant work under 117-303.2",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "South Carolina DOR, Sales and Use Tax Manual (September 2025), chapter 2",
+        "url": "https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/SC%20Sales%20Tax%20Manual.pdf",
+        "quote": "However, charges at coin-operated laundromats for laundering services, such as a “wash and fold” service, are subject to the tax."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "but does not apply to the gross proceeds derived from coin-operated laundromats and dry cleaning machines."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "Persons operating places of business for the purpose of cleaning and/or dyeing of rugs must be licensed and must report and pay the sales tax measured by the gross proceeds derived from this cleaning or dyeing service."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "A person performing what is commonly referred to as janitorial service, that is washing windows, blinds, floors, rugs, upholstery, all or part thereof, in the home or place of business of his customers, is not liable for the license, but must pay the tax on all items of tangible personal property used in the performance of these services."
+      },
+      {
+        "title": "South Carolina Code of Regulations, Chapter 117, §§ 117-303, 117-306 and 117-313",
+        "url": "https://www.scstatehouse.gov/coderegs/Chapter%20117.pdf",
+        "quote": "This would also be true of a person whose sole business is the cleaning of rugs and carpets in the home or place of business of his respective customers."
+      }
+    ],
+    "notes": "Earliest dated manual read is September 2025; first day of printed month used. Car washes and standalone upholstery cleaning were not directly settled; no treatment inferred for those cases."
   }
 ]

@@ -2,7 +2,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { parentOf, parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
+import { parentOf, parseCodes, ruleSet, subcodesOf, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
 import { looseForTest, pageText, quoteOnPage, quoteSpan } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
 import { answerKey } from "../src/cache.js";
@@ -102,6 +102,69 @@ describe("taxability", () => {
     expect(answerKey({ ...q, codes: [] }, [])).toBe(answerKey(q, []));
     expect(answerKey({ ...q, codes: ["food.catering", "nontaxable"] }, [])).toBe(answerKey({ ...q, codes: ["nontaxable", "food.catering"] }, []));
     expect(answerKey({ ...q, codes: ["food.catering"] }, [])).not.toBe(answerKey(q, []));
+  });
+
+  it("has clothing and alcohol codes, each kind under its broad code", () => {
+    expect(CODES).toEqual(expect.arrayContaining(["clothing", "clothing.accessories", "clothing.equipment", "clothing.other", "alcohol", "alcohol.off_premises", "alcohol.on_premises"]));
+    expect(subcodesOf("clothing")).toEqual(["clothing.accessories", "clothing.equipment", "clothing.other"]);
+    expect(subcodesOf("alcohol")).toEqual(["alcohol.off_premises", "alcohol.on_premises"]);
+    expect(parentOf("clothing.other")).toBe("clothing");
+    expect(parentOf("alcohol.on_premises")).toBe("alcohol");
+    expect(parentOf("clothing")).toBeNull();
+    expect(CODES).toEqual(expect.arrayContaining(["rental", "service.goods", "service.goods.repair", "service.goods.cleaning", "service.goods.other"]));
+    expect(subcodesOf("service.goods")).toEqual(["service.goods.repair", "service.goods.cleaning", "service.goods.other"]);
+    expect(subcodesOf("rental")).toEqual([]);
+    expect(parentOf("service.goods.repair")).toBe("service.goods");
+    expect(parentOf("service.goods")).toBeNull();
+    // goods.general and groceries point to the new codes rather than leave them uncoded.
+    expect(TAX_CODES["goods.general"]).toMatch(/clothing or alcohol \(each has its own codes\)/);
+    expect(TAX_CODES["food.grocery"]).toMatch(/alcoholic beverages \(alcohol\)/);
+  });
+
+  it("answers clothing and alcohol from the researched rules", () => {
+    const at = (state: string, parts: RatePart[], code: TaxCode, date = "2026-10-30") => taxabilityOf({ state, parts }, code, date, RULES);
+    // New York: under $110 exempt from the state tax, taxed above; the local part depends on the locality's election.
+    const nyClothing = at("NY", ny, "clothing.other");
+    expect(nyClothing.treatment).toBe("conditional");
+    expect(nyClothing.taxes.find((g) => g.parts.includes("45:36"))!.rule!.conditions.map((c) => [c.when, c.treatment])).toEqual(
+      expect.arrayContaining([["An item of clothing or footwear sold for less than $110 per item or pair", "exempt"], ["An item of clothing or footwear sold for $110 or more per item or pair", "taxable"]]),
+    );
+    expect(at("NY", ny, "clothing.accessories")).toMatchObject({ treatment: "taxable", rate: 0.08875 });
+    // Massachusetts: the first $175 of an item is exempt, the rest taxed.
+    const ma: RatePart[] = [{ kind: "state", name: "Massachusetts", code: "25", rate: 0.0625, ids: {} }];
+    const maClothing = at("MA", ma, "clothing.other");
+    expect(maClothing.treatment).toBe("conditional");
+    expect(maClothing.taxes[0].rule!.conditions.some((c) => c.when.startsWith("The first $175") && c.treatment === "exempt")).toBe(true);
+    // Pennsylvania: everyday clothing is exempt at any price; accessories are taxed.
+    const pa: RatePart[] = [{ kind: "state", name: "Pennsylvania", code: "42", rate: 0.06, ids: {} }];
+    expect(at("PA", pa, "clothing.other")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    expect(at("PA", pa, "clothing.accessories")).toMatchObject({ treatment: "taxable", rate: 0.06 });
+    expect(at("PA", pa, "clothing").treatment).toBe("conditional");
+    // British Columbia: 10% PST on liquor, beside the 5% GST.
+    expect(at("BC", provinceParts("BC", "2026-10-30"), "alcohol.off_premises")).toMatchObject({ treatment: "partial", rate: 0.15 });
+    // Texas: packaged alcohol is taxed at the general rate; a mixed beverage permittee's drink isn't under the sales tax.
+    expect(at("TX", tx, "alcohol.off_premises")).toMatchObject({ treatment: "taxable", rate: 0.0825 });
+    expect(at("TX", tx, "alcohol").treatment).toBe("conditional");
+    // Ontario: children's clothing pays only the 5% federal part of the HST.
+    const on = at("ON", provinceParts("ON", "2026-10-30"), "clothing.other");
+    expect(on.outcomes?.map((o) => o.rate).sort()).toEqual([0.05, 0.13]);
+  });
+
+  it("answers rentals and work on goods from the researched rules", () => {
+    const at = (state: string, parts: RatePart[], code: TaxCode, date = "2026-10-30") => taxabilityOf({ state, parts }, code, date, RULES);
+    const one = (code: string, rate: number): RatePart[] => [{ kind: "state", name: code, code, rate, ids: {} }];
+    // Renting goods is taxed like their sale in New York; Alabama taxes it by a separate rental tax, not the sales tax.
+    expect(at("NY", ny, "rental")).toMatchObject({ treatment: "taxable", rate: 0.08875 });
+    expect(at("AL", one("01", 0.04), "rental")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    // New York taxes repairs but not shoe repair or tailoring: a case each.
+    const nyRepair = at("NY", ny, "service.goods.repair");
+    expect(nyRepair.treatment).toBe("conditional");
+    expect(nyRepair.taxes[0].rule!.conditions.map((c) => c.treatment).sort()).toEqual(["exempt", "taxable"]);
+    // Laundry and dry cleaning are exempt in Georgia; Hawaii's GET reaches every kind of work.
+    expect(at("GA", one("13", 0.04), "service.goods.cleaning")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    expect(at("HI", one("15", 0.04), "service.goods")).toMatchObject({ treatment: "taxable" });
+    // Ontario's HST follows the federal base for both.
+    expect(at("ON", provinceParts("ON", "2026-10-30"), "service.goods")).toMatchObject({ treatment: "taxable", rate: 0.13 });
   });
 
   it("reads every reviewed rule file cleanly: dated, cited, no overlaps, every follows resolved", () => {

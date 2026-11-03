@@ -2906,5 +2906,122 @@
       }
     ],
     "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+  },
+  {
+    "tax": "AL",
+    "code": "clothing",
+    "from": "2026-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sporting gear are taxable at the general state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Sales Taxes brochure (March 2026), General Rate",
+        "url": "https://www.revenue.alabama.gov/wp-content/uploads/2022/03/Sales_Tax-Sales_Tax_Brochure.pdf",
+        "quote": "A 4 percent rate applies to the retail sales of any tangible personal property except the items mentioned above."
+      },
+      {
+        "title": "ALDOR Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "Sales tax is a privilege tax imposed on the retail sale of tangible personal property sold in Alabama by businesses located in Alabama."
+      },
+      {
+        "title": "ALDOR Sales Tax — Local Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "In addition to the state sales tax, local sales taxes are also due, and these rates vary."
+      }
+    ],
+    "notes": "The brochure is dated March 2026; March 1 represents its publication month, not a law-change date. No ordinary-sale price exemption or differing clothing subcode treatment was found. Back-to-school and severe-weather sales-tax holidays are not modeled."
+  },
+  {
+    "tax": "AL",
+    "code": "alcohol",
+    "from": "2023-03-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold by the container or served as drinks is subject to general state and local sales tax. Separate liquor and other alcohol excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "Sales tax is a privilege tax imposed on the retail sale of tangible personal property sold in Alabama by businesses located in Alabama."
+      },
+      {
+        "title": "Ala. Admin. Code r. 810-6-1-.190(3), Whiskey Tax (revised March 17, 2023 compilation)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "Subsequent sales of drinks by the bar, tavern, or restaurant operator are subject to the state sales tax."
+      },
+      {
+        "title": "Ala. Admin. Code r. 810-6-1-.190(2), consumer excises in sales-tax base",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "State and local consumer taxes, including, but not limited to, tobacco tax, beer tax, wine tax, and liquor tax cannot be excluded from the measure of state or local sales tax computed on taxable retail sales."
+      },
+      {
+        "title": "ALDOR Sales Tax — Local Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "In addition to the state sales tax, local sales taxes are also due, and these rates vary."
+      }
+    ],
+    "notes": "March 17, 2023 is the revision date printed in the downloaded administrative-code compilation, not a new effective date. Rule 810-6-1-.190 says a bar pays the 56% ABC liquor tax on its wholesale liquor purchases; its later drink sales are taxed at the general sales-tax rate. General retail taxation supports off-premises sales; no separate sales-tax rate verified for ABC consumer purchases."
+  },
+  {
+    "tax": "AL",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "True leases of tangible goods fall under Alabama’s separate rental tax rather than the general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Alabama DOR, Rental Tax",
+        "url": "https://www.revenue.alabama.gov/faqs/rental-tax/",
+        "quote": "Rental tax is a privilege tax levied on the lessor for the leasing or renting of tangible personal property."
+      },
+      {
+        "title": "Alabama DOR, Rental Tax",
+        "url": "https://www.revenue.alabama.gov/faqs/rental-tax/",
+        "quote": "“Conditional sales leases” (those in which the title of the property is transferred to the lessee at the end of the lease agreement or when the lessee has an option to purchase the item at the end of the lease agreement for $1 or a nominal amount with no option to return the leased item without purchasing) are subject to sales tax."
+      }
+    ],
+    "notes": "Separate rental tax is not modeled: the FAQ lists 4% for other property and 2% for linens/garments. Conditional sales leases are sales, outside this code. Undated FAQ uses 2018-01-01, the existing AL convention for undated standing-law pages; no historical capture verified."
+  },
+  {
+    "tax": "AL",
+    "code": "service.goods.repair",
+    "from": "2023-03-17",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor restoring customers’ existing goods is exempt when separated from parts; bundled parts and labor are taxable.",
+    "conditions": [
+      {
+        "when": "repair or alteration restores existing goods to original usefulness; labor is separately billed from any repair parts",
+        "treatment": "exempt"
+      },
+      {
+        "when": "parts and repair labor are combined without separation on the invoice",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Alabama DOR, Sales and Use Tax Rules, Chapter 810-6-1 (revised March 17, 2023)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "Labor or service charges are not taxable when billed for labor or services expended in repairing or altering existing tangible personal property belonging to another in order to restore the property to its original condition or usefulness without producing new parts."
+      },
+      {
+        "title": "Alabama DOR, Sales and Use Tax Rules, Chapter 810-6-1 (revised March 17, 2023)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "When repair work includes the sale of repair parts in conjunction with repairs to existing tangible personal property belonging to another, only the sales price of the repair parts is taxable provided the charges for the repair parts and the charges for the repair labor or repair services are billed separately on the invoice to the customer."
+      },
+      {
+        "title": "Alabama DOR, Sales and Use Tax Rules, Chapter 810-6-1 (revised March 17, 2023)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "The full amount of an invoice will be subject to sales or use tax when it does not separately state the parts from the labor."
+      }
+    ],
+    "notes": "Fabricated repair parts, including fabrication labor, are taxable goods. Rule 810-6-1-.82 and auto-specific .07. Revision date of compilation is earliest verified here."
   }
 ]

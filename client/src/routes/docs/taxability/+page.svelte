@@ -9,9 +9,15 @@
 	 *  the nearest code where the provider has no exact match. */
 	const MAPPING: Array<[string, string, string, string, string]> = [
 		['goods.general', 'tangible personal property', 'txcd_99999999', '(none)', 'P0000000'],
+		['clothing', 'clothing', 'txcd_30011000', '20010', 'PC040100'],
+		['alcohol.off_premises', 'alcoholic beverages', 'txcd_41020001*', '50202201A0000*', 'PA2020200*'],
+		['alcohol.on_premises', 'alcoholic beverages', '(none)', '(none)', 'PA2010200*'],
 		['food.grocery', 'food and food ingredients', 'txcd_40040000', '40030', 'PF050002'],
 		['food.prepared', 'prepared food', 'txcd_40060003', '41000', 'PA0010000'],
 		['food.catering', 'prepared food (catering)', 'txcd_40060003*', '41000*', 'SF096370'],
+		['rental', 'lease or rental', '(none)', '(none)', 'PR091000'],
+		['service.goods.repair', '(services aren\'t defined)', 'txcd_20080005', '19007', 'SR060200'],
+		['service.goods.cleaning', '(services aren\'t defined)', 'txcd_20090004*', '19006*', '(none)'],
 		['software.saas', 'prewritten computer software, remote access', 'txcd_10103001', '30070', 'SW054003'],
 		['software.custom', 'computer software, not prewritten', 'txcd_10203001', '19005*', 'DC010200'],
 		['service.professional', "(services aren't defined)", 'txcd_20060000', '19005', 'SC160000'],
@@ -116,8 +122,14 @@
 	</tbody>
 </table>
 <p>
-	The list grows only when a rule needs a split: clothing, medicine and digital goods each get a code when their rules are
-	researched.
+	A price limit isn't a code. Where a state exempts clothing only below a price per item (New York under $110), or taxes only
+	the part of an item's price above a limit (Massachusetts above $175, Rhode Island above $250), the <code>clothing</code> rule
+	is <code>conditional</code>, and each case names the amount;
+	send <code>clothing.accessories</code> or <code>clothing.equipment</code> for the kinds most clothing exemptions leave taxed.
+	Alcohol is taxed in many places by a separate liquor, drink or gross receipts tax beside or instead of the sales tax: the
+	answer covers the sales tax only, and the rule's summary names the other tax where there is one. The list grows only when a
+	rule needs a split: medicine and digital goods each get a code when their rules are researched. A motor vehicle rental has no
+	code: most places tax it apart from the sales tax.
 </p>
 
 <h2 id="mapping">Other taxonomies</h2>
@@ -135,7 +147,7 @@
 		{/each}
 	</tbody>
 </table>
-<p>* The nearest code; that provider has no exact match.</p>
+<p>* The nearest code; that provider has no exact match. For alcohol each provider splits beer, wine and spirits: the beer code is shown, and its wine and spirits codes map the same way.</p>
 
 <h2 id="coverage">Coverage</h2>
 <p>

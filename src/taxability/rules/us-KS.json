@@ -1804,5 +1804,153 @@
         "quote": "The reduction in the sales tax rate on food and food ingredients, and certain prepared food, only applies to the state portion of the sales tax rate. All local sales and use taxes still apply."
       }
     ]
+  },
+  {
+    "tax": "KS",
+    "code": "clothing",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sports gear are taxable at Kansas state and applicable local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kansas DOR, KS-1510",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Tangible personal property — any item to which you can readily attach a monetary value (food, clothing, furniture, vehicles, computers, equipment, books, tapes, etc.)."
+      },
+      {
+        "title": "Kansas DOR, KS-1510, clothing example",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "As an Anycity, KS resident, Fred owes 9.225% state and localKansas consumers’ use tax on these items since they would be subject to sales tax had they been purchased in Kansas."
+      }
+    ],
+    "notes": "KS-1510 links a printable copy marked Rev. 11/24; first day of revision month used. The guide states state-taxable goods are also subject to local tax with few exceptions; no clothing distinction found."
+  },
+  {
+    "tax": "KS",
+    "code": "alcohol.off_premises",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Kansas packaged alcohol generally bears the separate 8% liquor enforcement tax instead of sales tax; beer sold by CMB retailers bears general state and local sales tax.",
+    "conditions": [
+      {
+        "when": "Alcoholic liquor or CMB sold by a retail liquor store, or alcoholic liquor sold by a microbrewery, microdistillery or farm winery subject to liquor enforcement tax",
+        "treatment": "exempt"
+      },
+      {
+        "when": "CMB or beer not more than 6% alcohol by volume sold by a CMB retailer",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kansas Secretary of State, 2022 Senate Bill 2, section 79-4101a(g)",
+        "url": "https://sos.ks.gov/publications/Register/Volume-41/Issues/Issue-17/04-28-22-50081.html",
+        "quote": "Retail sales of alcoholic liquor, sales of beer to consumers by microbreweries and sales of wine to consumers by farm wineries shall not be subject to the tax imposed by the Kansas retailers’ sales tax act but shall be subject to the enforcement tax provided for in this act."
+      },
+      {
+        "title": "Kansas DOR, KS-1510",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "These CMB permit holders will collect the applicable state and local sales tax on the sale of both CMB and beer."
+      },
+      {
+        "title": "Kansas DOR, Liquor Tax FAQ",
+        "url": "https://www.ksrevenue.gov/faqs-liqtax.html",
+        "quote": "Retail liquor stores will collect liquor enforcement tax on the sale of alcoholic liquor, CMB and non-alcoholic malt beverages."
+      }
+    ],
+    "notes": "KS-1510 revision month is November 2024; first day used. Its sentence suggesting retail liquor-store CMB sales are subject to sales tax conflicts with the liquor-tax FAQ and statute; use the FAQ/statute for liquor-store CMB. The separate liquor enforcement tax is not included."
+  },
+  {
+    "tax": "KS",
+    "code": "alcohol.on_premises",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Kansas drinks subject to the separate 10% liquor drink tax are exempt from sales tax; drinks sold under a CMB license instead bear general state and local sales tax.",
+    "conditions": [
+      {
+        "when": "A drink subject to liquor drink tax sold by a club, caterer or drinking establishment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "CMB or qualifying beer sold by a CMB license holder rather than a liquor drink licensee",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kansas DOR, KS-1510",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Drinks containing alcoholic liquor are subject to the Liquor Drink Tax rather than sales tax."
+      },
+      {
+        "title": "Kansas DOR, KS-1510",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Cereal Malt Beverage license holders (3.2% beer) do not collect the Liquor Drink Tax; instead, they collect Kansas Retailers’ Sales Tax on their drink sales."
+      },
+      {
+        "title": "Kansas DOR, KS-1510",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "These CMB permit holders will collect the applicable state and local sales tax on the sale of both CMB and beer."
+      }
+    ],
+    "notes": "KS-1510 Rev. 11/24; first day of revision month used. The separate liquor drink tax is not included. License and sale type determine the treatment."
+  },
+  {
+    "tax": "KS",
+    "code": "rental",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kansas taxes ordinary goods rentals and leases on each payment, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "The sales tax is added to each rental or lease payment made, including “lease with option to buy” contracts and “rent to purchase” contracts."
+      }
+    ],
+    "notes": "Guide identifies printable revision 11/24; first day of month used. No short/long-term exemption for ordinary goods. Lessor inventory purchased for rental is resale. Motor vehicles outside scope."
+  },
+  {
+    "tax": "KS",
+    "code": "service.goods",
+    "from": "2024-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kansas taxes repair, maintenance, cleaning, alteration and other work that installs, applies or alters tangible goods, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Kansas sales tax applies to the services of installing, applying, altering, repairing, servicing, or maintaining tangible personal property."
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Services such as furniture refinishing, upholstery work, modifying or updating computer software, sewing, and alteration services change or alter the furniture, software, or clothing, and are taxable."
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "Repair, service, and maintenance of tangible personal property includes these types of services:"
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "dry cleaning, pressing, dyeing & laundry services"
+      },
+      {
+        "title": "Kansas DOR, Publication KS-1510, Sales Tax and Compensating Use Tax (Rev. November 2024)",
+        "url": "https://ksrevenue.gov/pub1510.html",
+        "quote": "washing, waxing, or detailing vehicles"
+      }
+    ],
+    "notes": "Guide revision 11/24; first day used. It explicitly lists appliance and car repair, dry cleaning/pressing/dyeing/laundry and washing/waxing/detailing vehicles under repair/service/maintenance. Separately stated labor is still taxable. Dry-cleaning environmental surcharge is a separate levy and is not modeled."
   }
 ]

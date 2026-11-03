@@ -855,5 +855,178 @@
       }
     ],
     "notes": "Mandatory support or training paid to the software seller is taxable; optional, separately stated telephone support is not (FAQ). 2009-02-22 is the date of Reg-1-088 as read. No rule is written for software.saas: no Nebraska statute, regulation, ruling or DOR page read here addresses remotely accessed software (Reg-1-088 taxes software 'regardless of the manner in which it is conveyed', and Revenue Ruling 01-10-2 holds hosted website development untaxed), so SaaS is left unresearched rather than guessed. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "clothing",
+    "from": "2008-10-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Nebraska and Local Sales Tax guide (rev. October 2008)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-352.pdf",
+        "quote": "Retailers must collect the state and appropriate local option sales tax on the gross receipts from all retail sales unless a specific exemption applies."
+      }
+    ],
+    "notes": "Guide revised October 2008; month-end used because no day is printed. Clothing is tangible personal property under the general retail rule; no clothing exemption or permanent price threshold found. Guide explicitly includes state and local option sales taxes."
+  },
+  {
+    "tax": "NE",
+    "code": "alcohol",
+    "from": "2007-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages are taxable at the general state and local sales-tax rates, whether packaged for off-premises consumption or sold by the drink.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Nebraska Sales and Use Tax Guide for Bars, Taverns, and Restaurants (rev. March 2007)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-371.pdf",
+        "quote": "Sales of alcoholic beverages are taxable, whether sold as “off-sale” or by-the-drink as “on-sale.”"
+      },
+      {
+        "title": "Nebraska and Local Sales Tax guide (rev. October 2008)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-352.pdf",
+        "quote": "Retailers must collect the state and appropriate local option sales tax on the gross receipts from all retail sales unless a specific exemption applies."
+      }
+    ],
+    "notes": "Alcohol guide revised March 2007; month-end used because no day printed. Bars may include the tax in the selling price. General guide confirms state and local collection; separate municipal occupation taxes (including restaurant/drink occupation taxes) and alcohol excises are not included."
+  },
+  {
+    "tax": "NE",
+    "code": "rental",
+    "from": "2010-11-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary tangible personal property are taxable at Nebraska state and applicable local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Nebraska DOR, Reg-1-018.02, Rent or Lease of Tangible Personal Property (November 6, 2010)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Retailers who lease or rent property must obtain a permit, and collect and remit the state and applicable local sales tax to the Nebraska Department of Revenue (Department) in the same manner as any other retailer."
+      }
+    ],
+    "notes": "Date is regulation’s printed revision date. No general short/long-term split for equipment or furniture; recurring payments have sourcing rules. Special exemptions for qualifying property and related-company rentals are outside ordinary unrelated retail rental cases."
+  },
+  {
+    "tax": "NE",
+    "code": "service.goods.repair",
+    "from": "2009-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Nebraska taxes repair and alteration labor on taxable tangible goods, but separately stated motor-vehicle repair labor is exempt; painting and accessory installation remain taxable.",
+    "conditions": [
+      {
+        "when": "Motor-vehicle repair labor, separately stated or separately invoiced, excluding painting and accessory/add-on installation",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Property repaired is itself exempt from tax",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or alteration of other taxable goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Nebraska DOR, Reg-1-082.03B, Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Charges for installation and repair labor are taxable when the item of property being installed, repaired, or replaced is taxable and is not annexed to real property."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-082.03C, Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Charges for labor to repair motor vehicles are not taxable."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-082.03C(1), Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Charges for painting of motor vehicles, including labor, are taxable."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-082.03C(2), Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Charges for labor to install accessories or add-ons to motor vehicles are taxable."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-082.04, Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Charges for otherwise exempt labor performed on tangible personal property are not taxable; provided, these charges are separately stated on the same sales invoice or are separately invoiced, and such separate statement is not used as a means of avoiding the imposition of the tax upon the actual sales price of the tangible personal property."
+      }
+    ],
+    "notes": "Date is the regulation’s printed date. Taxable labor remains taxable when separately stated; exempt motor repair must be separated from taxable goods. Garment alteration/repair is taxable under Reg-1-048.04. State/local convention follows existing NE rules."
+  },
+  {
+    "tax": "NE",
+    "code": "service.goods.cleaning",
+    "from": "2003-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Nebraska exempts laundry and dry-cleaning restoration services but taxes motor-vehicle washing/waxing and cleaning of goods located in buildings as building-cleaning services.",
+    "conditions": [
+      {
+        "when": "Laundry or dry-cleaning restoration service, including coin-operated laundry/dry cleaning",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Motor-vehicle washing, waxing, polishing or detailing, including coin-operated car washes",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cleaning tangible personal property located in a building as building-cleaning service",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Nebraska DOR, Reg-1-048.01, Laundries and Dry Cleaners (October 1, 2003)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Services rendered by such persons in returning clothing and other items to their original condition are restoration services and are not taxable."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-099.01, Motor Vehicle Services",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "The taxable services include motor vehicle towing, motor vehicle washing and waxing, motor vehicle painting, and the installation of accessories or equipment on motor vehicles."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-098.03A, Building Cleaning and Maintenance Services (October 1, 2003)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Cleaning and maintenance of tangible personal property located in a building, and fixtures or any property annexed to real estate that is attached to, is a part of, or is enclosed in, a building;"
+      }
+    ],
+    "notes": "Reg-1-048 and Reg-1-098 are dated October 1, 2003; Reg-1-099 is also dated October 1, 2003. Off-site specialist rug/upholstery restoration not conclusively settled; see gap. Do not conflate garment laundry with general building-cleaning services. State/local convention follows existing NE rules."
+  },
+  {
+    "tax": "NE",
+    "code": "service.goods.other",
+    "from": "2009-02-22",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Production labor to fabricate, process, print or imprint customer-supplied goods is taxable in Nebraska, even when the labor is separately stated.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Nebraska DOR, Reg-1-082.03A, Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Charges for production and assembly labor are taxable."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-082.02A, Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "The property may be furnished by the person performing the labor; furnished directly by the consumer; or furnished indirectly through the consumer arranging for delivery of the property by a third party."
+      },
+      {
+        "title": "Nebraska DOR, Reg-1-082.04, Labor Charges (February 22, 2009)",
+        "url": "https://revenue.nebraska.gov/about/chapter-1-sales-and-use-tax",
+        "quote": "Taxable charges for labor performed on tangible personal property are taxable regardless of whether they are separately stated on the same sales invoice or are separately invoiced."
+      }
+    ],
+    "notes": "Date is printed regulation date. Code is work on taxable tangible goods; general statutory exemptions for qualifying goods/transactions still apply. State/local convention follows existing NE rules."
   }
 ]

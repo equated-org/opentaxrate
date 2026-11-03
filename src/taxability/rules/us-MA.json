@@ -743,5 +743,310 @@
       }
     ],
     "notes": "Software used in more than one state may be apportioned (830 CMR 64H.1.3(15)); the rule gives the in-state case. Massachusetts has no local sales tax outside meals."
+  },
+  {
+    "tax": "MA",
+    "code": "clothing",
+    "from": "2026-05-07",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Massachusetts exempts the first $175 of the price of each item of clothing or footwear; only the part of an item's price above $175 is taxed. Apparel solely for athletic or protective use is taxable.",
+    "conditions": [
+      {
+        "when": "The first $175 of the price of an item of clothing or footwear (an item at $175 or less is wholly exempt)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The part of an item's price above $175 (charge the tax on that part only)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Apparel designed solely for athletic or protective use, at any price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR Sales and Use Tax Guide (May 7, 2026; archived October 25, 2026)",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "However, any individual clothing item that costs more than $175 is taxable on the amount it goes over $175."
+      },
+      {
+        "title": "Massachusetts DOR Sales and Use Tax Guide",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "While apparel designed solely for athletic or protective use is taxable, items that are also suitable for everyday use are exempt."
+      }
+    ],
+    "notes": "Guide updated May 7, 2026; curl blocked current page, archive succeeds. Exempt list includes costumes; no separate fur or formal-wear sale exception identified. Guide lists athletic uniforms as taxable even though ordinary gym uniforms are exempt. Local goods sales tax does not apply. Sales-tax holidays not modeled."
+  },
+  {
+    "tax": "MA",
+    "code": "clothing.accessories",
+    "from": "2026-05-07",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Jewelry, handbags, purses, wallets and other clothing accessories are taxable at their full price.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Massachusetts DOR Guide: Taxable items",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Jewelry and accessories"
+      },
+      {
+        "title": "Massachusetts DOR Guide: Taxable items",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Handbags, purses"
+      },
+      {
+        "title": "Massachusetts DOR Guide: Taxable items",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "Wallets"
+      }
+    ],
+    "notes": "These entries are in the guide’s Taxable items list, following its exempt clothing list. Updated May 7, 2026. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "clothing.equipment",
+    "from": "2026-05-07",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Specialized athletic and protective apparel and footwear are taxable at their full price.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Massachusetts DOR Sales and Use Tax Guide",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "While apparel designed solely for athletic or protective use is taxable, items that are also suitable for everyday use are exempt."
+      }
+    ],
+    "notes": "May 7, 2026 update. Everyday steel-toed shoes and general-use clothing follow clothing threshold; specialized protective and athletic equipment is taxable. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "alcohol.off_premises",
+    "from": "2009-08-01",
+    "to": "2010-12-31",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Alcohol sold at package and liquor stores for off-premises consumption was subject to Massachusetts sales tax from August 2009 through December 2010.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Massachusetts DOR TIR 10-24 (December 14, 2010; archived)",
+        "url": "https://web.archive.org/web/20251214082034/https://www.mass.gov/technical-information-release/tir-10-24-repeal-of-sales-tax-on-alcoholic-beverages",
+        "quote": "As the result of a referendum question on the November 2, 2010 ballot, the law extending the Massachusetts sales and use tax to alcoholic beverages sold at package stores and liquor stores for off-premises consumption, which was enacted on August 1, 2009, has been repealed, effective for sales on or after January 1, 2011. TIR 09-11 is superseded to the extent it is inconsistent with this TIR, which is effective January 1, 2011."
+      }
+    ],
+    "notes": "TIR expressly identifies introduction and repeal dates. No local sales tax on package-store alcohol."
+  },
+  {
+    "tax": "MA",
+    "code": "alcohol.off_premises",
+    "from": "2011-01-01",
+    "fromIs": "effective",
+    "treatment": "exempt",
+    "summary": "Alcohol sold at package and liquor stores for off-premises consumption is exempt from sales tax; chapter 138 alcoholic-beverage excise applies instead and is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Massachusetts DOR TIR 10-24 (December 14, 2010; archived)",
+        "url": "https://web.archive.org/web/20251214082034/https://www.mass.gov/technical-information-release/tir-10-24-repeal-of-sales-tax-on-alcoholic-beverages",
+        "quote": "As the result of a referendum question on the November 2, 2010 ballot, the law extending the Massachusetts sales and use tax to alcoholic beverages sold at package stores and liquor stores for off-premises consumption, which was enacted on August 1, 2009, has been repealed, effective for sales on or after January 1, 2011. TIR 09-11 is superseded to the extent it is inconsistent with this TIR, which is effective January 1, 2011."
+      },
+      {
+        "title": "Massachusetts DOR TIR 10-24",
+        "url": "https://web.archive.org/web/20251214082034/https://www.mass.gov/technical-information-release/tir-10-24-repeal-of-sales-tax-on-alcoholic-beverages",
+        "quote": "The ballot provision approved by Massachusetts voters reinstates the sales tax exemption in G.L. c. 64H, § 6(g) for alcoholic beverages subject to the excise under chapter 138."
+      }
+    ],
+    "notes": "Effective repeal date expressly stated. No local goods sales tax. Catering agreements remain taxable as noted in the TIR."
+  },
+  {
+    "tax": "MA",
+    "code": "alcohol.on_premises",
+    "from": "2010-12-14",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "An alcoholic drink served by a bar or restaurant is part of a taxable meal in Massachusetts; 7% where the town levies the local meals excise.",
+    "conditions": [
+      {
+        "when": "Taxable as a meal, in a city or town that adopted the 0.75% local option meals excise",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Taxable as a meal, in a city or town that has not adopted it",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR TIR 10-24",
+        "url": "https://web.archive.org/web/20251214082034/https://www.mass.gov/technical-information-release/tir-10-24-repeal-of-sales-tax-on-alcoholic-beverages",
+        "quote": "Bars, restaurants and caterers must continue to collect and remit sales tax on meals including any charges for alcoholic beverages."
+      },
+      {
+        "title": "Massachusetts DOR TIR 10-24",
+        "url": "https://web.archive.org/web/20251214082034/https://www.mass.gov/technical-information-release/tir-10-24-repeal-of-sales-tax-on-alcoholic-beverages",
+        "quote": "The state and local (as applicable) sales tax on meals, including alcoholic beverages sold for on-premises consumption, as described in G.L. c. 64H, § 6(h) is unchanged by this repeal."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "The sales tax is imposed on all meals sold by a restaurant or a restaurant part of a store."
+      },
+      {
+        "title": "830 CMR 64H.6.5, Sales Tax on Meals (promulgated 6/9/89)",
+        "url": "https://www.mass.gov/regulations/830-CMR-64h65-sales-tax-on-meals",
+        "quote": "A meal is any food or beverage, or both, served or presented by a restaurant or restaurant part in a manner that is reasonably and commonly considered a meal."
+      },
+      {
+        "title": "Mass. DOR, Guide to Sales Tax on Meals (updated June 26, 2026)",
+        "url": "https://www.mass.gov/guides/sales-tax-on-meals",
+        "quote": "This local excise is imposed along with the state sales tax on meals, bringing the effective tax rate on sales of meals to 7% in a city or town that adopted it."
+      },
+      {
+        "title": "M.G.L. c. 64L, § 2, Local sales tax upon restaurant meals",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64L/Section2",
+        "quote": "may impose a local sales tax upon the sale of restaurant meals originating within the city or town by a vendor"
+      },
+      {
+        "title": "Mass. DOR TIR 09-13, Local Option Sales Tax on Meals",
+        "url": "https://www.mass.gov/technical-information-release/tir-09-13-local-option-sales-tax-on-meals-and-local-option-room-occupancy-excise-rate-increase",
+        "quote": "Recently enacted legislation establishes a new local option sales tax on meals, G.L. c. 64L"
+      }
+    ],
+    "notes": "The TIR (December 14, 2010) says bars, restaurants and caterers keep collecting the state and local meals tax on alcoholic beverages served; the local 0.75% meals excise is modelled as on the MA food.prepared.dine_in rule (7% where adopted). Earliest date is the TIR's; the treatment is older. Alcohol excises are not included."
+  },
+  {
+    "tax": "MA",
+    "code": "rental",
+    "from": "2026-05-07",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting tangible goods is subject to the general sales tax; recurring linen-service arrangements are exempt services.",
+    "conditions": [
+      {
+        "when": "Linen service rents articles and must launder or clean them on a recurring basis as an essential part of the contract",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, Sales and Use Tax Guide (May 7, 2026)",
+        "url": "https://web.archive.org/web/20261025052521/https://www.mass.gov/guides/sales-and-use-tax",
+        "quote": "The Massachusetts sales tax is 6.25% of the sales price or rental charge of tangible personal property (including gas, electricity, and steam) and telecommunications services"
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "A linen service does not collect a sales tax from its customer because an essential part of the contract for rental of the property is that the linen service launder or clean the rented articles on a recurring basis."
+      }
+    ],
+    "notes": "Guide update date May 7, 2026. No general short/long-term distinction for ordinary goods. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "service.goods.repair",
+    "from": "1979-08-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor is exempt when separated from parts; combined charges with consequential parts are taxable, and reupholstering is taxable fabrication.",
+    "conditions": [
+      {
+        "when": "Repair labor with no parts or with parts separately stated, or only inconsequential parts not separately billed",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Consequential parts and labor are not separated on customer invoices and in repairer records",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Reupholstering or making a new slipcover, constituting fabrication rather than a mechanical or structural repair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Shoe repair with materials supplied as part of the repair service",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "If the repair service does not separate on its customer invoices and in its records, the fair retail selling price of the parts or materials from the charge for labor, installation or other services, the Commissioner presumes that the entire charge represents the sales price of the property"
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "If the value of the property used in repair work is inconsequential and the repairer makes no separate charge for such property, the repair service enterprise is the consumer and pays the sales tax when it purchases the property."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "The tax applies to the total amount which the reupholsterer charges the customer, whether or not the reupholsterer states the material charge and labor charge separately in the bill."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "It does not collect a sales tax from its customer when it provides such an item of property as part of its service."
+      }
+    ],
+    "notes": "August 30, 1979 promulgation date; subsequent printed amendments (December 21, 2001 and December 19, 2003) concern sections (4) and (5)(g), rather than the repair, cleaning or fabrication provisions cited. Shoe repair is specifically a consumer service. Parts sold separately are taxable goods. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "service.goods.cleaning",
+    "from": "1979-08-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Laundering and cleaning services on customer goods are exempt; the cleaner pays tax on its supplies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "A barber, beauty shop operator, launderer or cleaner is a consumer of the supplies which such an enterprise uses in rendering its service. It does not collect a tax from its customer."
+      }
+    ],
+    "notes": "August 30, 1979 promulgation date; later printed amendments concern other sections. Separate retail sales of supplies are taxable. No local goods sales tax."
+  },
+  {
+    "tax": "MA",
+    "code": "service.goods.other",
+    "from": "1979-08-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Fabrication substantially changing customer goods is taxable; a pure service without a transfer or substantial alteration is exempt.",
+    "conditions": [
+      {
+        "when": "Work changes the form or substance or substantially alters the shape of the customer’s property, constituting fabrication",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Pure service without a transfer of goods or fabrication",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "A fabrication is a sale and is subject to the sales tax."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "Any change in the form or substance of tangible personal property, or any substantial alteration in the form or shape of an existing article of tangible personal property where either party to the transaction furnishes the material, is a fabrication under this regulation."
+      },
+      {
+        "title": "Massachusetts DOR, 830 CMR 64H.1.1 Service Enterprises (promulgated August 30, 1979; amended December 19, 2003)",
+        "url": "https://web.archive.org/web/20260610053417/https://www.mass.gov/regulations/830-CMR-64h11-service-enterprises",
+        "quote": "The real object of the transaction is the service itself, and no transfer of tangible personal property occurs; or"
+      }
+    ],
+    "notes": "August 30, 1979 promulgation date; later printed amendments concern other sections. Applying fabrication definition to the requested customization code; no claim that every minor engraving or monogram necessarily satisfies substantial-alteration criterion. Particular customization classifications remain reviewer questions."
   }
 ]

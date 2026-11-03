@@ -1237,5 +1237,220 @@
       }
     ],
     "notes": "Local taxes reach food for home consumption as well as prepared food, so the raw-animal-food distinction does not change the local answer."
+  },
+  {
+    "tax": "LA",
+    "code": "clothing",
+    "from": "2025-06-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories, protective and sports equipment, costumes, formal wear and furs, are taxable tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR General Sales & Use Tax (updated June 13, 2025)",
+        "url": "https://revenue.louisiana.gov/businesses/general-sales-and-use-taxes/general-sales-use-tax",
+        "quote": "The sale of tangible personal property or digital products at retail in Louisiana;"
+      }
+    ],
+    "notes": "Dated June 13, 2025 on the revenue page. General tangible-personal-property levy applies to these retail goods, with no clothing-specific exemption identified. Following existing us-LA.json, LA covers state and parish/municipal parts for this base; no independent local clothing or alcohol exemption was established. Sales-tax holidays are not modeled."
+  },
+  {
+    "tax": "LA",
+    "code": "alcohol",
+    "from": "2025-06-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail alcoholic beverages are subject to general sales tax whether taken away or served on premises; separate alcoholic-beverage excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR General Sales & Use Tax (updated June 13, 2025)",
+        "url": "https://revenue.louisiana.gov/businesses/general-sales-and-use-taxes/general-sales-use-tax",
+        "quote": "The sale of tangible personal property or digital products at retail in Louisiana;"
+      },
+      {
+        "title": "Louisiana Administrative Code, Title 61, June 2025: food exclusions",
+        "url": "https://dam.ldr.la.gov/lawspolicies/61v01.pdf",
+        "quote": "Alcoholic beverages, malt beverages and beer;"
+      }
+    ],
+    "notes": "June 13, 2025 revenue-page date; June 2025 regulations exclude alcohol from exempt food. LA base/local convention follows existing us-LA.json. Separate excise is described on the downloaded LDR alcoholic-beverage-tax page and is not modeled."
+  },
+  {
+    "tax": "LA",
+    "code": "rental",
+    "from": "2006-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary tangible goods are subject to general sales and use tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "The lease or rental of tangible personal property for a consideration in Louisiana is a transaction that is subject to the sales or use tax."
+      }
+    ],
+    "notes": "General state/local sales tax, using the existing LA and LA:local conventions. Latest amendment month printed in the regulation is May 2006; May 31 is a conservative month-end verification date. No general duration distinction for ordinary goods rentals is stated. Special-purpose buyer/use exemptions are outside this ordinary retail transaction."
+  },
+  {
+    "tax": "LA",
+    "code": "service.goods.repair",
+    "from": "2006-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair and routine servicing labor on tangible goods is taxable, even when labor is separately billed.",
+    "conditions": [
+      {
+        "when": "Repaired property returned to a customer in another state by common carrier or the repair dealer’s vehicle",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "By clear illustration in the statute, both repair and routine servicing of all kinds of tangible personal property are included as taxable services."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "For state sales or use tax purposes only, repairs performed within Louisiana on tangible personal property are taxable sales of services except for repaired property which is returned to a customer located in another state by common carrier or by the repair dealer's vehicle."
+      }
+    ],
+    "notes": "General state/local sales tax, using the existing LA and LA:local conventions. Latest amendment month printed in the regulation is May 2006; May 31 is a conservative month-end verification date. No general duration distinction for ordinary goods rentals is stated. Special-purpose buyer/use exemptions are outside this ordinary retail transaction. The out-of-state-return exception is expressly state-only. Parts sold separately remain goods."
+  },
+  {
+    "tax": "LA",
+    "code": "service.goods.cleaning",
+    "from": "2006-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and fabric cleaning are taxable; ordinary cleaning of nonfabric goods and customer-operated laundry machines are not.",
+    "conditions": [
+      {
+        "when": "Cleaning, pressing or dyeing fabric, fur, leather or cloth, including clothing, furniture, rugs and carpets",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cleaning nonfabric goods, including ordinary automobile washing, rather than repairing their workings",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Customer personally operates coin-operated laundry or dry-cleaning equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Cleaning restores goods to proper working condition, such as engine fuel injectors",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Sales of services under R.S. 47:301(14)(e) includes cleaning, pressing, and dyeing objects made primarily of materials like fabric, fur, leather, or cloth by cleaners, laundries, washaterias, and other cleaning establishments."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Cleaning objects made primarily of metal, wood, plastic, glass, or other nonfabric material are not subject to tax under R.S. 47:301(14)(e)."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Taxable cleaning services under R.S. 47:301(14)(e) do not include transactions when customers personally operate cleaning equipment for a fee."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Cleaning services performed to restore tangible personal property to a proper working condition, as when cleaning the inner workings of a watch or the fuel injectors in an engine, are considered repairs under R.S. 47:301(14)(g) and subject to tax."
+      }
+    ],
+    "notes": "General state/local sales tax, using the existing LA and LA:local conventions. Latest amendment month printed in the regulation is May 2006; May 31 is a conservative month-end verification date. No general duration distinction for ordinary goods rentals is stated. Special-purpose buyer/use exemptions are outside this ordinary retail transaction."
+  },
+  {
+    "tax": "LA:local",
+    "code": "rental",
+    "from": "2006-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary tangible goods are subject to general sales and use tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "The lease or rental of tangible personal property for a consideration in Louisiana is a transaction that is subject to the sales or use tax."
+      }
+    ],
+    "notes": "General state/local sales tax, using the existing LA and LA:local conventions. Latest amendment month printed in the regulation is May 2006; May 31 is a conservative month-end verification date. No general duration distinction for ordinary goods rentals is stated. Special-purpose buyer/use exemptions are outside this ordinary retail transaction."
+  },
+  {
+    "tax": "LA:local",
+    "code": "service.goods.repair",
+    "from": "2006-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair and routine servicing labor on tangible goods is taxable, even when labor is separately billed.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "By clear illustration in the statute, both repair and routine servicing of all kinds of tangible personal property are included as taxable services."
+      }
+    ],
+    "notes": "General state/local sales tax, using the existing LA and LA:local conventions. Latest amendment month printed in the regulation is May 2006; May 31 is a conservative month-end verification date. No general duration distinction for ordinary goods rentals is stated. Special-purpose buyer/use exemptions are outside this ordinary retail transaction. The out-of-state-return exception is expressly state-only. Parts sold separately remain goods."
+  },
+  {
+    "tax": "LA:local",
+    "code": "service.goods.cleaning",
+    "from": "2006-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and fabric cleaning are taxable; ordinary cleaning of nonfabric goods and customer-operated laundry machines are not.",
+    "conditions": [
+      {
+        "when": "Cleaning, pressing or dyeing fabric, fur, leather or cloth, including clothing, furniture, rugs and carpets",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Cleaning nonfabric goods, including ordinary automobile washing, rather than repairing their workings",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Customer personally operates coin-operated laundry or dry-cleaning equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Cleaning restores goods to proper working condition, such as engine fuel injectors",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Sales of services under R.S. 47:301(14)(e) includes cleaning, pressing, and dyeing objects made primarily of materials like fabric, fur, leather, or cloth by cleaners, laundries, washaterias, and other cleaning establishments."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Cleaning objects made primarily of metal, wood, plastic, glass, or other nonfabric material are not subject to tax under R.S. 47:301(14)(e)."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Taxable cleaning services under R.S. 47:301(14)(e) do not include transactions when customers personally operate cleaning equipment for a fee."
+      },
+      {
+        "title": "Louisiana DOR, LAC 61:I.4301 Uniform Sales and Local Sales Tax Definitions (amended through May 2006)",
+        "url": "https://dam.ldr.la.gov/lawspolicies/LAC%2061%20I%204301%204404%20and%204408%20(Current%20Regulation).pdf",
+        "quote": "Cleaning services performed to restore tangible personal property to a proper working condition, as when cleaning the inner workings of a watch or the fuel injectors in an engine, are considered repairs under R.S. 47:301(14)(g) and subject to tax."
+      }
+    ],
+    "notes": "General state/local sales tax, using the existing LA and LA:local conventions. Latest amendment month printed in the regulation is May 2006; May 31 is a conservative month-end verification date. No general duration distinction for ordinary goods rentals is stated. Special-purpose buyer/use exemptions are outside this ordinary retail transaction."
   }
 ]

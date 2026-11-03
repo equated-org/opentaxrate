@@ -1071,5 +1071,130 @@
       }
     ],
     "notes": "Begins 2017-07-01 like UT's food.prepared.cold rule. The Tax Commission's Food versus Non-Food Matrix lists 'Shiskabobs made in store' in the Food (grocery-rate) column with the comment 'Raw meat'. No Utah source read names take-and-bake pizza or meal kits; they follow the statute's mixed-or-combined test. Food sold by a restaurant (including caterers) in a county with the restaurant (tourism) tax also bears that separate tax of up to 1%, even on grocery food; it is not part of these rules. The 1.25% is the total of the 1% local option and 0.25% county option taxes, as in UT:local food.grocery."
+  },
+  {
+    "tax": "UT",
+    "code": "clothing",
+    "from": "2026-10-22",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Utah taxes clothing and footwear, accessories and protective or sporting equipment at the full combined sales-tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Tax Commission, Grocery Food Sales & Use Tax, archived October 22, 2026",
+        "url": "https://web.archive.org/web/20261022144519/https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "You collect tax at the grocery food rate (3 percent) on the grocery food and the combined sales tax rate at your location for the clothing."
+      },
+      {
+        "title": "Utah Code §59-12-103(1)(a), effective July 1, 2026",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "retail sales of tangible personal property made within the state;"
+      }
+    ],
+    "notes": "Current agency page blocked curl; the cited Internet Archive capture supplied the same official text and establishes the date. General tangible-property sales are taxable; no separate clothing exemption was found. The combined rate includes applicable local sales taxes. No clothing holiday is modeled."
+  },
+  {
+    "tax": "UT",
+    "code": "alcohol",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for consumption on or off premises is subject to Utah general state and local sales tax. A separate restaurant tourism tax may also apply and is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code §59-12-103(1)(a), effective July 1, 2017",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "retail sales of tangible personal property made within the state;"
+      },
+      {
+        "title": "Utah Code §59-12-103(1)(a), effective July 1, 2026",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2026050620260701.html",
+        "quote": "retail sales of tangible personal property made within the state;"
+      },
+      {
+        "title": "Utah Tax Commission, Publication 55, Alcoholic Beverages",
+        "url": "https://files.tax.utah.gov/tax/forms/pubs/pub-55.pdf",
+        "quote": "Alcoholic beverage sales are subject to sales tax when sold in restaurants, taverns and clubs."
+      },
+      {
+        "title": "Utah Tax Commission, Grocery Food Sales & Use Tax, archived October 22, 2026",
+        "url": "https://web.archive.org/web/20261022144519/https://tax.utah.gov/business/sales-tax/other-sales-tax/food-rate/",
+        "quote": "Grocery food does not include alcoholic beverages, tobacco or prepared food."
+      }
+    ],
+    "notes": "July 1, 2017 is the effective date of the earliest statute version read, marked earliest_verified because taxability predates it. The undated Publication 55 is read alongside that statute using the existing Utah file’s date convention. Alcohol is excluded from reduced-rate groceries. Publication 55 describes an additional county restaurant tax up to 1%, separately returned on TC-62F; not modeled as a general sales-tax rate. Agency direct downloads were blocked; the official files.tax.utah.gov host supplied the PDF."
+  },
+  {
+    "tax": "UT",
+    "code": "rental",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods stored, used or consumed in Utah are taxable at general state and applicable local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code §59-12-103 (effective July 1, 2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "amounts paid or charged for leases or rentals of tangible personal property if within this state the tangible personal property is:"
+      },
+      {
+        "title": "Utah Code §59-12-103 (effective July 1, 2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "otherwise consumed;"
+      }
+    ],
+    "notes": "Dated 2017 statutory version is earliest verified; applies without a short/long term distinction to ordinary goods. The later archived Publication 25 mentions a heavy-equipment recovery fee distinct from sales tax; not modeled."
+  },
+  {
+    "tax": "UT",
+    "code": "service.goods.repair",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair and renovation labor on ordinary tangible goods is taxable, including separately stated labor.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Utah Code §59-12-103 (effective July 1, 2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "amounts paid or charged for services for repairs or renovations of tangible personal property, unless Section 59-12-104 provides for an exemption from sales and use tax for:"
+      }
+    ],
+    "notes": "Earliest verified dated statutory version. The statutory exception concerns exempt property/parts under §59-12-104; this draft addresses ordinary nonexempt household and business goods. No motor-vehicle labor exclusion is stated in the cited provision."
+  },
+  {
+    "tax": "UT",
+    "code": "service.goods.cleaning",
+    "from": "2017-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Assisted washing and cleaning of tangible goods, and laundry and dry-cleaning services, are taxable; qualifying unassisted washing is exempt.",
+    "conditions": [
+      {
+        "when": "Unassisted cleaning or washing qualifying under §59-12-104(7), separately accounted for when sold alongside assisted services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Utah Code §59-12-103 (effective July 1, 2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "except as provided in Subsection 59-12-104(7) , amounts paid or charged for assisted cleaning or washing of tangible personal property;"
+      },
+      {
+        "title": "Utah Code §59-12-103 (effective July 1, 2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S103_2017050920170701.html",
+        "quote": "amounts paid or charged for laundry or dry cleaning services;"
+      },
+      {
+        "title": "Utah Code §59-12-104(7) (effective July 1, 2017)",
+        "url": "https://le.utah.gov/xcode/Title59/Chapter12/C59-12-S104_2017050920170701.html",
+        "quote": "sales of cleaning or washing of tangible personal property if the cleaning or washing of the tangible personal property is not assisted cleaning or washing of tangible personal property;"
+      }
+    ],
+    "notes": "Dated 2017 statutes are earliest verified. Statutory exemption requires separate accounting if assisted and unassisted services are sold at the same location; the cross-reference to subsection (88) limits the exemption for washing equipment used by a seller. No separate parts sale is required for taxable cleaning."
   }
 ]

@@ -1231,5 +1231,349 @@
       }
     ],
     "notes": "TB-ST-283's table treats pizza as exempt when sold frozen, refrigerated or unheated by a food store, and taxable heated; no current bulletin names take-and-bake pizza, raw kebabs or meal kits as such. Uncooked food is not 'ready to be eaten' (it needs more preparation), so the plate/platter test does not reach it. Whether a pizzeria's take-and-bake pizza is in a form 'ordinarily sold in grocery stores' is not settled by the bulletins read (TSB-A-85(60)S and (60.1)S, 1985-86 opinions to a pizzeria, were not read for this rule). Earliest date: the 2019-04-08 issue of the current food bulletins; the treatment is older. Local taxes and the MCTD tax follow the state base (Tax Law §1210 and §1109, cited on the NY food.grocery rule; nysenate.gov refuses automated downloads, so the statutes aren't cited here). Restaurants are taxed under Tax Law §1105(d), likewise not cited here."
+  },
+  {
+    "tax": "NY",
+    "code": "clothing",
+    "from": "2023-04-21",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Clothing and footwear sold for less than $110 per item or pair are exempt from New York's 4% state tax (and the MCTD tax where the locality elects); an item or pair at $110 or more, a costume and rented formal wear are taxable.",
+    "conditions": [
+      {
+        "when": "An item of clothing or footwear sold for less than $110 per item or pair",
+        "treatment": "exempt"
+      },
+      {
+        "when": "An item of clothing or footwear sold for $110 or more per item or pair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A costume, or formal wear rented rather than sold, at any price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "Clothing and footwear sold for less than $110 per item or pair and items used to make or repair this clothing are exempt from the New York State 4% sales and use taxes."
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Costumes: taxable"
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Fur clothing: exempt"
+      }
+    ],
+    "notes": "TB-ST-122 (March 10, 2014) states the under-$110 exemption; TB-ST-530's chart (April 21, 2023) the costume and fur entries; 2023-04-21 is the earliest date read for the whole. The limit is per item or pair: an item at $110 or more is taxed on its whole price. Local taxes: NY:local. Sales-tax holidays: none current."
+  },
+  {
+    "tax": "NY:local",
+    "code": "clothing",
+    "from": "2023-04-21",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "New York's local sales taxes exempt clothing and footwear under $110 only where the county or city elects the exemption (Publication 718-C lists them); elsewhere the local tax applies at any price.",
+    "conditions": [
+      {
+        "when": "An item of clothing or footwear sold for less than $110 per item or pair; in a county or city that elects the clothing exemption (Publication 718-C)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "An item of clothing or footwear sold for less than $110 per item or pair; in a county or city that doesn't elect it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "An item of clothing or footwear sold for $110 or more per item or pair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "A costume, or formal wear rented rather than sold, at any price",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "The exemption does not apply to local sales and use taxes unless the county or city imposing the taxes elects to provide the exemption."
+      },
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "The exemption also applies to the ⅜% Metropolitan Commuter Transportation District (MCTD) tax, but only within localities in the MCTD that have elected to provide the exemption."
+      }
+    ],
+    "notes": "The election is per locality and can change on March 1; the current list is Publication 718-C, not cited as a rule list here. The MCTD 3/8% follows the election of the locality it is collected in. Same dates as the NY clothing rule."
+  },
+  {
+    "tax": "NY",
+    "code": "clothing.accessories",
+    "from": "2014-03-10",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Jewelry, watches and similar clothing accessories are taxable regardless of price.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "jewelry, watches, and similar accessories;"
+      }
+    ],
+    "notes": "TB-ST-122 issue date March 10, 2014, list of taxable purchases. Local taxes follow the taxable base; local clothing elections do not exempt accessories."
+  },
+  {
+    "tax": "NY",
+    "code": "clothing.equipment",
+    "from": "2023-04-21",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Protective and sport gear is generally taxable in New York, but sport footwear, ski boots, waders, wet and dry suits and sport or work gloves count as clothing: exempt from the state tax under $110.",
+    "conditions": [
+      {
+        "when": "Sport footwear (cleated, ski, golf, bowling shoes; ski boots; waders), wet or dry suits, or batting, bicycle, golf, ski, tennis or work gloves, sold for less than $110 per item or pair",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Those items sold for $110 or more per item or pair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Helmets, hard hats, protective glasses, masks, pads, skates, fielders' mitts and other gear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Helmets (sport, motorcycle, bicycle, etc.): taxable"
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Boots (climbing, fishing, riding, ski, waders): exempt"
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Wet and dry suits: exempt"
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Gloves (batting, bicycle, dress [unless rented], garden, golf, ski, tennis, work): exempt"
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Shoes (ballet, bicycle, bowling, cleated, football, golf, jazz/dance, soccer, track, etc.): exempt"
+      }
+    ],
+    "notes": "TB-ST-530 April 21, 2023. These exceptions fall within OpenTaxRate equipment although NY treats them as clothing. The local election rule also applies to these qualifying items."
+  },
+  {
+    "tax": "NY:local",
+    "code": "clothing.equipment",
+    "from": "2023-04-21",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Locally, the sport footwear, suits and gloves New York counts as clothing are exempt under $110 only where the county or city elects the clothing exemption; other gear is taxable everywhere.",
+    "conditions": [
+      {
+        "when": "Sport footwear (cleated, ski, golf, bowling shoes; ski boots; waders), wet or dry suits, or batting, bicycle, golf, ski, tennis or work gloves, sold for less than $110 per item or pair; in a county or city that elects the clothing exemption (Publication 718-C)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sport footwear (cleated, ski, golf, bowling shoes; ski boots; waders), wet or dry suits, or batting, bicycle, golf, ski, tennis or work gloves, sold for less than $110 per item or pair; in a county or city that doesn't elect it",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Those items sold for $110 or more per item or pair",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Helmets, hard hats, protective glasses, masks, pads, skates, fielders' mitts and other gear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Helmets (sport, motorcycle, bicycle, etc.): taxable"
+      },
+      {
+        "title": "NY DTF, TB-ST-530 Taxable Status of Clothing, Footwear and Items Used to Make or Repair Clothing (April 21, 2023)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_chart.htm",
+        "quote": "Boots (climbing, fishing, riding, ski, waders): exempt"
+      },
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "The exemption does not apply to local sales and use taxes unless the county or city imposing the taxes elects to provide the exemption."
+      }
+    ],
+    "notes": "TB-ST-530 April 21, 2023; current locality list in downloaded Pub 718-C (2/25)."
+  },
+  {
+    "tax": "NY",
+    "code": "alcohol",
+    "from": "2019-04-08",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic drinks are taxable both in sealed containers and served on premises.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-65 Beverages Sold by Food Stores (April 8, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/beverages_sold_by_food_stores.htm",
+        "quote": "alcoholic beverages (for example, beer, cocktails, hard cider, hard lemonade, liquor, liqueur, mixed drinks, spirits, and wine);"
+      },
+      {
+        "title": "NY DTF, TB-ST-806 Sales by Restaurants",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/sales_by_restaurants.htm",
+        "quote": "When food or drink is sold for on-premises consumption, it is taxable, whether it is sold hot or cold."
+      }
+    ],
+    "notes": "Both bulletins issued April 8, 2019. General state/local sales tax applies; separate state/NYC alcoholic beverage excises excluded."
+  },
+  {
+    "tax": "NY:local",
+    "code": "clothing.accessories",
+    "from": "2014-03-10",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Jewelry, watches and similar accessories are taxable by New York's local sales taxes too: the local clothing election covers only clothing and footwear.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "jewelry, watches, and similar accessories;"
+      },
+      {
+        "title": "NY DTF, TB-ST-122 Clothing and Footwear (March 10, 2014)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm",
+        "quote": "The exemption does not apply to local sales and use taxes unless the county or city imposing the taxes elects to provide the exemption."
+      }
+    ],
+    "notes": "Needed beside the NY:local clothing rule, which is conditional on the locality's election, so the local part of an accessory doesn't answer from it. TB-ST-122 (March 10, 2014)."
+  },
+  {
+    "tax": "NY",
+    "code": "rental",
+    "from": "2015-11-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rental and lease charges for ordinary tangible goods are taxable at state and applicable local sales tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, Publication 750 A Guide to Sales Tax in New York State (November 2015)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub750.pdf",
+        "quote": "The term sale includes outright sales, rentals, leases, and licenses to use."
+      },
+      {
+        "title": "NY DTF, Publication 750 A Guide to Sales Tax in New York State (November 2015)",
+        "url": "https://www.tax.ny.gov/pdf/publications/sales/pub750.pdf",
+        "quote": "machinery and equipment, parts, tools, and supplies;"
+      }
+    ],
+    "notes": "Publication 750 is dated 11/15; first of month used. Ordinary taxable goods, excluding vehicles and real property. No term-based exemption found. Local and MCTD base follows existing NY convention."
+  },
+  {
+    "tax": "NY",
+    "code": "service.goods.repair",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and maintenance work on customer goods is taxable, including automobile repair; tailoring, weaving and shoe repair are exempt.",
+    "conditions": [
+      {
+        "when": "Tailoring or weaving clothing, or repairing shoes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or maintenance of other goods, including motor vehicles",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "maintaining, installing, servicing, and repairing of tangible personal property;"
+      },
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "Laundering, dry cleaning (including carpet, rug, drapery, and upholstery cleaning services), tailoring, weaving, pressing, shoe repairing, and shoe shining"
+      }
+    ],
+    "notes": "TB-ST-740 update date; general repair treatment also appears in Publication 750 (11/15), but the 2019 guide supplies this complete exception list. Separately stating labor does not exempt it. State, local and MCTD base follows existing NY convention."
+  },
+  {
+    "tax": "NY",
+    "code": "service.goods.cleaning",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and dry cleaning, including rugs and upholstery, are exempt; car washing is generally taxable with a coin-operated equipment exception.",
+    "conditions": [
+      {
+        "when": "Laundering, dry cleaning, carpet, rug, drapery or upholstery cleaning, pressing or shoe shining",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Car washing, waxing or vacuuming with staff work or assistance, or payment by credit/debit card or activation code",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Car washing or vacuuming exclusively by coin-, currency- or token-operated equipment, without employee assistance, either self-service or fully automated",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "Laundering, dry cleaning (including carpet, rug, drapery, and upholstery cleaning services), tailoring, weaving, pressing, shoe repairing, and shoe shining"
+      },
+      {
+        "title": "NY DTF, TB-ST-105 Car Wash Services (September 23, 2010)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/car_wash_services.htm",
+        "quote": "Car wash services are taxable when car wash personnel wash, wax, or vacuum the car or assist with these services."
+      },
+      {
+        "title": "NY DTF, TB-ST-105 Car Wash Services (September 23, 2010)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/car_wash_services.htm",
+        "quote": "Car wash services are not taxable if the car or other property is washed, waxed, or vacuumed exclusively with coin-operated equipment; the car is washed without any assistance by the car wash employees; and one of these conditions is met:"
+      }
+    ],
+    "notes": "Complete cleaning split verified using TB-ST-740 (2019) and TB-ST-105 (2010). Other cleaning of tangible goods remains within the taxable maintaining/servicing category. No special NYC-only laundry tax found in these sources."
+  },
+  {
+    "tax": "NY",
+    "code": "service.goods.other",
+    "from": "2019-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Processing, fabrication, printing and imprinting performed on customer-furnished goods for personal use are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NY DTF, TB-ST-740 Quick Reference Guide for Taxable and Exempt Property and Services (February 1, 2019)",
+        "url": "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/quick_reference_guide_for_taxable_and_exempt_property_and_services.htm",
+        "quote": "processing, fabricating, printing, or imprinting of tangible personal property for a customer who furnishes the tangible personal property and doesn’t plan to resell it;"
+      }
+    ],
+    "notes": "TB-ST-740 update date. State and local sales taxes share this base. Resale services require separate exemption support."
   }
 ]
