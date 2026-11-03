@@ -350,14 +350,45 @@ export interface Asked {
 export const NEEDS = ["code", "one_item", "seller_kind", "seller_license", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"] as const;
 export type Need = (typeof NEEDS)[number];
 
+/** The legal standings the rules' cases turn on, one entry each. An item
+ *  description never establishes any of them ("a wine shop" isn't a Class
+ *  A licensee); a software license agreement between licensor and licensee
+ *  is the sale's terms, not a standing. The seller's: a license or permit
+ *  and its class, a registration or credential... */
+const SELLER_STANDING: RegExp[] = [
+  /(?<!licensor and )\b(?:licensees?|permittees?|license holders?|permit holders?)\b/,
+  /\bClass [A-Z]\b/,
+  /\blicensed (?:attorney|real estate|prof)|\blicensed under Title\b/,
+  /\bseparately registered\b|\bregistered (?:as|real estate|agent|broker|charit)|\bis registered\b/,
+  /\bcertified public accountant\b|\benrolled agents?\b/,
+];
+
+/** ...and the buyer's: a certificate or form it gives, a licensed or
+ *  nonprofit buyer, buying for resale. Like every buyer's exemption, the
+ *  caller's to claim (codes.ts): an exception that turns only on one never
+ *  holds open the usual answer for an ordinary buyer, and is never settled. */
+const BUYER_STANDING: RegExp[] = [
+  /\bexemption certificate\b|\btransaction certificate\b|\bcertifies\b|\bForm ST-\d+|\bFIN \d+/,
+  /\blicensed (?:healthcare|health care)\b/,
+  /\bnon-?profit\b|\bcharitable (?:organi[sz]ation|institution)\b|\b501\(c\)/,
+  /\b(?:for|tax-free for) resale\b|\bexempt buyer\b/,
+];
+
+const anyOf = (res: RegExp[]) => new RegExp(res.map((re) => re.source).join("|"), "i");
+const SELLER_RE = anyOf(SELLER_STANDING);
+const BUYER_RE = anyOf(BUYER_STANDING);
+
+/** A rule's exception that turns only on the buyer's standing. */
+const buyersOnly = (k: Condition) => {
+  const needs = blockingOf(k);
+  return needs.length === 1 && needs[0] === "seller_license" && BUYER_RE.test(k.when) && !SELLER_RE.test(k.when);
+};
+
 const UNASKABLE: Array<[Need, RegExp]> = [
   // An explicit share of the seller's sales or receipts, or California's 80-80 rule.
   ["seller_kind", /\b\d{2}(?:\.\d+)?\s?(?:%|percent)[^.;]*\b(?:sales|receipts)\b|\b(?:sales|receipts)\b[^.;]*\b(?:exceed|over|more than|less than|or less|or more)\s+\d{2}(?:\.\d+)?\s?(?:%|percent)|\b80[-/]80\b|\b80\/20\b|prepared[- ]food sales percentage/i],
-  // The seller's (or buyer's) legal standing: a license or permit and its
-  // class, a registration or certification, nonprofit or charitable status.
-  // An item description never establishes it ("a wine shop" isn't a Class A
-  // licensee).
-  ["seller_license", /(?<!licensor and )\b(?:licensees?|permittees?|license holders?|permit holders?)\b|\bClass [A-Z]\b|\bseparately registered\b|\bregistered (?:as|real estate|agent|broker|charit)|\bis registered\b|\bcertified public accountant\b|\bnon-?profit\b|\bcharitable (?:organi[sz]ation|institution)\b|\b501\(c\)/i],
+  // The seller's or buyer's legal standing (LEGAL_STANDING).
+  ["seller_license", anyOf([...SELLER_STANDING, ...BUYER_STANDING])],
   // Which local taxes the place levies or exempts, or which local part it is.
   ["locality", /\b(?:[Cc]ity|[Tt]own|[Cc]ounty|[Mm]unicipality|[Pp]arish|[Bb]orough)\b[^.;]*\b(?:levies|levy|adopted|adopt|imposes|impose|ordinance|lowered|limits its|has not)\b|\b[Oo]rdinances?\b|\blocal[- ]option\b|\bhome[- ]rule\b|\blocal part\b|\b[Ss]old in [A-Z][\w.]+(?: [A-Z][\w.]+)* Count(?:y|ies)\b|\bTupelo\b|\bRTA\b/],
   // When the sale was paid for, in a dated tax period.
@@ -376,6 +407,7 @@ const COUNTS = [
   /\b(?:larger|smaller|greater)\s+quantit/i,
   new RegExp(`\\b${N}\\s+or\\s+(?:more|fewer|less)\\s+${UNITS}\\b`, "i"),
   new RegExp(`\\b(?:fewer|less|more|under|over)\\s+(?:than\\s+)?${N}\\s+${UNITS}\\b`, "i"),
+  new RegExp(`\\b(?:packs?|packages?|boxes)\\s+of\\s+(?:(?:fewer|less|more)\\s+than\\s+|under\\s+|over\\s+)${N}\\b`, "i"),
 ];
 
 /** The case's words turn on how many units are sold: a count of items or
@@ -439,7 +471,9 @@ export function asQuestions(asked: Asked[], code: TaxCode): Record<string, Quest
     asked.map((q) => {
       const options: Record<string, string> = {};
       q.cases.forEach((ks, n) => {
-        options[`C${n + 1}`] = [...new Set(ks.map((k) => (k === "keep" ? keepText(code) : caseText(k))))].join("; and ");
+        // Only what the text may settle: a case's alternatives that turn
+        // on a count are left out, so a pick can't rest on them.
+        options[`C${n + 1}`] = [...new Set(ks.map((k) => (k === "keep" ? keepText(code) : askedText(k))))].join("; and ");
       });
       options[NONE] = "The description doesn't say which of these it is.";
       return [q.id, { instructions: q.exception ? EXCEPTION_INSTRUCTIONS : conditionInstructions(), options }];
@@ -859,12 +893,12 @@ export async function describedTaxability(
   // Several items and no one code: the codes the picker leans to answer
   // only where they pool (all alike here), as one line's would.
   if (several && !("code" in proposal)) {
-    const d = "candidates" in proposal ? candidatesOrPooled(answer, picked.code, proposal.candidates, date, rules) : null;
+    const d = "candidates" in proposal ? await candidatesOrPooled(answer, picked.code, proposal.candidates, date, rules, text, picker) : null;
     return d && d.rate !== null ? { ...d, interpreted: { ...d.interpreted, items: true } } : oneItem("candidates" in proposal ? proposal.candidates : []);
   }
   // Nothing the codes cover: not researched, as an unresearched code is.
   if ("none" in proposal) return { treatment: "not_researched", rate: null, taxes: [], interpreted: { from: "text", code: null } };
-  if ("candidates" in proposal) return candidatesOrPooled(answer, picked.code, proposal.candidates, date, rules);
+  if ("candidates" in proposal) return candidatesOrPooled(answer, picked.code, proposal.candidates, date, rules, text, picker);
 
   // The code, or the nearest broader one, whose defining fact the text
   // establishes: asked for all of them at once, beside the code's cases.
@@ -918,7 +952,7 @@ export async function describedTaxability(
   const extra = OTHERWISE[proposal.code];
   const candidates = [...new Set([...chain, ...(extra ? [extra] : []), ...candidatesOf(picked.code)])].slice(0, 4);
   if (several) return { ...oneItem(candidates), interpreted: { ...oneItem(candidates).interpreted, unestablished } };
-  const d = candidatesOrPooled(answer, picked.code, candidates, date, rules, true);
+  const d = await candidatesOrPooled(answer, picked.code, candidates, date, rules, text, picker, true);
   return { ...d, interpreted: { ...d.interpreted, unestablished } };
 }
 
@@ -940,9 +974,12 @@ const ITEMS_QUESTION: Question = {
  *  establish that the exception doesn't apply). */
 function questionsFor(answer: Pick<AddressRate, "state" | "parts">, code: TaxCode, date: string, rules: RuleSet): { asked: Asked[]; base: Taxability } {
   const t = taxabilityOf(answer, code, date, rules);
-  const unaskable = new Set(t.taxes.flatMap((g, i) => (exceptionsOf(g).some((k) => blockingOf(k).length) ? [i] : [])));
-  const asked = caseQuestions(t).filter((q) => !(q.exception && unaskable.has(q.taxes[0])));
-  for (const [i, g] of t.taxes.entries()) if (exceptionsOf(g).length && !asked.some((q) => q.exception && q.taxes[0] === i)) unaskable.add(i);
+  // The exceptions the text must be asked about: not those only a buyer's
+  // standing brings (buyersOnly), which never hold the answer open.
+  const relevant = (g: Taxability["taxes"][number]) => exceptionsOf(g).filter((k) => !buyersOnly(k));
+  const unaskable = new Set(t.taxes.flatMap((g, i) => (relevant(g).some((k) => blockingOf(k).length) ? [i] : [])));
+  const asked = caseQuestions(t).filter((q) => !(q.exception && (unaskable.has(q.taxes[0]) || !relevant(t.taxes[q.taxes[0]]).length)));
+  for (const [i, g] of t.taxes.entries()) if (relevant(g).length && !asked.some((q) => q.exception && q.taxes[0] === i)) unaskable.add(i);
   return { asked, base: unaskable.size ? reopenCases(t, answer.parts, unaskable, usualText(code)) : t };
 }
 
@@ -986,15 +1023,44 @@ const candidatesOf = (pick: Picked): TaxCode[] => {
 /** A code's answer here, tax by tax, for telling codes that answer alike. */
 const answerKey = (t: Taxability) => JSON.stringify(t.taxes.map((g) => [g.tax, g.parts, g.treatment, g.rate]));
 
-/** Whether a code's answer may be pooled: settled, and (unless
- *  describePoolExceptions) with no exception a rule lists. */
-const poolable = (t: Taxability) => t.rate !== null && (PARAMS.describePoolExceptions || !t.taxes.some((g) => exceptionsOf(g).length));
+/** Each code's answer as pooling may use it: settled, and where a rule
+ *  lists exceptions (a packaged knife makes a bakery item taxable), only
+ *  with the text establishing that none applies, asked of all the codes in
+ *  one call (strict, as for a code read from the text); else null. With
+ *  describePoolExceptions off, a code with exceptions is never pooled. */
+async function poolAnswers(answer: Pick<AddressRate, "state" | "parts">, codes: TaxCode[], date: string, rules: RuleSet, text: string, picker: Picker): Promise<Map<TaxCode, Taxability | null>> {
+  const out = new Map<TaxCode, Taxability | null>();
+  const pending: Array<{ code: TaxCode; t: Taxability; asked: Asked[]; base: Taxability }> = [];
+  for (const code of codes) {
+    const t = taxabilityOf(answer, code, date, rules);
+    if (t.rate === null) out.set(code, null);
+    else if (!t.taxes.some((g) => exceptionsOf(g).length)) out.set(code, t);
+    else if (!PARAMS.describePoolExceptions) out.set(code, null);
+    else {
+      const { asked, base } = questionsFor(answer, code, date, rules);
+      const exceptions = asked.filter((q) => q.exception);
+      // An exception the text can't be asked about left the answer open.
+      if (base.rate === null || !exceptions.length) out.set(code, base.rate === null ? null : t);
+      else pending.push({ code, t, asked: exceptions, base });
+    }
+  }
+  if (!pending.length) return out;
+  const ask = Object.fromEntries(pending.flatMap((p) => Object.entries(asQuestions(p.asked, p.code)).map(([id, q]) => [`${p.code}|${id}`, q])));
+  const got = await picker.pick(text, ask);
+  for (const p of pending) {
+    const picks = Object.fromEntries(p.asked.map((q) => [q.id, got?.[`${p.code}|${q.id}`]]));
+    const settled = got ? applyPicks(p.base, answer.parts, p.asked, picks, p.code, { strict: true }) : null;
+    // Only the usual case, established against every exception.
+    out.set(p.code, settled && p.asked.every((q) => settled.decided.has(q.id)) && !settled.accepted.size ? settled.taxability : null);
+  }
+  return out;
+}
 
 /** With no one code: the pooled answer where the codes the text could be
  *  agree (poolCodes; with `all`, every candidate must agree, at any
  *  probability), else conditional on which it is, listing them. */
-function candidatesOrPooled(answer: Pick<AddressRate, "state" | "parts">, pick: Picked, candidates: TaxCode[], date: string, rules: RuleSet, all = false): Described {
-  const pooled = !PARAMS.describeCodePooling ? null : all ? agreeing(answer, pick, candidates, date, rules) : poolCodes(answer, pick, date, rules);
+async function candidatesOrPooled(answer: Pick<AddressRate, "state" | "parts">, pick: Picked, candidates: TaxCode[], date: string, rules: RuleSet, text: string, picker: Picker, all = false): Promise<Described> {
+  const pooled = !PARAMS.describeCodePooling ? null : all ? await agreeing(answer, pick, candidates, date, rules, text, picker) : await poolCodes(answer, pick, date, rules, text, picker);
   if (pooled) return { ...pooled.taxability, interpreted: { from: "text", code: null, confidence: pooled.confidence, candidates: pooled.codes } };
   return {
     ...candidatesAnswer(answer, candidates, date, rules),
@@ -1005,33 +1071,41 @@ function candidatesOrPooled(answer: Pick<AddressRate, "state" | "parts">, pick: 
 
 /** Every one of `codes` answering here exactly alike, tax by tax: that
  *  answer, or null. */
-function agreeing(answer: Pick<AddressRate, "state" | "parts">, pick: Picked, codes: TaxCode[], date: string, rules: RuleSet): { taxability: Taxability; codes: TaxCode[]; confidence: number } | null {
-  const each = codes.map((c) => taxabilityOf(answer, c, date, rules));
-  if (codes.length < 2 || !each.every(poolable) || new Set(each.map(answerKey)).size !== 1) return null;
+async function agreeing(answer: Pick<AddressRate, "state" | "parts">, pick: Picked, codes: TaxCode[], date: string, rules: RuleSet, text: string, picker: Picker): Promise<{ taxability: Taxability; codes: TaxCode[]; confidence: number } | null> {
   const p = probabilitiesOf(pick);
   const mass = codes.reduce((sum, c) => sum + (p[c] ?? 0), 0);
-  if (mass < PARAMS.describeCodePoolAccept - EPSILON) return null;
-  return { taxability: each[0], codes, confidence: Math.min(1, round2(mass)) };
+  if (codes.length < 2 || mass < PARAMS.describeCodePoolAccept - EPSILON) return null;
+  const answers = await poolAnswers(answer, codes, date, rules, text, picker);
+  const each = codes.map((c) => answers.get(c)!);
+  if (each.some((t) => !t) || new Set(each.map((t) => answerKey(t!))).size !== 1) return null;
+  return { taxability: each[0]!, codes, confidence: Math.min(1, round2(mass)) };
 }
 
 /** With no one code: the codes the text could be whose answers here agree
  *  exactly, tax by tax, pooled; their probability together must reach
  *  describeCodePoolAccept. The shared answer, with every code that gives
  *  it, or null. */
-function poolCodes(answer: Pick<AddressRate, "state" | "parts">, pick: Picked, date: string, rules: RuleSet): { taxability: Taxability; codes: TaxCode[]; confidence: number } | null {
+async function poolCodes(answer: Pick<AddressRate, "state" | "parts">, pick: Picked, date: string, rules: RuleSet, text: string, picker: Picker): Promise<{ taxability: Taxability; codes: TaxCode[]; confidence: number } | null> {
   const p = probabilitiesOf(pick);
-  const groups = new Map<string, { mass: number; codes: TaxCode[]; taxability: Taxability }>();
-  for (const [code, prob] of Object.entries(p)) {
-    if (!isTaxCode(code) || code === "nontaxable" || !(prob > 0)) continue;
-    const t = taxabilityOf(answer, code, date, rules);
-    if (!poolable(t)) continue;
-    const key = answerKey(t);
-    const g = groups.get(key) ?? { mass: 0, codes: [], taxability: { ...t, taxes: t.taxes.map((g) => ({ ...g })) } };
-    g.mass += prob;
-    g.codes.push(code);
-    groups.set(key, g);
-  }
-  const top = [...groups.values()].sort((a, b) => b.mass - a.mass)[0];
+  const codes = Object.keys(p).filter((c): c is TaxCode => isTaxCode(c) && c !== "nontaxable" && p[c] > 0);
+  // The groups the default answers give, and only where one could reach
+  // the bar are the exceptions asked about.
+  const groups = (answers: Map<TaxCode, Taxability | null>) => {
+    const out = new Map<string, { mass: number; codes: TaxCode[]; taxability: Taxability }>();
+    for (const code of codes) {
+      const t = answers.get(code);
+      if (!t) continue;
+      const key = answerKey(t);
+      const g = out.get(key) ?? { mass: 0, codes: [], taxability: { ...t, taxes: t.taxes.map((g) => ({ ...g })) } };
+      g.mass += p[code];
+      g.codes.push(code);
+      out.set(key, g);
+    }
+    return [...out.values()].sort((a, b) => b.mass - a.mass)[0];
+  };
+  const nominal = groups(new Map(codes.map((c) => [c, taxabilityOf(answer, c, date, rules)] as const).map(([c, t]) => [c, t.rate === null ? null : t])));
+  if (!nominal || nominal.codes.length < 2 || nominal.mass < PARAMS.describeCodePoolAccept - EPSILON) return null;
+  const top = groups(await poolAnswers(answer, nominal.codes, date, rules, text, picker));
   if (!top || top.codes.length < 2 || top.mass < PARAMS.describeCodePoolAccept - EPSILON) return null;
   return { taxability: top.taxability, codes: top.codes.sort((a, b) => p[b] - p[a]), confidence: Math.min(1, round2(top.mass)) };
 }

@@ -160,7 +160,9 @@ export interface Params {
    *  describeCodePoolAccept (0.95: 0.9 made d2-nt-04 wrong). */
   describeCodePooling: boolean;
   describeCodePoolAccept: number;
-  /** Whether a code whose settled rule lists exceptions may be pooled. */
+  /** Whether a code whose settled rule lists exceptions may be pooled, once
+   *  the text establishes its usual case against them (off cost 4 dev
+   *  answers; pooling them unchecked made a packaged-knife bagel 0%). */
   describePoolExceptions: boolean;
   /** A code read from the text whose definition turns on a fact (DEFINING)
    *  is used only where the mean yes of its defining questions reaches this
