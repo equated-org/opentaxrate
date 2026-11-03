@@ -11,6 +11,17 @@
  *   "NY"           every part of a New York answer, state and local;
  *   "GA:local"     only the local parts there, where they differ from the
  *                  state's ("GA" then covers the state part alone);
+ *   "CO:local:01:ttr17"
+ *                  one local part, named by its code in the answer's
+ *                  `parts` (Denver's city tax): where one jurisdiction
+ *                  sets its own base or rate; the other local parts keep
+ *                  "CO:local" or "CO";
+ *   "CO:administered"
+ *                  the state part and the local taxes the state
+ *                  administers, never a self-collected home-rule city's
+ *                  part (../self-collected.ts), where the state's
+ *                  guidance says it doesn't reach them (Colorado's
+ *                  software rules);
  *   "AK:state"     only the state part, leaving local parts to an
  *                  "AK:local" rule or unresearched;
  *   "CA:GST/HST"   the federal base, GST or HST;
@@ -77,8 +88,10 @@ export interface Rule {
   /** "follows": the rule for `follows` applies, as checked for this code. */
   treatment: Exclude<PartTreatment, "not_a_sale"> | "follows";
   /** For "special_rate": the rate charged on the code instead, for all the
-   *  parts the rule decides together (a state part; or every local part of
-   *  an "XX:local" rule, Utah's 1.25% across its local taxes on food). */
+   *  parts the rule decides together (a state part; every local part of
+   *  an "XX:local" rule, Utah's 1.25% across its local taxes on food; or
+   *  the one part of an "XX:local:<part code>" rule, Denver's 4.00% on
+   *  food and drink). */
   rate?: number;
   /** For "taxable" or "special_rate": the share of the charge taxed, where
    *  the law taxes only part of it (0 < base < 1), as on a condition. */
@@ -154,7 +167,7 @@ const share = z.number().gt(0).lt(1);
 const RuleFile = z.array(
   z
     .object({
-      tax: z.string().regex(/^([A-Z]{2}(:local|:state)?|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
+      tax: z.string().regex(/^([A-Z]{2}(:local|:state|:administered)?|[A-Z]{2}:local:[A-Za-z0-9._-]+:[A-Za-z0-9._-]+|CA:GST\/HST|[A-Z]{2}\/CA:(GST|HST)|[A-Z]{2}:(PST|QST|RST))$/),
       code: z.enum(Object.keys(TAX_CODES) as [keyof typeof TAX_CODES]).refine((c) => c !== "nontaxable", "nontaxable is never a rule"),
       from: day,
       to: day.optional(),

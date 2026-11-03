@@ -272,7 +272,7 @@ else sendElsewhere();                                   // not_researched: never
 			</td>
 		</tr>
 		<tr><td><code>rate</code></td><td>The combined rate to charge on this sale, unless the rules' <code>conditions</code> list an exception that fits it (e.g. Kentucky's grandfathered fixed-price contracts); <code>null</code> exactly when <code>conditional</code> or <code>not_researched</code>.</td></tr>
-		<tr><td><code>taxes[].tax</code></td><td>What the rule covers: a state (every part there), <code>CA:GST/HST</code>, a province's HST change (<code>ON/CA:HST</code>), a provincial tax (<code>BC:PST</code>), or <code>*</code> for a <code>nontaxable</code> line.</td></tr>
+		<tr><td><code>taxes[].tax</code></td><td>What the rule covers: a state (every part there), its local parts (<code>CO:local</code>), one local part, named by its code in <code>parts</code>, where that city or county sets its own taxability or rate (<code>CO:local:01:ttr17</code>, Denver's city tax), the state part with the local taxes the state administers but not a self-collected home-rule city's (<code>CO:administered</code>), <code>CA:GST/HST</code>, a province's HST change (<code>ON/CA:HST</code>), a provincial tax (<code>BC:PST</code>), or <code>*</code> for a <code>nontaxable</code> line.</td></tr>
 		<tr><td><code>taxes[].parts</code></td><td>The <code>code</code>s of the answer's parts this rule decides; together the entries cover every part once.</td></tr>
 		<tr>
 			<td><code>taxes[].treatment</code></td>
