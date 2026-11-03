@@ -1464,5 +1464,834 @@
       }
     ],
     "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr93",
+    "code": "food.grocery",
+    "from": "2024-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0225,
+    "summary": "Fort Collins taxes food for home consumption at 2.25% instead of its 4.35% general rate.",
+    "conditions": [
+      {
+        "when": "Unsweetened carbonated water (sparkling or seltzer water) in containers",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Coffee and related food products sold for an office's or commercial establishment's use",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "The City of Fort Collins Sales and Use Tax Ordinance allows for foods defined as food for home consumption in 7 U.S.C. Section 2012(g) as amended, for purposes of the food stamp program, to be taxed at a rate of 2.25%; examples are included below."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 2.25% item 1",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, breath mints, condiments, spices, soft drinks, cakes, cookies, potato chips"
+      },
+      {
+        "title": "Fort Collins sales tax rates",
+        "url": "https://www.fcgov.com/salestax/tax-rates",
+        "quote": "2.25% = Fort Collins Tax on Food for Home Consumption"
+      },
+      {
+        "title": "Fort Collins Sales Tax FAQs",
+        "url": "https://www.fortcollins.gov/Business/Sales-Tax/Sales-Tax-FAQs",
+        "quote": "Only the base rate of 2.25% applies to food for home consumption."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 8.a",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Carbonated water marketed in containers (e.g., sparkling or seltzer water)."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 4",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Coffee and related food products sold for office or commercial establishment use."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 2",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food and drink sold through a vending machine or other vending devices on behalf of a vendor."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "If items are purchased through the Federal Food Stamp or the Special Supplemental Nutrition Program for Women, Infants, and Children (WIC) programs they would be tax exempt."
+      }
+    ],
+    "notes": "Fort Collins collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr93 in the Colorado rate service). The state, county and district parts keep the CO rules. The guide gives the 4.35% general rate, in force from 2024-01-01 (the rates page), so it isn't read before then."
+  },
+  {
+    "tax": "CO:local:01:ttr93",
+    "code": "food.candy",
+    "from": "2024-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0225,
+    "summary": "Fort Collins counts candy and breath mints as food for home consumption, taxed at 2.25% instead of its 4.35% general rate; chewing gum is taxed at 4.35%.",
+    "conditions": [
+      {
+        "when": "Chewing gum",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "The City of Fort Collins Sales and Use Tax Ordinance allows for foods defined as food for home consumption in 7 U.S.C. Section 2012(g) as amended, for purposes of the food stamp program, to be taxed at a rate of 2.25%; examples are included below."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 2.25% item 1",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, breath mints, condiments, spices, soft drinks, cakes, cookies, potato chips"
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 8.b",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Chewing gum."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 2",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food and drink sold through a vending machine or other vending devices on behalf of a vendor."
+      },
+      {
+        "title": "Fort Collins sales tax rates",
+        "url": "https://www.fcgov.com/salestax/tax-rates",
+        "quote": "2.25% = Fort Collins Tax on Food for Home Consumption"
+      }
+    ],
+    "notes": "Fort Collins collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr93 in the Colorado rate service). The state, county and district parts keep the CO rules. The guide gives the 4.35% general rate, in force from 2024-01-01 (the rates page), so it isn't read before then."
+  },
+  {
+    "tax": "CO:local:01:ttr93",
+    "code": "food.soft_drink",
+    "from": "2024-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0225,
+    "summary": "Fort Collins counts soft drinks as food for home consumption, taxed at 2.25% instead of its 4.35% general rate, unless served by a restaurant or vended.",
+    "conditions": [
+      {
+        "when": "Served by a restaurant or other place selling prepared food or drink, or marketed for immediate consumption (a fountain drink)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Sold through a vending machine",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "The City of Fort Collins Sales and Use Tax Ordinance allows for foods defined as food for home consumption in 7 U.S.C. Section 2012(g) as amended, for purposes of the food stamp program, to be taxed at a rate of 2.25%; examples are included below."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 2.25% item 1",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, breath mints, condiments, spices, soft drinks, cakes, cookies, potato chips"
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 1",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food and drink served in or furnished by restaurants, cafes, lunch counters, cafeterias, hotels, drugstores, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, and other places at which prepared food or drink is regularly sold"
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 2",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food and drink sold through a vending machine or other vending devices on behalf of a vendor."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 8.g",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Prepared food or food marketed for immediate consumption."
+      },
+      {
+        "title": "Fort Collins sales tax rates",
+        "url": "https://www.fcgov.com/salestax/tax-rates",
+        "quote": "2.25% = Fort Collins Tax on Food for Home Consumption"
+      }
+    ],
+    "notes": "Fort Collins collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr93 in the Colorado rate service). The state, county and district parts keep the CO rules. The guide gives the 4.35% general rate, in force from 2024-01-01 (the rates page), so it isn't read before then."
+  },
+  {
+    "tax": "CO:local:01:ttr93",
+    "code": "food.prepared.cold",
+    "from": "2024-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Fort Collins, prepared salads, salad bars and food marketed for immediate consumption are taxed at 4.35%; other cold food sold for home consumption at 2.25%.",
+    "conditions": [
+      {
+        "when": "A prepared salad or salad-bar food, or other food marketed for immediate consumption",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other cold food sold for home consumption, as grocers commonly sell it",
+        "treatment": "special_rate",
+        "rate": 0.0225
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 8.d",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Prepared salads and salad bars."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 4.35% item 8.g",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Prepared food or food marketed for immediate consumption."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "The City of Fort Collins Sales and Use Tax Ordinance allows for foods defined as food for home consumption in 7 U.S.C. Section 2012(g) as amended, for purposes of the food stamp program, to be taxed at a rate of 2.25%; examples are included below."
+      },
+      {
+        "title": "Fort Collins Sales and Use Tax Rules and Regulations, Food and Drink, 2.25% item 1",
+        "url": "https://www.fortcollins.gov/files/sharedassets/city/v/1/financial-services/sales-tax/rules-and-regulations-documents/food-and-drink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, breath mints, condiments, spices, soft drinks, cakes, cookies, potato chips"
+      }
+    ],
+    "notes": "Fort Collins collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr93 in the Colorado rate service). The state, county and district parts keep the CO rules. The guide gives the 4.35% general rate, in force from 2024-01-01 (the rates page), so it isn't read before then."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0401,
+    "summary": "Food sold by a restaurant or other food service establishment in Boulder, eaten there or taken away, is taxed at 4.01%: the 3.86% sales tax plus the 0.15% food service tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.dine_in",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0401,
+    "summary": "Food served for eating at a Boulder food service establishment is taxed at 4.01%: the 3.86% sales tax plus the 0.15% food service tax.",
+    "conditions": [
+      {
+        "when": "Served by a grocery or similar store that qualifies for the federal food stamp program",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Grocery stores and similar establishments, if such grocery store or similar establishment meets the qualifications for participation in the federal food stamp program"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.catering",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0401,
+    "summary": "Food and drink a caterer prepares and serves in Boulder is taxed at the 4.01% food service rate, unless the caterer uses the customer's kitchen.",
+    "conditions": [
+      {
+        "when": "The caterer uses the customer's kitchen to prepare the food",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food caterers that use the customer's kitchen to prepare food."
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01. Rentals billed by the caterer weren't researched."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.hot",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Boulder, hot prepared food is taxed at 4.01% (the 0.15% food service tax added to the 3.86% sales tax) when a food service establishment sells it, and at 3.86% from a grocery store or vending machine.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café, deli or other food service establishment (a place kept for preparing or serving food)",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      },
+      {
+        "when": "Sold by a grocery or similar store that qualifies for the federal food stamp program, or by a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Grocery stores and similar establishments, if such grocery store or similar establishment meets the qualifications for participation in the federal food stamp program"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Vending machines;"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.sandwich",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Boulder, a cold sandwich is taxed at 4.01% (the 0.15% food service tax added to the 3.86% sales tax) when a food service establishment sells it, and at 3.86% from a grocery store or vending machine.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café, deli or other food service establishment (a place kept for preparing or serving food)",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      },
+      {
+        "when": "Sold by a grocery or similar store that qualifies for the federal food stamp program, or by a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Grocery stores and similar establishments, if such grocery store or similar establishment meets the qualifications for participation in the federal food stamp program"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Vending machines;"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.cold",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Boulder, cold prepared food is taxed at 4.01% (the 0.15% food service tax added to the 3.86% sales tax) when a food service establishment sells it, and at 3.86% from a grocery store or vending machine.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café, deli or other food service establishment (a place kept for preparing or serving food)",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      },
+      {
+        "when": "Sold by a grocery or similar store that qualifies for the federal food stamp program, or by a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Grocery stores and similar establishments, if such grocery store or similar establishment meets the qualifications for participation in the federal food stamp program"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Vending machines;"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.platter",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Boulder, a platter is taxed at 4.01% (the 0.15% food service tax added to the 3.86% sales tax) when a food service establishment sells it, and at 3.86% from a grocery store or vending machine.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café, deli or other food service establishment (a place kept for preparing or serving food)",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      },
+      {
+        "when": "Sold by a grocery or similar store that qualifies for the federal food stamp program, or by a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Grocery stores and similar establishments, if such grocery store or similar establishment meets the qualifications for participation in the federal food stamp program"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Vending machines;"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.prepared.bakery",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Boulder, a bakery item is taxed at 4.01% (the 0.15% food service tax added to the 3.86% sales tax) when a food service establishment sells it, and at 3.86% from a grocery store or vending machine.",
+    "conditions": [
+      {
+        "when": "Sold by a restaurant, café, deli or other food service establishment (a place kept for preparing or serving food)",
+        "treatment": "special_rate",
+        "rate": 0.0401
+      },
+      {
+        "when": "Sold by a grocery or similar store that qualifies for the federal food stamp program, or by a vending machine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "The food service tax of 0.15% is added to the current sales tax rate of 3.86% resulting in a total tax rate of 4.01%."
+      },
+      {
+        "title": "City of Boulder tax rates and types",
+        "url": "https://bouldercolorado.gov/tax-rates-types",
+        "quote": "Food Service 4.01%"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service tax must be collected by food service establishments whether the food is eaten at the establishment or off its premises."
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Food service establishment means any place that is kept or maintained for the purpose of preparing or serving food, but does not include:"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Grocery stores and similar establishments, if such grocery store or similar establishment meets the qualifications for participation in the federal food stamp program"
+      },
+      {
+        "title": "City of Boulder tax compliance guides, Eating and Drinking Establishments",
+        "url": "https://bouldercolorado.gov/tax-compliance-guides",
+        "quote": "Vending machines;"
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01."
+  },
+  {
+    "tax": "CO:local:01:ttr209",
+    "code": "food.grocery",
+    "from": "2026-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Boulder taxes food for home consumption at its 3.86% sales tax rate (it rebates the tax to residents with lower incomes); the 0.15% food service tax doesn't apply.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Boulder Food Tax Rebate Program",
+        "url": "https://bouldercolorado.gov/services/food-tax-rebate-program",
+        "quote": "Each year, the City of Boulder provides rebates to help compensate residents with lower incomes for the city sales tax they pay on food."
+      },
+      {
+        "title": "City of Boulder June 2026 revenue report",
+        "url": "https://bouldercolorado.gov/june-2026-revenue-report",
+        "quote": "This tax is not applied to food purchased for home consumption from grocery/convenience stores."
+      }
+    ],
+    "notes": "Boulder (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr209 in the Colorado rate service). The state, county and district parts keep the CO rules. The 4.01% is the 3.86% sales tax plus the 0.15% food service tax (B.R.C. 3-2-5(b)); the rates are read from the June 2026 revenue report and the current rates page, so these rules aren't read before 2026-06-01. No exemption for food appears in the guides' list of exempt sales; the city code itself (Municode) answers scripts with a challenge, so it wasn't read."
+  },
+  {
+    "tax": "CO:local:01:ttr292",
+    "code": "food.grocery",
+    "from": "2024-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Aurora exempts food for home consumption (as the federal SNAP program defines it) from its sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Aurora Tax Compliance Guide, Food & Related Items (3/2024)",
+        "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202404/20207186/food_and_related_items.pdf",
+        "quote": "Food purchased for human consumption at home,"
+      },
+      {
+        "title": "City of Aurora Regulation Concerning the Taxation of Food (revised 1/15/2024), 1.a.(1)",
+        "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202404/20207176/food_regulation_3_2024.pdf",
+        "quote": "is exempt from taxation as provided below, except for those items specified in 1.c."
+      }
+    ],
+    "notes": "Aurora collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr292 in the Colorado rate service). The state, county and district parts keep the CO rules. Candy and soft drinks are taxable in Aurora unless bought with SNAP or WIC benefits (the guide), as the CO rules answer."
+  },
+  {
+    "tax": "CO:local:01:ttr225",
+    "code": "food.grocery",
+    "from": "2025-06-22",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.0346,
+    "summary": "Greeley taxes food for home consumption at 3.46% instead of its 4.11% general rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Greeley, Sales Tax, local tax rates (Internet Archive copy of 2025-06-22)",
+        "url": "https://web.archive.org/web/20250622045304/https://greeleygov.com/government/finance/sales-tax",
+        "quote": "Taxable Items/Service Excluding Food for Home Consumption Location City Rate County Rate State Rate Lodging Total Greeley 4.11%"
+      },
+      {
+        "title": "City of Greeley, Sales Tax, local tax rates (Internet Archive copy of 2025-06-22)",
+        "url": "https://web.archive.org/web/20250622045304/https://greeleygov.com/government/finance/sales-tax",
+        "quote": "Food for Home Consumption Location City Rate County Rate State Rate Total Greeley 3.46%"
+      },
+      {
+        "title": "City of Greeley, Food Tax and LIFT UP Program",
+        "url": "https://greeleyco.gov/Government/Finance/Food-Tax-and-LIFT-UP-Program",
+        "quote": "Since 1990, Greeley has had a sales tax on food (groceries) to support funding for facilities, parks and street maintenance that benefit the entire Greeley community."
+      }
+    ],
+    "notes": "Greeley collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr225 in the Colorado rate service). The state, county and district parts keep the CO rules. Read from the rate table of the city's sales tax page as the Internet Archive captured it on 2025-06-22; the live page loads the table by script. Greeley's own definition of food (candy, soft drinks) wasn't found."
+  },
+  {
+    "tax": "CO:local:01:ttr241",
+    "code": "food.grocery",
+    "from": "2026-11-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Arvada taxes food for home consumption at its general sales tax rate: its code has no food exemption.",
+    "conditions": [
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City of Arvada, Food Industry Tax Guide",
+        "url": "https://co-arvada.civicplus.com/336/Food-Industry-Tax-Guide",
+        "quote": "While some taxing jurisdictions provide an exemption for certain food sales, such as food sold for home consumption, the Arvada Municipal Code provides no such exemption."
+      },
+      {
+        "title": "City of Arvada, Food Industry Tax Guide",
+        "url": "https://co-arvada.civicplus.com/336/Food-Industry-Tax-Guide",
+        "quote": "There is no special sale or use tax rate for food, meals, or water."
+      },
+      {
+        "title": "City of Arvada, Food Industry Tax Guide",
+        "url": "https://co-arvada.civicplus.com/336/Food-Industry-Tax-Guide",
+        "quote": "food, and certain meals are exempt from tax when purchased from qualifying retailers with Federal food stamps or funds provided by the supplemental food program for women, infants, and children"
+      }
+    ],
+    "notes": "Arvada collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr241 in the Colorado rate service). The state, county and district parts keep the CO rules. The guide is undated; it is read from the copy filed on 2026-11-03 (arvadaco.gov refuses scripts; this is the city's CivicPlus address)."
+  },
+  {
+    "tax": "CO:local:01:ttr295",
+    "code": "food.grocery",
+    "from": "2011-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Westminster taxes food for home consumption at its general sales tax rate: its code has no food exemption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Westminster tax guide, Food (01/2011)",
+        "url": "https://www.westminsterco.gov/DocumentCenter/View/3219/Food---342-PDF",
+        "quote": "Westminster Municipal Code provides no such exemption."
+      },
+      {
+        "title": "City of Westminster tax guide, Food (01/2011)",
+        "url": "https://www.westminsterco.gov/DocumentCenter/View/3219/Food---342-PDF",
+        "quote": "rate for food, meals, or water."
+      }
+    ],
+    "notes": "Westminster collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr295 in the Colorado rate service). The state, county and district parts keep the CO rules. The guide is dated 01/2011 and is still the one the city posts."
+  },
+  {
+    "tax": "CO:local:01:ttr238",
+    "code": "food.grocery",
+    "from": "2023-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Thornton taxes groceries (food for home consumption), which the state doesn't, at its general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Thornton, Commonly Missed Tax Information (Rev. 04/2023)",
+        "url": "https://www.thorntonco.gov/media/file/commonly-missed-tax-information",
+        "quote": "tax which are not taxed by the State of Colorado:"
+      },
+      {
+        "title": "City of Thornton, Commonly Missed Tax Information (Rev. 04/2023)",
+        "url": "https://www.thorntonco.gov/media/file/commonly-missed-tax-information",
+        "quote": "Groceries or food for home consumption"
+      }
+    ],
+    "notes": "Thornton collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr238 in the Colorado rate service). The state, county and district parts keep the CO rules."
+  },
+  {
+    "tax": "CO:local:01:ttr22",
+    "code": "food.grocery",
+    "from": "2017-05-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Broomfield taxes food for home consumption at its full 4.15% rate, unless bought with food stamps or vouchers.",
+    "conditions": [
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "City and County of Broomfield sales tax return instructions",
+        "url": "https://broomfield.org/DocumentCenter/View/23544",
+        "quote": "rate on “Food for Home Consumption” is 4.15%. Do not deduct “Food” sold unless stamps or vouchers are collected."
+      }
+    ],
+    "notes": "Broomfield (City and County) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr22 in the Colorado rate service). The state, county and district parts keep the CO rules. The instructions are undated; 2017-05-31 is the PDF's creation date."
+  },
+  {
+    "tax": "CO:local:01:ttr310",
+    "code": "food.grocery",
+    "from": "2024-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Pueblo exempts food purchased for preparation and consumption at home from its city sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Pueblo 2024 Proposed Budget, revenue (OpenGov)",
+        "url": "https://stories.opengov.com/puebloco/published/RhiaDyUek",
+        "quote": "Food purchased for preparation and consumption at home, as well as prescription medications, are exempt from sales tax."
+      },
+      {
+        "title": "City of Pueblo, Public Improvement Fee: sales exempt from city sales tax",
+        "url": "https://www.pueblo.us/926/Public-Improvement-Fee-PIF",
+        "quote": "All sales of food for home consumption as defined in Section 14-4-21(14)"
+      }
+    ],
+    "notes": "Pueblo (the city) collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr310 in the Colorado rate service). The state, county and district parts keep the CO rules. Section 14-4-21(14), which defines food (candy, soft drinks), wasn't read."
+  },
+  {
+    "tax": "CO:local:01:ttr271",
+    "code": "food.grocery",
+    "from": "2019-01-24",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Centennial exempts food sold for preparation or consumption at home from its sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "City of Centennial sales tax return instructions (Rev 1/24/2019)",
+        "url": "https://www.centennialco.gov/files/sharedassets/public/v/4/documents/finance/sales-tax-and-business-licensing/sales-tax-return-and-instructions-ada3.pdf",
+        "quote": "Food – Deduct sales of food items sold for preparation and/or consumption at home."
+      }
+    ],
+    "notes": "Centennial collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr271 in the Colorado rate service). The state, county and district parts keep the CO rules. Its definition of food (candy, soft drinks) wasn't read."
+  },
+  {
+    "tax": "CO:local:01:ttr128",
+    "code": "food.grocery",
+    "from": "2024-03-02",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Colorado Springs exempts sales of food, as its tax code defines food, from its city sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Colorado Springs City Code 2.7.415, Food (Internet Archive copy of 2024-03-02)",
+        "url": "https://web.archive.org/web/20240302071706/https://codelibrary.amlegal.com/codes/coloradospringsco/latest/coloradosprings_co/0-0-0-3642",
+        "quote": "All sales of food as \"Food\" is defined in section 2.7.104 of this article are exempt under this City Tax Code."
+      },
+      {
+        "title": "Colorado Springs City Code 2.7.415, Food (Internet Archive copy of 2024-03-02)",
+        "url": "https://web.archive.org/web/20240302071706/https://codelibrary.amlegal.com/codes/coloradospringsco/latest/coloradosprings_co/0-0-0-3642",
+        "quote": "All sales of food purchased with food stamps shall be exempt from taxation under this City Tax Code."
+      }
+    ],
+    "notes": "Colorado Springs collects its own sales tax as a home-rule city; this rule is its city part only (part code 01:ttr128 in the Colorado rate service). The state, county and district parts keep the CO rules. The definition in 2.7.104, which decides candy, soft drinks and prepared food, couldn't be read (amlegal refuses scripts; no archived copy)."
   }
 ]
