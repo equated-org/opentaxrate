@@ -89,13 +89,14 @@ function unclashed(place: { directory: string; destination: string; asked: boole
 /** File names that say which edition they are, whose contents never change:
  *  Streamlined quarterly files (OHB2026Q4SEP17), TIGER and Census
  *  vintages, Missouri's quarterly files, Arizona's monthly tables, Texas's
- *  quarterly EDI files. */
+ *  quarterly EDI files, Utah's quarterly rate charts (26q4simple.xlsx). */
 const EDITION = [
   /^[A-Z]{2}[RB]\d{4}Q\d/i,
   /^(tl|cb)_\d{4}_/,
   /-q\d-\d{4}\.(csv|xlsx)$/,
   /^TPT_RATETABLE_ALL_\d{8}\.csv$/,
   /^taxrates\d{3}\.txt$/,
+  /^\d{2}q\dsimple\.xlsx$/,
 ];
 
 /** Hours a saved file whose name names no edition is reused for:

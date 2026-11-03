@@ -22,6 +22,7 @@
  * so the keys are the fields' names in IDOR's file layout.
  */
 import { parseStreet } from "../../address.js";
+import type { ClassRateRow, ClassRateSource } from "../class-rates.js";
 import type { GeoRateRow, GeoState, GeoStateData, JurisdictionRow } from "./index.js";
 import { bboxOf, fetchLayer, fetchText, isoDay, shiftDay } from "./sources.js";
 
@@ -139,6 +140,62 @@ export const illinois: GeoState = {
       shapes,
       files: { rates: "IL IDOR ordmache + ordmacha (current and two prior editions)", boundaries: "IL IDOR CityCountyTwpDD" },
     };
+  },
+};
+
+/** The state's 1% on groceries ended on this day; IDOR's grocery files
+ *  are "for periods January 1, 2026 and after" (its file guide). */
+const GROCERY_FROM = "2026-01-01";
+
+/** Each location's local rate on groceries, from IDOR's grocery rate files
+ *  (grocerymache, the current edition and two earlier), as class rates on
+ *  its location part. Only periods from GROCERY_FROM count: the files'
+ *  earlier periods read 0 even in Cook County, where the RTA taxed food
+ *  before the repeal. Where a rate doesn't apply to the whole location
+ *  (the override flag, set in the Metro East district), the file gives a
+ *  high rate, for a retailer liable for the district's tax, and a low one;
+ *  the high rate is kept, as the general rate keeps the higher of a
+ *  location's two. A business district's address has no grocery rate
+ *  here (the files list locations only). */
+export const illinoisClasses: ClassRateSource = {
+  state: "IL",
+  async fetch(dir) {
+    const periods = new Map<string, Map<string, { rate: number; from: string; to?: string }>>();
+    const add = (code: string, from: string | null, rate: number | null, to?: string | null) => {
+      if (!from || rate === null || (to && to < GROCERY_FROM)) return;
+      const start = from < GROCERY_FROM ? GROCERY_FROM : from;
+      const list = periods.get(code) ?? new Map();
+      periods.set(code, list);
+      // Editions are read newest first, so the first one seen is kept.
+      if (!list.has(start)) list.set(start, { rate, from: start, ...(to ? { to } : {}) });
+    };
+    const read: string[] = [];
+    for (const edition of ["current", "prior-070126", "prior-010126"]) {
+      let text: string;
+      try {
+        text = await fetchText(`${FILES}/grocerymache-${edition}.txt`, dir);
+      } catch (error) {
+        if (edition !== "current" && /answered 404/.test((error as Error).message)) continue;
+        throw error;
+      }
+      read.push(edition);
+      for (const line of text.split(/\r?\n/)) {
+        const code = locationCode(line.slice(0, 10));
+        if (!code || line.length < 106) continue;
+        add(code, isoDay(line.slice(60, 68)), percent(line.slice(68, 73)));
+        add(code, isoDay(line.slice(79, 87)), percent(line.slice(95, 100)), isoDay(line.slice(87, 95)));
+      }
+    }
+    const rows: ClassRateRow[] = [];
+    for (const [code, list] of periods) {
+      const sorted = [...list.values()].sort((a, b) => a.from.localeCompare(b.from));
+      sorted.forEach((p, i) => {
+        const next = sorted[i + 1]?.from;
+        const end = p.to ?? "9999-12-31";
+        rows.push({ type: "x", code, class: "grocery", rate: p.rate, startsOn: p.from, endsOn: next && next <= end ? shiftDay(next, -1) : end, source: `IL IDOR grocerymache (${read.join(", ")}), Receipts Grocery High-Rate` });
+      });
+    }
+    return { rows, file: `IL IDOR grocerymache (${read.join(", ")})` };
   },
 };
 

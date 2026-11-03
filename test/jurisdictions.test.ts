@@ -10,6 +10,7 @@ import { inArray, sql } from "drizzle-orm";
 import { client, db } from "../src/db/client.js";
 import {
   salesTaxAreas,
+  salesTaxClassRates,
   salesTaxDataReleases,
   salesTaxJurisdictionRates,
   salesTaxJurisdictions,
@@ -32,6 +33,7 @@ async function clear() {
     salesTaxAreas,
     salesTaxShapes,
     salesTaxDataReleases,
+    salesTaxClassRates,
   ])
     await db.delete(table).where(inArray(table.state, STATES));
 }
@@ -151,6 +153,25 @@ describe("describing an answer's parts", () => {
       { kind: "county", name: "MONTGOMERY COUNTY", code: "00:101", rate: 0.025, ids: { "Locality Code": "7051", Administered: "SELF" } },
       { kind: "district", name: "Austin MTA", code: "kx:2227016>3227999", rate: 0.01, ids: { TAID: "3227999", Transit_Type: "MTA" } },
     ]);
+  });
+
+  it("gives each part its class rates in force on the date, and none where it has none", async () => {
+    const row = { state: "XJ", type: "01", code: "63000", source: "fixture" };
+    await db.insert(salesTaxClassRates).values([
+      { ...row, class: "restaurant", rate: "0.039000", startsOn: "2020-01-01", endsOn: "2025-12-31" },
+      { ...row, class: "restaurant", rate: "0.041000", startsOn: "2026-01-01", endsOn: "9999-12-31" },
+      { ...row, class: "grocery", rate: "0.025000", startsOn: "2020-01-01", endsOn: "9999-12-31" },
+    ]);
+    const parts: Parameters<typeof describeParts>[1] = [
+      { kind: "city", code: "01:63000", rate: 0.0405 },
+      { kind: "county", code: "00:101", rate: 0.025 },
+    ];
+    const [city, county] = await describeParts("XJ", parts, "2026-06-01");
+    expect(city.classRates).toEqual({ restaurant: 0.041, grocery: 0.025 });
+    expect(county.classRates).toBeUndefined();
+    expect((await describeParts("XJ", parts, "2024-06-01"))[0].classRates).toEqual({ restaurant: 0.039, grocery: 0.025 });
+    // Without a date, as the general rate needs none, no class rates.
+    expect((await describeParts("XJ", parts))[0].classRates).toBeUndefined();
   });
 
   it("names a part with no row from its outline, with no ids", async () => {

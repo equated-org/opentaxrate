@@ -127,6 +127,13 @@
       "when": 1793602930247,
       "tag": "0017_taxability_base",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1793690572197,
+      "tag": "0018_class_rates",
+      "breakpoints": true
     }
   ]
 }

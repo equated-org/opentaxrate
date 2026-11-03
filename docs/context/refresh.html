@@ -150,6 +150,7 @@
 <li><a href="#tiger-tiger-ts">TIGER (tiger.ts)</a></li>
 <li><a href="#tables-schema-ts">Tables (schema.ts)</a></li>
 <li><a class="sub" href="#jurisdiction-ids">Names and ids by source</a></li>
+<li><a class="sub" href="#class-rates">Class rates</a></li>
 <li><a class="sub" href="#editions">Outline editions</a></li>
 <li><a href="#invariants">Invariants</a></li>
 </ol><button type="button" class="theme" data-theme-toggle>Dark mode</button></nav>
@@ -184,6 +185,11 @@
 <td>3</td>
 <td>Each of <code>GEO_STATES</code>: <code>geo.fetch(dir)</code>, then <code>loadGeoState</code></td>
 <td>never; their sources don't version alike</td>
+</tr>
+<tr>
+<td>3b</td>
+<td>Class rates for the states asked: <code>refreshClassRates</code> (<code>class-rates.ts</code>), each of <code>CLASS_RATE_SOURCES</code> reading the files the state's loaded rates came from (Arizona's monthly tables through the one <code>sales_tax_data_releases</code> names, Alabama's <code>taxrates.csv</code>, Illinois's grocery files, Utah's rate chart for the loaded Streamlined quarter), then <code>loadClassRates</code>. Also alone: <code>ingest --kind class-rates [STATE...]</code></td>
+<td>a state with no general rates loaded (logged)</td>
 </tr>
 <tr>
 <td>4</td>
@@ -230,7 +236,7 @@
 <tbody>
 <tr>
 <td><code>taxability_rules</code></td>
-<td><code>tax</code>, <code>code</code>, <code>starts_on</code> (primary key), <code>ends_on</code>, <code>from_is</code>, <code>treatment</code> (<code>taxable</code>, <code>special_rate</code>, <code>exempt</code>, <code>zero_rated</code>, <code>conditional</code>, <code>follows</code>), <code>rate</code> (a special rate), <code>base</code> (the share of the charge taxed, 0 &lt; base &lt; 1, on a taxable or special-rate rule; migration 0017), <code>follows</code>, <code>summary</code>, <code>conditions jsonb</code> (each case may carry its own <code>rate</code> and <code>base</code>), <code>citations jsonb</code>, <code>notes</code>, <code>file</code>. Checks require a citation, conditions on a conditional rule, <code>rate</code> exactly on a special rate, <code>base</code> only as a fraction on a taxed rule, and <code>follows</code> exactly when the treatment says so; an exclusion constraint (<code>btree_gist</code>) keeps one tax and code's date ranges from overlapping</td>
+<td><code>tax</code>, <code>code</code>, <code>starts_on</code> (primary key), <code>ends_on</code>, <code>from_is</code>, <code>treatment</code> (<code>taxable</code>, <code>special_rate</code>, <code>exempt</code>, <code>zero_rated</code>, <code>conditional</code>, <code>follows</code>), <code>rate</code> (a special rate), <code>base</code> (the share of the charge taxed, 0 &lt; base &lt; 1, on a taxable or special-rate rule; migration 0017), <code>rate_class</code> (on a special-rate rule in place of <code>rate</code>: each part at its own rate for that class, <code>sales_tax_class_rates</code>; migration 0018), <code>follows</code>, <code>summary</code>, <code>conditions jsonb</code> (each case may carry its own <code>rate</code> or <code>rateClass</code>, and <code>base</code>), <code>citations jsonb</code>, <code>notes</code>, <code>file</code>. Checks require a citation, conditions on a conditional rule, <code>rate</code> or <code>rate_class</code> (never both) exactly on a special rate, <code>base</code> only as a fraction on a taxed rule, and <code>follows</code> exactly when the treatment says so; an exclusion constraint (<code>btree_gist</code>) keeps one tax and code's date ranges from overlapping</td>
 <td><code>loadTaxabilityRules</code> (<code>src/taxability/ingest.ts</code>), from <code>src/taxability/rules/*.json</code>, replacing the table whole; read once per process by <code>loadRules</code></td>
 </tr>
 <tr>
@@ -257,6 +263,11 @@
 <td><code>sales_tax_jurisdiction_rates</code></td>
 <td><code>state</code>, <code>type</code>, <code>code</code>, <code>rate numeric(8,6)</code>, <code>rate_interstate</code>, <code>food_drug_rate</code>, <code>food_drug_rate_interstate</code> (Streamlined only, else null), dates</td>
 <td><code>loadSstState</code>, <code>loadGeoState</code></td>
+</tr>
+<tr>
+<td><code>sales_tax_class_rates</code></td>
+<td><code>state</code>, <code>type</code>, <code>code</code> (a rate row's key), <code>class</code> (<code>restaurant</code> or <code>grocery</code>, <code>RATE_CLASSES</code> in <code>src/rates/types.ts</code>), <code>rate numeric(8,6)</code> (the part's own rate on that class; an Alabama <code>0c</code> difference row may be negative, like its general one), <code>starts_on</code>, <code>ends_on</code>, <code>source</code> (the file and the publisher's key, e.g. <code>AZ TPT_RATETABLE_ALL_11012026 and earlier, business codes 011 + 111</code>); index on <code>(state, type, code)</code>; migration 0018. No row for a part, class and date means no class rate, never the general one. Read only onto parts as <code>classRates</code>; the general rate never reads it. See <a href="#class-rates">class rates</a></td>
+<td><code>loadClassRates</code> (<code>src/ingest/class-rates.ts</code>), the state's rows replaced in one transaction; a row whose <code>type:code</code> no loaded general rate has is left out, with a warning</td>
 </tr>
 <tr>
 <td><code>sales_tax_jurisdictions</code></td>
@@ -288,6 +299,19 @@
 <tr><td>Streamlined members</td><td>none</td><td>none per jurisdiction; the area's <code>Composite SER Code</code></td></tr>
 </tbody>
 </table></div>
+
+<h3 id="class-rates">Class rates (<code>class-rates.ts</code>)</h3>
+<p>Some states publish a part's rate on a class of sale beside its general rate, in the same files: the class rates. They are loaded as data, dated like the general rates, into <code>sales_tax_class_rates</code>, after the general rates and keyed to them; the general rows and their stacking are untouched. Each reader takes the files its state's loaded rates came from, through the archive (<code>savedDownload</code>), and the loaded rates themselves (<code>LoadedRates</code>).</p>
+<div class="scroll"><table class="grid-table">
+<thead><tr><th>State</th><th>Class</th><th>From</th><th>On which parts</th></tr></thead>
+<tbody>
+<tr><td>AZ (<code>arizonaClasses</code>)</td><td><code>restaurant</code>: business code 011, plus 111 (a city's "additional tax", which the PDF tables define as "in addition to Restaurant Tax") where both are in force; <code>grocery</code>: 062</td><td>the monthly <code>TPT_RATETABLE_ALL_&lt;date&gt;.csv</code> tables, through the one the release names</td><td>every county (011 less the state's 5.6%, as for retail) and city; 062 only for the cities that list it (70 of 92), never a zero read into a gap</td></tr>
+<tr><td>AL (<code>alabamaClasses</code>)</td><td><code>grocery</code>: the <code>ST</code> rows of Rate Type <code>GROC</code></td><td><code>taxrates.csv</code>, through the same county rules (<code>localsOf(csv, "GROC")</code>, then <code>keyedLocals</code>, shared with <code>stateTable</code>) as the general rate, so each lands on its general rate's part</td><td>counties, cities, <code>0c</code> and <code>pj</code> parts; a town with no GROC row and a general rate of 0 gets 0 over those days; Elmore County's in-city <code>0c</code> parts have none</td></tr>
+<tr><td>IL (<code>illinoisClasses</code>)</td><td><code>grocery</code>: the Receipts Grocery High-Rate</td><td><code>grocerymache-current</code>, <code>-prior-070126</code>, <code>-prior-010126</code>; periods from 2026-01-01 only (the file guide: "for periods January 1, 2026 and after")</td><td>every location (<code>x</code>); the high rate where the override flag is set (Metro East), as the general rate keeps the higher of two; business district addresses (<code>addr</code>) have none</td></tr>
+<tr><td>UT (<code>utahClasses</code>)</td><td><code>restaurant</code>: Prepared Food (Restaurant) less Combined Sales and Use, on the county</td><td>the Tax Commission's <code>&lt;yy&gt;q&lt;n&gt;simple.xlsx</code> for the loaded Streamlined quarter, its rows ending with the quarter</td><td>every part: a county's general rate plus its restaurant tax (the same at every location in it, else none), every other part its general rate</td></tr>
+</tbody>
+</table></div>
+<p>A taxability rule uses them by naming a class (<code>rateClass</code>; see the <a href="engine.html">engine note</a>); a part with no row is not researched for that rule, never taxed at its general rate.</p>
 
 <h3 id="editions">Outline editions (<code>writeEdition</code>)</h3>
 <p>A loader's outlines are history, not a replacement: <code>writeEdition(tx, scope, shapes, from)</code> compares the new edition with the open rows (<code>ends_on = 9999-12-31</code>) that <code>scope</code> selects. An outline whose geometry is identical (<code>st_orderingequals</code>) keeps its row, renamed and refiled. An open row the edition changes or drops ends the day before <code>from</code>, or is deleted when it starts on or after <code>from</code>, so loading the same edition twice leaves the same rows. A changed or new outline starts on <code>from</code>. The first edition of a scope starts at <code>0001-01-01</code>: with no older edition held, it stands for every earlier date. Lookups read the row in force on their date (<a href="map-engine.html#history">map-engine.html</a>); the locator's typed-city checks read the newest. Verified supplemental outlines (<code>verify-polygons.ts</code>) carry their own source periods and aren't written this way. A geo source that dates its own outlines (<code>GeoStateData.shapes[].startsOn</code>/<code>endsOn</code>, Colorado's and Alaska's rate service) gives its whole history, which replaces the state's non-TIGER rows on load.</p>

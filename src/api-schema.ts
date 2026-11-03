@@ -55,6 +55,17 @@ export const RatePartSchema = z
     code: z.string().openapi({ description: "The publisher's jurisdiction type and code.", example: "01:63000" }),
     rate: rate("This part's rate.", 0.065),
     byType: RatesByTypeSchema.optional(),
+    classRates: z
+      .object({
+        restaurant: z.number().optional().openapi({ description: "Food and drink sold by a restaurant or bar: Arizona's restaurants and bars class (business code 011, plus a city's additional 111), or Utah's county restaurant tax added to the county's rate.", example: 0.039 }),
+        grocery: z.number().optional().openapi({ description: "Food for home consumption: Arizona's city rate on it (business code 062), Alabama's local food rate (GROC), Illinois's local grocery rate from 2026.", example: 0.025 }),
+      })
+      .optional()
+      .openapi({
+        description:
+          "This part's rate on a class of sale its state rates apart from the general sale, on the answer's date, from the same published table as the general rate. Absent for a class the state's data gives no rate for: never read the general rate in its place. Taxability rules use them (rateClass); `rate` stays the general rate.",
+        example: { restaurant: 0.039, grocery: 0.025 },
+      }),
     ids: ids("The state's own ids for this tax, keyed by its data's column names and unchanged; {} where it publishes none.").optional(),
   })
   .openapi("RatePart", { description: "One tax adding up to the rate." });
@@ -132,6 +143,7 @@ export const TaxabilityRuleSchema = z
     }),
     treatment: z.enum(TREATMENTS),
     rate: z.number().optional().openapi({ description: "For special_rate: the rate this tax charges on the code instead of its general rate (lower, like a grocery rate, or higher, like a meals tax).", example: 0.04 }),
+    rateClass: z.enum(["restaurant", "grocery"]).optional().openapi({ description: "For special_rate, in place of rate: each part this rule decides is taxed at its own rate for this class, the part's classRates entry (Arizona's city restaurant rates). A part with no rate for the class is not researched.", example: "restaurant" }),
     base: z.number().optional().openapi({ description: "The share of the charge taxed, where the law taxes only part of it (0 < base < 1): Texas taxes 80% of a data processing charge. The answer's rates already apply it, on the whole charge (6.6% where the general rate is 8.25%); don't reduce the amount as well. Absent: the whole charge.", example: 0.8 }),
     summary: z.string().openapi({ example: "Catering is taxable, including staff, rentals and service charges on the bill." }),
     conditions: z.array(
@@ -139,6 +151,7 @@ export const TaxabilityRuleSchema = z
         when: z.string(),
         treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]),
         rate: z.number().optional().openapi({ description: "The part's rate in this case, where it isn't the part's full rate." }),
+        rateClass: z.enum(["restaurant", "grocery"]).optional().openapi({ description: "In this case, each part is taxed at its rate for this class (its classRates entry), as on the rule." }),
         base: z.number().optional().openapi({ description: "In this case, the share of the charge taxed, where the law taxes only part of it (0 < base < 1), as on the rule; the outcomes apply it.", example: 0.8 }),
         code: z.string().optional().openapi({ description: "In an answer for a broad code: the narrower code this case is; send it to settle the answer.", example: "service.professional.design" }),
       }),

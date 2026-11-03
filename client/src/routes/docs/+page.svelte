@@ -214,7 +214,7 @@ else sendElsewhere();                                   // not_researched: never
 				<code>taxability[code].rate</code>.
 			</td>
 		</tr>
-		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, and <code>ids</code>.</td></tr>
+		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, <code>classRates</code> (the part's own rate on restaurant meals or groceries where its state's table rates them apart, as Arizona's cities do; absent otherwise, never the general rate in its place) and <code>ids</code>.</td></tr>
 		<tr>
 			<td><code>match</code></td>
 			<td>
@@ -301,7 +301,15 @@ else sendElsewhere();                                   // not_researched: never
 				price where the general rate is 8.25%), so don't reduce the amount as well. Absent: the whole charge is taxed.
 			</td>
 		</tr>
-		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, base?, code? }'}</code>; <code>base</code> is the share taxed in that case, <code>code</code> the narrower code that case is. For a settled one, its exceptions: the rule's <code>rate</code> holds unless one of them fits the sale.</td></tr>
+		<tr>
+			<td><code>rule.rateClass</code></td>
+			<td>
+				On a <code>special_rate</code> rule in place of <code>rate</code>: each part is taxed at its own rate for this class,
+				its <code>classRates</code> entry (<code>restaurant</code> or <code>grocery</code>). Dine-in food in Glendale, Arizona is taxed at
+				the city's 3.9% restaurant rate, 10.2% in all, against 9.2% on a general sale. A part with no rate for the class is not researched.
+			</td>
+		</tr>
+		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, rateClass?, base?, code? }'}</code>; <code>base</code> is the share taxed in that case, <code>code</code> the narrower code that case is. For a settled one, its exceptions: the rule's <code>rate</code> holds unless one of them fits the sale.</td></tr>
 		<tr>
 			<td><code>outcomes</code></td>
 			<td>
