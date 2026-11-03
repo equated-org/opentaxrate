@@ -31,6 +31,7 @@ import { z } from "zod";
 import { db } from "../../db/client.js";
 import { taxabilityRules } from "../../db/schema.js";
 import { parentOf, TAX_CODES, type TaxCode } from "../codes.js";
+import { RATE_CLASSES, type RateClass } from "../../rates/types.js";
 
 /** This folder in the source tree, also from a build in dist/: the files
  *  aren't compiled, and only ingest and the tests read them. */
@@ -59,6 +60,9 @@ export interface Condition {
   treatment: "taxable" | "special_rate" | "exempt" | "zero_rated";
   /** The part's rate in this case, where it isn't the part's full rate. */
   rate?: number;
+  /** In place of `rate`: each part is taxed at its own rate for this class
+   *  in this case (its classRates entry), as on a rule. */
+  rateClass?: RateClass;
   /** The share of the charge taxed in this case, where the law taxes only
    *  part of it (0 < base < 1; Texas taxes 80% of a data processing
    *  charge): the rate applies to that share, so the rate on the whole
@@ -87,6 +91,12 @@ export interface Rule {
    *  the one part of an "XX:local:<part code>" rule, Denver's 4.00% on
    *  food and drink). */
   rate?: number;
+  /** For "special_rate", in place of `rate`: each part the rule decides is
+   *  taxed at its own rate for this class (RatePart.classRates, loaded from
+   *  the state's own rate table: Arizona's city restaurant rates), so one
+   *  rule serves every city. A part with no rate for the class on the date
+   *  is not researched; never taxed at its general rate instead. */
+  rateClass?: RateClass;
   /** For "taxable" or "special_rate": the share of the charge taxed, where
    *  the law taxes only part of it (0 < base < 1), as on a condition. */
   base?: number;
@@ -132,6 +142,7 @@ export function loadRules(): Promise<RuleSet> {
           fromIs: r.fromIs as Rule["fromIs"],
           treatment: r.treatment as Rule["treatment"],
           ...(r.rate !== null ? { rate: r.rate } : {}),
+          ...(r.rateClass ? { rateClass: r.rateClass as RateClass } : {}),
           ...(r.base !== null ? { base: r.base } : {}),
           ...(r.follows ? { follows: r.follows } : {}),
           summary: r.summary,
@@ -158,6 +169,7 @@ const day = z
   .refine((d) => new Date(`${d}T00:00:00Z`).toISOString().slice(0, 10) === d, "not a calendar date");
 // The share of a charge taxed, where the law taxes only part of it.
 const share = z.number().gt(0).lt(1);
+const rateClass = z.enum(RATE_CLASSES);
 const RuleFile = z.array(
   z
     .object({
@@ -168,13 +180,15 @@ const RuleFile = z.array(
       fromIs: z.enum(["effective", "earliest_verified"]),
       treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated", "conditional", "follows"]),
       rate: z.number().gt(0).max(0.3).optional(),
+      rateClass: rateClass.optional(),
       base: share.optional(),
       follows: z.string().optional(),
       summary: z.string().min(10),
       conditions: z.array(
         z
-          .object({ when: z.string().min(3), treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]), rate: z.number().min(0).max(1).optional(), base: share.optional() })
+          .object({ when: z.string().min(3), treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]), rate: z.number().min(0).max(1).optional(), rateClass: rateClass.optional(), base: share.optional() })
           .strict()
+          .refine((c) => c.rateClass === undefined || (c.treatment === "special_rate" && c.rate === undefined), "rateClass is a special_rate case's rate: never beside rate")
           .refine((c) => c.base === undefined || c.treatment === "taxable" || c.treatment === "special_rate", "base is a share of the charge taxed: only on a taxable or special_rate case"),
       ),
       citations: z.array(z.object({ title: z.string().min(2), url: z.string().url(), quote: z.string().optional() }).strict()).min(1),
@@ -186,7 +200,8 @@ const RuleFile = z.array(
     // Only a province's HST follows the federal base. A US local rule that
     // followed its state's would join the state's parts and lose its rate.
     .refine((r) => r.treatment !== "follows" || r.tax.includes("/"), "only a province's HST rule (\"XX/CA:HST\") may follow another")
-    .refine((r) => (r.treatment === "special_rate") === (r.rate !== undefined), "rate is set exactly when treatment is reduced")
+    .refine((r) => (r.treatment === "special_rate") === (r.rate !== undefined || r.rateClass !== undefined), "rate or rateClass is set exactly when treatment is special_rate")
+    .refine((r) => r.rate === undefined || r.rateClass === undefined, "a special rate is a rate or a class's rates, not both")
     .refine((r) => r.treatment !== "conditional" || r.conditions.length > 0, "a conditional rule lists its conditions")
     .refine((r) => r.base === undefined || r.treatment === "taxable" || r.treatment === "special_rate", "base is a share of the charge taxed: only on a taxable or special_rate rule"),
 );

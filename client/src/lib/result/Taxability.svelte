@@ -151,7 +151,7 @@
 								<ul class="mt-2 flex flex-col gap-1 text-[13px] text-[var(--text-2)]">
 									{#each g.rule.conditions as c, j (j)}
 										<li class="flex gap-2">
-											<span class="shrink-0 font-medium">{TREATMENT[c.treatment] ?? c.treatment}{c.rate !== undefined ? ` ${pct(c.rate)}` : ''}</span>
+											<span class="shrink-0 font-medium">{TREATMENT[c.treatment] ?? c.treatment}{c.rate !== undefined ? ` ${pct(c.rate)}` : c.rateClass ? ` (each part's ${c.rateClass} rate)` : ''}</span>
 											<span>{c.when}</span>
 										</li>
 									{/each}
