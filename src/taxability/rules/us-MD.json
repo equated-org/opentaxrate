@@ -699,5 +699,91 @@
       }
     ],
     "notes": "Written because the state rule carries a reduced (3%) rate; a reduced state rule must say how local parts treat the code. Maryland has none: the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not this code."
+  },
+  {
+    "tax": "MD",
+    "code": "clothing",
+    "from": "2024-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear and accessories, including safety clothing and furs, are taxable; clothing qualifying as a medical supply is exempt.",
+    "conditions": [
+      {
+        "when": "clothing qualifies as a medical supply",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Maryland Comptroller, List of Tangible Personal Property and Services (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Generally, the sale of all clothing, footwear and accessory items is subject to sales and use tax."
+      },
+      {
+        "title": "Maryland Comptroller, taxable property list",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "The sale of clothing that qualifies as a medical supply is exempt from sales and use tax."
+      }
+    ],
+    "notes": "February 2024 publication uses month only; first day used. Tax-Free Week is mentioned in source but not modeled. No general local sales tax per existing us-MD.json; Ocean City food/beverage levy does not reach clothing."
+  },
+  {
+    "tax": "MD",
+    "code": "alcohol",
+    "from": "2024-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Alcoholic beverages, whether taken away or served on premises, are subject to 9% Maryland sales and use tax; separate alcoholic-beverage excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maryland Comptroller, taxable property list (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Alcoholic beverages (subject to 9% sales and use tax rate)"
+      },
+      {
+        "title": "Md. Tax-General §11-104(g)",
+        "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-104&enactments=false",
+        "quote": "9% of the charge for the alcoholic beverage; and"
+      }
+    ],
+    "notes": "February 2024 publication, first day of month used. State rate only; local rule addresses Ocean City. No earlier change date modeled because the downloaded dated publication verifies the current treatment."
+  },
+  {
+    "tax": "MD:local",
+    "code": "alcohol",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ocean City charges 0.5% local sales tax on alcohol served on premises; off-premises beer, wine and spirits are exempt, and elsewhere Maryland has no general local sales tax.",
+    "conditions": [
+      {
+        "when": "served for consumption on premises in Ocean City",
+        "treatment": "special_rate",
+        "rate": 0.005
+      },
+      {
+        "when": "sold outside Ocean City",
+        "treatment": "exempt"
+      },
+      {
+        "when": "beer, wine or distilled spirits sold for off-premises consumption in Ocean City",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Worcester County, Food and Beverage Tax",
+        "url": "https://worcestermd.gov/departments/treasurer/foodbev",
+        "quote": "The tax rate is one-half percent (.5%) of the taxable price of the sale of food and beverages."
+      },
+      {
+        "title": "Worcester County, Food and Beverage Tax: exceptions",
+        "url": "https://worcestermd.gov/departments/treasurer/foodbev",
+        "quote": "Sale of beer, wine and distilled spirits for OFF PREMISES consumption."
+      }
+    ],
+    "notes": "Undated county page uses existing Maryland undated-page date 2020-04-12. County page calls this a local sales tax, so it is modeled rather than omitted as an excise. No general local sales tax elsewhere per existing us-MD.json."
   }
 ]

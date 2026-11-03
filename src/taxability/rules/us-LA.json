@@ -1237,5 +1237,44 @@
       }
     ],
     "notes": "Local taxes reach food for home consumption as well as prepared food, so the raw-animal-food distinction does not change the local answer."
+  },
+  {
+    "tax": "LA",
+    "code": "clothing",
+    "from": "2025-06-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories, protective and sports equipment, costumes, formal wear and furs, are taxable tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR General Sales & Use Tax (updated June 13, 2025)",
+        "url": "https://revenue.louisiana.gov/businesses/general-sales-and-use-taxes/general-sales-use-tax",
+        "quote": "The sale of tangible personal property or digital products at retail in Louisiana;"
+      }
+    ],
+    "notes": "Dated June 13, 2025 on the revenue page. General tangible-personal-property levy applies to these retail goods, with no clothing-specific exemption identified. Following existing us-LA.json, LA covers state and parish/municipal parts for this base; no independent local clothing or alcohol exemption was established. Sales-tax holidays are not modeled."
+  },
+  {
+    "tax": "LA",
+    "code": "alcohol",
+    "from": "2025-06-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail alcoholic beverages are subject to general sales tax whether taken away or served on premises; separate alcoholic-beverage excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "LDR General Sales & Use Tax (updated June 13, 2025)",
+        "url": "https://revenue.louisiana.gov/businesses/general-sales-and-use-taxes/general-sales-use-tax",
+        "quote": "The sale of tangible personal property or digital products at retail in Louisiana;"
+      },
+      {
+        "title": "Louisiana Administrative Code, Title 61, June 2025: food exclusions",
+        "url": "https://dam.ldr.la.gov/lawspolicies/61v01.pdf",
+        "quote": "Alcoholic beverages, malt beverages and beer;"
+      }
+    ],
+    "notes": "June 13, 2025 revenue-page date; June 2025 regulations exclude alcohol from exempt food. LA base/local convention follows existing us-LA.json. Separate excise is described on the downloaded LDR alcoholic-beverage-tax page and is not modeled."
   }
 ]

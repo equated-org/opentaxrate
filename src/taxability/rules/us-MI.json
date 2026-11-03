@@ -1058,5 +1058,49 @@
       }
     ],
     "notes": "Auto-Owners (Mich Ct App, Oct. 27, 2015) set the rule; Treasury's 2016-01-06 notice applied it to all open tax years, so it may reach earlier periods. Before the notice Treasury's RAB 1999-5 treated some remote access as taxable; not modeled. Michigan has no local sales tax: the 6% state tax is the whole rate, so this MI rule is the entire answer."
+  },
+  {
+    "tax": "MI",
+    "code": "clothing",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, accessories, protective and sports equipment, costumes, formal wear and furs are taxable retail tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Michigan Treasury, Sales and Use Taxes",
+        "url": "https://www.michigan.gov/taxes/business-taxes/sales-use-tax",
+        "quote": "Individuals or businesses that sell tangible personal property to the final consumer are required to remit a 6% sales tax on the total price of their taxable retail sales to the State of Michigan."
+      },
+      {
+        "title": "MCL 205.52(1)",
+        "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-205-52",
+        "quote": "there is levied upon and there shall be collected from all persons engaged in the business of making sales at retail, by which ownership of tangible personal property is transferred for consideration, an annual tax for the privilege of engaging in that business equal to 6% of the gross proceeds of the business"
+      }
+    ],
+    "notes": "Undated current guidance uses 2004-09-01, the existing us-MI.json general-goods date; MCL 205.52 history identifies that effective amendment. No clothing-specific exemption identified. Michigan Treasury expressly says Michigan does not allow city or local units to impose sales tax."
+  },
+  {
+    "tax": "MI",
+    "code": "alcohol",
+    "from": "2004-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold in sealed containers or served on premises are subject to Michigan general sales tax; separate liquor taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Michigan LARA/MLCC Sales Tax on Alcoholic Liquor Products",
+        "url": "https://www.michigan.gov/lara/bureau-list/lcc/faq/sales-tax-on-alcoholic-liquor-products",
+        "quote": "The 6% Michigan sales tax must be collected on alcoholic liquor products sold in the original, unopened container to a customer for off-premises consumption by the following licensees that are authorized to sell alcoholic liquor for off-premises consumption:"
+      },
+      {
+        "title": "Michigan LARA/MLCC Sales Tax on Alcoholic Liquor Products",
+        "url": "https://www.michigan.gov/lara/bureau-list/lcc/faq/sales-tax-on-alcoholic-liquor-products",
+        "quote": "The 6% Michigan sales tax must be collected on alcoholic liquor products sold and served to a customer for consumption on the licensed premises, or alcoholic liquor sold to a customer in a qualified container to go under MCL 436.1551 , by the following licensees that are authorized to sell alcoholic liquor for on-premises consumption:"
+      }
+    ],
+    "notes": "Undated current guidance uses existing us-MI.json general-goods baseline 2004-09-01, not a newly proven effective date. LARA points to Treasury and the General Sales Tax Act. No local sales tax per downloaded Treasury sales/use page."
   }
 ]

@@ -673,5 +673,49 @@
       }
     ],
     "notes": "Revenu Québec and LégisQuébec return HTTP 403 to this environment; every cited page was read from its Internet Archive snapshot (revenuquebec pages 2025-08 to 2026-07; QST Act consolidation snapshot 2025-06-24). The rule predates 2013-04-01 (QST at 9.975% and QST/GST harmonization took effect 2013-01-01) and continues; 2013-04-01 is OpenTaxRate's Canadian start date. No QST provision exempts or zero-rates software or SaaS; taxability follows the s. 16 general rule. The 2019-01-01 specified (simplified) registration system for suppliers outside Québec changed who must collect, not whether the supply is taxable. No Revenu Québec page naming 'SaaS' specifically was found; characterization of SaaS as incorporeal property vs. service is unverified but both are taxable. A live fetch of revenuquebec.ca on 2026-10-30 again returned HTTP 403, so the Revenu Québec quotes are still read only from archive copies and are unconfirmed against the live pages. 2026-11-02: cited page moved from https://www.legisquebec.gouv.qc.ca/en/document/cs/T-0.1 to https://www.legisquebec.gouv.qc.ca/fr/document/lc/T-0.1?langCont=en."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "clothing",
+    "from": "2026-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including children’s clothing, accessories and protective or sports gear, are taxable for QST at the general rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenu Québec, Taxable Supplies (archived July 6, 2026)",
+        "url": "https://web.archive.org/web/20260706173735/https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/taxable-supplies/",
+        "quote": "GST at the rate of 5% and QST at the rate of 9.975% apply to the price of the supply, unless the supply is exempt or zero-rated (meaning taxable at 0%)."
+      },
+      {
+        "title": "Revenu Québec, Taxable Supplies (archived July 6, 2026)",
+        "url": "https://web.archive.org/web/20260706173735/https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/types-of-supplies/taxable-supplies/",
+        "quote": "sales of clothing and footwear;"
+      }
+    ],
+    "notes": "The source is undated; from is the verified July 6, 2026 Internet Archive capture. No general clothing exemption, price threshold, or children’s-clothing QST rebate was found. The normal commercial-supply rule covers the subcodes. QST is separate from federal GST/HST; federal holiday relief is not a QST exemption."
+  },
+  {
+    "tax": "QC:QST",
+    "code": "alcohol",
+    "from": "2025-08-11",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold in stores or served on the premises are taxable for QST; the separate specific alcohol tax is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Revenu Québec, Alcoholic Beverages and Carbonated Beverages (archived August 11, 2025)",
+        "url": "https://web.archive.org/web/20250811180635/https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/special-cases-gsthst-and-qst/food-services-sector-applying-the-gst-and-qst/groceries/alcoholic-beverages-and-carbonated-beverages/",
+        "quote": "The GST and the QST apply to sales of alcoholic beverages, carbonated beverages, and certain non-carbonated beverages."
+      },
+      {
+        "title": "Revenu Québec, Specific Tax on Alcoholic Beverages – Payment (archived copy)",
+        "url": "https://web.archive.org/web/20250803111020/https://www.revenuquebec.ca/en/citizens/consumption-taxes/taxable-zero-rated-or-tax-exempt-goods-and-services/specific-tax-on-alcoholic-beverages/",
+        "quote": "When you buy alcoholic beverages in Québec, you must pay a specific tax in addition to the GST and QST."
+      }
+    ],
+    "notes": "The undated alcohol guidance is verified in the August 11, 2025 archive capture. No distinction is made between store and on-premises sales for QST. The specific alcohol tax applies in addition to GST and QST, and the source says GST and QST are calculated on the amount including that tax. Federal temporary GST/HST relief did not replace the QST rules."
   }
 ]

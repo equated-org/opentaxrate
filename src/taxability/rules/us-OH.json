@@ -1056,5 +1056,44 @@
       }
     ],
     "notes": "No Department page read says in so many words that SaaS is automatic data processing/electronic information service rather than a license to use prewritten software (which R.C. 5739.01(B)(1) would tax regardless of use); the business/personal split follows the statute's 'for use in business' wording. Reviewers: confirm the personal-use exemption against a Department ruling or BTA decision. Business use by members of an affiliated group is not a sale (R.C. 5739.01(B)(3)(e)). 2026-11-02: cited page moved from https://tax.ohio.gov/help-center/faqs/sales-and-use-applying-the-tax-what-is-and-isnt-taxable/sales-and-use-applying-the-tax to https://tax.ohio.gov/business/sales-and-use-tax/taxability."
+  },
+  {
+    "tax": "OH",
+    "code": "clothing",
+    "from": "2025-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective/sports gear are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Ohio Revised Code 5739.02, sales tax levied",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      }
+    ],
+    "notes": "Current R.C. 5739.02 and 5739.01 effective September 30, 2025, used as earliest verified date, not original enactment. No general exemption for this code found in full exemption list. County and transit taxes share retail-sale base, consistent with existing OH rules. Sales-tax holidays are not modeled. Separate alcohol excises are excluded."
+  },
+  {
+    "tax": "OH",
+    "code": "alcohol",
+    "from": "2025-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold in containers or served on premises are taxable; the food exemption excludes alcohol.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Ohio Revised Code 5739.02, sales tax levied",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.02",
+        "quote": "an excise tax is hereby levied on each retail sale made in this state"
+      },
+      {
+        "title": "Ohio Revised Code 5739.01, definitions",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-5739.01",
+        "quote": "\"Food\" does not include alcoholic beverages, dietary supplements, soft drinks, or tobacco."
+      }
+    ],
+    "notes": "Current R.C. 5739.02 and 5739.01 effective September 30, 2025, used as earliest verified date, not original enactment. No general exemption for this code found in full exemption list. County and transit taxes share retail-sale base, consistent with existing OH rules. Sales-tax holidays are not modeled. Separate alcohol excises are excluded."
   }
 ]

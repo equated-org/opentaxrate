@@ -983,5 +983,54 @@
       }
     ],
     "notes": "Arizona's city transaction privilege taxes follow the Model City Tax Code, and each city chooses whether to tax food for home consumption (MCTC § 462) and at what rate; a city that doesn't tax it has a 0% food rate. A city's food-for-home-consumption rate can differ from its general retail rate, so a 'taxable' city answer here means taxable at that city's food rate, which this rule does not carry. County excise taxes follow the state base. Which cities tax food on a given date is in ADOR's city rate tables (business code for food for home consumption), not modelled here. HCR 2021 (2025), a referral to the November 2026 ballot that would cap city taxes on food for home consumption, was not in force when this was written and is not modelled."
+  },
+  {
+    "tax": "AZ",
+    "code": "clothing",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport gear are taxable under the retail TPT classification at the applicable state, county and city rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Retail Sales Subject to TPT",
+        "url": "https://azdor.gov/business/transaction-privilege-tax/retail-sales-subject-tpt",
+        "quote": "Examples of tangible personal property include, but are not limited to: digital images, handmade items, vehicles, clothing, handmade jewelry, etc."
+      },
+      {
+        "title": "A.R.S. 42-5061(A), Retail classification",
+        "url": "https://www.azleg.gov/ars/42/05061.htm",
+        "quote": "The retail classification is comprised of the business of selling tangible personal property at retail."
+      }
+    ],
+    "notes": "Undated current official pages: use 1994-01-03, the existing Arizona goods.general rule baseline, as instructed for undated sources; this is not a newly verified historical clothing enactment date. No ordinary clothing threshold or differing subcode treatment was found. City rates vary; no differing local exemption for these codes was found."
+  },
+  {
+    "tax": "AZ",
+    "code": "alcohol",
+    "from": "1994-01-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold to take away or served on premises is taxable under the applicable retail or restaurant TPT classification. Separate liquor luxury taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ADOR Liquor Luxury Tax — TPT",
+        "url": "https://azdor.gov/business/liquor-luxury-tax",
+        "quote": "Licensed liquor retailers in Arizona including farm wineries, microbreweries and craft distillers located in the United States are liable for transaction privilege tax (TPT) when selling spirituous, vinous or malt liquor within Arizona."
+      },
+      {
+        "title": "A.R.S. 42-5074(A), Restaurant classification",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The restaurant classification is comprised of the business of operating restaurants, dining cars, dining rooms, lunchrooms, mobile food units, lunch stands, soda fountains, catering services or similar establishments where articles of food or drink are sold for consumption on or off the premises."
+      },
+      {
+        "title": "A.R.S. 42-5074(B), Restaurant classification",
+        "url": "https://www.azleg.gov/ars/42/05074.htm",
+        "quote": "The tax base for the restaurant classification is the gross proceeds of sales or gross income derived from the business."
+      }
+    ],
+    "notes": "Undated current official pages use the existing goods.general baseline 1994-01-03; this does not establish the historical enactment of alcohol taxation. Retailers and restaurants use different TPT classifications, but both have general taxable treatment. State, county and city rates vary; no different local alcohol sales-tax base was established. Luxury tax is a separate excise, generally imposed at the wholesale tier, and is not modeled."
   }
 ]

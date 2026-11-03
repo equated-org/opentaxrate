@@ -881,5 +881,54 @@
       }
     ],
     "notes": "OpenTaxRate's Georgia local part is the place's combined local rate; the one exception (DeKalb outside Atlanta, SPLOST tied to its EHOST) is listed as a condition, so the answer there is the place's food rate, not the full local rate. 2014-11-12 is the earliest dated DOR statement read; the state exemption is older."
+  },
+  {
+    "tax": "GA",
+    "code": "clothing",
+    "from": "2019-07-16",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport gear are subject to Georgia’s general state and local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "In general, Georgia imposes tax on the retail sales price of tangible personal property and certain services."
+      }
+    ],
+    "notes": "Undated-current-page fallback 2019-07-16 is the date used by the existing GA general-goods rule. No clothing exemption or threshold found. Local taxes share the general tangible-goods base; no clothing-specific local departure identified. Historical sales-tax holidays are not modelled."
+  },
+  {
+    "tax": "GA",
+    "code": "alcohol",
+    "from": "2023-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for takeaway or on-premises consumption is subject to general state and local sales taxes; separate alcohol excises are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Georgia DOR, What is Subject to Sales and Use Tax?",
+        "url": "https://dor.georgia.gov/taxes/sales-use-tax/what-subject-sales-and-use-tax",
+        "quote": "In general, Georgia imposes tax on the retail sales price of tangible personal property and certain services."
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, July 1, 2023, §48-8-3(57)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "Alcoholic beverages (i.e., beverages suitable for human consumption and contain 0.5% or more of alcohol by volume);"
+      },
+      {
+        "title": "Georgia DOR, Georgia Sales and Use Tax Exemptions, July 1, 2023, §48-8-3(57)",
+        "url": "https://dor.georgia.gov/document/document/2020-list-sales-and-use-tax-exemptions/download",
+        "quote": "ingredients” does NOT include (and thus the following are subject to both state and local taxes):"
+      },
+      {
+        "title": "Athens-Clarke County Finance, Pay Local Excise Taxes",
+        "url": "https://www.accgov.com/372/Pay-Local-Excise-Taxes",
+        "quote": "Online Form - 3% Mixed Drink Excise Tax"
+      }
+    ],
+    "notes": "Publication is dated July 1, 2023 (despite its legacy 2020 download URL). The food-exemption list expressly puts alcoholic beverages among products subject to both state and local taxes. Athens-Clarke County lists a separate 3% mixed-drink excise, not modelled. This is not a local sales-tax-base departure."
   }
 ]

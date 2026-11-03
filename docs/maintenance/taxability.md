@@ -78,7 +78,7 @@ bulletins list has.
 
 1. For each changed watch-list page, read its new lines: a new notice,
    bulletin, ruling or law change. Open each that could touch one of the
-   codes (food, catering, software, services, construction, delivery, goods)
+   codes (food, catering, software, services, construction, delivery, goods, clothing, alcohol)
    in a researched place.
 2. For each QUOTE GONE, open the page and find what replaced the sentence:
    a reworded page, a moved section, or a changed rule.
@@ -151,3 +151,30 @@ and marks a rise in wrong answers, or any taxability case newly wrong, as
 `REGRESSION`, as for rates; so rules that failed `taxability-check` but stayed
 loaded can't be published. A bench that stops partway leaves no `bench.txt`,
 and publish needs one.
+
+## Adding a code
+
+A new code (clothing and alcohol, November 2026) is researched for every
+place at once, outside the monthly run:
+
+- Define it in `src/taxability/codes.ts` with what it includes and excludes,
+  name it in `client/src/lib/codes.ts`, and point any broader definition
+  that excluded it (goods.general, food.grocery) at it.
+- Research drafts may come from parallel agents, a few places each; each
+  draft names its pages, downloaded. Nothing in a draft is trusted: every
+  page read (cited or not, but not a block page) is filed with `npx tsx
+  src/cli.ts taxability file URL PATH`, every quote is checked against its
+  copy (`taxability verify --since main`), and every treatment is read
+  against its quote before the rule is appended.
+- A price limit is a condition naming the amount. Where only the part of
+  the price above it is taxed (Massachusetts's $175, Rhode Island's $250),
+  the cases say so ("the first $175 ... exempt", "the part above $175 ...
+  taxable"), for the caller to split the line.
+- A tax beside the sales tax (a liquor gross receipts or excise tax) is
+  named in the summary and not modelled. A tax charged instead of the
+  sales tax is the rule's treatment: exempt, with the other tax named,
+  except where the place's existing rules already model it as the rate
+  (Vermont's, New Hampshire's and Rhode Island's meals taxes, which reach
+  drinks served too).
+- Where no official text settles a place, write no rule and list the gap in
+  the commit message.

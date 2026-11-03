@@ -1546,5 +1546,331 @@
       }
     ],
     "notes": "Connecticut has no local sales taxes; this rule exists because the schema requires an CT:local rule beside a special-rate CT rule, and no local part is ever charged."
+  },
+  {
+    "tax": "CT",
+    "code": "clothing",
+    "from": "2015-07-01",
+    "to": "2019-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Clothing and footwear are taxable; items over $1,000 carry 7.75% on the whole price. Accessories have their own thresholds. Qualifying employment safety apparel is exempt.",
+    "conditions": [
+      {
+        "when": "qualifying safety apparel worn for protection in the course of employment, regardless of price",
+        "treatment": "exempt"
+      },
+      {
+        "when": "an article of clothing or pair of footwear sold for $1,000 or less and not qualifying safety apparel",
+        "treatment": "taxable"
+      },
+      {
+        "when": "an article of clothing or pair of footwear sold for more than $1,000 (rate applies to the whole price) and not qualifying safety apparel",
+        "treatment": "special_rate",
+        "rate": 0.0775
+      },
+      {
+        "when": "other protective or sport equipment that is not an article of clothing or footwear and not qualifying safety apparel",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS, 2015 Legislative Summary",
+        "url": "https://portal.ct.gov/drs/legislative-summaries/2015-legislative-update/2015-legislative-summary",
+        "quote": "Clothing and footwear sales remain taxable."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information: 7.75% luxury items",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Articles of clothing or footwear intended to be worn on or about the human body, or a handbag, luggage, umbrella, wallet or watch, with a sales price of more than $1,000."
+      },
+      {
+        "title": "Connecticut General Statutes §12-408(1)(H)",
+        "url": "https://prdext2.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "an article of clothing or footwear intended to be worn on or about the human body, a handbag, luggage, umbrella, wallet or watch for a sales price exceeding one thousand dollars, at a rate of seven and three-fourths per cent on the entire sales price."
+      },
+      {
+        "title": "CT DRS, 2015 Legislative Summary",
+        "url": "https://portal.ct.gov/drs/legislative-summaries/2015-legislative-update/2015-legislative-summary",
+        "quote": "Luxury sales tax rate increased to 7.75% as of July 1, 2015."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      },
+      {
+        "title": "CT DRS TSSB 2022-4, issued April 6, 2022",
+        "url": "https://portal.ct.gov/-/media/drs/publications/tssb/2022/tssb-2022-4.pdf",
+        "quote": "For purposes of this exemption, which was repealed as of January 1, 2020, safety apparel included “any item of clothing or protective equipment worn by an employee for protection during the course of the employee’s employment."
+      },
+      {
+        "title": "CT DRS PS 2004(4), Safety Apparel",
+        "url": "https://portal.ct.gov/drs/publications/policy-statements/2004/ps-20044-sales-and-use-tax-exemption-for-safety-apparel",
+        "quote": "Safety apparel is defined as “any item of clothing or protective equipment worn by an employee for protection during the course of the employee’s employment.”"
+      }
+    ],
+    "notes": "The annual sales-tax-free week is mentioned only, not modelled. Furs, costumes and formal wear have no separate general exemption in the sources read. Luxury-rate change effective July 1, 2015; safety exemption repeal effective January 1, 2020. No local sales taxes. This parent includes ordinary gear except where the historical equipment rule applies."
+  },
+  {
+    "tax": "CT",
+    "code": "clothing",
+    "from": "2020-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Clothing and footwear are taxable; items over $1,000 carry 7.75% on the whole price. Accessories have their own thresholds. Employment safety apparel is taxable after repeal of its exemption.",
+    "conditions": [
+      {
+        "when": "an article of clothing or pair of footwear sold for $1,000 or less",
+        "treatment": "taxable"
+      },
+      {
+        "when": "an article of clothing or pair of footwear sold for more than $1,000 (rate applies to the whole price)",
+        "treatment": "special_rate",
+        "rate": 0.0775
+      },
+      {
+        "when": "other protective or sport equipment that is not an article of clothing or footwear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS, 2015 Legislative Summary",
+        "url": "https://portal.ct.gov/drs/legislative-summaries/2015-legislative-update/2015-legislative-summary",
+        "quote": "Clothing and footwear sales remain taxable."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information: 7.75% luxury items",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Articles of clothing or footwear intended to be worn on or about the human body, or a handbag, luggage, umbrella, wallet or watch, with a sales price of more than $1,000."
+      },
+      {
+        "title": "Connecticut General Statutes §12-408(1)(H)",
+        "url": "https://prdext2.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "an article of clothing or footwear intended to be worn on or about the human body, a handbag, luggage, umbrella, wallet or watch for a sales price exceeding one thousand dollars, at a rate of seven and three-fourths per cent on the entire sales price."
+      },
+      {
+        "title": "CT DRS, 2015 Legislative Summary",
+        "url": "https://portal.ct.gov/drs/legislative-summaries/2015-legislative-update/2015-legislative-summary",
+        "quote": "Luxury sales tax rate increased to 7.75% as of July 1, 2015."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      },
+      {
+        "title": "CT DRS TSSB 2022-4, issued April 6, 2022",
+        "url": "https://portal.ct.gov/-/media/drs/publications/tssb/2022/tssb-2022-4.pdf",
+        "quote": "For purposes of this exemption, which was repealed as of January 1, 2020, safety apparel included “any item of clothing or protective equipment worn by an employee for protection during the course of the employee’s employment."
+      }
+    ],
+    "notes": "The annual sales-tax-free week is mentioned only, not modelled. Furs, costumes and formal wear have no separate general exemption in the sources read. Luxury-rate change effective July 1, 2015; safety exemption repeal effective January 1, 2020. No local sales taxes. This parent includes ordinary gear except where the historical equipment rule applies."
+  },
+  {
+    "tax": "CT",
+    "code": "clothing.accessories",
+    "from": "2015-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Accessories are taxable; jewelry over $5,000 and listed bags and accessories over $1,000 carry 7.75% on the full price.",
+    "conditions": [
+      {
+        "when": "jewelry sold for more than $5,000",
+        "treatment": "special_rate",
+        "rate": 0.0775
+      },
+      {
+        "when": "a handbag, luggage, umbrella, wallet or watch sold for more than $1,000",
+        "treatment": "special_rate",
+        "rate": 0.0775
+      },
+      {
+        "when": "other accessories, jewelry costing $5,000 or less, or the listed bags and accessories costing $1,000 or less",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information: 7.75% luxury items",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Articles of clothing or footwear intended to be worn on or about the human body, or a handbag, luggage, umbrella, wallet or watch, with a sales price of more than $1,000."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information: 7.75% luxury items",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Items of jewelry, whether real or imitation, with a sales price of more than $5,000; and"
+      },
+      {
+        "title": "Connecticut General Statutes §12-408(1)(H)",
+        "url": "https://prdext2.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "an article of clothing or footwear intended to be worn on or about the human body, a handbag, luggage, umbrella, wallet or watch for a sales price exceeding one thousand dollars, at a rate of seven and three-fourths per cent on the entire sales price."
+      },
+      {
+        "title": "CT DRS, 2015 Legislative Summary",
+        "url": "https://portal.ct.gov/drs/legislative-summaries/2015-legislative-update/2015-legislative-summary",
+        "quote": "Luxury sales tax rate increased to 7.75% as of July 1, 2015."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "The threshold depends on the kind of accessory. No local sales taxes."
+  },
+  {
+    "tax": "CT",
+    "code": "clothing.equipment",
+    "from": "2015-07-01",
+    "to": "2019-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Qualifying employment protective gear is exempt through 2019; other sport and protective gear is taxable.",
+    "conditions": [
+      {
+        "when": "protective equipment worn for protection in the course of employment and qualifying as safety apparel",
+        "treatment": "exempt"
+      },
+      {
+        "when": "nonqualifying gear that is an article of clothing or footwear sold for more than $1,000",
+        "treatment": "special_rate",
+        "rate": 0.0775
+      },
+      {
+        "when": "other nonqualifying protective or sport equipment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CT DRS PS 2004(4), Safety Apparel",
+        "url": "https://portal.ct.gov/drs/publications/policy-statements/2004/ps-20044-sales-and-use-tax-exemption-for-safety-apparel",
+        "quote": "Safety apparel is defined as “any item of clothing or protective equipment worn by an employee for protection during the course of the employee’s employment.”"
+      },
+      {
+        "title": "CT DRS TSSB 2022-4, issued April 6, 2022",
+        "url": "https://portal.ct.gov/-/media/drs/publications/tssb/2022/tssb-2022-4.pdf",
+        "quote": "For purposes of this exemption, which was repealed as of January 1, 2020, safety apparel included “any item of clothing or protective equipment worn by an employee for protection during the course of the employee’s employment."
+      },
+      {
+        "title": "CT DRS, 2015 Legislative Summary",
+        "url": "https://portal.ct.gov/drs/legislative-summaries/2015-legislative-update/2015-legislative-summary",
+        "quote": "Clothing and footwear sales remain taxable."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information: 7.75% luxury items",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "Articles of clothing or footwear intended to be worn on or about the human body, or a handbag, luggage, umbrella, wallet or watch, with a sales price of more than $1,000."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Employment safety exemption ends December 31, 2019; the clothing parent applies from January 1, 2020. For non-clothing tangible gear, ordinary general-rate taxation applies. No local taxes."
+  },
+  {
+    "tax": "CT",
+    "code": "alcohol.off_premises",
+    "from": "2011-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcohol for off-premises consumption is subject to the general sales/use tax; separate alcoholic beverage excise tax is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Alcoholic Beverage Tax: Tax Information",
+        "url": "https://portal.ct.gov/drs/taxes/alcoholic-beverage-tax/tax-information",
+        "quote": "The Connecticut use tax is 6.35% of the purchase price (including any shipping or delivery charges)."
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      },
+      {
+        "title": "Connecticut General Statutes §12-412(13)",
+        "url": "https://prdext2.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "“Food products” do not include spirituous, malt or vinous liquors"
+      }
+    ],
+    "notes": "The DRS alcohol page gives 6.35% use tax on alcohol bought out of state. The statute excludes liquor from the food exemption. Undated-current-page fallback uses 2011-07-01, as the existing CT general-goods rule does. Connecticut has no local sales taxes."
+  },
+  {
+    "tax": "CT",
+    "code": "alcohol.on_premises",
+    "from": "2011-07-01",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol served at bars and restaurants is subject to the general sales tax before the October 2019 meals-and-beverages increase.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS AN 2019(10), issued September 19, 2019",
+        "url": "https://portal.ct.gov/-/media/Office-of-the-Governor/News/20190919-DRS-meals-guidance.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      },
+      {
+        "title": "Connecticut General Statutes §12-408(1)(I)",
+        "url": "https://prdext2.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "spirituous, malt or vinous liquors, soft drinks, sodas or beverages such as are ordinarily dispensed at bars and soda fountains, or in connection therewith"
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "The announcement explicitly states the prior 6.35% treatment. Undated statute fallback start matches the existing CT general-goods rule. Separate liquor excise is not included."
+  },
+  {
+    "tax": "CT",
+    "code": "alcohol.on_premises",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.0735,
+    "summary": "Alcohol served at bars and restaurants carries the 7.35% sales tax on meals and certain beverages; separate liquor excise is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS AN 2019(10), issued September 19, 2019",
+        "url": "https://portal.ct.gov/-/media/Office-of-the-Governor/News/20190919-DRS-meals-guidance.pdf",
+        "quote": "As of October 1, 2019, sales of meals and certain drinks that are currently subject to tax at a rate of 6.35% will become subject to an additional 1% rate of tax for a total effective tax rate of 7.35%."
+      },
+      {
+        "title": "Connecticut General Statutes §12-408(1)(I)",
+        "url": "https://prdext2.cga.ct.gov/current/pub/chap_219.htm",
+        "quote": "spirituous, malt or vinous liquors, soft drinks, sodas or beverages such as are ordinarily dispensed at bars and soda fountains, or in connection therewith"
+      },
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "The extra one percentage point is expressly part of sales and use tax and is therefore modelled. No local sales taxes."
+  },
+  {
+    "tax": "CT:local",
+    "code": "alcohol",
+    "from": "2011-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Connecticut imposes no local sales tax on alcohol.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CT DRS, Sales and Use Tax Information",
+        "url": "https://portal.ct.gov/DRS/Sales-Tax/Tax-Information",
+        "quote": "There are no additional sales taxes imposed by local jurisdictions in Connecticut."
+      }
+    ],
+    "notes": "Local companion covers the entire special-rate period; undated page fallback matches existing CT rules."
   }
 ]

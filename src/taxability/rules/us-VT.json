@@ -983,5 +983,138 @@
       }
     ],
     "notes": "A whole uncooked pizza is neither a taxable meal nor subject to sales tax (exempt food), so no local option tax applies to it. The meal cases follow the VT:local food.prepared.hot rule. Known gap, as there: a town that levies only the local option meals tax has no local part in the rate data. Burlington and Rutland city meals taxes (charter) are outside this calculation. Earliest date as for the VT rule. 2026-11-02: the conditions are worded as the VT rule's, each case in its words, the taxable-meal case split by whether the town levies the local option meals tax, so an answer pairs each state case with its own local one (a whole uncooked pizza is never paired with a taxable meal)."
+  },
+  {
+    "tax": "VT",
+    "code": "clothing",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Everyday clothing and footwear are exempt in Vermont without a price ceiling, including costumes, formal wear and wedding apparel; accessories and protective or sport equipment are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, What is Taxable and Exempt",
+        "url": "https://tax.vermont.gov/exempt-items",
+        "quote": "CLOTHING - EXEMPT"
+      }
+    ],
+    "notes": "Undated current agency page: 2026-10-30 follows the existing Vermont file’s convention for undated current pages, not an enactment date. Ordinary sales and use tax and any local option sales tax share the state base; no separate local clothing treatment was identified. The page expressly lists costumes, formal wear, wedding apparel, steel-toed shoes and athletic uniforms as exempt. No separate fur exclusion was found. The narrower accessories and equipment rules cover the exceptions."
+  },
+  {
+    "tax": "VT",
+    "code": "clothing.accessories",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories such as jewelry, handbags, watches and nonprescription sunglasses are taxable in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, What is Taxable and Exempt",
+        "url": "https://tax.vermont.gov/exempt-items",
+        "quote": "CLOTHING ACCESSORIES OR EQUIPMENT — TAXABLE"
+      }
+    ],
+    "notes": "Undated current agency page: 2026-10-30 follows the existing Vermont file’s convention for undated current pages, not an enactment date. Ordinary sales and use tax and any local option sales tax share the state base; no separate local clothing treatment was identified."
+  },
+  {
+    "tax": "VT",
+    "code": "clothing.equipment",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Protective and sporting equipment, including helmets, safety glasses, cleats, ski boots and skates, are taxable in Vermont.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, What is Taxable and Exempt",
+        "url": "https://tax.vermont.gov/exempt-items",
+        "quote": "PROTECTIVE EQUIPMENT — TAXABLE"
+      },
+      {
+        "title": "Vermont Department of Taxes, What is Taxable and Exempt",
+        "url": "https://tax.vermont.gov/exempt-items",
+        "quote": "SPORTS OR RECREATIONAL EQUIPMENT — TAXABLE"
+      }
+    ],
+    "notes": "Undated current agency page: 2026-10-30 follows the existing Vermont file’s convention for undated current pages, not an enactment date. Ordinary sales and use tax and any local option sales tax share the state base; no separate local clothing treatment was identified."
+  },
+  {
+    "tax": "VT",
+    "code": "alcohol.off_premises",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcoholic beverages sold by stores are subject to Vermont general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, Use Tax for Individuals",
+        "url": "https://tax.vermont.gov/individuals/use-tax",
+        "quote": "Typically, you would be charged sales tax on alcoholic beverages in a Vermont grocery store, convenience store, or state liquor store."
+      }
+    ],
+    "notes": "Undated current agency page: 2026-10-30 follows the existing Vermont file’s convention for undated current pages, not an enactment date. Ordinary sales and use tax and any local option sales tax share the state base; no separate local clothing treatment was identified."
+  },
+  {
+    "tax": "VT",
+    "code": "alcohol.on_premises",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "An alcoholic drink served by a Vermont restaurant or bar carries the 10% Alcoholic Beverage Tax of the Meals and Rooms Tax instead of the 6% sales tax; this rate is that tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Vermont Department of Taxes, Use Tax for Individuals",
+        "url": "https://tax.vermont.gov/individuals/use-tax",
+        "quote": "If you are served alcoholic beverages in a restaurant or bar for immediate consumption, you would pay the 10% Vermont Alcoholic Beverage Tax and not the 6% Vermont Sales Tax, so no use tax would be due."
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "Modelled as the VT food.prepared.dine_in rule models the 9% meals tax: Vermont's Meals and Rooms Tax (32 V.S.A. ch. 225) is charged instead of the sales tax, so the rate is the tax actually charged on the sale. Undated current agency page: 2026-10-30 follows the existing Vermont convention for undated pages. Burlington and Rutland city taxes are outside this calculation."
+  },
+  {
+    "tax": "VT:local",
+    "code": "alcohol.on_premises",
+    "from": "2026-10-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "The local part on an alcoholic drink served in Vermont is the 1% local option alcoholic beverage tax where the town levies it; the local option sales tax does not apply.",
+    "conditions": [
+      {
+        "when": "The town levies the 1% local option alcoholic beverage tax",
+        "treatment": "special_rate",
+        "rate": 0.01
+      },
+      {
+        "when": "The town levies only the local option sales tax, not the alcoholic beverage tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Alcoholic Beverage Tax: 10% alcohol tax + 1% = 11% total tax"
+      },
+      {
+        "title": "VT Dept. of Taxes, Local Option Tax",
+        "url": "https://tax.vermont.gov/business/local-option-tax",
+        "quote": "Local Option Sales Tax: 6% sales tax + 1% = 7% total tax"
+      },
+      {
+        "title": "32 V.S.A. § 9741, Sales tax exemptions",
+        "url": "https://legislature.vermont.gov/statutes/section/32/233/09741",
+        "quote": "Sales of meals or alcoholic beverages taxed or exempted under chapter 225 of this title"
+      }
+    ],
+    "notes": "As VT:local food.prepared.dine_in: required beside the state's special rate. Known gap: a town that levies only the local option alcoholic beverage (or meals) tax has no local part in the rate data, so its 1% is missed."
   }
 ]

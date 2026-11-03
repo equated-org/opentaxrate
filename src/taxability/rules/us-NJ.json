@@ -791,5 +791,97 @@
       }
     ],
     "notes": "SaaS used to furnish a taxable information service (e.g. legal or tax research databases) is taxable as an information service (TB-72); that is a different product from this code. Earliest date: TB-72's issue. New Jersey has no local sales taxes; Urban Enterprise Zone and Salem County sellers may charge half the rate on qualifying in-person sales, a seller certification the rate data and these rules do not model."
+  },
+  {
+    "tax": "NJ",
+    "code": "clothing",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Ordinary clothing and footwear are exempt without a price ceiling; qualifying fur clothing is taxable.",
+    "conditions": [
+      {
+        "when": "Fur clothing required to be labeled as a fur product, with fur components worth more than three times the next most valuable tangible component",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales and Use Tax (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Sales of articles of clothing and footwear for human use are exempt from New Jersey Sales Tax."
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales and Use Tax (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Sales of fur garments and articles meeting the definition of fur clothing are taxable."
+      }
+    ],
+    "notes": "Date follows existing NJ rules: July 6, 2022 revision of S&U-4 (Rev. 07/22). Specialized Atlantic City luxury tax (3% on drinks) and Cape May tourism sales tax (2% in the Wildwoods on restaurant food/drink) are additional and excluded; local coverage gap recorded separately."
+  },
+  {
+    "tax": "NJ",
+    "code": "clothing.accessories",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories are taxable in New Jersey.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales and Use Tax (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Clothing accessories or equipment, although worn on the body, are not considered clothing or footwear and are taxable."
+      }
+    ],
+    "notes": "Date follows existing NJ rules: July 6, 2022 revision of S&U-4 (Rev. 07/22). Specialized Atlantic City luxury tax (3% on drinks) and Cape May tourism sales tax (2% in the Wildwoods on restaurant food/drink) are additional and excluded; local coverage gap recorded separately."
+  },
+  {
+    "tax": "NJ",
+    "code": "clothing.equipment",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Sports equipment is taxable; protective equipment necessary for daily work is exempt.",
+    "conditions": [
+      {
+        "when": "Protective equipment necessary for the daily work of the user",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Sports or recreational equipment, or protective equipment not necessary for daily work",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales and Use Tax (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Protective equipment necessary for the daily work of the user is specifically exempt."
+      },
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales and Use Tax (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Sport or recreational equipment that is worn only in conjunction with a particular sport or recreational activity is taxable."
+      }
+    ],
+    "notes": "Date follows existing NJ rules: July 6, 2022 revision of S&U-4 (Rev. 07/22). Specialized Atlantic City luxury tax (3% on drinks) and Cape May tourism sales tax (2% in the Wildwoods on restaurant food/drink) are additional and excluded; local coverage gap recorded separately."
+  },
+  {
+    "tax": "NJ",
+    "code": "alcohol",
+    "from": "2022-07-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcoholic beverages and drinks served at bars are subject to general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NJ Division of Taxation, S&U-4 Sales and Use Tax (Rev. 07/22)",
+        "url": "https://www.nj.gov/treasury/taxation/pdf/pubs/sales/su4.pdf",
+        "quote": "Alcoholic Beverages (prepackaged or by the drink) ..................................................T"
+      }
+    ],
+    "notes": "Date follows existing NJ rules: July 6, 2022 revision of S&U-4 (Rev. 07/22). Specialized Atlantic City luxury tax (3% on drinks) and Cape May tourism sales tax (2% in the Wildwoods on restaurant food/drink) are additional and excluded; local coverage gap recorded separately. The guide marks this entry T (taxable). Separate alcoholic beverage excise taxes are excluded."
   }
 ]

@@ -914,5 +914,69 @@
       }
     ],
     "notes": "See CO:local food.grocery. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO",
+    "code": "clothing",
+    "from": "2020-11-27",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport equipment are taxable under Colorado state sales tax and state-administered local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Colorado DOR Consumer Use Tax (archived November 27, 2020)",
+        "url": "https://web.archive.org/web/20201127150710/https://tax.colorado.gov/consumer-use-tax",
+        "quote": "Examples of taxable products (often referred to as \"goods\") are electronics, appliances, furniture, home accessories, jewelry/watches, clothing, shoes, sports equipment or any other tangible personal property."
+      },
+      {
+        "title": "Colorado DOR Sales Tax Guide, Part 2 (archived October 28, 2026)",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Colorado imposes a sales tax on retail sales of tangible personal property except when such sales qualify for an exemption specifically authorized by law."
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I), 2024",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "is the same as the sale of tangible personal property and services taxable pursuant to section 39-26-104, except as otherwise provided in this subsection (1)(d)."
+      }
+    ],
+    "notes": "Earliest checked dated clothing-specific evidence is the November 27, 2020 capture of the DOR consumer-use-tax page; its taxable-products list explains purchases for which sales tax was not collected. The later archived Sales Tax Guide confirms retail taxation. No clothing-specific exemption or threshold was found. State-administered local taxes follow the state base. Independently administered home-rule cities are excluded from this research, following the existing CO goods.general scope."
+  },
+  {
+    "tax": "CO",
+    "code": "alcohol",
+    "from": "2012-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold to take away or served on premises is taxable under Colorado state and state-administered local sales taxes. Separate liquor excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Colorado DOR FYI Sales 4 (January 2012), items not exempt",
+        "url": "https://web.archive.org/web/20251105100715/https://tax.colorado.gov/sites/tax/files/Sales04.pdf",
+        "quote": "Alcoholic beverages. (cooking wine, wine vinegar and , alcohol-filled candies are exempt.)"
+      },
+      {
+        "title": "Colorado DOR FYI Sales 4 (January 2012), items not exempt",
+        "url": "https://web.archive.org/web/20251105100715/https://tax.colorado.gov/sites/tax/files/Sales04.pdf",
+        "quote": "These items are sales taxable:"
+      },
+      {
+        "title": "Colorado DOR Sales Tax Guide, Prepared food and drink",
+        "url": "https://web.archive.org/web/20261028005835/https://tax.colorado.gov/sales-tax-guide",
+        "quote": "Colorado sales tax applies to the sale of food and drink served or furnished in or by dining establishments and other like places of business at which prepared food or drink is regularly sold."
+      },
+      {
+        "title": "C.R.S. 29-2-105(1)(d)(I), 2024",
+        "url": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+        "quote": "is the same as the sale of tangible personal property and services taxable pursuant to section 39-26-104, except as otherwise provided in this subsection (1)(d)."
+      },
+      {
+        "title": "Colorado DOR Liquor Tax (archived January 14, 2026)",
+        "url": "https://web.archive.org/web/20260114073503/https://tax.colorado.gov/liquor-tax",
+        "quote": "Every licensed manufacturer and distributor who first sells, uses, or consumes any alcohol beverage in Colorado must also set up a liquor excise tax account."
+      }
+    ],
+    "notes": "FYI Sales 4 is dated January 2012; January 1 represents its publication month, not a tax change. Cooking wine, wine vinegar and alcohol-filled candy are outside the beverage code and their exemption is not a condition here. State-administered local taxes follow the state base. Independently administered home-rule city treatment is not settled. The excise applies separately to first sales, uses or consumption by licensed manufacturers and distributors."
   }
 ]

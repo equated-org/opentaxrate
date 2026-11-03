@@ -1007,5 +1007,123 @@
       }
     ],
     "notes": "The guide page is undated; the treatment rests on the requirement of a transfer of software (subd. 3(f)), and specified/other digital products (subd. 54-55) do not include software. Earliest date of the guide's statement not verified; 2018-01-01 is the start of the period modeled. Local general sales taxes (city, county, transit) apply to the same base as the state tax (Minn. Stat. 297A.99, subd. 4). Special local taxes on food and beverages, liquor or lodging (e.g. Minneapolis, St. Paul, Duluth) are separate taxes not modeled here."
+  },
+  {
+    "tax": "MN",
+    "code": "clothing",
+    "from": "2026-01-21",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "General-use clothing and footwear are exempt; qualifying fur clothing, accessories and specialized sports or protective equipment are taxable.",
+    "conditions": [
+      {
+        "when": "fur product required to be labeled as such, whose fur value is more than three times the value of its next most valuable component",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Clothing (January 21, 2026)",
+        "url": "https://www.revenue.state.mn.us/clothing",
+        "quote": "Clothing is exempt from sales tax."
+      },
+      {
+        "title": "Minnesota Revenue, Clothing: Fur Clothing",
+        "url": "https://www.revenue.state.mn.us/clothing",
+        "quote": "Fur clothing is taxable. Fur clothing means human wearing apparel that is required to be labeled as a fur product, and the value of the fur value is more than three times the value of the next most valuable component."
+      },
+      {
+        "title": "Minnesota Revenue, Clothing",
+        "url": "https://www.revenue.state.mn.us/clothing",
+        "quote": "Clothing accessories or equipment is taxable."
+      },
+      {
+        "title": "Minn. Stat. §297A.99 subd. 4",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.99",
+        "quote": "The tax applies to sales taxable under this chapter that occur within the political subdivision."
+      }
+    ],
+    "notes": "Clothing page last updated January 21, 2026. General local sales taxes share the state base: §297A.99 subd.4 says the tax applies to sales taxable under chapter 297A. Formal apparel, tuxedos, wedding apparel and costumes are in the exempt list. No price threshold."
+  },
+  {
+    "tax": "MN",
+    "code": "clothing.accessories",
+    "from": "2026-01-21",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories such as jewelry, watches, handbags and wallets are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Clothing",
+        "url": "https://www.revenue.state.mn.us/clothing",
+        "quote": "Clothing accessories or equipment is taxable."
+      },
+      {
+        "title": "Minn. Stat. §297A.99 subd. 4",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.99",
+        "quote": "The tax applies to sales taxable under this chapter that occur within the political subdivision."
+      }
+    ],
+    "notes": "Clothing page last updated January 21, 2026. General local sales taxes share the state base: §297A.99 subd.4 says the tax applies to sales taxable under chapter 297A. Formal apparel, tuxedos, wedding apparel and costumes are in the exempt list. No price threshold."
+  },
+  {
+    "tax": "MN",
+    "code": "clothing.equipment",
+    "from": "2026-01-21",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Specialized sports, recreational and protective equipment worn by people is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Clothing",
+        "url": "https://www.revenue.state.mn.us/clothing",
+        "quote": "Sports and recreational equipment is taxable."
+      },
+      {
+        "title": "Minnesota Revenue, Clothing",
+        "url": "https://www.revenue.state.mn.us/clothing",
+        "quote": "Protective equipment is taxable."
+      },
+      {
+        "title": "Minn. Stat. §297A.99 subd. 4",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.99",
+        "quote": "The tax applies to sales taxable under this chapter that occur within the political subdivision."
+      }
+    ],
+    "notes": "Clothing page last updated January 21, 2026. General local sales taxes share the state base: §297A.99 subd.4 says the tax applies to sales taxable under chapter 297A. Formal apparel, tuxedos, wedding apparel and costumes are in the exempt list. No price threshold. General-use protective-quality clothing, such as steel-toed boots and reflective clothing suitable for general use, remains exempt."
+  },
+  {
+    "tax": "MN",
+    "code": "alcohol",
+    "from": "2026-08-26",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for consumption on or off premises is subject to general state and applicable local sales taxes. The additional 2.5% liquor gross receipts tax, when applicable, is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Minnesota Revenue, Sales – Beverages (August 26, 2026)",
+        "url": "https://www.revenue.state.mn.us/guide/sales-liquor",
+        "quote": "Sales of liquor, wine, and beer are taxable."
+      },
+      {
+        "title": "Minnesota Revenue, Liquor Stores: Sales (August 2, 2022)",
+        "url": "https://www.revenue.state.mn.us/guide/sales-3",
+        "quote": "Generally, sales of alcoholic beverages are taxable."
+      },
+      {
+        "title": "Minnesota Revenue, Sales – Beverages",
+        "url": "https://www.revenue.state.mn.us/guide/sales-liquor",
+        "quote": "Any applicable local or special local taxes on all sales of alcoholic beverages including wine coolers and 3.2 beer"
+      },
+      {
+        "title": "Minn. Stat. §297A.99 subd. 4",
+        "url": "https://www.revisor.mn.gov/statutes/cite/297A.99",
+        "quote": "The tax applies to sales taxable under this chapter that occur within the political subdivision."
+      }
+    ],
+    "notes": "Latest supporting on-premises page updated August 26, 2026; off-premises guide dated August 2, 2022. General sales tax is 6.875%. Additional liquor gross receipts tax depends on license; 3.2% malt-liquor license table omits it. General local taxes follow state base. Special local food/beverage or liquor levies are separate drink taxes, excluded following existing us-MN.json; no single uniform special local rate modeled."
   }
 ]

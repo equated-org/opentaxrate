@@ -738,5 +738,171 @@
       }
     ],
     "notes": "Act 84 of 2016 (effective 2016-08-01 by common account) added remotely accessed property to the statute; the earliest official text read is REV-717 as archived 2018-06-19. Allegheny County (1%) and the City of Philadelphia (2%) levy local sales tax on the same base as the state tax (REV-717), so this rule covers the local parts too. 2026-11-02: cited page moved from http://www.revenue.pa.gov/FormsandPublications/FormsforBusinesses/SUT/Documents/rev-717.pdf to https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf."
+  },
+  {
+    "tax": "PA",
+    "code": "clothing",
+    "from": "2010-04-03",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Everyday clothing and footwear are exempt without a price limit; formal wear, costumes, fur articles and sports-only apparel are taxable.",
+    "conditions": [
+      {
+        "when": "formal day or evening apparel, costumes or ornamental wear",
+        "treatment": "taxable"
+      },
+      {
+        "when": "fur on the hide or pelt, imitation fur, or mixed-material fur articles where fur is more than three times the value of the next most valuable material",
+        "treatment": "taxable"
+      },
+      {
+        "when": "sporting apparel not normally worn except during sports, including athletic team uniforms and bathing suits",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 53.1(b)(1)",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter53/chap53toc.html",
+        "quote": "The sale or use of clothing is not subject to tax."
+      },
+      {
+        "title": "61 Pa. Code § 53.1(b)(2)",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter53/chap53toc.html",
+        "quote": "The sale or use of accessories, ornamental wear, formal day or evening apparel, fur articles and sporting goods and sporting clothing shall be subject to tax unless the purchaser is entitled to claim an exemption under the law."
+      },
+      {
+        "title": "61 Pa. Code § 53.2(a)",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter53/chap53toc.html",
+        "quote": "Therefore, ordinary shoes, overshoes, safety shoes and sneakers are not taxable."
+      },
+      {
+        "title": "REV-717 (02-26), local sales tax",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "2010-04-03 is the latest amendment date printed for § 53.1; earliest verified, not asserted as the original exemption date. Includes state and same-base Allegheny/Philadelphia local sales taxes (REV-717). Safety shoes are exempt; protective sports equipment is not."
+  },
+  {
+    "tax": "PA",
+    "code": "clothing.accessories",
+    "from": "2010-04-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories and ornamental wear, including jewelry, purses, wallets and umbrellas, are taxable at the general state and applicable local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 53.1(b)(2)",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter53/chap53toc.html",
+        "quote": "The sale or use of accessories, ornamental wear, formal day or evening apparel, fur articles and sporting goods and sporting clothing shall be subject to tax unless the purchaser is entitled to claim an exemption under the law."
+      },
+      {
+        "title": "REV-717 (02-26), local sales tax",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "Current § 53.1 latest printed amendment effective 2010-04-03. Local sales taxes follow the state base per REV-717."
+  },
+  {
+    "tax": "PA",
+    "code": "clothing.equipment",
+    "from": "2026-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Sporting and protective equipment worn for sports or safety is taxable at general state and applicable local rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 53.1(b)(2)",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter53/chap53toc.html",
+        "quote": "The sale or use of accessories, ornamental wear, formal day or evening apparel, fur articles and sporting goods and sporting clothing shall be subject to tax unless the purchaser is entitled to claim an exemption under the law."
+      },
+      {
+        "title": "PA DOR REV-717 (02-26), safety clothing",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Safety clothing"
+      },
+      {
+        "title": "61 Pa. Code § 53.1(c)(4)(vi)",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter53/chap53toc.html",
+        "quote": "Protective equipment, for example: shoulder, knee, thigh, elbow, forearm, hand and rib pads used in football and other contact sports; mouthpieces; football and other sports helmets; cups for athletic supporters; and boxing headgear."
+      },
+      {
+        "title": "REV-717 (02-26), local sales tax",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "On taxable sales originating in a city or county that has imposed a local tax, a separate 1 or 2 percent local Sales and Use Tax is imposed."
+      }
+    ],
+    "notes": "REV-717 edition 02-26: month represented by first day. Its T marker identifies safety clothing as taxable. Ordinary safety shoes fall under clothing, not equipment. Local sales tax follows the state base."
+  },
+  {
+    "tax": "PA",
+    "code": "alcohol.off_premises",
+    "from": "2026-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Packaged liquor-store purchases, distributor/brewer beer sales and wine-to-go are taxable; beer sold by licensed retail dispensers is exempt.",
+    "conditions": [
+      {
+        "when": "liquor or wine purchased from a Pennsylvania Liquor store; malt beverages purchased from a brewer or distributor",
+        "treatment": "taxable"
+      },
+      {
+        "when": "wine sold to go by a Wine Expanded Permit holder",
+        "treatment": "taxable"
+      },
+      {
+        "when": "beer sold by a retail dispenser or liquor licensee rather than a brewer or distributor",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "61 Pa. Code § 31.1, food and beverages",
+        "url": "https://www.pacodeandbulletin.gov/secure/pacode/data/061/chapter31/chap31toc.html",
+        "quote": "Spirituous and vinous liquors are subject to tax when purchased from a Pennsylvania Liquor store. Malt beverages are subject to tax when purchased from a brewer or distributor."
+      },
+      {
+        "title": "PA DOR Restaurant Industry Guidance",
+        "url": "https://www.pa.gov/agencies/revenue/get-assistance/outreach-and-education/restaurant-industry-guidance",
+        "quote": "Wine Expanded Permit holders must charge sales tax on the sale of wine for off-premises consumption such as to-go orders."
+      },
+      {
+        "title": "PA DOR REV-717 (02-26), six packs",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Beer, six packs (unless sold by a distributor)"
+      }
+    ],
+    "notes": "Current REV-717 02-26 establishes the dated baseline; first day represents publication month. Local general sales taxes follow the state base. Separate liquor tax and alcohol excises are not included. No unsupported historical rule for pre-Wine Expanded Permit sales is inferred."
+  },
+  {
+    "tax": "PA",
+    "code": "alcohol.on_premises",
+    "from": "2026-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Alcohol served by licensed retail dispensers and liquor licensees is exempt from sales tax; tax is collected on the upstream purchase instead.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "PA DOR Restaurant Industry Guidance",
+        "url": "https://www.pa.gov/agencies/revenue/get-assistance/outreach-and-education/restaurant-industry-guidance",
+        "quote": "Alcoholic Beverages - with the exception of PLCB licenses that include a Wine Expanded Permit."
+      },
+      {
+        "title": "PA DOR REV-717 (02-26), six packs",
+        "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/revenue/documents/formsandpublications/formsforbusinesses/sut/documents/rev-717.pdf",
+        "quote": "Beer, six packs (unless sold by a distributor)"
+      },
+      {
+        "title": "PA DOR Restaurant Industry Guidance, exemption list introduction",
+        "url": "https://www.pa.gov/agencies/revenue/get-assistance/outreach-and-education/restaurant-industry-guidance",
+        "quote": "The following items are outlined in the law as tax exempt and therefore would not be subject to sales tax:"
+      }
+    ],
+    "notes": "Undated restaurant guidance uses the existing PA baseline convention, conservatively advanced to the 02-26 REV-717 edition read here. Separate local drink taxes, the liquor tax and excises are not included. Wine-to-go is outside this code and taxable."
   }
 ]

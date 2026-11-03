@@ -677,5 +677,116 @@
       }
     ],
     "notes": "2013-07-01: the resort-city statute (Idaho Code 50-1044, added 1978) was last amended in 2013 (effective date assumed July 1, not checked); the Tax Commission page describing cities' choices was read 2026-10-30. Idaho's local sales taxes are resort-city option taxes (Idaho Code Title 50, ch. 10) whose base each city's ordinance sets; the ordinances were not read here, so the local part is left to the city. Cities without a local tax have no local part."
+  },
+  {
+    "tax": "ID",
+    "code": "clothing",
+    "from": "2026-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories, protective and sports gear are taxable at Idaho’s general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Idaho State Tax Commission, Sales and Use Taxes: Basics Guide",
+        "url": "https://tax.idaho.gov/taxes/sales-use/online-guide/",
+        "quote": "Sales tax applies to every retail sale."
+      },
+      {
+        "title": "Idaho State Tax Commission, Sales and Use Taxes: Basics Guide",
+        "url": "https://tax.idaho.gov/taxes/sales-use/online-guide/",
+        "quote": "The sale, lease, or rental of tangible personal property (goods)"
+      }
+    ],
+    "notes": "Page last updated April 1, 2026. No category-specific clothing exemption found; the general retail-goods rule covers all clothing subcodes. Resort-city bases differ; see ID:local."
+  },
+  {
+    "tax": "ID",
+    "code": "alcohol",
+    "from": "2023-09-27",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold in containers or served as drinks are subject to Idaho’s general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Idaho State Tax Commission, Sales and Use Taxes: Basics Guide",
+        "url": "https://tax.idaho.gov/taxes/sales-use/online-guide/",
+        "quote": "Sales tax applies to every retail sale."
+      },
+      {
+        "title": "Idaho State Tax Commission, Sales and Use Taxes: Basics Guide",
+        "url": "https://tax.idaho.gov/taxes/sales-use/online-guide/",
+        "quote": "The sale, lease, or rental of tangible personal property (goods)"
+      },
+      {
+        "title": "Idaho State Tax Commission, Sales Price – Food, Meals, and Drinks",
+        "url": "https://tax.idaho.gov/taxes/sales-use/guides-for-certain-groups/food/food-drinks/sales-price/",
+        "quote": "The sale of food, meals and drinks is taxable."
+      }
+    ],
+    "notes": "Food/drinks page last updated September 27, 2023. Separate alcohol excise taxes are outside this answer. Resort-city tax treatment depends on ordinance."
+  },
+  {
+    "tax": "ID:local",
+    "code": "clothing",
+    "from": "2026-10-15",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "An Idaho resort city’s ordinance determines whether its local sales tax applies to clothing.",
+    "conditions": [
+      {
+        "when": "The city ordinance includes this sale in its taxable base",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The city ordinance limits its tax to other categories",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Idaho State Tax Commission, City Sales Taxes",
+        "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+        "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+      },
+      {
+        "title": "Idaho State Tax Commission, City Sales Taxes",
+        "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+        "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+      }
+    ],
+    "notes": "Page last updated October 15, 2026. Individual city ordinances were not researched. Cities without a local tax have no local part."
+  },
+  {
+    "tax": "ID:local",
+    "code": "alcohol",
+    "from": "2026-10-15",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "An Idaho resort city’s ordinance determines whether its local sales tax applies to alcohol.",
+    "conditions": [
+      {
+        "when": "The city ordinance includes this sale in its taxable base",
+        "treatment": "taxable"
+      },
+      {
+        "when": "The city ordinance limits its tax to other categories",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Idaho State Tax Commission, City Sales Taxes",
+        "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+        "quote": "Resort cities have a choice in what’s taxed and can include everything that’s subject to the state sales tax."
+      },
+      {
+        "title": "Idaho State Tax Commission, City Sales Taxes",
+        "url": "https://tax.idaho.gov/taxes/sales-use/sales-tax/local-sales-tax/city-sales-tax/",
+        "quote": "Some, but not all, choose to limit the local sales tax to lodging, alcohol by the drink, and restaurant food."
+      }
+    ],
+    "notes": "Page last updated October 15, 2026. Individual city ordinances were not researched. Cities without a local tax have no local part."
   }
 ]

@@ -902,5 +902,44 @@
       }
     ],
     "notes": "IC 6-2.5-4-16.7 (SEA 257-2018, P.L.200-2018). Indiana has no local sales tax: the 7% state gross retail tax is the only sales tax, so this rule is the whole answer."
+  },
+  {
+    "tax": "IN",
+    "code": "clothing",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sports gear are subject to Indiana’s general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana DOR, New & Small Business Owners, revised July 2026",
+        "url": "https://secure.in.gov/dor/files/new-small-business-handbook.pdf",
+        "quote": "If you sell goods or tangible personal property, you must register to collect Indiana’s 7% sales tax."
+      }
+    ],
+    "notes": "Handbook revised July 2026; first day of publication month used. No clothing-specific exception found. Indiana has no general local sales tax, consistent with existing IN rules."
+  },
+  {
+    "tax": "IN",
+    "code": "alcohol",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages are subject to Indiana sales tax whether sold packaged or served on premises.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Indiana DOR, New & Small Business Owners, revised July 2026",
+        "url": "https://secure.in.gov/dor/files/new-small-business-handbook.pdf",
+        "quote": "If you sell goods or tangible personal property, you must register to collect Indiana’s 7% sales tax."
+      },
+      {
+        "title": "Indiana DOR, Sales Tax Information Bulletin 29, September 2025",
+        "url": "https://www.in.gov/dor/files/reference/sib29.pdf",
+        "quote": "The term does not include tobacco, alcoholic beverages, candy, dietary supplements, or soft drinks."
+      }
+    ],
+    "notes": "Handbook revised July 2026; first day of publication month used. Bulletin 29 excludes alcohol from exempt food. Separate alcohol excise tax and county/municipal food and beverage taxes are outside this sales-tax answer; the handbook describes FAB as additional to state sales tax."
   }
 ]

@@ -1222,5 +1222,85 @@
       }
     ],
     "notes": "From 2004-01-01, as WA's food.grocery and food.prepared rules: the SSUTA 'prepared food' definition with its raw-animal-food exception took effect then (2003 c 168 s 301). The ready-to-bake pizza example is in today's WAC 458-20-244 (effective 2024-02-16); whether the earlier WAC text carried it is unverified, but the outcome follows from the statute's definition. The WAC example adds that a ready-to-bake pizza made by a manufacturer other than the seller is prepared food only if sold with utensils (outside this code). Whether a pizza with some raw-meat toppings counts as 'containing' raw animal food is read from the statute's words 'foods containing these raw animal foods'; the WAC example's pizza had no ingredient requiring cooking. Local sales taxes share the state base (RCW 82.14.030). Sellers over 75% prepared food that make utensils available may be deemed to sell with utensils (RCW 82.08.0293), not modeled separately."
+  },
+  {
+    "tax": "WA",
+    "code": "clothing",
+    "from": "2004-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, accessories and protective or sporting equipment are subject to Washington state and local retail sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Washington DOR, Merchandise",
+        "url": "https://dor.wa.gov/book/export/html/182658",
+        "quote": "Sales of merchandise are subject to Retailing business and occupation (B&O) tax and retail sales tax."
+      }
+    ],
+    "notes": "Undated agency text uses 2004-07-01, the existing Washington file’s general-goods baseline for current undated sources; this is not a publication or newly established effective date. Washington’s retail sales tax includes state and local parts; no independent local base exception was identified. The merchandise page expressly includes clothing as tangible personal property. No general clothing price exemption or holiday is modeled."
+  },
+  {
+    "tax": "WA",
+    "code": "alcohol.off_premises",
+    "from": "2004-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Beer, cider and wine carry general retail sales tax. Spirits in original containers are exempt from general retail sales tax; separate spirits sales and liter taxes apply instead and are not included.",
+    "conditions": [
+      {
+        "when": "Spirits sold in their original containers",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Beer, cider, wine or sake that is not classified as spirits",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Washington DOR, Spirits, beer, and wine",
+        "url": "https://dor.wa.gov/book/export/html/183076",
+        "quote": "Sales of beer and cider are subject to Retailing business and occupation (B&O) tax and retail sales tax."
+      },
+      {
+        "title": "Washington DOR, Spirits, beer, and wine",
+        "url": "https://dor.wa.gov/book/export/html/183076",
+        "quote": "Sales of wine and sake are subject to Retailing business and occupation (B&O) tax and retail sales tax."
+      },
+      {
+        "title": "Washington DOR, Spirits sales: Off-premises licensees",
+        "url": "https://dor.wa.gov/spirits-sales-premises-licensees",
+        "quote": "The general retail sales tax does not apply on sales of spirits in their original containers."
+      }
+    ],
+    "notes": "Undated agency text uses 2004-07-01, the existing Washington file’s general-goods baseline for current undated sources; this is not a publication or newly established effective date. Washington’s retail sales tax includes state and local parts; no independent local base exception was identified. Spirits include distilled beverages and wines exceeding 24% ABV. Current consumer spirits taxes are 20.5% and $3.7708 per liter. These separate replacement taxes are excluded, rather than encoded as a special rate of general sales tax. This draft does not reconstruct earlier spirits-distribution regimes."
+  },
+  {
+    "tax": "WA",
+    "code": "alcohol.on_premises",
+    "from": "2004-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Beer, cider, wine and drinks containing spirits served on premises are subject to Washington state and local retail sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Washington DOR, Spirits, beer, and wine",
+        "url": "https://dor.wa.gov/book/export/html/183076",
+        "quote": "Sales of beer and cider are subject to Retailing business and occupation (B&O) tax and retail sales tax."
+      },
+      {
+        "title": "Washington DOR, Spirits, beer, and wine",
+        "url": "https://dor.wa.gov/book/export/html/183076",
+        "quote": "Sales of wine and sake are subject to Retailing business and occupation (B&O) tax and retail sales tax."
+      },
+      {
+        "title": "Washington DOR, Spirits, beer, and wine",
+        "url": "https://dor.wa.gov/book/export/html/183076",
+        "quote": "Sales tax is collected on drinks containing spirits sold by restaurants, bars, or other establishments."
+      }
+    ],
+    "notes": "Undated agency text uses 2004-07-01, the existing Washington file’s general-goods baseline for current undated sources; this is not a publication or newly established effective date. Washington’s retail sales tax includes state and local parts; no independent local base exception was identified. Separate spirits taxes on restaurant purchases are not modeled as consumer retail sales tax. Sealed original-container take-home sales belong to alcohol.off_premises."
   }
 ]

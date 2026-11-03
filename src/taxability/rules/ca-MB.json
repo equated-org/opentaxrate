@@ -1344,5 +1344,149 @@
       }
     ],
     "notes": "Payments made before 2026-01-01 for service periods beginning before 2026-01-01 are not taxable even if the period extends past that date. Multi-jurisdiction use may be prorated by Manitoba users/licences."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "clothing",
+    "from": "2019-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Manitoba taxes clothing except qualifying children’s items priced at $150 or less, used items valued at $100 or less and specified medical clothing.",
+    "conditions": [
+      {
+        "when": "Qualifying children’s garments or footwear priced $150 or less in Schedule A children’s sizes, or larger sizes certified in writing for a child age 14 or under",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Used clothing or footwear valued at $100 or less",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Qualifying medical clothing or footwear, including prescribed orthopaedic footwear and adaptive clothing designed for provision of care",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other clothing or footwear, including an item or normally sold set over $150, costumes and work/safety uniforms",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "RST is generally payable on the purchase of clothing, footwear and accessories, except for the exemptions discussed below."
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "Children’s clothing, footwear and accessories within the size ranges shown in the attached Schedule A are exempted from RST if the selling price is $150 or less."
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "An RST exemption is also available for clothing, footwear and accessories larger than the sizes shown in Schedule A if the selling price is $150 or less and the clothing, footwear or accessory is bought for a person 14 years of age or under."
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "Used clothing or footwear valued at $100 or less is exempt from tax."
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "party, Halloween and dance costumes, including rentals"
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "Back-open or side-open adaptive clothing designed for provision of care reasons."
+      }
+    ],
+    "notes": "July 2019 revision; first day of revision month used. A normally sold set is one item. Children’s formal wear and club, school and unpadded sports uniforms can qualify; costumes and safety clothing do not. Schedule A: girls’ garments to size 16, boys’ to size 20; footwear through size 6, with further hat/glove/hosiery size limits in the source."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "clothing.accessories",
+    "from": "2019-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Manitoba taxes jewelry, watches, handbags, hair accessories, sunglasses and umbrellas, including those sold for children.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "The following clothing, footwear and accessories are subject to tax:"
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "jewellery, watches, cuff links, belt buckles and pins"
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "purses, handbags, backpacks, fanny packs and wallets"
+      }
+    ],
+    "notes": "The bulletin calls belts, ties and similar garments accessories, but these belong to clothing.other in this taxonomy and may qualify for the children’s exemption. This rule covers the defined adornment/convenience accessories."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "clothing.equipment",
+    "from": "2019-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Manitoba generally taxes protective and sport gear; helmets suitable for cycling are excluded from the taxable helmet list.",
+    "conditions": [
+      {
+        "when": "Helmet suitable for cycling",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other new sports or safety gear, including pads, sports gloves, cleats, skates, ski boots, hard hats and safety goggles",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "Garments and articles specifically designed and used for sports and recreational activities are taxable, including the following:"
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "Safety clothing, footwear and accessories that are worn to prevent bodily injury are subject to tax."
+      },
+      {
+        "title": "Manitoba Bulletin 001, Clothing, Footwear and Accessories (July 2019)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/001.pdf",
+        "quote": "safety helmets for sport, recreation and transportation, such as helmets for baseball, hockey, football, skating, motorcycles and snowmobiles (excluding helmets suitable for cycling)"
+      }
+    ],
+    "notes": "July 2019 revision. The bulletin’s express cycling exception is modelled. Used equipment qualification under the used-clothing exemption is not resolved."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "alcohol",
+    "from": "2026-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Manitoba RST applies to alcoholic beverages over 1% alcohol, whether sold to take away or served on licensed premises.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Manitoba RST 029, Food and Beverages",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "SECTION 4 - EXAMPLES OF TAXABLE FOOD AND BEVERAGES:"
+      },
+      {
+        "title": "Manitoba RST 029, Food and Beverages (July 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Beverages with an alcohol content greater than 1%, such as wine, spirits, beer, malt liquor and other alcoholic beverages."
+      }
+    ],
+    "notes": "July 2026 revision; first day of month used. Separate liquor markups and excise duties are not included. Beverages at 1% or less fall outside the provincial liquor category; no rule for those is asserted."
   }
 ]

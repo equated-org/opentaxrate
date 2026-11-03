@@ -907,5 +907,100 @@
       }
     ],
     "notes": "The District is a single taxing jurisdiction with no separate local sales tax; this rule exists because the schema requires a DC:local rule beside a special-rate DC rule, and no local part is ever charged. No official page stating that in those words was archived."
+  },
+  {
+    "tax": "DC",
+    "code": "clothing",
+    "from": "2019-10-19",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories, and protective or sport gear are subject to the District’s general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "D.C. Code §47-2002",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "A tax is imposed upon all vendors for the privilege of selling at retail certain tangible personal property"
+      },
+      {
+        "title": "DC OTR, Sales and Use Tax FAQs",
+        "url": "https://otr.cfo.dc.gov/page/sales-and-use-tax-faqs",
+        "quote": "General Sale or Medical Marijuana - Tax Rate: 6%"
+      }
+    ],
+    "notes": "General retail tangible-property rule; no clothing exemption or threshold identified in the sources read. Undated-source fallback is 2019-10-19, used by the existing DC general-goods rule. The District combines state and municipal taxing authority; it has no separate local sales-tax layer."
+  },
+  {
+    "tax": "DC",
+    "code": "alcohol.off_premises",
+    "from": "2025-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Takeaway alcohol generally carries 10.25% sales tax; specified licensed takeaway sales carry the 10% food-and-drink rate.",
+    "conditions": [
+      {
+        "when": "alcohol sold off premises by a licensee acting under D.C. Code §§25-112(h)(1), 25-113(a)(3)(C), or 25-113.01(f) or (g)",
+        "treatment": "special_rate",
+        "rate": 0.1
+      },
+      {
+        "when": "other off-premises alcoholic beverage retail sales",
+        "treatment": "special_rate",
+        "rate": 0.1025
+      }
+    ],
+    "citations": [
+      {
+        "title": "D.C. Code §47-2002(a)(3A)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2002",
+        "quote": "The rate of tax shall be 10."
+      },
+      {
+        "title": "DC OCFO, FY2024 Economic Report, issued September 2025",
+        "url": "https://ora-cfo.dc.gov/sites/default/files/dc/sites/ora-cfo/publication/attachments/FY%202024%20Economic%20Report%20of%20the%20District%20of%20Columbia.pdf",
+        "quote": "Sales of food and drink served or prepared for immediate consumption or sold in or by restaurants and similar places of business, sales of off-premises alcohol sold by certain alcoholic beverage licenses, and sales of prepaid phone cards are taxed at 10 percent."
+      }
+    ],
+    "notes": "September 2025 publication month of the economic report is normalized to 2025-09-01. It verifies the current exception without backdating the newer takeaway licenses to the older DC fallback date. Separate gallonage excises are not included. Earlier license-exception history not reconstructed."
+  },
+  {
+    "tax": "DC",
+    "code": "alcohol.on_premises",
+    "from": "2025-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "Alcohol served for consumption on premises carries the District’s 10% sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DC OTR, Sales and Use Tax FAQs",
+        "url": "https://otr.cfo.dc.gov/page/sales-and-use-tax-faqs",
+        "quote": "Food, Drink prepared for immediate consumption or spirituous or malt liquors, beer, and wine sold for consumption on the premises where sold - Tax Rate: 10%"
+      },
+      {
+        "title": "DC OCFO, FY2024 Economic Report, issued September 2025",
+        "url": "https://ora-cfo.dc.gov/sites/default/files/dc/sites/ora-cfo/publication/attachments/FY%202024%20Economic%20Report%20of%20the%20District%20of%20Columbia.pdf",
+        "quote": "Sales of food and drink served or prepared for immediate consumption or sold in or by restaurants and similar places of business, sales of off-premises alcohol sold by certain alcoholic beverage licenses, and sales of prepaid phone cards are taxed at 10 percent."
+      }
+    ],
+    "notes": "September 2025 publication month of the report is normalized to 2025-09-01. This is the total District sales tax; separate alcohol excises are excluded."
+  },
+  {
+    "tax": "DC:local",
+    "code": "alcohol",
+    "from": "2025-09-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "There is no separate subordinate local sales tax on top of the District alcohol sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "DC OCFO, FY2024 Economic Report, foreword, issued September 2025",
+        "url": "https://ora-cfo.dc.gov/sites/default/files/dc/sites/ora-cfo/publication/attachments/FY%202024%20Economic%20Report%20of%20the%20District%20of%20Columbia.pdf",
+        "quote": "The District of Columbia government combines both the expenditure responsibilities and the authority to generate its own-source revenues of a state and local (municipal, county, school district) system."
+      }
+    ],
+    "notes": "The District itself combines state and municipal revenue authority. Companion required for the state special-rate representation. September 2025 report month normalized to its first day."
   }
 ]

@@ -1075,5 +1075,44 @@
       }
     ],
     "notes": "South Carolina's exemption turns on the selling location and sale for home consumption, not on how the food was assembled (SC Regulation 117-337), so food assembled for the buyer to cook is treated as groceries and cold prepared food are (food.grocery, food.prepared.cold). No SC guidance naming take-and-bake pizza or meal kits was found. The state exemption doesn't reach local sales taxes unless a local tax's own law exempts unprepared food; places differ (ST-575 lists each county's and municipality's unprepared-food rate). OpenTaxRate's South Carolina local part is a county total, so the local answer turns on the place. Local taxes otherwise follow the state base. 2026-11-02: cited page moved from https://dor.sc.gov/resources-site/lawandpolicy/Documents/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf to https://dor.sc.gov/sites/dor/files/Documents/Policy%20Manuals/Chapter%2021%20-%20Unprepared%20Food%20Exemption.pdf."
+  },
+  {
+    "tax": "SC",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sporting gear are subject to general state and applicable local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SCDOR Sales Tax",
+        "url": "https://www.dor.sc.gov/sales-use-tax-index/sales-tax",
+        "quote": "Generally, all retail sales are subject to the Sales Tax."
+      }
+    ],
+    "notes": "Undated current DOR pages use the existing SC 2018-01-01 baseline. Local sales taxes follow the state taxable base. Annual Tax Free Weekend is noted only, not modeled."
+  },
+  {
+    "tax": "SC",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold on or off the premises is subject to general state and applicable local sales tax; the separate 5% liquor-by-the-drink excise on on-premises spirits is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "SCDOR Sales Tax",
+        "url": "https://www.dor.sc.gov/sales-use-tax-index/sales-tax",
+        "quote": "Generally, all retail sales are subject to the Sales Tax."
+      },
+      {
+        "title": "SCDOR Liquor by the Drink Taxes",
+        "url": "https://www.dor.sc.gov/tax-index/alcohol-taxes/liquor-drink-taxes",
+        "quote": "The Liquor by the Drink tax rate is 5% (in addition to Sales Tax and any applicable local taxes)."
+      }
+    ],
+    "notes": "Undated current DOR pages use the existing SC 2018-01-01 baseline. Local sales taxes follow the state taxable base. Beer and wine are not subject to the additional liquor-by-the-drink excise. Alcohol excises and separate local hospitality taxes are outside this sales-tax rule."
   }
 ]

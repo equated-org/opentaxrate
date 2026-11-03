@@ -1153,5 +1153,54 @@
       }
     ],
     "notes": "No California source read names take-and-bake pizza, raw kebabs or meal kits; the rule rests on Annotation 550.0104's reading that food requiring further processing (its examples: syrup to be mixed, frozen food to be defrosted) is not in a form suitable for immediate consumption, so the 80-80 rule (Rev. & Tax. Code 6359(d)(6), Regulation 1603(c)) does not tax it, and on Regulation 1603(c)(2)'s exclusion of cold food that obviously would not be consumed on the premises. Uncooked food is not hot prepared food. Starts at 1992-12-01 like CA's food.grocery rule. Food served for eating at the seller's tables, or sold within a place charging admission, is taxed under other parts of 6359(d); not expected for uncooked food and not modeled. The state, Bradley-Burns local and district taxes share the base. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol1/sutl/6359.html to https://cdtfa.ca.gov/lawguides/vol1/sutl/6359.html. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol2/suta/550-0104.html to https://cdtfa.ca.gov/lawguides/vol2/suta/550-0104.html. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/annotations/550-0104.pdf to https://cdtfa.ca.gov/lawguides/annotations/550-0104.pdf. 2026-11-02: cited page moved from https://www.cdtfa.ca.gov/lawguides/vol1/sutr/1603.html to https://cdtfa.ca.gov/lawguides/vol1/sutr/1603.html."
+  },
+  {
+    "tax": "CA",
+    "code": "clothing",
+    "from": "2026-10-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport gear sold at retail are taxable at California general state, local and district sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "California Tax Service Center — What Is Taxable?",
+        "url": "https://web.archive.org/web/20261017040932/https://taxes.ca.gov/sales-and-use-tax/whats-taxable/",
+        "quote": "Examples include furniture, giftware, toys, antiques and clothing."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code 6051, CDTFA Law Guide",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutl/6051.html",
+        "quote": "For the privilege of selling tangible personal property at retail a tax is hereby imposed upon all retailers"
+      }
+    ],
+    "notes": "The taxable-items page is verified in its October 17, 2026 Internet Archive capture. Section 6051 dates the general retail levy to August 1, 1933, but this draft does not project clothing-specific evidence back to that date. No ordinary clothing price threshold or subtype exemption found. Local and district sales taxes use the general tangible-property base as in the existing California rules."
+  },
+  {
+    "tax": "CA",
+    "code": "alcohol",
+    "from": "2025-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold in containers or served on premises are taxable at the general California sales-tax rates. Separate alcoholic-beverage excise taxes are outside this rule.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CDTFA Publication 22, Dining and Beverage Industry (January 2025), Beverages",
+        "url": "https://cdtfa.ca.gov/formspubs/pub22.pdf",
+        "quote": "Sales of the following beverages are always taxable: • Carbonated beverages such as soda or sparkling water • Alcoholic beverages"
+      },
+      {
+        "title": "CDTFA Regulation 1602(a)(2), Food Products",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutr/1602.html",
+        "quote": "\"Food products\" does not include carbonated or effervescent bottled waters, spirituous, malt or vinous liquors, or carbonated beverages."
+      },
+      {
+        "title": "Cal. Rev. & Tax. Code 6051, CDTFA Law Guide",
+        "url": "https://cdtfa.ca.gov/lawguides/vol1/sutl/6051.html",
+        "quote": "For the privilege of selling tangible personal property at retail a tax is hereby imposed upon all retailers"
+      }
+    ],
+    "notes": "Publication 22 is dated January 2025; January 1 represents the publication month rather than a tax change. Regulation 1602 excludes spirituous, malt and vinous liquors from the food exemption. State, Bradley-Burns local and district taxes share the ordinary tangible-property base as in the existing California rules."
   }
 ]

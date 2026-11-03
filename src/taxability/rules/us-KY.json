@@ -922,5 +922,100 @@
         "quote": "Section 67. Sections 2 to 26, 29 to 32, 45 and 46 of this Act take effect on January 1, 2023."
       }
     ]
+  },
+  {
+    "tax": "KY",
+    "code": "clothing",
+    "from": "1990-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kentucky taxes clothing, footwear, accessories and protective or sports gear at its general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "Sales Tax is imposed on the gross receipts derived from both retail sales of tangible personal property, digital property, and sales of certain services in Kentucky."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "Undated current agency guidance; date follows the existing KY goods.general rule’s 1990-07-01 convention. No category-specific clothing exemption found. No local sales tax."
+  },
+  {
+    "tax": "KY",
+    "code": "alcohol.off_premises",
+    "from": "2009-03-01",
+    "to": "2009-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Kentucky exempted licensed packaged alcohol sales before April 1, 2009.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "As part of this bill KRS 139.470(23) was repealed to eliminate the sales tax exemption for the sale of packaged distilled spirits, wine and malt beverages not consumed on the premises licensed for their sale per KRS 243."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "Effective April 1, 2009, the sale of packaged liquor, including beer, wine and distilled spirits, will be subject to the 6 percent Kentucky sales and use tax."
+      }
+    ],
+    "notes": "March 2009 publication; first day of month used. Earlier history was not verified. Separate wholesale/excise taxes are outside this answer."
+  },
+  {
+    "tax": "KY",
+    "code": "alcohol.on_premises",
+    "from": "2009-03-01",
+    "to": "2009-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kentucky alcohol sold by the drink is subject to general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "The statutory change does not affect receipts from the sale of alcohol by the drink which remains subject to the 6 percent sales and use tax."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "March 2009 publication; first day of month used. Earlier history not verified."
+  },
+  {
+    "tax": "KY",
+    "code": "alcohol",
+    "from": "2009-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Kentucky taxes packaged alcohol and alcohol sold by the drink at the general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "Effective April 1, 2009, the sale of packaged liquor, including beer, wine and distilled spirits, will be subject to the 6 percent Kentucky sales and use tax."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "The statutory change does not affect receipts from the sale of alcohol by the drink which remains subject to the 6 percent sales and use tax."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "Packaged-alcohol exemption repealed effective April 1, 2009. Separate alcohol excise and wholesale taxes are not included."
   }
 ]

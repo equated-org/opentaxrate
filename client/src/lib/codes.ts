@@ -15,6 +15,23 @@ type Group = { group: string; codes: Array<[code: TaxCode, name: string]> };
 const GROUPS = [
 	{ group: 'Goods', codes: [['goods.general', 'General goods']] },
 	{
+		group: 'Clothing',
+		codes: [
+			['clothing', 'Clothing and footwear'],
+			['clothing.accessories', 'Accessories (jewelry, bags)'],
+			['clothing.equipment', 'Protective and sport gear'],
+			['clothing.other', 'Everyday clothing']
+		]
+	},
+	{
+		group: 'Alcohol',
+		codes: [
+			['alcohol', 'Alcoholic beverages'],
+			['alcohol.off_premises', 'To take away'],
+			['alcohol.on_premises', 'Served at a bar or restaurant']
+		]
+	},
+	{
 		group: 'Food',
 		codes: [
 			['food.grocery', 'Groceries'],

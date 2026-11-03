@@ -1079,5 +1079,171 @@
       }
     ],
     "notes": "base 0.8: the answer's rate is on the whole charge, 80% of the general rate (6.6% where it is 8.25%); charge it on the full SaaS price. The 20% exemption (§151.351, since 1999-10-01) applies to state and local tax alike (Pub. 94-109 says so for information services, which share §151.351). 2018-01-01 is only where this file starts. Texas city, county, transit and special-purpose district sales taxes apply to the same taxable items as the state tax (Tax Code ch. 321-323), so this rule covers the state and local parts alike."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "to": "2023-08-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport equipment are generally taxable in Texas before the September 2023 family-care exemptions.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "2018-01-01 uses the existing Texas file’s baseline for undated current statutory text; it is not a newly established effective date. State and local sales taxes share this base. Annual sales-tax holidays are mentioned only here and are not modeled."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing",
+    "from": "2023-09-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Texas taxes clothing and footwear, except qualifying maternity clothing, exempt from September 1, 2023.",
+    "conditions": [
+      {
+        "when": "Maternity clothing labeled for pregnancy, designed to accommodate pregnancy changes or facilitate breastfeeding, including nursing bras and nursing pads",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Any other clothing or footwear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      },
+      {
+        "title": "Texas Tax Code §151.3133(b), Maternity Clothing",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The sale, storage, use, or other consumption of an article of maternity clothing is exempted from the taxes imposed by this chapter."
+      },
+      {
+        "title": "Texas Tax Code §151.3133(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "The term includes a nursing bra or nursing pad."
+      },
+      {
+        "title": "Texas Comptroller, Tax Policy News, February 2024",
+        "url": "https://comptroller.texas.gov/taxes/tax-policy-news/2024-february.php",
+        "quote": "Effective Sept. 1, 2023, wound care and family care items are exempt from sales and use tax."
+      }
+    ],
+    "notes": "Effective date is stated by the Comptroller and the statutory addition of §151.3133. No ordinary clothing price threshold. The exemption applies to state and local sales and use taxes. Annual sales-tax holidays are not modeled. Diapers, exempt from the same date, aren't this code."
+  },
+  {
+    "tax": "TX",
+    "code": "alcohol.off_premises",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for off-premises consumption is subject to Texas general state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Comptroller, Mixed Beverage Taxes FAQ",
+        "url": "https://comptroller.texas.gov/taxes/mixed-beverage/faq.php",
+        "quote": "Sales of alcoholic beverages for off-premises consumption are only subject to limited sales and use tax."
+      }
+    ],
+    "notes": "2018-01-01 uses the existing Texas file’s baseline for undated current statutory text; it is not a newly established effective date. State and local sales taxes share this base. Annual sales-tax holidays are mentioned only here and are not modeled. The FAQ also applies ordinary sales tax to mixed beverage permit holders’ pickup, delivery and to-go sales."
+  },
+  {
+    "tax": "TX",
+    "code": "alcohol.on_premises",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Drinks sold by a mixed beverage permittee are exempt from general sales tax; separate 8.25% mixed beverage sales tax and 6.7% gross receipts tax apply instead and are not included. Other permittees’ beer and wine remain subject to general sales tax.",
+    "conditions": [
+      {
+        "when": "Sales by a mixed beverage permittee subject to Chapter 183 mixed beverage taxes",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Beer or wine sold by a wine and malt beverage retailer’s permittee that is not a mixed beverage permittee",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.308(a)(5), Items Taxed by Other Law",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "mixed beverages, ice, or nonalcoholic beverages and the preparation or service of these items if the receipts are taxable by Subchapter B, Chapter 183, or the items are taxable by Subchapter B-1, Chapter 183;"
+      },
+      {
+        "title": "Texas Comptroller, Mixed Beverage Taxes FAQ",
+        "url": "https://comptroller.texas.gov/taxes/mixed-beverage/faq.php",
+        "quote": "However, sales of wine or malt beverages by a wine and malt beverage retailer’s permittee are only subject to sales and use tax as the holder of this permit is not a mixed beverage permittee."
+      },
+      {
+        "title": "Texas Comptroller, Mixed Beverage Taxes FAQ",
+        "url": "https://comptroller.texas.gov/taxes/mixed-beverage/faq.php",
+        "quote": "The mixed beverage gross receipts tax rate is 6.7 percent, and the mixed beverage sales tax rate is 8.25 percent."
+      }
+    ],
+    "notes": "2018-01-01 uses the existing Texas file’s baseline for undated current statutory text; it is not a newly established effective date. State and local sales taxes share this base. Annual sales-tax holidays are mentioned only here and are not modeled. The Chapter 183 taxes are separate replacement taxes, not a special rate of Chapter 151 general sales tax. The general sales-tax exemption covers the state and local base."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing.accessories",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories (jewelry, handbags, watches) are taxable in Texas as tangible personal property; the maternity clothing exemption doesn't reach them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "Texas has no general clothing exemption; this rule settles the kind so that the broad clothing code's maternity case doesn't leave it conditional. 2018-01-01 is the existing Texas baseline for undated current statutory text."
+  },
+  {
+    "tax": "TX",
+    "code": "clothing.equipment",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Protective and sport gear are taxable in Texas as tangible personal property; the maternity clothing exemption doesn't reach them.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Texas Tax Code §151.051(a)",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "A tax is imposed on each sale of a taxable item in this state."
+      },
+      {
+        "title": "Texas Tax Code §151.010",
+        "url": "https://tcss.legis.texas.gov/resources/TX/htm/TX.151.htm",
+        "quote": "\"Taxable item\" means tangible personal property and taxable services."
+      }
+    ],
+    "notes": "Texas has no general clothing exemption; this rule settles the kind so that the broad clothing code's maternity case doesn't leave it conditional. 2018-01-01 is the existing Texas baseline for undated current statutory text."
   }
 ]

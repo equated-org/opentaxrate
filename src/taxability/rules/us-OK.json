@@ -888,5 +888,59 @@
       }
     ],
     "notes": "Only the state tax was removed from food and food ingredients."
+  },
+  {
+    "tax": "OK",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sporting gear are taxable at the general state and applicable local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC OAC 710:65-19-47, Retailers of clothing",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Persons who engage in the business of selling clothing to purchasers for use or consumption and not for resale must collect, report and remit sales tax when making such sales whether such clothing is sold as a stock or standard item or whether it is produced on special order for the purchaser."
+      },
+      {
+        "title": "OTC Business Help Center",
+        "url": "https://oklahoma.gov/tax/helpcenter/businesses.html",
+        "quote": "Except for the sale of residential utilities and certain food and food ingredients, local taxes apply to the same taxable items and services as the Oklahoma state sales tax rate."
+      },
+      {
+        "title": "68 O.S. § 1354(A)(1), general levy",
+        "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440447",
+        "quote": "Tangible personal property, except newspapers and periodicals;"
+      }
+    ],
+    "notes": "Uses the 2018-01-01 baseline in existing OK rules for undated/current law. The annual August clothing and footwear sales-tax holiday is not modeled. No ordinary apparel exemption or price threshold outside that holiday."
+  },
+  {
+    "tax": "OK",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for consumption on or off the premises is subject to general state and local sales tax; the separate 13.5% mixed beverage tax on qualifying on-premises sales is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "OTC OAC 710:65-19-5, Sales of alcoholic beverages",
+        "url": "https://oklahoma.gov/content/dam/ok/en/tax/documents/resources/rules-and-policies/agency-rules/2026/Chapter65-SalesandUseTax-2026.pdf",
+        "quote": "Persons selling alcoholic beverages to purchasers for use or consumption are required to remit sales tax to the Commission upon the total retail value from such sales"
+      },
+      {
+        "title": "OTC Other Taxes, Alcohol and Tobacco Permits",
+        "url": "https://oklahoma.gov/tax/businesses/other-taxes.html",
+        "quote": "Sellers must collect and remit to the OTC mixed beverage tax as well as sales tax on all sales."
+      },
+      {
+        "title": "OTC Business Help Center",
+        "url": "https://oklahoma.gov/tax/helpcenter/businesses.html",
+        "quote": "Except for the sale of residential utilities and certain food and food ingredients, local taxes apply to the same taxable items and services as the Oklahoma state sales tax rate."
+      }
+    ],
+    "notes": "Undated OTC pages use the existing OK 2018-01-01 baseline. Mixed beverage tax is additional, not a substitute for sales tax. Alcohol excises are outside this rule."
   }
 ]

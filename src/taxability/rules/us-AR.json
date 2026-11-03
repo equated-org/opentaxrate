@@ -1218,5 +1218,63 @@
       }
     ],
     "notes": "Local taxes reach food and food ingredients and prepared food alike."
+  },
+  {
+    "tax": "AR",
+    "code": "clothing",
+    "from": "2008-10-15",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport equipment are taxable at ordinary Arkansas state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Arkansas Gross Receipts Tax Rules, GR-4(A), effective October 15, 2008",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "gross receipts or gross proceeds derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed."
+      },
+      {
+        "title": "Arkansas DFA Sales and Use Tax FAQs (archived September 30, 2026)",
+        "url": "https://web.archive.org/web/20260930234806/https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/sales-and-use-tax-faqs/",
+        "quote": "Examples of items subject to Use Tax include records, CD’s, books, furniture, jewelry, clothing, food, hunting and fishing gear, etc."
+      }
+    ],
+    "notes": "GR-1 dates the downloaded Gross Receipts Tax Rules October 15, 2008; the current FAQ corroborates clothing and jewelry as taxable tangible property. GR-4 printed an obsolete 6% rate, so only its taxable-base wording is used; apply current general rates. The annual clothing and school-supplies sales-tax holiday is noted only, not modeled. No ordinary-sale subcode distinction found."
+  },
+  {
+    "tax": "AR",
+    "code": "alcohol",
+    "from": "2008-10-15",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Alcohol is subject to ordinary state and local sales tax whether sold by the bottle or the drink, with a state exemption for qualifying sacramental wine. Separate alcohol excise and supplemental mixed-drink taxes are not included.",
+    "conditions": [
+      {
+        "when": "ordinary beer, wine, liquor or other alcoholic beverage sold to a consumer by the bottle or drink, for consumption on or off premises",
+        "treatment": "taxable"
+      },
+      {
+        "when": "wine sold for use as sacramental wine, with the required Sacramental Wine decal attached by the winery (state tax exemption)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR 30-1009(a)(1), Sellers of alcoholic beverages",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=971&sectionID=63008&subChapterID=241&subPartID=9368&titleID=26",
+        "quote": "All sellers of beer, wine, liquor, and other intoxicating beverages must collect and remit the tax upon the gross receipts or gross proceeds derived from the sale of those items to the consumer whether the sale is by the bottle or by the drink for off-premises or on-premises consumption."
+      },
+      {
+        "title": "26 CAR 30-1009(h)(1), Sacramental wine",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=971&sectionID=63008&subChapterID=241&subPartID=9368&titleID=26",
+        "quote": "All wines sold in the State of Arkansas for use as sacramental wine shall be exempt from all taxes levied on wine by the State of Arkansas."
+      },
+      {
+        "title": "26 CAR 30-1009(g), Separate alcohol taxes",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=971&sectionID=63008&subChapterID=241&subPartID=9368&titleID=26",
+        "quote": "The ten percent (10%) supplemental tax, four percent (4%) supplemental tax, three percent (3%) liquor and wine excise tax, and one percent (1%) beer excise tax must be reported and remitted to the Department of Finance and Administration at the same time as the state gross receipts tax, on forms provided by the department."
+      }
+    ],
+    "notes": "GR-26 of the downloaded 2008 rules states the same treatment and exemption as current 26 CAR 30-1009; GR-1 makes that publication effective October 15, 2008. Separate off-premises wine/liquor excise (3%), beer excise (1%), and applicable 10% and 4% supplemental drink taxes are additional and not modeled. The sacramental-wine provision requires a container decal; no differing local treatment was found in the reviewed sources, so the ordinary state-base scope is used, matching existing Arkansas rules."
   }
 ]

@@ -698,5 +698,201 @@
       }
     ],
     "notes": "A TAA binds the Department only on its facts; it applies Rule 12A-1.032 and § 212.02, F.S. Software accessed as part of a sale of hardware is taxable with the hardware. Florida's communications services tax is a separate tax, not modelled here."
+  },
+  {
+    "tax": "FL",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "to": "2023-06-30",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear are generally taxable at the state rate plus applicable county surtax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. §212.05(1)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. §212.054(2)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      }
+    ],
+    "notes": "The 2018 statutory edition supports the 2018-01-01 earliest_verified date, as in existing FL rules. County discretionary surtax follows state taxable transactions. Sales-tax holidays (including the 2022–2023 temporary baby-clothing relief and recurring back-to-school relief) are notes only, not modelled. No distinct furs, costume or formal-wear exemption found."
+  },
+  {
+    "tax": "FL",
+    "code": "clothing",
+    "from": "2023-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Clothing and footwear are generally taxable; baby and toddler clothing and shoes marketed for children ages five and younger are permanently exempt.",
+    "conditions": [
+      {
+        "when": "baby and toddler clothing, apparel and shoes primarily intended for and marketed for children ages 5 and younger (sizes 5T and smaller, shoes 13T and smaller are presumed qualifying)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other clothing and footwear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Stat. §212.05(1)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. §212.054(2)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      },
+      {
+        "title": "Florida DOR TIP 23A01-09, issued June 9, 2023",
+        "url": "https://floridarevenue.com/taxes/tips/Documents/TIP_23A01-09.pdf",
+        "quote": "Baby and toddler clothing, apparel, and shoes primarily intended for and marketed for children ages 5 and younger."
+      },
+      {
+        "title": "Florida DOR TIP 23A01-09",
+        "url": "https://floridarevenue.com/taxes/tips/Documents/TIP_23A01-09.pdf",
+        "quote": "Effective July 1, 2023, the following baby and toddler products are permanently exempt from Florida sales and use tax:"
+      }
+    ],
+    "notes": "The 2018 statutory edition supports the 2018-01-01 earliest_verified date, as in existing FL rules. County discretionary surtax follows state taxable transactions. Sales-tax holidays (including the 2022–2023 temporary baby-clothing relief and recurring back-to-school relief) are notes only, not modelled. No distinct furs, costume or formal-wear exemption found. Protective and sport gear and accessories use separate rules."
+  },
+  {
+    "tax": "FL",
+    "code": "clothing.accessories",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Jewelry, handbags, watches and other clothing accessories are generally subject to state sales tax and applicable county surtax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. §212.05(1)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. §212.054(2)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      }
+    ],
+    "notes": "The 2018 statutory edition supports the 2018-01-01 earliest_verified date, as in existing FL rules. County discretionary surtax follows state taxable transactions. Sales-tax holidays (including the 2022–2023 temporary baby-clothing relief and recurring back-to-school relief) are notes only, not modelled. No distinct furs, costume or formal-wear exemption found."
+  },
+  {
+    "tax": "FL",
+    "code": "clothing.equipment",
+    "from": "2018-01-01",
+    "to": "2025-07-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Protective and sport gear is generally taxable; bicycle helmets marketed for youth are exempt.",
+    "conditions": [
+      {
+        "when": "a bicycle helmet marketed for youth",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other protective or sport equipment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Stat. §212.05(1)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. §212.054(2)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      },
+      {
+        "title": "Fla. Stat. §212.08(7)(lll), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "The sale of a bicycle helmet marketed for use by youth is exempt from the tax imposed by this chapter."
+      }
+    ],
+    "notes": "The 2018 statutory edition supports the 2018-01-01 earliest_verified date, as in existing FL rules. County discretionary surtax follows state taxable transactions. Sales-tax holidays (including the 2022–2023 temporary baby-clothing relief and recurring back-to-school relief) are notes only, not modelled. No distinct furs, costume or formal-wear exemption found. Adult bicycle helmets and life jackets become permanently exempt August 1, 2025."
+  },
+  {
+    "tax": "FL",
+    "code": "clothing.equipment",
+    "from": "2025-08-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Protective and sport gear is generally taxable; all bicycle helmets and qualifying life jackets are exempt.",
+    "conditions": [
+      {
+        "when": "a bicycle helmet, or a US Coast Guard approved personal flotation device intended to be worn by a person to provide buoyancy in water",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other protective or sport equipment",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Fla. Stat. §212.05(1)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. §212.054(2)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      },
+      {
+        "title": "Fla. Stat. §212.08(7)(kkk), 2025",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2025/0212.08",
+        "quote": "The sale of a bicycle helmet is exempt from the tax imposed by this chapter."
+      },
+      {
+        "title": "Fla. Stat. §212.08(7)(cccc), 2025",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2025/0212.08",
+        "quote": "Life jackets are exempt from the tax imposed by this chapter."
+      },
+      {
+        "title": "Florida DOR TIP 25A01-05, issued July 1, 2025",
+        "url": "https://floridarevenue.com/taxes/tips/Documents/TIP_25A01-05.pdf",
+        "quote": "Effective August 1, 2025, the following items, which have been temporarily exempted during past tax holidays, are always exempt:"
+      }
+    ],
+    "notes": "The 2018 statutory edition supports the 2018-01-01 earliest_verified date, as in existing FL rules. County discretionary surtax follows state taxable transactions. Sales-tax holidays (including the 2022–2023 temporary baby-clothing relief and recurring back-to-school relief) are notes only, not modelled. No distinct furs, costume or formal-wear exemption found."
+  },
+  {
+    "tax": "FL",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold to take away or drink on premises are subject to general sales tax and applicable county surtax; separate alcohol taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Fla. Stat. §212.08(4)(b), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.08",
+        "quote": "Alcoholic beverages and malt beverages are not exempt."
+      },
+      {
+        "title": "Fla. Stat. §212.05(1)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.05",
+        "quote": "At the rate of 6 percent of the sales price of each item or article of tangible personal property when sold at retail in this state"
+      },
+      {
+        "title": "Fla. Stat. §212.054(2)(a), 2018",
+        "url": "https://www.flsenate.gov/Laws/Statutes/2018/212.054",
+        "quote": "shall be a discretionary surtax on all transactions occurring in the county which transactions are subject to the state tax imposed on sales"
+      }
+    ],
+    "notes": "Earliest verified alcohol-specific text is the 2018 statutory edition; year normalized to January 1, following the convention of existing FL statutory-edition rules. Section 212.08(4)(b) expressly says this sales tax is separate from and additional to other alcoholic beverage taxes. County surtax applies to state-taxable transactions."
   }
 ]

@@ -855,5 +855,44 @@
       }
     ],
     "notes": "Mandatory support or training paid to the software seller is taxable; optional, separately stated telephone support is not (FAQ). 2009-02-22 is the date of Reg-1-088 as read. No rule is written for software.saas: no Nebraska statute, regulation, ruling or DOR page read here addresses remotely accessed software (Reg-1-088 taxes software 'regardless of the manner in which it is conveyed', and Revenue Ruling 01-10-2 holds hosted website development untaxed), so SaaS is left unresearched rather than guessed. Nebraska's local option sales taxes apply to the same transactions as the state tax (Neb. Rev. Stat. 77-27,142), so this rule covers state and local parts."
+  },
+  {
+    "tax": "NE",
+    "code": "clothing",
+    "from": "2008-10-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Nebraska and Local Sales Tax guide (rev. October 2008)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-352.pdf",
+        "quote": "Retailers must collect the state and appropriate local option sales tax on the gross receipts from all retail sales unless a specific exemption applies."
+      }
+    ],
+    "notes": "Guide revised October 2008; month-end used because no day is printed. Clothing is tangible personal property under the general retail rule; no clothing exemption or permanent price threshold found. Guide explicitly includes state and local option sales taxes."
+  },
+  {
+    "tax": "NE",
+    "code": "alcohol",
+    "from": "2007-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages are taxable at the general state and local sales-tax rates, whether packaged for off-premises consumption or sold by the drink.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Nebraska Sales and Use Tax Guide for Bars, Taverns, and Restaurants (rev. March 2007)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-371.pdf",
+        "quote": "Sales of alcoholic beverages are taxable, whether sold as “off-sale” or by-the-drink as “on-sale.”"
+      },
+      {
+        "title": "Nebraska and Local Sales Tax guide (rev. October 2008)",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/info/6-352.pdf",
+        "quote": "Retailers must collect the state and appropriate local option sales tax on the gross receipts from all retail sales unless a specific exemption applies."
+      }
+    ],
+    "notes": "Alcohol guide revised March 2007; month-end used because no day printed. Bars may include the tax in the selling price. General guide confirms state and local collection; separate municipal occupation taxes (including restaurant/drink occupation taxes) and alcohol excises are not included."
   }
 ]

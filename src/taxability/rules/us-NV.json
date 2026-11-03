@@ -1089,5 +1089,64 @@
    }
   ],
   "notes": "No Department page addressing SaaS by name was found; the outcome follows from the tax reaching only tangible personal property and from the electronic-delivery rule. 2025 bills to tax digital products (AB 453, SB 392) are not in the current NRS. Nevada's local sales taxes (Local School Support Tax, NRS 374, and the city-county relief and other local taxes that follow it) share the state base, so this NV rule covers state and local parts."
+ },
+ {
+  "tax": "NV",
+  "code": "clothing",
+  "from": "1955-07-01",
+  "fromIs": "effective",
+  "treatment": "taxable",
+  "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general state and local sales-tax rates.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "In Nevada, most tangible personal property transferred for value is taxable."
+   },
+   {
+    "title": "NRS 372.105",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "from the sale of all tangible personal property sold at retail in this State on or after July 1, 1955."
+   },
+   {
+    "title": "Nevada Sales & Use Tax General Information (V2026.1)",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/05/Sales-and-Use-Tax-GeneraI-Info-1.pdf",
+    "quote": "Nevada sales tax, local school support tax and city/county relief tax are imposed on retailers for the privilege of selling tangible personal property at retail."
+   }
+  ],
+  "notes": "Date follows existing Nevada rule and NRS 372.105's explicit July 1, 1955 imposition on all tangible-property retail sales; original 1955 text not separately read. Current V2026.1 general-information guide lists clothing, jewelry and luggage/handbags as taxable. No permanent clothing price exemption found. State/local base treated together in agency guide. Any temporary holiday exemptions are not modeled."
+ },
+ {
+  "tax": "NV",
+  "code": "alcohol",
+  "from": "1955-07-01",
+  "fromIs": "effective",
+  "treatment": "taxable",
+  "summary": "Packaged alcoholic beverages and drinks served on premises are taxable at the general state and local sales-tax rates.",
+  "conditions": [],
+  "citations": [
+   {
+    "title": "Nevada Department of Taxation, Sales Tax FAQs",
+    "url": "https://tax.nv.gov/faqs/sales-tax-faqs/",
+    "quote": "Yes, the retail sales of beer, wine and liquor are subject to Sales Tax on the total amount charged, including any state and federal taxes on the product, as per NAC 372.150."
+   },
+   {
+    "title": "NRS 372.105",
+    "url": "https://www.leg.state.nv.us/NRS/NRS-372.html",
+    "quote": "from the sale of all tangible personal property sold at retail in this State on or after July 1, 1955."
+   },
+   {
+    "title": "Nevada Sales & Use Tax General Information (V2026.1)",
+    "url": "https://tax.nv.gov/wp-content/uploads/2024/05/Sales-and-Use-Tax-GeneraI-Info-1.pdf",
+    "quote": "Nevada sales tax, local school support tax and city/county relief tax are imposed on retailers for the privilege of selling tangible personal property at retail."
+   },
+   {
+    "title": "Nevada DOR, Assembly Bill 375 FAQs",
+    "url": "https://tax.nv.gov/faqs/assembly-bill-375-faqs/",
+    "quote": "A $0.50 surcharge applies to the retail sale of each single serving of an alcoholic beverage sold in a container sealed by a covered food establishment located in a locality that has adopted the required ordinance for off-premises consumption."
+   }
+  ],
+  "notes": "Date follows existing Nevada tangible-property rule and NRS 372.105; original 1955 statute not separately read. Retail-alcohol FAQ does not distinguish packaged and served sales. State/local base treated together in general-information guide. Separate alcohol excise taxes are not included. Since October 1, 2025, a separate $0.50-per-serving surcharge applies to qualifying establishment-sealed to-go drinks in localities adopting the required ordinance; excluded from this general sales-tax answer. Manufacturer-sealed bottles generally do not incur that surcharge."
  }
 ]

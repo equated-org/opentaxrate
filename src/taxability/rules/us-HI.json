@@ -374,5 +374,64 @@
       }
     ],
     "notes": "No DOTAX publication names SaaS; TIR 2021-06 covers prewritten and custom software only. Taxable as a service or as other business under 237-13(6) or (9), both 4%. Hawaii's general excise tax (GET) is a tax on the business, not a sales tax; the 0.5% county surcharge applies to every activity taxed at 4%, so tax HI covers state and county parts. Sales at wholesale (to a licensed seller for resale) are taxed at 0.5%, a buyer fact outside the code. fromIs earliest_verified at 2018-01-01, the start of the research window: HRS 237-13's only amendment since (L 2018, c 166) deleted obsolete provisions."
+  },
+  {
+    "tax": "HI",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and gear is subject to retail general excise tax and the county surcharge.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Hawaii DOTAX, An Introduction to the GET, revised May 2025",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the GET, revised May 2025",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Each county has adopted a county surcharge of 0.5%, which applies to transactions subject to the state GET or use tax rate of 4%, for a total tax rate of 4.5%."
+      },
+      {
+        "title": "HRS §237-13(2)(A)",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      }
+    ],
+    "notes": "Hawaii GET is a tax on business gross receipts, not a conventional sales tax; taxable follows the existing HI rule convention for retail GET. The undated current HRS page uses the existing HI rules’ 2018-01-01 fallback. The May 2025 brochure corroborates the same retail base and explains the current county surcharge; the uniform 0.5% surcharge amount is not backdated by this taxability rule. County surcharge applies to the same 4% transactions. No apparel price threshold or accessory/gear exemption identified."
+  },
+  {
+    "tax": "HI",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for takeaway or on-premises consumption is subject to retail general excise tax and the county surcharge.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Hawaii DOTAX, An Introduction to the GET, revised May 2025",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "4.0% on all other activities including the retail sale of tangible personal property (goods) or services, construction contracting, renting or leasing real or personal property, business interest income, commissions (except insurance commissions), theaters and amusements."
+      },
+      {
+        "title": "Hawaii DOTAX, An Introduction to the GET, revised May 2025",
+        "url": "https://files.hawaii.gov/tax/legal/brochures/GE_brochure-25.pdf",
+        "quote": "Each county has adopted a county surcharge of 0.5%, which applies to transactions subject to the state GET or use tax rate of 4%, for a total tax rate of 4.5%."
+      },
+      {
+        "title": "HRS §237-13(2)(A)",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0237/HRS_0237-0013.htm",
+        "quote": "Upon every person engaging or continuing in the business of selling any tangible personal property whatsoever, there is likewise hereby levied, and shall be assessed and collected, a tax equivalent to four per cent of the gross proceeds of sales of the business"
+      },
+      {
+        "title": "HRS §244D-4(a)",
+        "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0244D/HRS_0244D-0004.htm",
+        "quote": "shall pay a gallonage tax that is hereby imposed at the following rates for the various liquor categories defined in section 244D-1:"
+      }
+    ],
+    "notes": "Hawaii GET is a tax on business gross receipts, not a conventional sales tax; taxable follows the existing HI rule convention for retail GET. The undated current HRS page uses the existing HI rules’ 2018-01-01 fallback. The May 2025 brochure corroborates the same retail base and explains the current county surcharge; the uniform 0.5% surcharge amount is not backdated by this taxability rule. County surcharge applies to the same 4% transactions. The separate gallonage liquor tax under HRS §244D-4 is not included."
   }
 ]

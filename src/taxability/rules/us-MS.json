@@ -980,5 +980,44 @@
       }
     ],
     "notes": "Food assembled for the buyer to cook is neither hot nor for immediate consumption, so the 7% exclusion in 35.IV.9.02.102 doesn't reach it when a food store sells it for home use; sales by restaurants and other food vendors stay at the regular rate (35.IV.9.02.101). No DOR guidance naming take-and-bake pizza or meal kits was found. Local restaurant (tourism) levies on prepared food are outside these rules, as for food.prepared."
+  },
+  {
+    "tax": "MS",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general sales-tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MS DOR, Mississippi Sales and Use Taxes",
+        "url": "https://www.dor.ms.gov/business/sales-use-tax/mississippi-sales-and-use-taxes",
+        "quote": "All sales of tangible personal property in the State of Mississippi are subject to the regular retail rate of sales tax (7%) unless the law exempts the item or provides a reduced rate of tax for an item."
+      }
+    ],
+    "notes": "Undated current agency page: 2018-01-01 uses the existing MS rule's convention for undated current sources, not a verified enactment date. General tangible-property rule covers subcodes; no permanent clothing price exemption found. The 2026 sales-tax holiday guide provides a temporary exemption for qualifying clothing and footwear under $100; holiday not modeled. General local sales-tax base differences were not stated on the sources read; MS rule covers general state/local parts. Separate local tourism or restaurant levies are not included."
+  },
+  {
+    "tax": "MS",
+    "code": "alcohol",
+    "from": "2025-08-08",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcoholic beverages and drinks served at bars or restaurants are taxable at the general sales-tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MS DOR, Sales Tax Rates — retail sales",
+        "url": "https://www.dor.ms.gov/business/sales-use-tax/sales-tax-rates",
+        "quote": "Other tangible personal property including alcoholic beverages and beer ...... 7%"
+      },
+      {
+        "title": "Miss. Admin. Code 35.IV.9.02.101",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "The gross proceeds of sales by restaurants, cafes, cafeterias, snack bars, drive-ins, beer parlors, lounges, night clubs, concessions, caterers or other vendors of beverages and food products are taxable at the regular retail rate of tax."
+      }
+    ],
+    "notes": "2025-08-08 is the printed revision effective date of 35.IV.9.02, used as earliest verified, not a new tax. Rates page's 0% wholesale alcoholic-beverage line does not exempt retail sales. Separate alcohol excises/ABC charges and local restaurant/tourism levies are not included. General local base differences were not stated in the pages read."
   }
 ]

@@ -664,5 +664,59 @@
       }
     ],
     "notes": "ARSD 64:06:02:78 last amended effective 2008-09-08 (35 SDR 48), per both the 2019 snapshot and the current text; cited as a dated Wayback snapshot because the current rules endpoint serves the rule inside JSON. 2026-11-02: http://sdlegislature.gov/rules/DisplayRule.aspx?Rule=64:06:02:78 now redirects to https://sdlegislature.gov/Rules/Administrative/64:06:02:78, which no longer carries the quoted sentence (the page was revised); the citation keeps the old address and its archived copy."
+  },
+  {
+    "tax": "SD",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sporting gear are taxable at general state and applicable municipal sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "South Dakota DOR Sales & Use Tax",
+        "url": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+        "quote": "Sales tax applies to the gross receipts of all retail sales, including the sale, lease or rental of tangible personal property or any product transferred electronically, and the sale of all services."
+      },
+      {
+        "title": "SDCL 10-52-2, municipal sales tax base",
+        "url": "https://sdlegislature.gov/api/Statutes/10-52-2.html",
+        "quote": "unless such tax conforms in all respects to the state tax on such items with the exception of the rate"
+      }
+    ],
+    "notes": "Undated current pages use the 2018-01-01 baseline of existing SD rules. State rate changes are left to rate data. Municipal sales tax applies in addition to state sales tax. "
+  },
+  {
+    "tax": "SD",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold on or off the premises is subject to general state and applicable municipal sales tax; separate alcohol excises and the municipal gross receipts tax are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "South Dakota DOR Sales & Use Tax",
+        "url": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+        "quote": "Sales tax applies to the gross receipts of all retail sales, including the sale, lease or rental of tangible personal property or any product transferred electronically, and the sale of all services."
+      },
+      {
+        "title": "South Dakota DOR Alcohol, wine shipments",
+        "url": "https://dor.sd.gov/businesses/taxes/alcohol/",
+        "quote": "As a wine shipper, you are required to collect sales tax based on where the customer receives the order (the customer’s shipping address) and both the product cost and shipping charges are subject to tax."
+      },
+      {
+        "title": "South Dakota DOR, municipal taxes",
+        "url": "https://dor.sd.gov/individuals/taxes/sales-use-tax",
+        "quote": "The municipal gross receipts tax can be imposed on alcoholic beverages, eating establishments, lodging accommodations, admissions to places of amusement, athletic, and cultural events."
+      },
+      {
+        "title": "SDCL 10-52-2, municipal sales tax base",
+        "url": "https://sdlegislature.gov/api/Statutes/10-52-2.html",
+        "quote": "unless such tax conforms in all respects to the state tax on such items with the exception of the rate"
+      }
+    ],
+    "notes": "Undated current pages use the 2018-01-01 baseline of existing SD rules. State rate changes are left to rate data. Municipal sales tax applies in addition to state sales tax. The separate municipal gross receipts tax may be up to 1%; excluded as directed by the brief. DOR PDF downloads returned empty bodies; HTML official sources supply the evidence."
   }
 ]

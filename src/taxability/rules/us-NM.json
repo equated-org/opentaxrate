@@ -1205,5 +1205,49 @@
       }
     ],
     "notes": "No NM statute, regulation or FYI found that names SaaS; taxable either as a license to use property (7-9-3) or as a service (3.2.1.18 NMAC), both within gross receipts. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "clothing",
+    "from": "2025-08-11",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and equipment are subject to gross receipts tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts and Compensating Taxes: An Overview (08/11/2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "The tax is imposed on the gross receipts of persons who:"
+      },
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts and Compensating Taxes: An Overview (08/11/2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Sell property in New Mexico;"
+      },
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts and Compensating Taxes: An Overview (08/11/2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "If your receipts do not fall under any exemption or deduction, those receipts are taxable."
+      }
+    ],
+    "notes": "FYI-105 dated 08/11/2025. Entire exemption/deduction list reviewed: no general clothing exemption. Annual back-to-school and qualifying small-business holiday deductions are not modeled. Local option taxes share the gross receipts base, consistent with existing NM rules."
+  },
+  {
+    "tax": "NM",
+    "code": "alcohol",
+    "from": "2022-10-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail alcoholic beverage sales bear gross receipts tax for both take-away and on-premises consumption; separate liquor excise tax is excluded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD, Excise Tax presentation to the Revenue Stabilization and Tax Policy Committee (October 6, 2022)",
+        "url": "https://www.nmlegis.gov/handouts/RSTP%20100622%20Item%206%20TRD%20Excise%20Tax%20Presentation.pdf",
+        "quote": "But liquor wholesalers pay the Liquor Excise Tax, while liquor retailers pay gross receipts tax on their sales of alcoholic beverages."
+      }
+    ],
+    "notes": "TRD presentation dated October 6, 2022. No distinction between on- and off-premises retail receipts. Local option gross receipts taxes share the base, consistent with existing NM rules."
   }
 ]

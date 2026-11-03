@@ -2906,5 +2906,64 @@
       }
     ],
     "notes": "Food assembled for the buyer to cook is not hot at the point of sale, so it is SNAP food for home consumption, taxed as groceries and cold prepared food are (food.grocery, food.prepared.cold). No ALDOR guidance naming take-and-bake pizza or meal kits was found; this reads the statute and the federal definition. Act 2023-554 froze each city and county food rate at its general rate as of June 15, 2023, and lets local governments cut it in 25% steps; which localities have done so is in ALDOR's local rate tables, not settled here. The 2025 rate cut and the 2026 suspension did not change local food rates."
+  },
+  {
+    "tax": "AL",
+    "code": "clothing",
+    "from": "2026-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sporting gear are taxable at the general state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Sales Taxes brochure (March 2026), General Rate",
+        "url": "https://www.revenue.alabama.gov/wp-content/uploads/2022/03/Sales_Tax-Sales_Tax_Brochure.pdf",
+        "quote": "A 4 percent rate applies to the retail sales of any tangible personal property except the items mentioned above."
+      },
+      {
+        "title": "ALDOR Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "Sales tax is a privilege tax imposed on the retail sale of tangible personal property sold in Alabama by businesses located in Alabama."
+      },
+      {
+        "title": "ALDOR Sales Tax — Local Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "In addition to the state sales tax, local sales taxes are also due, and these rates vary."
+      }
+    ],
+    "notes": "The brochure is dated March 2026; March 1 represents its publication month, not a law-change date. No ordinary-sale price exemption or differing clothing subcode treatment was found. Back-to-school and severe-weather sales-tax holidays are not modeled."
+  },
+  {
+    "tax": "AL",
+    "code": "alcohol",
+    "from": "2023-03-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold by the container or served as drinks is subject to general state and local sales tax. Separate liquor and other alcohol excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ALDOR Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "Sales tax is a privilege tax imposed on the retail sale of tangible personal property sold in Alabama by businesses located in Alabama."
+      },
+      {
+        "title": "Ala. Admin. Code r. 810-6-1-.190(3), Whiskey Tax (revised March 17, 2023 compilation)",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "Subsequent sales of drinks by the bar, tavern, or restaurant operator are subject to the state sales tax."
+      },
+      {
+        "title": "Ala. Admin. Code r. 810-6-1-.190(2), consumer excises in sales-tax base",
+        "url": "https://file.admincode.legislature.state.al.us/docs/rev/810-6-1.pdf",
+        "quote": "State and local consumer taxes, including, but not limited to, tobacco tax, beer tax, wine tax, and liquor tax cannot be excluded from the measure of state or local sales tax computed on taxable retail sales."
+      },
+      {
+        "title": "ALDOR Sales Tax — Local Sales Tax",
+        "url": "https://www.revenue.alabama.gov/sales-use/sales-tax/",
+        "quote": "In addition to the state sales tax, local sales taxes are also due, and these rates vary."
+      }
+    ],
+    "notes": "March 17, 2023 is the revision date printed in the downloaded administrative-code compilation, not a new effective date. Rule 810-6-1-.190 says a bar pays the 56% ABC liquor tax on its wholesale liquor purchases; its later drink sales are taxed at the general sales-tax rate. General retail taxation supports off-premises sales; no separate sales-tax rate verified for ABC consumer purchases."
   }
 ]

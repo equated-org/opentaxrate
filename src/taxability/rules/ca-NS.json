@@ -219,5 +219,201 @@
         "quote": "Books, children's clothing and footwear, and children's diapers"
       }
     ]
+  },
+  {
+    "tax": "NS/CA:HST",
+    "code": "alcohol",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Nova Scotia's HST follows the federal GST/HST base here: CRA lists no Nova Scotia point-of-sale rebate that covers this code.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and children's diapers"
+      }
+    ]
+  },
+  {
+    "tax": "NS/CA:HST",
+    "code": "clothing",
+    "from": "2014-08-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Nova Scotia rebates the provincial part of the HST on qualifying children's clothing and footwear at the point of sale, leaving the 5% federal part; other clothing pays the full HST.",
+    "conditions": [
+      {
+        "when": "qualifying children's clothing or footwear: garments for babies, girls' sizes to Canada Standard Size 16 and boys' to 20 (or XS to L where no standard size), children's hosiery, hats, scarves, belts, mitts and gloves, and footwear with an insole of 24.25 cm or less",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "adult-sized clothing even if bought for a child, costumes, children's clothing or footwear used only for sports or recreation, and all other clothing",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "The participating provinces of Ontario, Nova Scotia, and Prince Edward Island provide a rebate for the provincial part of the HST payable on qualifying children’s goods sold, imported, or brought into these provinces."
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "A supplier that pays or credits the rebate amount will collect only the 5% federal part of the HST."
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "children's garments in sizes up to and including girls' Canada Standard Size 16 and boys' Canada Standard Size 20, or garments designed for girls or boys in sizes extra small, small, medium or large if the garment does not have a designated Canada Standard Size;"
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "footwear designed for girls or boys with an insole length of 24.25 centimetres or less."
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "Costumes are not qualifying children’s goods for purposes of the rebate."
+      },
+      {
+        "title": "CRA, reason code 16 eligibility",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and children's diapers"
+      }
+    ],
+    "notes": "GI-063 (August 2014) is the earliest dated text read; the rebate began with the province's HST (2010 in Ontario and Nova Scotia, 2013 in Prince Edward Island). During the GST/HST break the province follows the federal rule (children's clothing was zero-rated in full)."
+  },
+  {
+    "tax": "NS/CA:HST",
+    "code": "clothing",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "During the GST/HST break Nova Scotia's HST follows the federal break: qualifying children's clothing was zero-rated in full.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and children's diapers"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "There was a temporary GST/HST break on certain items from December 14, 2024, to February 15, 2025."
+      }
+    ]
+  },
+  {
+    "tax": "NS/CA:HST",
+    "code": "clothing",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Nova Scotia rebates the provincial part of the HST on qualifying children's clothing and footwear at the point of sale, leaving the 5% federal part; other clothing pays the full HST.",
+    "conditions": [
+      {
+        "when": "qualifying children's clothing or footwear: garments for babies, girls' sizes to Canada Standard Size 16 and boys' to 20 (or XS to L where no standard size), children's hosiery, hats, scarves, belts, mitts and gloves, and footwear with an insole of 24.25 cm or less",
+        "treatment": "special_rate",
+        "rate": 0.05
+      },
+      {
+        "when": "adult-sized clothing even if bought for a child, costumes, children's clothing or footwear used only for sports or recreation, and all other clothing",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "The participating provinces of Ontario, Nova Scotia, and Prince Edward Island provide a rebate for the provincial part of the HST payable on qualifying children’s goods sold, imported, or brought into these provinces."
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "A supplier that pays or credits the rebate amount will collect only the 5% federal part of the HST."
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "children's garments in sizes up to and including girls' Canada Standard Size 16 and boys' Canada Standard Size 20, or garments designed for girls or boys in sizes extra small, small, medium or large if the garment does not have a designated Canada Standard Size;"
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "footwear designed for girls or boys with an insole length of 24.25 centimetres or less."
+      },
+      {
+        "title": "CRA GI-063, Point-of-Sale Rebate on Children’s Goods (August 2014)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/gi-063/point-sale-rebate-on-childrens-goods.html",
+        "quote": "Costumes are not qualifying children’s goods for purposes of the rebate."
+      },
+      {
+        "title": "CRA, reason code 16 eligibility",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and children's diapers"
+      }
+    ],
+    "notes": "GI-063 (August 2014) is the earliest dated text read; the rebate began with the province's HST (2010 in Ontario and Nova Scotia, 2013 in Prince Edward Island). During the GST/HST break the province follows the federal rule (children's clothing was zero-rated in full). From the day after the break."
+  },
+  {
+    "tax": "NS/CA:HST",
+    "code": "clothing.accessories",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Nova Scotia's children's clothing rebate doesn't reach accessories (jewellery, handbags, watches): the HST follows the federal GST/HST base.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and children's diapers"
+      },
+      {
+        "title": "CRA, reason code 16 eligibility (not qualifying)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "The following goods are not qualifying children’s clothing for the point‑of‑sale rebate:"
+      },
+      {
+        "title": "CRA, reason code 16 eligibility (qualifying children's clothing)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "mittens, and gloves in sizes and styles designed for children or babies"
+      }
+    ],
+    "notes": "The rebate covers children's garments and footwear; accessories aren't in its list, and sports-only garments and footwear are excluded. Dated by GI-063 (August 2014) as the clothing rule."
+  },
+  {
+    "tax": "NS/CA:HST",
+    "code": "clothing.equipment",
+    "from": "2014-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "follows",
+    "follows": "CA:GST/HST",
+    "summary": "Nova Scotia's children's clothing rebate doesn't reach protective gear or clothing and footwear used only for sports: the HST follows the federal GST/HST base.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, GST/HST rebate – Provincial point-of-sale rebate on qualifying items (reason code 16 eligibility)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Books, children's clothing and footwear, and children's diapers"
+      },
+      {
+        "title": "CRA, reason code 16 eligibility (not qualifying)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/gst-hst-rebates/reason-code-16/eligibility.html",
+        "quote": "Children’s garments of a class that is used exclusively in sports or recreational activities"
+      }
+    ],
+    "notes": "The rebate covers children's garments and footwear; accessories aren't in its list, and sports-only garments and footwear are excluded. Dated by GI-063 (August 2014) as the clothing rule."
   }
 ]

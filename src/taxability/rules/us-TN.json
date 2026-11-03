@@ -1182,5 +1182,49 @@
       }
     ],
     "notes": "Notice 17-21 says its text was updated 'to reflect law changes' making seller-mixed items that need cooking (raw marinated meat, raw-egg mixtures) food; the earliest copy read with that text is the Wayback Machine's of 2018-08-02, so the rule starts there. No Tennessee guidance naming take-and-bake pizza or meal kits was found; an assembled item without raw animal food is prepared food by the mixed-ingredients test. The reduced local food rates are set place by place and announced in Department notices; this rule can't say which places have one. Pub. Ch. 917 (2024) lets a city lower or exempt only its 'city tax rate' (the part above the county rate); Davidson County's 1.75% (Notice 26-19, citing Tenn. Code Ann. 67-6-702) is a county-level reduction. Single-article local cap still applies to food items."
+  },
+  {
+    "tax": "TN",
+    "code": "clothing",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting equipment, are subject to Tennessee state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual, August 2022",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Generally, all tangible personal property is taxable unless it is specifically exempt by law."
+      },
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual, August 2022",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "T-shirts, cups/mugs, and other merchandise that a restaurant may offer for sale are subject to sales tax."
+      }
+    ],
+    "notes": "August 2022 is the printed manual edition; the first day of that month is used as the verification date. Annual clothing sales-tax holiday is not modeled. The manual treats clothing, sports equipment and general tangible personal property as taxable. Local option tax applies; its single-article base limits are rate/base mechanics rather than a clothing exemption."
+  },
+  {
+    "tax": "TN",
+    "code": "alcohol",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for consumption on or off premises is subject to general sales tax; the separate 15% liquor-by-the-drink tax also applies to qualifying on-premises beverages and is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual, August 2022",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "All sales of alcoholic beverages are subject to the sales or use tax."
+      },
+      {
+        "title": "Tennessee DOR, Liquor-by-the-Drink Tax",
+        "url": "https://www.tn.gov/content/tn/revenue/taxes/liquor-by-the-drink-tax.html",
+        "quote": "The liquor-by-the-drink tax rate is 15%."
+      }
+    ],
+    "notes": "Printed manual edition August 2022, represented as August 1. Sales price includes applicable federal and state taxes except liquor-by-the-drink tax. General state and applicable local sales taxes apply. The 15% drink tax does not apply to all beer; the DOR overview identifies wine, spirits and high-alcohol beer, subject to exceptions."
   }
 ]

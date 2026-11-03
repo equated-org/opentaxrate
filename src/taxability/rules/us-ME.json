@@ -725,5 +725,79 @@
       }
     ],
     "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME",
+    "code": "clothing",
+    "from": "2013-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories, protective and sports gear, costumes, formal wear and furs are taxable tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. §1811",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      },
+      {
+        "title": "36 M.R.S. §1811(1)(A)",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "For sales occurring on or after October 1, 2013 and before January 1, 2016, the rate of tax is 5.5% on the value of all tangible personal property and taxable services, except the rate of tax is:"
+      }
+    ],
+    "notes": "Uses the statutory effective date of the general levy/rate period, as existing us-ME.json does. No clothing exemption identified. Maine has no local sales tax."
+  },
+  {
+    "tax": "ME",
+    "code": "alcohol.off_premises",
+    "from": "2021-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for off-premises consumption is subject to Maine general sales tax; separate liquor excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine Legislature, Maine Liquor Taxes (February 2021)",
+        "url": "https://legislature.maine.gov/doc/5406",
+        "quote": "5.5% of the value of the liquor sold for off-premises consumption"
+      }
+    ],
+    "notes": "Publication gives February 2021 only; first day of that month used for earliest_verified. No local sales tax."
+  },
+  {
+    "tax": "ME",
+    "code": "alcohol.on_premises",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Alcohol sold for on-premises consumption is subject to 8% sales tax; separate liquor excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. §1811(1)(D)(2)",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of liquor sold in licensed establishments as defined in Title 28‑A, section 2, subsection 15 , in accordance with Title 28‑A, chapter 43 and liquor sold for on-premises consumption by a licensed brewery, small brewery, tenant brewery, winery, small winery, tenant winery, distillery or small distillery pursuant to Title 28‑A, section 1355‑A, subsection 2, paragraph B ;"
+      }
+    ],
+    "notes": "Effective date is stated in subsection D. Covers licensed bars/restaurants and listed manufacturers selling for on-premises consumption. No local sales tax."
+  },
+  {
+    "tax": "ME:local",
+    "code": "alcohol",
+    "from": "2014-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maine has no local sales tax on alcoholic beverages.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine OFPR Staff Report, State Sales Tax Authority over Remote Sellers (January 15, 2014)",
+        "url": "https://mainelegislature.org/legis/ofpr/taxation_committee/materials/Staff_Report_ssut.pdf",
+        "quote": "Notwithstanding the fact that Maine has little risk on this issue since we have one general state rate, no local option taxes, and no local boundary issues, our statute does not currently support abatement of tax for erroneous information provided by MRS."
+      }
+    ],
+    "notes": "Official legislative staff report explicitly confirms no local option taxes. Publication date January 15, 2014. Covers the entire 2019-onward state special-rate period."
   }
 ]

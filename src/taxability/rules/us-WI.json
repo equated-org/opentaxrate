@@ -869,5 +869,69 @@
       }
     ],
     "notes": "from is the archived FAQ's date; the FAQ covers October 1, 2009 onward. One 'WI' rule covers the state 5% tax and the county (0.5%/0.9%), City of Milwaukee (2%) and former baseball stadium (ended 2020-03-31) taxes, which share the state base (Pub 201: county and city taxes may not be imposed on products or services not subject to the 5% state tax). 2026-11-02: https://revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx now redirects to https://www.revenue.wi.gov/Pages/FAQS/pcs-computerc.aspx, which is cited beside it; this citation keeps the old address for its dated archived copy."
+  },
+  {
+    "tax": "WI",
+    "code": "clothing",
+    "from": "2022-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sports gear are taxable at the general state and applicable county and city sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wisconsin Publication 228 (7/22), Part 2.E",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb228.pdf",
+        "quote": "Sales, licenses, leases, and rentals of tangible personal property, certain coins and stamps, certain leased property affixed to realty, and certain digital goods are subject to the Wisconsin state sales tax."
+      },
+      {
+        "title": "Wisconsin Publication 228 (7/22), taxable merchandise list",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb228.pdf",
+        "quote": "clothing"
+      },
+      {
+        "title": "Wisconsin Publication 201 (10/26), Part 18.B",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      }
+    ],
+    "notes": "Publication 228 is dated 7/22. The tangible-property rule covers all clothing subcodes; no general clothing exemption or price threshold was found. Publication 201 says county and city taxes share the state taxable base. Separate premier resort area taxes may also apply to qualifying sellers and are not modeled here."
+  },
+  {
+    "tax": "WI",
+    "code": "alcohol",
+    "from": "2014-12-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold to take away or for consumption on the premises are taxable at general sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wisconsin Publication 236 (12/14), Part III.A",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Sales of foods and beverages by restaurants and bars are generally subject to sales tax, as explained below."
+      },
+      {
+        "title": "Wisconsin Publication 236 (12/14), taxable sales list",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "Alcoholic beverages"
+      },
+      {
+        "title": "Wisconsin Publication 236 (12/14), Part III.A",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb236.pdf",
+        "quote": "The tax treatment applies to carryout sales, as well as sales for consumption on the premises."
+      },
+      {
+        "title": "Wisconsin Publication 228 (7/22), taxable merchandise list",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb228.pdf",
+        "quote": "alcoholic beverages"
+      },
+      {
+        "title": "Wisconsin Publication 201 (10/26), Part 18.B",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb201.pdf",
+        "quote": "The types of products and services that are subject to the 5% state sales and use tax are also subject to the 0.5% or 0.9% county or 2% city sales and use taxes."
+      }
+    ],
+    "notes": "Publication 236 is dated 12/14. Publication 228 also names alcoholic beverages as taxable merchandise. County and city sales taxes share the state base (Publication 201). Separate alcohol beverage excises, the Milwaukee local exposition food and beverage tax (0.5%), and applicable premier resort area taxes are not included. These additional taxes do not replace sales tax."
   }
 ]

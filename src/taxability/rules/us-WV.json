@@ -793,5 +793,59 @@
       }
     ],
     "notes": "The cited statutes were last amended in 2017 or earlier (bill histories on code.wvlegislature.gov), so 2018-01-01 is the earliest date read here; the treatment is older. The definition of tangible personal property draws no line by delivery method. Software for direct use in a high-technology business, or incorporated into a manufactured product, can be exempt (§ 11-15-9h); those turn on the buyer. Municipal sales and service taxes (1%) share the state base and exemptions (W. Va. Code § 8-13C-4), so this rule covers them."
+  },
+  {
+    "tax": "WV",
+    "code": "clothing",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sports gear, are subject to state and municipal sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "West Virginia TSD 300, Sales and Use Tax Exemptions (January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "All sales of tangible personal property or taxable services are presumed to be subject to tax."
+      },
+      {
+        "title": "West Virginia Tax Division, Municipal Sales and Use Tax, Example 5",
+        "url": "https://tax.wv.gov/Business/SalesAndUseTax/MunicipalSalesAndUseTax/Pages/MunicipalSalesAndUseTax.aspx",
+        "quote": "A person sells clothing at an event located in a city with a municipal sales tax, and the customers take possession of the items in that city."
+      },
+      {
+        "title": "West Virginia Tax Division, Municipal Sales and Use Tax, Example 5",
+        "url": "https://tax.wv.gov/Business/SalesAndUseTax/MunicipalSalesAndUseTax/Pages/MunicipalSalesAndUseTax.aspx",
+        "quote": "Since the sales are being made in the city, the seller must collect both the state sales tax and the municipal sales tax."
+      }
+    ],
+    "notes": "TSD 300 is revised January 2026. No general price threshold or clothing-category exemption was found; the general tangible-property rule covers all subcodes. Municipal FAQ Example 5 expressly taxes clothing at both levels. The annual August sales-tax holiday is noted only, not modeled. Purchaser-based and charitable-resale exemptions are outside this ordinary retail-sale rule."
+  },
+  {
+    "tax": "WV",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Beer, wine and spirits sold to take away or served on the premises are subject to general sales tax; the separate wine and liquor tax is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "West Virginia TSD 300, Sales and Use Tax Exemptions (January 2026)",
+        "url": "https://tax.wv.gov/Documents/TSD/tsd300.pdf",
+        "quote": "All sales of tangible personal property or taxable services are presumed to be subject to tax."
+      },
+      {
+        "title": "West Virginia Tax Division, Sales and Use Tax",
+        "url": "https://tax.wv.gov/Business/SalesAndUseTax/Pages/SalesAndUseTax.aspx",
+        "quote": "Sales of wine and liquor are subject to both Sales and Use Tax and the Local Wine and Liquor Tax."
+      },
+      {
+        "title": "West Virginia Tax Laws, 52nd Biennial Report (revised January 2018), p.109",
+        "url": "https://tax.wv.gov/Documents/Legal/TaxLawReports/TaxLawReport.52.pdf",
+        "quote": "Sales by private clubs to their members are also subject to the 6.0 percent Consumers Sales Tax."
+      }
+    ],
+    "notes": "January 2018 is the revision date of the Tax Laws report, which expressly taxes sales by private clubs to members. Retail wine and liquor are expressly taxable on the current sales-tax page; beer is tangible property excluded from exempt groceries. Municipal sales taxes generally share the state base as explained in the municipal FAQ. The separate Local Wine and Liquor Tax and alcohol excises are outside this answer; they do not replace the general sales tax."
   }
 ]

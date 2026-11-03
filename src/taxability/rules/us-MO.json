@@ -1017,5 +1017,49 @@
         "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
       }
     ]
+  },
+  {
+    "tax": "MO",
+    "code": "clothing",
+    "from": "2026-08-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax FAQ",
+        "url": "https://dor.mo.gov/faq/taxation/business/sales-tax-filing.html",
+        "quote": "All sales of tangible personal property are taxable unless there is a specific statutory exemption."
+      },
+      {
+        "title": "Missouri DOR, Restaurants Tax Matrix (revision August 17, 2026)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Uniforms & shoes Taxable"
+      }
+    ],
+    "notes": "Date is the restaurant matrix's revision date; matrix expressly taxes uniforms and shoes, FAQ supplies the broad tangible-property rule. No permanent price exemption found. Back-to-school holiday temporarily exempts qualifying purchases from state and local tax; holiday is noted only. No differing general local clothing base stated on pages read."
+  },
+  {
+    "tax": "MO",
+    "code": "alcohol",
+    "from": "2026-08-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcoholic beverages and drinks served at restaurants or bars are taxable at the general sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax FAQ",
+        "url": "https://dor.mo.gov/faq/taxation/business/sales-tax-filing.html",
+        "quote": "All sales of tangible personal property are taxable unless there is a specific statutory exemption."
+      },
+      {
+        "title": "Missouri DOR, Restaurants Tax Matrix (revision August 17, 2026)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Sales of drinks (alcoholic and non-alcoholic) Taxable"
+      }
+    ],
+    "notes": "Date is matrix revision. General tangible-property taxation supports packaged retail alcohol; matrix explicitly confirms drinks sold by restaurants. Separate alcohol excises and municipal tourism/restaurant levies are not included. No differing general local sales-tax base stated on sources read; ordinary local sales taxes are included."
   }
 ]

@@ -1381,5 +1381,39 @@
       }
     ],
     "notes": "Tax Bulletin 05-7 lists uncooked prepared pizzas packaged for home consumption, and cold prepared meals marketed for home consumption, among eligible food; food assembled for the buyer to cook is taxed as groceries are (food.grocery, food.prepared.cold). The 80% rule and single-price combinations with ineligible items are the listed exceptions. VA:local is the 1% local option tax (Code § 58.1-605/606); the regional state taxes (Northern Virginia, Hampton Roads, Central Virginia, Historic Triangle) and additional local taxes do not apply to food for home consumption (TB 22-12; § 58.1-603.1, § 58.1-603.2). OpenTaxRate's Virginia local part is a locality total that includes those regional additions, so the local part's rate on this food is the 1% alone. The 1% local tax on food predates 2005; 2005-07-01 is the earliest date read here."
+  },
+  {
+    "tax": "VA",
+    "code": "clothing",
+    "from": "2017-08-03",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Virginia generally taxes clothing, footwear, accessories and protective or sport equipment at the state and applicable local and regional sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Code of Virginia §58.1-603",
+        "url": "https://law.lis.virginia.gov/vacode/title58.1/chapter6/section58.1-603/",
+        "quote": "Of the gross sales price of each item or article of tangible personal property when sold at retail or distributed in this Commonwealth."
+      }
+    ],
+    "notes": "Undated current statutory page uses 2017-08-03, the existing Virginia file’s date for this statute; no earlier source is asserted. Clothing is tangible personal property with no standing ordinary clothing exemption. Virginia’s temporary annual clothing sales-tax holiday is not modeled. The general base applies to state, local and regional sales taxes; no local clothing difference was found."
+  },
+  {
+    "tax": "VA",
+    "code": "alcohol",
+    "from": "1999-06-18",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "All retail alcoholic beverages, whether packaged to take away or served in a bar or restaurant, are subject to Virginia general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Virginia Tax Ruling 99-150, June 18, 1999",
+        "url": "https://www.tax.virginia.gov/laws-rules-decisions/rulings-tax-commissioner/99-150",
+        "quote": "The sales and use tax applies to all retail sales of alcoholic beverages of every kind by every dealer."
+      }
+    ],
+    "notes": "Ruling publication date establishes earliest verification. The ruling expressly covers government liquor-store sales and drinks sold with or without food; its historical numeric tax rate is not carried forward. State and local sales taxes follow the general retail base. Alcohol excise taxes and any separate local meals taxes are not included."
   }
 ]

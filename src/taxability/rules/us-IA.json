@@ -1100,5 +1100,54 @@
       }
     ],
     "notes": "Infrastructure as a service and stand-alone web hosting are not SaaS (r. 701-211.35; DOR guidance). Iowa's local option sales tax (LOST) is imposed on the same basis as the state sales tax (Iowa Code 423B.5), so one rule covers both; local hotel/motel taxes are separate and not modeled."
+  },
+  {
+    "tax": "IA",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Iowa taxes clothing at the general sales tax rate, including applicable local option sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Sales & Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "Both sales tax and use tax are applied to the sales price from sales of tangible personal property, specified digital products, and taxable services."
+      },
+      {
+        "title": "Iowa DOR, Sales & Use Tax Guide",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/sales-use-tax-guide",
+        "quote": "An Iowa resident purchases clothing, stereo equipment, or jewelry through a mail order catalog and is not charged Iowa sales tax by the mail order company. The resident owes use tax to Iowa."
+      },
+      {
+        "title": "Iowa Code 423B.5, 2026",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      }
+    ],
+    "notes": "Agency pages are undated; use 2018-01-01, the existing IA goods.general rule’s date convention for undated current guidance, rather than claiming a new effective date. Local option sales tax uses the state base. All clothing subcodes share the general rule. Annual August clothing/footwear sales-tax holiday is noted only and not modeled. Alcohol excise taxes are not included."
+  },
+  {
+    "tax": "IA",
+    "code": "alcohol",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Iowa taxes alcohol at the general sales tax rate, including applicable local option sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Iowa DOR, Iowa Sales Tax on Food",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/iowa-sales-tax-food",
+        "quote": "Sales of alcoholic beverages are subject to Iowa sales tax."
+      },
+      {
+        "title": "Iowa Code 423B.5, 2026",
+        "url": "https://www.legis.iowa.gov/docs/code/423B.5.pdf",
+        "quote": "A local sales and services tax shall be imposed on the same basis as the state sales and services tax"
+      }
+    ],
+    "notes": "Agency pages are undated; use 2018-01-01, the existing IA goods.general rule’s date convention for undated current guidance, rather than claiming a new effective date. Local option sales tax uses the state base. All clothing subcodes share the general rule. Annual August clothing/footwear sales-tax holiday is noted only and not modeled. Alcohol excise taxes are not included."
   }
 ]

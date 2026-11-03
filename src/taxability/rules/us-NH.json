@@ -453,5 +453,99 @@
       }
     ],
     "notes": "Required beside the state's special rate; NH has no local tax parts. 2026-11-02: cited page moved from http://revenue.nh.gov/faq/general-information.htm to https://www.revenue.nh.gov/resource-center/frequently-asked-questions/general-information. 2026-11-02: cited page moved from https://www.revenue.nh.gov/faq/general-information.htm to https://www.revenue.nh.gov/resource-center/frequently-asked-questions/general-information."
+  },
+  {
+    "tax": "NH",
+    "code": "clothing",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Clothing: New Hampshire has no general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/resource-center/frequently-asked-questions/general-information",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28 (as the NH goods.general rule)."
+  },
+  {
+    "tax": "NH",
+    "code": "alcohol.off_premises",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Alcohol bought to take away: New Hampshire has no general sales tax. Liquor sold by the state's own outlets carries no separate sales tax either; liquor fees and excises are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/resource-center/frequently-asked-questions/general-information",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "New Hampshire has no general sales or use tax and no local sales taxes. Earliest dated official text read is the DRA FAQ as archived 2016-11-28 (as the NH goods.general rule). Sealed beverages sold by a store are not meals under RSA 78-A:3 VIII, so the Meals and Rooms Tax doesn't reach them (statute read in research, not quoted here)."
+  },
+  {
+    "tax": "NH",
+    "code": "alcohol.on_premises",
+    "from": "2021-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.085,
+    "summary": "New Hampshire has no sales tax, but an alcoholic drink served at a restaurant or bar is a taxable meal under its Meals and Rooms Tax (RSA 78-A), at 8.5%, which this rate is.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA: Meals & Rooms (Rentals) Tax",
+        "url": "https://www.revenue.nh.gov/taxes-glance/meals-rooms-rentals-tax",
+        "quote": "The tax rate is 8.5% for taxable periods beginning October 1, 2021."
+      },
+      {
+        "title": "RSA 78-A:3 VIII, Meals and Rooms Tax definitions",
+        "url": "https://gc.nh.gov/rsa/html/V/78-A/78-A-3.htm",
+        "quote": "Beverage includes an alcoholic beverage provided with or without food."
+      },
+      {
+        "title": "RSA 78-A:6 II(g), Meals and Rooms Tax",
+        "url": "https://gc.nh.gov/rsa/html/V/78-A/78-A-6.htm",
+        "quote": "Eight and a half percent of the charge for taxable meals over $1.00, provided that fractions of cents shall be rounded up to the next whole cent."
+      }
+    ],
+    "notes": "As the NH food.prepared rule: the Meals and Rooms Tax is a separate state tax, not in OpenTaxRate's general rates (which are 0 in NH); this rule's rate is that tax. RSA 78-A:3 VIII counts an alcoholic beverage, with or without food, as a beverage in a taxable meal. Before 2021-10-01 the rate was 9%: not researched."
+  },
+  {
+    "tax": "NH:local",
+    "code": "alcohol",
+    "from": "2016-11-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "New Hampshire has no local sales or meals taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NH DRA, General Information FAQ",
+        "url": "https://www.revenue.nh.gov/resource-center/frequently-asked-questions/general-information",
+        "quote": "No, there is no general sales tax on goods purchased in New Hampshire."
+      },
+      {
+        "title": "NH DRA, Resale & Exempt Certificates",
+        "url": "https://www.revenue.nh.gov/licenses-certifications/resale-exempt-certificates",
+        "quote": "The State of New Hampshire does not have a general sales and use tax."
+      }
+    ],
+    "notes": "Required beside the state's special rate on alcohol.on_premises; NH has no local tax parts."
   }
 ]

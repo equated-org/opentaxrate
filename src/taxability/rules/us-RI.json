@@ -728,5 +728,165 @@
       }
     ],
     "notes": "Rhode Island has no local sales tax parts in the rate data: its 1% local meals and beverage tax is statewide and collected by the Division of Taxation, and is included in the RI rule's 8%. This rule exists because the schema requires an RI:local rule beside a special-rate RI rule; no local part is ever charged. 2026-11-02: cited page moved from http://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm to https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm."
+  },
+  {
+    "tax": "RI",
+    "code": "clothing",
+    "from": "2012-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Rhode Island exempts the first $250 of the price of each item of clothing or footwear; only the part of an item's price above $250 is taxed. Costumes and formal wear are clothing.",
+    "conditions": [
+      {
+        "when": "The first $250 of the price of an item of clothing or footwear (an item at $250 or less is wholly exempt)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "The part of an item's price above $250 (charge the tax on that part only)",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-6, clothing exemption",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-6",
+        "quote": "Effective October 1, 2012, the portion of the sales price of clothing, including footwear, sold, leased or rented in this state greater than two-hundred fifty dollars ($250.00) per item is subject to the Rhode Island sales and use tax."
+      },
+      {
+        "title": "280-RICR-20-70-6, definition",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-6",
+        "quote": "\"Clothing\" means all human wearing apparel suitable for general use."
+      }
+    ],
+    "notes": "Effective date stated in § 6.6. Current regulation refiled 2022-01-04. Only the excess over $250 is taxed. Costumes, formal wear and wedding apparel are clothing. Accessories and protective/sport gear do not receive the exemption. No general local sales tax."
+  },
+  {
+    "tax": "RI",
+    "code": "clothing.accessories",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Accessories are taxable without the $250 clothing exemption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-6, taxable non-clothing items",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-6",
+        "quote": "Sales of clothing accessories or equipment in this state are subject to the Rhode Island sales and use tax."
+      }
+    ],
+    "notes": "Current regulation effective 2022-01-04, used as earliest verified. No local general sales tax."
+  },
+  {
+    "tax": "RI",
+    "code": "clothing.equipment",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Protective and sport or recreational equipment are taxable without the $250 clothing exemption.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-6, taxable non-clothing items",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-6",
+        "quote": "Sales of protective equipment in this state are subject to the Rhode Island sales and use tax."
+      },
+      {
+        "title": "280-RICR-20-70-6, sporting equipment",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-6",
+        "quote": "Sales of sports or recreational equipment in this state are subject to the Rhode Island sales and use tax."
+      }
+    ],
+    "notes": "Current regulation effective 2022-01-04, used as earliest verified. No local general sales tax."
+  },
+  {
+    "tax": "RI",
+    "code": "alcohol.off_premises",
+    "from": "2022-04-29",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Wine and spirits sold by Class A package/liquor stores are exempt from sales tax; beer and malt beverages remain taxable.",
+    "conditions": [
+      {
+        "when": "wine or spirits sold by a Class A package or liquor store",
+        "treatment": "exempt"
+      },
+      {
+        "when": "beer or malt beverages",
+        "treatment": "taxable"
+      },
+      {
+        "when": "other taxable alcohol sales outside the Class A wine and spirits exemption",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "RI Division of Taxation Publication 2022-02, April 29, 2022",
+        "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2022-04/PUB_2022-02_Sales_and_taxation_of_alcoholic_beverages_2022.pdf",
+        "quote": "Rhode Island’s sales tax exemption applies to wine and spirit sales, not to beer and malt sales."
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-30(64)",
+        "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-30.HTM",
+        "quote": "excluding beer and malt beverages"
+      },
+      {
+        "title": "280-RICR-20-70-52, Beer, Wine and Liquor Dealer",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-52",
+        "quote": "The measure of tax with respect to retail sales of beer, wine, and spirituous liquors is the entire amount charged therefor, inclusive of the amount of other state or federal taxes imposed with respect to the property."
+      }
+    ],
+    "notes": "Publication 2022-02 dated April 29, 2022 supplies the earliest verified date. State alcohol excises are separate and not modeled. No general local sales tax; no meals/beverage tax on an ordinary package-store sale."
+  },
+  {
+    "tax": "RI",
+    "code": "alcohol.on_premises",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Alcohol served at a bar or restaurant is taxed at 8% in Rhode Island: the 7% sales tax plus the 1% meals and beverage tax, as for food served there.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "280-RICR-20-70-52, Beer, Wine and Liquor Dealer",
+        "url": "https://rules.sos.ri.gov/regulations/part/280-20-70-52",
+        "quote": "The measure of tax with respect to retail sales of beer, wine, and spirituous liquors is the entire amount charged therefor, inclusive of the amount of other state or federal taxes imposed with respect to the property."
+      },
+      {
+        "title": "280-RICR-20-70-4, alcohol",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "Alcoholic Beverages as defined in § 4.5(A) of this Part are subject to tax."
+      },
+      {
+        "title": "280-RICR-20-70-4, local meals and beverage tax",
+        "url": "https://rules.sos.ri.gov/Regulations/part/280-20-70-4",
+        "quote": "All eating and/or drinking establishments are required to charge and collect a one percent (1%) local meals and beverage tax on the sales of meals and/or beverages within this State, effective August 1, 2003."
+      }
+    ],
+    "notes": "As the RI food.prepared.dine_in rule, the statewide 1% local meals and beverage tax is folded into an 8% special rate. Current regulations effective 2022-01-04 are the earliest read. Alcohol excises are not included."
+  },
+  {
+    "tax": "RI:local",
+    "code": "alcohol.on_premises",
+    "from": "2022-01-04",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "No local sales tax applies to this code in Rhode Island beyond the statewide 1% meals and beverage tax already in the RI rule.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "This local meals and beverage tax shall be administered and collected by the division of taxation"
+      },
+      {
+        "title": "R.I. Gen. Laws § 44-18-18.1, Local meals and beverage tax",
+        "url": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-18/44-18-18.1.htm",
+        "quote": "at a rate of one percent of the gross receipts"
+      }
+    ],
+    "notes": "Required beside the RI special rate on alcohol.on_premises; as RI:local food.prepared.dine_in."
   }
 ]

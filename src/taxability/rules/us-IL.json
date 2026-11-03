@@ -3218,5 +3218,54 @@
       }
     ],
     "notes": "No Illinois source names take-and-bake pizza or meal kits; the rule rests on 130.310(c)(2)'s definition (food made ready by the retailer to be eaten without substantial delay after its final stage of preparation), which uncooked food the buyer must cook does not meet. Where the seller provides undivided seating or does not separate its high- and low-rate sales, food is presumed prepared for immediate consumption. Rates and local treatment mirror the food.prepared.cold rules. IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+  },
+  {
+    "tax": "IL",
+    "code": "clothing",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Illinois taxes clothing at the general merchandise rate, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, What is tangible personal property?",
+        "url": "https://tax.illinois.gov/questionsandanswers/answer.164.html",
+        "quote": "Clothing, vehicles, jewelry, and business equipment are examples of tangible personal property."
+      },
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "The high rate of tax is the State tax of 6.25%, plus local taxes, if applicable."
+      },
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "This rate applies to all non-food general merchandise but also includes food and drink items such as alcoholic beverages, food consisting of or infused with adult use cannabis, soft drinks, candy, and food that has been prepared for immediate consumption."
+      }
+    ],
+    "notes": "PIO-101 states its information is current January 1, 2026; PIO-115 and the clothing FAQ confirm the general-rate classification. All clothing subcodes share this treatment. Sales-tax holidays are not modeled; PIO-115 links the August 2026 back-to-school holiday. Separate liquor gallonage or municipal alcohol excise taxes are not included."
+  },
+  {
+    "tax": "IL",
+    "code": "alcohol",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Illinois taxes alcohol at the general merchandise rate, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "The high rate of tax is the State tax of 6.25%, plus local taxes, if applicable."
+      },
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "This rate applies to all non-food general merchandise but also includes food and drink items such as alcoholic beverages, food consisting of or infused with adult use cannabis, soft drinks, candy, and food that has been prepared for immediate consumption."
+      }
+    ],
+    "notes": "PIO-101 states its information is current January 1, 2026; PIO-115 and the clothing FAQ confirm the general-rate classification. All clothing subcodes share this treatment. Sales-tax holidays are not modeled; PIO-115 links the August 2026 back-to-school holiday. Separate liquor gallonage or municipal alcohol excise taxes are not included."
   }
 ]

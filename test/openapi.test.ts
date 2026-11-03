@@ -23,6 +23,10 @@ describe("/v1/openapi.json", () => {
     expect(spec.paths["/v1/coverage"].get.responses["200"]).toBeDefined();
     expect(Object.keys(spec.components.schemas)).toEqual(expect.arrayContaining(["AddressRate", "RatePart", "Taxability", "Regions", "Trace", "Error", "Coverage"]));
     expect(Object.keys(spec.components.securitySchemes)).toEqual(["bearer", "apiKey"]);
+    // The code parameter names every code, the newest included.
+    const code = rate.parameters.find((p: { name: string }) => p.name === "code");
+    for (const c of ["goods.general", "clothing", "clothing.accessories", "clothing.equipment", "clothing.other", "alcohol", "alcohol.off_premises", "alcohol.on_premises", "nontaxable"])
+      expect(code.description, c).toContain(c);
   });
 });
 

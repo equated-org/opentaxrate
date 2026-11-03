@@ -1000,5 +1000,122 @@
       }
     ],
     "notes": "Mirrors the NC:local food.grocery and food.prepared.cold rules: qualifying food bears only the 2.00% local rate, given to the part carrying the county's general local tax. North Carolina's prepared-food definition excludes from the 'mixed or combined' test food containing raw eggs, fish, meat or poultry that the consumer must cook; no NCDOR guidance naming take-and-bake pizza or meal kits was found, so the code turns on whether the item contains raw animal food. The NCDOR food page is undated; 2018-01-01 is the earliest date taken as verified, as for the food.grocery and food.prepared.cold rules."
+  },
+  {
+    "tax": "NC",
+    "code": "clothing",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and sporting or protective equipment are taxable at general state and applicable local/transit rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Important Notice: Sales and Use Tax Due by a Distillery Permit Holder",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/other-sales-and-use-tax-resources/important-notices-issued-sales-and-use-tax-division/important-notice-sales-and-use-tax-due-distillery-permit-holder",
+        "quote": "Some examples of tangible personal property sold by a distillery permit holder subject to the general state, applicable local, and applicable transit rates of sales and use tax include wine, mixed beverages, beer or other malt beverages, prepared food, clothing, mugs, and shot glasses."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Articles of tangible personal property, other than a boat, including tangible personal property sold at a specialty market or other event."
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded."
+  },
+  {
+    "tax": "NC",
+    "code": "alcohol.off_premises",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Beer and wine bear general sales tax; packaged spirituous liquor bears the 7% combined general rate.",
+    "conditions": [
+      {
+        "when": "Closed-container spirituous liquor, including antique spirituous liquor",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Beer, malt beverages or wine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Spirituous Liquor",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/spirituous-liquor",
+        "quote": "Retail sales of antique spirituous liquor and spirituous liquor other than mixed beverages are subject to the 7.00% combined general rate of sales and use tax."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Beer, whether by the drink or in closed containers."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Wine, including fortified wine, whether by the drink or in closed containers."
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded."
+  },
+  {
+    "tax": "NC:local",
+    "code": "alcohol.off_premises",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "General local/transit tax applies to beer and wine; packaged spirits at the combined general rate have no additional local tax.",
+    "conditions": [
+      {
+        "when": "Packaged spirituous liquor taxed at the 7% combined general rate",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Beer, malt beverages or wine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Items subject to the combined general rate of sales and use tax as provided in SUTB 1-3F."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Retail sales of the following are subject to the general State, applicable local, and applicable transit rates of sales and use tax:"
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded. First quote is in list of exclusions from local sales/use taxes."
+  },
+  {
+    "tax": "NC",
+    "code": "alcohol.on_premises",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Beer, wine, mixed drinks and straight shots served on premises bear general state and applicable local/transit sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Retail sales of the following are subject to the general State, applicable local, and applicable transit rates of sales and use tax:"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Mixed beverages by restaurants, bars, and other similar establishments."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Straight shots of spirituous liquor or antique spirituous liquor by restaurants, bars, and other similar establishments."
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded."
   }
 ]
