@@ -16,7 +16,8 @@ import { regionsAt, type Regions } from "./regions.js";
 import type { LocatedPoint, Locate } from "./geocoding/types.js";
 import { loadRules, taxabilityByCode, type Taxability, type TaxCode } from "./taxability/index.js";
 import { describedTaxability, type Described } from "./taxability/describe.js";
-import { cachedPicker, jevPicker, memoryStore, paidPicker as paidDescribe, type Picker } from "./taxability/picker.js";
+import { cachedPicker, jevPicker, memoryStore, openRouterPicker, paidPicker as paidDescribe, type Picker } from "./taxability/picker.js";
+import { PARAMS } from "./params.js";
 
 export type LookupResult = AddressRate & { taxability?: Record<string, Taxability | Described>; regions?: Regions };
 
@@ -102,7 +103,9 @@ async function describedEntry(general: AddressRate, text: string, code: TaxCode 
   const jev = policy.allows("jev") ? jevPicker() : null;
   const paid: Picker | null = jev && budget ? paidDescribe(jev, () => budget.spend("jev", toMicros(JEV_PRICE))) : jev;
   const picker = paid && cachedPicker(paid, describeCache);
-  return { [code ?? text]: await describedTaxability(general, { code, text }, date, await loadRules(), picker) };
+  // Second models (describeSecond, off by default), only beside Jev.
+  const second = picker ? PARAMS.describeSecond.flatMap((m) => { const o = openRouterPicker(m); return o ? [cachedPicker(o, describeCache)] : []; }) : [];
+  return { [code ?? text]: await describedTaxability(general, { code, text }, date, await loadRules(), picker, second.length === PARAMS.describeSecond.length ? second : []) };
 }
 
 /** Jev, asked only when the budget pays for the pick. */

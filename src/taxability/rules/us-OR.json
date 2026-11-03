@@ -284,5 +284,83 @@
       }
     ],
     "notes": "Oregon has no general state or local sales tax. 2016-01-01 is the start of the year of the Legislative Revenue Office's 2016 Basic Facts report, the earliest dated official statement read here; Oregon has never had a general sales tax, so the treatment is much older. The DOR page is undated (it was revised after June 2018). Oregon's vehicle use tax on new vehicles bought out of state and the Corporate Activity Tax (a tax on the business's gross receipts, not collected from buyers) are not sales taxes and are not modelled."
+  },
+  {
+    "tax": "OR",
+    "code": "clothing",
+    "from": "2016-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear are not subject to general sales tax in Oregon.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Oregon Department of Revenue, Sales Tax in Oregon",
+        "url": "https://www.oregon.gov/dor/programs/businesses/Pages/sales-tax.aspx",
+        "quote": "The Wayfair decision doesn't affect Oregonians purchasing goods or services online because Oregon doesn't have a general sales tax."
+      },
+      {
+        "title": "Oregon Legislative Revenue Office, 2016 Oregon Public Finance: Basic Facts (Research Report #1-16)",
+        "url": "https://www.oregonlegislature.gov/lro/Documents/Basic%20Facts%202016.pdf",
+        "quote": "In addition to being one of five states without a general sales tax, Oregon ranks 32nd in selective sales tax collections per person."
+      }
+    ],
+    "notes": "Oregon has no general state or local sales tax. 2016-01-01 is the start of the year of the Legislative Revenue Office's 2016 Basic Facts report, the earliest dated official statement read here; Oregon has never had a general sales tax, so the treatment is much older. The DOR page is undated (it was revised after June 2018). Oregon's vehicle use tax on new vehicles bought out of state and the Corporate Activity Tax (a tax on the business's gross receipts, not collected from buyers) are not sales taxes and are not modelled. Alcohol privilege taxes and state liquor pricing are not sales taxes and are not modelled."
+  },
+  {
+    "tax": "OR",
+    "code": "alcohol",
+    "from": "2016-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Alcoholic beverages sold on or off the premises are not subject to general sales tax in Oregon.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Oregon Department of Revenue, Sales Tax in Oregon",
+        "url": "https://www.oregon.gov/dor/programs/businesses/Pages/sales-tax.aspx",
+        "quote": "The Wayfair decision doesn't affect Oregonians purchasing goods or services online because Oregon doesn't have a general sales tax."
+      },
+      {
+        "title": "Oregon Legislative Revenue Office, 2016 Oregon Public Finance: Basic Facts (Research Report #1-16)",
+        "url": "https://www.oregonlegislature.gov/lro/Documents/Basic%20Facts%202016.pdf",
+        "quote": "In addition to being one of five states without a general sales tax, Oregon ranks 32nd in selective sales tax collections per person."
+      }
+    ],
+    "notes": "Oregon has no general state or local sales tax. 2016-01-01 is the start of the year of the Legislative Revenue Office's 2016 Basic Facts report, the earliest dated official statement read here; Oregon has never had a general sales tax, so the treatment is much older. The DOR page is undated (it was revised after June 2018). Oregon's vehicle use tax on new vehicles bought out of state and the Corporate Activity Tax (a tax on the business's gross receipts, not collected from buyers) are not sales taxes and are not modelled. Alcohol privilege taxes and state liquor pricing are not sales taxes and are not modelled."
+  },
+  {
+    "tax": "OR",
+    "code": "rental",
+    "from": "2016-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Oregon has no general sales tax on renting or leasing tangible goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Oregon Department of Revenue, Sales Tax in Oregon",
+        "url": "https://www.oregon.gov/dor/programs/businesses/Pages/sales-tax.aspx",
+        "quote": "The Wayfair decision doesn't affect Oregonians purchasing goods or services online because Oregon doesn't have a general sales tax."
+      }
+    ],
+    "notes": "Undated DOR page uses the existing OR 2016-01-01 baseline. This is the general sales-tax treatment; no selective industry tax is modeled."
+  },
+  {
+    "tax": "OR",
+    "code": "service.goods",
+    "from": "2016-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Oregon has no general sales tax on work on customer-owned tangible goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Oregon Department of Revenue, Sales Tax in Oregon",
+        "url": "https://www.oregon.gov/dor/programs/businesses/Pages/sales-tax.aspx",
+        "quote": "The Wayfair decision doesn't affect Oregonians purchasing goods or services online because Oregon doesn't have a general sales tax."
+      }
+    ],
+    "notes": "Undated DOR page uses the existing OR 2016-01-01 baseline. This is the general sales-tax treatment; no selective industry tax is modeled."
   }
 ]

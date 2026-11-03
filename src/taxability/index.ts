@@ -5,7 +5,13 @@
  * sale added up from the parts that tax it.
  *
  * A US state's rule covers every part of its answer, state and local,
- * unless the state has a separate "XX:local" rule for its local parts. In
+ * unless the state has a separate "XX:local" rule for its local parts, or
+ * one local part has its own ("CO:local:01:ttr17", Denver's city tax, by
+ * the part's code): the most specific rule decides each part. A state's
+ * "XX:administered" rule decides its state part and the local taxes it
+ * administers, but not a self-collected home-rule city's part
+ * (self-collected.ts), which is then not researched unless it has a rule
+ * of its own. In
  * Canada each tax has its own rules: the GST reads the federal base; an
  * HST province's HST reads its own rule, which is either the province's
  * own treatment (Ontario's prepared-food rebate) or "follows" the federal
@@ -18,6 +24,13 @@
  * whose outcome turns on facts the code doesn't fix is "conditional", and
  * lists them; the rate is null until the caller settles them.
  *
+ * A special-rate rule may name a class of sale (rateClass: "restaurant",
+ * "grocery") instead of a rate: each part it decides is then taxed at that
+ * part's own rate for the class, from the state's rate table
+ * (RatePart.classRates), so one Arizona rule gives every city its own
+ * restaurant rate. A part with no rate for the class on the date is not
+ * researched, as a part with no rule is; it never takes its general rate.
+ *
  * The rest of the module, behind this file:
  *   codes.ts        the codes, and what each covers
  *   rules/          the reviewed rule files (one per place), the watch list
@@ -29,7 +42,8 @@
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
-import { ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
+import { selfCollected } from "./self-collected.js";
+import { parseTaxKey, ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
 export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
 export { loadRules, ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
@@ -100,8 +114,12 @@ function keysFor(state: string, part: RatePart): string[] {
   if (part.code === "CA:HST") return [`${state}/CA:HST`];
   if (/^[A-Z]{2}:(PST|QST|RST)$/.test(part.code)) return [part.code];
   // "XX:state" and "XX:local" decide one side only; "XX" both, where
-  // they share the base.
-  return part.kind === "state" ? [`${state}:state`, state] : [`${state}:local`, state];
+  // they share the base. "XX:local:<part code>" decides one local part,
+  // where that jurisdiction sets its own base or rate (a home-rule city).
+  // "XX:administered" decides the state part and the local taxes the state
+  // administers, never a self-collected city's (self-collected.ts).
+  if (part.kind === "state") return [`${state}:state`, `${state}:administered`, state];
+  return [`${state}:local:${part.code}`, `${state}:local`, ...(selfCollected(state, part.code) ? [] : [`${state}:administered`]), state];
 }
 
 /** A rule researched only from a later day (fromIs "earliest_verified"):
@@ -111,6 +129,16 @@ const unknownBefore = (rules: RuleSet, tax: string, code: TaxCode, date: string)
   const first = rules.get(`${tax}|${code}`)?.[0];
   return first !== undefined && date < first.from && first.fromIs === "earliest_verified";
 };
+
+/** The keys whose rules are one jurisdiction's or one set of taxes' own,
+ *  so that an unverified earlier period isn't filled from a broader key:
+ *  "XX:local:<part code>" and "XX:administered". */
+const ownScope = (key: string) => ["part", "administered"].includes(parseTaxKey(key)?.scope ?? "");
+
+/** `key`'s rule for `code`, a broader code or a narrower one is researched
+ *  only from a later day (unknownBefore). */
+const unknownFor = (rules: RuleSet, key: string, code: TaxCode, date: string) =>
+  (Object.keys(TAX_CODES) as TaxCode[]).some((c) => (c === code || code.startsWith(`${c}.`) || c.startsWith(`${code}.`)) && unknownBefore(rules, key, c, date));
 
 /** The rule for `code` under one tax: the code's own, else its nearest
  *  parent's (a parent's rule covers every kind under it), else, for a
@@ -161,8 +189,8 @@ function withKindExceptions(rule: Rule, kinds: Array<{ code: TaxCode; rule: Rule
 }
 
 /** Two rules don't settle a code the same way. */
-const differs = (a: Pick<Rule, "treatment" | "rate" | "base" | "follows">, b: Pick<Rule, "treatment" | "rate" | "base" | "follows">) =>
-  a.treatment !== b.treatment || a.rate !== b.rate || a.base !== b.base || a.follows !== b.follows || a.treatment === "conditional";
+const differs = (a: Pick<Rule, "treatment" | "rate" | "rateClass" | "base" | "follows">, b: Pick<Rule, "treatment" | "rate" | "rateClass" | "base" | "follows">) =>
+  a.treatment !== b.treatment || a.rate !== b.rate || a.rateClass !== b.rateClass || a.base !== b.base || a.follows !== b.follows || a.treatment === "conditional";
 
 const kind = (c: TaxCode) => `${c}: ${TAX_CODES[c].replace(/\.$/, "")}`;
 
@@ -209,7 +237,7 @@ function conditionsOf(label: string, r: Rule, code?: TaxCode): Rule["conditions"
   };
   if (r.treatment === "conditional") return r.conditions.map((c) => words({ ...c, when: `${label}: ${c.when}`, ...send }, c));
   return [
-    words({ when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send }),
+    words({ when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.rateClass ? { rateClass: r.rateClass } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send }),
     ...r.conditions.filter((c) => differs(c, r)).map((c) => words({ ...c, when: `${label}, except ${c.when.charAt(0).toLowerCase()}${c.when.slice(1)}`, ...send }, c, true)),
   ];
 }
@@ -248,9 +276,9 @@ function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string):
  *  is treated alike, else conditional on which kind it is. */
 function fromKinds(tax: string, code: TaxCode, subs: TaxCode[], found: Rule[]): Rule {
   const first = found[0];
-  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.base === first.base))
+  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.rateClass === first.rateClass && r.base === first.base))
     return withKindExceptions(
-      { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) },
+      { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.rateClass ? { rateClass: first.rateClass } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) },
       found.map((r, i) => ({ code: subs[i], rule: r })),
     );
   return dependsOn(tax, code, found.map((r, i): Kind => [kind(subs[i]), r, subs[i]]));
@@ -280,17 +308,23 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
   const keys = keysFor(state, part);
   for (const [i, key] of keys.entries()) {
     const found = ruleForCode(rules, key, code, date);
+    // Before a one-jurisdiction rule's earliest verified day, that
+    // jurisdiction's treatment isn't known: the part isn't researched,
+    // rather than answered by a broader key (Boulder's food rules, verified
+    // from 2026-06-01, don't fall back to Colorado's before it).
+    if (!found && ownScope(key) && unknownFor(rules, key, code, date)) return null;
     if (!found) continue;
     // A broad code this key answers only from its subcodes' rules, while a
     // more specific key has a rule for one of them (a local platter rule):
     // each kind answers from its own most specific rule, and the result is
-    // the more specific key's, so this part isn't grouped with the parts
-    // the broader key decides alone.
-    if (i && !hasOwn(rules, key, code, date) && subcodesOf(code).length && narrowerUnder(rules, keys.slice(0, i), code, date)) {
+    // the most specific such key's, so this part isn't grouped with the
+    // parts the broader key decides alone (nor with parts another key does).
+    const narrower = i && !hasOwn(rules, key, code, date) && subcodesOf(code).length ? keys.slice(0, i).find((k) => narrowerUnder(rules, [k], code, date)) : undefined;
+    if (narrower) {
       const subs = subcodesOf(code);
       const each = subs.map((sub) => ruleFor(rules, state, part, sub, date));
       if (each.some((r) => !r)) return null;
-      return fromKinds(keys[0], code, subs, each as Rule[]);
+      return fromKinds(narrower, code, subs, each as Rule[]);
     }
     const settled = settle(rules, found, code, date);
     return settled && i ? withNarrower(rules, keys.slice(0, i), key, code, date, settled) : settled;
@@ -298,17 +332,33 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
   return null;
 }
 
-/** What one part adds to the sale's rate under `treatment`, on the whole
- *  charge: where the rule taxes only a share of it (`base`), the rate times
- *  that share. A special-rate rule's rate is the rate of every part it
- *  decides together (Utah's 1.25% for all its local taxes on food), so only
- *  the first of them adds it. */
-const partRate = (treatment: PartTreatment, part: RatePart, rule: Rule | null, first = true): number | null => {
-  const base = rule?.base ?? 1;
-  if (treatment === "taxable") return part.rate * base;
-  if (treatment === "special_rate") return first ? (rule?.rate !== undefined ? rule.rate * base : null) : 0;
-  return treatment === "conditional" ? null : 0;
-};
+/** What `parts` add to the sale's rate under a rule or case `k`, on the
+ *  whole charge: each part's rate when taxable; a fixed special rate once
+ *  for all of them (Utah's 1.25% for all its local taxes on food); each
+ *  part's own rate for a class a special rate names; nothing when exempt or
+ *  zero-rated; times `base` where only a share of the charge is taxed.
+ *  Null when conditional, or when a special rate has no rate, or a part
+ *  lacks the class's rate: never the general rate instead. Added part by
+ *  part, rounded at each step after the first. */
+function rateOf(k: Pick<Rule, "rate" | "rateClass" | "base"> & { treatment: string }, parts: RatePart[]): number | null {
+  const base = k.base ?? 1;
+  const shareOf = (part: RatePart, i: number): number | null => {
+    if (k.treatment === "taxable") return part.rate * base;
+    if (k.treatment === "special_rate" && k.rateClass) {
+      const own = part.classRates?.[k.rateClass];
+      return own === undefined ? null : own * base;
+    }
+    if (k.treatment === "special_rate") return k.rate === undefined ? null : i ? 0 : k.rate * base;
+    return k.treatment === "conditional" ? null : 0;
+  };
+  let sum: number | null = null;
+  for (const [i, part] of parts.entries()) {
+    const add = shareOf(part, i);
+    if (add === null) return null;
+    sum = i ? round(sum! + add) : add;
+  }
+  return sum ?? (k.treatment === "special_rate" && k.rate !== undefined ? k.rate * base : 0);
+}
 
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -321,28 +371,36 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
   // Parts grouped by the rule that decided them, in the order the parts
   // come; a part with no rule is its own group.
   const groups = new Map<string, TaxGroup>();
+  const members = new Map<string, { rule: Rule | null; parts: RatePart[] }>();
   for (const part of answer.parts) {
-    const rule = ruleFor(rules, state, part, code, date);
+    const found = ruleFor(rules, state, part, code, date);
+    // A rule naming a class answers only for a part with that class's rate,
+    // or conditionally on the cases its rate turns on (classCases).
+    const cases = found?.treatment === "special_rate" && found.rateClass && rateOf(found, [part]) === null ? part.classCases?.[found.rateClass] : undefined;
+    const rule = cases?.length ? onCases(found!, cases) : found && (found.treatment !== "special_rate" || rateOf(found, [part]) !== null) ? found : null;
     // Unresearched parts group by the broadest key they'd answer to: a
     // state's parts together, each Canadian tax on its own.
     const broadest = keysFor(state, part).at(-1)!;
     // One rule decides each group; a rule made for this part (conditional
     // on a narrower code's local rule) shares its tax and day, not its answer.
-    const key = rule ? `${rule.tax}/${rule.from}/${rule.treatment}` : `?${broadest}`;
+    // A part conditional on its own class cases is a group of its own.
+    const key = rule ? `${rule.tax}/${rule.from}/${rule.treatment}${cases?.length ? `/${part.code}` : ""}` : `?${broadest}`;
     const group = groups.get(key);
     if (group) {
       group.parts.push(part.code);
-      const add = partRate(group.treatment as PartTreatment, part, rule, false);
-      group.rate = group.rate === null || add === null ? null : round(group.rate + add);
+      members.get(key)!.parts.push(part);
       continue;
     }
+    members.set(key, { rule, parts: [part] });
     if (!rule) groups.set(key, { tax: broadest, parts: [part.code], treatment: "not_researched", rate: null, rule: null });
     else {
       const { tax, code: _code, notes: _notes, follows: _follows, treatment, ...rest } = rule;
       const decided = treatment as PartTreatment;
-      groups.set(key, { tax, parts: [part.code], treatment: decided, rate: partRate(decided, part, rule), rule: { ...rest, treatment: decided } });
+      groups.set(key, { tax, parts: [part.code], treatment: decided, rate: null, rule: { ...rest, treatment: decided } });
     }
   }
+  // The first part's rule rates the group, as it is shown.
+  for (const [key, { rule, parts }] of members) if (rule) groups.get(key)!.rate = rateOf(rule, parts);
   return answerOf([...groups.values()], answer.parts);
 }
 
@@ -377,20 +435,23 @@ function answerOf(taxes: TaxGroup[], parts: RatePart[]): Taxability {
  *  every undecided tax pairs that way, each outcome is one such case.
  *  Otherwise the taxes turn on their facts independently, and each
  *  condition is its own outcome, for its tax, with the settled taxes. */
-/** What one undecided tax adds to the sale's rate in case `k`: its parts'
- *  full rate when taxable, the case's own rate (once) when special, else
- *  nothing; times the case's base. NaN for a special case with no rate. */
-function shareOf(t: TaxGroup, k: Condition, parts: RatePart[]): number {
-  const full = t.parts.reduce((sum, code) => sum + (parts.find((p) => p.code === code)?.rate ?? 0), 0);
-  return (k.treatment === "taxable" ? full : k.treatment === "special_rate" ? (k.rate ?? NaN) : 0) * (k.base ?? 1);
-}
+/** A rule naming a class, for a part whose rate for it turns on the cases
+ *  its publisher states: conditional on them, each at its own rate. */
+const onCases = (rule: Rule, cases: Array<{ when: string; rate: number }>): Rule => {
+  const { rateClass: _, ...rest } = rule;
+  return { ...rest, treatment: "conditional", conditions: cases.map((c) => ({ when: c.when, treatment: "special_rate", rate: c.rate, ...(rule.base !== undefined ? { base: rule.base } : {}) })) };
+};
+
+/** What one undecided tax adds to the sale's rate in case `k` (rateOf on
+ *  its parts); null where it can't be computed. */
+const shareOf = (t: TaxGroup, k: Condition, parts: RatePart[]) => rateOf(k, t.parts.flatMap((code) => parts.find((p) => p.code === code) ?? []));
 
 function outcomesOf(taxes: TaxGroup[], parts: RatePart[]): { outcomes: Outcome[]; independent?: true } {
   const none = { outcomes: [] };
   const fixed = taxes.reduce((sum, t) => sum + (t.rate ?? 0), 0);
-  const share = (t: TaxGroup, k: Condition) => shareOf(t, k, parts);
+  const share = (t: TaxGroup, k: Condition) => shareOf(t, k, parts) ?? NaN;
   const open = taxes.filter((t) => t.treatment === "conditional").map((t) => ({ tax: t, conditions: t.rule?.conditions ?? [] }));
-  if (open.some((o) => !o.conditions.length)) return none;
+  if (!open.length || open.some((o) => !o.conditions.length)) return none;
   const done = (outcomes: Outcome[], independent?: true) =>
     outcomes.length > MOST_OUTCOMES || outcomes.some((o) => Number.isNaN(o.rate)) ? none : { outcomes: outcomes.map((o) => ({ ...o, rate: round(o.rate) })), ...(independent ? { independent } : {}) };
   const paired = pairedCases(open.map((o) => o.conditions));
@@ -481,7 +542,7 @@ export function openCasesOf(t: Taxability): OpenCases | null {
  *  same share its outcome counts. Null where it can't be computed. */
 export function caseRate(t: TaxGroup, k: Condition, parts: RatePart[]): number | null {
   const share = shareOf(t, k, parts);
-  return Number.isNaN(share) ? null : round(share);
+  return share === null ? null : round(share);
 }
 
 /** `t` with some taxes settled, each by one of its own rule's cases
@@ -511,6 +572,7 @@ export function reopenCases(t: Taxability, parts: RatePart[], reopen: Set<number
       when: usual,
       treatment: rule.treatment as Condition["treatment"],
       ...(rule.rate !== undefined ? { rate: rule.rate } : {}),
+      ...(rule.rateClass ? { rateClass: rule.rateClass } : {}),
       ...(rule.base !== undefined ? { base: rule.base } : {}),
     };
     const exceptions = rule.conditions.filter((k) => differs(k, rule as Rule));

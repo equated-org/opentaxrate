@@ -13,10 +13,12 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { db } from "../db/client.js";
-import { taxabilityRules } from "../db/schema.js";
+import { salesTaxJurisdictionRates, taxabilityRules } from "../db/schema.js";
+import { eq, sql } from "drizzle-orm";
 import { copiesByUrl, downloadedBytes, sourcesRoot } from "../ingest/archive.js";
 import { challenged, evidenceLink, pdfParagraphs, fileName, pageText, politeFetch, quoteOnPage, trustListedIntermediates } from "./fetch.js";
-import { readRuleFiles, type Citation } from "./rules/index.js";
+import { parseTaxKey, readRuleFiles, type Citation } from "./rules/index.js";
+import { SELF_COLLECTED } from "./self-collected.js";
 import { pageOf } from "../pdf-text.js";
 import { documentText, findMark, hasTextView, markLink, pinnedCopy } from "../evidence-text.js";
 import { typeOf } from "../evidence.js";
@@ -111,6 +113,7 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
           fromIs: r.fromIs,
           treatment: r.treatment,
           rate: r.rate ?? null,
+          rateClass: r.rateClass ?? null,
           base: r.base ?? null,
           follows: r.follows ?? null,
           summary: r.summary,
@@ -127,5 +130,28 @@ export async function loadTaxabilityRules(options: { dir?: string; fetch?: boole
     console.warn(`${missing.length} cited pages aren't in the archive:`);
     for (const m of missing) console.warn(`  ${m.url}  (${m.reason})`);
   }
+  for (const unknown of await unknownParts(rules.map((r) => r.tax))) console.warn(`A rule is keyed to part ${unknown}, which this database's rates don't have: check the part's code.`);
+  const listed = Object.entries(SELF_COLLECTED).flatMap(([state, list]) => Object.keys(list.parts).map((code) => `${state}:local:${code}`));
+  for (const unknown of await unknownParts(listed)) console.warn(`The self-collected list (self-collected.ts) names part ${unknown}, which this database's rates don't have.`);
   return { rules: rules.length, files, missing };
+}
+
+/** The one-part keys ("CO:local:01:ttr17"), or listed parts, naming a part code no rate row
+ *  of their state has, where the state has rate rows at all (a test
+ *  database may have none). */
+async function unknownParts(taxes: string[]): Promise<string[]> {
+  const unknown: string[] = [];
+  for (const tax of new Set(taxes)) {
+    const key = parseTaxKey(tax);
+    if (key?.scope !== "part") continue;
+    const { state } = key;
+    const at = key.part.indexOf(":");
+    const [type, code] = [key.part.slice(0, at), key.part.slice(at + 1)];
+    const [row] = await db
+      .select({ any: sql<number>`count(*)::int`, part: sql<number>`count(*) filter (where ${salesTaxJurisdictionRates.type} = ${type} and ${salesTaxJurisdictionRates.code} = ${code})::int` })
+      .from(salesTaxJurisdictionRates)
+      .where(eq(salesTaxJurisdictionRates.state, state));
+    if (row.any > 0 && row.part === 0) unknown.push(tax);
+  }
+  return unknown;
 }

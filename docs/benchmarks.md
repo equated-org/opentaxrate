@@ -149,6 +149,10 @@ date. Keep a rule change only if *wrong* doesn't rise. Add a case by copying
 an agency example into the place's file; a new case that scores *wrong* is
 settled by reading the page, not by editing the case.
 
+A rule that taxes each part at its own class rate (`rateClass`) scores as
+*declined*: the cases name a state, not a location, and the rate it charges
+is the location's loaded one, which may be zero.
+
 `pnpm bench taxability --describe` sends each case's `facts` sentence as
 `describe=` (`src/taxability/describe-bench.ts`) and scores the answer the
 same way, twice: *code*, with the case's code, and *text*, with none, so the
@@ -165,6 +169,9 @@ rate (`rate-unchecked`: add `expected.rate` where the case's source states
 it), and the `needs` the declines name. `--half A` or `--half B` scores a
 deterministic half (by a hash of place and id): choose settings on A,
 confirm on B, then report all of dev.
+`OPENTAXRATE_DESCRIBE_PICKS` points the run at another copy of the picks
+file (a worktree tuning on its own copy; merge it back after), and the last
+line counts the calls the cache didn't answer.
 Tune `describeCodeAccept` and `describeConditionAccept` (`src/params.ts`,
 `SETTINGS` as above via `OTR_PARAMS`) on the dev cases, keeping both runs at
 zero *wrong*; score `--cases artifacts/taxability/evals-holdout` once, with

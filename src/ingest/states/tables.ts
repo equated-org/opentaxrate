@@ -62,58 +62,75 @@ export function stateTable(
         await fetchFile(p.url, dir, p.name).catch((error: Error) =>
           console.warn(`${state}: couldn't keep ${p.url}: ${error.message}`),
         );
-      const codes = await censusCodes(state, dir);
-      // One row per type:code, from its newest rate.
-      const jurisdictions = new Map<string, JurisdictionRow & { from: string }>();
-      const rates: GeoRateRow[] = table.stateRates.map((r) => ({
-        type: "45",
-        code: STATE_FIPS[state],
-        rate: r.rate,
-        startsOn: r.from,
-        endsOn: r.to ?? "9999-12-31",
-      }));
-      for (const local of table.locals) {
-        // A district a county's own (a Louisiana parish's) is keyed by it.
-        const county =
-          local.type === "00" ||
-          local.type === "rc" ||
-          local.type === "no" ||
-          (local.type === "maybe" && /\b(?:Parish|County)$/i.test(local.name));
-        let code: string;
-        try {
-          code = /^\d+$/.test(local.name)
-            ? local.name.slice(county ? -3 : -5)
-            : county
-              ? local.type === "maybe"
-                ? tryEach(() => codes.county(local.name), () => codes.city(local.name))
-                : codes.county(local.name)
-              : codes.city(local.name);
-        } catch (error) {
-          if ((county && local.type !== "maybe") || !table.skipUnmatchedCities) throw error;
-          console.warn(`${state}: leaving out ${local.name}: ${(error as Error).message}`);
-          continue;
-        }
-        const keyed = local.inCounty ? `${code}@${codes.county(local.inCounty)}` : code;
-        rates.push({
-          type: local.type,
-          code: keyed,
-          rate: local.rate,
-          startsOn: local.from,
-          endsOn: local.to ?? "9999-12-31",
-        });
-        const name = local.title ?? (/^\d+$/.test(local.name) ? null : local.name);
-        const known = jurisdictions.get(`${local.type}:${keyed}`);
-        if ((name || local.ids) && (!known || known.from <= local.from))
-          jurisdictions.set(`${local.type}:${keyed}`, { type: local.type, code: keyed, name, ids: local.ids ?? {}, from: local.from });
-      }
+      const { rates: locals, jurisdictions } = await keyedLocals(state, table.locals, dir, table.skipUnmatchedCities);
+      const rates: GeoRateRow[] = [
+        ...table.stateRates.map((r) => ({
+          type: "45",
+          code: STATE_FIPS[state],
+          rate: r.rate,
+          startsOn: r.from,
+          endsOn: r.to ?? "9999-12-31",
+        })),
+        ...locals,
+      ];
       return {
         rates,
-        jurisdictions: [...jurisdictions.values()].map(({ from: _, ...j }) => j),
+        jurisdictions,
         shapes: [],
         files: { rates: table.source },
       };
     },
   };
+}
+
+/** A table's local rates as rate rows keyed to Census FIPS codes, and a
+ *  jurisdiction row for each type:code from its newest rate. A name that
+ *  matches nothing throws, unless `skipUnmatchedCities` and it's a city. */
+export async function keyedLocals(
+  state: string,
+  locals: LocalRate[],
+  dir?: string,
+  skipUnmatchedCities?: boolean,
+): Promise<{ rates: GeoRateRow[]; jurisdictions: JurisdictionRow[] }> {
+  const codes = await censusCodes(state, dir);
+  // One row per type:code, from its newest rate.
+  const jurisdictions = new Map<string, JurisdictionRow & { from: string }>();
+  const rates: GeoRateRow[] = [];
+  for (const local of locals) {
+    // A district a county's own (a Louisiana parish's) is keyed by it.
+    const county =
+      local.type === "00" ||
+      local.type === "rc" ||
+      local.type === "no" ||
+      (local.type === "maybe" && /\b(?:Parish|County)$/i.test(local.name));
+    let code: string;
+    try {
+      code = /^\d+$/.test(local.name)
+        ? local.name.slice(county ? -3 : -5)
+        : county
+          ? local.type === "maybe"
+            ? tryEach(() => codes.county(local.name), () => codes.city(local.name))
+            : codes.county(local.name)
+          : codes.city(local.name);
+    } catch (error) {
+      if ((county && local.type !== "maybe") || !skipUnmatchedCities) throw error;
+      console.warn(`${state}: leaving out ${local.name}: ${(error as Error).message}`);
+      continue;
+    }
+    const keyed = local.inCounty ? `${code}@${codes.county(local.inCounty)}` : code;
+    rates.push({
+      type: local.type,
+      code: keyed,
+      rate: local.rate,
+      startsOn: local.from,
+      endsOn: local.to ?? "9999-12-31",
+    });
+    const name = local.title ?? (/^\d+$/.test(local.name) ? null : local.name);
+    const known = jurisdictions.get(`${local.type}:${keyed}`);
+    if ((name || local.ids) && (!known || known.from <= local.from))
+      jurisdictions.set(`${local.type}:${keyed}`, { type: local.type, code: keyed, name, ids: local.ids ?? {}, from: local.from });
+  }
+  return { rates, jurisdictions: [...jurisdictions.values()].map(({ from: _, ...j }) => j) };
 }
 
 function tryEach(...attempts: Array<() => string>) {

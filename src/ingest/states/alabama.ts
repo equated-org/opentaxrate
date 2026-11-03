@@ -23,8 +23,9 @@
  * Locality Name as its name; a county rate summed from several codes lists
  * each.
  */
+import type { ClassRateRow, ClassRateSource } from "../class-rates.js";
 import type { LocalRate } from "./tables.js";
-import { stateTable } from "./tables.js";
+import { keyedLocals, stateTable } from "./tables.js";
 import { fetchText, isoDay, shiftDay } from "./sources.js";
 
 const FILE = "https://www.revenue.alabama.gov/wp-content/uploads/2024/03/taxrates.csv";
@@ -160,23 +161,71 @@ const idsOf = (code: string, countyNo: string, administered: string) => ({
   Administered: administered,
 });
 
-export const alabama = stateTable("AL", async (dir) => {
-  const csv = await fetchText(FILE, dir, "taxrates.csv");
+export const alabama = stateTable("AL", async (dir) => ({
+  stateRates: [{ rate: 0.04, from: FROM }],
+  locals: localsOf(await fetchText(FILE, dir, "taxrates.csv"), "GENER"),
+  source: "AL DOR local tax rates file",
+  skipUnmatchedCities: true,
+}));
+
+/** Alabama's local rates on food (the file's GROC rows), as class rates:
+ *  each county and city's rate on food since the state's food rate began
+ *  (2023-09-01), its general rate as of June 15, 2023 unless lowered since
+ *  (Act 2023-554). Read from the same file as the general rates, through
+ *  the same county rules, so each lands on the part its general rate does.
+ *  A refusal has no class rate: a county no rule places, a city's
+ *  unplaced district, and a police jurisdiction (pj), which refuses any
+ *  address within its reach (and whose rows, like the general ones, may
+ *  be two for one city and day). A town the file gives no
+ *  GROC row levies no sales tax at all (its general rate is 0), so it
+ *  taxes food at 0 over the days its general rate is 0, and has no food
+ *  rate on any other day. */
+export const alabamaClasses: ClassRateSource = {
+  state: "AL",
+  async fetch(dir, loaded) {
+    const { rates } = await keyedLocals("AL", localsOf(await fetchText(FILE, dir, "taxrates.csv"), "GROC"), dir, true);
+    const rows: ClassRateRow[] = rates
+      .filter((r) => r.type !== "no" && r.type !== "maybe" && r.type !== "pj")
+      .map((r) => ({ ...r, class: "grocery" as const, source: "AL DOR taxrates.csv, Rate Type GROC" }));
+    const groc = new Set(rows.map((r) => `${r.type}:${r.code}`));
+    for (const r of loaded.rates)
+      if (r.type === "01" && r.rate === 0 && r.endsOn >= FOOD_FROM && !groc.has(`01:${r.code}`))
+        rows.push({ ...r, startsOn: r.startsOn < FOOD_FROM ? FOOD_FROM : r.startsOn, class: "grocery", source: "AL DOR taxrates.csv: no GROC row, a GENER rate of 0" });
+    return { rows, file: "AL DOR taxrates.csv (GROC)" };
+  },
+};
+
+/** The first day of Alabama's separate rate on food (Act 2023-554). */
+const FOOD_FROM = "2023-09-01";
+
+/** The file's county and city rates of one Rate Type (GENER, the general
+ *  rate; GROC, the rate on food), placed by the county rules. Which cities
+ *  levy a tax of their own is read from the general rows either way. */
+function localsOf(csv: string, rateType: "GENER" | "GROC"): LocalRate[] {
   const locals: LocalRate[] = [];
   /** County codes by county, then by locality code. */
   const countyCodes = new Map<string, Map<string, CountyCode>>();
   /** Each city's name as its rows give it, with ALDOR's county number. */
   const cities = new Map<string, { county: number; levies: boolean }>();
   const countyNames = new Map<number, string>();
-  for (const line of csv.replace(/^﻿/, "").split(/\r?\n/).slice(1)) {
-    const [code, name, countyNo, taxType, rateType, administered, active, inactive, rate, , pj, , pjRate] = line.split(",").map((c) => c.trim());
-    if (taxType !== "ST" || rateType !== "GENER" || !code || !name) continue;
+  for (const line of csv.replace(/^\uFEFF/, "").split(/\r?\n/).slice(1)) {
+    const [code, name, countyNo, taxType, type, administered, active, inactive, rate, , pj, , pjRate] = line.split(",").map((c) => c.trim());
+    if (taxType !== "ST" || (type !== "GENER" && type !== rateType) || !code || !name) continue;
     const from = isoDay(active);
     if (!from) continue;
     const to = inactive ? (isoDay(inactive) ?? undefined) : undefined;
     if (to && to < FROM) continue;
     const dated = { from: from < FROM ? FROM : from, to };
     if (/^UNABA/.test(name)) continue;
+    // A district inside a town is listed like a town but has no outline.
+    const town = code.startsWith("9") && !/ DIST$/.test(name);
+    const city = name.replace(/ (?:WITHIN [A-Z ]+ CO|S&U|SALES & USE|SALES)$/, "");
+    if (town && type === "GENER") {
+      const seen = cities.get(city);
+      const levies = Number(rate) > 0 && (!to || to >= "2026-01-01");
+      cities.set(city, { county: Number(countyNo), levies: Boolean(seen?.levies) || levies });
+    }
+    if (type !== rateType) continue;
     if (code.startsWith("7")) {
       const county = /^([A-Z .']+?) (?:COUNTY|CO)\b/.exec(name)?.[1];
       if (!county) continue;
@@ -186,16 +235,10 @@ export const alabama = stateTable("AL", async (dir) => {
       const known = codes.get(code) ?? { name, countyNo, periods: [] };
       known.periods.push({ rate: Number(rate) / 100, ...dated, administered });
       codes.set(code, known);
-    } else if (code.startsWith("9")) {
-      // A district inside a town is listed like a town but has no outline.
-      if (/ DIST$/.test(name)) continue;
+    } else if (town) {
       // "TALLASSEE WITHIN ELMORE CO": the city's rate in one of its counties.
       const within = / WITHIN ([A-Z ]+) CO$/.exec(name)?.[1];
       const inCounty = within ? titleCase(within) : undefined;
-      const city = name.replace(/ (?:WITHIN [A-Z ]+ CO|S&U|SALES & USE|SALES)$/, "");
-      const seen = cities.get(city);
-      const levies = Number(rate) > 0 && (!to || to >= "2026-01-01");
-      cities.set(city, { county: Number(countyNo), levies: Boolean(seen?.levies) || levies });
       const source = { title: name, ids: idsOf(code, countyNo, administered) };
       locals.push({ name: city, rate: Number(rate) / 100, ...dated, type: "01", inCounty, ...source });
       if (pj === "Y" && Number(pjRate) > 0)
@@ -210,7 +253,7 @@ export const alabama = stateTable("AL", async (dir) => {
       const named = new Set([...rule.outside, ...rule.inside.flatMap((g) => g.codes), ...(rule.pj ?? []).flatMap((g) => g.codes)]);
       const unnamed = [...codes].filter(([code, c]) => !named.has(code) && c.periods.some((p) => p.rate));
       if (unnamed.length) {
-        console.warn(`AL: ${county} County has codes no rule names (${unnamed.map(([c]) => c).join(", ")}); refusing it`);
+        console.warn(`AL: ${county} County has ${rateType} codes no rule names (${unnamed.map(([c]) => c).join(", ")}); refusing it`);
         counties.push({ name: county, rate: 0, from: FROM, type: "no" });
         continue;
       }
@@ -234,14 +277,9 @@ export const alabama = stateTable("AL", async (dir) => {
       );
     else counties.push({ name: county, rate: 0, from: FROM, type: "no" });
   }
-  return {
-    stateRates: [{ rate: 0.04, from: FROM }],
-    // A city listed once per county it spans has one rate.
-    locals: sumByCode([...locals, ...counties]),
-    source: "AL DOR local tax rates file",
-    skipUnmatchedCities: true,
-  };
-});
+  // A city listed once per county it spans has one rate.
+  return sumByCode([...locals, ...counties]);
+}
 
 /** A county's rows from its rule: its base outside every named city, each
  *  named city's difference from it, and a police jurisdiction row for each

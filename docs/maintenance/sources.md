@@ -25,6 +25,7 @@ A response's `source` names the data used; `match` describes the lookup method. 
 | Streamlined members' rate and boundary files | `latestSstFiles` in `src/ingest/downloads.ts` (streamlinedsalestax.org listing) | `loadSstState` |
 | Missouri's quarterly rate and boundary files, with the archive | `src/ingest/missouri.ts` | `loadSstState` |
 | Map states' rates and outlines | one adapter each in `src/ingest/states/` (`GEO_STATES`) | `loadGeoState` |
+| Class rates: a part's restaurant or grocery rate (AZ business classes 011, 111 and 062; AL `GROC` rows; IL `grocerymache` files; UT's quarterly rate chart) | `CLASS_RATE_SOURCES` in `src/ingest/class-rates.ts`, each reader in its state's adapter (`src/ingest/states/utah.ts` for Utah) | `loadClassRates` |
 | Hand-kept rate tables (FL, HI, ID, MS, NY, PA, MT, SC, VA) | the adapter's table and `publications` in `src/ingest/states/` | `loadGeoState` |
 | Canada's provinces and territories: GST/HST, PST, QST, RST from April 1, 2013 | `FEDERAL` and `PROVINCIAL` in `src/rates/canada.ts`, sources in its header | none: read at request time, no ingestion |
 | Census county, place and town outlines; ZIP areas; street names | `latestTigerFiles` and friends in `src/ingest/downloads.ts` | `loadTigerShapes`, `zip-areas.ts`, `street-names.ts` |
@@ -50,6 +51,8 @@ What to check for a new edition, and when it usually appears.
 | Washington location codes | quarterly ZIPs | dor.wa.gov sales tax jurisdiction boundaries page |
 | California tax areas | quarterly | CDTFA's `CA_SalesandUsetaxRates_2017toPresent` service (`DateStamp`) |
 | Arizona, New Mexico, Illinois, Louisiana (East Baton Rouge) | monthly to semiannual | the adapter's URLs |
+| Illinois grocery rate files (`grocerymache-current`, `-prior-070126`, `-prior-010126`) and their layout guide | each January and July, with the location files | IDOR's Sales Tax Rate - Machine Readable Files page, Grocery section; a new edition's name (`-prior-MMDDYY`) goes in `illinoisClasses` |
+| Utah Tax Commission rate chart (`<yy>q<n>simple.xlsx`, the restaurant tax) | quarterly, with the quarter's Streamlined files | files.tax.utah.gov/tax/salestax/rate/; refresh files the loaded quarter's chart, and every archived quarter's is read |
 | Florida DR-15DSS, New York Pub 718, Virginia's rates by locality | yearly or on change | the adapter's `publications` |
 | Hawaii, Idaho, Mississippi, Pennsylvania, Montana, South Carolina ST-500 | on change | the adapter's source page |
 | Census TIGER | yearly (outlines as of January 1) | www2.census.gov/geo/tiger/TIGER<year> |

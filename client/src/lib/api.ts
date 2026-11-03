@@ -24,6 +24,14 @@ export interface RatePart {
 	/** A decimal: 0.01 is 1%. */
 	rate: number;
 	byType?: RatesByType;
+	/** This part's rate on a class of sale its state rates apart (Arizona's
+	 *  city restaurant rate), on the answer's date; absent where none is
+	 *  published, never the general rate in its place. */
+	classRates?: { restaurant?: number; grocery?: number };
+	/** Where a class's rate here turns on a fact the address doesn't settle
+	 *  (an Illinois Metro East grocery rate, for a retailer liable for the
+	 *  district's tax or not), each case and its rate, in place of classRates. */
+	classCases?: { restaurant?: Array<{ when: string; rate: number }>; grocery?: Array<{ when: string; rate: number }> };
 	/** The state's own ids for this jurisdiction, keyed by its data's column
 	 *  names ({"Locality Code": "9454"}); {} where it publishes none. Absent
 	 *  from an API older than ids. */
@@ -77,12 +85,15 @@ export interface TaxabilityRule {
 	 *  one, exceptions worth knowing. */
 	/** For special_rate: the rate charged on the code instead. */
 	rate?: number;
+	/** For special_rate, in place of rate: each part at its own rate for
+	 *  this class (its classRates entry). */
+	rateClass?: 'restaurant' | 'grocery';
 	/** The share of the charge taxed, where the law taxes only part of it
 	 *  (Texas's 0.8 on data processing); the answer's rates already apply it. */
 	base?: number;
 	/** code: in an answer for a broad code, the narrower code this case is;
 	 *  base: the share of the charge taxed in this case. */
-	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; base?: number; code?: string }>;
+	conditions: Array<{ when: string; treatment: 'taxable' | 'special_rate' | 'exempt' | 'zero_rated'; rate?: number; rateClass?: 'restaurant' | 'grocery'; base?: number; code?: string }>;
 	/** archived: OpenTaxRate's copy that shows the quote, opening at it (sha256 is that copy's hash); url: the page as published. */
 	citations: Array<{ title: string; url: string; quote?: string; archived?: string; sha256?: string; page?: number }>;
 }
@@ -117,6 +128,9 @@ export interface Taxability {
 	/** Only with describe=, on a conditional answer: the facts it turns on that
 	 *  a description can't settle, for the caller to send. */
 	needs?: string[];
+	/** Only with describe=, on a conditional answer: facts the address already
+	 *  settles that the rules haven't researched for this place (locality). */
+	unresearched?: string[];
 }
 
 /** How describe= was read (src/taxability/describe.ts). */
@@ -134,6 +148,11 @@ export interface Interpreted {
 	 *  cases the rules treat alike that the text established one of. */
 	conditions?: Array<{ tax: string; when: string[]; confidence: number }>;
 	/** The model wasn't asked or failed: answered as without the text. */
+	/** The codes the model leaned to whose defining fact the text doesn't
+	 *  establish (a tea not said to be sweetened isn't a soft drink). */
+	unestablished?: string[];
+	/** The description names several different items. */
+	items?: true;
 	unavailable?: true;
 }
 

@@ -20,7 +20,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isProvince, provinceParts } from "../rates/canada.js";
 import { STATEWIDE_STATES, statewideRate } from "../rates/statewide.js";
-import type { RatePart } from "../rates/types.js";
+import { RATE_CLASSES, type RatePart } from "../rates/types.js";
 import { isTaxCode, taxabilityOf, type RuleSet, type Taxability } from "./index.js";
 
 type Expected = "taxed" | "zero_rated" | "not_taxed";
@@ -59,17 +59,27 @@ const STATE_RATE_ONLY = ["IN", "KY", "MI", "NJ", "RI"];
  *  province's taxes; a state part alone where the state has one rate
  *  everywhere (no local sales taxes), at that rate where it's known, so a
  *  case can expect the rate its source states; else a state and a local
- *  part, so a case can expect them apart, at nominal rates. */
+ *  part, so a case can expect them apart, at nominal rates. The local part
+ *  has a nominal rate for every class of sale too, only so that a rule
+ *  taxing each part at its own class rate (rateClass) is found: what that
+ *  rule charges is the location's loaded rate, which may be zero (an
+ *  Illinois town with no local grocery tax), so it is scored as declined,
+ *  as a rule conditional on the location would be. */
 export function partsAt(place: string, date: string): RatePart[] {
   if (isProvince(place)) return provinceParts(place, date);
   const one = statewideRate(place, date);
   const state: RatePart = { kind: "state", name: place, code: `${place}:state`, rate: one && "rate" in one && one.rate > 0 ? one.rate : 0.04 };
   if (STATEWIDE_STATES.includes(place) || STATE_RATE_ONLY.includes(place)) return [state];
-  return [state, { kind: "city", name: `${place} local`, code: `${place}:local`, rate: 0.02 }];
+  const local = 0.02;
+  return [state, { kind: "city", name: `${place} local`, code: `${place}:local`, rate: local, classRates: Object.fromEntries(RATE_CLASSES.map((c) => [c, local])) }];
 }
 
-/** The treatment of the group holding a part. */
-const treatmentOf = (t: Taxability, partCode: string) => t.taxes.find((g) => g.parts.includes(partCode))?.treatment ?? "not_researched";
+/** The treatment of the group holding a part; conditional where its rule
+ *  charges each part's own class rate, which turns on the location. */
+const treatmentOf = (t: Taxability, partCode: string) => {
+  const group = t.taxes.find((g) => g.parts.includes(partCode));
+  return group?.rule?.rateClass ? "conditional" : (group?.treatment ?? "not_researched");
+};
 
 /** How one tax's answer compares with what the source expects. */
 function compare(treatment: string, expected: Expected): Outcome {
@@ -114,7 +124,8 @@ export function scoreAnswer(c: TaxabilityCase, parts: RatePart[], t: Taxability)
   if (federal) expect("federal", treatmentOf(t, federal.code), e.federal);
   if (provincial) expect("provincial", treatmentOf(t, provincial.code), e.provincial);
   if (e.rate !== undefined) {
-    outcomes.push(t.rate === null ? compare(t.treatment, "taxed") : Math.abs(t.rate - e.rate) < 1e-9 ? "right" : "wrong");
+    const located = t.taxes.some((g) => g.rule?.rateClass);
+    outcomes.push(located ? "declined" : t.rate === null ? compare(t.treatment, "taxed") : Math.abs(t.rate - e.rate) < 1e-9 ? "right" : "wrong");
     got.push(`rate ${t.rate}`);
   }
   if (!outcomes.length) throw new Error(`${c.id}: expects nothing`);

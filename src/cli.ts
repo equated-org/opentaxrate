@@ -10,6 +10,8 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *                                 index supplemental polygons
  *   ingest --kind taxability [--dir D] [--no-fetch]
  *                                 load the taxability rules (src/taxability/rules) and archive their cited pages
+ *   ingest --kind class-rates [STATE...] [--dir D]
+ *                                 load the class rates (restaurant, grocery) from the files the loaded rates came from
  *   rate STATE "street" "city" [zip] [date] [--include regions] [--code CODES] [--describe TEXT]
  *                                 look one address up, and how each CODES sale is taxed there
  *   taxability score [--cases DIR] [--list | --gate] [--describe [--out FILE]]
@@ -78,7 +80,12 @@ async function main() {
         await loadTaxabilityRules({ dir: flag("--dir"), fetch: !args.includes("--no-fetch") });
         return;
       }
-      if (kind !== "polygons") throw new Error("--kind is polygons (the default) or taxability");
+      if (kind === "class-rates") {
+        const { refreshClassRates } = await import("./ingest/class-rates.js");
+        await refreshClassRates({ states, dir: flag("--dir") });
+        return;
+      }
+      if (kind !== "polygons") throw new Error("--kind is polygons (the default), taxability or class-rates");
       const source = flag("--source");
       if (source && ![...SUPPLEMENTAL_POLYGONS.map((s) => s.id), "wa-loccode_public", "wa-cities", "wa-ptba", "wa-rta", "mn-tax-areas"].includes(source))
         throw new Error(`Unknown supplemental source ${source}`);
@@ -163,9 +170,9 @@ async function main() {
         const { scoreDescribed, printDescribed } = await import("./taxability/describe-bench.js");
         const half = flag("--half");
         if (half && half !== "A" && half !== "B") throw new Error("--half is A or B");
-        const { scored, asked } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
+        const { scored, asked, calls } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
         printDescribed(scored, { list: args.includes("--list"), out: flag("--out") });
-        console.log(`picker answers added to the cache: ${asked}`);
+        console.log(`picker answers added to the cache: ${asked} (${calls} calls)`);
         return;
       }
       const scored = scoreTaxability(rules, flag("--cases"));

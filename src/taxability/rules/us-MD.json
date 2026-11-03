@@ -699,5 +699,226 @@
       }
     ],
     "notes": "Written because the state rule carries a reduced (3%) rate; a reduced state rule must say how local parts treat the code. Maryland has none: the only local levy on sales is Worcester County's 0.5% food and beverage tax in Ocean City, which applies to food, not this code."
+  },
+  {
+    "tax": "MD",
+    "code": "clothing",
+    "from": "2024-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear and accessories, including safety clothing and furs, are taxable; clothing qualifying as a medical supply is exempt.",
+    "conditions": [
+      {
+        "when": "clothing qualifies as a medical supply",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Maryland Comptroller, List of Tangible Personal Property and Services (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Generally, the sale of all clothing, footwear and accessory items is subject to sales and use tax."
+      },
+      {
+        "title": "Maryland Comptroller, taxable property list",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "The sale of clothing that qualifies as a medical supply is exempt from sales and use tax."
+      }
+    ],
+    "notes": "February 2024 publication uses month only; first day used. Tax-Free Week is mentioned in source but not modeled. No general local sales tax per existing us-MD.json; Ocean City food/beverage levy does not reach clothing."
+  },
+  {
+    "tax": "MD",
+    "code": "alcohol",
+    "from": "2024-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.09,
+    "summary": "Alcoholic beverages, whether taken away or served on premises, are subject to 9% Maryland sales and use tax; separate alcoholic-beverage excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maryland Comptroller, taxable property list (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Alcoholic beverages (subject to 9% sales and use tax rate)"
+      },
+      {
+        "title": "Md. Tax-General §11-104(g)",
+        "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=11-104&enactments=false",
+        "quote": "9% of the charge for the alcoholic beverage; and"
+      }
+    ],
+    "notes": "February 2024 publication, first day of month used. State rate only; local rule addresses Ocean City. No earlier change date modeled because the downloaded dated publication verifies the current treatment."
+  },
+  {
+    "tax": "MD:local",
+    "code": "alcohol",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ocean City charges 0.5% local sales tax on alcohol served on premises; off-premises beer, wine and spirits are exempt, and elsewhere Maryland has no general local sales tax.",
+    "conditions": [
+      {
+        "when": "served for consumption on premises in Ocean City",
+        "treatment": "special_rate",
+        "rate": 0.005
+      },
+      {
+        "when": "sold outside Ocean City",
+        "treatment": "exempt"
+      },
+      {
+        "when": "beer, wine or distilled spirits sold for off-premises consumption in Ocean City",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Worcester County, Food and Beverage Tax",
+        "url": "https://worcestermd.gov/departments/treasurer/foodbev",
+        "quote": "The tax rate is one-half percent (.5%) of the taxable price of the sale of food and beverages."
+      },
+      {
+        "title": "Worcester County, Food and Beverage Tax: exceptions",
+        "url": "https://worcestermd.gov/departments/treasurer/foodbev",
+        "quote": "Sale of beer, wine and distilled spirits for OFF PREMISES consumption."
+      }
+    ],
+    "notes": "Undated county page uses existing Maryland undated-page date 2020-04-12. County page calls this a local sales tax, so it is modeled rather than omitted as an excise. No general local sales tax elsewhere per existing us-MD.json."
+  },
+  {
+    "tax": "MD",
+    "code": "rental",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Ordinary tangible-goods rentals are taxable; each lease payment period is a separate sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, COMAR 03.06.01.28, Lease of Tangible Personal Property, Digital Codes, Digital Products, Data or Information Technology Services, and Software Publishing Services",
+        "url": "https://regs.maryland.gov/us/md/exec/comar/03.06.01.28",
+        "quote": "“Lease” is included within the statutory definition of the term “sale” and is thus subject to the tax in the absence of a specific exemption or exclusion."
+      },
+      {
+        "title": "Comptroller of Maryland, COMAR 03.06.01.28",
+        "url": "https://regs.maryland.gov/us/md/exec/comar/03.06.01.28",
+        "quote": "Each lease payment period is considered a separate lease, and thus a separate sale, for the purpose of determining when the tax is to be collected or paid."
+      }
+    ],
+    "notes": "Undated current regulation: uses the existing MD undated-current-page baseline, April 12, 2020; no claim that later digital/IT amendments applied then. No general short/long-term split for this nonvehicle code."
+  },
+  {
+    "tax": "MD",
+    "code": "service.goods.repair",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Restoring existing goods is exempt repair labor; fabricating a new or different item or altering a new suit is taxable.",
+    "conditions": [
+      {
+        "when": "Repair or alteration restores existing goods, including a used suit, to original condition or usefulness",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Work creates a new or different item, or alters a new suit to the buyer’s requirements",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip 12, Fabrication Labor is Subject to Tax (undated)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip12.pdf",
+        "quote": "The tax does not apply to charges for repairing tangible personal property or restoring it to its original condition."
+      },
+      {
+        "title": "Comptroller of Maryland, COMAR 03.06.01.03, Repairs of Tangible Personal Property, Digital Codes, Digital Products, and Taxable Services",
+        "url": "https://regs.maryland.gov/us/md/exec/comar/03.06.01.03",
+        "quote": "The tax does apply if the labor expended results in the creation of a new or different item."
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip 12, Fabrication Labor is Subject to Tax (undated)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip12.pdf",
+        "quote": "However, the charge which a tailor makes for altering or repairing a used suit to restore it to its original condition is not subject to tax."
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip 12, Fabrication Labor is Subject to Tax (undated)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip12.pdf",
+        "quote": "The price a clothier charges for the alteration of a new suit to meet the requirements of a customer is subject to tax."
+      },
+      {
+        "title": "Comptroller of Maryland, COMAR 03.06.01.03",
+        "url": "https://regs.maryland.gov/us/md/exec/comar/03.06.01.03",
+        "quote": "A person making a repair of tangible personal property, a digital code, a digital product, or a taxable service who charges for the repair and materials used in repair on a lump-sum basis shall pay the tax on purchases of materials used in performing the repair."
+      }
+    ],
+    "notes": "Undated sources use existing MD baseline April 12, 2020. Separately stated materials are taxable goods; for a lump-sum repair the repairer pays tax on materials and does not charge tax on the repair bill. Mandatory maintenance contracts and software services require their own analysis."
+  },
+  {
+    "tax": "MD",
+    "code": "service.goods.cleaning",
+    "from": "2024-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ordinary goods cleaning and personal laundry are exempt; recurring commercial textile laundering is taxable.",
+    "conditions": [
+      {
+        "when": "Recurring commercial cleaning or laundering of textiles for a business that requires that service",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Personal laundry, dry cleaning or other ordinary cleaning of customer goods outside defined taxable services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, List of Tangible Personal Property and Services Subject to Sales and Use Tax (February 2024)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/Sales_and_Use_Tax-List_of_TPP_and_Services.pdf",
+        "quote": "Charges for services are generally exempt from Maryland sales and use tax unless they are specifically taxable under Maryland law."
+      },
+      {
+        "title": "Comptroller of Maryland, COMAR 03.06.01.17, Dry Cleaners and Laundries",
+        "url": "https://regs.maryland.gov/us/md/exec/comar/03.06.01.17",
+        "quote": "Laundry and dry cleaning services performed for individuals of their personal laundry are exempt from the tax."
+      },
+      {
+        "title": "Comptroller of Maryland, COMAR 03.06.01.17, Dry Cleaners and Laundries",
+        "url": "https://regs.maryland.gov/us/md/exec/comar/03.06.01.17",
+        "quote": "Persons operating dry cleaning establishments and laundries are required to collect the tax on receipts from their services when these services are performed for a person engaged in business, such as restaurants, hotels, motels, beauty shops, barber shops, and other such establishments, which require the regular cleaning and laundering of their linens and textiles."
+      }
+    ],
+    "notes": "February 2024 list supplies the general exemption; uses February 1, 2024 as the existing MD file does for this publication. Undated laundry regulation confirms personal/commercial split. Cleaning necessary to finish a newly fabricated item follows taxable fabrication, rather than an ordinary cleaning service."
+  },
+  {
+    "tax": "MD",
+    "code": "service.goods.other",
+    "from": "2020-04-12",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Fabrication or assembly by special order is taxable even on customer materials; enhancing an existing item without making a new and different item is exempt.",
+    "conditions": [
+      {
+        "when": "Fabrication or assembly by special order, including engraving, monogramming or customizing to finish a new item",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Reconfiguring or enhancing an existing item without creating a new and different item",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip 12, Fabrication Labor is Subject to Tax (undated)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip12.pdf",
+        "quote": "Fabrication or assembly labor charges are taxable even if the customer provides the materials."
+      },
+      {
+        "title": "Comptroller of Maryland, Business Tax Tip 12, Fabrication Labor is Subject to Tax (undated)",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/tips/business/bustip12.pdf",
+        "quote": "A charge for reconfiguring or enhancing existing tangible personal property, unless it results in the creation of a new and different item of tangible personal property, is also not taxable."
+      }
+    ],
+    "notes": "Undated Business Tax Tip 12 uses existing MD undated-page baseline April 12, 2020. Work charge only; separately stated goods remain taxable."
   }
 ]

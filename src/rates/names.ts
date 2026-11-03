@@ -7,12 +7,17 @@
  * outline loaded for its code (Census TIGER for counties and cities, a
  * state's own layer for its districts), and ids {}. The state is named by
  * its name; most Streamlined districts stay unnamed.
+ *
+ * On a date, each part also gets the rates its publisher gives it for a
+ * class of sale (sales_tax_class_rates, by the same "type:code"), as
+ * `classRates`, where any is in force; a part with none has no
+ * `classRates`.
  */
-import { and, eq, inArray, or } from "drizzle-orm";
+import { and, eq, gte, inArray, lte, or } from "drizzle-orm";
 import { db } from "../db/client.js";
-import { salesTaxJurisdictions, salesTaxShapes } from "../db/schema.js";
+import { salesTaxClassRates, salesTaxJurisdictions, salesTaxShapes } from "../db/schema.js";
 import { STATES } from "../geocoding/providers/match.js";
-import type { RatePart } from "./types.js";
+import type { ClassCases, ClassRates, RateClass, RatePart } from "./types.js";
 
 /** The outline kinds a part's code may name, most specific first. */
 const SHAPE_KINDS: Record<Exclude<RatePart["kind"], "state">, Array<"county" | "place" | "cousub" | "district">> = {
@@ -28,8 +33,38 @@ const keyOf = (p: RatePart) => {
   return at < 0 ? null : { type: p.code.slice(0, at), code: p.code.slice(at + 1) };
 };
 
-export async function describeParts(state: string, parts: RatePart[]): Promise<RatePart[]> {
+/** Each part's class rates in force on `date`, by its code. */
+async function classRatesOn(state: string, keys: Array<{ type: string; code: string }>, date: string): Promise<Map<string, { rates?: ClassRates; cases?: ClassCases }>> {
+  const rows = keys.length
+    ? await db
+        .select({ type: salesTaxClassRates.type, code: salesTaxClassRates.code, class: salesTaxClassRates.class, rate: salesTaxClassRates.rate, when: salesTaxClassRates.appliesWhen })
+        .from(salesTaxClassRates)
+        .where(
+          and(
+            eq(salesTaxClassRates.state, state),
+            lte(salesTaxClassRates.startsOn, date),
+            gte(salesTaxClassRates.endsOn, date),
+            or(...keys.map((k) => and(eq(salesTaxClassRates.type, k.type), eq(salesTaxClassRates.code, k.code)))),
+          ),
+        )
+    : [];
+  const found = new Map<string, { rates?: ClassRates; cases?: ClassCases }>();
+  for (const r of rows) {
+    const key = `${r.type}:${r.code}`;
+    const part = found.get(key) ?? {};
+    found.set(key, part);
+    const rateClass = r.class as RateClass;
+    // A case row: the class's rate turns on it, beside its other cases.
+    if (r.when) (part.cases ??= {})[rateClass] = [...(part.cases[rateClass] ?? []), { when: r.when, rate: Number(r.rate) }];
+    else (part.rates ??= {})[rateClass] = Number(r.rate);
+  }
+  for (const part of found.values()) for (const list of Object.values(part.cases ?? {})) list.sort((a, b) => a.when.localeCompare(b.when));
+  return found;
+}
+
+export async function describeParts(state: string, parts: RatePart[], date?: string): Promise<RatePart[]> {
   const keys = parts.flatMap((p) => keyOf(p) ?? []);
+  const classes = date ? await classRatesOn(state, keys, date) : new Map<string, { rates?: ClassRates; cases?: ClassCases }>();
   const rows = keys.length
     ? await db
         .select({ type: salesTaxJurisdictions.type, code: salesTaxJurisdictions.code, name: salesTaxJurisdictions.name, ids: salesTaxJurisdictions.ids })
@@ -62,7 +97,8 @@ export async function describeParts(state: string, parts: RatePart[]): Promise<R
   };
   // The name second, after the kind, where a reader looks for it.
   return parts.map((p) => {
-    const { kind, name: _, ids: __, ...rest } = p;
-    return { kind, name: nameOf(p), ...rest, ids: described.get(p.code)?.ids ?? {} };
+    const { kind, name: _, ids: __, classRates: ___, classCases: ____, ...rest } = p;
+    const { rates: classRates, cases: classCases } = classes.get(p.code) ?? {};
+    return { kind, name: nameOf(p), ...rest, ...(classRates ? { classRates } : {}), ...(classCases ? { classCases } : {}), ids: described.get(p.code)?.ids ?? {} };
   });
 }

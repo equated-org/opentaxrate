@@ -1000,5 +1000,285 @@
       }
     ],
     "notes": "Mirrors the NC:local food.grocery and food.prepared.cold rules: qualifying food bears only the 2.00% local rate, given to the part carrying the county's general local tax. North Carolina's prepared-food definition excludes from the 'mixed or combined' test food containing raw eggs, fish, meat or poultry that the consumer must cook; no NCDOR guidance naming take-and-bake pizza or meal kits was found, so the code turns on whether the item contains raw animal food. The NCDOR food page is undated; 2018-01-01 is the earliest date taken as verified, as for the food.grocery and food.prepared.cold rules."
+  },
+  {
+    "tax": "NC",
+    "code": "clothing",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and sporting or protective equipment are taxable at general state and applicable local/transit rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Important Notice: Sales and Use Tax Due by a Distillery Permit Holder",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/other-sales-and-use-tax-resources/important-notices-issued-sales-and-use-tax-division/important-notice-sales-and-use-tax-due-distillery-permit-holder",
+        "quote": "Some examples of tangible personal property sold by a distillery permit holder subject to the general state, applicable local, and applicable transit rates of sales and use tax include wine, mixed beverages, beer or other malt beverages, prepared food, clothing, mugs, and shot glasses."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Articles of tangible personal property, other than a boat, including tangible personal property sold at a specialty market or other event."
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded."
+  },
+  {
+    "tax": "NC",
+    "code": "alcohol.off_premises",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Beer and wine bear general sales tax; packaged spirituous liquor bears the 7% combined general rate.",
+    "conditions": [
+      {
+        "when": "Closed-container spirituous liquor, including antique spirituous liquor",
+        "treatment": "special_rate",
+        "rate": 0.07
+      },
+      {
+        "when": "Beer, malt beverages or wine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Spirituous Liquor",
+        "url": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/taxable-items/spirituous-liquor",
+        "quote": "Retail sales of antique spirituous liquor and spirituous liquor other than mixed beverages are subject to the 7.00% combined general rate of sales and use tax."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Beer, whether by the drink or in closed containers."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Wine, including fortified wine, whether by the drink or in closed containers."
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded."
+  },
+  {
+    "tax": "NC:local",
+    "code": "alcohol.off_premises",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "General local/transit tax applies to beer and wine; packaged spirits at the combined general rate have no additional local tax.",
+    "conditions": [
+      {
+        "when": "Packaged spirituous liquor taxed at the 7% combined general rate",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Beer, malt beverages or wine",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Items subject to the combined general rate of sales and use tax as provided in SUTB 1-3F."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Retail sales of the following are subject to the general State, applicable local, and applicable transit rates of sales and use tax:"
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded. First quote is in list of exclusions from local sales/use taxes."
+  },
+  {
+    "tax": "NC",
+    "code": "alcohol.on_premises",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Beer, wine, mixed drinks and straight shots served on premises bear general state and applicable local/transit sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Retail sales of the following are subject to the general State, applicable local, and applicable transit rates of sales and use tax:"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Mixed beverages by restaurants, bars, and other similar establishments."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Straight shots of spirituous liquor or antique spirituous liquor by restaurants, bars, and other similar establishments."
+      }
+    ],
+    "notes": "January 1, 2026 Sales and Use Tax Bulletins. General local and transit base follows the state base except combined-general-rate items; holidays not modeled. Separate beverage excises and local prepared-food/drink taxes are excluded."
+  },
+  {
+    "tax": "NC",
+    "code": "rental",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals of ordinary tangible goods bear the sales taxes applicable to retail sales of those goods; periodic and lump-sum rentals are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The gross receipts derived from the lease or rental of tangible personal property are subject to sales and use tax, including any maximum tax, that apply to the retail sale of such property."
+      }
+    ],
+    "notes": "SUTB 54-1, dated January 1, 2026. Tax due when billed, with no deduction for business expenses. State, applicable local and transit base follows existing NC rules; motor vehicles excluded."
+  },
+  {
+    "tax": "NC",
+    "code": "service.goods.repair",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and maintenance work on goods and motor vehicles is taxable; clothing alterations and repairs are exempt except belts, shoes and work included in clothing rentals.",
+    "conditions": [
+      {
+        "when": "Alteration or repair of clothing other than belts and shoes, not part of a taxable clothing rental",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair or maintenance of other goods, including motor vehicles",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The sales price of or the gross receipts derived from repair, maintenance, and installation services to real property, tangible personal property, motor vehicles, or certain digital property sold at retail and sourced to this State are subject to the general State, applicable local, and applicable transit"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Alteration and repair of clothing including embroidery. This exemption does not apply to the following:"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The alteration and repair of belts and shoes."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "rates of sales and use tax unless exempt by statute."
+      }
+    ],
+    "notes": "SUTB 75-2 and 75-3. General state, local and transit tax applies to taxable work, irrespective of separately stated labor. Dated January 1, 2026; no earlier-period rule inferred."
+  },
+  {
+    "tax": "NC",
+    "code": "service.goods.cleaning",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry, dry cleaning, rug cleaning and full-service vehicle cleaning are taxable; self-service laundry machines and self-service or limited-service vehicle washes are exempt.",
+    "conditions": [
+      {
+        "when": "Coin-, token- or card-operated washing machines, extractors and dryers",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Self-service vehicle wash or vacuum, or limited-service mechanical vehicle wash with only payment, guidance, low-pressure chemical spray or protective tape/cover assistance",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other laundry, dry cleaning, rug cleaning or full-service vehicle cleaning",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The sales price of or the gross receipts derived from repair, maintenance, and installation services to real property, tangible personal property, motor vehicles, or certain digital property sold at retail and sourced to this State are subject to the general State, applicable local, and applicable transit"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Services rendered by a dry cleaning, pressing, or hat blocking establishment, a laundry, or any similar type businesses."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Receipts derived from coin, token, or card-operated washing machines, extractors, and dryers are not subject to the sales and use tax imposed under this SUTB."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The sales price of or gross receipts derived from a self-service vehicle wash or vacuum (including drive-thru or coin-operated) and limited-service vehicle wash are exempt from sales and use tax."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "rates of sales and use tax unless exempt by statute."
+      }
+    ],
+    "notes": "SUTB 53-1 and 61-3. Limited service excludes employee physical cleaning, interior work, and other activities outside the permitted list. Wall-to-wall carpet treated as real property is outside this code. State, local and transit treatment identical."
+  },
+  {
+    "tax": "NC",
+    "code": "service.goods.other",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Customer-owned goods engraving is exempt with ownership records; clothing embroidery is exempt, while embroidery on other goods and listed painting, laminating and binding services are taxable.",
+    "conditions": [
+      {
+        "when": "Engraving customer-owned property not bought at the time of engraving, with retained ownership records",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Embroidery on clothing, other than belts/shoes or work included in taxable clothing rental receipts",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Embroidery on goods other than clothing, painting tangible goods, laminating or book binding",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "A charge to engrave tangible personal property owned by a customer is not subject to sales and use tax provided a retailer retains a record that establishes the tangible personal property engraved is owned by the customer and was not purchased at the time the engraving is purchased."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Alteration and repair of clothing including embroidery. This exemption does not apply to the following:"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "The sales price of or the gross receipts derived from repair, maintenance, and installation services to real property, tangible personal property, motor vehicles, or certain digital property sold at retail and sourced to this State are subject to the general State, applicable local, and applicable transit"
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Embroidery services to items other than clothing."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "Painting tangible personal property."
+      },
+      {
+        "title": "NCDOR, Sales and Use Tax Bulletins (January 1, 2026)",
+        "url": "https://www.ncdor.gov/sutb-2026pdf/open",
+        "quote": "rates of sales and use tax unless exempt by statute."
+      }
+    ],
+    "notes": "SUTB 75-3, 75-4 and 75-10. Engraving sold with new goods is part of the taxable goods sale. Coverage gaps for other unlisted work recorded separately; do not infer a universal fabrication rule from vendor-furnished articles."
   }
 ]

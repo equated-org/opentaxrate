@@ -752,5 +752,469 @@
       }
     ],
     "notes": "Sourcing turns on the device being ordinarily situated in B.C. Hootsuite v. BC (2023 BCSC 358) held certain cloud infrastructure/support services not taxable; the Ministry said Budget 2024 legislation would retroactively support prior administration. Whether that legislation was enacted was not verified here (the Dec 2025 Software page treats SaaS as taxable). No separate 2021 change to software found."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "clothing",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "BC generally taxes clothing; qualifying children’s clothing, used items under $100 and specified protective clothing are exempt.",
+    "conditions": [
+      {
+        "when": "Qualifying children-sized garments (girls through national standard size 16, boys through size 20, or marketed as children’s sizes where no national size applies), children’s hats, hosiery, ties, belts, suspenders, mittens, gloves and uniforms; baby footwear and children’s footwear with insole length 24.25 cm or less",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Qualifying adult-sized garments or footwear for a child under 15, with completed FIN 425 exemption certificate",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Used clothing or footwear sold for under $100 per item (not rentals)",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Listed safety footwear, including steel-toed boots, or protective clothing meeting the PST 100 exemption",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other clothing, including adult clothing, scarves other than part of an exempt uniform, and children’s costumes sold with masks, toys or accessories",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Adult-sized clothing and footwear are exempt from PST when purchased or rented for children under 15 years of age."
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Used clothing or used footwear you sell for under $100 per item is exempt from PST, regardless of whether the item is purchased for a child or an adult."
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Costumes sold without masks, toys or accessories"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Scarves, except scarves sold as part of a uniform"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Costumes sold with masks, toys or accessories (e.g. headbands, scarves, parasols)"
+      }
+    ],
+    "notes": "October 2026 revision; first day of publication month used. No price ceiling on qualifying children’s clothing. Children’s costumes without masks/toys/accessories and dance clothes qualify. Adult formal wear and furs receive no special exemption. Accessories and equipment have narrower rules. Taxable list headings and exemption lists were read in full."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "clothing.accessories",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "BC taxes clothing accessories, including children’s jewelry, handbags, hair ornaments, sunglasses and umbrellas.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "PST also applies to sales and rentals of accessories for children under 15 years of age, such as:"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Handbags and purses"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Jewellery"
+      }
+    ],
+    "notes": "October 2026 publication; accessories do not receive the children’s clothing exemption."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "clothing.equipment",
+    "from": "2026-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "BC exempts specified safety equipment and qualifying children’s sports footwear; other athletic gear is taxable.",
+    "conditions": [
+      {
+        "when": "Listed work safety equipment (including hard hats, safety glasses and protective worker gloves), sport/recreation/transportation safety helmets, life jackets and visibility-only safety vests; qualifying required work protection bought by an employer, self-employed person or educational institution with required documentation",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Children’s qualifying ski/snowboard gloves and footwear including cleats, ski boots, golf shoes and motocross boots (children’s insole limit 24.25 cm), or qualifying adult-sized equivalents for a child under 15 with FIN 425",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other sports equipment including pads, skates, swim goggles and sports gloves other than skiing/snowboarding gloves",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Gloves for sports (except gloves for skiing and snowboarding)"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Ice skates, roller skates and inline skates"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Footwear designed for girls or boys, with an insole length of 24.25 cm or less, including:"
+      },
+      {
+        "title": "BC Bulletin PST 201, Children’s Clothing and Footwear (October 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-201-childrens-clothing-footwear.pdf",
+        "quote": "Ski boots and snowboard boots"
+      },
+      {
+        "title": "BC Bulletin PST 100, Safety Equipment and Protective Clothing (August 2024)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-100-safety-equipment-protective-clothing.pdf",
+        "quote": "Anyone may purchase or lease these items exempt from PST."
+      },
+      {
+        "title": "BC Bulletin PST 100, Safety Equipment and Protective Clothing",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-100-safety-equipment-protective-clothing.pdf",
+        "quote": "Helmets, safety – when designed for use in sport, recreation or transportation (e.g. hockey helmets)"
+      }
+    ],
+    "notes": "Read PST 100 exemption and taxable lists. October 2026 children’s bulletin controls start date; first day of month used."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "alcohol",
+    "from": "2026-07-31",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.1,
+    "summary": "BC charges 10% PST on liquor sold at retail or served by bars and restaurants.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "BC Food and beverage service providers and retail liquor sellers",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "You charge 10% PST on sales of liquor, such as:"
+      },
+      {
+        "title": "BC Food and beverage service providers and retail liquor sellers",
+        "url": "https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/food-beverage-service-providers-retail-liquor-sellers",
+        "quote": "Any beverage with an alcohol content of greater than 1%"
+      }
+    ],
+    "notes": "Page revision metadata 2026-07-31. PST is calculated excluding GST and refundable deposits. Separate excise duties and markups are not included. Beverages at 1% alcohol or less are outside this provincial liquor rule; their treatment was not settled."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "rental",
+    "from": "2025-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary taxable goods in BC are subject to PST regardless of the rental period.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 315, Rentals and Leases of Goods (revised April 2025)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-315-rentals-leases-goods.pdf",
+        "quote": "PST applies regardless of the length of the rental period (e.g. hourly, daily, weekly, monthly)."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 315, Rentals and Leases of Goods (revised April 2025)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-315-rentals-leases-goods.pdf",
+        "quote": "Unless a specific exemption applies, as a lessor, you must charge PST on new or used taxable goods you lease in B.C."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Equipment supplied with an operator is outside the bulletin definition of lease. This rule concerns ordinary equipment, tools, furniture and party goods, not manufactured buildings or motor vehicles."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.goods.repair",
+    "from": "2026-07-01",
+    "to": "2026-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "BC taxes repairs and maintenance of taxable goods, with exemptions for specified household goods and clothing or footwear services through September 30, 2026.",
+    "conditions": [
+      {
+        "when": "a related service to an exempt good, or to household refrigerators, stoves, ovens, dishwashers, clothes washers or dryers, freezers, vacuums, rug-cleaning or carpet-cleaning machines, rugs, carpets, sewing machines, curtains or draperies",
+        "treatment": "exempt"
+      },
+      {
+        "when": "services to clothing or footwear, other than blades for skates",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repair, maintenance or alteration of other taxable goods, including motor vehicles",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "PST applies at a rate of 7% to the purchase of a related service provided, or to be provided, in B.C., unless a specific exemption applies."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "The following household appliances and goods: refrigerators, stoves, ovens, dishwashers, clothes washers and dryers, freezers, vacuums, rug-cleaning and carpet-cleaning machines, rugs and carpets, sewing machines, and curtains and draperies"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Clothing or footwear, other than blades for skates (Note: Effective October 1, 2026, related services to clothing or footwear are taxable)"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 316, Bundled Sales and Leases (revised September 2021)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-316-bundled-sales-leases.pdf",
+        "quote": "you charge PST only on the fair market value of the taxable portion of the sale."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Where exempt labour and taxable parts have one price, PST 316 generally taxes the fair market value of the taxable portion, with its small-bundle and predominantly-taxable exceptions; the labour does not automatically become taxable. For the October transition, the former exemption applies if consideration was paid or became due before October 1, 2026."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.goods.cleaning",
+    "from": "2026-07-01",
+    "to": "2026-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cleaning customer-owned goods is generally exempt in BC; cleaning combined with taxable related work is taxable.",
+    "conditions": [
+      {
+        "when": "standalone cleaning services on customer-owned goods",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning provided to taxable goods along with another taxable related service, such as repair",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Cleaning services, unless provided to taxable goods along with another related service that is subject to PST (e.g. repair services)."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Effective October 1, 2026, these services are exempt, even if they are provided with another related service that is subject to PST"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 316, Bundled Sales and Leases (revised September 2021)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-316-bundled-sales-leases.pdf",
+        "quote": "you charge PST only on the fair market value of the taxable portion of the sale."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Where exempt labour and taxable parts have one price, PST 316 generally taxes the fair market value of the taxable portion, with its small-bundle and predominantly-taxable exceptions; the labour does not automatically become taxable. Lessor-provided cleaning during a lease has separate rules and is outside this customer-owned-goods code."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.goods.other",
+    "from": "2026-07-01",
+    "to": "2026-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "BC taxes other related services on customer-owned goods, but engraving and services to specified goods are exempt.",
+    "conditions": [
+      {
+        "when": "engraving services",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a related service to an exempt good, or to household refrigerators, stoves, ovens, dishwashers, clothes washers or dryers, freezers, vacuums, rug-cleaning or carpet-cleaning machines, rugs, carpets, sewing machines, curtains or draperies",
+        "treatment": "exempt"
+      },
+      {
+        "when": "services to clothing or footwear, other than blades for skates",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other related services on taxable customer-owned goods for which no specific exemption applies",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Related services are services provided to tangible personal property (referred to as goods in this bulletin) or services provided to install goods."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "PST applies at a rate of 7% to the purchase of a related service provided, or to be provided, in B.C., unless a specific exemption applies."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Engraving services"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "The following household appliances and goods: refrigerators, stoves, ovens, dishwashers, clothes washers and dryers, freezers, vacuums, rug-cleaning and carpet-cleaning machines, rugs and carpets, sewing machines, and curtains and draperies"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Clothing or footwear, other than blades for skates (Note: Effective October 1, 2026, related services to clothing or footwear are taxable)"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 316, Bundled Sales and Leases (revised September 2021)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-316-bundled-sales-leases.pdf",
+        "quote": "you charge PST only on the fair market value of the taxable portion of the sale."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Where exempt labour and taxable parts have one price, PST 316 generally taxes the fair market value of the taxable portion, with its small-bundle and predominantly-taxable exceptions; the labour does not automatically become taxable. Manufacturing fundamentally different goods is outside related services. Clothing customization is within the broad related-service definition; no embroidery-specific example was read."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.goods.repair",
+    "from": "2026-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "BC taxes repairs and maintenance of taxable goods, with exemptions for specified household goods; clothing and footwear services become taxable October 1, 2026.",
+    "conditions": [
+      {
+        "when": "a related service to an exempt good, or to household refrigerators, stoves, ovens, dishwashers, clothes washers or dryers, freezers, vacuums, rug-cleaning or carpet-cleaning machines, rugs, carpets, sewing machines, curtains or draperies",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repair, maintenance or alteration of other taxable goods, including motor vehicles and clothing or footwear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "PST applies at a rate of 7% to the purchase of a related service provided, or to be provided, in B.C., unless a specific exemption applies."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "The following household appliances and goods: refrigerators, stoves, ovens, dishwashers, clothes washers and dryers, freezers, vacuums, rug-cleaning and carpet-cleaning machines, rugs and carpets, sewing machines, and curtains and draperies"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Clothing or footwear, other than blades for skates (Note: Effective October 1, 2026, related services to clothing or footwear are taxable)"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 316, Bundled Sales and Leases (revised September 2021)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-316-bundled-sales-leases.pdf",
+        "quote": "you charge PST only on the fair market value of the taxable portion of the sale."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Where exempt labour and taxable parts have one price, PST 316 generally taxes the fair market value of the taxable portion, with its small-bundle and predominantly-taxable exceptions; the labour does not automatically become taxable. For the October transition, the former exemption applies if consideration was paid or became due before October 1, 2026."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.goods.cleaning",
+    "from": "2026-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Cleaning customer-owned goods is generally exempt in BC; cleaning combined with taxable related work is taxable, except dry-cleaning, wet-cleaning and laundry remain exempt from October 1, 2026.",
+    "conditions": [
+      {
+        "when": "standalone cleaning services on customer-owned goods",
+        "treatment": "exempt"
+      },
+      {
+        "when": "dry-cleaning, wet-cleaning or laundry services, even with a taxable related service",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning other than dry-cleaning, wet-cleaning or laundry provided to taxable goods along with another taxable related service, such as repair",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Cleaning services, unless provided to taxable goods along with another related service that is subject to PST (e.g. repair services)."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Effective October 1, 2026, these services are exempt, even if they are provided with another related service that is subject to PST"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 316, Bundled Sales and Leases (revised September 2021)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-316-bundled-sales-leases.pdf",
+        "quote": "you charge PST only on the fair market value of the taxable portion of the sale."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Where exempt labour and taxable parts have one price, PST 316 generally taxes the fair market value of the taxable portion, with its small-bundle and predominantly-taxable exceptions; the labour does not automatically become taxable. Lessor-provided cleaning during a lease has separate rules and is outside this customer-owned-goods code."
+  },
+  {
+    "tax": "BC:PST",
+    "code": "service.goods.other",
+    "from": "2026-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "BC taxes other related services on customer-owned goods, but engraving and services to specified goods are exempt.",
+    "conditions": [
+      {
+        "when": "engraving services",
+        "treatment": "exempt"
+      },
+      {
+        "when": "a related service to an exempt good, or to household refrigerators, stoves, ovens, dishwashers, clothes washers or dryers, freezers, vacuums, rug-cleaning or carpet-cleaning machines, rugs, carpets, sewing machines, curtains or draperies",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other related services on taxable customer-owned goods for which no specific exemption applies",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Related services are services provided to tangible personal property (referred to as goods in this bulletin) or services provided to install goods."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "PST applies at a rate of 7% to the purchase of a related service provided, or to be provided, in B.C., unless a specific exemption applies."
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Engraving services"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "The following household appliances and goods: refrigerators, stoves, ovens, dishwashers, clothes washers and dryers, freezers, vacuums, rug-cleaning and carpet-cleaning machines, rugs and carpets, sewing machines, and curtains and draperies"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 301, Related Services (revised July 2026)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-301-related-services.pdf",
+        "quote": "Clothing or footwear, other than blades for skates (Note: Effective October 1, 2026, related services to clothing or footwear are taxable)"
+      },
+      {
+        "title": "BC Ministry of Finance, Bulletin PST 316, Bundled Sales and Leases (revised September 2021)",
+        "url": "https://www2.gov.bc.ca/assets/gov/taxes/sales-taxes/publications/pst-316-bundled-sales-leases.pdf",
+        "quote": "you charge PST only on the fair market value of the taxable portion of the sale."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Where exempt labour and taxable parts have one price, PST 316 generally taxes the fair market value of the taxable portion, with its small-bundle and predominantly-taxable exceptions; the labour does not automatically become taxable. Manufacturing fundamentally different goods is outside related services. Clothing customization is within the broad related-service definition; no embroidery-specific example was read."
   }
 ]

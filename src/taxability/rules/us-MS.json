@@ -980,5 +980,123 @@
       }
     ],
     "notes": "Food assembled for the buyer to cook is neither hot nor for immediate consumption, so the 7% exclusion in 35.IV.9.02.102 doesn't reach it when a food store sells it for home use; sales by restaurants and other food vendors stay at the regular rate (35.IV.9.02.101). No DOR guidance naming take-and-bake pizza or meal kits was found. Local restaurant (tourism) levies on prepared food are outside these rules, as for food.prepared."
+  },
+  {
+    "tax": "MS",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general sales-tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MS DOR, Mississippi Sales and Use Taxes",
+        "url": "https://www.dor.ms.gov/business/sales-use-tax/mississippi-sales-and-use-taxes",
+        "quote": "All sales of tangible personal property in the State of Mississippi are subject to the regular retail rate of sales tax (7%) unless the law exempts the item or provides a reduced rate of tax for an item."
+      }
+    ],
+    "notes": "Undated current agency page: 2018-01-01 uses the existing MS rule's convention for undated current sources, not a verified enactment date. General tangible-property rule covers subcodes; no permanent clothing price exemption found. The 2026 sales-tax holiday guide provides a temporary exemption for qualifying clothing and footwear under $100; holiday not modeled. General local sales-tax base differences were not stated on the sources read; MS rule covers general state/local parts. Separate local tourism or restaurant levies are not included."
+  },
+  {
+    "tax": "MS",
+    "code": "alcohol",
+    "from": "2025-08-08",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcoholic beverages and drinks served at bars or restaurants are taxable at the general sales-tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "MS DOR, Sales Tax Rates — retail sales",
+        "url": "https://www.dor.ms.gov/business/sales-use-tax/sales-tax-rates",
+        "quote": "Other tangible personal property including alcoholic beverages and beer ...... 7%"
+      },
+      {
+        "title": "Miss. Admin. Code 35.IV.9.02.101",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "The gross proceeds of sales by restaurants, cafes, cafeterias, snack bars, drive-ins, beer parlors, lounges, night clubs, concessions, caterers or other vendors of beverages and food products are taxable at the regular retail rate of tax."
+      }
+    ],
+    "notes": "2025-08-08 is the printed revision effective date of 35.IV.9.02, used as earliest verified, not a new tax. Rates page's 0% wholesale alcoholic-beverage line does not exempt retail sales. Separate alcohol excises/ABC charges and local restaurant/tourism levies are not included. General local base differences were not stated in the pages read."
+  },
+  {
+    "tax": "MS",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of ordinary equipment, tools, furniture and party goods used in Mississippi are taxed at the general sales-tax rate, for fixed or indeterminate terms.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Mississippi Administrative Code 35.IV.5.03.101, Renting or Leasing Tangible Personal Property",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "The tax due on the lease or rental is at the same rate as the sale of the property."
+      },
+      {
+        "title": "Mississippi Administrative Code 35.IV.5.03.201, Rental or Lease",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "Rental or Lease means any transfer of possession or control of tangible personal property for a fixed or indeterminate term for consideration."
+      }
+    ],
+    "notes": "Undated current DOR guidance uses 2018-01-01, the existing MS convention; this is not a verified enactment date. No term-length split for ordinary goods is stated. Specially rated or exempt underlying goods retain their treatment. Operator-and-crew services are outside rental. The regulation also describes a separate 6% short-term motor-vehicle rental tax, excluded from this code. General state/local convention follows existing MS rules; separate local tourism levies not modeled."
+  },
+  {
+    "tax": "MS",
+    "code": "service.goods.repair",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair labor on tangible personal property is taxable in Mississippi, including ordinary auto and equipment repairs.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Mississippi DOR, Business Tax Frequently Asked Questions, Is repair labor taxable?",
+        "url": "https://www.dor.ms.gov/business/business-tax-frequently-asked-questions",
+        "quote": "Yes, repairs of tangible personal property are taxable."
+      }
+    ],
+    "notes": "Undated current DOR guidance uses 2018-01-01, the existing MS convention; this is not a verified enactment date. The repair-labor FAQ imposes no separate-statement exception. Clothing alterations performed as part of laundry or cleaning are expressly taxable under 35.IV.5.02.103. Standalone tailoring/alteration treatment was not conclusively established; see gap. Separately stated parts are goods. General MS state/local convention follows existing rules."
+  },
+  {
+    "tax": "MS",
+    "code": "service.goods.cleaning",
+    "from": "2019-08-03",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry, dry cleaning and staffed car-wash services are taxable; specified self-service cleaning and mobile car washes are exempt.",
+    "conditions": [
+      {
+        "when": "Self-service commercial laundering, drying, cleaning or pressing equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Self-service coin-operated car wash without employee washing, drying or detailing assistance, or portable high-pressure car washing performed on the customer’s premises",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Laundry, dry cleaning or staffed car washing",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Mississippi Administrative Code 35.IV.5.02.100, Laundries, Dry Cleaners and Linen Rental Companies (revised August 3, 2019)",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "Miss. Code Ann. Section 27-65-23, levies a tax at the regular retail rate on the gross income of persons operating a laundry, cleaning, dyeing or pressing shop."
+      },
+      {
+        "title": "Mississippi Administrative Code 35.IV.5.02.100, self-service exemption (revised August 3, 2019)",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "Miss. Code Ann. Section 27-65-101(o) exempts the gross collections from self-service commercial laundering, drying, cleaning and pressing equipment."
+      },
+      {
+        "title": "Mississippi Administrative Code 35.IV.5.09.100, Car Washes",
+        "url": "https://www.sos.ms.gov/adminsearch/ACCode/00000851c.pdf",
+        "quote": "Section 27-65-23 of the Mississippi sales tax law taxes car washing with an exemption provided in Section 27-65-111(x) for self-service, coin operated car washes and car washes performed using portable high pressure washing equipment when the service is performed on the premises of the customer."
+      }
+    ],
+    "notes": "Date is the printed revision effective date of laundry chapter, used as earliest verified. Car-wash chapter is undated and uses existing MS undated-source convention. Staffed manual and mixed manual/automatic washes are taxable. General MS state/local convention follows existing rules."
   }
 ]

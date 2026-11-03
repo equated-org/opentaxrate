@@ -1218,5 +1218,247 @@
       }
     ],
     "notes": "Local taxes reach food and food ingredients and prepared food alike."
+  },
+  {
+    "tax": "AR",
+    "code": "clothing",
+    "from": "2008-10-15",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sport equipment are taxable at ordinary Arkansas state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Arkansas Gross Receipts Tax Rules, GR-4(A), effective October 15, 2008",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "gross receipts or gross proceeds derived from all sales within Arkansas of tangible personal property, certain services, and admission fees upon which tax is imposed."
+      },
+      {
+        "title": "Arkansas DFA Sales and Use Tax FAQs (archived September 30, 2026)",
+        "url": "https://web.archive.org/web/20260930234806/https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/sales-use-tax/sales-and-use-tax-faqs/",
+        "quote": "Examples of items subject to Use Tax include records, CD’s, books, furniture, jewelry, clothing, food, hunting and fishing gear, etc."
+      }
+    ],
+    "notes": "GR-1 dates the downloaded Gross Receipts Tax Rules October 15, 2008; the current FAQ corroborates clothing and jewelry as taxable tangible property. GR-4 printed an obsolete 6% rate, so only its taxable-base wording is used; apply current general rates. The annual clothing and school-supplies sales-tax holiday is noted only, not modeled. No ordinary-sale subcode distinction found."
+  },
+  {
+    "tax": "AR",
+    "code": "alcohol",
+    "from": "2008-10-15",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Alcohol is subject to ordinary state and local sales tax whether sold by the bottle or the drink, with a state exemption for qualifying sacramental wine. Separate alcohol excise and supplemental mixed-drink taxes are not included.",
+    "conditions": [
+      {
+        "when": "ordinary beer, wine, liquor or other alcoholic beverage sold to a consumer by the bottle or drink, for consumption on or off premises",
+        "treatment": "taxable"
+      },
+      {
+        "when": "wine sold for use as sacramental wine, with the required Sacramental Wine decal attached by the winery (state tax exemption)",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "26 CAR 30-1009(a)(1), Sellers of alcoholic beverages",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=971&sectionID=63008&subChapterID=241&subPartID=9368&titleID=26",
+        "quote": "All sellers of beer, wine, liquor, and other intoxicating beverages must collect and remit the tax upon the gross receipts or gross proceeds derived from the sale of those items to the consumer whether the sale is by the bottle or by the drink for off-premises or on-premises consumption."
+      },
+      {
+        "title": "26 CAR 30-1009(h)(1), Sacramental wine",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=971&sectionID=63008&subChapterID=241&subPartID=9368&titleID=26",
+        "quote": "All wines sold in the State of Arkansas for use as sacramental wine shall be exempt from all taxes levied on wine by the State of Arkansas."
+      },
+      {
+        "title": "26 CAR 30-1009(g), Separate alcohol taxes",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=971&sectionID=63008&subChapterID=241&subPartID=9368&titleID=26",
+        "quote": "The ten percent (10%) supplemental tax, four percent (4%) supplemental tax, three percent (3%) liquor and wine excise tax, and one percent (1%) beer excise tax must be reported and remitted to the Department of Finance and Administration at the same time as the state gross receipts tax, on forms provided by the department."
+      }
+    ],
+    "notes": "GR-26 of the downloaded 2008 rules states the same treatment and exemption as current 26 CAR 30-1009; GR-1 makes that publication effective October 15, 2008. Separate off-premises wine/liquor excise (3%), beer excise (1%), and applicable 10% and 4% supplemental drink taxes are additional and not modeled. The sacramental-wine provision requires a container decal; no differing local treatment was found in the reviewed sources, so the ordinary state-base scope is used, matching existing Arkansas rules."
+  },
+  {
+    "tax": "AR",
+    "code": "rental",
+    "from": "2008-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Rental receipts are taxable, except long-term leases of nonvehicle goods when the lessor elected to pay tax on purchase.",
+    "conditions": [
+      {
+        "when": "lease of 30 days or longer and lessor paid Arkansas sales or use tax on acquisition",
+        "treatment": "exempt"
+      },
+      {
+        "when": "rental for less than 30 days, or long-term lease with property purchased tax-free for resale",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "Persons in the established business of leasing or renting articles of tangible personal property to consumers are sellers and must collect and remit tax upon the gross receipts or gross proceeds derived from the lease or rental of the property."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "If the lessor of property paid Arkansas gross receipts or use tax on the purchase of the item, the lessor is not required to collect gross receipts tax on subsequent long-term leases of the property."
+      }
+    ],
+    "notes": "October 2008 revision dated to first of month. Separate 1% short-term rental excise tax in GR-20 is not modeled. Vehicle rental levies and tourism taxes mentioned in compilation are outside this code."
+  },
+  {
+    "tax": "AR",
+    "code": "service.goods.repair",
+    "from": "2008-10-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair and alteration labor on listed goods, including automobiles, appliances, machinery, shoes and furniture, is taxable; separately stated clothing repairs and alterations are exempt.",
+    "conditions": [
+      {
+        "when": "repair/maintenance/alteration of goods listed in GR-9(A)(1), including vehicles, machinery, appliances, computers, jewelry, furniture and shoes",
+        "treatment": "taxable"
+      },
+      {
+        "when": "repairs or alterations of cloth or fabric separately stated from taxable laundry or dry-cleaning services",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The service of initial installation, alteration, addition, cleaning, refinishing, replacement and repair of the following items of tangible personal property are subject to the tax: motor vehicles, aircraft, farm machinery and farm implements, motors of all kinds, tires, batteries, boats, electrical appliances, and 13 electrical devices, furniture, rugs including carpets, flooring, upholstery, household appliances, television and radio, jewelry, watches, clocks, engineering instruments, medical instruments and surgical instruments, machinery of all kinds, bicycles, office machines, office equipment, shoes, tin and sheet metal, mechanical tools and shop equipment."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The gross proceeds or gross receipts attributable to the following services are not subject to sales tax provided they are itemized and separately stated on the invoice provided to the customer: repairs, alterations, and the treatment of cloth or fabric with chemicals that provide waterproofing or protection from staining or soiling."
+      }
+    ],
+    "notes": "Listed-property rule, not an assertion that all conceivable goods are enumerated. Parts separation does not exempt taxable repair labor. No default drafted for unlisted goods. October 2008 revision date."
+  },
+  {
+    "tax": "AR",
+    "code": "service.goods.cleaning",
+    "from": "2008-10-01",
+    "to": "2019-09-30",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Laundry and cleaning listed goods are taxable; coin-operated self-service laundry and qualifying coin-operated car washes are exempt.",
+    "conditions": [
+      {
+        "when": "laundry, dry cleaning or industrial laundry, other than exempt self-service machines",
+        "treatment": "taxable"
+      },
+      {
+        "when": "self-service coin-operated clothing washing/drying or dry-cleaning machines",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning listed goods such as rugs, upholstery, appliances and furniture",
+        "treatment": "taxable"
+      },
+      {
+        "when": "coin-operated car wash activated by coins, with exterior wash performed solely by customer or mechanical equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "other motor-vehicle cleaning, including attendant-assisted washing",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The gross proceeds or gross receipts derived from the sale of the following services are subject to sales tax: dry cleaning services, laundry services, and industrial laundry services."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The gross proceeds or gross receipts derived from self-service, coin operated clothing washing and drying machines or self-service, coin operated dry cleaning machines are not subject to sales tax."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The service of cleaning motor vehicles, aircraft, farm machinery and implements, motors of all kinds, tires and batteries, boats, electrical appliances and devices, furniture, rugs, flooring, upholstery, household appliances, televisions and radio, jewelry, watches and clocks, engineering instruments, medical and surgical instruments, machinery of all kinds, bicycles, office machines and equipment, shoes, tin and sheetmetal, mechanical tools, and shop equipment is subject to tax."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The tax does not apply to the sale of service provided by coin-operated car washes where the car-washing equipment is activated by the insertion of a coin or coins into a slot or receptacle and where the labor of washing the exterior of the car or motor vehicle is performed solely by the customer or by mechanical equipment."
+      },
+      {
+        "title": "Arkansas DFA, Legislative Changes to Taxation of Car Washes Under Act 822 of 2019 (December 10, 2019)",
+        "url": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FAssembly%2FMeeting+Attachments%2F880%2F3100%2FEXHIBIT+D1+-+Legislaive+Changes+to+Taxation+of+Car+Washes+Under+Act+822+of+2019.pdf",
+        "quote": "Car wash water usage fee and corresponding sales and use tax exemption – Effective October 1, 2019"
+      }
+    ],
+    "notes": "October 2008 compilation. Car-wash split ends before Act 822 change. Ordinary sales and use tax only; separate car-wash fee not modeled."
+  },
+  {
+    "tax": "AR",
+    "code": "service.goods.cleaning",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Laundry and cleaning listed goods remain taxable; qualifying automatic, tunnel and self-service car-wash operators’ cleaning services are exempt.",
+    "conditions": [
+      {
+        "when": "laundry, dry cleaning or industrial laundry, other than exempt self-service machines",
+        "treatment": "taxable"
+      },
+      {
+        "when": "self-service coin-operated clothing washing/drying or dry-cleaning machines",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning listed goods such as rugs, upholstery, appliances and furniture",
+        "treatment": "taxable"
+      },
+      {
+        "when": "cleaning by an automatic car wash, car wash tunnel or self-service bay operator, including ancillary interior/exterior cleaning",
+        "treatment": "exempt"
+      },
+      {
+        "when": "manual vehicle cleaning by a business that is not an automatic, tunnel or self-service car-wash operator",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The gross proceeds or gross receipts derived from the sale of the following services are subject to sales tax: dry cleaning services, laundry services, and industrial laundry services."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The gross proceeds or gross receipts derived from self-service, coin operated clothing washing and drying machines or self-service, coin operated dry cleaning machines are not subject to sales tax."
+      },
+      {
+        "title": "Arkansas DFA, Gross Receipts Tax Rules (revised October 2008)",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/et2008_3-1.pdf",
+        "quote": "The service of cleaning motor vehicles, aircraft, farm machinery and implements, motors of all kinds, tires and batteries, boats, electrical appliances and devices, furniture, rugs, flooring, upholstery, household appliances, televisions and radio, jewelry, watches and clocks, engineering instruments, medical and surgical instruments, machinery of all kinds, bicycles, office machines and equipment, shoes, tin and sheetmetal, mechanical tools, and shop equipment is subject to tax."
+      },
+      {
+        "title": "Arkansas DFA, Legislative Changes to Taxation of Car Washes Under Act 822 of 2019 (December 10, 2019)",
+        "url": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FAssembly%2FMeeting+Attachments%2F880%2F3100%2FEXHIBIT+D1+-+Legislaive+Changes+to+Taxation+of+Car+Washes+Under+Act+822+of+2019.pdf",
+        "quote": "Car wash water usage fee and corresponding sales and use tax exemption – Effective October 1, 2019"
+      },
+      {
+        "title": "Code of Arkansas Rules, 26 CAR §171-102 Sales by car wash operators",
+        "url": "https://codeofarrules.arkansas.gov/Rules/Rule?chapterID=33&levelType=section&partID=985&sectionID=39969&subChapterID=45&subPartID=6161&titleID=26",
+        "quote": "Sales of ancillary services that involve the cleaning of the interior or exterior, or both, of a motor vehicle by a car wash operator are exempt from gross receipts and compensating use tax."
+      },
+      {
+        "title": "Arkansas DFA, Legislative Changes to Taxation of Car Washes Under Act 822 of 2019 (December 10, 2019)",
+        "url": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FAssembly%2FMeeting+Attachments%2F880%2F3100%2FEXHIBIT+D1+-+Legislaive+Changes+to+Taxation+of+Car+Washes+Under+Act+822+of+2019.pdf",
+        "quote": "The taxpayer’s employees manually wash the motor vehicles."
+      }
+    ],
+    "notes": "Act 822 exemption effective October 1, 2019 per dated DFA presentation. Current §171-102 corroborates ancillary cleaning scope. Separate water-usage fee is not modeled. The 2021 clarification’s prior wording was not recovered; reviewer should check retroactive ancillary-service scope."
   }
 ]

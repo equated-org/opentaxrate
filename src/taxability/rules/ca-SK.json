@@ -982,5 +982,258 @@
       }
     ],
     "notes": "Citations of finance.gov.sk.ca bulletins, no longer online there, are archived from Internet Archive captures. The explicit 'Software as a Service' paragraph appears only in the later bulletin; for 2013 onward the rule rests on the March 2012 bulletin taxing 'charges for the right to use software' and server use, which is an interpretation that remote access was covered. Non-resident providers' collection obligations were expanded later (IN 2020-08), which concerns registration, not treatment. Exempt when acquired for consumption outside Saskatchewan (billing address outside the province). 2026-11-02: http://finance.gov.sk.ca/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf is no longer online; its successor at https://sets.saskatchewan.ca/rptp/wcm/connect/a1169319-a762-4328-b84c-88d844e8f340/PST.007+Computer+Hardware,+Software+&+Computer+Services.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-a1169319-a762-4328-b84c-88d844e8f340-o.5dpzv no longer carries the quoted sentence, so the citation keeps the archived copy. 2026-11-02: http://finance.gov.sk.ca/revenue/pst/bulletins/PST-7%20Suppliers%20of%20Computer%20Hardware%20Software%20and%20Computer%20Services.pdf is no longer online; the edition now at https://sets.saskatchewan.ca/rptp/wcm/connect/a1169319-a762-4328-b84c-88d844e8f340/PST.007+Computer+Hardware,+Software+&+Computer+Services.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-a1169319-a762-4328-b84c-88d844e8f340-o.5dpzv is cited beside it, and this citation keeps the dated archived copy."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "clothing",
+    "from": "2011-11-15",
+    "to": "2017-03-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Saskatchewan exempted qualifying children’s clothing and footwear for children age 17 and under before April 2017.",
+    "conditions": [
+      {
+        "when": "Qualifying children’s clothing and footwear in children’s sizes, or adult sizes for children age 17 or under with exemption certificate",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other ordinary adult clothing and footwear",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Saskatchewan PST-1 Q&A (November 2011)",
+        "url": "https://www.saskatchewan.ca/~/media/news%20archive/2011/november/08/first%20promise%20kept%20pst%20exemption%20on%20childrens%20clothing%20expanded%20on%20november%2015/pst%20faqs.pdf",
+        "quote": "The extended clothing exemption for children aged 15 – 17 applies to sales that take place on or after November 15, 2011."
+      },
+      {
+        "title": "Saskatchewan PST-1 Q&A (November 2011)",
+        "url": "https://www.saskatchewan.ca/~/media/news%20archive/2011/november/08/first%20promise%20kept%20pst%20exemption%20on%20childrens%20clothing%20expanded%20on%20november%2015/pst%20faqs.pdf",
+        "quote": "Children’s clothing and footwear are exempt from tax."
+      },
+      {
+        "title": "Saskatchewan Budget 2017-18, Revenue / Tax Backgrounder",
+        "url": "https://www.saskatchewan.ca/-/media/news-release-backgrounders/2017/mar/fin---revenue-tax-backgrounder.pdf",
+        "quote": "Children’s clothing will become taxable effective April 1, 2017, matching the current federal Goods and Services Tax (GST) treatment."
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "Adults’ clothing and footwear"
+      }
+    ],
+    "notes": "Historical exemption supported by dated FAQ; detailed historical excluded-item lists were not downloaded, so accessories and specialized equipment during this interval remain a gap."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "clothing",
+    "from": "2017-04-01",
+    "to": "2025-02-28",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From April 1, 2017 Saskatchewan taxes new clothing and footwear, including children’s items.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Saskatchewan Budget 2017-18, Revenue / Tax Backgrounder",
+        "url": "https://www.saskatchewan.ca/-/media/news-release-backgrounders/2017/mar/fin---revenue-tax-backgrounder.pdf",
+        "quote": "Children’s clothing will become taxable effective April 1, 2017, matching the current federal Goods and Services Tax (GST) treatment."
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "Adults’ clothing and footwear"
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "Children’s clothing and footwear"
+      }
+    ],
+    "notes": "2017 Budget explicitly removes the children’s clothing exemption. This historical rule addresses new retail goods; used-goods provisions during this interval remain unverified."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "alcohol",
+    "from": "2021-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Saskatchewan liquor is exempt from PST; the separate 10% Liquor Consumption Tax applies instead and is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Saskatchewan PST-33, Restaurants, Caterers and Other Businesses Selling Prepared Food and Beverages (May 2021)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/fe32a5ce-78af-440b-b801-24522674e7ae/PST.033+Restaurants.pdf?MOD=AJPERES",
+        "quote": "Alcoholic beverages are not subject to PST but are subject to Liquor Consumption Tax (LCT) at a rate of 10 per cent on the total price paid by your customer, excluding GST."
+      },
+      {
+        "title": "Saskatchewan, Liquor Consumption Tax",
+        "url": "https://www.saskatchewan.ca/business/taxes-licensing-and-reporting/provincial-taxes-policies-and-bulletins/liquor-consumption-tax",
+        "quote": "Liquor Consumption Tax (LCT) is a 10 per cent tax on the total selling price of beer, wine and spirits."
+      }
+    ],
+    "notes": "May 2021 revision; first day of month used. LCT applies to retail and licensed-premises sales. GST remains payable; exemption is only from PST."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "clothing",
+    "from": "2025-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Saskatchewan taxes adult and children’s clothing and footwear; personal-use used goods receive a $300 per-item deduction.",
+    "conditions": [
+      {
+        "when": "New clothing, footwear or wearable accessories/gear",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Used goods bought by an individual for personal use, price $300 or less per item",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Used personal-use goods priced over $300 per item: PST on the selling price less $300 (or trade-in value if greater)",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Used goods for commercial use: no $300 deduction",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Saskatchewan Budget 2017-18, Revenue / Tax Backgrounder",
+        "url": "https://www.saskatchewan.ca/-/media/news-release-backgrounders/2017/mar/fin---revenue-tax-backgrounder.pdf",
+        "quote": "Children’s clothing will become taxable effective April 1, 2017, matching the current federal Goods and Services Tax (GST) treatment."
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "Adults’ clothing and footwear"
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "Children’s clothing and footwear"
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "Jewelry"
+      },
+      {
+        "title": "Saskatchewan PST-2, Grocery, Convenience and Drug Stores (March 2025)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/94a41317-34b9-46bf-9758-c27b18ee4b31/PST.002%20Grocery%2C%20Convenience%20and%20Drug%20Stores.pdf?MOD=AJPERES",
+        "quote": "When individuals purchase used goods for personal use, other than vehicles, tax applies to the selling price of the goods less a deduction of $300 per item."
+      }
+    ],
+    "notes": "March 2025 PST-2 revision; first day of revision month used. Taxable entries appear in the TAXABLE column. Dollar deductions cannot be represented by a constant base field; condition describes the taxable amount."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "rental",
+    "from": "2023-05-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Saskatchewan rental and leasing companies collect PST on ordinary taxable goods and equipment rentals.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-72, Rental Businesses (revised May 2023)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/9c5bbbdd-f48e-4d1c-bc86-e729620484be/PST.072%2BRental%2BBusinesses.pdf?CACHE=NONE&CONTENTCACHE=NONE&MOD=AJPERES&attachment=true",
+        "quote": "Rental/leasing companies are required to collect PST on charges for the rental of goods/equipment."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-72, Rental Businesses (revised May 2023)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/9c5bbbdd-f48e-4d1c-bc86-e729620484be/PST.072%2BRental%2BBusinesses.pdf?CACHE=NONE&CONTENTCACHE=NONE&MOD=AJPERES&attachment=true",
+        "quote": "For an equipment rental, the customer is given the right to use the equipment for a specified or an indefinite period of time, by the business renting out the equipment."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. No short/long-term exemption for ordinary goods is stated. Lessor can purchase qualifying rental inventory exempt. Equipment with an operator is generally a service, with separate crane rules."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "service.goods.repair",
+    "from": "2024-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Saskatchewan taxes repair and maintenance labour on tangible goods, including vehicles, appliances and clothing alterations; repairs to exempt equipment are exempt.",
+    "conditions": [
+      {
+        "when": "repairs to exempt equipment, including qualifying farm implements or medical equipment",
+        "treatment": "exempt"
+      },
+      {
+        "when": "repair, maintenance or alteration of ordinary taxable goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Services provided to repair, install, assemble, dismantle, adjust, restore, recondition, examine, refinish or maintain TPP are subject to tax."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Tax must be collected on the total charge to the customer, including parts and labour and service call charges related to these services."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Charges to repair exempt equipment such as exempt farm implements and exempt medical equipment are not subject to tax."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-53, Launderers and Dry Cleaners (revised April 10, 2018)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/46674021-e0be-4181-bdd6-b049295b801e/PST.053%2BLaunderers%2Band%2BDry%2BCleaners.pdf?CACHEID=ROOTWORKSPACE-46674021-e0be-4181-bdd6-b049295b801e-oUVPlji&MOD=AJPERES",
+        "quote": "Businesses that provide these services must collect tax on the total charge to their customers for alteration charges, such as mending, hemming, zipper replacement and sewing."
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Separately stated parts are goods.general. Taxable labour remains taxable whether or not parts are separately stated."
+  },
+  {
+    "tax": "SK:PST",
+    "code": "service.goods.cleaning",
+    "from": "2024-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Saskatchewan taxes laundry and dry cleaning but exempts coin-operated self-serve laundry and standalone cleaning or vacuuming of equipment, furniture or vehicles.",
+    "conditions": [
+      {
+        "when": "self-serve coin-operated laundry",
+        "treatment": "exempt"
+      },
+      {
+        "when": "laundry or dry cleaning of clothing, bedding, drapes, blinds, rugs or similar items, other than exempt self-serve coin-operated laundry",
+        "treatment": "taxable"
+      },
+      {
+        "when": "standalone cleaning or vacuuming of equipment, furniture or vehicles, separate from and unrelated to repair",
+        "treatment": "exempt"
+      },
+      {
+        "when": "cleaning of taxable goods forming part of a taxable repair",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-53, Launderers and Dry Cleaners (revised April 10, 2018)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/46674021-e0be-4181-bdd6-b049295b801e/PST.053%2BLaunderers%2Band%2BDry%2BCleaners.pdf?CACHEID=ROOTWORKSPACE-46674021-e0be-4181-bdd6-b049295b801e-oUVPlji&MOD=AJPERES",
+        "quote": "Laundry and dry cleaning services are subject to PST."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-53, Launderers and Dry Cleaners (revised April 10, 2018)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/46674021-e0be-4181-bdd6-b049295b801e/PST.053%2BLaunderers%2Band%2BDry%2BCleaners.pdf?CACHEID=ROOTWORKSPACE-46674021-e0be-4181-bdd6-b049295b801e-oUVPlji&MOD=AJPERES",
+        "quote": "Businesses that provide self-serve coin-operated laundry services are not required to collect tax."
+      },
+      {
+        "title": "Saskatchewan Ministry of Finance, PST-57, Repair and Installation Services (revised July 2024)",
+        "url": "https://sets.saskatchewan.ca/rptp/wcm/connect/7dfe518a-421b-4492-a61d-6d00a825da81/PST.057%2BRepair%2Band%2BInstallation%2BServices.pdf?MOD=AJPERES",
+        "quote": "Cleaning or vacuuming of TPP such as equipment, furniture, vehicles, etc. when the cleaning service is separate from and not provided in relation to a repair of those items;"
+      }
+    ],
+    "notes": "Only the revision month is printed; its first day is used as earliest_verified. No earlier historical text was read. Specific PST-53 laundry/dry-cleaning treatment takes precedence over general standalone cleaning exemption."
   }
 ]

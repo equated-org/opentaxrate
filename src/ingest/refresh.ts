@@ -2,7 +2,9 @@
  * Brings OpenTaxRate's data up to date, state by state:
  *   1. each Streamlined member's newest rate and boundary files;
  *   2. Missouri's rate and address-range files, in the same layout;
- *   3. each map-read state's rate table and its own outlines;
+ *   3. each map-read state's rate table and its own outlines, then the
+ *      class rates (class-rates.ts) read from the same files, and Utah's
+ *      from its rate chart;
  *   4. the streets in each ZIP of the map-read states, from TIGER address
  *      features;
  *   5. the Census Bureau's newest county, city and town outlines for all of
@@ -20,6 +22,7 @@ import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines
 import { loadZipAreas, statesWithoutZipAreas } from "./zip-areas.js";
 import { loadStreetNames } from "./street-names.js";
 import { GEO_STATES } from "./states/index.js";
+import { refreshClassRates } from "./class-rates.js";
 import { loadGeoState, loadSstState, loadTigerShapes } from "./load.js";
 import { fetchRangePolygons, loadRangePolygons } from "./range-polygons.js";
 import { RANGE_POLYGON_SOURCES, type RangePolygonState } from "../range-polygon-sources.js";
@@ -82,6 +85,9 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
     const from = [data.files.rates, data.files.boundaries].filter(Boolean).join(" + ");
     log(`${geo.state}: ${from} → ${counts.rates} rates, ${counts.jurisdictions} jurisdictions, ${counts.shapes} outlines in ${seconds(started)}`);
   }
+
+  // Rates for classes of sale, beside the general rates just loaded.
+  await refreshClassRates({ states, dir, log });
 
   // Range states keep their dated rates and address ranges. Extra tax
   // polygons can resolve a ZIP split that Census county/city outlines cannot.

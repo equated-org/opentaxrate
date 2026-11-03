@@ -37,6 +37,98 @@ weighed against, not only what it cites.
 - Work in the run's database and `artifacts/maintenance/<run>/`. Rule
   changes reach `main` only past `maintain taxability-check` (step 4).
 
+## One jurisdiction's own rules
+
+How a part picks its rule (the keys, most specific first) and how a class
+rate is charged are in the [API note](../context/api.html#code); where class
+rates come from is in the [refresh note](../context/refresh.html#class-rates).
+Here, what to do:
+
+- **One city's or county's own rule**: key it `"XX:local:<part code>"`,
+  the part's `code` in a rate answer (`pnpm rate CO "200 E Colfax Ave"
+  Denver 80203` shows Denver's city part as `01:ttr17`), never its name.
+  Say in the summary which place it is, and in the notes that the other
+  parts keep the broader rules; ingest warns on a part code the
+  database's rates don't have. Date it from the day the source verifies:
+  before an `earliest_verified` one-part rule, that part is not researched
+  for the code, not answered by the state's rule.
+- **A state rule that covers only state-administered taxes**: key it
+  `"XX:administered"` (Colorado's software rules, candy and soft drinks).
+  The self-collected parts it skips are listed by part code in
+  `src/taxability/self-collected.ts`, from DR 1002's table of home-rule
+  cities the state doesn't collect for (66 in the 12/26/24 edition; the
+  publication is now a Looker Studio report): check the list against it
+  each January and July. Every other Colorado state rule still answers for
+  self-collected parts with no rule of their own (1,836 part and code pairs
+  on 2026-11-03), though its notes say home-rule cities weren't researched.
+- **A class of sale a state's table rates per jurisdiction** (a city's
+  restaurant rate, a county's food rate): load the rates (a reader in
+  `src/ingest/class-rates.ts`) rather than write a rule per city, and write
+  one rule per state with `"rateClass"` in place of `"rate"`. Cite the page
+  saying the class applies to the code, and say in the notes where the
+  rates come from. Loaded today: Arizona's restaurants and bars class
+  (dine-in, catering, a restaurant's cold food, drinks served) and its
+  cities' food rates; Alabama's food rates; Illinois's grocery rates from
+  2026 (conditional in the Metro East district, where IDOR gives a rate
+  for a retailer liable for its tax and one for a retailer who isn't);
+  Utah's county restaurant tax (restaurant food and drinks served).
+- **Utah's rate chart, every quarter**: the restaurant tax comes from the
+  Tax Commission's chart for the quarter
+  (`files.tax.utah.gov/tax/salestax/rate/<yy>q<n>simple.xlsx`). Refresh
+  files the loaded quarter's chart and keeps every archived quarter's
+  rates; a quarter with no chart filed has its local parts not researched
+  for those codes, so check it is in the archive when the quarter's
+  Streamlined files arrive ([sources](sources.md)).
+
+Known local treatments not yet written as rules (research these next, by
+population):
+
+- **Colorado home-rule cities**: Lakewood's grocery treatment (its code is
+  on Municode, which refuses scripts); candy and soft drinks in Colorado
+  Springs, Thornton, Greeley, Pueblo, Centennial, Broomfield; bakery items
+  in most cities; Longmont and Loveland groceries (no official page found;
+  Loveland's regulation answers 403); Castle Rock (crgov.com answers 403).
+- **Colorado software**: home-rule cities that tax SaaS and downloaded
+  software have one-part rules (Denver, Aurora, Boulder, Colorado Springs,
+  Fort Collins, Arvada, Westminster, Broomfield; Pueblo and Lakewood in
+  part). Not settled: Thornton, Centennial and Greeley (Greeley's page
+  names downloaded software as taxable, but only in script-loaded text the
+  extractor doesn't read), Lakewood's SaaS and prewritten software,
+  Pueblo's SaaS, Aurora's modifications. The state's change (HB 26-1223: software
+  taxable however delivered from 2027-01-01, unless custom or under a
+  negotiated license) is modeled for the state and state-administered
+  local taxes (the CO rules); a self-collected home-rule city's part isn't
+  answered by them (CO:administered).
+- **Arizona**: hot food and sandwiches stay at the retail rate (which
+  classification a grocery's hot food falls under at the city level wasn't
+  settled), and food for home consumption stays conditional: counties and
+  the cities with no 062 row have no food rate in the table to settle it.
+  Rentals are answered at the retail rate, though four cities' rental
+  class (214) differs from it (Benson, Colorado City, Casa Grande, St.
+  Johns): the monthly CSV gives no county rental rows, so a rental class
+  would leave every county part unresearched (the PDF's Table 1 has them).
+- **Alabama**: Elmore County's rate inside its cities has no food rate (its
+  GROC codes don't follow its county rule), so groceries there are not
+  researched.
+- **Illinois**: a business district's address has no grocery rate in
+  IDOR's files (they list locations), so groceries there are not
+  researched. In the Metro East district, a rule whose case is "the
+  location's grocery rate" (cold deli food, premade sandwiches) lists no
+  outcomes, as that rate is itself two cases. Chicago's 3% soft drink tax, 0.5% restaurant tax and the 1%
+  MPEA food and beverage tax aren't in the rate data.
+- **Minnesota**: Minneapolis's 3% Downtown restaurant tax (an area smaller
+  than the city, not a part) isn't in the rate data, nor are St. Cloud's
+  (no city part in the answer), Mankato's and other cities' food and
+  beverage taxes (DOR fact sheet 164S). Duluth's 2.25% food and beverage
+  tax has rules on Duluth's city part for food served or sold by bars and
+  restaurants (conditional on the seller's $100,000 in yearly sales); its
+  hot food and catering aren't settled.
+- **Utah**: the restaurant tax before 2026-10-01 (only the 2026 Q4 chart
+  is archived), and on the other prepared-food codes (cold deli food,
+  platters, bakery items sold by a restaurant).
+- **Virginia**: local meals taxes, run by each locality, aren't in the rate
+  data.
+
 ## 1. Fetch
 
 ```bash
@@ -78,7 +170,7 @@ bulletins list has.
 
 1. For each changed watch-list page, read its new lines: a new notice,
    bulletin, ruling or law change. Open each that could touch one of the
-   codes (food, catering, software, services, construction, delivery, goods)
+   codes (food, catering, software, services, construction, delivery, goods, clothing, alcohol, rental, work on goods)
    in a researched place.
 2. For each QUOTE GONE, open the page and find what replaced the sentence:
    a reworded page, a moved section, or a changed rule.
@@ -151,3 +243,36 @@ and marks a rise in wrong answers, or any taxability case newly wrong, as
 `REGRESSION`, as for rates; so rules that failed `taxability-check` but stayed
 loaded can't be published. A bench that stops partway leaves no `bench.txt`,
 and publish needs one.
+
+## Adding a code
+
+A new code (clothing and alcohol; rental and service.goods, November 2026) is researched for every
+place at once, outside the monthly run:
+
+- Define it in `src/taxability/codes.ts` with what it includes and excludes,
+  name it in `client/src/lib/codes.ts`, and point any broader definition
+  that excluded it (goods.general, food.grocery) at it.
+- Research drafts may come from parallel agents, a few places each; each
+  draft names its pages, downloaded. Nothing in a draft is trusted: every
+  page read (cited or not, but not a block page) is filed with `npx tsx
+  src/cli.ts taxability file URL PATH`, every quote is checked against its
+  copy (`taxability verify --since main`), and every treatment is read
+  against its quote before the rule is appended.
+- A price limit is a condition naming the amount. Where only the part of
+  the price above it is taxed (Massachusetts's $175, Rhode Island's $250),
+  the cases say so ("the first $175 ... exempt", "the part above $175 ...
+  taxable"), for the caller to split the line.
+- A tax beside the sales tax (a liquor gross receipts or excise tax) is
+  named in the summary and not modelled. A tax charged instead of the
+  sales tax is the rule's treatment: exempt, with the other tax named,
+  except where the place's existing rules already model it as the rate
+  (Vermont's, New Hampshire's and Rhode Island's meals taxes, which reach
+  drinks served too).
+- A settled rule's conditions are its rare exceptions. Where an exception is
+  a common kind of the code (shoe repair and tailoring under repair, a car
+  wash under cleaning, a lump-sum invoice), the rule is conditional, with
+  the general case its own condition.
+- A draft whose conditions list only one outcome (dry cleaning exempt, the
+  rest unread) isn't a rule: the code stays not researched there.
+- Where no official text settles a place, write no rule and list the gap in
+  the commit message.

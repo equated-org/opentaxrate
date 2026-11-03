@@ -214,7 +214,7 @@ else sendElsewhere();                                   // not_researched: never
 				<code>taxability[code].rate</code>.
 			</td>
 		</tr>
-		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, and <code>ids</code>.</td></tr>
+		<tr><td><code>parts</code></td><td>Each tax adding up to <code>rate</code>: <code>kind</code> (<code>state</code>, <code>county</code>, <code>city</code>, <code>district</code>), <code>name</code>, <code>code</code> (the publisher's type and code, e.g. <code>01:63000</code>), <code>rate</code>, <code>byType</code>, <code>classRates</code> (the part's own rate on restaurant meals or groceries where its state's table rates them apart, as Arizona's cities do; absent otherwise, never the general rate in its place), <code>classCases</code> (where that rate turns on a fact the address doesn't settle, each case and its rate: an Illinois Metro East location's grocery rate, for a retailer liable for the district's tax or not; a sale taxed at it is then conditional on the cases) and <code>ids</code>.</td></tr>
 		<tr>
 			<td><code>match</code></td>
 			<td>
@@ -272,7 +272,7 @@ else sendElsewhere();                                   // not_researched: never
 			</td>
 		</tr>
 		<tr><td><code>rate</code></td><td>The combined rate to charge on this sale, unless the rules' <code>conditions</code> list an exception that fits it (e.g. Kentucky's grandfathered fixed-price contracts); <code>null</code> exactly when <code>conditional</code> or <code>not_researched</code>.</td></tr>
-		<tr><td><code>taxes[].tax</code></td><td>What the rule covers: a state (every part there), <code>CA:GST/HST</code>, a province's HST change (<code>ON/CA:HST</code>), a provincial tax (<code>BC:PST</code>), or <code>*</code> for a <code>nontaxable</code> line.</td></tr>
+		<tr><td><code>taxes[].tax</code></td><td>What the rule covers: a state (every part there), its local parts (<code>CO:local</code>), one local part, named by its code in <code>parts</code>, where that city or county sets its own taxability or rate (<code>CO:local:01:ttr17</code>, Denver's city tax), the state part with the local taxes the state administers but not a self-collected home-rule city's (<code>CO:administered</code>), <code>CA:GST/HST</code>, a province's HST change (<code>ON/CA:HST</code>), a provincial tax (<code>BC:PST</code>), or <code>*</code> for a <code>nontaxable</code> line.</td></tr>
 		<tr><td><code>taxes[].parts</code></td><td>The <code>code</code>s of the answer's parts this rule decides; together the entries cover every part once.</td></tr>
 		<tr>
 			<td><code>taxes[].treatment</code></td>
@@ -301,7 +301,15 @@ else sendElsewhere();                                   // not_researched: never
 				price where the general rate is 8.25%), so don't reduce the amount as well. Absent: the whole charge is taxed.
 			</td>
 		</tr>
-		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, base?, code? }'}</code>; <code>base</code> is the share taxed in that case, <code>code</code> the narrower code that case is. For a settled one, its exceptions: the rule's <code>rate</code> holds unless one of them fits the sale.</td></tr>
+		<tr>
+			<td><code>rule.rateClass</code></td>
+			<td>
+				On a <code>special_rate</code> rule in place of <code>rate</code>: each part is taxed at its own rate for this class,
+				its <code>classRates</code> entry (<code>restaurant</code> or <code>grocery</code>). Dine-in food in Glendale, Arizona is taxed at
+				the city's 3.9% restaurant rate, 10.2% in all, against 9.2% on a general sale. A part with no rate for the class is not researched.
+			</td>
+		</tr>
+		<tr><td><code>rule.conditions</code></td><td>For a conditional rule, each fact the outcome turns on: <code>{'{ when, treatment, rate?, rateClass?, base?, code? }'}</code>; <code>base</code> is the share taxed in that case, <code>code</code> the narrower code that case is. For a settled one, its exceptions: the rule's <code>rate</code> holds unless one of them fits the sale.</td></tr>
 		<tr>
 			<td><code>outcomes</code></td>
 			<td>

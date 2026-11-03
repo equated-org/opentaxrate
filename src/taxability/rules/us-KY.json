@@ -922,5 +922,288 @@
         "quote": "Section 67. Sections 2 to 26, 29 to 32, 45 and 46 of this Act take effect on January 1, 2023."
       }
     ]
+  },
+  {
+    "tax": "KY",
+    "code": "clothing",
+    "from": "1990-07-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kentucky taxes clothing, footwear, accessories and protective or sports gear at its general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "Sales Tax is imposed on the gross receipts derived from both retail sales of tangible personal property, digital property, and sales of certain services in Kentucky."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "Undated current agency guidance; date follows the existing KY goods.general rule’s 1990-07-01 convention. No category-specific clothing exemption found. No local sales tax."
+  },
+  {
+    "tax": "KY",
+    "code": "alcohol.off_premises",
+    "from": "2009-03-01",
+    "to": "2009-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Kentucky exempted licensed packaged alcohol sales before April 1, 2009.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "As part of this bill KRS 139.470(23) was repealed to eliminate the sales tax exemption for the sale of packaged distilled spirits, wine and malt beverages not consumed on the premises licensed for their sale per KRS 243."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "Effective April 1, 2009, the sale of packaged liquor, including beer, wine and distilled spirits, will be subject to the 6 percent Kentucky sales and use tax."
+      }
+    ],
+    "notes": "March 2009 publication; first day of month used. Earlier history was not verified. Separate wholesale/excise taxes are outside this answer."
+  },
+  {
+    "tax": "KY",
+    "code": "alcohol.on_premises",
+    "from": "2009-03-01",
+    "to": "2009-03-31",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kentucky alcohol sold by the drink is subject to general sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "The statutory change does not affect receipts from the sale of alcohol by the drink which remains subject to the 6 percent sales and use tax."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "March 2009 publication; first day of month used. Earlier history not verified."
+  },
+  {
+    "tax": "KY",
+    "code": "alcohol",
+    "from": "2009-04-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Kentucky taxes packaged alcohol and alcohol sold by the drink at the general sales tax rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "Effective April 1, 2009, the sale of packaged liquor, including beer, wine and distilled spirits, will be subject to the 6 percent Kentucky sales and use tax."
+      },
+      {
+        "title": "Kentucky Sales Tax Facts, March 2009",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202009%20-%20Mar.pdf",
+        "quote": "The statutory change does not affect receipts from the sale of alcohol by the drink which remains subject to the 6 percent sales and use tax."
+      },
+      {
+        "title": "Kentucky DOR, Sales & Use Tax",
+        "url": "https://revenue.ky.gov/Business/Sales-Use-Tax/Pages/default.aspx",
+        "quote": "There are no local sales and use taxes in Kentucky."
+      }
+    ],
+    "notes": "Packaged-alcohol exemption repealed effective April 1, 2009. Separate alcohol excise and wholesale taxes are not included."
+  },
+  {
+    "tax": "KY",
+    "code": "rental",
+    "from": "2019-06-07",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kentucky taxes ordinary goods lease and rental receipts, treating each payment period as a transaction.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky DOR, 103 KAR 28:051, Leases and rentals (certified June 7, 2019)",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/103%20KAR%2028.051.%20Leases%20and%20rentals.pdf",
+        "quote": "Report and pay the applicable tax derived from the gross lease or rental receipts utilizing the \"Sales and Use Tax Return\", Revenue Form 51A102."
+      },
+      {
+        "title": "Kentucky DOR, 103 KAR 28:051, Leases and rentals (certified June 7, 2019)",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/103%20KAR%2028.051.%20Leases%20and%20rentals.pdf",
+        "quote": "Each period for which a lease or rental is payable shall be considered a complete transaction in determining a retailer responsible for the tax in accordance with KRS 139.010."
+      }
+    ],
+    "notes": "Downloaded DOR regulation PDF records certification June 7, 2019; earliest verified version date. No short/long term distinction for ordinary goods. Motor vehicles subject to KRS 138.460 or 138.463 are excluded from this general sales tax rule; their separate tax is not modeled. No local general sales tax, consistent with existing KY convention."
+  },
+  {
+    "tax": "KY",
+    "code": "service.goods.repair",
+    "from": "2018-07-01",
+    "to": "2022-12-31",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Kentucky taxes repair labor associated with taxable parts sales; labor-only and qualifying incidental-material repairs are exempt.",
+    "conditions": [
+      {
+        "when": "Labor accompanies the sale and installation or application of taxable repair parts, including auto parts",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Labor-only repair with no taxable property or enumerated taxable service sold",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Non-enumerated repair service with incidental parts below 10% of the total charge and no separate charge for the parts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kentucky LRC, 103 KAR 27:150, Parts and materials used by repairers and reconditioners of tangible personal property",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/103/027/150/",
+        "quote": "Charges for labor or services provided in installing or applying taxable tangible personal property, digital property, and services sold shall be subject to sales and use tax."
+      },
+      {
+        "title": "Kentucky LRC, 103 KAR 27:150, Parts and materials used by repairers and reconditioners of tangible personal property",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/103/027/150/",
+        "quote": "Service, installation, or labor charges made to tangible personal property where there is no sale of taxable tangible personal property, digital property, or service shall not be subject to sales and use tax."
+      },
+      {
+        "title": "Kentucky LRC, 103 KAR 27:150, Parts and materials used by repairers and reconditioners of tangible personal property",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/103/027/150/",
+        "quote": "if the value of the parts and materials used in the repair or reconditioning of tangible personal property is less than ten (10) percent of the total value of the parts and materials, labor, and other services performed and if no separate charge is made for the property, the repairer or reconditioner shall be classified as the consumer of the property"
+      },
+      {
+        "title": "Kentucky DOR, Sales Tax Facts (May 2018)",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202018%20-%20May.pdf",
+        "quote": "Effective July 1, 2018, labor and installation charges are included in the definition of “gross receipts” subject to Kentucky sales tax (KRS 139.010)."
+      }
+    ],
+    "notes": "The May 2018 newsletter expressly dates the labor-base change. Parts and associated labor are taxed even if separately stated. An exempt parts sale also exempts associated labor. Earlier repair treatment not verified. Ordinary customer-paid repairs; warranty execution has distinct rules."
+  },
+  {
+    "tax": "KY",
+    "code": "service.goods.repair",
+    "from": "2023-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Kentucky taxes repairs sold with taxable parts and, from 2023, labor-only apparel, footwear, watch, jewelry and commercial refrigeration repairs; other labor-only repairs remain exempt.",
+    "conditions": [
+      {
+        "when": "Repair or alteration of apparel, footwear, watches or jewelry, including labor-only work",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Repair or maintenance of commercial refrigeration equipment, including labor-only work",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Labor accompanies the sale and installation or application of taxable repair parts, including auto parts",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other labor-only repair with no taxable property or enumerated taxable service sold",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Non-enumerated repair service with incidental parts below 10% of the total charge and no separate charge for the parts",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kentucky LRC, 103 KAR 27:150, Parts and materials used by repairers and reconditioners of tangible personal property",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/103/027/150/",
+        "quote": "Charges for labor or services provided in installing or applying taxable tangible personal property, digital property, and services sold shall be subject to sales and use tax."
+      },
+      {
+        "title": "Kentucky LRC, 103 KAR 27:150, Parts and materials used by repairers and reconditioners of tangible personal property",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/103/027/150/",
+        "quote": "Service, installation, or labor charges made to tangible personal property where there is no sale of taxable tangible personal property, digital property, or service shall not be subject to sales and use tax."
+      },
+      {
+        "title": "Kentucky LRC, 103 KAR 27:150, Parts and materials used by repairers and reconditioners of tangible personal property",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/103/027/150/",
+        "quote": "if the value of the parts and materials used in the repair or reconditioning of tangible personal property is less than ten (10) percent of the total value of the parts and materials, labor, and other services performed and if no separate charge is made for the property, the repairer or reconditioner shall be classified as the consumer of the property"
+      },
+      {
+        "title": "Kentucky DOR, Sales Tax Facts (September 2022)",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202022%20-%20Sep.pdf",
+        "quote": "Transactions including only service charges to repair or alter apparel, footwear, watches, or jewelry are subject to sales and use tax."
+      },
+      {
+        "title": "Kentucky DOR, Sales Tax Facts (September 2022)",
+        "url": "https://revenue.ky.gov/News/Publications/Sales%20Tax%20Newsletters/Sales%20Tax%20Facts%202022%20-%20Sep.pdf",
+        "quote": "“Services performed on commercial refrigeration equipment and systems” is another category of services becoming taxable as of January 1, 2023."
+      }
+    ],
+    "notes": "September 2022 newsletter expressly contrasts periods before and on/after January 1, 2023. The under-10% rule no longer exempts the newly enumerated repair services. The older dry-cleaner FAQ’s alterations exemption is superseded for apparel repair/alteration from 2023. Separately stated parts do not exempt associated labor. No auto-specific exception; other labor-only auto repairs follow the general rule. Warranty execution and exempt-part sales follow 103 KAR 27:150."
+  },
+  {
+    "tax": "KY",
+    "code": "service.goods.cleaning",
+    "from": "2018-07-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Kentucky taxes non-coin-operated laundry, dry cleaning, and carpet and upholstery cleaning; coin-operated laundry is outside the enumerated laundry category.",
+    "conditions": [
+      {
+        "when": "Non-coin-operated laundry or dry cleaning",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Carpet or upholstery cleaning",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Coin-operated laundry service without another taxable sale",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Kentucky DOR, Sales Tax Facts (May 2018)",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202018%20-%20May.pdf",
+        "quote": "Effective July 1, 2018, charges for the provision of the following services become subject to sales tax:"
+      },
+      {
+        "title": "Kentucky DOR, Sales Tax Facts (May 2018)",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202018%20-%20May.pdf",
+        "quote": "Non-coin-operated laundry and dry cleaning services;"
+      },
+      {
+        "title": "Kentucky DOR, Sales Tax Facts (May 2018)",
+        "url": "https://revenue.ky.gov/DOR%20Training%20Materials/Sales%20Tax%20Facts%202018%20-%20May.pdf",
+        "quote": "Janitorial services, including but not limited to residential and commercial cleaning services, and carpet, upholstery, and window cleaning services;"
+      }
+    ],
+    "notes": "Effective date expressly stated in May 2018 newsletter. Industrial laundry and linen supply are also enumerated. Deliberately partial: car wash treatment not settled by the downloaded text; no outcome asserted for it. No local sales tax."
+  },
+  {
+    "tax": "KY",
+    "code": "service.goods.other",
+    "from": "2026-10-02",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Kentucky taxes fabrication, printing, imprinting, decorative stitching, monogramming and engraving on customer-furnished goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Kentucky LRC, 103 KAR 28:030, Producing, fabricating and processing (certified October 2, 2026)",
+        "url": "https://apps.legislature.ky.gov/Law/kar/titles/103/028/030/",
+        "quote": "Tax shall apply to charges for producing, fabricating, processing, printing, or imprinting tangible personal property for consumers who furnish either directly or indirectly the materials used."
+      },
+      {
+        "title": "Kentucky LRC, 103 KAR 28:030, Producing, fabricating and processing (certified October 2, 2026)",
+        "url": "https://apps.legislature.ky.gov/Law/kar/titles/103/028/030/",
+        "quote": "Decorative stitching, monogramming, or engraving added to any tangible personal property shall be considered fabrication and shall be subject to tax."
+      }
+    ],
+    "notes": "Current text certified October 2, 2026; earliest verified version date, not original effective date. Ordinary repair/reconditioning belongs to service.goods.repair. No local sales tax."
   }
 ]
