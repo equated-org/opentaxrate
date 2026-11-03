@@ -234,11 +234,11 @@ export const TaxabilitySchema = z
       .optional()
       .openapi({ description: "Only with describe=: how the text was read. The model only picks among offered options; the rules decide." }),
     needs: z
-      .array(z.enum(["code", "one_item", "seller_kind", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
+      .array(z.enum(["code", "one_item", "seller_kind", "seller_license", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
       .optional()
       .openapi({
         description:
-          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; one_item: the line names several different items not all of one code, send one per request; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies, only where the answer's parts don't name the place (else unresearched); payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; one_item: the line names several different items not all of one code, send one per request; seller_kind: the seller's share of prepared-food or other sales; seller_license: the seller's or buyer's legal standing (a license or permit and its class, a registration, nonprofit status); locality: which local taxes the place levies, only where the answer's parts don't name the place (else unresearched); payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
         example: ["locality"],
       }),
     unresearched: z

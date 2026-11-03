@@ -329,6 +329,8 @@ describe("review fixes", () => {
     expect(needsOf("Sold by a seller whose prepared food sales exceed 75% of its food sales")).toEqual(["seller_kind"]);
     expect(needsOf("Seller meets the 80-80 rule at that location")).toEqual(["seller_kind"]);
     expect(needsOf("The town levies the 1% local option meals tax")).toEqual(["locality"]);
+    for (const w of ["wine or spirits sold by a Class A package or liquor store", "Sales by a mixed beverage permittee", "Laundry service sold to nonprofit health care facilities", "Contractor is registered as Option 2"]) expect(needsOf(w), w).toEqual(["seller_license"]);
+    expect(needsOf("Governed by a negotiated license agreement signed by licensor and licensee")).toEqual([]);
     expect(needsOf("paid for in full during the break (Dec 14, 2024 – Feb 15, 2025)")).toEqual(["payment_date"]);
     expect(needsOf("The delivery charge is incurred after title has passed to the buyer")).toEqual(["title_transfer"]);
     expect(needsOf("Non-residential prime contract over $10,000")).toEqual(["contract_total"]);

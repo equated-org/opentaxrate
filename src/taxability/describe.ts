@@ -307,12 +307,17 @@ export interface Asked {
  *  place's own ordinances, when the sale was paid for, when title passed,
  *  or (by describeReadsAmounts and describeReadsCounts) the totals and
  *  counts a case turns on. */
-export const NEEDS = ["code", "one_item", "seller_kind", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"] as const;
+export const NEEDS = ["code", "one_item", "seller_kind", "seller_license", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"] as const;
 export type Need = (typeof NEEDS)[number];
 
 const UNASKABLE: Array<[Need, RegExp]> = [
   // An explicit share of the seller's sales or receipts, or California's 80-80 rule.
   ["seller_kind", /\b\d{2}(?:\.\d+)?\s?(?:%|percent)[^.;]*\b(?:sales|receipts)\b|\b(?:sales|receipts)\b[^.;]*\b(?:exceed|over|more than|less than|or less|or more)\s+\d{2}(?:\.\d+)?\s?(?:%|percent)|\b80[-/]80\b|\b80\/20\b|prepared[- ]food sales percentage/i],
+  // The seller's (or buyer's) legal standing: a license or permit and its
+  // class, a registration or certification, nonprofit or charitable status.
+  // An item description never establishes it ("a wine shop" isn't a Class A
+  // licensee).
+  ["seller_license", /(?<!licensor and )\b(?:licensees?|permittees?|license holders?|permit holders?)\b|\bClass [A-Z]\b|\bseparately registered\b|\bregistered (?:as|real estate|agent|broker|charit)|\bis registered\b|\bcertified public accountant\b|\bnon-?profit\b|\bcharitable (?:organi[sz]ation|institution)\b|\b501\(c\)/i],
   // Which local taxes the place levies or exempts, or which local part it is.
   ["locality", /\b(?:[Cc]ity|[Tt]own|[Cc]ounty|[Mm]unicipality|[Pp]arish|[Bb]orough)\b[^.;]*\b(?:levies|levy|adopted|adopt|imposes|impose|ordinance|lowered|limits its|has not)\b|\b[Oo]rdinances?\b|\blocal[- ]option\b|\bhome[- ]rule\b|\blocal part\b|\b[Ss]old in [A-Z][\w.]+(?: [A-Z][\w.]+)* Count(?:y|ies)\b|\bTupelo\b|\bRTA\b/],
   // When the sale was paid for, in a dated tax period.

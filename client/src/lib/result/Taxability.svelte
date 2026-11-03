@@ -54,6 +54,7 @@
 		code: 'which code it is',
 		one_item: 'one item per request (the description names several)',
 		seller_kind: "the seller's share of prepared-food sales",
+		seller_license: "the seller's license, registration or nonprofit status",
 		locality: 'which local taxes the place levies',
 		payment_date: 'when it was paid for',
 		title_transfer: 'when title passed',

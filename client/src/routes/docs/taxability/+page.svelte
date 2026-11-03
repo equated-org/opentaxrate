@@ -259,9 +259,9 @@
 	</li>
 	<li>
 		<strong>Facts a description can't carry.</strong> A price or a count in the words is never taken as the sale's, and a
-		case that turns on the seller's share of prepared-food sales, the place's own local taxes, payment in a dated tax period or
+		case that turns on the seller's share of prepared-food sales, a license, registration or nonprofit status, the place's own local taxes, payment in a dated tax period or
 		when title passed is never settled from words either. Such a case stays open, and <code>needs</code> names the facts:
-		<code>seller_kind</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
+		<code>seller_kind</code>, <code>seller_license</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
 		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, <code>code</code> when no one
 		code fits, or <code>one_item</code> when the words name several items that aren't all of one code. A count only blocks the cases it decides: a loaf of bread is settled by its case's "bread products" alternative,
 		not held open by the same case's "six or more single servings". Which local taxes the address's place levies is never
