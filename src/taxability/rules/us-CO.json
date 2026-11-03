@@ -914,5 +914,555 @@
       }
     ],
     "notes": "See CO:local food.grocery. Home-rule cities that collect their own sales tax (Denver, Aurora, Boulder, Colorado Springs and others) set their own bases and are not covered by Department of Revenue guidance; their treatment of this code was not researched."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.hot",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Denver taxes hot prepared food at its special 4.00% food and drink rate instead of its general rate, whoever sells it.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 2.b",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "All hot foods and food marketed to be heated on the premises are considered to be prepared for immediate consumption and are therefore subject to tax regardless of the nature of the business making such sale"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.h",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Prepared food or food marketed for immediate consumption."
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.dine_in",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Food and drink served for eating at the seller's tables or counters, or on its tableware, is taxed by Denver at its special 4.00% food and drink rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.a",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, drugstores, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, boarding houses, carryout shops and other places at which prepared food or drink is regularly sold"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 2.a",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "served for consumption at tables, chairs, or counters, or from trays, glasses, dishes, or other tableware provided by the retailer;"
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.cold_restaurant",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "All food and drink sold by restaurants, cafés, carryout shops and similar places, cold food to go included, is taxed by Denver at its special 4.00% food and drink rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.a",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, drugstores, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, boarding houses, carryout shops and other places at which prepared food or drink is regularly sold"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 3.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "All food sold by restaurants and similar establishments is subject to tax."
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.sandwich",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Cold sandwiches are excluded from Denver's food exemption and taxed at its special 4.00% food and drink rate, whoever sells them.",
+    "conditions": [
+      {
+        "when": "A frozen sandwich",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.f",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Cold sandwiches."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.c.(6)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "Cold sandwiches other than frozen sandwiches;"
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.platter",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Deli trays are excluded from Denver's food exemption and taxed at its special 4.00% food and drink rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.g",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Deli trays."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.c.(7)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "Deli trays (e.g., meats, fish, cheeses, fruits or vegetables, etc., sold on trays prepared by or for the retailer);"
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.cold",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Denver, prepared salads, salad-bar food and food marketed for immediate consumption are taxed at the special 4.00% food and drink rate; other cold food a grocery or deli sells for home consumption is exempt.",
+    "conditions": [
+      {
+        "when": "A prepared salad requiring refrigeration (not frozen), salad-bar food, or other food marketed for immediate consumption",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold by a newsstand, gift shop, or a shop in a public transportation center, office or other public or commercial building, or an entertainment or recreation facility, that isn't approved by the USDA to accept SNAP benefits",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Other cold food sold for home consumption by a grocery, convenience store, butcher or other retail food store, as grocers commonly sell it",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Prepared salads requiring refrigeration, whether prepared by the retailer on site or at a warehouse, or by a manufacturer for sale to and by a retailer."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.e",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Salad bars."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.h",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Prepared food or food marketed for immediate consumption."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt food 1",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.a.(1)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "is exempt from taxation as provided below when sold by a retail food store as defined in 7. U.S.C. sec 2012(o), except for those items specified in 1.c."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold by newsstands, gift shops, shops located in public transportation centers, other public or commercial buildings, entertainment and recreational facilities, as these locations typically do not sell food for home consumption;"
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.prepared.bakery",
+    "from": "2021-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "In Denver, bakery items sold to go by a bakery or other retail food store are exempt; eaten at the bakery's own tables, delivered to a business, sold by a restaurant or sold hot, they are taxed at the special 4.00% food and drink rate.",
+    "conditions": [
+      {
+        "when": "Sold to go by a bakery, pastry shop or other retail food store, picked up or delivered to an individual at a residence for their own use",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Eaten at the bakery's own eating facilities",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Delivered to a business, or to a commercial location",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold by a restaurant, café, coffee shop or similar establishment, or sold hot",
+        "treatment": "special_rate",
+        "rate": 0.04
+      }
+    ],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 3.a.(1)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "To-go sales by bakeries or pastry shops which do not have eating facilities are not subject to tax;"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 3.a.(2)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "Sales by bakeries or pastry shops which have eating facilities are taxable except for items sold on a take-out or to-go basis not to be consumed at the eating facilities provided by the retailer."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 3.a.(3)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "Sales by bakeries or pastry shops that are delivered to the customer are taxable if the customer is a business entity or if the delivery is made to a commercial location;"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 3.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "All food sold by restaurants and similar establishments is subject to tax."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt food 1",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read. The bakery distinctions are from Rule 002's 4/1/2021 edition; an earlier edition wasn't read, so this kind isn't answered for Denver before then."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.catering",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "special_rate",
+    "rate": 0.04,
+    "summary": "Food and drink sold by caterers, with the mandatory gratuities and service charges on it, is taxed by Denver at its special 4.00% food and drink rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), tax rate",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-26 and 53-97."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.a",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink served or furnished in or by restaurants, cafes, lunch counters, cafeterias, hotels, drugstores, social clubs, nightclubs, cabarets, resorts, snack bars, caterers, boarding houses, carryout shops and other places at which prepared food or drink is regularly sold"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 3.c",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "Normally all food sold by a caterer is subject to tax."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), 5",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "Mandatory gratuities or service charges associated with the taxable sale of food or beverage are subject to tax at the rate of 4.00%."
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read. Rentals of equipment, linens or tableware billed by the caterer weren't researched: the guide speaks only of food, drink and service charges."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.grocery",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Denver exempts food for home consumption (as the federal SNAP program defines it) sold by a grocery or other retail food store from its sales tax.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine (the 4.00% is included in the vended price)",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold by a newsstand, gift shop, or a shop in a public transportation center, office or other public or commercial building, or an entertainment or recreation facility, that isn't approved by the USDA to accept SNAP benefits",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Coffee and related food products sold for an office's or commercial establishment's use",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Unsweetened carbonated water (sparkling or seltzer water) in containers",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Paid with SNAP (food stamps) or WIC benefits",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt food 1",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), exempt food 1",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.a.(1)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "is exempt from taxation as provided below when sold by a retail food store as defined in 7. U.S.C. sec 2012(o), except for those items specified in 1.c."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.b",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold through a vending machine."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold by newsstands, gift shops, shops located in public transportation centers, other public or commercial buildings, entertainment and recreational facilities, as these locations typically do not sell food for home consumption;"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.e",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Coffee and related food products sold for office or commercial establishment use;"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.a",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Carbonated water marketed in containers (e.g., sparkling or seltzer water)."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "which is purchased with the medium of exchange commonly known as food stamps or supplemental nutrition assistance program (“SNAP”) benefits, is exempt from the sales tax and use tax."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.soft_drink",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Denver exempts soft drinks (pop and other sweetened carbonated beverages included) sold for home consumption by a grocery or other retail food store; unlike the state, it doesn't tax them.",
+    "conditions": [
+      {
+        "when": "Sold through a vending machine (the 4.00% is included in the vended price)",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold by a newsstand, gift shop, or a shop in a public transportation center, office or other public or commercial building, or an entertainment or recreation facility, that isn't approved by the USDA to accept SNAP benefits",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Served by a restaurant or other place selling prepared food or drink, or otherwise marketed for immediate consumption (a fountain drink)",
+        "treatment": "special_rate",
+        "rate": 0.04
+      }
+    ],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt food 1",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), exempt food 1",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.c.(1)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "tonic water, pop and other sugar or sugar substitute carbonated beverages do qualify for the sales tax exemption"
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.a.(1)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "is exempt from taxation as provided below when sold by a retail food store as defined in 7. U.S.C. sec 2012(o), except for those items specified in 1.c."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.b",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold through a vending machine."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold by newsstands, gift shops, shops located in public transportation centers, other public or commercial buildings, entertainment and recreational facilities, as these locations typically do not sell food for home consumption;"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.h",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Prepared food or food marketed for immediate consumption."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
+  },
+  {
+    "tax": "CO:local:01:ttr17",
+    "code": "food.candy",
+    "from": "2019-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Denver exempts candy sold for home consumption by a grocery or other retail food store; unlike the state, it doesn't tax it. Chewing gum and breath mints are taxed at the special 4.00% food and drink rate.",
+    "conditions": [
+      {
+        "when": "Chewing gum or breath mints",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold through a vending machine (the 4.00% is included in the vended price)",
+        "treatment": "special_rate",
+        "rate": 0.04
+      },
+      {
+        "when": "Sold by a newsstand, gift shop, or a shop in a public transportation center, office or other public or commercial building, or an entertainment or recreation facility, that isn't approved by the USDA to accept SNAP benefits",
+        "treatment": "special_rate",
+        "rate": 0.04
+      }
+    ],
+    "citations": [
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt food 1",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (01/2019 edition; Internet Archive copy of 2020-12-05), exempt food 1",
+        "url": "https://web.archive.org/web/20201205112148/https://www.denvergov.org/content/dam/denvergov/Portals/571/documents/TaxGuide/TaxGuideTopic32_FoodAndDrink.pdf",
+        "quote": "Food for domestic home consumption. Examples include but are not limited to, meat, poultry, fish, bread and breadstuffs, cereals, vegetables, fruits, fruit and vegetable juices, dairy products, coffee, tea, cocoa, candy, condiments, spices, soft drinks, cakes, cookies"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), exempt-food exclusions 3.b",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Chewing gum and breath mints."
+      },
+      {
+        "title": "Denver Treasury Tax Rule 002, food and drink exemption (effective 4/1/2021), 1.a.(1)",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/treasurytaxrule002_rulesimplementingtheexemptionforcertainfoodanddrink.pdf",
+        "quote": "is exempt from taxation as provided below when sold by a retail food store as defined in 7. U.S.C. sec 2012(o), except for those items specified in 1.c."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.b",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold through a vending machine."
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), 1.d",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "Food and drink sold by newsstands, gift shops, shops located in public transportation centers, other public or commercial buildings, entertainment and recreational facilities, as these locations typically do not sell food for home consumption;"
+      },
+      {
+        "title": "Denver Tax Guide Topic 32, Food and Drink (revised 01/2025), tax rate",
+        "url": "https://www.denvergov.org/files/assets/public/v/1/finance/documents/treasury/tax-guides/tax-update-2025/taxguidetopic32_foodanddrink.pdf",
+        "quote": "A special tax rate of 4.00% is imposed upon food and drink not exempted under Denver Revised Municipal Code Sections 53-54 and 53-104."
+      }
+    ],
+    "notes": "Denver (City and County) collects its own sales tax as a home-rule city; this rule is its part only (part code 01:ttr17 in the Colorado rate service). The state, RTD and SCFD parts keep the CO rules. The 4.00% food and drink rate is in both the 01/2019 and 01/2025 editions of Topic 32; earlier editions weren't read."
   }
 ]
