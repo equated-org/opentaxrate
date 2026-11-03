@@ -158,12 +158,90 @@ export interface Params {
    *  d2-mb-20 wrong on A. */
   describeBinaryAccept: number;
   describeBinaryVeto: number;
+  /** The fallback's case stands only where the first pick leans no further
+   *  to another effect. Added 2026-11-03 after d2-sk-13 (half A, under a
+   *  stronger silence wording): the first pick put 0.85 on "feasibility
+   *  studies" (exempt) and a yes of 0.96 on the residual "site-specific
+   *  engineering" (taxable) settled it wrong. No dev answer changes with it
+   *  now; kept as a guard. */
+  describeFallbackAgree: boolean;
   /** With no one code, the codes whose answers here agree tax by tax are
    *  pooled; their probability together must reach describeCodePoolAccept. */
   /** Chosen on half A: 0.95 gave +9 text; 0.9 made d2-nt-04 wrong (a
    *  frozen shrimp ring pooled as groceries). Clean on half B. */
   describeCodePooling: boolean;
   describeCodePoolAccept: number;
+  /** The reading fixes of 2026-11-03 (a blind sample of 50 receipt-style
+   *  descriptions, graded against official sources: 3 wrong, r21 r30 r17).
+   *  Tuned on dev half A and those 50, frozen rules 4d44010, Jev 1.14.0;
+   *  half B was then run and failed (ny-24, d2-sk-18 wrong, both through a
+   *  sole candidate), so B shaped describeSoleNone and the chain fix and is
+   *  no longer a clean check of them. Full dev, both modes, 0 wrong.
+   *
+   *  A code read from the text whose definition turns on a fact (DEFINING
+   *  in describe.ts: a soft drink is sweetened) is used only where a
+   *  yes-or-no question finds the text establishes that fact at this;
+   *  else the nearest broader code that passes, else the candidates. Jev's
+   *  yes-or-no probabilities run low: plain yeses (a bakery's loaf, a hot
+   *  burrito) came at 0.82-0.88, unestablished facts (iced tea sweetened
+   *  0.03, a deli tub's salad made by the seller 0.36, coffee hot 0.49)
+   *  well below. 0.7 gave +4 text on full dev and +1 on A, 0 wrong; 0.8
+   *  is kept, the higher bar the fix asked for. On full dev the check costs
+   *  9 text answers (790 → 781), each a decline where the text doesn't
+   *  establish the fact (a "candy bar" may have a wafer; "deli ham by the
+   *  pound" isn't said to be the seller's). */
+  describeDefiningAccept: number;
+  describeDefiningCheck: boolean;
+  /** The open-case question tells the picker that a fact stated by its
+   *  absence fits only where the text says so (SILENCE_INSTRUCTIONS). A
+   *  stronger wording (no fact of any kind from silence: who made it, where
+   *  it was sold) cost 13 code and 11 text answers on A, all plainly stated
+   *  ("a diner sells a bottled soda" no longer read as sold by a
+   *  restaurant), and was dropped; this one costs 7 code, 4 text on full
+   *  dev (935/785 → 928/781), wrong unchanged, and the first pick no longer
+   *  takes r21's case stated as an absence (0.93 → 0.59). */
+  describeSilenceRule: boolean;
+  /** Which accepted cases need confirming by their own yes-or-no question:
+   *  "all", "negative" (a case whose words state a fact by its absence,
+   *  "without utensils", NEGATIVE in describe.ts), or "none". On full dev,
+   *  "all" cost 31 code and 37 text more than "negative" (897/744), wrong
+   *  unchanged: Jev's yes to a long compound case runs 0.4-0.8 even where
+   *  the text states it (a caterer that plates and serves dinner: 0.39).
+   *  "negative" costs 10 code, 11 text (938/792 → 928/781); asking each
+   *  absence part alone (negativeParts) won 1 of them back on A. */
+  describeConfirm: "all" | "negative" | "none";
+  /** A confirmation's yes, for the whole case or each absence part: 0.7
+   *  and 0.8 scored within 1 on A; 0.9 cost 6 code, 6 text on full dev and
+   *  lost plain cases (r15's loaf as "bread products without sweet
+   *  filling": 0.82). */
+  describeConfirmAccept: number;
+  /** Where the pick's top code is narrower than the code accepted and has
+   *  a defining fact, the text establishing that fact at
+   *  describeNarrowAccept establishes the narrower code (r27: a catered
+   *  sandwich platter, platter at 0.75 of the pick, its fact at 0.95).
+   *  +13 text on full dev, wrong unchanged. */
+  describeNarrowByDefining: boolean;
+  describeNarrowAccept: number;
+  /** With no code at describeCodeAccept, the sole candidate: one code (with
+   *  its kinds) holding describeSoleShare of all the codes' probability and
+   *  at least describeSoleFloor, used if the text establishes its
+   *  definition (its DEFINING fact, else its definition's own words)...
+   *  It made no answer right on A or B at any setting tried, and made
+   *  d2-nt-04 (A, share 0.9: a frozen shrimp ring as groceries), ny-24 (B,
+   *  delivery at 0.82 with UNCLEAR 0.14) and d2-sk-18 (B, a tip read as the
+   *  meal, NONE 0.3) wrong; it is kept at share 0.95, floor 0.8 and
+   *  NONE + UNCLEAR at most 0.05, where it changes nothing on dev, for
+   *  the receipt line the blind sample showed (r49: coffee beans, grocery
+   *  the only candidate under 0.9). */
+  describeSoleCandidate: boolean;
+  describeSoleShare: number;
+  describeSoleFloor: number;
+  /** ...and only where NONE and UNCLEAR together are at most this. */
+  describeSoleNone: number;
+  /** A case the first pick puts under this names no need: its facts aren't
+   *  what the answer turns on (r03: a sandwich's answer named the bakery
+   *  cases' quantity_by_kind). */
+  describeNeedsFloor: number;
 }
 
 const DEFAULTS: Params = {
@@ -200,8 +278,21 @@ const DEFAULTS: Params = {
   describeBinaryFallback: true,
   describeBinaryAccept: 0.95,
   describeBinaryVeto: 0.9,
+  describeFallbackAgree: true,
   describeCodePooling: true,
   describeCodePoolAccept: 0.95,
+  describeDefiningAccept: 0.8,
+  describeDefiningCheck: true,
+  describeSilenceRule: true,
+  describeConfirm: "negative",
+  describeConfirmAccept: 0.8,
+  describeNarrowByDefining: true,
+  describeNarrowAccept: 0.9,
+  describeSoleCandidate: true,
+  describeSoleShare: 0.95,
+  describeSoleFloor: 0.8,
+  describeSoleNone: 0.05,
+  describeNeedsFloor: 0.05,
 };
 
 /** The value OTR_PARAMS gives `key`, or an error saying why it can't be. */

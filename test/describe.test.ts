@@ -11,7 +11,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ruleSet, taxabilityOf, type Rule } from "../src/taxability/index.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
-import { acceptCode, caseQuestions, asQuestions, describedTaxability, namesCount, needsOf, type Described } from "../src/taxability/describe.js";
+import { acceptCode, caseQuestions, asQuestions, countFree, describedTaxability, negativeParts, namesCount, needsOf, SILENCE_INSTRUCTIONS, type Described } from "../src/taxability/describe.js";
 import { partsAt } from "../src/taxability/evaluate.js";
 import { halfOf } from "../src/taxability/describe-bench.js";
 import { cachedPicker, jevPicker, memoryStore, paidPicker, type Picked, type Picker, type Question } from "../src/taxability/picker.js";
@@ -24,8 +24,9 @@ const RULES = ruleSet(rows as Rule[]);
 const ct: RatePart[] = [{ kind: "state", name: "Connecticut", code: "CT", rate: 0.0635, ids: {} }];
 const DAY = "2026-11-02";
 
-/** Answers each question by the first option whose words match. */
-function stub(answers: Array<[RegExp, number]>, code?: Picked): Picker & { asked: Array<Record<string, Question>> } {
+/** Answers each question by the first option whose words match; a
+ *  yes-or-no question by `binary` where given, else as `answers`. */
+function stub(answers: Array<[RegExp, number]>, code?: Picked, binary?: Array<[RegExp, number]>): Picker & { asked: Array<Record<string, Question>> } {
   const asked: Array<Record<string, Question>> = [];
   return {
     model: "stub",
@@ -36,7 +37,7 @@ function stub(answers: Array<[RegExp, number]>, code?: Picked): Picker & { asked
         Object.entries(questions).map(([id, q]) => {
           if (id === "code") return [id, code ?? { choice: "UNCLEAR", confidence: 1, probabilities: { UNCLEAR: 1 } }];
           const probabilities = Object.fromEntries(Object.keys(q.options).map((o) => [o, 0]));
-          for (const [pattern, p] of answers) {
+          for (const [pattern, p] of "YES" in q.options && binary ? binary : answers) {
             const found = Object.entries(q.options).find(([o, words]) => o !== "NONE" && pattern.test(words) && probabilities[o] === 0);
             if (found) probabilities[found[0]] = p;
           }
@@ -375,5 +376,103 @@ describe("review fixes", () => {
     expect(partsAt("CT", "2026-06-15")[0].rate).toBe(0.0635);
     expect(partsAt("NY", "2026-06-15").map((p) => p.rate)).toEqual([0.04, 0.02]);
     expect(halfOf({ place: "CT", id: "ct-07" })).toBe(halfOf({ place: "CT", id: "ct-07" }));
+  });
+});
+
+describe("reading fixes (2026-11-03 random sample)", () => {
+  const rule = (code: string, treatment: string, conditions: unknown[] = [], tax = "ZZ") => ({ ...BASE, tax, code, treatment, conditions });
+  const drinks = ruleSet([rule("food.soft_drink", "taxable"), rule("food.grocery", "exempt")] as Rule[]);
+
+  it("uses a code only where the text establishes its defining fact: a tea not said to be sweetened isn't a soft drink (r30)", async () => {
+    const ask = (yes: number) => describedTaxability({ state: "ZZ", parts: ZZ }, { text: "bottled iced tea" }, DAY, drinks, stub([[/natural or artificial sweeteners/, yes]], codePick("food.soft_drink", 0.96)));
+    const tea = await ask(0.03);
+    expect(tea).toMatchObject({ treatment: "conditional", rate: null, needs: ["code"], interpreted: { code: null, candidates: ["food.soft_drink", "food.grocery"], unestablished: ["food.soft_drink"] } });
+    expect(tea.outcomes?.map((o) => o.rate)).toEqual([0.06, 0]);
+    expect(TaxabilitySchema.parse(tea)).toEqual(tea);
+    // Ginger ale is sweetened by definition.
+    expect(await ask(0.97)).toMatchObject({ treatment: "taxable", rate: 0.06, interpreted: { code: "food.soft_drink" } });
+  });
+
+  it("falls back to the nearest broader code whose defining fact the text establishes", async () => {
+    const set = ruleSet([rule("food.prepared", "taxable")] as Rule[]);
+    const t = await describedTaxability({ state: "ZZ", parts: ZZ }, { text: "2 lg coffees" }, DAY, set, stub([[/sold heated, above room temperature/, 0.4], [/ready to eat/, 0.95]], codePick("food.prepared.hot", 0.96)));
+    expect(t).toMatchObject({ treatment: "taxable", interpreted: { code: "food.prepared", unestablished: ["food.prepared.hot"] } });
+  });
+
+  it("agreeing candidates settle only where the picker's weight on them reaches describeCodePoolAccept", async () => {
+    const alike = ruleSet([rule("food.soft_drink", "taxable"), rule("food.grocery", "taxable")] as Rule[]);
+    const t = await describedTaxability({ state: "ZZ", parts: ZZ }, { text: "bottled iced tea" }, DAY, alike, stub([[/sweeteners/, 0.03]], codePick("food.soft_drink", 0.96)));
+    expect(t).toMatchObject({ treatment: "taxable", rate: 0.06, interpreted: { code: null, candidates: ["food.soft_drink", "food.grocery"], unestablished: ["food.soft_drink"] } });
+    const thin = await describedTaxability({ state: "ZZ", parts: ZZ }, { text: "x" }, DAY, alike, stub([[/sweeteners/, 0.03]], { choice: "food.soft_drink", confidence: 0.9, probabilities: { "food.soft_drink": 0.9, NONE: 0.1 } }));
+    expect(thin.treatment).toBe("conditional");
+  });
+
+  it("tells the case question not to take silence as an absence, and confirms a case stated by an absence part by part (r21)", async () => {
+    const set = ruleSet([rule("food.uncooked", "conditional", [{ when: "Requires cooking by the buyer, sold without eating utensils provided by the seller", treatment: "exempt" }, { when: "Sold ready to eat", treatment: "taxable" }])] as Rule[]);
+    const ask = (part: number) => {
+      const picker = stub([[/^Requires cooking/, 0.95]], codePick("food.uncooked", 0.99), [[/^Requires cooking/, 0.3], [/^sold without eating utensils/, part], [/cook before eating/, 0.95]]);
+      return { picker, answer: describedTaxability({ state: "ZZ", parts: ZZ }, { text: "meal kit for two" }, DAY, set, picker) };
+    };
+    const silent = ask(0.1);
+    expect(await silent.answer).toMatchObject({ treatment: "conditional" });
+    expect(Object.values(silent.picker.asked[1]).find((q) => "C1" in q.options)!.instructions).toBe(SILENCE_INSTRUCTIONS);
+    // The text says no utensils: the part alone confirms it.
+    expect(await ask(0.95).answer).toMatchObject({ treatment: "not_taxed", interpreted: { conditions: [{ tax: "ZZ" }] } });
+    expect(negativeParts("Requires additional cooking (not just reheating) by the buyer, sold without eating utensils provided by the seller")).toEqual(["not just reheating", "sold without eating utensils provided by the seller"]);
+    expect(negativeParts("Heated by the seller, and none of the exceptions below")).toEqual([]);
+  });
+
+  it("guards a count only where it decides: a loaf is settled by the case's alternative that doesn't count (r15)", async () => {
+    const zero = "bread products without sweet filling or coating, whole cakes and pies, or six or more single servings bought together";
+    expect(countFree(zero)).toBe("bread products without sweet filling or coating, whole cakes and pies");
+    expect(countFree("Six or more single servings")).toBeNull();
+    expect(countFree("A restaurant meal")).toBe("A restaurant meal");
+    const set = ruleSet([rule("food.prepared.bakery", "conditional", [{ when: "Single servings sold in quantities of fewer than six", treatment: "taxable" }, { when: zero, treatment: "zero_rated" }])] as Rule[]);
+    const ask = (text: string, yes: number) => describedTaxability({ state: "ZZ", parts: ZZ }, { code: "food.prepared.bakery", text }, DAY, set, stub([[/^bread products/, 0.95]], codePick("food.prepared.bakery"), [[/^bread products without sweet filling or coating, whole cakes and pies$/, yes]]));
+    expect(await ask("a sourdough loaf", 0.9)).toMatchObject({ treatment: "not_taxed" });
+    // Six muffins: only the counting alternative would fit, and it isn't asked.
+    const muffins = await ask("six muffins", 0.05);
+    expect(muffins).toMatchObject({ treatment: "conditional", needs: ["quantity_by_kind"] });
+  });
+
+  it("takes a sole candidate only with NONE and UNCLEAR small, and only if the text establishes its definition", async () => {
+    const sole = { choice: "food.grocery", confidence: 0.85, probabilities: { "food.grocery": 0.85, "goods.general": 0.02, NONE: 0.02, UNCLEAR: 0.01, "food.uncooked": 0.1 } };
+    expect(acceptCode({ ...sole, probabilities: { "food.grocery": 0.86, NONE: 0.03, UNCLEAR: 0.01, "goods.general": 0.03, "food.candy": 0.07 } })).toEqual({ candidates: ["food.grocery", "food.candy"] });
+    const one = { choice: "food.grocery", confidence: 0.86, probabilities: { "food.grocery": 0.86, NONE: 0.03, UNCLEAR: 0.01, "goods.general": 0.01 } };
+    expect(acceptCode(one)).toEqual({ code: "food.grocery", confidence: 0.86, sole: true });
+    expect(acceptCode({ ...one, probabilities: { "food.grocery": 0.86, NONE: 0.1, "goods.general": 0.04 } })).toEqual({ candidates: ["food.grocery"] });
+    const ask = (yes: number) => describedTaxability({ state: "ZZ", parts: ZZ }, { text: "12 oz bag of coffee beans" }, DAY, drinks, stub([[/sold as it came, for eating at home/, yes]], one));
+    expect(await ask(0.86)).toMatchObject({ treatment: "not_taxed", interpreted: { code: "food.grocery", confidence: 0.86 } });
+    expect(await ask(0.2)).toMatchObject({ treatment: "conditional", interpreted: { code: null, unestablished: ["food.grocery"] } });
+  });
+
+  it("never asks the caller which local taxes the address's place levies: unresearched, not needed (r03)", async () => {
+    const cases = [{ when: "The town levies the 1% local option meals tax", treatment: "special_rate", rate: 0.01 }, { when: "The town levies only the local option sales tax, not the meals tax", treatment: "exempt" }];
+    const set = ruleSet([rule("food.prepared.sandwich", "taxable"), rule("food.prepared.sandwich", "conditional", cases, "ZZ:local")] as Rule[]);
+    const zz: RatePart[] = [...ZZ, { kind: "city", name: "Zc", code: "ZZ1", rate: 0.01, ids: {} }];
+    const t = await describedTaxability({ state: "ZZ", parts: zz }, { code: "food.prepared.sandwich", text: "turkey club to go" }, DAY, set, stub([], codePick("food.prepared.sandwich")));
+    expect(t).toMatchObject({ treatment: "conditional", unresearched: ["locality"] });
+    expect(t.needs).toBeUndefined();
+    expect(TaxabilitySchema.parse(t)).toEqual(t);
+  });
+
+  it("names no need for a case the picker all but rules out", async () => {
+    const set = ruleSet([rule("food.prepared", "conditional", [{ when: "Sold hot", treatment: "taxable" }, { when: "Sold cold", treatment: "exempt" }, { when: "Six or more single servings", treatment: "exempt" }])] as Rule[]);
+    const t = await describedTaxability({ state: "ZZ", parts: ZZ }, { code: "food.prepared", text: "a sandwich" }, DAY, set, stub([[/Sold hot/, 0.5], [/Sold cold/, 0.48]], codePick("food.prepared")));
+    expect(t.treatment).toBe("conditional");
+    expect(t.needs).toBeUndefined();
+  });
+
+  it("never pools a code a settled rule's exception may change", async () => {
+    const set = ruleSet([rule("food.candy", "taxable"), rule("food.grocery", "taxable", [{ when: "Sold as a party tray", treatment: "exempt" }])] as Rule[]);
+    const t = await describedTaxability({ state: "ZZ", parts: ZZ }, { text: "x" }, DAY, set, stub([], { choice: "food.candy", confidence: 0.6, probabilities: { "food.candy": 0.6, "food.grocery": 0.4 } }));
+    expect(t.treatment).toBe("conditional");
+  });
+
+  it("a yes-or-no fallback doesn't overturn the first pick's lean to another effect (d2-sk-13)", async () => {
+    const set = ruleSet([rule("service.professional", "conditional", [{ when: "A feasibility study", treatment: "exempt" }, { when: "Engineering for a site in the province", treatment: "taxable" }])] as Rule[]);
+    const ask = (study: number) => describedTaxability({ state: "ZZ", parts: ZZ }, { code: "service.professional", text: "x" }, DAY, set, stub([[/feasibility/, study], [/Engineering/, 0.1]], codePick("service.professional"), [[/Engineering/, 0.96]]));
+    expect((await ask(0.85)).treatment).toBe("conditional");
+    expect(await ask(0.05)).toMatchObject({ treatment: "taxable" });
   });
 });

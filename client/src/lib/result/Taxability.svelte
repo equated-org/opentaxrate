@@ -103,8 +103,14 @@
 						{#each read.conditions ?? [] as c, k (k)}
 							<p class="mt-1">Settled from the description: <span class="text-[var(--text)]">{c.when.join(' or ')}</span> <span class="font-num text-[var(--text-muted)]">({c.tax}, {sure(c.confidence)})</span></p>
 						{/each}
+						{#if read.unestablished?.length}
+							<p class="mt-1">The description doesn't establish what defines {read.unestablished.map(codeName).join(' or ')}.</p>
+						{/if}
 						{#if t.needs?.length}
 							<p class="mt-1">A description can't settle: {t.needs.map((n) => NEED[n] ?? n).join('; ')}.</p>
+						{/if}
+						{#if t.unresearched?.includes('locality')}
+							<p class="mt-1">Not researched for this place yet: which of its local taxes apply.</p>
 						{/if}
 						<p class="mt-1 text-[12px] text-[var(--text-muted)]">A model only picked among the codes' and rules' own words; the rules decided the tax. Facts the description doesn't state stay open.</p>
 					{/if}

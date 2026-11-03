@@ -117,6 +117,9 @@ export interface Taxability {
 	/** Only with describe=, on a conditional answer: the facts it turns on that
 	 *  a description can't settle, for the caller to send. */
 	needs?: string[];
+	/** Only with describe=, on a conditional answer: facts the address already
+	 *  settles that the rules haven't researched for this place (locality). */
+	unresearched?: string[];
 }
 
 /** How describe= was read (src/taxability/describe.ts). */
@@ -134,6 +137,9 @@ export interface Interpreted {
 	 *  cases the rules treat alike that the text established one of. */
 	conditions?: Array<{ tax: string; when: string[]; confidence: number }>;
 	/** The model wasn't asked or failed: answered as without the text. */
+	/** The codes the model leaned to whose defining fact the text doesn't
+	 *  establish (a tea not said to be sweetened isn't a soft drink). */
+	unestablished?: string[];
 	unavailable?: true;
 }
 

@@ -222,7 +222,10 @@
 <ul>
 	<li>
 		<strong>Alone</strong>, the entry is keyed by the text. A confident code answers; where the words fit a broad code but not
-		which kind, the broader code answers (<code>food.prepared</code>, not a guess at hot or cold). Where they could be several
+		which kind, the broader code answers (<code>food.prepared</code>, not a guess at hot or cold). A code whose definition turns
+		on a fact answers only where the words establish it, by saying so or naming something that has it by definition: ginger
+		ale is a soft drink, but an iced tea isn't known to be sweetened. Otherwise a broader code whose fact they do establish
+		answers, or the candidates do, and <code>interpreted.unestablished</code> names the code. Where they could be several
 		codes, the answer is <code>conditional</code>, <code>interpreted.code</code> is <code>null</code> and
 		<code>candidates</code> lists them: send one as <code>code</code>. Where no code covers it (a haircut), it's
 		<code>not_researched</code>.
@@ -235,7 +238,8 @@
 	<li>
 		<strong>The cases.</strong> Where a rule is conditional, a case the words establish settles that tax, at the rate the
 		matching outcome gives, and <code>interpreted.conditions</code> names it. A case the words don't settle stays open: the
-		answer stays <code>conditional</code> with its outcomes. Where a settled rule lists exceptions (a napkin in the box makes a
+		answer stays <code>conditional</code> with its outcomes. Silence settles nothing: a case that states a fact by its absence
+		(sold without eating utensils) is settled only where the words say so. Where a settled rule lists exceptions (a napkin in the box makes a
 		Michigan bakery item taxable), an exception the words establish applies, and one they make likely without establishing
 		makes the answer conditional instead.
 	</li>
@@ -245,7 +249,9 @@
 		when title passed is never settled from words either. Such a case stays open, and <code>needs</code> names the facts:
 		<code>seller_kind</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
 		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, or <code>code</code> when no one
-		code fits.
+		code fits. A count only blocks the cases it decides: a loaf of bread is settled by its case's "bread products" alternative,
+		not held open by the same case's "six or more single servings". Which local taxes the address's place levies is never
+		asked of you: where our rules don't have that place's local law yet, <code>unresearched: ["locality"]</code> says so.
 	</li>
 	<li>
 		<strong>Failures.</strong> If the model can't be asked or fails, the entry answers as if no text was sent, with

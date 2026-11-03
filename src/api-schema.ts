@@ -207,6 +207,14 @@ export const TaxabilitySchema = z
           )
           .optional()
           .openapi({ description: "The rules' cases the text settled, one per tax. A tax whose case the text doesn't establish stays conditional." }),
+        unestablished: z
+          .array(z.string())
+          .optional()
+          .openapi({
+            description:
+              "The codes the model leaned to whose defining fact the text doesn't establish (a tea not said to be sweetened isn't a soft drink), narrowest first. The entry then answers by a broader code whose fact it does establish, or is conditional on the candidates.",
+            example: ["food.soft_drink"],
+          }),
         unavailable: z.literal(true).optional().openapi({ description: "The model wasn't asked or failed: the entry answers as if no text was sent." }),
       })
       .optional()
@@ -216,7 +224,15 @@ export const TaxabilitySchema = z
       .optional()
       .openapi({
         description:
-          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies; payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies, only where the answer's parts don't name the place (else unresearched); payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+        example: ["locality"],
+      }),
+    unresearched: z
+      .array(z.enum(["locality"]))
+      .optional()
+      .openapi({
+        description:
+          "Only with describe=, on a conditional answer: facts it turns on that the address already settles but the rules haven't researched for this place. locality: which local taxes the place the parts name levies. Nothing for the caller to send.",
         example: ["locality"],
       }),
     independent: z.literal(true).optional().openapi({
