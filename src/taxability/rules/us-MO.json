@@ -1017,5 +1017,155 @@
         "quote": "beginning October 1, 1997, the tax levied and imposed under this chapter on all retail sales of food shall be at the rate of one percent."
       }
     ]
+  },
+  {
+    "tax": "MO",
+    "code": "clothing",
+    "from": "2026-08-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting gear, are taxable at the general state and local sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax FAQ",
+        "url": "https://dor.mo.gov/faq/taxation/business/sales-tax-filing.html",
+        "quote": "All sales of tangible personal property are taxable unless there is a specific statutory exemption."
+      },
+      {
+        "title": "Missouri DOR, Restaurants Tax Matrix (revision August 17, 2026)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Uniforms & shoes Taxable"
+      }
+    ],
+    "notes": "Date is the restaurant matrix's revision date; matrix expressly taxes uniforms and shoes, FAQ supplies the broad tangible-property rule. No permanent price exemption found. Back-to-school holiday temporarily exempts qualifying purchases from state and local tax; holiday is noted only. No differing general local clothing base stated on pages read."
+  },
+  {
+    "tax": "MO",
+    "code": "alcohol",
+    "from": "2026-08-17",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Packaged alcoholic beverages and drinks served at restaurants or bars are taxable at the general sales-tax rates.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax FAQ",
+        "url": "https://dor.mo.gov/faq/taxation/business/sales-tax-filing.html",
+        "quote": "All sales of tangible personal property are taxable unless there is a specific statutory exemption."
+      },
+      {
+        "title": "Missouri DOR, Restaurants Tax Matrix (revision August 17, 2026)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Restaurants.pdf",
+        "quote": "Sales of drinks (alcoholic and non-alcoholic) Taxable"
+      }
+    ],
+    "notes": "Date is matrix revision. General tangible-property taxation supports packaged retail alcohol; matrix explicitly confirms drinks sold by restaurants. Separate alcohol excises and municipal tourism/restaurant levies are not included. No differing general local sales-tax base stated on sources read; ordinary local sales taxes are included."
+  },
+  {
+    "tax": "MO",
+    "code": "rental",
+    "from": "2025-03-28",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Missouri taxes ordinary tangible-property rental receipts when the lessor did not pay tax on its purchase; receipts are exempt when tax was paid on that purchase.",
+    "conditions": [
+      {
+        "when": "Lessor did not pay tax when purchasing the rented goods",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Lessor paid tax when purchasing the rented goods",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Missouri Revised Statutes 144.020.1(8), Rental or lease of tangible personal property",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=144.020",
+        "quote": "A tax equivalent to four percent of the amount paid or charged for rental or lease of tangible personal property, provided that if the lessor or renter of any tangible personal property had previously purchased the property under the conditions of sale at retail or leased or rented the property and the tax was paid at the time of purchase, lease or rental, the lessor, sublessor, renter or subrenter shall not apply or collect the tax on the subsequent lease, sublease, rental or subrental receipts from that property."
+      }
+    ],
+    "notes": "Date is the matrix’s printed revision date; earlier versions not read. No ordinary-equipment term-length split stated. Existing MO convention applies ordinary state and local base together. Statute confirms both outcomes; dated matrix is retained in manifest and was read visually because PDF text extraction groups its outcome columns."
+  },
+  {
+    "tax": "MO",
+    "code": "service.goods.repair",
+    "from": "2025-03-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Separately stated repair labor is exempt in Missouri, including alterations and tailoring.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Sales Tax Taxability and Exemptions FAQ, Is labor taxable?",
+        "url": "https://dor.mo.gov/faq/taxation/business/sales-use-tax-exemptions.html",
+        "quote": "Repair labor, if separately stated, is not taxable."
+      },
+      {
+        "title": "Missouri DOR, Dry Cleaning & Laundry Services Tax Matrix (revision March 28, 2025)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Dry-Cleaning-and-Laundry-Services.pdf",
+        "quote": "Repair services such as alterations and tailoring that are separately stated from tangible personal property Taxable Exempt"
+      }
+    ],
+    "notes": "Date is matrix revision. FAQ is undated. Do not extrapolate the separately stated exemption to bundled parts-and-labor invoices: true object and material-value tests may matter; detailed regulation could not be downloaded, see gap. Ordinary state/local convention follows existing MO rules. In the laundry matrix, extracted “Taxable” belongs to the preceding goods row; “Exempt” is the repair/alterations row outcome. The FAQ independently settles repair labor."
+  },
+  {
+    "tax": "MO",
+    "code": "service.goods.cleaning",
+    "from": "2025-03-28",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Missouri exempts laundry and dry cleaning, and car washing, waxing, detailing and vacuuming services.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Missouri DOR, Dry Cleaning & Laundry Services Tax Matrix (revision March 28, 2025)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Dry-Cleaning-and-Laundry-Services.pdf",
+        "quote": "Dry cleaning, pressing, dyeing, and laundry services Exempt"
+      },
+      {
+        "title": "Missouri DOR, Dry Cleaning & Laundry Services Tax Matrix (revision March 28, 2025)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Dry-Cleaning-and-Laundry-Services.pdf",
+        "quote": "Washing and drying services through a coin-operated machine Exempt"
+      },
+      {
+        "title": "Missouri DOR, Car Washes Tax Matrix (effective October 24, 2022)",
+        "url": "https://dor.mo.gov/taxation/business/documents/CarWashes_000.pdf",
+        "quote": "Car wash services Exempt"
+      }
+    ],
+    "notes": "Date is matrix revision. This evidence covers laundry and garment cleaning; no conclusion on standalone rug or upholstery cleaning is implied. See coverage gap. Provider’s purchases of cleaning supplies are taxable. State/local convention follows existing MO rules."
+  },
+  {
+    "tax": "MO",
+    "code": "service.goods.other",
+    "from": "2025-03-28",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Missouri exempts embroidery on customer-supplied products, while fabrication or production labor is taxable even if separately stated.",
+    "conditions": [
+      {
+        "when": "Embroidery on products supplied by the customer",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Work constitutes fabrication or production labor",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Missouri DOR, Embroidery Companies Tax Matrix (revision March 28, 2025)",
+        "url": "https://dor.mo.gov/taxation/business/documents/Embroidery-Companies.pdf",
+        "quote": "Embroidery services incorporated into the selling price of seller's products including but not limited to; shirts, caps, coats, aprons, oven gloves, duvets, blankets, lampshades, towels, tote bags, coasters, etc. Embroidery services on customer's supplied products Buttons, zippers, hooks, buckles, velcro, clasps, studs, and other items, when sold to customer as individual items Buttons, zippers, hooks, buckles, velcro, clasps, studs, and other items, when added to customer’s property Books on embroidery and other related topics Taxable Any sale where the customer provides a signed exemption certificate Exempt Gift cards & gift certificates Exempt Shipping, delivery, freight, and postage charges Exempt Combined shipping and handling Taxable Handling charges Taxable Inbound freight charges which are passed on to customers, with or without a separate line item Taxable Exempt Taxable Exempt Taxable"
+      },
+      {
+        "title": "Missouri DOR, Sales Tax Taxability and Exemptions FAQ, Is labor taxable?",
+        "url": "https://dor.mo.gov/faq/taxation/business/sales-use-tax-exemptions.html",
+        "quote": "Fabrication or production labors are subject to sales tax, even when separately stated."
+      }
+    ],
+    "notes": "Date is embroidery matrix revision. Specific embroidery guidance controls that case. Other engraving, monogramming or printing must be classified as fabrication/production before applying that taxable condition; no universal outcome for all customization is asserted. State/local convention follows existing MO rules. PDF extraction groups outcome columns: the first Taxable belongs to seller-supplied embroidered goods and the final four outcomes Exempt/Taxable/Exempt/Taxable correspond respectively to customer-supplied embroidery, separate buttons etc., buttons added to customer property, and books. The quoted full table sequence preserves exact extracted ordering; reviewer should inspect page 1."
   }
 ]

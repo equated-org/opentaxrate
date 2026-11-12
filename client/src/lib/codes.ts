@@ -15,6 +15,23 @@ type Group = { group: string; codes: Array<[code: TaxCode, name: string]> };
 const GROUPS = [
 	{ group: 'Goods', codes: [['goods.general', 'General goods']] },
 	{
+		group: 'Clothing',
+		codes: [
+			['clothing', 'Clothing and footwear'],
+			['clothing.accessories', 'Accessories (jewelry, bags)'],
+			['clothing.equipment', 'Protective and sport gear'],
+			['clothing.other', 'Everyday clothing']
+		]
+	},
+	{
+		group: 'Alcohol',
+		codes: [
+			['alcohol', 'Alcoholic beverages'],
+			['alcohol.off_premises', 'To take away'],
+			['alcohol.on_premises', 'Served at a bar or restaurant']
+		]
+	},
+	{
 		group: 'Food',
 		codes: [
 			['food.grocery', 'Groceries'],
@@ -32,6 +49,7 @@ const GROUPS = [
 			['food.catering', 'Catering']
 		]
 	},
+	{ group: 'Rental', codes: [['rental', 'Renting goods']] },
 	{
 		group: 'Software',
 		codes: [
@@ -45,6 +63,10 @@ const GROUPS = [
 	{
 		group: 'Services',
 		codes: [
+			['service.goods', 'Work on customer goods'],
+			['service.goods.repair', 'Repair, alteration'],
+			['service.goods.cleaning', 'Cleaning, laundry'],
+			['service.goods.other', 'Engraving, embroidery, other'],
 			['service.professional', 'Professional services'],
 			['service.professional.legal', 'Legal'],
 			['service.professional.accounting', 'Accounting'],

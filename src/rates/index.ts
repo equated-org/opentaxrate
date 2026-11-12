@@ -149,8 +149,8 @@ export const addressRates = {
    *  state's files aren't loaded. */
   async at(query: AddressRateQuery, date: string): Promise<AddressRate> {
     const { locationIds, zip4, alternatives = [], ...found } = await rateAt(query, date);
-    const parts = await describeParts(found.state, found.parts);
-    const others = await Promise.all(alternatives.map(async (a) => ({ ...a, parts: await describeParts(found.state, a.parts) })));
+    const parts = await describeParts(found.state, found.parts, date);
+    const others = await Promise.all(alternatives.map(async (a) => ({ ...a, parts: await describeParts(found.state, a.parts, date) })));
     return {
       ...found,
       parts,

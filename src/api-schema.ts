@@ -55,6 +55,28 @@ export const RatePartSchema = z
     code: z.string().openapi({ description: "The publisher's jurisdiction type and code.", example: "01:63000" }),
     rate: rate("This part's rate.", 0.065),
     byType: RatesByTypeSchema.optional(),
+    classRates: z
+      .object({
+        restaurant: z.number().optional().openapi({ description: "Food and drink sold by a restaurant or bar: Arizona's restaurants and bars class (business code 011, plus a city's additional 111), or Utah's county restaurant tax added to the county's rate.", example: 0.039 }),
+        grocery: z.number().optional().openapi({ description: "Food for home consumption: Arizona's city rate on it (business code 062), Alabama's local food rate (GROC), Illinois's local grocery rate from 2026.", example: 0.025 }),
+      })
+      .optional()
+      .openapi({
+        description:
+          "This part's rate on a class of sale its state rates apart from the general sale, on the answer's date, from the same published table as the general rate. Absent for a class the state's data gives no rate for: never read the general rate in its place. Taxability rules use them (rateClass); `rate` stays the general rate.",
+        example: { restaurant: 0.039, grocery: 0.025 },
+      }),
+    classCases: z
+      .object({
+        restaurant: z.array(z.object({ when: z.string(), rate: z.number() })).optional(),
+        grocery: z.array(z.object({ when: z.string(), rate: z.number() })).optional(),
+      })
+      .optional()
+      .openapi({
+        description:
+          "Where a class's rate on this part turns on a fact the address doesn't settle, each case as the state states it, with its rate, in place of a classRates entry: an Illinois Metro East location's grocery rate, for a retailer liable for the district's tax or not. A rule taxing the class then answers conditional on these cases.",
+        example: { grocery: [{ when: "The retailer is liable for the Metro East Mass Transit District's tax (IDOR's high rate for the location)", rate: 0.0125 }, { when: "The retailer isn't liable for the Metro East Mass Transit District's tax (IDOR's low rate for the location)", rate: 0.01 }] },
+      }),
     ids: ids("The state's own ids for this tax, keyed by its data's column names and unchanged; {} where it publishes none.").optional(),
   })
   .openapi("RatePart", { description: "One tax adding up to the rate." });
@@ -132,6 +154,7 @@ export const TaxabilityRuleSchema = z
     }),
     treatment: z.enum(TREATMENTS),
     rate: z.number().optional().openapi({ description: "For special_rate: the rate this tax charges on the code instead of its general rate (lower, like a grocery rate, or higher, like a meals tax).", example: 0.04 }),
+    rateClass: z.enum(["restaurant", "grocery"]).optional().openapi({ description: "For special_rate, in place of rate: each part this rule decides is taxed at its own rate for this class, the part's classRates entry (Arizona's city restaurant rates). A part with no rate for the class is not researched.", example: "restaurant" }),
     base: z.number().optional().openapi({ description: "The share of the charge taxed, where the law taxes only part of it (0 < base < 1): Texas taxes 80% of a data processing charge. The answer's rates already apply it, on the whole charge (6.6% where the general rate is 8.25%); don't reduce the amount as well. Absent: the whole charge.", example: 0.8 }),
     summary: z.string().openapi({ example: "Catering is taxable, including staff, rentals and service charges on the bill." }),
     conditions: z.array(
@@ -139,6 +162,7 @@ export const TaxabilityRuleSchema = z
         when: z.string(),
         treatment: z.enum(["taxable", "special_rate", "exempt", "zero_rated"]),
         rate: z.number().optional().openapi({ description: "The part's rate in this case, where it isn't the part's full rate." }),
+        rateClass: z.enum(["restaurant", "grocery"]).optional().openapi({ description: "In this case, each part is taxed at its rate for this class (its classRates entry), as on the rule." }),
         base: z.number().optional().openapi({ description: "In this case, the share of the charge taxed, where the law taxes only part of it (0 < base < 1), as on the rule; the outcomes apply it.", example: 0.8 }),
         code: z.string().optional().openapi({ description: "In an answer for a broad code: the narrower code this case is; send it to settle the answer.", example: "service.professional.design" }),
       }),
@@ -207,16 +231,33 @@ export const TaxabilitySchema = z
           )
           .optional()
           .openapi({ description: "The rules' cases the text settled, one per tax. A tax whose case the text doesn't establish stays conditional." }),
+        unestablished: z
+          .array(z.string())
+          .optional()
+          .openapi({
+            description:
+              "The codes the model leaned to whose defining fact the text doesn't establish (a tea not said to be sweetened isn't a soft drink), narrowest first. The entry then answers by a broader code whose fact it does establish, or is conditional on the candidates.",
+            example: ["food.soft_drink"],
+          }),
+        items: z.literal(true).optional().openapi({ description: "The text names several different items. A code answers only where the text establishes that every item is of it; else the entry is conditional with needs one_item: send one item per request." }),
         unavailable: z.literal(true).optional().openapi({ description: "The model wasn't asked or failed: the entry answers as if no text was sent." }),
       })
       .optional()
       .openapi({ description: "Only with describe=: how the text was read. The model only picks among offered options; the rules decide." }),
     needs: z
-      .array(z.enum(["code", "seller_kind", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
+      .array(z.enum(["code", "one_item", "seller_kind", "seller_license", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"]))
       .optional()
       .openapi({
         description:
-          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; seller_kind: the seller's share of prepared-food or other sales; locality: which local taxes the place levies; payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+          "Only with describe=, on a conditional answer: the facts it turns on that a description can't settle. code: which code it is; one_item: the line names several different items not all of one code, send one per request; seller_kind: the seller's share of prepared-food or other sales; seller_license: the seller's or buyer's legal standing (a license or permit and its class, a registration, nonprofit status); locality: which local taxes the place levies, only where the answer's parts don't name the place (else unresearched); payment_date: when it was paid for, in a dated tax period; title_transfer: when title passed; qualifying_total, contract_total: an amount; quantity_by_kind: how many units of each kind.",
+        example: ["locality"],
+      }),
+    unresearched: z
+      .array(z.enum(["locality"]))
+      .optional()
+      .openapi({
+        description:
+          "Only with describe=, on a conditional answer: facts it turns on that the address already settles but the rules haven't researched for this place. locality: which local taxes the place the parts name levies. Nothing for the caller to send.",
         example: ["locality"],
       }),
     independent: z.literal(true).optional().openapi({

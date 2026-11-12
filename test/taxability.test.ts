@@ -2,9 +2,10 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { parentOf, parseCodes, ruleSet, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type TaxCode } from "../src/taxability/index.js";
+import { compiledOf, parentOf, parseCodes, ruleSet, settleCases, subcodesOf, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type Taxability, type TaxCode } from "../src/taxability/index.js";
 import { looseForTest, pageText, quoteOnPage, quoteSpan } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
+import { SELF_COLLECTED } from "../src/taxability/self-collected.js";
 import { answerKey } from "../src/cache.js";
 import { AddressRateSchema, TaxabilitySchema } from "../src/api-schema.js";
 import { provinceParts } from "../src/rates/canada.js";
@@ -102,6 +103,69 @@ describe("taxability", () => {
     expect(answerKey({ ...q, codes: [] }, [])).toBe(answerKey(q, []));
     expect(answerKey({ ...q, codes: ["food.catering", "nontaxable"] }, [])).toBe(answerKey({ ...q, codes: ["nontaxable", "food.catering"] }, []));
     expect(answerKey({ ...q, codes: ["food.catering"] }, [])).not.toBe(answerKey(q, []));
+  });
+
+  it("has clothing and alcohol codes, each kind under its broad code", () => {
+    expect(CODES).toEqual(expect.arrayContaining(["clothing", "clothing.accessories", "clothing.equipment", "clothing.other", "alcohol", "alcohol.off_premises", "alcohol.on_premises"]));
+    expect(subcodesOf("clothing")).toEqual(["clothing.accessories", "clothing.equipment", "clothing.other"]);
+    expect(subcodesOf("alcohol")).toEqual(["alcohol.off_premises", "alcohol.on_premises"]);
+    expect(parentOf("clothing.other")).toBe("clothing");
+    expect(parentOf("alcohol.on_premises")).toBe("alcohol");
+    expect(parentOf("clothing")).toBeNull();
+    expect(CODES).toEqual(expect.arrayContaining(["rental", "service.goods", "service.goods.repair", "service.goods.cleaning", "service.goods.other"]));
+    expect(subcodesOf("service.goods")).toEqual(["service.goods.repair", "service.goods.cleaning", "service.goods.other"]);
+    expect(subcodesOf("rental")).toEqual([]);
+    expect(parentOf("service.goods.repair")).toBe("service.goods");
+    expect(parentOf("service.goods")).toBeNull();
+    // goods.general and groceries point to the new codes rather than leave them uncoded.
+    expect(TAX_CODES["goods.general"]).toMatch(/clothing or alcohol \(each has its own codes\)/);
+    expect(TAX_CODES["food.grocery"]).toMatch(/alcoholic beverages \(alcohol\)/);
+  });
+
+  it("answers clothing and alcohol from the researched rules", () => {
+    const at = (state: string, parts: RatePart[], code: TaxCode, date = "2026-10-30") => taxabilityOf({ state, parts }, code, date, RULES);
+    // New York: under $110 exempt from the state tax, taxed above; the local part depends on the locality's election.
+    const nyClothing = at("NY", ny, "clothing.other");
+    expect(nyClothing.treatment).toBe("conditional");
+    expect(nyClothing.taxes.find((g) => g.parts.includes("45:36"))!.rule!.conditions.map((c) => [c.when, c.treatment])).toEqual(
+      expect.arrayContaining([["An item of clothing or footwear sold for less than $110 per item or pair", "exempt"], ["An item of clothing or footwear sold for $110 or more per item or pair", "taxable"]]),
+    );
+    expect(at("NY", ny, "clothing.accessories")).toMatchObject({ treatment: "taxable", rate: 0.08875 });
+    // Massachusetts: the first $175 of an item is exempt, the rest taxed.
+    const ma: RatePart[] = [{ kind: "state", name: "Massachusetts", code: "25", rate: 0.0625, ids: {} }];
+    const maClothing = at("MA", ma, "clothing.other");
+    expect(maClothing.treatment).toBe("conditional");
+    expect(maClothing.taxes[0].rule!.conditions.some((c) => c.when.startsWith("The first $175") && c.treatment === "exempt")).toBe(true);
+    // Pennsylvania: everyday clothing is exempt at any price; accessories are taxed.
+    const pa: RatePart[] = [{ kind: "state", name: "Pennsylvania", code: "42", rate: 0.06, ids: {} }];
+    expect(at("PA", pa, "clothing.other")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    expect(at("PA", pa, "clothing.accessories")).toMatchObject({ treatment: "taxable", rate: 0.06 });
+    expect(at("PA", pa, "clothing").treatment).toBe("conditional");
+    // British Columbia: 10% PST on liquor, beside the 5% GST.
+    expect(at("BC", provinceParts("BC", "2026-10-30"), "alcohol.off_premises")).toMatchObject({ treatment: "partial", rate: 0.15 });
+    // Texas: packaged alcohol is taxed at the general rate; a mixed beverage permittee's drink isn't under the sales tax.
+    expect(at("TX", tx, "alcohol.off_premises")).toMatchObject({ treatment: "taxable", rate: 0.0825 });
+    expect(at("TX", tx, "alcohol").treatment).toBe("conditional");
+    // Ontario: children's clothing pays only the 5% federal part of the HST.
+    const on = at("ON", provinceParts("ON", "2026-10-30"), "clothing.other");
+    expect(on.outcomes?.map((o) => o.rate).sort()).toEqual([0.05, 0.13]);
+  });
+
+  it("answers rentals and work on goods from the researched rules", () => {
+    const at = (state: string, parts: RatePart[], code: TaxCode, date = "2026-10-30") => taxabilityOf({ state, parts }, code, date, RULES);
+    const one = (code: string, rate: number): RatePart[] => [{ kind: "state", name: code, code, rate, ids: {} }];
+    // Renting goods is taxed like their sale in New York; Alabama taxes it by a separate rental tax, not the sales tax.
+    expect(at("NY", ny, "rental")).toMatchObject({ treatment: "taxable", rate: 0.08875 });
+    expect(at("AL", one("01", 0.04), "rental")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    // New York taxes repairs but not shoe repair or tailoring: a case each.
+    const nyRepair = at("NY", ny, "service.goods.repair");
+    expect(nyRepair.treatment).toBe("conditional");
+    expect(nyRepair.taxes[0].rule!.conditions.map((c) => c.treatment).sort()).toEqual(["exempt", "taxable"]);
+    // Laundry and dry cleaning are exempt in Georgia; Hawaii's GET reaches every kind of work.
+    expect(at("GA", one("13", 0.04), "service.goods.cleaning")).toMatchObject({ treatment: "not_taxed", rate: 0 });
+    expect(at("HI", one("15", 0.04), "service.goods")).toMatchObject({ treatment: "taxable" });
+    // Ontario's HST follows the federal base for both.
+    expect(at("ON", provinceParts("ON", "2026-10-30"), "service.goods")).toMatchObject({ treatment: "taxable", rate: 0.13 });
   });
 
   it("reads every reviewed rule file cleanly: dated, cited, no overlaps, every follows resolved", () => {
@@ -450,18 +514,219 @@ describe("taxability", () => {
     expect(taxabilityOf({ state: "ZZ", parts: three }, "food.grocery", "2026-06-15", local).rate).toBe(0.03);
   });
 
+  it("a rule for one local part decides that part alone, at its own special rate", () => {
+    const base = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const set = ruleSet([
+      { ...base, tax: "ZZ", code: "food.prepared", treatment: "taxable" },
+      { ...base, tax: "ZZ:local", code: "food.grocery", treatment: "taxable" },
+      { ...base, tax: "ZZ", code: "food.grocery", treatment: "exempt" },
+      { ...base, tax: "ZZ:local:01:7", code: "food.prepared", treatment: "special_rate", rate: 0.04 },
+      { ...base, tax: "ZZ:local:01:7", code: "food.grocery", treatment: "exempt" },
+    ] as Rule[]);
+    const parts: RatePart[] = [
+      { kind: "state", code: "45:1", rate: 0.03 },
+      { kind: "city", code: "01:7", rate: 0.05 },
+      { kind: "district", code: "d:9", rate: 0.01 },
+    ];
+    const hot = taxabilityOf({ state: "ZZ", parts }, "food.prepared.hot", "2026-01-01", set);
+    expect(hot).toMatchObject({ treatment: "partial", rate: 0.08 });
+    expect(hot.taxes.map((g) => [g.tax, g.parts])).toEqual([["ZZ", ["45:1", "d:9"]], ["ZZ:local:01:7", ["01:7"]]]);
+    // The most specific rule wins over "ZZ:local" too; the other local part keeps it.
+    const grocery = taxabilityOf({ state: "ZZ", parts }, "food.grocery", "2026-01-01", set);
+    expect(grocery.taxes.map((g) => [g.tax, g.parts, g.rate])).toEqual([["ZZ", ["45:1"], 0], ["ZZ:local:01:7", ["01:7"], 0], ["ZZ:local", ["d:9"], 0.01]]);
+    // Another city's part is untouched.
+    const other = taxabilityOf({ state: "ZZ", parts: [parts[0], { kind: "city", code: "01:8", rate: 0.05 }] }, "food.prepared.hot", "2026-01-01", set);
+    expect(other).toMatchObject({ treatment: "taxable", rate: 0.08 });
+  });
+
+  it("taxes Denver's food and drink at its own 4.00%, and exempts pop sold for home consumption (Topic 32, Rule 002)", () => {
+    // 200 E Colfax Ave, Denver, CO 80203, as the rate lookup answers it.
+    const denver: RatePart[] = [
+      { kind: "state", name: "Colorado", code: "45:1", rate: 0.029 },
+      { kind: "city", name: "Denver, City and County", code: "01:ttr17", rate: 0.0515 },
+      { kind: "district", name: "Colorado RTD", code: "d:ttr528", rate: 0.01 },
+      { kind: "district", name: "Scientific and Cultural Facilities District", code: "d:ttr555", rate: 0.001 },
+    ];
+    // Hot takeaway lasagna: CO 2.9% + RTD 1% + SCFD 0.1% + Denver 4%.
+    const hot = taxabilityOf({ state: "CO", parts: denver }, "food.prepared.hot", "2026-11-03", RULES);
+    expect(hot).toMatchObject({ treatment: "partial", rate: 0.08 });
+    expect(hot.taxes.find((g) => g.parts.includes("01:ttr17"))).toMatchObject({ tax: "CO:local:01:ttr17", parts: ["01:ttr17"], treatment: "special_rate", rate: 0.04 });
+    // An unopened six-pack of ginger ale from a store: state and district taxes only.
+    const pop = taxabilityOf({ state: "CO", parts: denver }, "food.soft_drink", "2026-11-03", RULES);
+    expect(pop).toMatchObject({ treatment: "partial", rate: 0.04 });
+    expect(pop.taxes.find((g) => g.parts.includes("01:ttr17"))).toMatchObject({ treatment: "exempt", rate: 0 });
+    // A general sale is still at Denver's general rate.
+    expect(taxabilityOf({ state: "CO", parts: denver }, "goods.general", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.0915 });
+    // Another Colorado city's part keeps the CO rules.
+    const elsewhere = denver.map((p) => (p.code === "01:ttr17" ? { ...p, code: "01:ttr999999" } : p));
+    expect(taxabilityOf({ state: "CO", parts: elsewhere }, "food.prepared.hot", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.0915 });
+  });
+
+  it("a state's administered-only rule never decides a self-collected home-rule city's part", () => {
+    const parts = (city: string): RatePart[] => [
+      { kind: "state", code: "45:1", rate: 0.029 },
+      { kind: "city", code: city, rate: 0.0375 },
+      { kind: "district", code: "d:ttr528", rate: 0.01 },
+    ];
+    // Thornton collects its own tax (DR 1002) and has no software rule: not
+    // researched, before and after HB 26-1223, never the state's answer.
+    for (const date of ["2026-11-03", "2027-01-01"]) {
+      const t = taxabilityOf({ state: "CO", parts: parts("01:ttr238") }, "software.saas", date, RULES);
+      expect(t.treatment, date).toBe("not_researched");
+      expect(t.taxes.find((g) => g.parts.includes("01:ttr238"))?.treatment, date).toBe("not_researched");
+      expect(t.taxes.find((g) => g.parts.includes("45:1"))?.tax, date).toBe("CO:administered");
+    }
+    // A city the state collects for (any part not on the list) follows the state.
+    const t = taxabilityOf({ state: "CO", parts: parts("01:ttr999999") }, "software.saas", "2027-01-01", RULES);
+    expect(t).toMatchObject({ treatment: "taxable", rate: 0.0765 });
+    // Rules the state's guidance doesn't limit still reach every part.
+    expect(taxabilityOf({ state: "CO", parts: parts("01:ttr238") }, "goods.general", "2026-11-03", RULES).treatment).toBe("taxable");
+  });
+
+  it("taxes each part at its own rate for a class a rule names, and never at its general rate when it has none", () => {
+    const base = { from: "2020-01-01", fromIs: "effective" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const set = ruleSet([
+      { ...base, tax: "ZZ", code: "food.prepared", treatment: "taxable" },
+      { ...base, tax: "ZZ:local", code: "food.prepared.dine_in", treatment: "special_rate", rateClass: "restaurant" },
+      { ...base, tax: "ZZ:local", code: "food.prepared.hot", treatment: "conditional", conditions: [
+        { when: "Sold by a restaurant", treatment: "special_rate", rateClass: "restaurant" },
+        { when: "Sold by a store", treatment: "taxable" },
+      ] },
+    ] as Rule[]);
+    const parts: RatePart[] = [
+      { kind: "state", code: "45:1", rate: 0.056 },
+      { kind: "county", code: "00:3", rate: 0.007, classRates: { restaurant: 0.007 } },
+      { kind: "city", code: "01:7", rate: 0.029, classRates: { restaurant: 0.039, grocery: 0.025 } },
+    ];
+    const dineIn = taxabilityOf({ state: "ZZ", parts }, "food.prepared.dine_in", "2026-01-01", set);
+    expect(dineIn).toMatchObject({ treatment: "partial", rate: 0.102 });
+    expect(dineIn.taxes.map((g) => [g.tax, g.parts, g.treatment, g.rate])).toEqual([["ZZ", ["45:1"], "taxable", 0.056], ["ZZ:local", ["00:3", "01:7"], "special_rate", 0.046]]);
+    expect(dineIn.taxes[1].rule).toMatchObject({ rateClass: "restaurant" });
+    // A case naming a class counts each part's rate for it.
+    const hot = taxabilityOf({ state: "ZZ", parts }, "food.prepared.hot", "2026-01-01", set);
+    expect(hot.outcomes).toEqual([{ when: "Sold by a restaurant", rate: 0.102 }, { when: "Sold by a store", rate: 0.092 }]);
+    // A part with no restaurant rate isn't taxed at its general rate: it's not researched.
+    const missing = parts.map((p) => (p.code === "01:7" ? { ...p, classRates: { grocery: 0.025 } } : p));
+    const unknown = taxabilityOf({ state: "ZZ", parts: missing }, "food.prepared.dine_in", "2026-01-01", set);
+    expect(unknown).toMatchObject({ treatment: "not_researched", rate: null });
+    expect(unknown.taxes.find((g) => g.parts.includes("01:7"))).toMatchObject({ treatment: "not_researched", rule: null });
+    expect(taxabilityOf({ state: "ZZ", parts: missing }, "food.prepared.hot", "2026-01-01", set).outcomes).toBeUndefined();
+    // The general rate is untouched.
+    expect(taxabilityOf({ state: "ZZ", parts }, "food.prepared.sandwich", "2026-01-01", set)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+  });
+
+  it("taxes a drink served in Glendale, Arizona at the restaurants and bars rate, and a bottle to go at retail (ADOR's table, A.R.S. 42-5074)", () => {
+    const glendale: RatePart[] = [
+      { kind: "state", name: "Arizona", code: "45:04", rate: 0.056 },
+      { kind: "county", name: "MARICOPA", code: "00:MAR", rate: 0.007, classRates: { restaurant: 0.007 } },
+      { kind: "city", name: "GLENDALE", code: "01:GE", rate: 0.029, classRates: { restaurant: 0.039, grocery: 0.025 } },
+    ];
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "alcohol.on_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.102 });
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "alcohol.off_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+    const any = taxabilityOf({ state: "AZ", parts: glendale }, "alcohol", "2026-11-03", RULES);
+    expect(any).toMatchObject({ treatment: "conditional", rate: null });
+    expect(any.outcomes?.map((o) => o.rate)).toEqual([0.102, 0.092]);
+    // Utah: the county restaurant tax on a drink at a bar, as on a meal.
+    const slc: RatePart[] = [
+      { kind: "state", code: "45:49", rate: 0.0485, classRates: { restaurant: 0.0485 } },
+      { kind: "county", code: "00:035", rate: 0.026, classRates: { restaurant: 0.036 } },
+      { kind: "city", code: "01:67000", rate: 0.01, classRates: { restaurant: 0.01 } },
+    ];
+    expect(taxabilityOf({ state: "UT", parts: slc }, "alcohol.on_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.0945 });
+    expect(taxabilityOf({ state: "UT", parts: slc }, "alcohol.off_premises", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.0845 });
+  });
+
+  it("answers a Metro East grocery conditional on the retailer's liability for the district's tax, never one rate chosen (IDOR's file guide)", () => {
+    // Madison County, unincorporated (060-5000-2): the file's high and low rates.
+    const madison: RatePart[] = [
+      { kind: "state", code: "45:17", rate: 0.0625 },
+      { kind: "district", code: "x:0605000", rate: 0.0225, classCases: { grocery: [
+        { when: "The retailer is liable for the Metro East Mass Transit District's tax (IDOR's high rate for the location)", rate: 0.0025 },
+        { when: "The retailer isn't liable for the Metro East Mass Transit District's tax (IDOR's low rate for the location)", rate: 0 },
+      ] } },
+    ];
+    const t = taxabilityOf({ state: "IL", parts: madison }, "food.grocery", "2026-11-03", RULES);
+    expect(t).toMatchObject({ treatment: "conditional", rate: null });
+    expect(t.outcomes?.map((o) => [o.when.slice(0, 26), o.rate])).toEqual([["The retailer is liable for", 0.0025], ["The retailer isn't liable ", 0]]);
+    // A location the flag doesn't touch has its one rate.
+    const chicago: RatePart[] = [{ kind: "state", code: "45:17", rate: 0.0625 }, { kind: "district", code: "x:0160001", rate: 0.0425, classRates: { grocery: 0.015 } }];
+    expect(taxabilityOf({ state: "IL", parts: chicago }, "food.grocery", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.015 });
+  });
+
+  it("compiles the rules into chains and dated segments: parts without a rule of their own share a chain, Boulder's starts on its verified day", () => {
+    const c = compiledOf(RULES);
+    expect(c.chainOf("CO", { kind: "state", code: "45:1" })).toEqual(["CO:administered", "CO"]);
+    // Any two local parts without a key of their own ask the same chain; a
+    // self-collected city's skips CO:administered; Boulder's starts with its own.
+    expect(c.chainOf("CO", { kind: "district", code: "d:ttr528" })).toEqual(c.chainOf("CO", { kind: "county", code: "00:ttr16" }));
+    expect(c.chainOf("CO", { kind: "city", code: "01:ttr255" })).toEqual(["CO:local", "CO"]);
+    const boulder = c.chainOf("CO", { kind: "city", code: "01:ttr209" });
+    expect(boulder).toEqual(["CO:local:01:ttr209", "CO:local", "CO"]);
+    expect(c.chains.map((k) => k.join(" "))).toContain(boulder.join(" "));
+    const segments = c.segments(boulder, "food.prepared.dine_in");
+    expect(segments.map((s) => [s.from, s.to, s.rule?.tax ?? null])).toEqual([[undefined, "2026-05-31", null], ["2026-06-01", undefined, "CO:local:01:ttr209"]]);
+    // A place with no rules has no chain, and nothing is researched there.
+    expect(c.chainOf("ZZ", { kind: "state", code: "48" })).toEqual([]);
+    expect(c.segments([], "food.grocery")).toEqual([{ rule: null }]);
+  });
+
+  it("doesn't fill a city's unverified earlier period from the state's rules: Boulder before 2026-06-01, Denver before 2019", () => {
+    const boulder: RatePart[] = [
+      { kind: "state", code: "45:1", rate: 0.029 },
+      { kind: "city", code: "01:ttr209", rate: 0.0386 },
+      { kind: "county", code: "00:ttr16", rate: 0.01335 },
+      { kind: "district", code: "d:ttr528", rate: 0.01 },
+      { kind: "district", code: "d:ttr555", rate: 0.001 },
+    ];
+    const before = taxabilityOf({ state: "CO", parts: boulder }, "food.prepared.dine_in", "2026-05-31", RULES);
+    expect(before).toMatchObject({ treatment: "not_researched", rate: null });
+    expect(before.taxes.find((g) => g.parts.includes("01:ttr209"))).toMatchObject({ treatment: "not_researched" });
+    expect(before.taxes.find((g) => g.parts.includes("45:1"))).toMatchObject({ treatment: "taxable" });
+    expect(taxabilityOf({ state: "CO", parts: boulder }, "food.prepared.dine_in", "2026-06-01", RULES)).toMatchObject({ rate: 0.09345 });
+    // A code Boulder has no rule of its own for still answers by Colorado's.
+    expect(taxabilityOf({ state: "CO", parts: boulder }, "goods.general", "2026-05-31", RULES)).toMatchObject({ treatment: "taxable", rate: 0.09195 });
+    const denver: RatePart[] = [{ kind: "state", code: "45:1", rate: 0.029 }, { kind: "city", code: "01:ttr17", rate: 0.0515 }, { kind: "district", code: "d:ttr528", rate: 0.01 }];
+    expect(taxabilityOf({ state: "CO", parts: denver }, "food.prepared.hot", "2018-06-01", RULES)).toMatchObject({ treatment: "not_researched" });
+  });
+
+  it("lists no outcomes, rather than failing, when nothing undecided is left to list", () => {
+    const rule = { from: "2020-01-01", fromIs: "effective" as const, treatment: "special_rate" as const, summary: "A test rule, nothing more.", conditions: [], citations: [{ title: "t", url: "https://example.gov/t" }] };
+    const odd: Taxability = { treatment: "partial", rate: null, taxes: [{ tax: "ZZ", parts: ["01:1"], treatment: "special_rate", rate: null, rule }] };
+    expect(settleCases(odd, [{ kind: "city", code: "01:1", rate: 0.02 }], new Map())).toMatchObject({ treatment: "conditional", rate: null });
+  });
+
+  it("taxes dine-in food in Glendale, Arizona at its city's restaurant rate: 10.2%, against 9.2% retail", () => {
+    // 5850 W Glendale Ave, Glendale, AZ 85301, as the rate lookup answers it.
+    const glendale: RatePart[] = [
+      { kind: "state", name: "Arizona", code: "45:04", rate: 0.056 },
+      { kind: "county", name: "MARICOPA", code: "00:MAR", rate: 0.007, classRates: { restaurant: 0.007 } },
+      { kind: "city", name: "GLENDALE", code: "01:GE", rate: 0.029, classRates: { restaurant: 0.039, grocery: 0.025 } },
+    ];
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "food.prepared.dine_in", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.102 });
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "food.catering", "2026-11-03", RULES)).toMatchObject({ rate: 0.102 });
+    expect(taxabilityOf({ state: "AZ", parts: glendale }, "goods.general", "2026-11-03", RULES)).toMatchObject({ treatment: "taxable", rate: 0.092 });
+  });
+
   it("keeps its promises for every place, every code and dates from 2013 to 2027, on the real rules", () => {
     const provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
     // Every US state with rules ("CA" here is California; Canada's federal
     // rules are reached through the provinces).
     const places = [...new Set(rows.map((r) => r.tax.slice(0, 2)))].filter((p) => !provinces.includes(p));
+    // Each part a one-part rule names, and a few self-collected parts.
+    const ownParts = (place: string) => [...new Set([...rows.flatMap((r) => (r.tax.startsWith(`${place}:local:`) ? [r.tax.slice(`${place}:local:`.length)] : [])), ...(SELF_COLLECTED[place] ? [...Object.keys(SELF_COLLECTED[place].parts).slice(0, 4), "01:ttr238"] : [])])];
     const dates = ["2013-06-01", "2016-01-01", "2019-07-01", "2021-03-15", "2023-01-01", "2024-12-20", "2025-07-01", "2025-10-15", "2026-06-15", "2026-10-30", "2027-03-01"];
     let answers = 0;
     for (const date of dates)
       for (const place of [...places, ...provinces]) {
         const parts: RatePart[] = provinces.includes(place)
           ? provinceParts(place, date)
-          : [{ kind: "state", code: `${place}-S`, rate: 0.05 }, { kind: "county", code: `${place}-C`, rate: 0.01 }, { kind: "city", code: `${place}-T`, rate: 0.015 }];
+          : [
+              { kind: "state", code: `${place}-S`, rate: 0.05 },
+              { kind: "county", code: `${place}-C`, rate: 0.01 },
+              { kind: "city", code: `${place}-T`, rate: 0.015 },
+              // Each local part a rule of its own is keyed to ("CO:local:01:ttr17").
+              ...ownParts(place).map((code) => ({ kind: "city" as const, code, rate: 0.03 })),
+            ];
         const general = parts.reduce((sum, p) => sum + p.rate, 0);
         for (const code of CODES) {
           const t = taxabilityOf({ state: place, parts }, code, date, RULES);

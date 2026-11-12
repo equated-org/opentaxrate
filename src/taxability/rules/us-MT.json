@@ -364,5 +364,103 @@
       }
     ],
     "notes": "Montana levies no general state sales tax; 2016-01-15 is only the earliest date checked (the DOR memo), and no change since has been found. Not modeled here: local resort taxes (up to 3%, 7-6-1503 MCA) in resort communities and areas designated by the Department of Commerce, administered locally, not by DOR; they apply to lodging, restaurants and other food service, bars, destination recreation and 'luxuries' as each community's ordinance defines them, so they vary by place. MT:local is left unresearched. Montana's 4% lodging sales tax and 4% rental vehicle tax are not general sales taxes and fall outside these codes."
+  },
+  {
+    "tax": "MT",
+    "code": "clothing",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general state sales tax on clothing, footwear, accessories or protective and sporting gear.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana DOR, Sales Tax Guidance",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana DOR, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      },
+      {
+        "title": "Montana DOR, Local Resort Tax",
+        "url": "https://revenue.mt.gov/taxes/miscellaneous/local-resort-tax",
+        "quote": "The resort tax also applies to luxuries sold in the resort area."
+      }
+    ],
+    "notes": "Date is dated DOR memorandum; current DOR page confirms continuing absence of general sales tax. Like the MT goods.general rule, this leaves independent local resort taxes unresolved. Resort taxes reach bars and luxuries under local ordinances; no statewide local exemption is asserted. Separate alcoholic-beverage excises are not included."
+  },
+  {
+    "tax": "MT",
+    "code": "alcohol",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general state sales tax on packaged or served alcoholic beverages.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana DOR, Sales Tax Guidance",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "The Wayfair decision does not affect Montanans purchasing goods or services online because Montana does not have a general sales tax."
+      },
+      {
+        "title": "Montana DOR, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      },
+      {
+        "title": "Montana DOR, Local Resort Tax",
+        "url": "https://revenue.mt.gov/taxes/miscellaneous/local-resort-tax",
+        "quote": "The resort tax also applies to luxuries sold in the resort area."
+      }
+    ],
+    "notes": "Date is dated DOR memorandum; current DOR page confirms continuing absence of general sales tax. Like the MT goods.general rule, this leaves independent local resort taxes unresolved. Resort taxes reach bars and luxuries under local ordinances; no statewide local exemption is asserted. Separate alcoholic-beverage excises are not included."
+  },
+  {
+    "tax": "MT",
+    "code": "rental",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general state sales tax on ordinary tangible-property rentals.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana DOR, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax."
+      },
+      {
+        "title": "Montana DOR, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "2016-01-15 is the dated official memorandum; current DOR guidance confirms the continuing absence of a general sales tax. As in existing MT rules, this addresses the general state tax only. Independent local resort taxes and their ordinance-specific coverage are not resolved or modeled."
+  },
+  {
+    "tax": "MT",
+    "code": "service.goods",
+    "from": "2016-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Montana has no general state sales tax on repair, cleaning and customization labor on customer-owned goods.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Montana DOR, Sales Tax Guidance for Montana Business and Residents",
+        "url": "https://revenue.mt.gov/taxes/general-sales-tax",
+        "quote": "Montana does not have a general-use sales tax."
+      },
+      {
+        "title": "Montana DOR, Revenue Impact of Statewide and Local Option Sales Taxes (January 15, 2016)",
+        "url": "https://archive.legmt.gov/content/Committees/Interim/2015-2016/Revenue-and-Transportation/Meetings/March-2016/DOR-sales-tax-memo.pdf",
+        "quote": "Montana is currently one of five states with no general statewide tax."
+      }
+    ],
+    "notes": "2016-01-15 is the dated official memorandum; current DOR guidance confirms the continuing absence of a general sales tax. As in existing MT rules, this addresses the general state tax only. Independent local resort taxes and their ordinance-specific coverage are not resolved or modeled."
   }
 ]

@@ -1205,5 +1205,98 @@
       }
     ],
     "notes": "No NM statute, regulation or FYI found that names SaaS; taxable either as a license to use property (7-9-3) or as a service (3.2.1.18 NMAC), both within gross receipts. fromIs earliest_verified at 2018-01-01, the start of the research window: the cited sections are read from the current NMSA compilation and NMAC; their history notes show no amendment since 2018 that changes this treatment (the 2019 amendment of 7-9-3 only renamed licenses as including digital goods; the 2022-2023 rate cuts in 7-9-4 are rate changes). New Mexico's local option gross receipts taxes are imposed on the same base and reported on the same return (FYI-201 notes the special food rate code lets local governments receive their distributions), so tax NM covers state and local parts."
+  },
+  {
+    "tax": "NM",
+    "code": "clothing",
+    "from": "2025-08-11",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and equipment are subject to gross receipts tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts and Compensating Taxes: An Overview (08/11/2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "The tax is imposed on the gross receipts of persons who:"
+      },
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts and Compensating Taxes: An Overview (08/11/2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Sell property in New Mexico;"
+      },
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts and Compensating Taxes: An Overview (08/11/2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "If your receipts do not fall under any exemption or deduction, those receipts are taxable."
+      }
+    ],
+    "notes": "FYI-105 dated 08/11/2025. Entire exemption/deduction list reviewed: no general clothing exemption. Annual back-to-school and qualifying small-business holiday deductions are not modeled. Local option taxes share the gross receipts base, consistent with existing NM rules."
+  },
+  {
+    "tax": "NM",
+    "code": "alcohol",
+    "from": "2022-10-06",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Retail alcoholic beverage sales bear gross receipts tax for both take-away and on-premises consumption; separate liquor excise tax is excluded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD, Excise Tax presentation to the Revenue Stabilization and Tax Policy Committee (October 6, 2022)",
+        "url": "https://www.nmlegis.gov/handouts/RSTP%20100622%20Item%206%20TRD%20Excise%20Tax%20Presentation.pdf",
+        "quote": "But liquor wholesalers pay the Liquor Excise Tax, while liquor retailers pay gross receipts tax on their sales of alcoholic beverages."
+      }
+    ],
+    "notes": "TRD presentation dated October 6, 2022. No distinction between on- and off-premises retail receipts. Local option gross receipts taxes share the base, consistent with existing NM rules."
+  },
+  {
+    "tax": "NM",
+    "code": "rental",
+    "from": "2025-08-11",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Receipts from leasing tangible goods employed in New Mexico are subject to gross receipts tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM TRD, Who must file?",
+        "url": "https://www.tax.newmexico.gov/businesses/gross-receipts-overview/who-must-file/",
+        "quote": "The tax is imposed on the gross receipts of persons who:"
+      },
+      {
+        "title": "NM TRD, Who must file?",
+        "url": "https://www.tax.newmexico.gov/businesses/gross-receipts-overview/who-must-file/",
+        "quote": "lease or license property employed in New Mexico"
+      },
+      {
+        "title": "NM State Records Center and Archives, 3.2.1.17 NMAC Gross Receipts: Leasing",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Where property is rented or leased for employment both within and outside New Mexico the renter or lessor will be subject to the gross receipts tax on that portion of the receipts which is derived from the renting or leasing of property employed in New Mexico."
+      },
+      {
+        "title": "NM TRD, FYI-105 Gross Receipts & Compensating Taxes: An Overview (August 11, 2025)",
+        "url": "https://realfile.tax.newmexico.gov/FYI-105.pdf",
+        "quote": "Lease or license property employed in New Mexico;"
+      }
+    ],
+    "notes": "FYI-105 is dated August 11, 2025; this dated publication supports the treatment, alongside the current agency page. Existing NM rules use 2018-01-01 for undated current guidance, but this draft uses the dated guidance. NM covers state and local gross receipts tax consistently with existing rules. Ordinary retail transactions assumed; resale and other statutory deductions depend on transaction facts. No short/long-term exemption found. Separate leased vehicle taxes are excluded."
+  },
+  {
+    "tax": "NM",
+    "code": "service.goods",
+    "from": "2025-02-25",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair, cleaning and fabrication services on customer goods are subject to gross receipts tax unless a specific statutory exemption or deduction applies.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "NM State Records Center and Archives, 3.2.1.18(A) NMAC Gross Receipts: Services Generally (amended February 25, 2025)",
+        "url": "https://www.srca.nm.gov/parts/title03/03.002.0001.html",
+        "quote": "Receipts derived from performing a service in New Mexico or performing a service outside New Mexico the product of which is initially used in New Mexico are subject to the gross receipts tax unless a specific exemption or deduction provided for in the Gross Receipts and Compensating Tax Act applies."
+      }
+    ],
+    "notes": "February 25, 2025 is the amendment date shown for the current 3.2.1.18 text, used as earliest verified rather than original effective date. General service rule applies to the work charge, including separately stated labor. State and local base convention follows existing NM rules."
   }
 ]

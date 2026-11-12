@@ -725,5 +725,292 @@
       }
     ],
     "notes": "Maine's sales tax is imposed by the State only, at the rates in § 1811; no municipal sales tax exists in the rate data. No official page stating 'no local sales tax' in those words was found. This rule exists because the schema requires an ME:local rule beside a special-rate ME rule; no local part is ever charged."
+  },
+  {
+    "tax": "ME",
+    "code": "clothing",
+    "from": "2013-10-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories, protective and sports gear, costumes, formal wear and furs are taxable tangible personal property.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. §1811",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "A tax is imposed on the value of all tangible personal property, products transferred electronically and taxable services sold at retail in this State."
+      },
+      {
+        "title": "36 M.R.S. §1811(1)(A)",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "For sales occurring on or after October 1, 2013 and before January 1, 2016, the rate of tax is 5.5% on the value of all tangible personal property and taxable services, except the rate of tax is:"
+      }
+    ],
+    "notes": "Uses the statutory effective date of the general levy/rate period, as existing us-ME.json does. No clothing exemption identified. Maine has no local sales tax."
+  },
+  {
+    "tax": "ME",
+    "code": "alcohol.off_premises",
+    "from": "2021-02-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for off-premises consumption is subject to Maine general sales tax; separate liquor excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine Legislature, Maine Liquor Taxes (February 2021)",
+        "url": "https://legislature.maine.gov/doc/5406",
+        "quote": "5.5% of the value of the liquor sold for off-premises consumption"
+      }
+    ],
+    "notes": "Publication gives February 2021 only; first day of that month used for earliest_verified. No local sales tax."
+  },
+  {
+    "tax": "ME",
+    "code": "alcohol.on_premises",
+    "from": "2019-10-01",
+    "fromIs": "effective",
+    "treatment": "special_rate",
+    "rate": 0.08,
+    "summary": "Alcohol sold for on-premises consumption is subject to 8% sales tax; separate liquor excise taxes are not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "36 M.R.S. §1811(1)(D)(2)",
+        "url": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+        "quote": "Eight percent on the value of liquor sold in licensed establishments as defined in Title 28‑A, section 2, subsection 15 , in accordance with Title 28‑A, chapter 43 and liquor sold for on-premises consumption by a licensed brewery, small brewery, tenant brewery, winery, small winery, tenant winery, distillery or small distillery pursuant to Title 28‑A, section 1355‑A, subsection 2, paragraph B ;"
+      }
+    ],
+    "notes": "Effective date is stated in subsection D. Covers licensed bars/restaurants and listed manufacturers selling for on-premises consumption. No local sales tax."
+  },
+  {
+    "tax": "ME:local",
+    "code": "alcohol",
+    "from": "2014-01-15",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Maine has no local sales tax on alcoholic beverages.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine OFPR Staff Report, State Sales Tax Authority over Remote Sellers (January 15, 2014)",
+        "url": "https://mainelegislature.org/legis/ofpr/taxation_committee/materials/Staff_Report_ssut.pdf",
+        "quote": "Notwithstanding the fact that Maine has little risk on this issue since we have one general state rate, no local option taxes, and no local boundary issues, our statute does not currently support abatement of tax for erroneous information provided by MRS."
+      }
+    ],
+    "notes": "Official legislative staff report explicitly confirms no local option taxes. Publication date January 15, 2014. Covers the entire 2019-onward state special-rate period."
+  },
+  {
+    "tax": "ME",
+    "code": "rental",
+    "from": "2006-01-12",
+    "to": "2024-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Ordinary true-lease rental payments were exempt, with tax paid by the lessor on its purchase; qualifying interim rentals could instead be taxed on receipts.",
+    "conditions": [
+      {
+        "when": "Ordinary true lease, without the retailer’s interim-rental election",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Retailer elects to collect tax on a qualifying interim rental of resale inventory to one customer for no more than 12 months",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 20, Lease & Rental Transactions in Maine (January 12, 2006; archived February 7, 2017)",
+        "url": "https://web.archive.org/web/20170207231513/https://www1.maine.gov/revenue/salesuse/Bull20.pdf",
+        "quote": "No sales tax is charged to the lessee, nor are the lease payments subject to tax."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 20, Lease & Rental Transactions in Maine (January 12, 2006)",
+        "url": "https://web.archive.org/web/20170207231513/https://www1.maine.gov/revenue/salesuse/Bull20.pdf",
+        "quote": "However §1758 of the Sales/Use Tax law allows the retailer, in lieu of paying this use tax, to collect a sales tax on the rental price of the property."
+      }
+    ],
+    "notes": "IB20 issue date January 12, 2006. True leases include day-to-day and week-to-week rentals. Installment sales and exercised buyouts are outside this code. Certain furniture/audio rental-purchase agreements and video rentals then bore the separate Service Provider Tax, not modeled here. Superseded January 1, 2025."
+  },
+  {
+    "tax": "ME",
+    "code": "rental",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Sales tax applies to each periodic lease or rental payment for ordinary goods, including existing leases.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Notice to Lessors of Tangible Personal Property: Maine Shifting to “Lease Stream” Sales Taxation (December 17, 2024)",
+        "url": "https://web.archive.org/web/20260702100609/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Notice%20Lease%20and%20Rental%20of%20Tangible%20Personal%20Property.pdf",
+        "quote": "For leases in effect, entered into, or renewed on or after January 1, 2025, lessors are required to charge and collect Maine sales tax from the lessee on each lease or rental payment."
+      }
+    ],
+    "notes": "Express effective date. Each payment period is a separate sale, with no general short/long-term distinction for ordinary nonvehicle goods. The notice also discusses vehicle rates; vehicles are outside this code."
+  },
+  {
+    "tax": "ME",
+    "code": "service.goods.repair",
+    "from": "2025-12-22",
+    "to": "2025-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Repair labor is exempt when separately stated from parts or when no parts are sold; combined parts and labor are taxable.",
+    "conditions": [
+      {
+        "when": "Labor separately stated from parts, or no parts sold",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Repair parts and labor billed together without separate statement",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 53, Repairs and Warranties (February 18, 2016)",
+        "url": "https://web.archive.org/web/20250903170442/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Bull5302182016.pdf",
+        "quote": "When repairs are made to tangible personal property and the sale of parts and labor are separately stated, sales tax applies only to the sale of parts."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 53, Repairs and Warranties (February 18, 2016)",
+        "url": "https://web.archive.org/web/20250903170442/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Bull5302182016.pdf",
+        "quote": "If parts and labor are not separately stated on the invoice, the entire amount charged is subject to tax."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 53, Repairs and Warranties (February 18, 2016)",
+        "url": "https://web.archive.org/web/20250903170442/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Bull5302182016.pdf",
+        "quote": "When repairs do not include the sale of parts, no tax is charged to or due from the customer."
+      },
+      {
+        "title": "Maine Revenue Services, Business Guide to Sales and Use Tax (December 22, 2025)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Business%20Guide%20for%20December%202025%20FINAL.pdf",
+        "quote": "For example, if the repair of an automobile is billed to the customer as $80.00 repair labor and $120.00 repair parts, tax would be computed only on the $120.00 for repair parts."
+      }
+    ],
+    "notes": "The December 22, 2025 Business Guide verifies ordinary and automotive repair billing. Telecommunications-equipment work was then subject to the separate Service Provider Tax rather than general sales tax; that separate tax is not modeled."
+  },
+  {
+    "tax": "ME",
+    "code": "service.goods.cleaning",
+    "from": "2025-12-22",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Ordinary cleaning of customer-owned goods is an exempt personal-property service.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Business Guide to Sales and Use Tax (December 22, 2025)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Business%20Guide%20for%20December%202025%20FINAL.pdf",
+        "quote": "There is no tax on the sale of services in general, such as personal services (e.g., haircuts and massages), personal property services (e.g., dry cleaning and pet grooming), and real property services (e.g., carpentry, landscaping, and house cleaning)."
+      }
+    ],
+    "notes": "Business Guide revision date; dry cleaning is the express example. The service charge is not a sale of cleaning supplies or a rental of equipment."
+  },
+  {
+    "tax": "ME",
+    "code": "service.goods.other",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Fabrication of customer-supplied goods, including engraving and monogramming, is taxable; separately stated application work such as framing is exempt.",
+    "conditions": [
+      {
+        "when": "Fabricating taxable goods from customer materials, including engraving a ring, monogramming a shirt or printing customer-supplied paper",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Separately stated application or installation, including framing customer artwork or painting a business name on a customer vehicle",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Fabricated goods would themselves be exempt or otherwise not subject to sales tax if sold to the purchaser",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 46, Fabrication Services (March 11, 2026)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB46%20Fabrication%20Services%202026_03_11.pdf",
+        "quote": "Effective January 1, 2026, the Service Provider Tax is repealed, and services formerly taxable under the Service Provider Tax are instead subject to sales and use tax at the general rate."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 46, Fabrication Services (March 11, 2026)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB46%20Fabrication%20Services%202026_03_11.pdf",
+        "quote": "“Fabrication services” are taxable under the Maine Sales and Use Tax Law."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 46, Fabrication Services (March 11, 2026)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB46%20Fabrication%20Services%202026_03_11.pdf",
+        "quote": "“Fabrication services” does not include application, installation, or repair services. Charges for such services are not subject to tax if separately stated."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 46, Fabrication Services (March 11, 2026)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB46%20Fabrication%20Services%202026_03_11.pdf",
+        "quote": "A ring to a jeweler to be engraved with the customer’s initials;"
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 46, Fabrication Services (March 11, 2026)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB46%20Fabrication%20Services%202026_03_11.pdf",
+        "quote": "Framing a customer’s piece of art;"
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 46, Fabrication Services (March 11, 2026)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/IB46%20Fabrication%20Services%202026_03_11.pdf",
+        "quote": "The tax does not apply to charges for fabrication of tangible personal property where a sale to the purchaser of the tangible personal property being fabricated would be exempt or otherwise not subject to sales tax."
+      }
+    ],
+    "notes": "January 1, 2026 is the express sales-tax transition date. Before then fabrication was subject to a separate 6% Service Provider Tax, which is not modeled as sales tax. IB46 expressly distinguishes painting a business name on a vehicle from fabrication."
+  },
+  {
+    "tax": "ME",
+    "code": "service.goods.repair",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Ordinary separately stated repair labor is exempt, bundled repairs are taxable, and telecommunications-equipment repair is taxable from January 2026.",
+    "conditions": [
+      {
+        "when": "Installation, maintenance or repair of telecommunications equipment",
+        "treatment": "taxable"
+      },
+      {
+        "when": "Other repair labor separately stated from parts, or no parts sold",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other repair parts and labor billed together without separate statement",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 53, Repairs and Warranties (February 18, 2016)",
+        "url": "https://web.archive.org/web/20250903170442/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Bull5302182016.pdf",
+        "quote": "When repairs are made to tangible personal property and the sale of parts and labor are separately stated, sales tax applies only to the sale of parts."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 53, Repairs and Warranties (February 18, 2016)",
+        "url": "https://web.archive.org/web/20250903170442/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Bull5302182016.pdf",
+        "quote": "If parts and labor are not separately stated on the invoice, the entire amount charged is subject to tax."
+      },
+      {
+        "title": "Maine Revenue Services, Instructional Bulletin 53, Repairs and Warranties (February 18, 2016)",
+        "url": "https://web.archive.org/web/20250903170442/https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Bull5302182016.pdf",
+        "quote": "When repairs do not include the sale of parts, no tax is charged to or due from the customer."
+      },
+      {
+        "title": "Maine Revenue Services, Business Guide to Sales and Use Tax (December 22, 2025)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Business%20Guide%20for%20December%202025%20FINAL.pdf",
+        "quote": "For example, if the repair of an automobile is billed to the customer as $80.00 repair labor and $120.00 repair parts, tax would be computed only on the $120.00 for repair parts."
+      },
+      {
+        "title": "Maine Revenue Services, Business Guide to Sales and Use Tax (December 22, 2025)",
+        "url": "https://www1.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/Business%20Guide%20for%20December%202025%20FINAL.pdf",
+        "quote": "Effective January 1, 2026, the following services formerly subject to the Service Provider Tax (“SPT”) will be subject to sales tax at the rate of 5.5%: cable and satellite television or radio services; fabrication services; telecommunications services; the installation, maintenance or repair of telecommunications equipment; ancillary services; and digital audiovisual and digital audio services."
+      }
+    ],
+    "notes": "Express January 1, 2026 transition from Service Provider Tax to general sales tax. Includes the automotive billing example in the December 2025 Business Guide."
   }
 ]

@@ -52,7 +52,9 @@
 	/** The facts a description can't settle (needs), in words. */
 	const NEED: Record<string, string> = {
 		code: 'which code it is',
+		one_item: 'one item per request (the description names several)',
 		seller_kind: "the seller's share of prepared-food sales",
+		seller_license: "the seller's license, registration or nonprofit status",
 		locality: 'which local taxes the place levies',
 		payment_date: 'when it was paid for',
 		title_transfer: 'when title passed',
@@ -103,8 +105,14 @@
 						{#each read.conditions ?? [] as c, k (k)}
 							<p class="mt-1">Settled from the description: <span class="text-[var(--text)]">{c.when.join(' or ')}</span> <span class="font-num text-[var(--text-muted)]">({c.tax}, {sure(c.confidence)})</span></p>
 						{/each}
+						{#if read.unestablished?.length}
+							<p class="mt-1">The description doesn't establish what defines {read.unestablished.map(codeName).join(' or ')}.</p>
+						{/if}
 						{#if t.needs?.length}
 							<p class="mt-1">A description can't settle: {t.needs.map((n) => NEED[n] ?? n).join('; ')}.</p>
+						{/if}
+						{#if t.unresearched?.includes('locality')}
+							<p class="mt-1">Not researched for this place yet: which of its local taxes apply.</p>
 						{/if}
 						<p class="mt-1 text-[12px] text-[var(--text-muted)]">A model only picked among the codes' and rules' own words; the rules decided the tax. Facts the description doesn't state stay open.</p>
 					{/if}
@@ -151,7 +159,7 @@
 								<ul class="mt-2 flex flex-col gap-1 text-[13px] text-[var(--text-2)]">
 									{#each g.rule.conditions as c, j (j)}
 										<li class="flex gap-2">
-											<span class="shrink-0 font-medium">{TREATMENT[c.treatment] ?? c.treatment}{c.rate !== undefined ? ` ${pct(c.rate)}` : ''}</span>
+											<span class="shrink-0 font-medium">{TREATMENT[c.treatment] ?? c.treatment}{c.rate !== undefined ? ` ${pct(c.rate)}` : c.rateClass ? ` (each part's ${c.rateClass} rate)` : ''}</span>
 											<span>{c.when}</span>
 										</li>
 									{/each}

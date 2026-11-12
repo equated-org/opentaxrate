@@ -9,9 +9,15 @@
 	 *  the nearest code where the provider has no exact match. */
 	const MAPPING: Array<[string, string, string, string, string]> = [
 		['goods.general', 'tangible personal property', 'txcd_99999999', '(none)', 'P0000000'],
+		['clothing', 'clothing', 'txcd_30011000', '20010', 'PC040100'],
+		['alcohol.off_premises', 'alcoholic beverages', 'txcd_41020001*', '50202201A0000*', 'PA2020200*'],
+		['alcohol.on_premises', 'alcoholic beverages', '(none)', '(none)', 'PA2010200*'],
 		['food.grocery', 'food and food ingredients', 'txcd_40040000', '40030', 'PF050002'],
 		['food.prepared', 'prepared food', 'txcd_40060003', '41000', 'PA0010000'],
 		['food.catering', 'prepared food (catering)', 'txcd_40060003*', '41000*', 'SF096370'],
+		['rental', 'lease or rental', '(none)', '(none)', 'PR091000'],
+		['service.goods.repair', '(services aren\'t defined)', 'txcd_20080005', '19007', 'SR060200'],
+		['service.goods.cleaning', '(services aren\'t defined)', 'txcd_20090004*', '19006*', '(none)'],
 		['software.saas', 'prewritten computer software, remote access', 'txcd_10103001', '30070', 'SW054003'],
 		['software.custom', 'computer software, not prewritten', 'txcd_10203001', '19005*', 'DC010200'],
 		['service.professional', "(services aren't defined)", 'txcd_20060000', '19005', 'SC160000'],
@@ -116,8 +122,14 @@
 	</tbody>
 </table>
 <p>
-	The list grows only when a rule needs a split: clothing, medicine and digital goods each get a code when their rules are
-	researched.
+	A price limit isn't a code. Where a state exempts clothing only below a price per item (New York under $110), or taxes only
+	the part of an item's price above a limit (Massachusetts above $175, Rhode Island above $250), the <code>clothing</code> rule
+	is <code>conditional</code>, and each case names the amount;
+	send <code>clothing.accessories</code> or <code>clothing.equipment</code> for the kinds most clothing exemptions leave taxed.
+	Alcohol is taxed in many places by a separate liquor, drink or gross receipts tax beside or instead of the sales tax: the
+	answer covers the sales tax only, and the rule's summary names the other tax where there is one. The list grows only when a
+	rule needs a split: medicine and digital goods each get a code when their rules are researched. A motor vehicle rental has no
+	code: most places tax it apart from the sales tax.
 </p>
 
 <h2 id="mapping">Other taxonomies</h2>
@@ -135,7 +147,7 @@
 		{/each}
 	</tbody>
 </table>
-<p>* The nearest code; that provider has no exact match.</p>
+<p>* The nearest code; that provider has no exact match. For alcohol each provider splits beer, wine and spirits: the beer code is shown, and its wine and spirits codes map the same way.</p>
 
 <h2 id="coverage">Coverage</h2>
 <p>
@@ -222,7 +234,12 @@
 <ul>
 	<li>
 		<strong>Alone</strong>, the entry is keyed by the text. A confident code answers; where the words fit a broad code but not
-		which kind, the broader code answers (<code>food.prepared</code>, not a guess at hot or cold). Where they could be several
+		which kind, the broader code answers (<code>food.prepared</code>, not a guess at hot or cold). A code whose definition turns
+		on a fact answers only where the words establish it, by saying so or naming something that has it by definition: ginger
+		ale is a soft drink, but an iced tea isn't known to be sweetened. Otherwise a broader code whose fact they do establish
+		answers, or the candidates do, and <code>interpreted.unestablished</code> names the code. Send one item per line: where
+		the words name several different items, a code answers only if every item is of it (milk, eggs and bread are groceries);
+		otherwise the answer is <code>conditional</code> with <code>needs: ["one_item"]</code>. Where they could be several
 		codes, the answer is <code>conditional</code>, <code>interpreted.code</code> is <code>null</code> and
 		<code>candidates</code> lists them: send one as <code>code</code>. Where no code covers it (a haircut), it's
 		<code>not_researched</code>.
@@ -235,17 +252,21 @@
 	<li>
 		<strong>The cases.</strong> Where a rule is conditional, a case the words establish settles that tax, at the rate the
 		matching outcome gives, and <code>interpreted.conditions</code> names it. A case the words don't settle stays open: the
-		answer stays <code>conditional</code> with its outcomes. Where a settled rule lists exceptions (a napkin in the box makes a
+		answer stays <code>conditional</code> with its outcomes. Silence settles nothing: a case that states a fact by its absence
+		(sold without eating utensils) is settled only where the words say so. Where a settled rule lists exceptions (a napkin in the box makes a
 		Michigan bakery item taxable), an exception the words establish applies, and one they make likely without establishing
 		makes the answer conditional instead.
 	</li>
 	<li>
 		<strong>Facts a description can't carry.</strong> A price or a count in the words is never taken as the sale's, and a
-		case that turns on the seller's share of prepared-food sales, the place's own local taxes, payment in a dated tax period or
+		case that turns on the seller's share of prepared-food sales, a license, registration, exemption certificate or nonprofit status, the place's own local taxes, payment in a dated tax period or
 		when title passed is never settled from words either. Such a case stays open, and <code>needs</code> names the facts:
-		<code>seller_kind</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
-		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, or <code>code</code> when no one
-		code fits.
+		<code>seller_kind</code>, <code>seller_license</code>, <code>locality</code>, <code>payment_date</code>, <code>title_transfer</code>,
+		<code>qualifying_total</code>, <code>contract_total</code>, <code>quantity_by_kind</code>, <code>code</code> when no one
+		code fits, or <code>one_item</code> when the words name several items that aren't all of one code. A count only blocks the cases it decides: a loaf of bread is settled by its case's "bread products" alternative,
+		not held open by the same case's "six or more single servings". Which local taxes the address's place levies is never
+		asked of you: where our rules don't have that place's local law yet, <code>unresearched: ["locality"]</code> says so. A buyer's own exemption (a resale or exemption certificate, a
+		nonprofit buyer) is yours to claim: the answer is for an ordinary buyer.
 	</li>
 	<li>
 		<strong>Failures.</strong> If the model can't be asked or fails, the entry answers as if no text was sent, with

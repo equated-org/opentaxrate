@@ -1182,5 +1182,164 @@
       }
     ],
     "notes": "Notice 17-21 says its text was updated 'to reflect law changes' making seller-mixed items that need cooking (raw marinated meat, raw-egg mixtures) food; the earliest copy read with that text is the Wayback Machine's of 2018-08-02, so the rule starts there. No Tennessee guidance naming take-and-bake pizza or meal kits was found; an assembled item without raw animal food is prepared food by the mixed-ingredients test. The reduced local food rates are set place by place and announced in Department notices; this rule can't say which places have one. Pub. Ch. 917 (2024) lets a city lower or exempt only its 'city tax rate' (the part above the county rate); Davidson County's 1.75% (Notice 26-19, citing Tenn. Code Ann. 67-6-702) is a county-level reduction. Single-article local cap still applies to food items."
+  },
+  {
+    "tax": "TN",
+    "code": "clothing",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear, including accessories and protective or sporting equipment, are subject to Tennessee state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual, August 2022",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Generally, all tangible personal property is taxable unless it is specifically exempt by law."
+      },
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual, August 2022",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "T-shirts, cups/mugs, and other merchandise that a restaurant may offer for sale are subject to sales tax."
+      }
+    ],
+    "notes": "August 2022 is the printed manual edition; the first day of that month is used as the verification date. Annual clothing sales-tax holiday is not modeled. The manual treats clothing, sports equipment and general tangible personal property as taxable. Local option tax applies; its single-article base limits are rate/base mechanics rather than a clothing exemption."
+  },
+  {
+    "tax": "TN",
+    "code": "alcohol",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcohol sold for consumption on or off premises is subject to general sales tax; the separate 15% liquor-by-the-drink tax also applies to qualifying on-premises beverages and is not included.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual, August 2022",
+        "url": "https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "All sales of alcoholic beverages are subject to the sales or use tax."
+      },
+      {
+        "title": "Tennessee DOR, Liquor-by-the-Drink Tax",
+        "url": "https://www.tn.gov/content/tn/revenue/taxes/liquor-by-the-drink-tax.html",
+        "quote": "The liquor-by-the-drink tax rate is 15%."
+      }
+    ],
+    "notes": "Printed manual edition August 2022, represented as August 1. Sales price includes applicable federal and state taxes except liquor-by-the-drink tax. General state and applicable local sales taxes apply. The 15% drink tax does not apply to all beer; the DOR overview identifies wine, spirits and high-alcohol beer, subject to exceptions."
+  },
+  {
+    "tax": "TN",
+    "code": "rental",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rentals and leases of tangible goods are subject to general Tennessee state and local sales tax, whether for a fixed or indeterminate term.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Leases and rentals of tangible personal property are generally subject to Tennessee sales and use tax."
+      }
+    ],
+    "notes": "August 2022 edition represented as August 1; archived official PDF because the direct download was blocked. No short/long duration exemption for ordinary goods was found. The manual explains the local single-article cap applies to the rental flow from a single article (generally first $1,600), a base mechanic not modeled here. Motor vehicles and real property are outside this code."
+  },
+  {
+    "tax": "TN",
+    "code": "service.goods.repair",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Repair and alteration labor on customers’ tangible goods, including automobile repairs, is taxable even without a separate parts sale.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "All charges for repair services and repairs of any kind of tangible personal property, such as automobiles, including all parts and/or labor, are subject to the sales tax."
+      },
+      {
+        "title": "Tennessee DOR, Chapter 1320-05-01 State Sales and Use Tax Rules (revised January 2022)",
+        "url": "https://web.archive.org/web/20250711065323/https://publications.tnsosfiles.com/rules/1320/1320-05/1320-05-01.20220110.pdf",
+        "quote": "The washing, drying, or cleaning of any kind of tangible personal property and sales of any tangible personal property such as soap, bleaches, etc., and repair or alteration of any tangible personal property, for use and consumption, are subject to the Sales and Use Tax."
+      }
+    ],
+    "notes": "August 2022 manual edition represented as August 1. Separately stating labor does not exempt it; separately stated parts are goods. Rules .53 and .54 also cover clothing alterations."
+  },
+  {
+    "tax": "TN",
+    "code": "service.goods.cleaning",
+    "from": "2022-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "conditional",
+    "summary": "Cleaning, laundry and dry cleaning of customers’ goods are taxable, with exceptions for self-service laundry and qualifying automated or self-service car washes.",
+    "conditions": [
+      {
+        "when": "Coin-operated laundry or dry cleaning where the customer handles all clothing activities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Car wash where customer retains custody and customer or automated equipment performs most cleaning activities",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Pressing-only charges separately stated and separately accounted for",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Other cleaning, laundry or dry cleaning of the customer's goods",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Laundering or dry cleaning of tangible personal property is a taxable service."
+      },
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "A car wash is not subject to sales tax if the customer remains in custody of the vehicle and most of the wash and related cleaning activities, such as rinsing, drying, polishing, and vacuuming, are completed by the customer or automated equipment."
+      },
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "A car wash is subject to sales tax if the service provider takes custody of the vehicle at any time or performs most of the cleaning activities for the customer."
+      },
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Charges for the use of coin-operated laundry and dry-cleaning machines, if the customer performs all the activities related to the handling of their clothing. If the seller performs any of the handling services, the charges are taxable."
+      },
+      {
+        "title": "Tennessee DOR, Sales and Use Tax Manual (August 2022)",
+        "url": "https://web.archive.org/web/20250902080156/https://www.tn.gov/content/dam/tn/revenue/documents/tax_manuals/august-2022/Sales-Use-Tax.pdf",
+        "quote": "Charges for pressing only, provided the dealer separately states those charges on the ticket or invoice given to the customer and separately accounts for those charges in its books and records."
+      }
+    ],
+    "notes": "August 2022 manual edition represented as August 1. Pressing with taxable laundering is taxable. Cleaning real property is outside this code. Storage/insurance are separate services, not cleaning work."
+  },
+  {
+    "tax": "TN",
+    "code": "service.goods.other",
+    "from": "2022-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Fabrication and production work on customer-furnished materials is taxable, including separately billed labor.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Tennessee DOR, Chapter 1320-05-01 State Sales and Use Tax Rules (revised January 2022)",
+        "url": "https://web.archive.org/web/20250711065323/https://publications.tnsosfiles.com/rules/1320/1320-05/1320-05-01.20220110.pdf",
+        "quote": "Where persons contract to fabricate articles of tangible personal property from materials selected or furnished by customers, the total proceeds from the sale are subject to the Sales or Use Tax."
+      },
+      {
+        "title": "Tennessee DOR, Chapter 1320-05-01 State Sales and Use Tax Rules (revised January 2022)",
+        "url": "https://web.archive.org/web/20250711065323/https://publications.tnsosfiles.com/rules/1320/1320-05/1320-05-01.20220110.pdf",
+        "quote": "Such persons may not deduct labor or service charges of fabrication or production, notwithstanding that such charges may be separately billed to customers apart from charges for materials."
+      }
+    ],
+    "notes": "Rule .41, made-to-order sales. Printed January 2022 revision represented as January 1, not an enactment date. Applies to customizing that fabricates or produces a finished tangible article; not pure design/advice."
   }
 ]

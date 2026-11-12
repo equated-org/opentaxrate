@@ -647,5 +647,120 @@
       }
     ],
     "notes": "Taxable if the customer must also buy the seller's app (prewritten software) or receives another taxable item with the service. The earliest dated copy read is the bulletin as revised August 2026; the treatment is likely older (the bulletin was first issued earlier) but no earlier copy was read. County, city and resort-district sales taxes (W.S. 39-15-204) are levied on the same retail sales and take the state's exemptions (W.S. 39-15-205), so one WY rule covers state and local parts. Wyoming's 2026 SF0079 (Enrolled Act 018, effective 2026-07-01) reorganized the sales/use tax statutes; the DOR bulletins (revised August 2026) still cite the earlier section numbers. Treatment is unchanged as far as the bulletins show."
+  },
+  {
+    "tax": "WY",
+    "code": "clothing",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and protective or sports gear are subject to general Wyoming state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Professional Services bulletin (revised August 2026)",
+        "url": "https://drive.usercontent.google.com/download?id=1SEkgLO2pPVXKJUn5fbHtoxMsCiXB0fFH&export=download",
+        "quote": "Except as provided by W.S. 39-15-105, there is levied an excise tax upon: The sales price of every retail sale of tangible personal property within the state;"
+      },
+      {
+        "title": "Wyoming Statutes, W.S.39-15-205",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "August 2026 is the bulletin revision date. Treatment rests on the general tax on every retail sale of tangible personal property; no clothing exemption or price threshold was found in the statutory exemptions. Local taxes adopt state exemptions under W.S.39-15-205. One broad rule covers all clothing subcodes. The bulletin retains older statute section numbers after the 2026 statutory reorganization."
+  },
+  {
+    "tax": "WY",
+    "code": "alcohol",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Alcoholic beverages sold in sealed containers or served on the premises are subject to general state and local sales tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming DOR Professional Services bulletin (revised August 2026)",
+        "url": "https://drive.usercontent.google.com/download?id=1SEkgLO2pPVXKJUn5fbHtoxMsCiXB0fFH&export=download",
+        "quote": "Except as provided by W.S. 39-15-105, there is levied an excise tax upon: The sales price of every retail sale of tangible personal property within the state;"
+      },
+      {
+        "title": "Wyoming DOR, Excise Tax FAQs",
+        "url": "https://excise-tax-div.wyo.gov/general-administrative/excise-tax-faqs",
+        "quote": "Q: Are alcoholic beverages taxable? A. Yes. These products are excluded from the definition of food."
+      },
+      {
+        "title": "Wyoming Statutes, W.S.39-15-205",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "August 2026 is the revision date of the general retail-sales bulletin read alongside the undated current statute. The tax expressly covers alcoholic beverages without distinguishing where consumed. Local taxes use the same base and exemptions. Wholesale alcohol excises and markups are outside this sales-tax rule."
+  },
+  {
+    "tax": "WY",
+    "code": "rental",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Renting tangible goods is taxable on gross rental when a sale of the same goods would be taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming Statutes, Title 39, Taxation and Revenue, §§ 39-15-103 and 39-15-205 (current consolidation)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "The gross rental paid for the lease or contract transferring possession of tangible personal property if the transfer of possession would be taxable if a sale occurred;"
+      },
+      {
+        "title": "Wyoming Statutes, Title 39, Taxation and Revenue, §§ 39-15-103 and 39-15-205 (current consolidation)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The current Title 39 PDF is undated; 2026-08-01 follows the current-source date convention in existing WY goods.general. No prior statutory edition was verified. State and local taxes use the same exemptions (§ 39-15-205). Ordinary nonexempt goods only. No short-term/long-term taxability distinction stated. Motor vehicles and real property are excluded from this code."
+  },
+  {
+    "tax": "WY",
+    "code": "service.goods.repair",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Labor for repair, alteration or improvement of the customer’s tangible goods is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming Statutes, Title 39, Taxation and Revenue, §§ 39-15-103 and 39-15-205 (current consolidation)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "The sales price paid for services performed for the repair, alteration or improvement of tangible personal property;"
+      },
+      {
+        "title": "Wyoming Statutes, Title 39, Taxation and Revenue, §§ 39-15-103 and 39-15-205 (current consolidation)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The current Title 39 PDF is undated; 2026-08-01 follows the current-source date convention in existing WY goods.general. No prior statutory edition was verified. State and local taxes use the same exemptions (§ 39-15-205). Ordinary nonexempt goods only. The statute taxes services themselves, so separately stating parts does not exempt the work charge. Specific exempt goods or exempt purchasers remain outside the ordinary case."
+  },
+  {
+    "tax": "WY",
+    "code": "service.goods.other",
+    "from": "2026-08-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Customization that alters or improves the customer’s tangible goods is taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Wyoming Statutes, Title 39, Taxation and Revenue, §§ 39-15-103 and 39-15-205 (current consolidation)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "The sales price paid for services performed for the repair, alteration or improvement of tangible personal property;"
+      },
+      {
+        "title": "Wyoming Statutes, Title 39, Taxation and Revenue, §§ 39-15-103 and 39-15-205 (current consolidation)",
+        "url": "https://wyoleg.gov/statutes/compress/title39.pdf",
+        "quote": "There are no specific applicable provisions for exemptions for this article. The provisions of W.S. 39-15-105 shall apply to the taxes imposed by this article."
+      }
+    ],
+    "notes": "The current Title 39 PDF is undated; 2026-08-01 follows the current-source date convention in existing WY goods.general. No prior statutory edition was verified. State and local taxes use the same exemptions (§ 39-15-205). Ordinary nonexempt goods only. Engraving, embroidery and printing on the customer’s goods are treated as alteration/improvement under the statutory wording; these activities are not individually named. No rule is inferred for advisory/design work without alteration of goods."
   }
 ]

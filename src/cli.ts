@@ -10,12 +10,16 @@ import { indexVerifiedPolygons } from "./ingest/verify-polygons.js";
  *                                 index supplemental polygons
  *   ingest --kind taxability [--dir D] [--no-fetch]
  *                                 load the taxability rules (src/taxability/rules) and archive their cited pages
+ *   ingest --kind class-rates [STATE...] [--dir D]
+ *                                 load the class rates (restaurant, grocery) from the files the loaded rates came from
  *   rate STATE "street" "city" [zip] [date] [--include regions] [--code CODES] [--describe TEXT]
  *                                 look one address up, and how each CODES sale is taxed there
  *   taxability score [--cases DIR] [--list | --gate] [--describe [--out FILE]]
  *                                 the loaded taxability rules against the agencies' own cases (artifacts/taxability/evals);
  *                                 --describe sends each case's facts as describe=, with and without its code
  *                                 (--half A|B: one deterministic half of the cases)
+ *   taxability compiled STATE CODE [PART_CODE]
+ *                                 the compiled rule table for a place and code: each chain its parts ask, and its dated segments
  *   taxability fetch [--out DIR]  download every cited and watched page again; report what changed (sources.txt, sources.json)
  *   taxability file URL PATH      file a page downloaded by hand in the archive, under its URL
  *   taxability file-answer URL PATH [--method M] [--body-file F] [--from P]
@@ -78,7 +82,12 @@ async function main() {
         await loadTaxabilityRules({ dir: flag("--dir"), fetch: !args.includes("--no-fetch") });
         return;
       }
-      if (kind !== "polygons") throw new Error("--kind is polygons (the default) or taxability");
+      if (kind === "class-rates") {
+        const { refreshClassRates } = await import("./ingest/class-rates.js");
+        await refreshClassRates({ states, dir: flag("--dir") });
+        return;
+      }
+      if (kind !== "polygons") throw new Error("--kind is polygons (the default), taxability or class-rates");
       const source = flag("--source");
       if (source && ![...SUPPLEMENTAL_POLYGONS.map((s) => s.id), "wa-loccode_public", "wa-cities", "wa-ptba", "wa-rta", "mn-tax-areas"].includes(source))
         throw new Error(`Unknown supplemental source ${source}`);
@@ -154,7 +163,49 @@ async function main() {
         }
         return;
       }
-      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, fetch, file, file-answer or verify");
+      if (positional[0] === "compiled") {
+        // The compiled table (src/taxability/compile.ts) for one place and
+        // code: each chain its parts ask, and that chain's dated segments.
+        const [, place, code, partCode] = positional;
+        if (!place || !code) throw new Error("taxability compiled STATE CODE [PART_CODE]");
+        const { isTaxCode, loadRules, compiledOf } = await import("./taxability/index.js");
+        if (!isTaxCode(code)) throw new Error(`${code} isn't a code: ${Object.keys(TAX_CODES).join(", ")}`);
+        const { isProvince, provinceParts } = await import("./rates/canada.js");
+        const { SELF_COLLECTED, selfCollected } = await import("./taxability/self-collected.js");
+        const state = place.toUpperCase();
+        const compiled = compiledOf(await loadRules());
+        // A province's taxes; a state's state part and a local part (the one
+        // named, else any local part without a rule of its own, and a
+        // self-collected city's where the state has any).
+        const self = Object.keys(SELF_COLLECTED[state]?.parts ?? {}).find((c) => !compiled.chainOf(state, { kind: "city", code: c }).includes(`${state}:local:${c}`));
+        const parts: Array<{ kind: "state" | "city"; code: string; label: string }> = isProvince(state)
+          ? provinceParts(state, new Date().toISOString().slice(0, 10)).map((p) => ({ kind: "state" as const, code: p.code, label: p.code }))
+          : [
+              { kind: "state", code: `${state}:state`, label: "state part" },
+              ...(partCode
+                ? [{ kind: "city" as const, code: partCode, label: `local part ${partCode}${selfCollected(state, partCode) ? " (self-collected)" : ""}` }]
+                : [{ kind: "city" as const, code: "", label: "local part" }, ...(self ? [{ kind: "city" as const, code: self, label: `self-collected local part (${self}, ...)` }] : [])]),
+            ];
+        const pct = (n: number) => `${+(n * 100).toFixed(4)}%`;
+        for (const part of parts) {
+          const chain = compiled.chainOf(state, part);
+          console.log(`${state} ${code}, ${part.label}: chain ${chain.join(" > ") || "(no key with rules)"}`);
+          // A segment that holds no whole day (between a rule's last day and
+          // the next one's first, for an impossible date) isn't shown.
+          for (const { from, to, rule } of compiled.segments(chain, code).filter((s) => !s.from || !s.to || s.from <= s.to)) {
+            const days = `${from ?? "..."} to ${to ?? "..."}`.padEnd(28);
+            if (!rule) {
+              console.log(`  ${days} not researched`);
+              continue;
+            }
+            const how = [rule.treatment, rule.rate !== undefined ? pct(rule.rate) : "", rule.rateClass ? `${rule.rateClass} rate` : "", rule.base !== undefined ? `on ${pct(rule.base)} of the charge` : ""].filter(Boolean).join(" ");
+            console.log(`  ${days} ${rule.tax} ${how} (rule ${rule.from}${rule.to ? ` to ${rule.to}` : ""}, ${rule.fromIs}): ${rule.summary.length > 110 ? `${rule.summary.slice(0, 110)}...` : rule.summary}`);
+            for (const k of rule.conditions) console.log(`      ${k.treatment}${k.rate !== undefined ? ` ${pct(k.rate)}` : ""}${k.rateClass ? ` ${k.rateClass} rate` : ""}: ${k.when.length > 120 ? `${k.when.slice(0, 120)}...` : k.when}`);
+          }
+        }
+        return;
+      }
+      if (positional[0] && positional[0] !== "score") throw new Error("taxability takes score, compiled, fetch, file, file-answer or verify");
       const { scoreTaxability, printScore } = await import("./taxability/evaluate.js");
       const { loadRules } = await import("./taxability/index.js");
       const rules = await loadRules();
@@ -163,9 +214,9 @@ async function main() {
         const { scoreDescribed, printDescribed } = await import("./taxability/describe-bench.js");
         const half = flag("--half");
         if (half && half !== "A" && half !== "B") throw new Error("--half is A or B");
-        const { scored, asked } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
+        const { scored, asked, calls } = await scoreDescribed(rules, { dir: flag("--cases"), ...(half ? { half: half as "A" | "B" } : {}) });
         printDescribed(scored, { list: args.includes("--list"), out: flag("--out") });
-        console.log(`picker answers added to the cache: ${asked}`);
+        console.log(`picker answers added to the cache: ${asked} (${calls} calls)`);
         return;
       }
       const scored = scoreTaxability(rules, flag("--cases"));

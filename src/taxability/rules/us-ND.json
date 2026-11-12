@@ -590,5 +590,119 @@
       }
     ],
     "notes": "Mandatory maintenance contracts for prewritten software, and optional ones providing only updates (or bundled updates and support), are also taxable (NDCC 57-39.2-02.1(1)(h)-(i))."
+  },
+  {
+    "tax": "ND",
+    "code": "clothing",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing, footwear, accessories and equipment bear general state and local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.D. Century Code ch. 57-39.2, sales tax",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Tangible personal property, consisting of goods, wares, or merchandise, and bundled transactions consisting entirely of tangible personal property."
+      }
+    ],
+    "notes": "Undated current statute uses 2018-01-01 earliest verified date from existing ND goods.general rule. Current sales/use page explicitly includes clothing as tangible personal property. Local taxes share the base; caps not modeled. No clothing holiday modeled."
+  },
+  {
+    "tax": "ND",
+    "code": "alcohol",
+    "from": "2019-01-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Alcohol is exempt from general sales tax; a separate 7% alcoholic beverage gross receipts tax applies instead and is excluded.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "N.D. Century Code ch. 57-39.2, sales tax",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "Gross receipts from the sale of motor vehicles, farm machinery, alcoholic beverages,"
+      },
+      {
+        "title": "ND Office of State Tax Commissioner, Sales and Use Tax Guideline: Bars, Lounges and Taverns",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/bars-lounges-and-taverns.pdf",
+        "quote": "The North Dakota gross receipts tax rate on alcoholic beverages is 7%, not the general sales tax rate of 5%."
+      }
+    ],
+    "notes": "Bars guideline Content Reviewed 1-2019 (month-end date); New Format 3-2026. Statute 57-39.2-04(10) exempts special-tax goods. Both on/off premises covered. City gross receipts taxes on alcohol may also apply and are separate taxes excluded from this general sales-tax answer."
+  },
+  {
+    "tax": "ND",
+    "code": "rental",
+    "from": "2018-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Rental of ordinary tangible goods is included in taxable retail sales.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Century Code 57-39.2-02.1 Sales tax imposed",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "including the leasing or renting of tangible personal property as provided in this section,"
+      },
+      {
+        "title": "ND Century Code 57-39.2-01 Definitions",
+        "url": "https://ndlegis.gov/cencode/t57c39-2.pdf",
+        "quote": "\"Retail sale\" or \"sale at retail\" means any sale, lease, or rental for any purpose other than for resale, sublease, or subrental."
+      }
+    ],
+    "notes": "Undated current statute: uses 2018-01-01 convention from existing ND rules for current statutory text; not an enactment claim. General state and conforming local sales tax base; specialized property exemptions remain applicable. No short/long term distinction found for ordinary goods. Statutory motor-vehicle rental surcharge is a separate tax and excluded."
+  },
+  {
+    "tax": "ND",
+    "code": "service.goods.repair",
+    "from": "2012-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Repair, alteration and restoration labor is exempt; itemized parts are taxed, while lump-sum repairers pay tax on parts cost.",
+    "conditions": [
+      {
+        "when": "Labor separately stated from repair parts",
+        "treatment": "exempt"
+      },
+      {
+        "when": "Lump-sum repair charge: no customer sales tax; repairer pays tax on parts cost",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "ND Office of State Tax Commissioner, Sales Tax: Repair Services Guideline (content revised January 2012; new format March 2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21983.pdf",
+        "quote": "Separately stated charges for repair labor are not subject to sales tax."
+      },
+      {
+        "title": "ND Office of State Tax Commissioner, Sales Tax: Repair Services Guideline (content revised January 2012; new format March 2026)",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/guidelines/business/sales-use/gl-21983.pdf",
+        "quote": "If labor and parts are not itemized or the parts are attached to real property, the repairer must pay tax on the cost of the repair parts and may not charge tax to the customer."
+      }
+    ],
+    "notes": "Guideline content revised January 2012; first of month used. New-format date March 2026 does not change the stated content revision. Local treatment follows same base."
+  },
+  {
+    "tax": "ND",
+    "code": "service.goods.cleaning",
+    "from": "2002-06-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Cleaning customer-owned tangible goods is a service; work charges are exempt and separately sold materials are taxable.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "ND Administrative Code 81-04.1-01-22 Services (amended June 1, 2002)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-01.pdf",
+        "quote": "Personal and professional services are not subject to sales tax, but materials and supplies used solely in rendering services are subject to sales tax when purchased."
+      },
+      {
+        "title": "ND Administrative Code 81-04.1-01-22 Services (amended June 1, 2002)",
+        "url": "https://ndlegis.gov/information/acdata/pdf/81-04.1-01.pdf",
+        "quote": "Persons engaged in the business of repairing, altering, restoring, or cleaning of tangible personal property belonging to others must collect sales tax on the itemized charge for tangible personal property used in the repair."
+      }
+    ],
+    "notes": "June 1, 2002 is the last amendment date in the section history, used as earliest verified. Service provider pays tax on consumed supplies. No distinct laundry or car wash tax found in the section; general cleaning rule applied."
   }
 ]

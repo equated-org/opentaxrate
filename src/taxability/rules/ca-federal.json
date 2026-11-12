@@ -1194,5 +1194,363 @@
       }
     ],
     "notes": "Whether hosted software is intangible personal property or a service changes the place-of-supply rule, not the treatment: either way it is taxable for a Canadian resident consumer (no Schedule V or VI provision applies). B-090 (2002, quoting old 7%/15% rates) shows the characterization predates 2013. Exports to non-residents (Schedule VI Part V) are outside the code's scope."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing and footwear are taxable supplies at the GST or HST rate of the province.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Clothing and footwear Taxable"
+      }
+    ],
+    "notes": "As the goods.general rule: the CRA page is current guidance, no earlier dated copy fetched; GST has taxed clothing since 1991. Prescribed orthopaedic footwear and some garments for persons with disabilities are zero-rated medical devices (Schedule VI, Part II), outside this code's ordinary retail sale; not modelled."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "During the temporary GST/HST break, children's clothing and footwear (baby clothes, children's sizes, children's sport clothing and footwear) were zero-rated when paid for and delivered within the break; adult clothing stayed taxable.",
+    "conditions": [
+      {
+        "when": "children's clothing or footwear (baby clothes, children's sizes XS to L, children's sports clothing and footwear), paid for in full and delivered during the break (Dec 14, 2024 – Feb 15, 2025)",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "adult clothing or footwear (even if bought for a child), or any part paid for or delivered outside the break",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "There was a temporary GST/HST break on certain items from December 14, 2024, to February 15, 2025."
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (qualifying categories)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Children's clothing and footwear"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (children's clothing)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Children's clothes in sizes XS, S, M, or L"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (children's clothing, not qualifying)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Adult clothing and footwear, even if it's purchased for a child"
+      }
+    ],
+    "notes": "Category descriptions are from the Canada.ca break page; the statutory detail (Schedule VI, Part XI) was not read item by item for clothing. Payment and delivery timing as in the federal food rules for the break."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "After the temporary break ended, clothing and footwear are again taxable at the GST or HST rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Clothing and footwear Taxable"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      }
+    ],
+    "notes": "The start date is the day after the stated end of the Part XI eligible period."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "alcohol",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Beer, wine, spirits and other alcoholic beverages are taxable supplies at the GST or HST rate, sold in a store or served.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries (January 2007)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "9. Supplies of wine, spirits, beer, malt liquor or other alcoholic beverages are taxable."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1 (excluded from zero-rating)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "(a) wine, spirits, beer, malt liquor or other alcoholic beverages;"
+      }
+    ],
+    "notes": "Memorandum 4.3 dates from January 2007 and is still published; 2013-04-01 is OpenTaxRate's floor. Federal and provincial liquor excises and markups are not included."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "alcohol",
+    "from": "2024-12-14",
+    "to": "2025-02-15",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "During the temporary GST/HST break, beer, wine, cider and sake (22.9% ABV or less) and prepackaged coolers of 7% ABV or less were zero-rated, in a store or served; spirits and liqueurs stayed taxable.",
+    "conditions": [
+      {
+        "when": "beer or malt beverages, wine, cider or sake of 22.9% ABV or less, or prepackaged spirit coolers or premixed drinks of 7% ABV or less (or a drink mixed only from these), paid for in full and delivered or served during the break (Dec 14, 2024 – Feb 15, 2025)",
+        "treatment": "zero_rated"
+      },
+      {
+        "when": "spirits, liqueurs, or other alcoholic beverages over 7% ABV (a drink mixed with them included), or any part paid for or delivered outside the break",
+        "treatment": "taxable"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Canada.ca, GST/HST break - Closed",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "There was a temporary GST/HST break on certain items from December 14, 2024, to February 15, 2025."
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (eligible alcoholic beverages)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Beer and malt beverages, for example, canned or bottled beer, pitchers of beer"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (eligible alcoholic beverages)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Wine, cider and sake (including fortified) that are 22.9% alcohol by volume (ABV) or less"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (eligible alcoholic beverages)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Spirit coolers and premixed alcoholic beverages that are 7% ABV or less"
+      },
+      {
+        "title": "Canada.ca, GST/HST break - Closed (non-eligible)",
+        "url": "https://www.canada.ca/en/services/taxes/child-and-family-benefits/gst-hst-holiday-tax-break.html",
+        "quote": "Alcoholic spirits and liqueurs"
+      }
+    ],
+    "notes": "Schedule VI, Part XI defines the eligible beverages (beer or malt liquor; wine; packaged drinks of 7% or less); the Canada.ca page summarizes them. Mixed drinks with spirits did not qualify."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "alcohol",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "After the temporary break ended, alcoholic beverages are again taxable at the GST or HST rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "GST/HST Memorandum 4.3, Basic Groceries (January 2007)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/4-3/basic-groceries.html",
+        "quote": "9. Supplies of wine, spirits, beer, malt liquor or other alcoholic beverages are taxable."
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part III, s. 1 (excluded from zero-rating)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "(a) wine, spirits, beer, malt liquor or other alcoholic beverages;"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      }
+    ],
+    "notes": "The start date is the day after the stated end of the Part XI eligible period."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing.accessories",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Clothing accessories (jewellery, handbags, watches) are taxable supplies at the GST or HST rate of the province.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Clothing and footwear Taxable"
+      }
+    ],
+    "notes": "As the goods.general rule: the CRA page is current guidance, no earlier dated copy fetched; GST has taxed clothing since 1991. Prescribed orthopaedic footwear and some garments for persons with disabilities are zero-rated medical devices (Schedule VI, Part II), outside this code's ordinary retail sale; not modelled. During the GST/HST break (Dec 14, 2024 – Feb 15, 2025) this kind answers from the clothing rule for the break, whose children's clothing case names the items that qualified."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing.accessories",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Clothing accessories (jewellery, handbags, watches) are taxable supplies at the GST or HST rate of the province, after the temporary break ended.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Clothing and footwear Taxable"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      }
+    ],
+    "notes": "The start date is the day after the stated end of the Part XI eligible period. During the GST/HST break (Dec 14, 2024 – Feb 15, 2025) this kind answers from the clothing rule for the break, whose children's clothing case names the items that qualified."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing.equipment",
+    "from": "2013-04-01",
+    "to": "2024-12-13",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Protective and sport gear worn are taxable supplies at the GST or HST rate of the province.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Clothing and footwear Taxable"
+      }
+    ],
+    "notes": "As the goods.general rule: the CRA page is current guidance, no earlier dated copy fetched; GST has taxed clothing since 1991. Prescribed orthopaedic footwear and some garments for persons with disabilities are zero-rated medical devices (Schedule VI, Part II), outside this code's ordinary retail sale; not modelled. During the GST/HST break (Dec 14, 2024 – Feb 15, 2025) this kind answers from the clothing rule for the break, whose children's clothing case names the items that qualified."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "clothing.equipment",
+    "from": "2025-02-16",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "Protective and sport gear worn are taxable supplies at the GST or HST rate of the province, after the temporary break ended.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Clothing and footwear Taxable"
+      },
+      {
+        "title": "Excise Tax Act, Schedule VI, Part XI",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/page-121.html",
+        "quote": "means the period beginning on December 14, 2024 and ending on February 15, 2025."
+      }
+    ],
+    "notes": "The start date is the day after the stated end of the Part XI eligible period. During the GST/HST break (Dec 14, 2024 – Feb 15, 2025) this kind answers from the clothing rule for the break, whose children's clothing case names the items that qualified."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "rental",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Short- and long-term rentals of ordinary tangible goods are taxable supplies at the applicable GST/HST rate.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "Most property and services supplied in or imported into Canada are subject to the GST/HST."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "Supply means the provision of property or a service in any way, including sale, transfer, barter, exchange, licence, rental, lease, gift, or disposition."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "You collect the HST if you rent or lease goods to a customer that has continuous possession or use of the goods for three months or less, and you deliver the goods or make them available to the customer in a participating province."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "When you rent or lease goods for a period of more than three months, the agreement is treated as a series of separate supplies for each lease interval to which a particular payment is attributable."
+      }
+    ],
+    "notes": "RC4022 (2025) is read for the detail; the CRA type-of-supply page is cited for the floor 2013-04-01, as the goods.general rule. RC4022(E) Rev. 25 gives only a revision year; from is represented as 2025-01-01 at year precision, not an effective date. Ordinary domestic commercial supplies by registrants, without a purchaser or goods-specific exemption. Separately stated parts are goods. Work on ordinary goods is covered by the general taxable-supplies rule; the guide specifically lists car repairs. The three-month distinction changes place-of-supply and lease-interval rules, not taxable versus exempt treatment."
+  },
+  {
+    "tax": "CA:GST/HST",
+    "code": "service.goods",
+    "from": "2013-04-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Ordinary repair, cleaning and customization work on customer-owned goods is a taxable supply under GST/HST.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "CRA, Type of supply (GST/HST)",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Most property and services supplied in or imported into Canada are subject to GST/HST (taxable)."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "Most property and services supplied in or imported into Canada are subject to the GST/HST."
+      },
+      {
+        "title": "CRA, RC4022(E), General Information for GST/HST Registrants (Rev. 2025)",
+        "url": "https://www.canada.ca/content/dam/cra-arc/formspubs/pub/rc4022/rc4022-25e.pdf",
+        "quote": "car repairs"
+      },
+      {
+        "title": "CRA, Type of supply (GST/HST), examples of supplies",
+        "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-type-supply.html",
+        "quote": "Car repairs Taxable"
+      }
+    ],
+    "notes": "RC4022 (2025) is read for the detail; the CRA type-of-supply page is cited for the floor 2013-04-01, as the goods.general rule. RC4022(E) Rev. 25 gives only a revision year; from is represented as 2025-01-01 at year precision, not an effective date. Ordinary domestic commercial supplies by registrants, without a purchaser or goods-specific exemption. Separately stated parts are goods. Work on ordinary goods is covered by the general taxable-supplies rule; the guide specifically lists car repairs."
   }
 ]

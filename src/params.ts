@@ -128,42 +128,97 @@ export interface Params {
    *  ahead of the next (rates/streets/correct.ts). */
   spellingMinSimilarity: number;
   spellingMinLead: number;
-  /** describe= (taxability/describe.ts): the picker's probability a code,
-   *  with its narrower kinds, needs before the text's code is used... */
+  /** describe= (taxability/describe.ts). Measured with
+   *  `pnpm bench taxability --describe` on the dev cases (both modes) and
+   *  the blind and rule-targeted batches, 0 wrong required; the full
+   *  calibration record is kept outside the repository.
+   *
+   *  The picker's probability a code, with its narrower kinds, needs before
+   *  the text's code is used (0.9)... */
   describeCodeAccept: number;
-  /** ...and the probability a tax's cases that the rules treat alike need
-   *  together before the text settles that tax as one of them. */
+  /** ...and that a tax's cases the rules treat alike need together before
+   *  the text settles the tax (0.9). */
   describeConditionAccept: number;
   /** With no code accepted, the codes at or above this are candidates. */
   describeCandidateFloor: number;
-  /** Whether a case that turns on a money amount ("totalling $4.00 or
-   *  less", "a contract over $10,000") may be settled by a price the text
-   *  states. Off: a price in a description isn't a transaction value (a
-   *  line's price isn't the sale's total), so such cases stay open. */
+  /** Whether a price or a count in the text may settle a case that turns
+   *  on an amount or a count of units (off: a line's price isn't the sale's
+   *  total; "one tart, two muffins..." was read as fewer than six). */
   describeReadsAmounts: boolean;
-  /** The same for a case that turns on how many units are sold ("in
-   *  quantities of fewer than six", "four or more servings"): off, a count
-   *  in the text never settles it. On held-out (2026-11-02) the picker read
-   *  "one tart, two muffins, one cookie and two doughnuts" as fewer than
-   *  six. */
   describeReadsCounts: boolean;
-  /** For a question the first pick leaves open, ask each option as its own
-   *  yes-or-no question: one established at describeBinaryAccept settles
-   *  it, unless an option with another effect reaches describeBinaryVeto. */
+  /** A case question the first pick leaves open is asked as one yes-or-no
+   *  question per option: one at describeBinaryAccept settles it, unless an
+   *  option with another effect reaches describeBinaryVeto (0.95/0.9: 0.9/0.9
+   *  made fl-02 wrong). */
   describeBinaryFallback: boolean;
-  /** Tuned on dev half A (2026-11-02, frozen rules a4baa142): 0.9/0.9 was
-   *  best there (+6 code, +3 text) but made fl-02 wrong on half B (a binary
-   *  yes at 0.93), so it failed confirmation; 0.95/0.9, A's runner-up and
-   *  the reviewers' prior, is kept, clean on both halves. A 0.95 veto made
-   *  d2-mb-20 wrong on A. */
   describeBinaryAccept: number;
   describeBinaryVeto: number;
-  /** With no one code, the codes whose answers here agree tax by tax are
-   *  pooled; their probability together must reach describeCodePoolAccept. */
-  /** Chosen on half A: 0.95 gave +9 text; 0.9 made d2-nt-04 wrong (a
-   *  frozen shrimp ring pooled as groceries). Clean on half B. */
+  /** The fallback's case stands only where the first pick leans no further
+   *  to another effect (guards d2-sk-13). */
+  describeFallbackAgree: boolean;
+  /** With no one code, codes whose answers agree tax by tax are pooled at
+   *  describeCodePoolAccept (0.95: 0.9 made d2-nt-04 wrong). */
   describeCodePooling: boolean;
   describeCodePoolAccept: number;
+  /** Whether a code whose settled rule lists exceptions may be pooled, once
+   *  the text establishes its usual case against them (off cost 4 dev
+   *  answers; pooling them unchecked made a packaged-knife bagel 0%). */
+  describePoolExceptions: boolean;
+  /** A code read from the text whose definition turns on a fact (DEFINING)
+   *  is used only where the mean yes of its defining questions reaches this
+   *  (0.5; 0.4 made r17 wrong, 0.6 lost a targeted item). */
+  describeDefiningAccept: number;
+  describeDefiningCheck: boolean;
+  /** How the defining fact is asked: "binary", "three" (yes / not stated /
+   *  contradicted) or "both", their mean ("three" alone made r17 wrong). */
+  describeDefiningAsk: "binary" | "three" | "both";
+  /** The open-case question says a fact stated by its absence fits only
+   *  where the text says so (off: it lowered plainly stated picks; the
+   *  confirmation below keeps r21 open). */
+  describeSilenceRule: boolean;
+  /** Which accepted cases are confirmed by their own questions: "all",
+   *  "negative" (stated by an absence or a limit) or "none" ("none" makes
+   *  r21 wrong; "all" cost dev 31 code and 37 text answers). */
+  describeConfirm: "all" | "negative" | "none";
+  /** A confirmation's yes, of the yes-or-no or the three-way question
+   *  (0.5; 0.6 lost 2 dev answers). */
+  describeConfirmAccept: number;
+  /** The pick's top code, narrower than the code accepted and with a
+   *  defining fact, is tried first, its fact at describeNarrowAccept (+13
+   *  dev text answers). */
+  describeNarrowByDefining: boolean;
+  describeNarrowAccept: number;
+  /** With no code at the bar, a sole candidate: one code with its kinds at
+   *  describeSoleFloor or more, holding describeSoleShare of the codes'
+   *  probability, NONE and UNCLEAR together at most describeSoleNone; used
+   *  only if the text establishes its definition (looser settings made
+   *  d2-nt-04, ny-24 and r42 wrong). */
+  describeSoleCandidate: boolean;
+  describeSoleShare: number;
+  describeSoleFloor: number;
+  describeSoleNone: number;
+  /** A case the first pick puts under this names no need. */
+  describeNeedsFloor: number;
+  /** The code question also asks whether the line names several different
+   *  items; at describeItemsAccept, a code answers only where every item is
+   *  of it, else needs one_item. */
+  describeItemsCheck: boolean;
+  describeItemsAccept: number;
+  /** A broader code accepted only because its kinds reach the bar together
+   *  has its definition checked as a sole candidate's (b3-56). */
+  describeCheckBroadened: boolean;
+  /** Second models (OpenRouter ids; empty: off). Where Jev leans to a code
+   *  under the bar, at describeSecondFloor or more, holding
+   *  describeSecondShare of the codes' probability, every model must pick
+   *  it too; a case may be lifted the same way at describeSecondCaseFloor
+   *  (1: never), where Jev finds every part of it stated. Codes only, 0.97:
+   *  0 wrong everywhere, +8 answers; one model, or cases lifted, made
+   *  answers wrong. */
+  describeSecond: string[];
+  describeSecondFloor: number;
+  describeSecondCodes: boolean;
+  describeSecondCaseFloor: number;
+  describeSecondShare: number;
 }
 
 const DEFAULTS: Params = {
@@ -200,8 +255,31 @@ const DEFAULTS: Params = {
   describeBinaryFallback: true,
   describeBinaryAccept: 0.95,
   describeBinaryVeto: 0.9,
+  describeFallbackAgree: true,
   describeCodePooling: true,
   describeCodePoolAccept: 0.95,
+  describePoolExceptions: true,
+  describeDefiningAccept: 0.5,
+  describeDefiningCheck: true,
+  describeDefiningAsk: "both",
+  describeSilenceRule: false,
+  describeConfirm: "negative",
+  describeConfirmAccept: 0.5,
+  describeNarrowByDefining: true,
+  describeNarrowAccept: 0.9,
+  describeSoleCandidate: true,
+  describeSoleShare: 0.95,
+  describeSoleFloor: 0.8,
+  describeSoleNone: 0.05,
+  describeNeedsFloor: 0.05,
+  describeItemsCheck: true,
+  describeItemsAccept: 0.9,
+  describeCheckBroadened: true,
+  describeSecond: [],
+  describeSecondFloor: 0.6,
+  describeSecondCodes: true,
+  describeSecondCaseFloor: 1,
+  describeSecondShare: 0.97,
 };
 
 /** The value OTR_PARAMS gives `key`, or an error saying why it can't be. */

@@ -1626,43 +1626,10 @@
     "from": "2026-01-01",
     "to": "2026-07-31",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "Groceries (qualifying food for off-premises consumption). Local parts: RTA and MED taxes still apply to groceries; elsewhere groceries are taxed locally only where a municipality or county adopted the 1% local grocery tax.",
-    "conditions": [
-      {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: RTA tax on groceries only",
-        "treatment": "special_rate",
-        "rate": 0.0125
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0225
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: RTA tax only",
-        "treatment": "special_rate",
-        "rate": 0.0075
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0175
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "Groceries (qualifying food for off-premises consumption). Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
+    "conditions": [],
     "citations": [
       {
         "title": "IDOR Informational Bulletin FY 2026-03 (October 2025), Illinois Grocery Tax Changes Effective January 1, 2026",
@@ -1708,52 +1675,29 @@
         "title": "70 ILCS 3610/5.01 (Metro East Mass Transit District retailers' occupation tax)",
         "url": "https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm",
         "quote": "The Board may impose a Metro East Mass Transit District Retailers' Occupation Tax upon all persons engaged in the business of selling tangible personal property at retail in the district at a rate of 1/4 of 1%, or as authorized under subsection (d-5) of this Section, of the gross receipts from the sales made in the course of such business within the district, including sales of food for human consumption that is to be consumed off the premises where it is sold"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
     "code": "food.grocery",
     "from": "2026-08-01",
     "fromIs": "effective",
-    "treatment": "conditional",
-    "summary": "Groceries (qualifying food for off-premises consumption). Local parts: NITA (formerly RTA) taxes groceries at 1.50% in Cook and 1.00% in the collar counties from August 1, 2026, plus the 1% local grocery tax where adopted; elsewhere only that local grocery tax.",
-    "conditions": [
-      {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: NITA (formerly RTA) tax on groceries only",
-        "treatment": "special_rate",
-        "rate": 0.015
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.025
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: NITA (formerly RTA) tax only",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.02
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
-      }
-    ],
+    "treatment": "special_rate",
+    "rateClass": "grocery",
+    "summary": "Groceries (qualifying food for off-premises consumption). Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
+    "conditions": [],
     "citations": [
       {
         "title": "IDOR Informational Bulletin FY 2026-34, NITA Occupation and Use Tax Rate Change, Effective August 1, 2026",
@@ -1784,9 +1728,19 @@
         "title": "70 ILCS 3610/5.01 (Metro East Mass Transit District retailers' occupation tax)",
         "url": "https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm",
         "quote": "The Board may impose a Metro East Mass Transit District Retailers' Occupation Tax upon all persons engaged in the business of selling tangible personal property at retail in the district at a rate of 1/4 of 1%, or as authorized under subsection (d-5) of this Section, of the gross receipts from the sales made in the course of such business within the district, including sales of food for human consumption that is to be consumed off the premises where it is sold"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -1870,7 +1824,7 @@
     "to": "2026-07-31",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Bakery items baked by the seller (bread, pastries, doughnuts, cookies, whole cakes and pies) sold for off-premises consumption are low-rate qualifying food. Local parts: RTA and MED taxes still apply to groceries; elsewhere groceries are taxed locally only where a municipality or county adopted the 1% local grocery tax.",
+    "summary": "Bakery items baked by the seller (bread, pastries, doughnuts, cookies, whole cakes and pies) sold for off-premises consumption are low-rate qualifying food. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "Sold heated (above room temperature), or sold for eating on the seller's premises",
@@ -1881,37 +1835,9 @@
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: RTA tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.0125
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0225
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: RTA tax only",
-        "treatment": "special_rate",
-        "rate": 0.0075
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0175
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -1969,9 +1895,19 @@
         "title": "86 Ill. Adm. Code 130.310 (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "doughnuts, cookies, bagels or other bakery items prepared by a retailer and sold either individually or in another quantity selected by the customer, provided they are for consumption off the premises where sold;"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -1979,7 +1915,7 @@
     "from": "2026-08-01",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Bakery items baked by the seller (bread, pastries, doughnuts, cookies, whole cakes and pies) sold for off-premises consumption are low-rate qualifying food. Local parts: NITA (formerly RTA) taxes groceries at 1.50% in Cook and 1.00% in the collar counties from August 1, 2026, plus the 1% local grocery tax where adopted; elsewhere only that local grocery tax.",
+    "summary": "Bakery items baked by the seller (bread, pastries, doughnuts, cookies, whole cakes and pies) sold for off-premises consumption are low-rate qualifying food. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "Sold heated (above room temperature), or sold for eating on the seller's premises",
@@ -1990,37 +1926,9 @@
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: NITA (formerly RTA) tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.015
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.025
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: NITA (formerly RTA) tax only",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.02
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2063,9 +1971,19 @@
         "title": "86 Ill. Adm. Code 130.310 (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "doughnuts, cookies, bagels or other bakery items prepared by a retailer and sold either individually or in another quantity selected by the customer, provided they are for consumption off the premises where sold;"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -2154,7 +2072,7 @@
     "to": "2026-07-31",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Cold deli food (salads, cut fruit, unheated cooked food, deli items by weight) sold to go by a food store is low-rate qualifying food, not food prepared for immediate consumption. Local parts: RTA and MED taxes still apply to groceries; elsewhere groceries are taxed locally only where a municipality or county adopted the 1% local grocery tax.",
+    "summary": "Cold deli food (salads, cut fruit, unheated cooked food, deli items by weight) sold to go by a food store is low-rate qualifying food, not food prepared for immediate consumption. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "The seller provides seating or eating facilities that are not physically separated from where this food is sold, or does not record its high-rate and low-rate food sales separately (130.310(b)(1), (d)): presumed food prepared for immediate consumption",
@@ -2165,37 +2083,9 @@
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: RTA tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.0125
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0225
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: RTA tax only",
-        "treatment": "special_rate",
-        "rate": 0.0075
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0175
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2258,9 +2148,19 @@
         "title": "IDOR PIO-115, Tax Rate Information for Retail Sales of Food and Medicine (R-11/25)",
         "url": "https://tax.illinois.gov/research/publications/pio-115.html",
         "quote": "The items listed in the “grocery” categories below are exempt from State tax and are only subject to tax in locations where a local grocery tax has been imposed (unless prepared for immediate consumption, in which case, they are taxable as high rate items)."
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -2268,7 +2168,7 @@
     "from": "2026-08-01",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Cold deli food (salads, cut fruit, unheated cooked food, deli items by weight) sold to go by a food store is low-rate qualifying food, not food prepared for immediate consumption. Local parts: NITA (formerly RTA) taxes groceries at 1.50% in Cook and 1.00% in the collar counties from August 1, 2026, plus the 1% local grocery tax where adopted; elsewhere only that local grocery tax.",
+    "summary": "Cold deli food (salads, cut fruit, unheated cooked food, deli items by weight) sold to go by a food store is low-rate qualifying food, not food prepared for immediate consumption. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "The seller provides seating or eating facilities that are not physically separated from where this food is sold, or does not record its high-rate and low-rate food sales separately (130.310(b)(1), (d)): presumed food prepared for immediate consumption",
@@ -2279,37 +2179,9 @@
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: NITA (formerly RTA) tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.015
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.025
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: NITA (formerly RTA) tax only",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.02
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2357,9 +2229,19 @@
         "title": "IDOR PIO-115, Tax Rate Information for Retail Sales of Food and Medicine (R-11/25)",
         "url": "https://tax.illinois.gov/research/publications/pio-115.html",
         "quote": "The items listed in the “grocery” categories below are exempt from State tax and are only subject to tax in locations where a local grocery tax has been imposed (unless prepared for immediate consumption, in which case, they are taxable as high rate items)."
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -2443,7 +2325,7 @@
     "to": "2026-07-31",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Cheese, fruit, vegetable or meat trays prepared by the seller, to order or premade, are low-rate qualifying food when sold to go. Local parts: RTA and MED taxes still apply to groceries; elsewhere groceries are taxed locally only where a municipality or county adopted the 1% local grocery tax.",
+    "summary": "Cheese, fruit, vegetable or meat trays prepared by the seller, to order or premade, are low-rate qualifying food when sold to go. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "The seller provides seating or eating facilities that are not physically separated from where this food is sold, or does not record its high-rate and low-rate food sales separately (130.310(b)(1), (d)): presumed food prepared for immediate consumption",
@@ -2454,37 +2336,9 @@
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: RTA tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.0125
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0225
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: RTA tax only",
-        "treatment": "special_rate",
-        "rate": 0.0075
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0175
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2542,9 +2396,19 @@
         "title": "86 Ill. Adm. Code 130.310 (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "cheese, fruit, vegetable or meat trays prepared by a retailer, either to the individual order of a customer or premade and set out for sale;"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -2552,7 +2416,7 @@
     "from": "2026-08-01",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Cheese, fruit, vegetable or meat trays prepared by the seller, to order or premade, are low-rate qualifying food when sold to go. Local parts: NITA (formerly RTA) taxes groceries at 1.50% in Cook and 1.00% in the collar counties from August 1, 2026, plus the 1% local grocery tax where adopted; elsewhere only that local grocery tax.",
+    "summary": "Cheese, fruit, vegetable or meat trays prepared by the seller, to order or premade, are low-rate qualifying food when sold to go. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "The seller provides seating or eating facilities that are not physically separated from where this food is sold, or does not record its high-rate and low-rate food sales separately (130.310(b)(1), (d)): presumed food prepared for immediate consumption",
@@ -2563,37 +2427,9 @@
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: NITA (formerly RTA) tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.015
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.025
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: NITA (formerly RTA) tax only",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.02
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2636,9 +2472,19 @@
         "title": "86 Ill. Adm. Code 130.310 (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "cheese, fruit, vegetable or meat trays prepared by a retailer, either to the individual order of a customer or premade and set out for sale;"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -2728,44 +2574,16 @@
     "to": "2026-07-31",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Local parts on a cold sandwich: all local taxes when made to order (high rate); when premade in a deli case, only the taxes that reach low-rate food. Local parts: RTA and MED taxes still apply to groceries; elsewhere groceries are taxed locally only where a municipality or county adopted the 1% local grocery tax.",
+    "summary": "Local parts on a cold sandwich: all local taxes when made to order (high rate); when premade in a deli case, only the taxes that reach low-rate food. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "Made to the customer's individual order, or sold by a restaurant or cafeteria, or eaten on the premises: every local tax applies",
         "treatment": "taxable"
       },
       {
-        "when": "Premade and set out in a deli case, sold to go; sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: RTA tax on groceries only",
+        "when": "Premade and set out in a deli case, sold to go: taxed at the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.0125
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0225
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: RTA tax only",
-        "treatment": "special_rate",
-        "rate": 0.0075
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0175
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2833,9 +2651,19 @@
         "title": "86 Ill. Adm. Code 130.310 (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "sandwiches that are prepared by a retailer and placed in a deli case or other storage unit;"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -2843,44 +2671,16 @@
     "from": "2026-08-01",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Local parts on a cold sandwich: all local taxes when made to order (high rate); when premade in a deli case, only the taxes that reach low-rate food. Local parts: NITA (formerly RTA) taxes groceries at 1.50% in Cook and 1.00% in the collar counties from August 1, 2026, plus the 1% local grocery tax where adopted; elsewhere only that local grocery tax.",
+    "summary": "Local parts on a cold sandwich: all local taxes when made to order (high rate); when premade in a deli case, only the taxes that reach low-rate food. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "Made to the customer's individual order, or sold by a restaurant or cafeteria, or eaten on the premises: every local tax applies",
         "treatment": "taxable"
       },
       {
-        "when": "Premade and set out in a deli case, sold to go; sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: NITA (formerly RTA) tax on groceries only",
+        "when": "Premade and set out in a deli case, sold to go: taxed at the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.015
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.025
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: NITA (formerly RTA) tax only",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.02
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Premade and set out in a deli case, sold to go; sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -2933,9 +2733,19 @@
         "title": "86 Ill. Adm. Code 130.310 (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "sandwiches that are prepared by a retailer and placed in a deli case or other storage unit;"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -3020,44 +2830,16 @@
     "to": "2026-07-31",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Illinois local taxes treat food a store assembled for the buyer to cook as qualifying (grocery) food: only the RTA/NITA, Metro East transit and, from 2026, local grocery taxes apply to it.",
+    "summary": "Illinois local taxes treat food a store assembled for the buyer to cook as qualifying (grocery) food: only the RTA/NITA, Metro East transit and, from 2026, local grocery taxes apply to it. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "The seller provides seating or eating facilities that are not physically separated from where this food is sold, or does not record its high-rate and low-rate food sales separately (130.310(b)(1), (d)): presumed food prepared for immediate consumption",
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: RTA tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.0125
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0225
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: RTA tax only",
-        "treatment": "special_rate",
-        "rate": 0.0075
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: RTA plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.0175
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -3120,9 +2902,19 @@
         "title": "86 Ill. Adm. Code 130.310(c)(2) (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "Food prepared for immediate consumption means food that is prepared or made ready by a retailer to be eaten without substantial delay after the final stage of preparation by the retailer."
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "No Illinois source names take-and-bake pizza or meal kits; the rule rests on 130.310(c)(2)'s definition (food made ready by the retailer to be eaten without substantial delay after its final stage of preparation), which uncooked food the buyer must cook does not meet. Where the seller provides undivided seating or does not separate its high- and low-rate sales, food is presumed prepared for immediate consumption. Rates and local treatment mirror the food.prepared.cold rules. IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "No Illinois source names take-and-bake pizza or meal kits; the rule rests on 130.310(c)(2)'s definition (food made ready by the retailer to be eaten without substantial delay after its final stage of preparation), which uncooked food the buyer must cook does not meet. Where the seller provides undivided seating or does not separate its high- and low-rate sales, food is presumed prepared for immediate consumption. Rates and local treatment mirror the food.prepared.cold rules. IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036150K4.03 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036150K4.03.htm. 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
   },
   {
     "tax": "IL:local",
@@ -3130,44 +2922,16 @@
     "from": "2026-08-01",
     "fromIs": "effective",
     "treatment": "conditional",
-    "summary": "Illinois local taxes treat food a store assembled for the buyer to cook as qualifying (grocery) food: only the RTA/NITA, Metro East transit and, from 2026, local grocery taxes apply to it.",
+    "summary": "Illinois local taxes treat food a store assembled for the buyer to cook as qualifying (grocery) food: only the RTA/NITA, Metro East transit and, from 2026, local grocery taxes apply to it. Local parts: each location's local rate on groceries, from IDOR's grocery rate file (the RTA, now NITA, and MED taxes on groceries, plus the 1% local grocery tax where a municipality or county adopted it).",
     "conditions": [
       {
         "when": "The seller provides seating or eating facilities that are not physically separated from where this food is sold, or does not record its high-rate and low-rate food sales separately (130.310(b)(1), (d)): presumed food prepared for immediate consumption",
         "treatment": "taxable"
       },
       {
-        "when": "Sold in Cook County, in a municipality (or unincorporated county area) with no local grocery tax: NITA (formerly RTA) tax on groceries only",
+        "when": "Otherwise, as low-rate qualifying food: the location's local rate on groceries",
         "treatment": "special_rate",
-        "rate": 0.015
-      },
-      {
-        "when": "Sold in Cook County, where the municipality (or county, unincorporated) imposes the 1% local grocery tax: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.025
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County with no local grocery tax: NITA (formerly RTA) tax only",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold in DuPage, Kane, Lake, McHenry or Will County where a 1% local grocery tax is imposed: NITA (formerly RTA) plus 1%",
-        "treatment": "special_rate",
-        "rate": 0.02
-      },
-      {
-        "when": "Sold in the Metro East Mass Transit District: the MED tax on groceries, plus 1% where the municipality (or county, unincorporated) imposes a local grocery tax",
-        "treatment": "special_rate"
-      },
-      {
-        "when": "Sold elsewhere in a municipality (or unincorporated county area) that imposes the 1% local grocery tax by ordinance",
-        "treatment": "special_rate",
-        "rate": 0.01
-      },
-      {
-        "when": "Sold elsewhere, where no local grocery tax is imposed",
-        "treatment": "exempt"
+        "rateClass": "grocery"
       }
     ],
     "citations": [
@@ -3215,8 +2979,154 @@
         "title": "86 Ill. Adm. Code 130.310(c)(2) (Food, Soft Drinks and Candy), as amended effective April 12, 2023",
         "url": "https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html",
         "quote": "Food prepared for immediate consumption means food that is prepared or made ready by a retailer to be eaten without substantial delay after the final stage of preparation by the retailer."
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "For periods January 1, 2026 and after - Grocery tax - locations and rate file"
+      },
+      {
+        "title": "Illinois Department of Revenue, Machine Readable File Guide for Illinois Locations and Rates for Grocery Tax",
+        "url": "https://tax.illinois.gov/research/taxrates/sales-tax-rate-machine-readable-files/grocery-machine-readable-file-guide-01012026.html",
+        "quote": "The high rate would only apply if the taxpayer were liable for Metro East District rates."
       }
     ],
-    "notes": "No Illinois source names take-and-bake pizza or meal kits; the rule rests on 130.310(c)(2)'s definition (food made ready by the retailer to be eaten without substantial delay after its final stage of preparation), which uncooked food the buyer must cook does not meet. Where the seller provides undivided seating or does not separate its high- and low-rate sales, food is presumed prepared for immediate consumption. Rates and local treatment mirror the food.prepared.cold rules. IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html."
+    "notes": "No Illinois source names take-and-bake pizza or meal kits; the rule rests on 130.310(c)(2)'s definition (food made ready by the retailer to be eaten without substantial delay after its final stage of preparation), which uncooked food the buyer must cook does not meet. Where the seller provides undivided seating or does not separate its high- and low-rate sales, food is presumed prepared for immediate consumption. Rates and local treatment mirror the food.prepared.cold rules. IL:local carries every local part for this code: in Illinois the local taxes do not share the state's food base. Home-rule, non-home-rule, county public-safety and similar local taxes exclude low-rate food; the RTA (renamed NITA) and MED taxes include it. The rate a condition gives is the sum of all local parts in that case. Which case applies is a location fact (county, transit district, and whether the municipality or county adopted the 2026 local grocery tax; IDOR publishes the ordinance list and the MyTax rate finder), so the rule is conditional. The MED rate (0.25% statutory, higher where raised under subsection (d-5)) was not verified per county, so no rate is given there. Before 2010-08-19 unverified (the RTA 1.25%/0.75% food rates are older by common account). 2026-11-02: cited page moved from https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=007036100K5.01 to https://www.ilga.gov/Documents/legislation/ilcs/documents/007036100K5.01.htm. 2026-11-02: cited page moved from http://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. 2026-11-02: cited page moved from https://tax.illinois.gov/research/legalinformation/regs/section-130-310.html to https://www.ilga.gov/commission/jcar/admincode/086/086001300C03100R.html. Since 2026-01-01 each location's local rate on groceries is IDOR's grocery rate file (grocerymache, the current edition and two earlier), loaded as its location part's classRates.grocery (src/ingest/states/illinois.ts); where the rate doesn't apply to the whole location (the Metro East district's override flag) the high rate is used, as the general rate uses the higher of a location's two. A business district's address has no grocery rate in those files, so it is not researched for this code."
+  },
+  {
+    "tax": "IL",
+    "code": "clothing",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Illinois taxes clothing at the general merchandise rate, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, What is tangible personal property?",
+        "url": "https://tax.illinois.gov/questionsandanswers/answer.164.html",
+        "quote": "Clothing, vehicles, jewelry, and business equipment are examples of tangible personal property."
+      },
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "The high rate of tax is the State tax of 6.25%, plus local taxes, if applicable."
+      },
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "This rate applies to all non-food general merchandise but also includes food and drink items such as alcoholic beverages, food consisting of or infused with adult use cannabis, soft drinks, candy, and food that has been prepared for immediate consumption."
+      }
+    ],
+    "notes": "PIO-101 states its information is current January 1, 2026; PIO-115 and the clothing FAQ confirm the general-rate classification. All clothing subcodes share this treatment. Sales-tax holidays are not modeled; PIO-115 links the August 2026 back-to-school holiday. Separate liquor gallonage or municipal alcohol excise taxes are not included."
+  },
+  {
+    "tax": "IL",
+    "code": "alcohol",
+    "from": "2026-01-01",
+    "fromIs": "earliest_verified",
+    "treatment": "taxable",
+    "summary": "Illinois taxes alcohol at the general merchandise rate, including applicable local sales taxes.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "The high rate of tax is the State tax of 6.25%, plus local taxes, if applicable."
+      },
+      {
+        "title": "Illinois DOR, PIO-115",
+        "url": "https://tax.illinois.gov/research/publications/pio-115.html",
+        "quote": "This rate applies to all non-food general merchandise but also includes food and drink items such as alcoholic beverages, food consisting of or infused with adult use cannabis, soft drinks, candy, and food that has been prepared for immediate consumption."
+      }
+    ],
+    "notes": "PIO-101 states its information is current January 1, 2026; PIO-115 and the clothing FAQ confirm the general-rate classification. All clothing subcodes share this treatment. Sales-tax holidays are not modeled; PIO-115 links the August 2026 back-to-school holiday. Separate liquor gallonage or municipal alcohol excise taxes are not included."
+  },
+  {
+    "tax": "IL",
+    "code": "rental",
+    "from": "2024-12-01",
+    "to": "2024-12-31",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Before 2025, Illinois did not impose its general sales tax on ordinary true-lease rental receipts.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "While the tax does not apply to receipts received before January 1, 2025, any amounts received on or after January 1, 2025, are subject to the tax, including amounts received on contracts with current customers that were in place before January 1, 2025."
+      }
+    ],
+    "notes": "December 2024 publication; first of month used, not an effective date. Separate local lease taxes are outside the general sales tax. Earlier period not dated from unsupported historical assumptions."
+  },
+  {
+    "tax": "IL",
+    "code": "rental",
+    "from": "2025-01-01",
+    "fromIs": "effective",
+    "treatment": "taxable",
+    "summary": "From January 1, 2025, Illinois taxes ordinary goods lease receipts, including applicable local sales taxes; qualifying local lease-tax property is exempt.",
+    "conditions": [
+      {
+        "when": "The property is subject to a home-rule local lease transaction tax adopted before January 1, 2023, including Chicago’s qualifying lease tax",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "Both leases and rentals are taxable retail sales."
+      },
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "Effective January 1, 2025 , if you lease or rent tangible personal property in the ordinary course of your business, you are considered a retailer subject to Illinois’ Sales and Use Tax laws, and you must register with the Illinois Department of Revenue (IDOR) and pay tax on your lease or rental receipts."
+      },
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "Items of tangible personal property that are subject to a local lease transaction tax that was adopted by ordinance by a home rule unit of local government prior to January 1, 2023, such as the City of Chicago’s Personal Property Lease Transaction Tax, are exempt from the State and local Retailers’ Occupation Tax on lease receipts under P.A. 103-592."
+      },
+      {
+        "title": "Illinois DOR, FY 2025-15, Illinois Sales and Use Tax Applies to Leased or Rented Tangible Personal Property (December 2024)",
+        "url": "https://taxarchive.illinois.gov/research/dated-publications/informational-bulletins-archive/fy-2025-15.html",
+        "quote": "While the tax does not apply to receipts received before January 1, 2025, any amounts received on or after January 1, 2025, are subject to the tax, including amounts received on contracts with current customers that were in place before January 1, 2025."
+      }
+    ],
+    "notes": "Effective date expressly stated. Applies to existing contracts as well as new leases; no short/long term exemption. For periodic payments the bulletin applies the change to the billing period beginning on or after January 1, 2025. Chicago’s Personal Property Lease Transaction Tax is a separate tax and is not modeled. Motor vehicles, watercraft, aircraft and registered semitrailers are outside this ordinary-goods rule."
+  },
+  {
+    "tax": "IL",
+    "code": "service.goods",
+    "from": "2026-03-01",
+    "fromIs": "earliest_verified",
+    "treatment": "exempt",
+    "summary": "Illinois does not tax the service component of work on customer goods; transferred parts or materials remain subject to service occupation/use tax.",
+    "conditions": [],
+    "citations": [
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "The service component of a sale of service remains nontaxable."
+      },
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "The only part of a sale of service that is taxable is the transfer of TPP as part of that sale of service."
+      },
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "If no charge is separately stated in the Serviceperson’s billing, the Selling Price is 50% of the entire amount billed to the customer."
+      },
+      {
+        "title": "Illinois DOR, Publication 113-SOT, Overview of Service Occupation Tax (March 2026)",
+        "url": "https://tax.illinois.gov/research/publications/pubs/overview-of-service-occupation-tax.html",
+        "quote": "In no circumstance can the selling price be less than the cost price."
+      }
+    ],
+    "notes": "Publication marked N-03/26; first of month used. Covers repair, cleaning and other work insofar as it is a sale of service. Where parts are not separately priced, the selling-price SOT method uses 50% of the whole bill, never below cost; the exempt labor amount cannot then simply be deducted in full. De minimis servicepersons have alternative cost-based methods. No blanket taxable condition for every lump sum is asserted because method and cost determine the base."
   }
 ]
