@@ -145,6 +145,6 @@ export function limitFromEnv(
   return perIpLimit(new PerIpLimiter(parseLimits(spec)), clientIpHeader(env));
 }
 
-/** Lookups an account key may make a minute. Each key stores its own limit
- *  when created; a migration (0018) moves existing keys when this changes. */
-export const KEY_LOOKUPS_PER_MINUTE = 600;
+/** Lookups an account key may make in each minute, counted per key in
+ *  memory by access.ts. The apikey table's rate_limit_* columns are unused. */
+export const KEY_LOOKUPS_PER_MINUTE = 300;

@@ -64,9 +64,8 @@ describe("an account", () => {
   it("spends one lookup's price per answer, refunds declines, and stops at zero", async () => {
     const created = await app.request("/api/auth/api-key/create", json({ name: "production" }));
     expect(created.status).toBe(200);
-    const { key, rateLimitMax } = (await created.json()) as { key: string; rateLimitMax: number };
+    const { key } = (await created.json()) as { key: string };
     expect(key).toMatch(/^otr_live_/);
-    expect(rateLimitMax).toBe(600);
 
     const first = await rate(key);
     expect(first.status).toBe(200);

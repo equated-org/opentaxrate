@@ -6,7 +6,7 @@
  *   - a master key from OPENTAXRATE_MASTER_KEYS ("app=otr_master_…,…"):
  *     the keyed tier, every provider, for our own apps and tests;
  *   - an account's key (otr_live_…, auth.ts): the keyed tier, paid from the
- *     account's credit (credits.ts), 120 lookups a minute;
+ *     account's credit (credits.ts), KEY_LOOKUPS_PER_MINUTE lookups a minute, counted here;
  *   - any other key: 401. A key never falls back to the public tier.
  * The key is read from x-api-key or Authorization: Bearer.
  *
@@ -17,7 +17,7 @@
 import { createHash } from "node:crypto";
 import type { Context, MiddlewareHandler } from "hono";
 import type { Auth } from "./auth.js";
-import { KEY_LOOKUPS_PER_MINUTE } from "./limits.js";
+import { KEY_LOOKUPS_PER_MINUTE, PerIpLimiter } from "./limits.js";
 
 export type Tier = "public" | "keyed";
 
@@ -92,6 +92,10 @@ export function resolveAccess(
   auth?: Auth,
 ): MiddlewareHandler<{ Variables: AccessVariables }> {
   const masters = masterKeys(env);
+  // Counted here, per key in fixed minutes. Better Auth's own key limit
+  // resets only after a minute with no request, so a steady caller is cut
+  // off after its first N lookups however slowly it goes (auth.ts).
+  const perKey = new PerIpLimiter([{ limit: KEY_LOOKUPS_PER_MINUTE, ms: 60_000 }]);
   return async (c, next) => {
     const key = presentedKey(c);
     if (!key) {
@@ -106,14 +110,13 @@ export function resolveAccess(
     if (auth) {
       const verified = await auth.api.verifyApiKey({ body: { key } }).catch(() => null);
       if (verified?.valid && verified.key) {
+        const wait = perKey.take(verified.key.id);
+        if (wait !== null) {
+          c.header("Retry-After", String(wait));
+          return c.json({ error: `This key is over ${KEY_LOOKUPS_PER_MINUTE} lookups a minute. Try again in ${wait} s.`, code: "KEY_LIMITED" }, 429);
+        }
         c.set("access", { tier: "keyed", userId: verified.key.referenceId, keyId: verified.key.id });
         return next();
-      }
-      if (verified?.error?.code === "RATE_LIMITED") {
-        const ms = Number((verified.error as { details?: { tryAgainIn?: number } }).details?.tryAgainIn ?? 60_000);
-        const wait = Math.max(1, Math.ceil(ms / 1000));
-        c.header("Retry-After", String(wait));
-        return c.json({ error: `This key is over ${KEY_LOOKUPS_PER_MINUTE} lookups a minute. Try again in ${wait} s.`, code: "KEY_LIMITED" }, 429);
       }
     }
     return c.json(
