@@ -16,8 +16,9 @@
  * HST province's HST reads its own rule, which is either the province's
  * own treatment (Ontario's prepared-food rebate) or "follows" the federal
  * base, as checked for that code; the PST, QST or RST is its own. The
- * rules come from the database (rules/index.ts), passed in, so the
- * resolver itself is a pure function.
+ * rules come from the database (rules/index.ts), passed in, and are
+ * resolved once per rule set into a table (compile.ts): a part's rule is a
+ * lookup by its chain of keys, the code and the date.
  *
  * A part with no rule in force on the date is "not_researched", and then
  * the sale has no rate: it never falls back to the general rate. A rule
@@ -33,6 +34,8 @@
  *
  * The rest of the module, behind this file:
  *   codes.ts        the codes, and what each covers
+ *   compile.ts      the rules resolved into the table the lookup reads:
+ *                   chains of keys, codes, dated segments
  *   rules/          the reviewed rule files (one per place), the watch list
  *                   and certificates the monthly fetch uses, and the table
  *                   loader the lookup reads (index.ts)
@@ -41,12 +44,13 @@
  *   evaluate.ts     the benchmark: the rules against the agencies' examples
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
-import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
-import { SELF_COLLECTED, selfCollected } from "./self-collected.js";
-import { loadRules as loadRuleSet, parseTaxKey, ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
+import { TAX_CODES, type TaxCode } from "./codes.js";
+import { compiledOf, differs, keysFor } from "./compile.js";
+import { loadRules as loadRuleSet, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
 export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
 export { ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
+export { caseWordsOf, compiledOf, type CaseWords, type CompiledRules, type Segment } from "./compile.js";
 
 /** Every rule in the database, read once, and resolved (compiledOf) as it
  *  loads, so no request pays for it. */
@@ -110,392 +114,6 @@ const NOT_A_SALE: ShownRule = {
   citations: [],
 };
 
-/** The rule keys a part answers to, most specific first. */
-function keysFor(state: string, part: RatePart): string[] {
-  if (part.code === "CA:GST") return ["CA:GST/HST"];
-  // An HST province's own rule, or its "follows" rule; never the federal
-  // base unchecked.
-  if (part.code === "CA:HST") return [`${state}/CA:HST`];
-  if (/^[A-Z]{2}:(PST|QST|RST)$/.test(part.code)) return [part.code];
-  // "XX:state" and "XX:local" decide one side only; "XX" both, where
-  // they share the base. "XX:local:<part code>" decides one local part,
-  // where that jurisdiction sets its own base or rate (a home-rule city).
-  // "XX:administered" decides the state part and the local taxes the state
-  // administers, never a self-collected city's (self-collected.ts).
-  if (part.kind === "state") return [`${state}:state`, `${state}:administered`, state];
-  return [`${state}:local:${part.code}`, `${state}:local`, ...(selfCollected(state, part.code) ? [] : [`${state}:administered`]), state];
-}
-
-/** A rule researched only from a later day (fromIs "earliest_verified"):
- *  before it, how the code was treated isn't known, so it isn't
- *  inherited from a broader rule either. */
-const unknownBefore = (rules: RuleSet, tax: string, code: TaxCode, date: string) => {
-  const first = rules.get(`${tax}|${code}`)?.[0];
-  return first !== undefined && date < first.from && first.fromIs === "earliest_verified";
-};
-
-/** The keys whose rules are one jurisdiction's or one set of taxes' own,
- *  so that an unverified earlier period isn't filled from a broader key:
- *  "XX:local:<part code>" and "XX:administered". */
-const ownScope = (key: string) => ["part", "administered"].includes(parseTaxKey(key)?.scope ?? "");
-
-/** `key`'s rule for `code`, a broader code or a narrower one is researched
- *  only from a later day (unknownBefore). */
-const unknownFor = (rules: RuleSet, key: string, code: TaxCode, date: string) =>
-  (Object.keys(TAX_CODES) as TaxCode[]).some((c) => (c === code || code.startsWith(`${c}.`) || c.startsWith(`${code}.`)) && unknownBefore(rules, key, c, date));
-
-/** The rule for `code` under one tax: the code's own, else its nearest
- *  parent's (a parent's rule covers every kind under it), else, for a
- *  code with subcodes and no rule of its own, one settled from them.
- *  Conditional on the kind when a narrower code is treated differently.
- *  Null when any of that is missing. */
-function ruleForCode(rules: RuleSet, tax: string, code: TaxCode, date: string): Rule | null {
-  let base: Rule | null = null;
-  for (let c: TaxCode | null = code; c && !base; c = parentOf(c)) {
-    base = ruleOn(rules, tax, c, date);
-    if (!base && unknownBefore(rules, tax, c, date)) return null;
-  }
-  if (!base) return fromSubcodes(rules, tax, code, date);
-  return withNarrower(rules, [tax], tax, code, date, base);
-}
-
-/** `rule` for `code`, unless a narrower code has a rule of its own under
- *  one of `taxes` that treats it differently (Kentucky's lobbying, taxed
- *  under exempt professional services; a local tax's own rule for one
- *  kind): then conditional on which kind it is. */
-function withNarrower(rules: RuleSet, taxes: string[], tax: string, code: TaxCode, date: string, broad: Rule): Rule | null {
-  const owns = (Object.keys(TAX_CODES) as TaxCode[])
-    .filter((c) => c.startsWith(`${code}.`))
-    .flatMap((c) => taxes.flatMap((t) => {
-      const own = ruleOn(rules, t, c, date);
-      return own ? [{ code: c, rule: own }] : [];
-    }));
-  // A kind treated as the broad code is still has its own exceptions:
-  // they stay in the answer, as a settled rule's do.
-  const rule = withKindExceptions(broad, owns.filter((n) => !differs(n.rule, broad)));
-  const narrower = owns.filter((n) => differs(n.rule, broad));
-  if (!narrower.length) return rule;
-  const rest = settle(rules, rule, code, date);
-  const kinds = narrower.map((n) => [kind(n.code), settle(rules, n.rule, n.code, date), n.code] as const);
-  if (!rest || kinds.some(([, r]) => !r)) return null;
-  const otherCode = `${code}.other`;
-  const other: Kind = isTaxCode(otherCode) ? [`${otherCode}: any other kind of ${code}`, rest, otherCode] : [`Any other kind of ${code}`, rest];
-  return dependsOn(tax, code, [...(kinds as unknown as Kind[]), other], [rest, ...kinds.map(([, r]) => r!)]);
-}
-
-/** `rule` with the exceptions of `kinds`, narrower codes it settles alike,
- *  each named by its kind and code. */
-function withKindExceptions(rule: Rule, kinds: Array<{ code: TaxCode; rule: Rule }>): Rule {
-  const more = kinds.flatMap((k) => (k.rule.treatment === "conditional" ? [] : conditionsOf(kind(k.code), k.rule, k.code).slice(1)));
-  if (!more.length) return rule;
-  const all = [rule, ...kinds.map((k) => k.rule)];
-  return { ...rule, ...windowOf(all), conditions: [...rule.conditions, ...more], citations: citationsOf(all) };
-}
-
-/** Two rules don't settle a code the same way. */
-const differs = (a: Pick<Rule, "treatment" | "rate" | "rateClass" | "base" | "follows">, b: Pick<Rule, "treatment" | "rate" | "rateClass" | "base" | "follows">) =>
-  a.treatment !== b.treatment || a.rate !== b.rate || a.rateClass !== b.rateClass || a.base !== b.base || a.follows !== b.follows || a.treatment === "conditional";
-
-const kind = (c: TaxCode) => `${c}: ${TAX_CODES[c].replace(/\.$/, "")}`;
-
-/** One kind of a broad code: its label, its rule, and the code to send
- *  for it, where there is one. */
-type Kind = readonly [label: string, rule: Rule, code?: TaxCode];
-
-/** A rule conditional on which kind of `code` it is, one labelled rule per
- *  kind; its dates are those all of `cited` share. */
-function dependsOn(tax: string, code: TaxCode, kinds: Kind[], cited = kinds.map(([, r]) => r)): Rule {
-  return {
-    tax,
-    code,
-    ...windowOf(cited),
-    treatment: "conditional",
-    summary: `Depends on which kind of ${code} it is; send the narrower code to settle it.`,
-    conditions: kinds.flatMap(([label, r, c]) => conditionsOf(label, r, c)),
-    citations: citationsOf(cited),
-  };
-}
-
-const citationsOf = (rules: Rule[]) => [...new Map(rules.flatMap((r) => r.citations).map((c) => [c.url + (c.quote ?? ""), c])).values()];
-
-/** The dates every one of `rules` is in force together. */
-function windowOf(rules: Rule[]): Pick<Rule, "from" | "to" | "fromIs"> {
-  return {
-    from: rules.map((r) => r.from).sort().at(-1)!,
-    ...(rules.some((r) => r.to) ? { to: rules.flatMap((r) => (r.to ? [r.to] : [])).sort()[0] } : {}),
-    fromIs: rules.every((r) => r.fromIs === "effective") ? "effective" : "earliest_verified",
-  };
-}
-
-/** A rule as the conditions of a broader one: its own, labelled; or its
- *  settled treatment, then any exception it lists. */
-function conditionsOf(label: string, r: Rule, code?: TaxCode): Rule["conditions"] {
-  const send = code ? { code } : {};
-  // The residual kind withNarrower makes ("<code>.other: any other kind
-  // of <code>", "Any other kind of <code>"): what the listed kinds aren't.
-  const residual = /any other kind of ([a-z_.]+)$/i.exec(label)?.[1];
-  const residualOf = residual && isTaxCode(residual) ? residual : undefined;
-  const words = (k: Condition, inner?: Condition, exception?: true) => {
-    caseWords.set(k, { kind: label, ...(code ? { code } : {}), ...(residualOf ? { residualOf } : {}), ...(inner ? { inner } : {}), ...(exception ? { exception } : {}) });
-    return k;
-  };
-  if (r.treatment === "conditional") return r.conditions.map((c) => words({ ...c, when: `${label}: ${c.when}`, ...send }, c));
-  return [
-    words({ when: label, treatment: r.treatment as "taxable" | "exempt" | "zero_rated" | "special_rate", ...(r.rate !== undefined ? { rate: r.rate } : {}), ...(r.rateClass ? { rateClass: r.rateClass } : {}), ...(r.base !== undefined ? { base: r.base } : {}), ...send }),
-    ...r.conditions.filter((c) => differs(c, r)).map((c) => words({ ...c, when: `${label}, except ${c.when.charAt(0).toLowerCase()}${c.when.slice(1)}`, ...send }, c, true)),
-  ];
-}
-
-/** How a broad code's case was put together from a narrower kind's rule:
- *  the kind's label and code, and the kind's own case (`inner`), or the
- *  exception to its settled treatment. Kept beside the case, never in the
- *  answer, for reading the case as words (describe.ts). */
-export interface CaseWords {
-  kind: string;
-  code?: TaxCode;
-  /** The residual kind of this broad code: none of the kinds listed. */
-  residualOf?: TaxCode;
-  inner?: Condition;
-  exception?: true;
-}
-const caseWords = new WeakMap<Condition, CaseWords>();
-export const caseWordsOf = (k: Condition): CaseWords | undefined => caseWords.get(k);
-
-function fromSubcodes(rules: RuleSet, tax: string, code: TaxCode, date: string): Rule | null {
-  const subs = subcodesOf(code);
-  if (!subs.length) return null;
-  const found: Rule[] = [];
-  for (const sub of subs) {
-    // The subcode as asked directly, its own narrower codes included (no
-    // ancestor has a rule, so only its own and below count).
-    const own = ruleForCode(rules, tax, sub, date);
-    const settled = own && settle(rules, own, sub, date);
-    if (!settled) return null;
-    found.push(settled);
-  }
-  return fromKinds(tax, code, subs, found);
-}
-
-/** A broad code's rule from one rule per subcode: settled where every kind
- *  is treated alike, else conditional on which kind it is. */
-function fromKinds(tax: string, code: TaxCode, subs: TaxCode[], found: Rule[]): Rule {
-  const first = found[0];
-  if (found.every((r) => r.treatment === first.treatment && r.treatment !== "conditional" && r.rate === first.rate && r.rateClass === first.rateClass && r.base === first.base))
-    return withKindExceptions(
-      { tax, code, ...windowOf(found), treatment: first.treatment, ...(first.rate !== undefined ? { rate: first.rate } : {}), ...(first.rateClass ? { rateClass: first.rateClass } : {}), ...(first.base !== undefined ? { base: first.base } : {}), summary: `Every kind of ${code} is treated alike here: ${first.summary}`, conditions: [], citations: citationsOf(found) },
-      found.map((r, i) => ({ code: subs[i], rule: r })),
-    );
-  return dependsOn(tax, code, found.map((r, i): Kind => [kind(subs[i]), r, subs[i]]));
-}
-
-/** `key` has a rule of its own for `code` or a broader code on `date`. */
-function hasOwn(rules: RuleSet, key: string, code: TaxCode, date: string): boolean {
-  for (let c: TaxCode | null = code; c; c = parentOf(c)) if (ruleOn(rules, key, c, date)) return true;
-  return false;
-}
-
-/** Some code narrower than `code` has a rule of its own under one of `keys`. */
-const narrowerUnder = (rules: RuleSet, keys: string[], code: TaxCode, date: string) =>
-  (Object.keys(TAX_CODES) as TaxCode[]).some((c) => c.startsWith(`${code}.`) && keys.some((k) => ruleOn(rules, k, c, date)));
-
-/** A "follows" rule as the rule it follows, with its citations added (null
- *  when that's missing); any other rule as it is. */
-function settle(rules: RuleSet, rule: Rule, code: TaxCode, date: string): Rule | null {
-  if (rule.treatment !== "follows") return rule;
-  const followed = ruleForCode(rules, rule.follows!, code, date);
-  return followed && followed.treatment !== "follows" ? { ...followed, citations: [...followed.citations, ...rule.citations] } : null;
-}
-
-/** The rule deciding `part`: the most specific key with one, conditional
- *  where a more specific key treats a narrower code differently. */
-function ruleFor(rules: RuleSet, keys: string[], code: TaxCode, date: string): Rule | null {
-  for (const [i, key] of keys.entries()) {
-    const found = ruleForCode(rules, key, code, date);
-    // Before a one-jurisdiction rule's earliest verified day, that
-    // jurisdiction's treatment isn't known: the part isn't researched,
-    // rather than answered by a broader key (Boulder's food rules, verified
-    // from 2026-06-01, don't fall back to Colorado's before it).
-    if (!found && ownScope(key) && unknownFor(rules, key, code, date)) return null;
-    if (!found) continue;
-    // A broad code this key answers only from its subcodes' rules, while a
-    // more specific key has a rule for one of them (a local platter rule):
-    // each kind answers from its own most specific rule, and the result is
-    // the most specific such key's, so this part isn't grouped with the
-    // parts the broader key decides alone (nor with parts another key does).
-    const narrower = i && !hasOwn(rules, key, code, date) && subcodesOf(code).length ? keys.slice(0, i).find((k) => narrowerUnder(rules, [k], code, date)) : undefined;
-    if (narrower) {
-      const subs = subcodesOf(code);
-      const each = subs.map((sub) => ruleFor(rules, keys, sub, date));
-      if (each.some((r) => !r)) return null;
-      return fromKinds(narrower, code, subs, each as Rule[]);
-    }
-    const settled = settle(rules, found, code, date);
-    return settled && i ? withNarrower(rules, keys.slice(0, i), key, code, date, settled) : settled;
-  }
-  return null;
-}
-
-/** The days a chain's rule for a code holds unchanged: from `from` (absent:
- *  always before) to `to` (absent: open-ended), and that rule, null where
- *  none decides. */
-export interface Segment {
-  from?: string;
-  to?: string;
-  rule: Rule | null;
-}
-
-/** The rules resolved ahead of time, as a table: for each chain (the keys a
- *  part asks, most specific first, only those with rules) and code, the
- *  dated segments of the rule deciding it. */
-export interface CompiledRules {
-  /** The rule deciding `part` for `code` on `date`. */
-  ruleFor(state: string, part: RatePart, code: TaxCode, date: string): Rule | null;
-  /** The chain `part` asks. */
-  chainOf(state: string, part: RatePart): string[];
-  /** The segments for a chain and code, compiled on first use. */
-  segments(chain: string[], code: TaxCode): Segment[];
-  /** Every chain a part can ask, each compiled for every code. */
-  chains: string[][];
-}
-
-/** A day's lower bound as a segment's start: the day itself, or, after a
- *  rule's last day, that day followed by "\u0000", the first string after
- *  it, so a lookup compares strings exactly as ruleOn does. "" is before
- *  every day. */
-const AFTER = "\u0000";
-const shiftDay = (d: string, n: number) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
-
-/** Each code with the codes above and below it: every code whose rules can
- *  change its answer. */
-const RELATED = new Map((Object.keys(TAX_CODES) as TaxCode[]).map((code) => [code, (Object.keys(TAX_CODES) as TaxCode[]).filter((c) => c === code || code.startsWith(`${c}.`) || c.startsWith(`${code}.`))]));
-
-/** A rule as compared when merging segments: itself, and how each of its
- *  cases was put together (caseWordsOf). */
-const printOf = (rule: Rule | null) =>
-  JSON.stringify(rule, (_k, v) => {
-    const words = v && typeof v === "object" && !Array.isArray(v) ? caseWords.get(v) : undefined;
-    return words ? { ...v, "#words": words } : v;
-  });
-
-const compiled = new WeakMap<RuleSet, CompiledRules>();
-
-/** `rules` resolved: once per rule set, on first use. */
-export function compiledOf(rules: RuleSet): CompiledRules {
-  let c = compiled.get(rules);
-  if (!c) compiled.set(rules, (c = compile(rules)));
-  return c;
-}
-
-function compile(rules: RuleSet): CompiledRules {
-  const keys = new Set([...rules.keys()].map((k) => k.slice(0, k.indexOf("|"))));
-  const chainOf = (state: string, part: Pick<RatePart, "kind" | "code">) => keysFor(state, part as RatePart).filter((k) => keys.has(k));
-  const table = new Map<string, Map<TaxCode, { starts: string[]; segments: Segment[] }>>();
-
-  /** Every day any rule that can change `code`'s answer on `chain` starts or
-   *  stops: under the chain's keys and the keys they follow, for the code,
-   *  its ancestors and its descendants. */
-  const startsOf = (chain: string[], code: TaxCode) => {
-    const starts = new Set([""]);
-    const seen = new Set<string>();
-    const queue = [...chain];
-    for (let key = queue.pop(); key !== undefined; key = queue.pop()) {
-      if (seen.has(key)) continue;
-      seen.add(key);
-      for (const c of RELATED.get(code)!)
-        for (const r of rules.get(`${key}|${c}`) ?? []) {
-          starts.add(r.from);
-          if (r.to) starts.add(`${r.to}${AFTER}`);
-          if (r.follows) queue.push(r.follows);
-        }
-    }
-    return [...starts].sort();
-  };
-
-  const entry = (chain: string[], code: TaxCode) => {
-    const id = chain.join(" ");
-    const byCode = table.get(id) ?? table.set(id, new Map()).get(id)!;
-    let e = byCode.get(code);
-    if (e) return e;
-    const starts: string[] = [];
-    const rulesAt: Array<Rule | null> = [];
-    let last: string | undefined;
-    for (const start of startsOf(chain, code)) {
-      const rule = ruleFor(rules, chain, code, start);
-      const print = printOf(rule);
-      if (print === last) continue;
-      last = print;
-      starts.push(start);
-      rulesAt.push(rule);
-    }
-    const segments = starts.map((start, i): Segment => {
-      const next = starts[i + 1];
-      return {
-        ...(start ? { from: start.endsWith(AFTER) ? shiftDay(start.slice(0, -1), 1) : start } : {}),
-        ...(next !== undefined ? { to: next.endsWith(AFTER) ? next.slice(0, -1) : shiftDay(next, -1) } : {}),
-        rule: rulesAt[i],
-      };
-    });
-    byCode.set(code, (e = { starts, segments }));
-    return e;
-  };
-
-  const lookup = (chain: string[], code: TaxCode, date: string): Rule | null => {
-    if (!chain.length) return null;
-    const { starts, segments } = entry(chain, code);
-    let lo = 0;
-    let hi = starts.length - 1;
-    while (lo < hi) {
-      const mid = (lo + hi + 1) >> 1;
-      if (starts[mid] <= date) lo = mid;
-      else hi = mid - 1;
-    }
-    return segments[lo].rule;
-  };
-
-  // Every chain a part can ask: a state's state part and its local parts
-  // (with and without a one-part key, self-collected or not), each Canadian
-  // tax's, and every key a rule follows.
-  const chains = new Map<string, string[]>();
-  const add = (chain: string[]) => chain.length && chains.set(chain.join(" "), chain);
-  for (const key of keys) {
-    const t = parseTaxKey(key);
-    if (!t?.state || t.scope === "hst" || t.scope === "provincial") add([key]);
-    else {
-      const s = t.state;
-      add(chainOf(s, { kind: "state", code: "" }));
-      add(chainOf(s, { kind: "city", code: "" }));
-      for (const code of Object.keys(SELF_COLLECTED[s]?.parts ?? {})) add(chainOf(s, { kind: "city", code }));
-      if (t.scope === "part") add(chainOf(s, { kind: "city", code: t.part }));
-    }
-  }
-  for (const list of rules.values()) for (const r of list) if (r.follows) add([r.follows]);
-  for (const chain of chains.values()) for (const code of Object.keys(TAX_CODES) as TaxCode[]) entry(chain, code);
-
-  return {
-    ruleFor: (state, part, code, date) => lookup(chainOf(state, part), code, date),
-    chainOf,
-    segments: (chain, code) => (chain.length ? entry(chain, code).segments : [{ rule: null }]),
-    chains: [...chains.values()],
-  };
-}
-
-/** `rule` with its own copy of each case put together from a narrower
- *  kind's rule (caseWordsOf), as when it was resolved per request: describe
- *  marks the cases it read in one request by identity (describe.ts), so no
- *  two answers share them. A rule as filed is shared, as it always was. */
-function ownCases(rule: Rule | null): Rule | null {
-  if (!rule?.conditions.some((k) => caseWords.has(k))) return rule;
-  const copies = new Map<Condition, Condition>();
-  const copy = (k: Condition) => {
-    const words = caseWords.get(k);
-    if (!words) return k;
-    let own = copies.get(k);
-    if (!own) copies.set(k, (own = { ...k })), caseWords.set(own, words);
-    return own;
-  };
-  return { ...rule, conditions: rule.conditions.map(copy) };
-}
-
 /** What `parts` add to the sale's rate under a rule or case `k`, on the
  *  whole charge: each part's rate when taxable; a fixed special rate once
  *  for all of them (Utah's 1.25% for all its local taxes on food); each
@@ -537,7 +155,7 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
   const groups = new Map<string, TaxGroup>();
   const members = new Map<string, { rule: Rule | null; parts: RatePart[] }>();
   for (const part of answer.parts) {
-    const found = ownCases(compiledOf(rules).ruleFor(state, part, code, date));
+    const found = compiledOf(rules).ruleFor(state, part, code, date);
     // A rule naming a class answers only for a part with that class's rate,
     // or conditionally on the cases its rate turns on (classCases).
     const cases = found?.treatment === "special_rate" && found.rateClass && rateOf(found, [part]) === null ? part.classCases?.[found.rateClass] : undefined;
