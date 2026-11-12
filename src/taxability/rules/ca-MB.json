@@ -191,6 +191,11 @@
         "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014)",
         "url": "http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
         "quote": "Food and beverages sold under a contract for, or in conjunction with, catering services."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2026)",
+        "url": "http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Contracts for, or in conjunction with, catering services."
       }
     ],
     "notes": "The 2014 bulletin lists catering under taxable prepared food; the 2026 notice keeps catering outside the expanded exemption. Separately itemized rentals of goods (tables, dishes) are not addressed by the bulletin; rentals of goods are generally taxable in Manitoba (unverified for this setting). Charitable/non-profit fundraising meals and fall suppers are exempt (outside ordinary-consumer scope). 2026-11-02: http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf now redirects to https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf, which no longer carries the quoted sentence (the page was revised); the citation keeps the old address and its archived copy."
@@ -213,6 +218,11 @@
         "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014)",
         "url": "http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
         "quote": "Prepared food and beverages sold in a form for immediate consumption are not considered to be basic groceries and are taxable."
+      },
+      {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2026)",
+        "url": "http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food and beverages that are considered basic groceries sold for human consumption are exempt from tax."
       }
     ],
     "notes": "Exemption predates 2013. Groceries sold through vending machines, or at an eating establishment where 90%+ of food sales are taxable, are taxable; those are outside the code as defined (sold for eating at home). Candy, soft drinks and snack foods were taxable before 2026-07-01 and became exempt (outside restaurants etc.) from 2026-07-01, but the code excludes them. 2026-11-02: http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf now redirects to https://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf, which no longer carries the quoted sentence (the page was revised); the citation keeps the old address and its archived copy."
@@ -715,6 +725,11 @@
         "quote": "food such as pizza that is sold uncooked but fully prepared."
       },
       {
+        "title": "Bulletin No. 029, Food and Beverages (revised July 2026)",
+        "url": "http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
+        "quote": "Food such as pizza that is sold uncooked but fully prepared"
+      },
+      {
         "title": "Bulletin No. 029 - Food and Beverages (rev. June 2014)",
         "url": "http://www.gov.mb.ca/finance/taxation/pubs/bulletins/029.pdf",
         "quote": "such as a non-baked pizza"
@@ -1132,6 +1147,7 @@
     "tax": "MB:RST",
     "code": "service.professional.it",
     "from": "2013-04-01",
+    "to": "2025-12-31",
     "fromIs": "earliest_verified",
     "treatment": "conditional",
     "summary": "Services to taxable software (installing, configuring, maintaining, repairing) and to hardware are taxable in Manitoba, but optional IT consulting, training and help-line support billed separately are not.",
@@ -1158,6 +1174,51 @@
       }
     ],
     "notes": "Turns on whether the service is to software or hardware or is advice and training. Data processing and back-up provided as cloud computing are taxable from January 1, 2026."
+  },
+  {
+    "tax": "MB:RST",
+    "code": "service.professional.it",
+    "from": "2026-01-01",
+    "fromIs": "effective",
+    "treatment": "conditional",
+    "summary": "Services to taxable software (installing, configuring, maintaining, repairing) and to hardware are taxable in Manitoba, but optional IT consulting, training and help-line support billed separately are not, and from January 1, 2026 services to software between related corporations or partnerships are exempt.",
+    "conditions": [
+      {
+        "when": "installing, configuring, maintaining, upgrading or repairing taxable software, or a software support contract, where the buyer and seller are not related corporations or partnerships; or repairing or maintaining computer hardware",
+        "treatment": "taxable"
+      },
+      {
+        "when": "services to software where the buyer and seller are two corporations related under section 251 of the Income Tax Act (Canada), or two partnerships that would be related under it if they were corporations controlled by their majority-interest partner",
+        "treatment": "exempt"
+      },
+      {
+        "when": "IT consulting, procurement, staff training or help-line support that is optional and separately billed",
+        "treatment": "exempt"
+      }
+    ],
+    "citations": [
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Services provided to taxable software such as modifying, upgrading, installing, configuring, eradicating viruses, maintaining, repairing, restoring, or providing any other corrective action to software are taxable."
+      },
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Computer services such as data processing, data back-up, information retrieval, consulting, engineering studies, procurement, staff training and help line support are generally not taxable if they are not provided as a condition of the software/hardware purchase"
+      },
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Effective January 1, 2026, services that would otherwise be taxable when provided to software are exempt if the purchaser and vendor are:"
+      },
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "two corporations that are related to each other under section 251 of the Income Tax Act (Canada)"
+      }
+    ],
+    "notes": "Turns on whether the service is to software or hardware or is advice and training. Data processing and back-up provided as cloud computing are taxable from January 1, 2026. From January 1, 2026 (bulletin 033, revised January 2026), services to software are exempt between related corporations or partnerships; whether the parties are related is not carried by the code."
   },
   {
     "tax": "MB:RST",
@@ -1226,6 +1287,11 @@
         "title": "Bulletin No. 033 - Computer Software (rev. July 2001)",
         "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
         "quote": "Effective March 7, 1998, custom software that is developed solely to meet the requirements of a specific person is tax exempt."
+      },
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Custom software that is developed solely to meet the requirements of a specific person is tax exempt."
       }
     ],
     "notes": "Exemption effective 1998-03-07, so set to 2013-04-01. Taxable installation/configuration of prewritten software is taxable even when done remotely."
@@ -1248,6 +1314,11 @@
         "title": "Bulletin No. 033 (as of July 2022)",
         "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
         "quote": "Effective March 7, 1998, custom software that is developed solely to meet the requirements of a specific person is tax exempt."
+      },
+      {
+        "title": "Bulletin No. 033, Computer Software and Online Services (revised January 2026)",
+        "url": "https://www.gov.mb.ca/finance/taxation/pubs/bulletins/033.pdf",
+        "quote": "Custom software that is developed solely to meet the requirements of a specific person is tax exempt."
       }
     ],
     "notes": "Exempt since 1998-03-07."

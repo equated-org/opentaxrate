@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { stateName } from '$lib/states';
 	import { GITHUB } from '$lib/examples';
+	import { captures } from '$lib/evidence';
+
+	const SST = 'https://www.streamlinedsalestax.org/ratesandboundry';
+	const CENSUS = 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html';
 
 	// Plain-language summary of docs/state-coverage.html.
 	const streamlinedStates = [
@@ -62,14 +66,20 @@
 		...streamlinedStates.map((code) => ({
 			code,
 			source: 'State-published rate and address files from Streamlined Sales Tax.',
-			href: 'https://www.streamlinedsalestax.org/ratesandboundry',
-			linkLabel: 'View published files'
+			original: SST as string | undefined,
+			href: captures(SST),
+			linkLabel: 'View archived files'
 		})),
 		...Object.entries(otherSources).map(([code, source]) => ({
 			code,
 			source,
-			href: publishedSources[code] ?? `${GITHUB}/blob/main/src/${maintainedTables[code] ?? 'rates/statewide.ts'}`,
-			linkLabel: publishedSources[code] ? 'View published source' : 'View maintained table on GitHub'
+			// A published source links OpenTaxRate's archived copies first, the
+			// agency's page second; a table kept in code links its file.
+			original: publishedSources[code] as string | undefined,
+			href: publishedSources[code]
+				? captures(publishedSources[code])
+				: `${GITHUB}/blob/main/src/${maintainedTables[code] ?? 'rates/statewide.ts'}`,
+			linkLabel: publishedSources[code] ? 'View archived source' : 'View maintained table on GitHub'
 		}))
 	].sort((a, b) => stateName(a.code).localeCompare(stateName(b.code)));
 </script>
@@ -79,9 +89,12 @@
 	<p id="state-sources-note" class="mb-6 leading-relaxed text-[var(--text-2)]">
 		All 50 states and DC are listed below. Streamlined Sales Tax is a shared publishing program:
 		participating states provide their own rate and address files through it.
-		<a class="link" href="https://www.streamlinedsalestax.org/ratesandboundry" target="_blank" rel="noopener">View those files</a>.
-		<a class="link" href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" target="_blank" rel="noopener">US Census maps</a>
+		<a class="link" href={captures(SST)} target="_blank" rel="noopener" title="OpenTaxRate's archived copies">View those files</a>
+		(<a class="link" href={SST} target="_blank" rel="noopener" title="The page as published today">original ↗</a>).
+		<a class="link" href={captures(CENSUS)} target="_blank" rel="noopener" title="OpenTaxRate's archived copies">US Census maps</a>
+		(<a class="link" href={CENSUS} target="_blank" rel="noopener" title="The page as published today">original ↗</a>)
 		help us locate county and city boundaries; tax rates come from the other sources listed.
+		Archived links open OpenTaxRate's own copies, by date, as we downloaded them.
 	</p>
 	<table class="w-full border-collapse text-left text-sm leading-relaxed" aria-describedby="state-sources-note">
 		<caption class="sr-only">Sales tax data sources for all 50 states and the District of Columbia</caption>
@@ -97,7 +110,12 @@
 					<th scope="row" class="py-4 pr-4 align-top font-medium">{stateName(row.code)}</th>
 					<td class="py-4 align-top text-[var(--text-2)]">
 						{row.source}
-						<a class="link mt-1 block w-fit" href={row.href} target="_blank" rel="noopener" aria-label="{stateName(row.code)}: {row.linkLabel}">{row.linkLabel}</a>
+						<span class="mt-1 block w-fit">
+							<a class="link" href={row.href} target="_blank" rel="noopener" aria-label="{stateName(row.code)}: {row.linkLabel}" title={row.original ? "OpenTaxRate's archived copies" : undefined}>{row.linkLabel}</a>
+							{#if row.original}
+								· <a class="link" href={row.original} target="_blank" rel="noopener" aria-label="{stateName(row.code)}: the original, as published today" title="The page as published today; it may have changed">original ↗</a>
+							{/if}
+						</span>
 					</td>
 				</tr>
 			{/each}

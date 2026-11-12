@@ -212,6 +212,11 @@
         "title": "NH DRA Meals and Rooms Tax FAQ",
         "url": "https://www.revenue.nh.gov/faq/meals-rooms.htm",
         "quote": "Effective October 1, 2021 the Meals and Rentals Tax rate is 8.5%."
+      },
+      {
+        "title": "NH DRA Meals and Rooms Tax FAQ",
+        "url": "https://www.revenue.nh.gov/faq/meals-rooms.htm",
+        "quote": "A 8.5% tax is assessed upon patrons of hotels (or any facility with sleeping accommodations), and restaurants, on rooms and meals costing $.36 or more."
       }
     ],
     "notes": "Added 2026-11-01 after dev case d2-nh-02 showed the inherited food.prepared rule taxed a grocery deli's sides. Dated from the 8.5% rate. 2026-11-02: https://www.revenue.nh.gov/faq/meals-rooms.htm now redirects to https://www.revenue.nh.gov/resource-center/frequently-asked-questions/meals-rooms-rentals-tax, which no longer carries the quoted sentence (the page was revised); the citation keeps the old address and its archived copy."
