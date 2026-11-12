@@ -42,11 +42,15 @@
  */
 import type { AddressRate, RatePart } from "../rates/index.js";
 import { isTaxCode, parentOf, subcodesOf, TAX_CODES, type TaxCode } from "./codes.js";
-import { selfCollected } from "./self-collected.js";
-import { parseTaxKey, ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
+import { SELF_COLLECTED, selfCollected } from "./self-collected.js";
+import { loadRules as loadRuleSet, parseTaxKey, ruleOn, type Condition, type Rule, type RuleSet, type PartTreatment } from "./rules/index.js";
 
 export { TAX_CODES, isTaxCode, parentOf, subcodesOf, type TaxCode } from "./codes.js";
-export { loadRules, ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
+export { ruleSet, type Rule, type RuleSet, type PartTreatment, type Citation, type Condition } from "./rules/index.js";
+
+/** Every rule in the database, read once, and resolved (compiledOf) as it
+ *  loads, so no request pays for it. */
+export const loadRules = (): Promise<RuleSet> => loadRuleSet().then((rules) => (compiledOf(rules), rules));
 
 /** A rule as an answer shows it: without the tax and code it's keyed by. */
 export type ShownRule = Omit<Rule, "tax" | "code" | "notes" | "follows" | "treatment"> & { treatment: PartTreatment };
@@ -304,8 +308,7 @@ function settle(rules: RuleSet, rule: Rule, code: TaxCode, date: string): Rule |
 
 /** The rule deciding `part`: the most specific key with one, conditional
  *  where a more specific key treats a narrower code differently. */
-function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, date: string): Rule | null {
-  const keys = keysFor(state, part);
+function ruleFor(rules: RuleSet, keys: string[], code: TaxCode, date: string): Rule | null {
   for (const [i, key] of keys.entries()) {
     const found = ruleForCode(rules, key, code, date);
     // Before a one-jurisdiction rule's earliest verified day, that
@@ -322,7 +325,7 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
     const narrower = i && !hasOwn(rules, key, code, date) && subcodesOf(code).length ? keys.slice(0, i).find((k) => narrowerUnder(rules, [k], code, date)) : undefined;
     if (narrower) {
       const subs = subcodesOf(code);
-      const each = subs.map((sub) => ruleFor(rules, state, part, sub, date));
+      const each = subs.map((sub) => ruleFor(rules, keys, sub, date));
       if (each.some((r) => !r)) return null;
       return fromKinds(narrower, code, subs, each as Rule[]);
     }
@@ -330,6 +333,167 @@ function ruleFor(rules: RuleSet, state: string, part: RatePart, code: TaxCode, d
     return settled && i ? withNarrower(rules, keys.slice(0, i), key, code, date, settled) : settled;
   }
   return null;
+}
+
+/** The days a chain's rule for a code holds unchanged: from `from` (absent:
+ *  always before) to `to` (absent: open-ended), and that rule, null where
+ *  none decides. */
+export interface Segment {
+  from?: string;
+  to?: string;
+  rule: Rule | null;
+}
+
+/** The rules resolved ahead of time, as a table: for each chain (the keys a
+ *  part asks, most specific first, only those with rules) and code, the
+ *  dated segments of the rule deciding it. */
+export interface CompiledRules {
+  /** The rule deciding `part` for `code` on `date`. */
+  ruleFor(state: string, part: RatePart, code: TaxCode, date: string): Rule | null;
+  /** The chain `part` asks. */
+  chainOf(state: string, part: RatePart): string[];
+  /** The segments for a chain and code, compiled on first use. */
+  segments(chain: string[], code: TaxCode): Segment[];
+  /** Every chain a part can ask, each compiled for every code. */
+  chains: string[][];
+}
+
+/** A day's lower bound as a segment's start: the day itself, or, after a
+ *  rule's last day, that day followed by "\u0000", the first string after
+ *  it, so a lookup compares strings exactly as ruleOn does. "" is before
+ *  every day. */
+const AFTER = "\u0000";
+const shiftDay = (d: string, n: number) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
+
+/** Each code with the codes above and below it: every code whose rules can
+ *  change its answer. */
+const RELATED = new Map((Object.keys(TAX_CODES) as TaxCode[]).map((code) => [code, (Object.keys(TAX_CODES) as TaxCode[]).filter((c) => c === code || code.startsWith(`${c}.`) || c.startsWith(`${code}.`))]));
+
+/** A rule as compared when merging segments: itself, and how each of its
+ *  cases was put together (caseWordsOf). */
+const printOf = (rule: Rule | null) =>
+  JSON.stringify(rule, (_k, v) => {
+    const words = v && typeof v === "object" && !Array.isArray(v) ? caseWords.get(v) : undefined;
+    return words ? { ...v, "#words": words } : v;
+  });
+
+const compiled = new WeakMap<RuleSet, CompiledRules>();
+
+/** `rules` resolved: once per rule set, on first use. */
+export function compiledOf(rules: RuleSet): CompiledRules {
+  let c = compiled.get(rules);
+  if (!c) compiled.set(rules, (c = compile(rules)));
+  return c;
+}
+
+function compile(rules: RuleSet): CompiledRules {
+  const keys = new Set([...rules.keys()].map((k) => k.slice(0, k.indexOf("|"))));
+  const chainOf = (state: string, part: Pick<RatePart, "kind" | "code">) => keysFor(state, part as RatePart).filter((k) => keys.has(k));
+  const table = new Map<string, Map<TaxCode, { starts: string[]; segments: Segment[] }>>();
+
+  /** Every day any rule that can change `code`'s answer on `chain` starts or
+   *  stops: under the chain's keys and the keys they follow, for the code,
+   *  its ancestors and its descendants. */
+  const startsOf = (chain: string[], code: TaxCode) => {
+    const starts = new Set([""]);
+    const seen = new Set<string>();
+    const queue = [...chain];
+    for (let key = queue.pop(); key !== undefined; key = queue.pop()) {
+      if (seen.has(key)) continue;
+      seen.add(key);
+      for (const c of RELATED.get(code)!)
+        for (const r of rules.get(`${key}|${c}`) ?? []) {
+          starts.add(r.from);
+          if (r.to) starts.add(`${r.to}${AFTER}`);
+          if (r.follows) queue.push(r.follows);
+        }
+    }
+    return [...starts].sort();
+  };
+
+  const entry = (chain: string[], code: TaxCode) => {
+    const id = chain.join(" ");
+    const byCode = table.get(id) ?? table.set(id, new Map()).get(id)!;
+    let e = byCode.get(code);
+    if (e) return e;
+    const starts: string[] = [];
+    const rulesAt: Array<Rule | null> = [];
+    let last: string | undefined;
+    for (const start of startsOf(chain, code)) {
+      const rule = ruleFor(rules, chain, code, start);
+      const print = printOf(rule);
+      if (print === last) continue;
+      last = print;
+      starts.push(start);
+      rulesAt.push(rule);
+    }
+    const segments = starts.map((start, i): Segment => {
+      const next = starts[i + 1];
+      return {
+        ...(start ? { from: start.endsWith(AFTER) ? shiftDay(start.slice(0, -1), 1) : start } : {}),
+        ...(next !== undefined ? { to: next.endsWith(AFTER) ? next.slice(0, -1) : shiftDay(next, -1) } : {}),
+        rule: rulesAt[i],
+      };
+    });
+    byCode.set(code, (e = { starts, segments }));
+    return e;
+  };
+
+  const lookup = (chain: string[], code: TaxCode, date: string): Rule | null => {
+    if (!chain.length) return null;
+    const { starts, segments } = entry(chain, code);
+    let lo = 0;
+    let hi = starts.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      if (starts[mid] <= date) lo = mid;
+      else hi = mid - 1;
+    }
+    return segments[lo].rule;
+  };
+
+  // Every chain a part can ask: a state's state part and its local parts
+  // (with and without a one-part key, self-collected or not), each Canadian
+  // tax's, and every key a rule follows.
+  const chains = new Map<string, string[]>();
+  const add = (chain: string[]) => chain.length && chains.set(chain.join(" "), chain);
+  for (const key of keys) {
+    const t = parseTaxKey(key);
+    if (!t?.state || t.scope === "hst" || t.scope === "provincial") add([key]);
+    else {
+      const s = t.state;
+      add(chainOf(s, { kind: "state", code: "" }));
+      add(chainOf(s, { kind: "city", code: "" }));
+      for (const code of Object.keys(SELF_COLLECTED[s]?.parts ?? {})) add(chainOf(s, { kind: "city", code }));
+      if (t.scope === "part") add(chainOf(s, { kind: "city", code: t.part }));
+    }
+  }
+  for (const list of rules.values()) for (const r of list) if (r.follows) add([r.follows]);
+  for (const chain of chains.values()) for (const code of Object.keys(TAX_CODES) as TaxCode[]) entry(chain, code);
+
+  return {
+    ruleFor: (state, part, code, date) => lookup(chainOf(state, part), code, date),
+    chainOf,
+    segments: (chain, code) => (chain.length ? entry(chain, code).segments : [{ rule: null }]),
+    chains: [...chains.values()],
+  };
+}
+
+/** `rule` with its own copy of each case put together from a narrower
+ *  kind's rule (caseWordsOf), as when it was resolved per request: describe
+ *  marks the cases it read in one request by identity (describe.ts), so no
+ *  two answers share them. A rule as filed is shared, as it always was. */
+function ownCases(rule: Rule | null): Rule | null {
+  if (!rule?.conditions.some((k) => caseWords.has(k))) return rule;
+  const copies = new Map<Condition, Condition>();
+  const copy = (k: Condition) => {
+    const words = caseWords.get(k);
+    if (!words) return k;
+    let own = copies.get(k);
+    if (!own) copies.set(k, (own = { ...k })), caseWords.set(own, words);
+    return own;
+  };
+  return { ...rule, conditions: rule.conditions.map(copy) };
 }
 
 /** What `parts` add to the sale's rate under a rule or case `k`, on the
@@ -373,7 +537,7 @@ export function taxabilityOf(answer: Pick<AddressRate, "state" | "parts">, code:
   const groups = new Map<string, TaxGroup>();
   const members = new Map<string, { rule: Rule | null; parts: RatePart[] }>();
   for (const part of answer.parts) {
-    const found = ruleFor(rules, state, part, code, date);
+    const found = ownCases(compiledOf(rules).ruleFor(state, part, code, date));
     // A rule naming a class answers only for a part with that class's rate,
     // or conditionally on the cases its rate turns on (classCases).
     const cases = found?.treatment === "special_rate" && found.rateClass && rateOf(found, [part]) === null ? part.classCases?.[found.rateClass] : undefined;
