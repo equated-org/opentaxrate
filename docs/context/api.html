@@ -322,7 +322,7 @@
 <td>an account's key (<code>otr_live_…</code>, <code>auth.api.verifyApiKey</code>)</td>
 <td><code>{ tier: "keyed", userId, keyId }</code></td>
 <td>every configured one, paid from the allowance</td>
-<td>no; 120 a minute per key (429 <code>KEY_LIMITED</code>)</td>
+<td>no; 300 a minute per key (429 <code>KEY_LIMITED</code>)</td>
 <td><code>api_requests</code></td>
 </tr>
 <tr>
@@ -338,7 +338,7 @@
 <p>The policy is a set of ids: the registry's geocoders plus <code>jev</code>. <code>lookUpRate(q, { trace, policy })</code> passes it to <code>createLocator</code> (<code>geocoderProviders(policy)</code>), to <code>addressStandardizer(policy)</code> (only when <code>geocodio</code> is allowed), and as <code>pickStreet: null</code> when <code>jev</code> isn't allowed, so <code>correctedStreet</code> reads by spelling only. Without a policy (the CLI), every provider is allowed.</p>
 
 <h2 id="accounts-keys-and-credit-src-auth-ts-credits-ts-requests-ts-billing-ts">Accounts, keys and credit (<code>src/auth.ts</code>, <code>credits.ts</code>, <code>requests.ts</code>, <code>billing.ts</code>)</h2>
-<p>On only with <code>BETTER_AUTH_SECRET</code>. Better Auth (drizzle adapter, tables in <code>src/db/auth-schema.ts</code>) is mounted at <code>/api/auth/*</code>: <code>emailOTP</code> (6 digits, 5 minutes, 3 tries, stored hashed; <code>sendMail</code> in <code>mail.ts</code>) signs in and signs up in one step and sets <code>emailVerified</code>; <code>@better-auth/api-key</code> makes <code>otr_live_</code> keys (hashed, <code>start</code> keeps 13 characters, 120 a minute). A before-hook refuses <code>/api-key/create</code> for an unverified user. <code>databaseHooks.user.create.after</code> grants the trial (<code>grantTrial</code>).</p>
+<p>On only with <code>BETTER_AUTH_SECRET</code>. Better Auth (drizzle adapter, tables in <code>src/db/auth-schema.ts</code>) is mounted at <code>/api/auth/*</code>: <code>emailOTP</code> (6 digits, 5 minutes, 3 tries, stored hashed; <code>sendMail</code> in <code>mail.ts</code>) signs in and signs up in one step and sets <code>emailVerified</code>; <code>@better-auth/api-key</code> makes <code>otr_live_</code> keys (hashed, <code>start</code> keeps 13 characters, 300 a minute: <code>KEY_LOOKUPS_PER_MINUTE</code>, counted per key in fixed minutes by <code>resolveAccess</code>. The plugin's own limit is off, since it resets only after a whole idle minute and so cut off steady callers; the table's <code>rate_limit_*</code> columns are unused). A before-hook refuses <code>/api-key/create</code> for an unverified user. <code>databaseHooks.user.create.after</code> grants the trial (<code>grantTrial</code>).</p>
 <p>A keyed <code>/v1/rate</code> (<code>keyedLookup</code> in <code>server.ts</code>):</p>
 <ol>
 <li>An account's key: <code>charge(userId)</code> takes <code>PRICE_MICROS</code> (1,950 µ$, $1.95 per 1,000; a new account starts with <code>TRIAL_LOOKUPS</code>, 100) and adds 80% of it to <code>geo_allowance_micros</code>, in one <code>UPDATE … WHERE credit_micros &gt;= price</code>; no row is 402 <code>NO_CREDITS</code>. Master keys aren't charged.</li>
@@ -405,7 +405,7 @@
 <tr>
 <td><code>KEY_LIMITED</code></td>
 <td>429</td>
-<td>an account key over 120 lookups a minute, with <code>Retry-After</code></td>
+<td>an account key over 300 lookups a minute, with <code>Retry-After</code></td>
 </tr>
 <tr>
 <td><code>NO_CREDITS</code></td>

@@ -65,7 +65,9 @@ export function createAuth(env: NodeJS.ProcessEnv = process.env) {
         apiKeyHeaders: ["x-api-key"],
         // Enough to tell keys apart in the dashboard: otr_live_ and 4 more.
         startingCharactersConfig: { charactersLength: 13 },
-        rateLimit: { enabled: true, timeWindow: 60_000, maxRequests: 120 },
+        // Off: it resets only after a whole idle minute, so it would cut off a
+        // steady caller. access.ts counts each key per minute instead.
+        rateLimit: { enabled: false },
       }),
     ],
   });

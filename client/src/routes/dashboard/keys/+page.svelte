@@ -164,7 +164,7 @@
 		</tbody>
 	</table>
 </div>
-<p class="mt-3 text-[12.5px] text-[var(--text-muted)]">Each key can make 120 lookups a minute. All keys share the account's lookups.</p>
+<p class="mt-3 text-[12.5px] text-[var(--text-muted)]">Each key can make 300 lookups a minute. All keys share the account's lookups.</p>
 
 <style>
 	.card {

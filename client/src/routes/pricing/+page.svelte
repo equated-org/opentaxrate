@@ -12,7 +12,7 @@
 		['Sign-up', 'None', 'Email', 'None'],
 		['Geocoding', 'Our own servers', 'Ours plus commercial geocoders, so fewer addresses are declined', 'Whatever you configure'],
 		['Declined addresses', '—', 'Not charged', '—'],
-		['Limits', '10 a minute, 300 a day per IP', '120 a minute per key', 'None'],
+		['Limits', '10 a minute, 300 a day per IP', '300 a minute per key', 'None'],
 		['History', '—', '90 days', 'Your database']
 	];
 </script>

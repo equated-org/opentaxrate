@@ -10,6 +10,8 @@ import { EVERY_PROVIDER, masterKeys, policyFor, presentedKey, resolveAccess, typ
 import { geocoderProviders } from "../src/geocoding/registry.js";
 import { addressStandardizer } from "../src/standardize/index.js";
 import { PARAMS } from "../src/params.js";
+import { KEY_LOOKUPS_PER_MINUTE } from "../src/limits.js";
+import type { Auth } from "../src/auth.js";
 
 // These test every adapter; which ones production asks is a setting.
 PARAMS.disabledGeocoders = [];
@@ -77,6 +79,34 @@ describe("master keys", () => {
     const bad = await app.request("/", { headers: { "x-api-key": OTHER } });
     expect(bad.status).toBe(401);
     expect(await bad.json()).toMatchObject({ code: "INVALID_API_KEY" });
+  });
+});
+
+describe("account keys", () => {
+  // Better Auth stands in, answering every key as valid.
+  const auth = { api: { verifyApiKey: async () => ({ valid: true, key: { id: "k1", referenceId: "u1" } }) } } as unknown as Auth;
+  const call = (app: Hono<{ Variables: AccessVariables }>) => app.request("/", { headers: { "x-api-key": "otr_live_test" } });
+
+  afterEach(() => vi.useRealTimers());
+
+  it("make KEY_LOOKUPS_PER_MINUTE lookups each minute, however steadily they come", async () => {
+    vi.useFakeTimers();
+    const app = new Hono<{ Variables: AccessVariables }>().use(resolveAccess({}, auth)).get("/", (c) => c.json(c.var.access));
+    // A steady caller under the limit is never refused, minute after minute
+    // (Better Auth's own limit refused it once its total passed the limit).
+    for (let minute = 0; minute < 3; minute++)
+      for (let i = 0; i < KEY_LOOKUPS_PER_MINUTE; i++) {
+        expect((await call(app)).status).toBe(200);
+        vi.advanceTimersByTime(60_000 / KEY_LOOKUPS_PER_MINUTE);
+      }
+    // A burst over it is refused until its minute ends.
+    for (let i = 0; i < KEY_LOOKUPS_PER_MINUTE; i++) await call(app);
+    const over = await call(app);
+    expect(over.status).toBe(429);
+    expect(await over.json()).toMatchObject({ code: "KEY_LIMITED" });
+    expect(Number(over.headers.get("retry-after"))).toBeGreaterThan(0);
+    vi.advanceTimersByTime(60_000);
+    expect((await call(app)).status).toBe(200);
   });
 });
 

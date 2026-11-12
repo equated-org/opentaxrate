@@ -131,8 +131,15 @@
     {
       "idx": 18,
       "version": "7",
-      "when": 1793739777122,
-      "tag": "0018_class_rates",
+      "when": 1794498390416,
+      "tag": "0018_key_limit",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1794502299601,
+      "tag": "0019_class_rates",
       "breakpoints": true
     }
   ]

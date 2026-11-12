@@ -144,3 +144,7 @@ export function limitFromEnv(
   if (!spec) return undefined;
   return perIpLimit(new PerIpLimiter(parseLimits(spec)), clientIpHeader(env));
 }
+
+/** Lookups an account key may make in each minute, counted per key in
+ *  memory by access.ts. The apikey table's rate_limit_* columns are unused. */
+export const KEY_LOOKUPS_PER_MINUTE = 300;

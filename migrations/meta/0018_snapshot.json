@@ -1,5 +1,5 @@
 {
-  "id": "689a35ac-ce2e-4827-97ea-ab5d65d68e92",
+  "id": "42c7768e-c76e-4548-b7df-da78215923d8",
   "prevId": "5f138ed8-eafa-4396-92c5-dfd9fb73e949",
   "version": "7",
   "dialect": "postgresql",
@@ -445,156 +445,6 @@
       },
       "policies": {},
       "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.sales_tax_class_rates": {
-      "name": "sales_tax_class_rates",
-      "schema": "",
-      "columns": {
-        "state": {
-          "name": "state",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "code": {
-          "name": "code",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "class": {
-          "name": "class",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "rate": {
-          "name": "rate",
-          "type": "numeric(8, 6)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "starts_on": {
-          "name": "starts_on",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "ends_on": {
-          "name": "ends_on",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "applies_when": {
-          "name": "applies_when",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "''"
-        },
-        "source": {
-          "name": "source",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "idx_sales_tax_class_rates_code": {
-          "name": "idx_sales_tax_class_rates_code",
-          "columns": [
-            {
-              "expression": "state",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "type",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "code",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "uq_sales_tax_class_rates": {
-          "name": "uq_sales_tax_class_rates",
-          "columns": [
-            {
-              "expression": "state",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "type",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "code",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "class",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "starts_on",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "applies_when",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {
-        "ck_sales_tax_class_rates_dates": {
-          "name": "ck_sales_tax_class_rates_dates",
-          "value": "\"sales_tax_class_rates\".\"ends_on\" >= \"sales_tax_class_rates\".\"starts_on\""
-        },
-        "ck_sales_tax_class_rates_class": {
-          "name": "ck_sales_tax_class_rates_class",
-          "value": "\"sales_tax_class_rates\".\"class\" in ('restaurant', 'grocery')"
-        }
-      },
       "isRLSEnabled": false
     },
     "public.sales_tax_data_releases": {
@@ -1404,12 +1254,6 @@
           "primaryKey": false,
           "notNull": false
         },
-        "rate_class": {
-          "name": "rate_class",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "base": {
           "name": "base",
           "type": "double precision",
@@ -1483,11 +1327,7 @@
         },
         "ck_taxability_rules_special_rate": {
           "name": "ck_taxability_rules_special_rate",
-          "value": "(\"taxability_rules\".\"treatment\" = 'special_rate') = (\"taxability_rules\".\"rate\" is not null or \"taxability_rules\".\"rate_class\" is not null)"
-        },
-        "ck_taxability_rules_rate_class": {
-          "name": "ck_taxability_rules_rate_class",
-          "value": "\"taxability_rules\".\"rate_class\" is null or (\"taxability_rules\".\"rate\" is null and \"taxability_rules\".\"rate_class\" in ('restaurant', 'grocery'))"
+          "value": "(\"taxability_rules\".\"treatment\" = 'special_rate') = (\"taxability_rules\".\"rate\" is not null)"
         },
         "ck_taxability_rules_base": {
           "name": "ck_taxability_rules_base",
@@ -1820,7 +1660,7 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
-          "default": 120
+          "default": 600
         },
         "request_count": {
           "name": "request_count",

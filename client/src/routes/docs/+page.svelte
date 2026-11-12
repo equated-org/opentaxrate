@@ -114,7 +114,7 @@ else sendElsewhere();                                   // not_researched: never
 			<td>Auth</td>
 			<td>
 				<code>Authorization: Bearer &lt;key&gt;</code> or <code>x-api-key: &lt;key&gt;</code>. Create keys in the
-				<a class="link" href="/dashboard/keys">dashboard</a>; lookups are paid from your credit (<a class="link" href="/pricing">pricing</a>), 120 a minute per key.
+				<a class="link" href="/dashboard/keys">dashboard</a>; lookups are paid from your credit (<a class="link" href="/pricing">pricing</a>), 300 a minute per key.
 			</td>
 		</tr>
 		<tr>

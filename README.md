@@ -47,6 +47,10 @@ Combined-rate results against official answers.[^bench] See [methodology and how
 
 [^bench]: Development addresses guide improvements. The separate held-out comparison uses `evalA`, with geocoding providers and no live state lookup. Public development datasets: [opentaxrate-bench](https://github.com/equated-org/opentaxrate-bench). Held-out sets and recorded geocodes remain private. Scoring exceptions and historical limits are documented in the methodology.
 
+## Kept up to date
+
+The rate data is refreshed every month from each state's published files. A scheduled run picks up new editions, rebuilds the data, and checks it against the states' own answers; a release is published only if it passes. Every release is listed with what changed on the [data releases](https://opentaxrate.com/docs/releases) page. See [maintenance runs](docs/maintenance/cron.md).
+
 ## Quick start
 
 ```bash
