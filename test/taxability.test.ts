@@ -2,7 +2,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { parentOf, parseCodes, ruleSet, settleCases, subcodesOf, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type Taxability, type TaxCode } from "../src/taxability/index.js";
+import { compiledOf, parentOf, parseCodes, ruleSet, settleCases, subcodesOf, TAX_CODES, taxabilityByCode, taxabilityOf, type Rule, type Taxability, type TaxCode } from "../src/taxability/index.js";
 import { looseForTest, pageText, quoteOnPage, quoteSpan } from "../src/taxability/fetch.js";
 import { readRuleFiles } from "../src/taxability/rules/index.js";
 import { SELF_COLLECTED } from "../src/taxability/self-collected.js";
@@ -651,6 +651,23 @@ describe("taxability", () => {
     // A location the flag doesn't touch has its one rate.
     const chicago: RatePart[] = [{ kind: "state", code: "45:17", rate: 0.0625 }, { kind: "district", code: "x:0160001", rate: 0.0425, classRates: { grocery: 0.015 } }];
     expect(taxabilityOf({ state: "IL", parts: chicago }, "food.grocery", "2026-11-03", RULES)).toMatchObject({ treatment: "partial", rate: 0.015 });
+  });
+
+  it("compiles the rules into chains and dated segments: parts without a rule of their own share a chain, Boulder's starts on its verified day", () => {
+    const c = compiledOf(RULES);
+    expect(c.chainOf("CO", { kind: "state", code: "45:1" })).toEqual(["CO:administered", "CO"]);
+    // Any two local parts without a key of their own ask the same chain; a
+    // self-collected city's skips CO:administered; Boulder's starts with its own.
+    expect(c.chainOf("CO", { kind: "district", code: "d:ttr528" })).toEqual(c.chainOf("CO", { kind: "county", code: "00:ttr16" }));
+    expect(c.chainOf("CO", { kind: "city", code: "01:ttr255" })).toEqual(["CO:local", "CO"]);
+    const boulder = c.chainOf("CO", { kind: "city", code: "01:ttr209" });
+    expect(boulder).toEqual(["CO:local:01:ttr209", "CO:local", "CO"]);
+    expect(c.chains.map((k) => k.join(" "))).toContain(boulder.join(" "));
+    const segments = c.segments(boulder, "food.prepared.dine_in");
+    expect(segments.map((s) => [s.from, s.to, s.rule?.tax ?? null])).toEqual([[undefined, "2026-05-31", null], ["2026-06-01", undefined, "CO:local:01:ttr209"]]);
+    // A place with no rules has no chain, and nothing is researched there.
+    expect(c.chainOf("ZZ", { kind: "state", code: "48" })).toEqual([]);
+    expect(c.segments([], "food.grocery")).toEqual([{ rule: null }]);
   });
 
   it("doesn't fill a city's unverified earlier period from the state's rules: Boulder before 2026-06-01, Denver before 2019", () => {
