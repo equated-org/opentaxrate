@@ -197,8 +197,12 @@ const asking = (id: string, style: Style, words: string): Asking => {
 /** The questions of `askings`, by id, for one call. */
 const questionsOf = (askings: Asking[]): Record<string, Question> => Object.fromEntries(askings.map((a) => [a.id, a.question]));
 
-/** How likely the picks make a statement hold; no answer is 0. */
-const holding = (picks: Record<string, Picked | undefined>, a: Asking) => (picks[a.id] ? (probabilitiesOf(picks[a.id]!)[a.positive] ?? 0) : 0);
+/** Whether the text establishes a statement, as the picks answer the ways
+ *  it was asked (each in its style: the defining fact's, the yes-or-no
+ *  question's, the absence or case confirmation's): the mean probability of
+ *  the option that says it holds, an unanswered way counting 0. */
+const established = (picks: Record<string, Picked | undefined>, askings: Asking[]) =>
+  askings.reduce((sum, a) => sum + (picks[a.id] ? (probabilitiesOf(picks[a.id]!)[a.positive] ?? 0) : 0), 0) / askings.length;
 
 /** A defining fact asked of one code: its code and its askings. */
 interface Defining {
@@ -206,11 +210,11 @@ interface Defining {
   askings: Asking[];
 }
 
-/** The text's yes to `code`'s defining fact: the mean over the ways it was
- *  asked (two wordings read more surely than one); null where it wasn't. */
+/** The text's yes to `code`'s defining fact: over the ways it was asked
+ *  (two wordings read more surely than one); null where it wasn't. */
 function definingYes(picks: Record<string, Picked>, checks: Defining[], code: TaxCode): number | null {
   const d = checks.find((c) => c.code === code);
-  return d ? d.askings.reduce((sum, a) => sum + holding(picks, a), 0) / d.askings.length : null;
+  return d ? established(picks, d.askings) : null;
 }
 
 /** The definition a code read from the text must have established: its
@@ -234,7 +238,6 @@ export function definingQuestions(chain: TaxCode[], sole: TaxCode | null = null,
     return [{ code: c, askings }];
   });
 }
-
 
 /** The probabilities a pick gives, or its choice at its confidence. */
 const probabilitiesOf = (p: Picked): Record<string, number> => p.probabilities ?? { [p.choice]: p.confidence };
@@ -350,55 +353,8 @@ export interface Asked {
 export const NEEDS = ["code", "one_item", "seller_kind", "seller_license", "locality", "payment_date", "title_transfer", "qualifying_total", "contract_total", "quantity_by_kind"] as const;
 export type Need = (typeof NEEDS)[number];
 
-/** The legal standings the rules' cases turn on, one entry each. An item
- *  description never establishes any of them ("a wine shop" isn't a Class
- *  A licensee); a software license agreement between licensor and licensee
- *  is the sale's terms, not a standing. The seller's: a license or permit
- *  and its class, a registration or credential... */
-const SELLER_STANDING: RegExp[] = [
-  /(?<!licensor and )\b(?:licensees?|permittees?|license holders?|permit holders?)\b/,
-  /\bClass [A-Z]\b/,
-  /\blicensed (?:attorney|real estate|prof)|\blicensed under Title\b/,
-  /\bseparately registered\b|\bregistered (?:as|real estate|agent|broker|charit)|\bis registered\b/,
-  /\bcertified public accountant\b|\benrolled agents?\b/,
-];
-
-/** ...and the buyer's: a certificate or form it gives, a licensed or
- *  nonprofit buyer, buying for resale. Like every buyer's exemption, the
- *  caller's to claim (codes.ts): an exception that turns only on one never
- *  holds open the usual answer for an ordinary buyer, and is never settled. */
-const BUYER_STANDING: RegExp[] = [
-  /\bexemption certificate\b|\btransaction certificate\b|\bcertifies\b|\bForm ST-\d+|\bFIN \d+/,
-  /\blicensed (?:healthcare|health care)\b/,
-  /\bnon-?profit\b|\bcharitable (?:organi[sz]ation|institution)\b|\b501\(c\)/,
-  /\b(?:for|tax-free for) resale\b|\bexempt buyer\b/,
-];
-
-const anyOf = (res: RegExp[]) => new RegExp(res.map((re) => re.source).join("|"), "i");
-const SELLER_RE = anyOf(SELLER_STANDING);
-const BUYER_RE = anyOf(BUYER_STANDING);
-
-/** A rule's exception that turns only on the buyer's standing. */
-const buyersOnly = (k: Condition) => {
-  const needs = blockingOf(k);
-  return needs.length === 1 && needs[0] === "seller_license" && BUYER_RE.test(k.when) && !SELLER_RE.test(k.when);
-};
-
-const UNASKABLE: Array<[Need, RegExp]> = [
-  // An explicit share of the seller's sales or receipts, or California's 80-80 rule.
-  ["seller_kind", /\b\d{2}(?:\.\d+)?\s?(?:%|percent)[^.;]*\b(?:sales|receipts)\b|\b(?:sales|receipts)\b[^.;]*\b(?:exceed|over|more than|less than|or less|or more)\s+\d{2}(?:\.\d+)?\s?(?:%|percent)|\b80[-/]80\b|\b80\/20\b|prepared[- ]food sales percentage/i],
-  // The seller's or buyer's legal standing (LEGAL_STANDING).
-  ["seller_license", anyOf([...SELLER_STANDING, ...BUYER_STANDING])],
-  // Which local taxes the place levies or exempts, or which local part it is.
-  ["locality", /\b(?:[Cc]ity|[Tt]own|[Cc]ounty|[Mm]unicipality|[Pp]arish|[Bb]orough)\b[^.;]*\b(?:levies|levy|adopted|adopt|imposes|impose|ordinance|lowered|limits its|has not)\b|\b[Oo]rdinances?\b|\blocal[- ]option\b|\bhome[- ]rule\b|\blocal part\b|\b[Ss]old in [A-Z][\w.]+(?: [A-Z][\w.]+)* Count(?:y|ies)\b|\bTupelo\b|\bRTA\b/],
-  // When the sale was paid for, in a dated tax period.
-  ["payment_date", /\bthe break\b|\b(?:paid|payment|consideration|deposit)\b[^.;]*\b(?:19|20)\d{2}\b|\b(?:19|20)\d{2}\b[^.;]*\b(?:paid|payment)\b/i],
-  // When title to the goods passed.
-  ["title_transfer", /\btitle\b(?! \d)[^.;]*\b(?:pass|passes|passed|passage|transfer|transfers|transferred)\b|\b(?:pass|passes|passage|transfers?|transferred)\b[^.;]*\btitle\b/i],
-];
-
 /** The case's words name a money amount: "$4.00", "$10,000". */
-export const namesAmount = (when: string) => /\$\s?\d/.test(when);
+const AMOUNT = /\$\s?\d/;
 
 const N = "(?:\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|a dozen)";
 const UNITS = "(?:[\\w-]+[- ])?(?:servings?|items?|units?|pieces?)";
@@ -416,15 +372,69 @@ const COUNTS = [
  *  ("two or more ingredients", "under 230 g"). */
 export const namesCount = (when: string) => COUNTS.some((re) => re.test(when));
 
+/** The facts a description never settles, one row per kind: the need a
+ *  case whose words match it names (as a caller would send it), whose fact
+ *  it is, what in the words marks it (any of `marks`, with `with` also
+ *  matching and `unless` not), and why. `reads`: a param that, when on,
+ *  lets the text settle it. needsOf reads every row, in order; buyersOnly
+ *  the legal-standing rows, by party. */
+interface Unreadable {
+  need: Need;
+  of: "sale" | "seller" | "buyer" | "place";
+  marks: RegExp[];
+  with?: RegExp;
+  unless?: RegExp;
+  reads?: () => boolean;
+  why: string;
+}
+
+const NEVER_FROM_TEXT: Unreadable[] = [
+  { need: "qualifying_total", of: "sale", marks: [AMOUNT], unless: /\bcontract\b/i, reads: () => PARAMS.describeReadsAmounts, why: "A money amount the sale must reach ($4.00): a price in the words never settles it." },
+  { need: "contract_total", of: "sale", marks: [AMOUNT], with: /\bcontract\b/i, reads: () => PARAMS.describeReadsAmounts, why: "A contract's amount ($10,000)." },
+  { need: "quantity_by_kind", of: "sale", marks: COUNTS, reads: () => PARAMS.describeReadsCounts, why: "A count of units sold against a threshold (namesCount); its alternatives that don't count may be settled (countFree)." },
+  { need: "seller_kind", of: "seller", marks: [/\b\d{2}(?:\.\d+)?\s?(?:%|percent)[^.;]*\b(?:sales|receipts)\b|\b(?:sales|receipts)\b[^.;]*\b(?:exceed|over|more than|less than|or less|or more)\s+\d{2}(?:\.\d+)?\s?(?:%|percent)|\b80[-/]80\b|\b80\/20\b|prepared[- ]food sales percentage/i], why: "An explicit share of the seller's sales or receipts, or California's 80-80 rule." },
+  {
+    need: "seller_license",
+    of: "seller",
+    marks: [
+      /(?<!licensor and )\b(?:licensees?|permittees?|license holders?|permit holders?)\b/i,
+      /\bClass [A-Z]\b/i,
+      /\blicensed (?:attorney|real estate|prof)|\blicensed under Title\b/i,
+      /\bseparately registered\b|\bregistered (?:as|real estate|agent|broker|charit)|\bis registered\b/i,
+      /\bcertified public accountant\b|\benrolled agents?\b/i,
+    ],
+    why: "The seller's legal standing: a license or permit and its class, a registration or credential. An item description never establishes one (\"a wine shop\" isn't a Class A licensee); a software license agreement between licensor and licensee is the sale's terms, not a standing.",
+  },
+  {
+    need: "seller_license",
+    of: "buyer",
+    marks: [
+      /\bexemption certificate\b|\btransaction certificate\b|\bcertifies\b|\bForm ST-\d+|\bFIN \d+/i,
+      /\blicensed (?:healthcare|health care)\b/i,
+      /\bnon-?profit\b|\bcharitable (?:organi[sz]ation|institution)\b|\b501\(c\)/i,
+      /\b(?:for|tax-free for) resale\b|\bexempt buyer\b/i,
+    ],
+    why: "The buyer's legal standing: a certificate or form it gives, a licensed or nonprofit buyer, buying for resale. Like every buyer's exemption, the caller's to claim (codes.ts): an exception that turns only on one never holds open the usual answer for an ordinary buyer, and is never settled (buyersOnly).",
+  },
+  { need: "locality", of: "place", marks: [/\b(?:[Cc]ity|[Tt]own|[Cc]ounty|[Mm]unicipality|[Pp]arish|[Bb]orough)\b[^.;]*\b(?:levies|levy|adopted|adopt|imposes|impose|ordinance|lowered|limits its|has not)\b|\b[Oo]rdinances?\b|\blocal[- ]option\b|\bhome[- ]rule\b|\blocal part\b|\b[Ss]old in [A-Z][\w.]+(?: [A-Z][\w.]+)* Count(?:y|ies)\b|\bTupelo\b|\bRTA\b/], why: "Which local taxes the place levies or exempts, or which local part it is: the address's, never the caller's (unresearched)." },
+  { need: "payment_date", of: "sale", marks: [/\bthe break\b|\b(?:paid|payment|consideration|deposit)\b[^.;]*\b(?:19|20)\d{2}\b|\b(?:19|20)\d{2}\b[^.;]*\b(?:paid|payment)\b/i], why: "When the sale was paid for, in a dated tax period." },
+  { need: "title_transfer", of: "sale", marks: [/\btitle\b(?! \d)[^.;]*\b(?:pass|passes|passed|passage|transfer|transfers|transferred)\b|\b(?:pass|passes|passage|transfers?|transferred)\b[^.;]*\btitle\b/i], why: "When title to the goods passed." },
+];
+
+const marked = (row: Unreadable, when: string) => !row.reads?.() && row.marks.some((re) => re.test(when)) && (!row.with || row.with.test(when)) && !row.unless?.test(when);
+
 /** The facts a case turns on that the text may not settle; empty when the
  *  text may settle it. */
-export function needsOf(when: string): Need[] {
-  const out: Need[] = [];
-  if (!PARAMS.describeReadsAmounts && namesAmount(when)) out.push(/\bcontract\b/i.test(when) ? "contract_total" : "qualifying_total");
-  if (!PARAMS.describeReadsCounts && namesCount(when)) out.push("quantity_by_kind");
-  for (const [need, re] of UNASKABLE) if (re.test(when)) out.push(need);
-  return out;
-}
+export const needsOf = (when: string): Need[] => [...new Set(NEVER_FROM_TEXT.filter((row) => marked(row, when)).map((row) => row.need))];
+
+/** Whether the words name the seller's or the buyer's legal standing. */
+const standing = (of: "seller" | "buyer", when: string) => NEVER_FROM_TEXT.some((row) => row.need === "seller_license" && row.of === of && marked(row, when));
+
+/** A rule's exception that turns only on the buyer's standing. */
+const buyersOnly = (k: Condition) => {
+  const needs = blockingOf(k);
+  return needs.length === 1 && needs[0] === "seller_license" && standing("buyer", k.when) && !standing("seller", k.when);
+};
 
 /** A broad code's cases that are a kind whose defining fact the text was
  *  found not to establish (the code was tried and failed): never settled
@@ -664,7 +674,7 @@ async function binaryAnswers(t: Taxability, parts: AddressRate["parts"], asked: 
   return new Map<string, Yes[]>(
     asked.map((q) => [
       q.id,
-      each.filter((e) => e.q === q && got[e.yes.id]).map((e) => ({ n: e.n, p: holding(got, e.yes), effect: effectOf(t, parts, q, e.ks), ...(e.three && got[e.three.id] ? { stated: holding(got, e.three) } : {}) })),
+      each.filter((e) => e.q === q && got[e.yes.id]).map((e) => ({ n: e.n, p: established(got, [e.yes]), effect: effectOf(t, parts, q, e.ks), ...(e.three && got[e.three.id] ? { stated: established(got, [e.three]) } : {}) })),
     ]),
   );
 }
@@ -691,13 +701,14 @@ function agreesWithFirst(t: Taxability, parts: AddressRate["parts"], q: Asked, p
   return groups.every((g) => g === mine || g.mass <= mine.mass + EPSILON);
 }
 
+/** Whether the second look's confirmation (the absence or case question)
+ *  establishes a case, at describeConfirmAccept. */
+const stated = (y: Yes | undefined) => y?.stated !== undefined && y.stated >= PARAMS.describeConfirmAccept - EPSILON;
+
 /** Whether the second look establishes a case: its yes-or-no question, or
  *  the absence question (the text says the absence, in any words), at
  *  describeConfirmAccept. */
-const holds = (y: Yes | undefined) => {
-  const at = (p: number) => p >= PARAMS.describeConfirmAccept - EPSILON;
-  return !!y && (at(y.p) || (y.stated !== undefined && at(y.stated)));
-};
+const holds = (y: Yes | undefined) => !!y && (y.p >= PARAMS.describeConfirmAccept - EPSILON || stated(y));
 
 /** Whether an option outside `members`, with another effect, reaches
  *  describeBinaryVeto. */
@@ -772,7 +783,7 @@ async function settleFromText(t: Taxability, parts: AddressRate["parts"], asked:
     // A case settled only with a second model's agreement stands only where
     // the text states every part of it; else Jev's own pick, under the bar.
     if (lifted.has(q.id)) {
-      if (!members.some((n) => { const y = ys.find((y) => y.n === n); return y?.stated !== undefined && y.stated >= PARAMS.describeConfirmAccept - EPSILON; })) final[q.id] = given[q.id];
+      if (!members.some((n) => stated(ys.find((y) => y.n === n)))) final[q.id] = given[q.id];
       continue;
     }
     // One of the cases alike established outright confirms them all.
