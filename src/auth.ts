@@ -20,7 +20,7 @@ import { db } from "./db/client.js";
 import * as schema from "./db/auth-schema.js";
 import { sendMail, signInCodeMail } from "./mail.js";
 import { grantTrial } from "./credits.js";
-import { clientIpHeader } from "./limits.js";
+import { clientIpHeader, KEY_LOOKUPS_PER_MINUTE } from "./limits.js";
 
 const list = (value: string | undefined) => (value ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 
@@ -65,7 +65,7 @@ export function createAuth(env: NodeJS.ProcessEnv = process.env) {
         apiKeyHeaders: ["x-api-key"],
         // Enough to tell keys apart in the dashboard: otr_live_ and 4 more.
         startingCharactersConfig: { charactersLength: 13 },
-        rateLimit: { enabled: true, timeWindow: 60_000, maxRequests: 120 },
+        rateLimit: { enabled: true, timeWindow: 60_000, maxRequests: KEY_LOOKUPS_PER_MINUTE },
       }),
     ],
   });

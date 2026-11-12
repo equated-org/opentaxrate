@@ -144,3 +144,7 @@ export function limitFromEnv(
   if (!spec) return undefined;
   return perIpLimit(new PerIpLimiter(parseLimits(spec)), clientIpHeader(env));
 }
+
+/** Lookups an account key may make a minute. Each key stores its own limit
+ *  when created; a migration (0018) moves existing keys when this changes. */
+export const KEY_LOOKUPS_PER_MINUTE = 600;

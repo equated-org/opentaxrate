@@ -17,6 +17,7 @@
 import { createHash } from "node:crypto";
 import type { Context, MiddlewareHandler } from "hono";
 import type { Auth } from "./auth.js";
+import { KEY_LOOKUPS_PER_MINUTE } from "./limits.js";
 
 export type Tier = "public" | "keyed";
 
@@ -112,7 +113,7 @@ export function resolveAccess(
         const ms = Number((verified.error as { details?: { tryAgainIn?: number } }).details?.tryAgainIn ?? 60_000);
         const wait = Math.max(1, Math.ceil(ms / 1000));
         c.header("Retry-After", String(wait));
-        return c.json({ error: `This key is over 120 lookups a minute. Try again in ${wait} s.`, code: "KEY_LIMITED" }, 429);
+        return c.json({ error: `This key is over ${KEY_LOOKUPS_PER_MINUTE} lookups a minute. Try again in ${wait} s.`, code: "KEY_LIMITED" }, 429);
       }
     }
     return c.json(
