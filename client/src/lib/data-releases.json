@@ -1,5 +1,21 @@
 [
   {
+    "tag": "data-2026-11-12",
+    "published": "2026-11-12",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-12",
+    "dump": {
+      "name": "opentaxrate-2026-11-12.dump",
+      "bytes": 699521891
+    },
+    "changes": [
+      "Class rates: each place's published restaurant or grocery rate is now loaded from the states' own tables and used where a rule says so. Arizona restaurants and bars (Glendale dine-in 10.2%, not the 9.2% retail rate), Alabama local grocery rates, Illinois local grocery rates from 2026-01-01, and Utah's restaurant tax. The general rate is unchanged.",
+      "Denver taxes food and drink at its own 4% rate (hot food to go is 8.00% in all) and exempts pop and groceries for home use. Food and software rules for 13 Colorado home-rule cities, including Boulder's tax on software as a service. Cities that collect their own tax are never answered by state-only rules.",
+      "Colorado taxes computer software however delivered from 2027-01-01 (HB 26-1223).",
+      "New codes with a cited rule or a recorded gap for every state, DC and province: clothing (with accessories and protective or sport equipment), alcohol (off and on premises), rental of goods, and work on goods (repair, cleaning, other).",
+      "Benchmarks: taxability 0 wrong (dev 750 right of 1,144, now including the new codes; held-out 215 of 362); address sets as the last release."
+    ]
+  },
+  {
     "tag": "data-2026-11-02-describe",
     "published": "2026-11-02",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-02-describe",
