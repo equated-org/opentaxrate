@@ -249,7 +249,7 @@ export function pjNear(csv2010: string, csv2020: string): LocalRate[] {
     const then = in2010.get(fips);
     if (!then || then.pop >= PJ_NEAR_UNDER || now.pop >= PJ_NEAR_UNDER) continue;
     rows.push({
-      name: `01${fips}`,
+      name: fips,
       rate: 0,
       from: FROM,
       type: "pjnear",

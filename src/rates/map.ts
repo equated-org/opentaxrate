@@ -119,10 +119,12 @@ export async function geoRateAt(
   // jurisdiction could reach it.
   const outlineMargin = PARAMS.outlineMarginMetres[state] ?? 0;
   const reach = Math.max(marginOf(point) + outlineMargin, PARAMS.breakdownMarginMetres);
-  const pad = Math.max(0.003, reach / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180))));
+  // Degrees of longitude (the narrower way) spanning so many metres here.
+  const degrees = (metres: number) => metres / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180)));
+  const pad = Math.max(0.003, degrees(reach));
   // A police jurisdiction's city may be as far as its reach plus the
   // point's margin.
-  const pjPad = (PJ_METRES + marginOf(point)) / (110_000 * Math.max(0.1, Math.cos(point.lat * Math.PI / 180)));
+  const pjPad = degrees(PJ_METRES + marginOf(point));
   const shapes = await outlinesAt(state, point, date, "all", pjState ? Math.max(0.06, pjPad, pad) : pad);
   const rates = await ratesOn(state, date);
   const keptCodes = new Set(

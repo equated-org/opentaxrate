@@ -69,9 +69,10 @@ export interface Params {
   /** An address no geocoder places, in a ZIP whose widened area rated
    *  outlines cross, is answered when every piece they cut it into has the
    *  same total (rates/map.ts); off, every rated outline must hold all of
-   *  it. At most zipSameTotalMaxPieces pieces are read; a piece under
-   *  zipSameTotalSliverSquareMetres (an overlap or gap between neighbours'
-   *  simplified outlines) is left out. On 2026-11-15 dev and history were
+   *  it. At most zipSameTotalMaxPieces pieces are read. A piece under
+   *  zipSameTotalSliverSquareMetres whose outlines all reach far into the
+   *  area (an overlap or gap between neighbours' simplified outlines) is
+   *  left out; one in a small outline is kept, and can only refuse. On 2026-11-15 dev and history were
    *  unchanged (no dev address is unplaced in such a ZIP); a live refusal in
    *  Norfolk, VA (23503, 6% in Norfolk and Hampton alike) was answered. Kept
    *  off until a split measures it. */

@@ -106,12 +106,12 @@ describe("pjNear", () => {
       ]),
     );
     const codes = rows.map((r) => r.name);
-    expect(codes).toContain("0102836");
-    expect(codes).not.toContain("0111111"); // could have adopted three miles
-    expect(codes).not.toContain("0122222");
-    expect(codes).not.toContain("0144444"); // no 2010 count
-    expect(codes).toContain("0155555"); // a quoted name's comma doesn't shift its count
-    expect(rows.find((r) => r.name === "0102836")).toMatchObject({ type: "pjnear", rate: 0 });
+    expect(codes).toContain("02836");
+    expect(codes).not.toContain("11111"); // could have adopted three miles
+    expect(codes).not.toContain("22222");
+    expect(codes).not.toContain("44444"); // no 2010 count
+    expect(codes).toContain("55555"); // a quoted name's comma doesn't shift its count
+    expect(rows.find((r) => r.name === "02836")).toMatchObject({ type: "pjnear", rate: 0 });
   });
 
   it("stops on a file missing its population column", () => {

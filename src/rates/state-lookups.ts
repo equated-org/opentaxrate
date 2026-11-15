@@ -92,14 +92,14 @@ const texas: StateLookup = {
     const secret = process.env.TX_CPA_CLIENT_SECRET;
     if (!id || !secret) return null;
     // The API answers by quarter; only today's is asked.
+    const quarterOf = (day: string) => String(Math.floor((Number(day.slice(5, 7)) - 1) / 3) + 1);
     const today = new Date().toISOString().slice(0, 10);
-    const quarter = (day: string) => `${day.slice(0, 4)}Q${Math.floor((Number(day.slice(5, 7)) - 1) / 3) + 1}`;
-    if (quarter(date) !== quarter(today)) return null;
+    if (date.slice(0, 4) !== today.slice(0, 4) || quarterOf(date) !== quarterOf(today)) return null;
     const url = new URL("https://mulesoft.cpa.texas.gov:8088/api/cpa/gis/v1/salestaxrate/latlongrate");
     url.search = new URLSearchParams({
       latitude: String(lat),
       longitude: String(lon),
-      quarter: quarter(date).slice(5),
+      quarter: quarterOf(date),
       year: date.slice(0, 4),
     }).toString();
     const body = (await json(url.toString(), { headers: { client_id: id, client_secret: secret } })) as { TOTALTAXRATE?: string | number } | null;
