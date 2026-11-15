@@ -22,7 +22,7 @@ export async function loadStreetNames(state: string, dir?: string, log: (line: s
   const { year, files } = await latestTigerAddressFiles(STATE_FIPS[state], dir);
   if (!files.length) throw new Error(`No TIGER address features for ${state} in ${year}`);
   const file = `tl_${year}_${STATE_FIPS[state]}_addrfeat`;
-  const streets = new Map<string, { zip5: string; streetKey: string; street: string }>();
+  const streets = new Map<string, { zip5: string; streetKey: string; street: string; directions: Set<string> }>();
   let next = 0;
   await Promise.all(Array.from({ length: PARALLEL }, async () => {
     while (next < files.length) {
@@ -31,14 +31,20 @@ export async function loadStreetNames(state: string, dir?: string, log: (line: s
       const dbf = Object.values(zip)[0];
       if (!dbf) throw new Error(`${f.name} has no attribute table`);
       for (const r of readDbf(dbf)) {
-        const key = r.FULLNAME && parseStreet(`1 ${r.FULLNAME}`)?.streetKey;
+        const parts = r.FULLNAME ? parseStreet(`1 ${r.FULLNAME}`) : null;
+        const key = parts?.streetKey;
         if (!key) continue;
+        const direction = `${parts.preDirectional}|${parts.postDirectional}`;
         for (const zip5 of new Set([r.ZIPL, r.ZIPR]))
-          if (/^\d{5}$/.test(zip5 ?? "")) streets.set(`${zip5}|${key}`, { zip5, streetKey: key, street: r.FULLNAME });
+          if (/^\d{5}$/.test(zip5 ?? "")) {
+            const known = streets.get(`${zip5}|${key}`);
+            if (known) known.directions.add(direction);
+            else streets.set(`${zip5}|${key}`, { zip5, streetKey: key, street: r.FULLNAME, directions: new Set([direction]) });
+          }
       }
     }
   }));
-  const rows = [...streets.values()].map((s) => ({ state, ...s, file }));
+  const rows = [...streets.values()].map((s) => ({ state, ...s, directions: [...s.directions].sort(), file }));
   await db.transaction(async (tx) => {
     await tx.delete(zipStreetNames).where(eq(zipStreetNames.state, state));
     for (let i = 0; i < rows.length; i += BATCH) await tx.insert(zipStreetNames).values(rows.slice(i, i + BATCH));

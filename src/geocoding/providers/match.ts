@@ -1,5 +1,6 @@
 import { parseStreet, type StreetParts } from "../../address.js";
 import type { AddressToLocate } from "../types.js";
+import { PARAMS } from "../../params.js";
 
 // Photon deployments return either state names or postal abbreviations.
 export const STATES = Object.fromEntries([
@@ -63,6 +64,21 @@ export function matchesAddress(a: AddressToLocate, found: { street?: string; hou
   // A street typed without its type ("42725 London") is the found one with
   // it ("London Dr"); a different type is a different street.
   if (sameName(parsed) && (!requested.suffix || parsed.suffix === requested.suffix)) return true;
+  // A street typed without its direction ("301 Thacker Ave" for N Thacker
+  // Ave), or with one it doesn't have ("W 29th Street Rd" for 29th Street
+  // Rd), is the found one when the typed ZIP has only that street by that
+  // name: TIGER and the range files write it with no other direction there.
+  // Two different directions (N typed, S found) never are.
+  if (PARAMS.directionFromZipStreets && zipAgrees && a.zip && a.zipDirections) {
+    const got = road(parsed);
+    const typedDir = `${want.preDirectional}|${want.postDirectional}`;
+    const foundDir = `${got.preDirectional}|${got.postDirectional}`;
+    // The ZIP's streets are keyed as parsed, before road() reads highways.
+    const only = a.zipDirections.get(parsed.streetKey);
+    if (got.streetKey === want.streetKey && typedDir !== foundDir && (typedDir === "|" || foundDir === "|")
+      && (!requested.suffix || parsed.suffix === requested.suffix)
+      && only?.size === 1 && only.has(foundDir)) return true;
+  }
   // So is one typed without a type word the found street has, wherever it
   // stands: "Ridge Park" for "Ridge Park Dr", "Forest Extension" for "Forest
   // Avenue Extension", "River 2" for "River Loop 2". Each type word is taken

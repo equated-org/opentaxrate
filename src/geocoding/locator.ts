@@ -4,7 +4,7 @@ import { agreeingGroup, compatible, placement } from "./agreement.js";
 import { addressCacheKey, postgresGeocodeCache, type GeocodeCache } from "./cache.js";
 import { postgresGeocodeBudget, type GeocodeBudget } from "./budget.js";
 import { geocoderProviders } from "./registry.js";
-import { streetsInZip } from "./zip-streets.js";
+import { streetDirectionsInZip, streetsInZip } from "./zip-streets.js";
 import { roundCoord, type Trace } from "../rates/types.js";
 import { marginOf, metresBetween, validPoint,
   type AddressToLocate, type SourcedPoint, type LocatedPoint, type GeocoderProvider, type Locate } from "./types.js";
@@ -75,6 +75,8 @@ interface Options {
   trace?: Trace;
   /** The streets in the typed ZIP, for telling a typo from another street. */
   zipStreets?: (address: AddressToLocate) => Promise<ReadonlySet<string> | null>;
+  /** Their directions, for a street typed without its own. */
+  zipDirections?: (address: AddressToLocate) => Promise<ReadonlyMap<string, ReadonlySet<string>> | null>;
 }
 export interface GeocodeTrace { provider: string; outcome: "cached" | "matched" | "no-match" | "skipped" | "failed" }
 // Coalesce duplicate requests in this process, without retaining non-storable results.
@@ -99,8 +101,10 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
   // Loaded once, when a provider is first asked; without them the matcher
   // stays exact.
   let located: Promise<AddressToLocate> | undefined;
-  const withStreets = () => (located ??= (options.zipStreets ?? streetsInZip)(address)
-    .then((zipStreets) => ({ ...address, zipStreets }), () => address));
+  const withStreets = () => (located ??= Promise.all([
+    (options.zipStreets ?? streetsInZip)(address).catch(() => null),
+    PARAMS.directionFromZipStreets ? (options.zipDirections ?? streetDirectionsInZip)(address).catch(() => null) : null,
+  ]).then(([zipStreets, zipDirections]) => ({ ...address, zipStreets, zipDirections })));
   const considered = new Set<string>();
   let base: Promise<LocatedPoint | null> | undefined;
   let refined: Promise<LocatedPoint | null> | undefined;
@@ -218,6 +222,10 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
     if (!prior) return null;
     // The old boundary distance is a hint, not an eligibility threshold:
     // a corrected point can move away from (or across) the boundary.
+    // Sharper points that disagree with the placement are kept: two from
+    // different datasets that agree with each other may stand in for it
+    // (rooftopPairOverrides).
+    const sharper: SourcedPoint[] = [];
     for (const p of providers) {
       if (PARAMS.minMarginMetres[p.typicalAccuracy] >= marginOf(prior)) continue;
       const alreadyKnown = memo.has(p.id);
@@ -227,8 +235,20 @@ export function createLocator(address: AddressToLocate, options: Options = {}): 
       // disagreement just widened. Cached third-source refinements remain usable.
       if (alreadyKnown && accepted.some(member => member.source === point.source)) continue;
       if (metresBetween(point, prior) > marginOf(prior)
-        || accepted.some(member => !compatible(point, member))) continue;
+        || accepted.some(member => !compatible(point, member))) {
+        sharper.push(point);
+        continue;
+      }
       return { ...point, placedBy: [...new Set([...(prior.placedBy ?? []), `${point.provider} (${point.source})`])] };
+    }
+    // As in initial(): one point per dataset, a dataset contradicting itself
+    // dropped, and refused where two supported places remain.
+    if (PARAMS.rooftopPairOverrides) {
+      const group = agreeingGroup(sharper);
+      if (group) {
+        accepted = group;
+        return placement(group);
+      }
     }
     return prior;
   }

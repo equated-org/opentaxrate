@@ -326,8 +326,9 @@ file's style and font names come along as lines of their own).
 state's service when the request is made, not from loaded data: California
 asks CDTFA's rate API (`GetRateByAddress`, `GetRateByLngLat`) where its
 outlines decline; and, where `STATE_LOOKUPS` names them (off by default),
-Missouri's DOR lookup and Colorado's and Alaska's rate services answer at
-the point (`src/rates/california.ts`, `src/rates/state-lookups.ts`). Those
+Missouri's DOR lookup, Colorado's and Alaska's rate services, and the Texas
+Comptroller's GIS rate API (current quarter only, with `TX_CPA_CLIENT_ID` and
+`TX_CPA_CLIENT_SECRET`) answer at the point (`src/rates/california.ts`, `src/rates/state-lookups.ts`). Those
 answers are not saved, so the evidence archive has no copy of any one of
 them; the answer's `source` names the service asked. What is archived
 instead: the bulk inputs those states' loaded data come from (California's

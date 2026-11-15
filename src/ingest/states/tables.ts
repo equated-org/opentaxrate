@@ -25,9 +25,10 @@ export interface LocalRate extends DatedRate {
   inCounty?: string;
   /** 00 county, 01 city added on top, 01x city in place of its county, rc
    *  county outside its rated cities, no county refused, pj a city's police
-   *  jurisdiction, maybe a city's unmapped district, 0c a county's rate
-   *  inside one city (see rates/map.ts). */
-  type: "00" | "01" | "01x" | "0c" | "rc" | "no" | "pj" | "maybe";
+   *  jurisdiction, pjnear a marker that a city's police jurisdiction
+   *  reaches a mile and a half rather than three, maybe a city's unmapped
+   *  district, 0c a county's rate inside one city (see rates/map.ts). */
+  type: "00" | "01" | "01x" | "0c" | "rc" | "no" | "pj" | "pjnear" | "maybe";
   /** The jurisdiction's name as the source titles it, where that differs
    *  from `name` ("MONTGOMERY COUNTY"); `name` stands in when absent. */
   title?: string;
