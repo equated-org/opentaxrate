@@ -14,8 +14,16 @@
  * refused. A county with a code no rule names is refused outright ("no"),
  * as is anything else the file can't place without outlines it doesn't
  * have:
- *   - an address outside a city but within three miles of it, where the
- *     city's police jurisdiction may tax at half its rate.
+ *   - an address outside a city but within its police jurisdiction's
+ *     reach, where the city's police jurisdiction may tax at half its rate.
+ *
+ * A police jurisdiction reaches three miles past a city of 6,000 or more
+ * and a mile and a half past a smaller one (Code of Alabama §11-40-10, as
+ * frozen by Act 2021-297 at its January 1, 2021 extent; a town that reached
+ * 6,000 at the 2020 census could adopt three miles by ordinance). A city
+ * whose 2010 and 2020 Census counts were both under PJ_NEAR_UNDER gets a
+ * "pjnear" marker, and only a mile and a half is refused around it; any
+ * other city, including one the Census files don't list, keeps three.
  * Codes for abated businesses ("unabated") don't apply to general sales.
  *
  * Each rate keeps the file's Locality Code, County Number and Administered
@@ -30,6 +38,14 @@ import { fetchText, isoDay, shiftDay } from "./sources.js";
 
 const FILE = "https://www.revenue.alabama.gov/wp-content/uploads/2024/03/taxrates.csv";
 const FROM = "2020-01-01";
+
+/** The Census Bureau's Alabama place populations: the 2010 count
+ *  (CENSUS2010POP) and the 2020 base (ESTIMATESBASE2020). */
+const POP_2010 = "https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/cities/SUB-EST2020_1.csv";
+const POP_2020 = "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/cities/totals/sub-est2024_1.csv";
+/** Below the statute's 6,000, so a 2020 estimates base that differs a
+ *  little from the official count can't shorten a three-mile reach. */
+const PJ_NEAR_UNDER = 5_700;
 
 /** Cities named by a rule: a list, every city in the file ("any"), or every
  *  city with a sales tax of its own ("levying"). For police jurisdictions,
@@ -163,8 +179,14 @@ const idsOf = (code: string, countyNo: string, administered: string) => ({
 
 export const alabama = stateTable("AL", async (dir) => ({
   stateRates: [{ rate: 0.04, from: FROM }],
-  locals: localsOf(await fetchText(FILE, dir, "taxrates.csv"), "GENER"),
-  source: "AL DOR local tax rates file",
+  locals: [
+    ...localsOf(await fetchText(FILE, dir, "taxrates.csv"), "GENER"),
+    ...pjNear(
+      await fetchText(POP_2010, dir, "SUB-EST2020_1.csv"),
+      await fetchText(POP_2020, dir, "sub-est2024_1.csv"),
+    ),
+  ],
+  source: "AL DOR local tax rates file; Census place populations (police jurisdiction reach)",
   skipUnmatchedCities: true,
 }));
 
@@ -185,7 +207,7 @@ export const alabamaClasses: ClassRateSource = {
   async fetch(dir, loaded) {
     const { rates } = await keyedLocals("AL", localsOf(await fetchText(FILE, dir, "taxrates.csv"), "GROC"), dir, true);
     const rows: ClassRateRow[] = rates
-      .filter((r) => r.type !== "no" && r.type !== "maybe" && r.type !== "pj")
+      .filter((r) => r.type !== "no" && r.type !== "maybe" && r.type !== "pj" && r.type !== "pjnear")
       .map((r) => ({ ...r, class: "grocery" as const, source: "AL DOR taxrates.csv, Rate Type GROC" }));
     const groc = new Set(rows.map((r) => `${r.type}:${r.code}`));
     for (const r of loaded.rates)
@@ -194,6 +216,69 @@ export const alabamaClasses: ClassRateSource = {
     return { rows, file: "AL DOR taxrates.csv (GROC)" };
   },
 };
+
+/** A "pjnear" marker for each incorporated place whose 2010 and 2020
+ *  Census counts were both under PJ_NEAR_UNDER, keyed by its place FIPS:
+ *  its police jurisdiction reaches a mile and a half, not three. A place
+ *  missing from either file gets none. */
+export function pjNear(csv2010: string, csv2020: string): LocalRate[] {
+  const counts = (csv: string, column: string) => {
+    const lines = csv.replace(/^\uFEFF/, "").split(/\r?\n/).filter(Boolean);
+    const head = csvCells(lines[0]);
+    const at = (name: string) => {
+      const i = head.indexOf(name);
+      if (i < 0) throw new Error(`AL: the Census place file has no ${name} column`);
+      return i;
+    };
+    const [sumlev, state, place, funcstat, name, pop] = ["SUMLEV", "STATE", "PLACE", "FUNCSTAT", "NAME", column].map(at);
+    const out = new Map<string, { name: string; pop: number }>();
+    for (const line of lines.slice(1)) {
+      const c = csvCells(line);
+      // 162: a place statewide; A: an active government.
+      if (c[sumlev] !== "162" || c[state] !== "01" || c[funcstat] !== "A") continue;
+      const n = Number(c[pop]);
+      if (Number.isFinite(n) && c[pop] !== "") out.set(c[place], { name: c[name], pop: n });
+    }
+    if (out.size < 300) throw new Error(`AL: the Census place file lists only ${out.size} places`);
+    return out;
+  };
+  const in2010 = counts(csv2010, "CENSUS2010POP");
+  const in2020 = counts(csv2020, "ESTIMATESBASE2020");
+  const rows: LocalRate[] = [];
+  for (const [fips, now] of in2020) {
+    const then = in2010.get(fips);
+    if (!then || then.pop >= PJ_NEAR_UNDER || now.pop >= PJ_NEAR_UNDER) continue;
+    rows.push({
+      name: `01${fips}`,
+      rate: 0,
+      from: FROM,
+      type: "pjnear",
+      title: now.name,
+      ids: { PLACE: fips, CENSUS2010POP: String(then.pop), ESTIMATESBASE2020: String(now.pop) },
+    });
+  }
+  return rows;
+}
+
+/** A CSV line's cells, with quoted cells ("Lynchburg, Moore County") kept
+ *  whole and doubled quotes read as one. */
+function csvCells(line: string): string[] {
+  const cells: string[] = [];
+  let cell = "";
+  let quoted = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (quoted) {
+      if (ch === '"' && line[i + 1] === '"') { cell += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else cell += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ",") { cells.push(cell); cell = ""; }
+    else cell += ch;
+  }
+  cells.push(cell);
+  return cells;
+}
 
 /** The first day of Alabama's separate rate on food (Act 2023-554). */
 const FOOD_FROM = "2023-09-01";

@@ -1,0 +1,1 @@
+ALTER TABLE "zip_street_names" ADD COLUMN "directions" text[] DEFAULT '{}'::text[] NOT NULL;

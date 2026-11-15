@@ -56,6 +56,7 @@ What to check for a new edition, and when it usually appears.
 | Florida DR-15DSS, New York Pub 718, Virginia's rates by locality | yearly or on change | the adapter's `publications` |
 | Hawaii, Idaho, Mississippi, Pennsylvania, Montana, South Carolina ST-500 | on change | the adapter's source page |
 | Census TIGER | yearly (outlines as of January 1) | www2.census.gov/geo/tiger/TIGER<year> |
+| Census place populations for Alabama (`SUB-EST2020_1.csv`, 2010 counts; `sub-est2024_1.csv`, 2020 bases), which set a police jurisdiction's reach | fixed: the reach was frozen at its January 1, 2021 extent (Act 2021-297) | www2.census.gov/programs-surveys/popest/datasets/, `POP_2010` and `POP_2020` in `src/ingest/states/alabama.ts` |
 | Canada's GST/HST and provincial PST, QST and RST rates | on change, announced in federal and provincial budgets | the CRA's GST/HST rate page and each province's tax site, cited in `src/rates/canada.ts` |
 
 A change announced for a future date belongs in the data as soon as it is

@@ -200,6 +200,11 @@ export const zipStreetNames = pgTable(
     streetKey: text("street_key").notNull(),
     /** The street as TIGER writes it, e.g. "N Main St". */
     street: text("street").notNull(),
+    /** Every direction TIGER writes the street with in the ZIP, as
+     *  "pre|post" ("N|", "|SE", "|" for none): read by the matcher to take a
+     *  typed street missing a direction, or with one too many, as the ZIP's
+     *  only such street (directionFromZipStreets). Empty: not yet read. */
+    directions: text("directions").array().notNull().default(sql`'{}'::text[]`),
     file: text("file").notNull(),
   },
   (t) => [primaryKey({ columns: [t.state, t.zip5, t.streetKey] })],

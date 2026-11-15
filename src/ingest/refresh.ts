@@ -15,7 +15,7 @@
  * A file already loaded is skipped unless `force`; a map-read state is
  * fetched again every run, since its sources don't name versions alike.
  */
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { salesTaxDataReleases, salesTaxShapes, zipAreas, zipStreetNames } from "../db/schema.js";
 import { latestSstFiles, latestTigerAddressFiles, latestTigerFiles, sstFileLines, ZIP_AREA_FILE, zipAreaFile } from "./downloads.js";
@@ -110,9 +110,11 @@ export async function refreshAddressRates({ states = [], dir, force = false, log
   }
 
   // The streets in each ZIP of the map-read states, for telling a typo from
-  // another street; a TIGER year already loaded is kept.
+  // another street; a TIGER year already loaded, with its directions, is
+  // kept.
   const namesLoaded = new Set(
-    (await db.selectDistinct({ state: zipStreetNames.state, file: zipStreetNames.file }).from(zipStreetNames)).map(
+    (await db.selectDistinct({ state: zipStreetNames.state, file: zipStreetNames.file }).from(zipStreetNames)
+      .where(sql`cardinality(${zipStreetNames.directions}) > 0`)).map(
       (r) => `${r.state}:${r.file}`,
     ),
   );
