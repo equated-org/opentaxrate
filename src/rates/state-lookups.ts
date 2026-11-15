@@ -7,7 +7,10 @@
  * for automated use.
  *   - Missouri: the DOR's Sales and Use Tax Lookup (missouri.atr.avalara.com);
  *   - Colorado and Alaska: the lookups the loaded data is read from at sync
- *     (ingest/states/ttr.ts), asked live.
+ *     (ingest/states/ttr.ts), asked live;
+ *   - Texas: the Comptroller's GIS rate API (latlongrate), keyed by
+ *     TX_CPA_CLIENT_ID and TX_CPA_CLIENT_SECRET; without them, never asked.
+ *     Only the current quarter's rates: a past date isn't asked.
  * An answer counts only when the point, and each edge of its margin, give
  * one rate; otherwise the loaded data answers as usual.
  */
@@ -82,8 +85,38 @@ function ttr(name: string, stateName: string, host: string): StateLookup {
   };
 }
 
+const texas: StateLookup = {
+  name: "Texas Comptroller's GIS sales tax rate API",
+  async atPoint(lon, lat, date) {
+    const id = process.env.TX_CPA_CLIENT_ID;
+    const secret = process.env.TX_CPA_CLIENT_SECRET;
+    if (!id || !secret) return null;
+    // The API answers by quarter; only today's is asked.
+    const today = new Date().toISOString().slice(0, 10);
+    const quarter = (day: string) => `${day.slice(0, 4)}Q${Math.floor((Number(day.slice(5, 7)) - 1) / 3) + 1}`;
+    if (quarter(date) !== quarter(today)) return null;
+    const url = new URL("https://mulesoft.cpa.texas.gov:8088/api/cpa/gis/v1/salestaxrate/latlongrate");
+    url.search = new URLSearchParams({
+      latitude: String(lat),
+      longitude: String(lon),
+      quarter: quarter(date).slice(5),
+      year: date.slice(0, 4),
+    }).toString();
+    const body = (await json(url.toString(), { headers: { client_id: id, client_secret: secret } })) as { TOTALTAXRATE?: string | number } | null;
+    // Seven implied decimals ("0825000" is 8.25%); none for an over-cap
+    // combination or a point it can't place. Any other form isn't guessed at.
+    const total = String(body?.TOTALTAXRATE ?? "").trim();
+    if (!/^\d+$/.test(total)) {
+      if (total) console.warn(`TX lookup: unexpected TOTALTAXRATE ${JSON.stringify(total)}`);
+      return null;
+    }
+    return round(Number(total) / 1e7);
+  },
+};
+
 const LOOKUPS: Record<string, StateLookup> = {
   MO: missouri,
+  TX: texas,
   CO: ttr("Colorado DOR's Sales Tax Lookup (run by Avalara for the DOR)", "Colorado", "https://salestaxlookup.colorado.gov"),
   AK: ttr("Alaska Remote Seller Sales Tax Commission's lookup (run by Avalara)", "Alaska", "https://alaska.atr.avalara.com"),
 };

@@ -34,6 +34,27 @@ export interface Params {
    *  unincorporated King County address the interpolated point kept out of
    *  Renton). Kept on. */
   interpolatedWidens: boolean;
+  /** When refining a placement near a line, two points sharper than it
+   *  from different datasets (a Geocodio and an Esri rooftop) that agree
+   *  with each other replace it, even where they disagree with it; off, a
+   *  sharper point is used only inside the placement's margin
+   *  (geocoding/locator.ts). On 2026-11-15 (release data-2026-11-12):
+   *  dev, history and boundary unchanged, also with point and interpolated
+   *  margins widened to 150 and 300 m to force near-line placements; the
+   *  dev splits hold almost no address it decides. On 15 live refusals near
+   *  a line it answered 7 (IL, CO, TX), each matching the state's own lookup
+   *  where one exists. Kept off until a split near lines measures it. */
+  rooftopPairOverrides: boolean;
+  /** A geocoder's street that differs from the typed one only by a missing
+   *  or extra direction is taken when the typed ZIP has only that street by
+   *  that name (geocoding/providers/match.ts). Off, directions must agree.
+   *  Measured on 2026-11-15 with every recorded no-match asked again (the
+   *  replays keep matched points, so a matcher change needs fresh answers):
+   *  dev 5,300 → 5,301 right, 4 → 4 wrong, 13 → 12 declined; typos split
+   *  and eval unchanged (368/0/5; 1,989/1/9). Needs zip_street_names'
+   *  directions (refresh); without them only the range states' streets
+   *  count. */
+  directionFromZipStreets: boolean;
   /** The widest circle disagreeing geocodes may be placed within
    *  (geocoding/locator.ts). */
   wideMetres: number;
@@ -45,6 +66,18 @@ export interface Params {
   /** How far past its Census area an address with that ZIP may be, for an
    *  address no geocoder places (rates/map.ts). */
   zipMarginMetres: number;
+  /** An address no geocoder places, in a ZIP whose widened area rated
+   *  outlines cross, is answered when every piece they cut it into has the
+   *  same total (rates/map.ts); off, every rated outline must hold all of
+   *  it. At most zipSameTotalMaxPieces pieces are read; a piece under
+   *  zipSameTotalSliverSquareMetres (an overlap or gap between neighbours'
+   *  simplified outlines) is left out. On 2026-11-15 dev and history were
+   *  unchanged (no dev address is unplaced in such a ZIP); a live refusal in
+   *  Norfolk, VA (23503, 6% in Norfolk and Hampton alike) was answered. Kept
+   *  off until a split measures it. */
+  zipSameTotal: boolean;
+  zipSameTotalMaxPieces: number;
+  zipSameTotalSliverSquareMetres: number;
   /** Square metres of a ZIP's widened area that may fall between the state's
    *  county outlines (slivers left by simplifying neighbours apart) and the
    *  counties still count as holding all of it (rates/map.ts). At 1,000 on
@@ -230,7 +263,12 @@ const DEFAULTS: Params = {
   interpolatedWidens: true,
   wideMetres: 20_000,
   lonePointOutsideCity: true,
+  rooftopPairOverrides: false,
+  directionFromZipStreets: true,
   zipMarginMetres: 2_000,
+  zipSameTotal: false,
+  zipSameTotalMaxPieces: 400,
+  zipSameTotalSliverSquareMetres: 1_000,
   zipAreaGapSquareMetres: 1_000,
   preciseMetres: 0,
   streetOverMap: true,
