@@ -1,5 +1,19 @@
 [
   {
+    "tag": "data-2026-11-17",
+    "published": "2026-11-17",
+    "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-17",
+    "dump": {
+      "name": "opentaxrate-2026-11-17.dump",
+      "bytes": 700441812
+    },
+    "changes": [
+      "Alabama: a town under 6,000 people has a police jurisdiction reaching a mile and a half past its limits, not three (Code of Alabama §11-40-10, frozen at its January 1, 2021 extent by Act 2021-297). 363 towns under 5,700 in both the 2010 and 2020 Census counts are marked, and an address between a mile and a half and three miles from one now gets the county's rate instead of a refusal. Every other city keeps three miles. New source: the Census Bureau's Alabama place populations (SUB-EST2020_1.csv, sub-est2024_1.csv).",
+      "Street lists for the 17 map-read states now record each street's directions in its ZIP (Census TIGER 2026), so an address typed without its street's direction (\"8915 Hampton Rd\" for S Hampton Rd), or with one the street lacks, is placed when the ZIP has only that street by that name.",
+      "Rates are otherwise unchanged from data-2026-11-12-quotes. Benchmarks: dev 5,301 right, 4 wrong, 12 declined (one more right); history 1,054 right, 0 wrong; boundary and taxability as the last release."
+    ]
+  },
+  {
     "tag": "data-2026-11-12-quotes",
     "published": "2026-11-12",
     "url": "https://github.com/equated-org/opentaxrate/releases/tag/data-2026-11-12-quotes",
