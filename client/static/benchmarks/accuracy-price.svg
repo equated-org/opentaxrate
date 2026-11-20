@@ -59,6 +59,11 @@
     <title>APIVerve: 87.4%, $14.99/1,000. Separate sample: 76/87 correct (87.4%), ZIP-code input only; not the 277-address evalA sample, so excluded from frontier ranking. Starter is $29.99/month for 200,000 credits, at 2 credits/call. At the chart’s 2,000 lookups/month: $29.99 ÷ 2 = $14.995 per 1,000. The $0.30 figure requires using all 100,000 included calls.</title>
   </circle>
   <text x="566.4550685207016" y="109.13793103448273" text-anchor="start">APIVerve*</text>
+  <circle cx="608.9488287835196" cy="74.01408450704227" r="7" fill="#faf9f5" stroke="#6b6a63" stroke-width="2">
+    <title>Ziptax: 93.0%, $27.63/1,000. Separate earlier sample: 66/71 correct (93.0%), not the 277-address evalA sample, so excluded from frontier ranking. At the chart's 2,000 lookups/month: Pro's 1,500-call tier at $39 plus 500 overage calls at $0.0325 = $55.25/month, or $27.625 per 1,000. The $3.40 figure requires using all 250,000 calls on Pro's $849 tier.</title>
+  </circle>
+  <text x="593.9488287835196" y="75.01408450704227" text-anchor="end">Ziptax*</text>
   <text x="80" y="425">2,000 lookups/month · 22 October 2026 · Hollow dots: conditional price or separate sample.</text>
-  <text x="80" y="442">APIVerve: ZIP-only, n=87. Full assumptions and sources: opentaxrate.com/benchmarks.</text>
+  <text x="80" y="442">APIVerve: ZIP-only, n=87. Ziptax: separate earlier sample, n=71.</text>
+  <text x="80" y="459">Full assumptions and sources: opentaxrate.com/benchmarks.</text>
 </svg>

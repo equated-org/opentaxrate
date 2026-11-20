@@ -37,11 +37,11 @@ describe('accuracy–price comparison', () => {
 		expect(api.conditional).toBe(true);
 		expect(api.note).toContain('Separate sample');
 	});
-	it('plots Ziptax with its separate sample and the full Pro 250,000-call tier price', () => {
+	it('plots Ziptax with its separate sample and Pro tier plus overage at the shared volume', () => {
 		const zip = points.find((p) => p.id === 'ziptax')!;
 		expect(zip.asked).toBe(71);
 		expect(zip.accuracy).toBeCloseTo(66 / 71 * 100);
-		expect(zip.price).toBeCloseTo(849 / 250);
+		expect(zip.price).toBeCloseTo((39 + 500 * 0.0325) / 2);
 		expect(zip.conditional).toBe(true);
 		expect(zip.note).toContain('Separate earlier sample');
 	});

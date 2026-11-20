@@ -201,9 +201,9 @@
         }
       ],
       "comparison": {
-        "perThousand": 3.396,
+        "perThousand": 27.625,
         "conditional": true,
-        "note": "Separate earlier sample: 66/71 correct (93.0%), not the 277-address evalA sample, so excluded from frontier ranking. Pro's 250,000-call tier at $849/month, fully used: $849 \u00f7 250,000 \u00d7 1,000 = $3.396 per 1,000. Not the chart's 2,000 lookups/month; at that volume Pro's 1,500-call tier plus overage is $55.25/month ($27.63 per 1,000)."
+        "note": "Separate earlier sample: 66/71 correct (93.0%), not the 277-address evalA sample, so excluded from frontier ranking. At the chart's 2,000 lookups/month: Pro's 1,500-call tier at $39 plus 500 overage calls at $0.0325 = $55.25/month, or $27.625 per 1,000. The $3.40 figure requires using all 250,000 calls on Pro's $849 tier."
       }
     },
     {
