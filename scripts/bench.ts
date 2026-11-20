@@ -200,7 +200,7 @@ const PROVIDERS: Record<string, Provider> = {
         : { refused: `${response.status} ${raw?.detail ?? raw?.error ?? ""}`, raw };
     },
   },
-  /** Zip-Tax allows 10 requests a minute, and the account's plan a fixed
+  /** Ziptax allows 10 requests a minute, and the account's plan a fixed
    *  number in all (see /account/v60/metrics). */
   ziptax: {
     needs: ["ZIPTAX_API_KEY"],
