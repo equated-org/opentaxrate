@@ -21,7 +21,7 @@
 						<th scope="row" class="py-3 pr-3 font-medium"><button class="link cursor-pointer text-left" aria-pressed={selected === point.id} onclick={() => selected = point.id}>{point.name}{point.conditional ? '*' : ''}</button></th>
 						<td class="font-num pr-3">{point.accuracy.toFixed(1)}% · {point.right}/{point.asked}</td>
 						<td class="font-num pr-3">{money(point.price)}</td>
-						<td>{point.conditional ? point.id === 'apiverve' ? 'Separate sample; excluded from frontier' : 'Conditional; excluded from frontier' : isDominated(point, points) ? 'Dominated in this comparison' : 'Not dominated in this comparison'}</td>
+						<td>{point.conditional ? ['apiverve', 'ziptax'].includes(point.id) ? 'Separate sample; excluded from frontier' : 'Conditional; excluded from frontier' : isDominated(point, points) ? 'Dominated in this comparison' : 'Not dominated in this comparison'}</td>
 					</tr>
 				{/each}
 			</tbody>

@@ -188,18 +188,23 @@
     },
     {
       "id": "ziptax",
-      "name": "Zip-Tax",
-      "published": "$29/mo, then from $0.0242 per call",
-      "estimate": "Allowance unclear",
+      "name": "Ziptax",
+      "published": "From $39/mo for 1,500 calls (Pro); $849/mo for 250,000",
+      "estimate": "$3.40",
       "notes": [],
-      "method": "Growth is $29/month and overage starts at $0.0242/call ($24.20 per 1,000 extra calls). The public page does not tie an included call allowance to this price; the calculator\u2019s default 15,000 must not be treated as the allowance. The free plan advertises 100 calls/month; our account stopped after 100 total.",
+      "method": "$849 \u00f7 250,000 API calls on Pro's 250,000-call tier, fully used. Pro starts at $39/month for 1,500 calls ($26.00 per 1,000 at capacity); overage on that tier is $0.0325 per call, falling to $0.0042 on the 250,000 tier. The free Starter plan includes 100 calls a month; our account stopped after 100 total.",
       "sources": [
         {
-          "label": "Zip-Tax pricing",
+          "label": "zip.tax pricing",
           "url": "https://www.zip.tax/pricing",
-          "checked": "2026-10-22"
+          "checked": "2026-11-20"
         }
-      ]
+      ],
+      "comparison": {
+        "perThousand": 27.625,
+        "conditional": true,
+        "note": "Separate earlier sample: 66/71 correct (93.0%), not the 277-address evalA sample, so excluded from frontier ranking. At the chart's 2,000 lookups/month: Pro's 1,500-call tier at $39 plus 500 overage calls at $0.0325 = $55.25/month, or $27.625 per 1,000. The $3.40 figure requires using all 250,000 calls on Pro's $849 tier."
+      }
     },
     {
       "id": "quaderno",

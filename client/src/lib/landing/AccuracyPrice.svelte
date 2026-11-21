@@ -13,7 +13,7 @@
 	<div class="mt-6 overflow-x-auto">
 		<svg viewBox="0 0 820 400" class="w-full min-w-[600px]" role="img" aria-labelledby="tradeoff-title tradeoff-desc">
 			<title id="tradeoff-title">Measured accuracy against estimated dollars per 1,000 lookups</title>
-			<desc id="tradeoff-desc">Higher and further left is better. The horizontal axis is logarithmic, from $0.10 to $100; accuracy runs from 0 to 100 percent. Hollow dots have conditional prices or a separate sample, including APIVerve’s 87 ZIP-code lookups. Full figures and methodology are on the benchmarks page.</desc>
+			<desc id="tradeoff-desc">Higher and further left is better. The horizontal axis is logarithmic, from $0.10 to $100; accuracy runs from 0 to 100 percent. Hollow dots have conditional prices or a separate sample, including APIVerve’s 87 ZIP-code lookups and Ziptax’s separate earlier sample of 71 addresses. Full figures and methodology are on the benchmarks page.</desc>
 			{#each levels as level}
 				<line x1="80" x2="730" y1={y(level)} y2={y(level)} stroke="var(--border)" />
 				<text x="65" y={y(level) + 4} text-anchor="end">{level}%</text>
@@ -30,9 +30,9 @@
 					stroke={point.id === 'opentaxrate-api' ? 'var(--accent)' : 'var(--text-muted)'} stroke-width="2">
 					<title>{point.name}: {point.accuracy.toFixed(1)}% ({point.right}/{point.asked}), {money(point.price)} per 1,000. {point.note}</title>
 				</circle>
-				<text x={x(point.price) + 15}
-					y={y(point.accuracy) + (point.id === 'avalara' ? -16 : point.id === 'taxjar' ? 7 : 20)}
-					text-anchor="start">{point.name}{point.conditional ? '*' : ''}</text>
+				<text x={x(point.price) + (point.id === 'ziptax' ? -15 : 15)}
+					y={y(point.accuracy) + (point.id === 'avalara' ? -16 : point.id === 'taxjar' ? 7 : point.id === 'ziptax' ? 1 : 20)}
+					text-anchor={point.id === 'ziptax' ? 'end' : 'start'}>{point.name}{point.conditional ? '*' : ''}</text>
 			{/each}
 		</svg>
 	</div>

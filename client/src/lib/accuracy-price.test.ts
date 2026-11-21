@@ -18,7 +18,7 @@ describe('accuracy–price comparison', () => {
 		expect(isDominated(point(2, 98, true), [point(1, 99)])).toBe(false);
 	});
 	it('does not invent an accuracy for free, self-hosted or untested alternatives', () => {
-		expect(points.map((p) => p.id).sort()).toEqual(['apiverve', 'avalara', 'geoverio', 'opentaxrate-api', 'taxcloud', 'taxjar']);
+		expect(points.map((p) => p.id).sort()).toEqual(['apiverve', 'avalara', 'geoverio', 'opentaxrate-api', 'taxcloud', 'taxjar', 'ziptax']);
 		const ours = points.find((p) => p.id === 'opentaxrate-api')!;
 		expect(ours.accuracy).toBeCloseTo(275 / 277 * 100);
 		expect(ours.price).toBe(1.95);
@@ -36,5 +36,13 @@ describe('accuracy–price comparison', () => {
 		expect(api.price).toBeCloseTo(29.99 / 2);
 		expect(api.conditional).toBe(true);
 		expect(api.note).toContain('Separate sample');
+	});
+	it('plots Ziptax with its separate sample and Pro tier plus overage at the shared volume', () => {
+		const zip = points.find((p) => p.id === 'ziptax')!;
+		expect(zip.asked).toBe(71);
+		expect(zip.accuracy).toBeCloseTo(66 / 71 * 100);
+		expect(zip.price).toBeCloseTo((39 + 500 * 0.0325) / 2);
+		expect(zip.conditional).toBe(true);
+		expect(zip.note).toContain('Separate earlier sample');
 	});
 });
