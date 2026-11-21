@@ -64,7 +64,12 @@ const unplaced = (zip: string) => geoRateAt("XZ", null, "2026-11-14", undefined,
 
 describe("a ZIP that rated outlines cross", () => {
   it("is refused with zipSameTotal off", async () => {
-    await expect(unplaced("99801")).rejects.toThrow(/couldn't be placed/);
+    PARAMS.zipSameTotal = false;
+    try {
+      await expect(unplaced("99801")).rejects.toThrow(/couldn't be placed/);
+    } finally {
+      PARAMS.zipSameTotal = true;
+    }
   });
 
   it("gets the rate where every piece has the same total, the largest piece's parts first", async () => {
@@ -77,7 +82,7 @@ describe("a ZIP that rated outlines cross", () => {
       expect(found.alternatives).toHaveLength(1);
       expect(found.alternatives[0].parts.map((p) => p.code)).toContain("sd:D");
     } finally {
-      PARAMS.zipSameTotal = false;
+      PARAMS.zipSameTotal = true;
     }
   });
 
@@ -91,7 +96,6 @@ describe("a ZIP that rated outlines cross", () => {
       PARAMS.breakdownMustAgree = true;
       await expect(unplaced("99801")).rejects.toThrow(/couldn't be placed/);
     } finally {
-      PARAMS.zipSameTotal = false;
       PARAMS.breakdownMustAgree = false;
     }
   });
