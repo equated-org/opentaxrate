@@ -43,7 +43,9 @@ export interface Params {
    *  margins widened to 150 and 300 m to force near-line placements; the
    *  dev splits hold almost no address it decides. On 15 live refusals near
    *  a line it answered 7 (IL, CO, TX), each matching the state's own lookup
-   *  where one exists. Kept off until a split near lines measures it. */
+   *  where one exists. Turned on 2026-11-18, with zipSameTotal: dev
+   *  unchanged again (5,300/4/13) on release data-2026-11-17, and 11 of 40
+   *  refused live addresses answered. No split near lines measures it yet. */
   rooftopPairOverrides: boolean;
   /** A geocoder's street that differs from the typed one only by a missing
    *  or extra direction is taken when the typed ZIP has only that street by
@@ -74,8 +76,8 @@ export interface Params {
    *  area (an overlap or gap between neighbours' simplified outlines) is
    *  left out; one in a small outline is kept, and can only refuse. On 2026-11-15 dev and history were
    *  unchanged (no dev address is unplaced in such a ZIP); a live refusal in
-   *  Norfolk, VA (23503, 6% in Norfolk and Hampton alike) was answered. Kept
-   *  off until a split measures it. */
+   *  Norfolk, VA (23503, 6% in Norfolk and Hampton alike) was answered.
+   *  Turned on 2026-11-18 with rooftopPairOverrides (see there). */
   zipSameTotal: boolean;
   zipSameTotalMaxPieces: number;
   zipSameTotalSliverSquareMetres: number;
@@ -264,10 +266,10 @@ const DEFAULTS: Params = {
   interpolatedWidens: true,
   wideMetres: 20_000,
   lonePointOutsideCity: true,
-  rooftopPairOverrides: false,
+  rooftopPairOverrides: true,
   directionFromZipStreets: true,
   zipMarginMetres: 2_000,
-  zipSameTotal: false,
+  zipSameTotal: true,
   zipSameTotalMaxPieces: 400,
   zipSameTotalSliverSquareMetres: 1_000,
   zipAreaGapSquareMetres: 1_000,
